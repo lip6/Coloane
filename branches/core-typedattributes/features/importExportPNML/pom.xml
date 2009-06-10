@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent> 
+		<groupId>fr.lip6.move.coloane.features</groupId> 
+		<artifactId>features-parent</artifactId> 
+		<version>0.16.2-SNAPSHOT</version> 
+	</parent>
+
+	<groupId>fr.lip6.move.coloane.features</groupId>
+	<artifactId>importExportPNML</artifactId>
+	<packaging>jar</packaging>
+	<name>Features :: Import/Export To PNML</name>
+	<description>Import and Export Coloane features that allow to import or export PNML models</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.extensions</groupId>
+			<artifactId>importExportPNML</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

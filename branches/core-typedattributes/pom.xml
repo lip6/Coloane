@@ -1,0 +1,579 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>fr.lip6.move.coloane</groupId>
+	<artifactId>coloane-parent</artifactId>
+	<packaging>pom</packaging>
+	<version>0.16.2-SNAPSHOT</version>
+	<name>Coloane</name>
+	<description>Multi-Platform Editor based on Eclipse - Connection to the FrameKit Platform</description>
+	<url>http://coloane.lip6.fr</url>
+
+	<modules>
+		<module>application</module>
+		<module>extensions</module>
+		<module>fragments</module>
+		<module>features</module>
+		<module>update-site</module>
+	</modules>
+
+	<scm>
+		<connection>scm:svn:https://coloane.lip6.fr/svn/trunk</connection>
+		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk</developerConnection>
+		<url>https://coloane.lip6.fr/trac</url>
+	</scm>
+
+	<organization>
+		<name>LIP6 MoVe</name>
+		<url>http://move.lip6.fr</url>
+	</organization>
+	
+	<properties>
+		<!-- A changer lors du passage à Maven 2.1 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
+		<!-- Pour le déploiement -->
+		<project.deployPath>/data/coloane_deposit</project.deployPath>
+	</properties>
+
+	<!-- L'équipe de développement (actifs)--> 
+	<developers>
+		<developer>
+			<id>fkordon</id>
+			<name>Fabrice Kordon</name>
+			<email>Fabrice.Kordon@lip6.fr</email>
+			<url>http://pagesperso-systeme.lip6.fr/Fabrice.Kordon/</url>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>team-leader</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>jbvoron</id>
+			<name>Jean-Baptiste Voron</name>
+			<email>Jean-Baptiste.Voron@lip6.fr</email>
+			<url>http://pagesperso-systeme.lip6.fr/Jean-Baptiste.Voron/</url>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>project-manager</role>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>cdemoulins</id>
+			<name>Clément Demoulins</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>alinard</id>
+			<name>Alban Linard</name>
+			<email>Alban.Linard@lip6.fr</email>
+			<url>http://pagesperso-systeme.lip6.fr/Alban.Linard/</url>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
+			<id>ahamez</id>
+			<name>Alexandre Hamez</name>
+			<email>Alexandre.Hamez@lip6.fr</email>
+			<url>http://pagesperso-systeme.lip6.fr/Alexandre.Hamez/</url>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<!-- Les contributeurs : Anciens développeurs -->
+	<contributors>
+		<contributor>
+			<name>Nicolas Gibelin</name>
+			<email>Nicolas.Gibelin@lip6.fr</email>
+			<url>http://pagesperso-systeme.lip6.fr/Nicolas.Gibelin/</url>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>system administrator</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Racim Yasri</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Bassem Barbouche</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Eric Masliah</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Dimitri Charles</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>David Cheng</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Alexandre Ortiz</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Monir Chaouki</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Kahina Bouarab</name>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+	</contributors>
+
+	<!-- Pour les notifications -->
+	<ciManagement>
+		<system>continuum</system>
+		<url>http://izanami.rsr.lip6.fr:8080/continuum</url>
+		<notifiers>
+			<notifier>
+				<type>mail</type>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>true</sendOnFailure>
+				<sendOnSuccess>true</sendOnSuccess>
+				<sendOnWarning>true</sendOnWarning>
+				<configuration>
+					<address>jean-baptiste.voron@lip6.fr</address>
+				</configuration>
+			</notifier>
+			<notifier>
+				<type>mail</type>
+				<sendOnError>true</sendOnError>
+				<sendOnFailure>true</sendOnFailure>
+				<sendOnSuccess>true</sendOnSuccess>
+				<sendOnWarning>true</sendOnWarning>
+				<configuration>
+					<address>clement.demoulins@systeme.lip6.fr</address>
+				</configuration>
+			</notifier>
+		</notifiers>
+	</ciManagement>
+
+	<!-- Pour les tests unitaires --> 
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.3.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<!-- Pour les rapports divers et varies -->
+	<reporting>
+		<plugins>
+			<plugin>
+				<!-- Pour le checkstyle -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<!-- Pour la javadoc -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<!-- Pour les tests -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+			</plugin>
+
+		</plugins>
+	</reporting>
+
+	<distributionManagement> 
+		<repository> 
+			<id>coloane.releases</id> 
+			<name>Internal Release Repository for Coloane</name> 
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.releases/</url> 
+		</repository> 
+		<snapshotRepository> 
+			<id>coloane.snapshots</id> 
+			<name>Internal Snapshot Repository for Coloane</name> 
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.snapshots</url> 
+		</snapshotRepository> 
+		<site> 
+			<id>Coloane-Reports</id> 
+			<url>file:///data/coloane_deposit/reports</url> 
+		</site> 
+	</distributionManagement>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency> 
+				<groupId>org.eclipse</groupId> 
+			    <artifactId>gef</artifactId> 
+				<version>3.2.100-v20070620</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId> 
+			    <artifactId>draw2d</artifactId> 
+				<version>3.2.100-v20070529</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.equinox</groupId> 
+			    <artifactId>app</artifactId> 
+				<version>1.0.0-v20070606</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId> 
+			    <artifactId>expressions</artifactId> 
+				<version>3.3.0-v20070606-0010</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId> 
+			    <artifactId>jface</artifactId> 
+				<version>3.3.0-I20070606-0010</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId> 
+			    <artifactId>swt</artifactId> 
+				<version>3.3.0-v3346</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId>
+				<artifactId>commands</artifactId>
+				<version>3.3.0-I20070605-0010</version> 
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jface</groupId>
+				<artifactId>databinding</artifactId>
+				<version>1.1.0-I20070606-0010</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId>
+				<artifactId>databinding</artifactId>
+				<version>1.0.0-I20070606-0010</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId>
+				<artifactId>text</artifactId>
+				<version>3.3.0-v20070606-0010</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.equinox</groupId>
+				<artifactId>common</artifactId>
+				<version>3.3.0-v20070426</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.ui</groupId>
+				<artifactId>workbench</artifactId>
+				<version>3.3.0-I20070608-1100</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse</groupId>
+				<artifactId>ui</artifactId>
+				<version>3.3.0-I20070614-0800</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId>
+				<artifactId>net</artifactId>
+				<version>1.0.0-I20070531</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.ui</groupId>
+				<artifactId>forms</artifactId>
+				<version>3.3.0-v20070511</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.jface</groupId>
+				<artifactId>text</artifactId>
+				<version>3.3.0-v20070606-0010</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.ui.workbench</groupId>
+				<artifactId>texteditor</artifactId>
+				<version>3.3.0-v20070606-0010</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId>
+				<artifactId>filesystem</artifactId>
+				<version>1.1.0-v20070606</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.core</groupId>
+				<artifactId>variables</artifactId>
+				<version>3.2.0-v20070426</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>2.2</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+
+		<!-- Configuration des plugin de Maven -->
+		<plugins>
+			<!-- Pour compiler avec le JDK 1.5 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+
+			<!-- Pour le Checkstyle -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<configLocation>http://coloane.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
+					<includeTestSourceDirectory>true</includeTestSourceDirectory>
+					<failOnViolation>false</failOnViolation>
+					<linkXRef>false</linkXRef>
+				</configuration>
+				<executions>
+					<execution>
+						<id>Checkstyle</id>
+						<phase>validate</phase>        
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<!-- Calcule la revision courante du dépôt de sources -->
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>BuildNumber</id>
+						<phase>validate</phase>        
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Modification du MANIFEST.MF pour ajouter des informations supplémentaires -->
+			<plugin> 
+				<groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-jar-plugin</artifactId> 
+				<configuration> 
+					<archive> 
+						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
+						<manifest> 
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>  
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries> 
+						</manifest> 
+						<manifestEntries>
+							<Bundle-Version-Maven>${project.version}-r${buildNumber}</Bundle-Version-Maven>
+						</manifestEntries>
+					</archive> 
+				</configuration> 
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<executions>
+					
+					<!-- Modification du MANIFEST.MF pour les Night-Build -->
+					<execution>
+						<id>UpdateManifest</id>
+						<phase>generate-sources</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>updateManifest.sh</executable>
+							<arguments>
+								<argument>${project.version}</argument>
+								<argument>${buildNumber}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					
+					<!-- Déploiement du JAR au bon endroit (snapshot/release)-->
+					<execution>
+						<id>Deploy</id>
+						<phase>deploy</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>deployJar.sh</executable>
+							<arguments>
+								<argument>${project.version}</argument>
+								<argument>${build.finalName}.${project.packaging}</argument>
+								<argument>${project.deployPath}</argument>
+							</arguments>
+						</configuration>
+					</execution>
+					
+					<!-- Nettoyage du MANIFEST.MF (retour à la revision de base) -->
+					<execution>
+						<id>CleanManifest</id>
+						<phase>clean</phase>        
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>cleanManifest.sh</executable>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Ajout d'un goal pour la release -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<goals>clean deploy</goals>
+					<scmCommentPrefix>[Maven-Release]</scmCommentPrefix>
+					<preparationGoals>clean verify deploy</preparationGoals>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<groupId>com.google.code.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<configuration>
+					<basedir>${basedir}</basedir>
+					<header>http://coloane.lip6.fr/resources/header.txt</header>
+					<quiet>false</quiet>
+					<failIfMissing>true</failIfMissing>
+					<aggregate>false</aggregate>
+					<includes>
+    					<include>src/**</include>
+    					<include>**/test/**</include>
+					</includes>
+					<excludes>
+						<exclude>target/**</exclude>
+						<exclude>.clover/**</exclude>
+					</excludes>
+					<useDefaultExcludes>true</useDefaultExcludes>
+					<useDefaultMapping>true</useDefaultMapping>
+					<properties>
+						<year>2009</year>
+					</properties>
+					<encoding>UTF-8</encoding>
+				</configuration>
+				<executions>
+					<execution>
+						<id>GenerateHeaders</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>CheckForHeaders</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<!-- Depots (Repositories) -->
+	<repositories>
+		<repository>
+			<id>archiva.internal</id>
+			<name>Archiva Managed Repository for LIP6/MoVe</name>
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/internal/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>coloane.snapshots</id>
+			<name>Archiva Managed Snapshot Repository for Coloane</name>
+			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.snapshots/</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+</project>

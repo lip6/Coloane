@@ -1,0 +1,109 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent> 
+		<groupId>fr.lip6.move.coloane</groupId> 
+		<artifactId>coloane-parent</artifactId> 
+		<version>0.16.2-SNAPSHOT</version> 
+	</parent>
+
+	<groupId>fr.lip6.move.coloane.application</groupId>
+	<artifactId>application-parent</artifactId>
+	<packaging>pom</packaging>
+	<name>Application</name>
+	<description>Application Package</description>
+
+	<modules>
+		<module>apicami</module>
+		<module>apiws</module>
+		<module>core</module>
+		<module>interfaces</module>
+	</modules>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.eclipse.swt.gtk.linux</groupId>
+				<artifactId>x86_64</artifactId>
+				<version>3.3.0-v3346</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.ui</groupId>
+				<artifactId>console</artifactId>
+				<version>3.2.0-v20070530</version>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.ui</groupId>
+				<artifactId>navigator</artifactId>
+				<version>3.3.0-I20070605-0010</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>gef</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>draw2d</artifactId>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<archive>
+						<manifestFile>META-INF/SOURCE_MANIFEST.MF</manifestFile>
+						<manifestEntries>
+							<Bundle-Version-Maven>${project.version}-r${buildNumber}</Bundle-Version-Maven>
+						</manifestEntries>
+					</archive>
+					<excludes>
+						<exclude>plugin.xml</exclude>
+					</excludes>
+					<forceCreation>true</forceCreation>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		
+		<!-- Ajouts des éléments dans le JAR -->
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>build.properties</include>
+					<include>plugin.xml</include>
+					<include>plugin.properties</include>
+					<include>about.ini</include>
+					<include>about.html</include>
+					<include>about.properties</include>
+					<include>resources/**</include>
+					<include>schema/**</include>
+					<include>lib/**</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+</project>
