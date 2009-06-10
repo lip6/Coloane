@@ -1,42 +1,53 @@
 package fr.lip6.move.coloane.extensions.pnexamples;
 
-import org.eclipse.draw2d.geometry.Point;
-
 import fr.lip6.move.coloane.core.extensions.IExample;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.exceptions.PluginException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import org.eclipse.draw2d.geometry.Point;
+
+/**
+ * Class that demonstrate how to build a simple model directly from model interfaces.
+ *
+ * @author Jean-Baptiste Voron
+ */
 public class SimpleExample implements IExample {
-	
+
+	/**
+	 * Default constructor
+	 */
 	public SimpleExample() { }
 
-	public IGraph buildModel() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final IGraph buildModel() throws PluginException {
 		try {
 			IGraph graph = new GraphModel("Place/Transition Net");
-		
-			// Creation du noeud 1
+
+			// Node 1 creation
 			INode p1 = graph.createNode("place");
-			p1.getGraphicInfo().setLocation(new Point(100,100));
-			
-			// Creation du noeud 2
+			p1.getGraphicInfo().setLocation(new Point(100, 100));
+
+			// Node 2 creation
 			INode p2 = graph.createNode("place");
 			p2.getGraphicInfo().setLocation(new Point(100, 160));
-			
-			// Creation du transition
+
+			// Transition creation
 			INode t = graph.createNode("transition");
 			t.getGraphicInfo().setLocation(new Point(100, 130));
 
-			// Creation des arcs
+			// Arcs creation
 			graph.createArc("arc", p1, t);
-			graph.createArc("arc", t, p2); 
-			
-			return graph;
+			graph.createArc("arc", t, p2);
 
-		} catch (ModelException me){
-			return null;
+			return graph;
+		} catch (ModelException me) {
+			throw new PluginException(Activator.PLUGIN_ID, me.getMessage());
 		}
 	}
-	
+
 }
