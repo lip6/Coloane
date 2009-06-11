@@ -16,6 +16,7 @@
 
 	<modules>
 		<module>languagePack</module>
+		<module>formalisms</module>
 	</modules>
 	
 	<build>
