@@ -11,6 +11,8 @@ import java.beans.PropertyChangeEvent;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -19,6 +21,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.List;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
@@ -40,6 +43,21 @@ public class LinkSection extends AbstractSection<INode> {
 		public void widgetSelected(SelectionEvent e) {
 			System.err.println(((List) e.widget).getSelection()[0]);
 		}
+	};
+
+	private IResourceChangeListener resourceChangeListener = new IResourceChangeListener() {
+
+		public void resourceChanged(IResourceChangeEvent event) {
+			if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
+				System.err.println(event.getDelta().getResource().getFullPath());
+				Display.getCurrent().asyncExec(new Runnable() {
+					public void run() {
+						refresh();
+					}
+				});
+			}
+		}
+
 	};
 
 	/** {@inheritDoc} */
@@ -65,6 +83,7 @@ public class LinkSection extends AbstractSection<INode> {
 		data.left = new FormAttachment(0, 5);
 		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
 		label.setLayoutData(data);
+
 	}
 
 	/** {@inheritDoc} */
@@ -76,11 +95,15 @@ public class LinkSection extends AbstractSection<INode> {
 		ColoaneEditor coloaneEditor = (ColoaneEditor) getPart();
 		IFile currentModel = ((FileEditorInput) coloaneEditor.getEditorInput()).getFile();
 
+		currentModel.getWorkspace().removeResourceChangeListener(resourceChangeListener);
+		currentModel.getWorkspace().addResourceChangeListener(resourceChangeListener);
+
 		INodeFormalism nodeFormalism = getElements().get(0).getNodeFormalism();
 		for (INode node : getElements()) {
 			if (!nodeFormalism.getName().equals(node.getNodeFormalism().getName())) {
 				listWidget.pack();
 				listWidget.redraw();
+				listWidget.update();
 				return;
 			}
 		}
@@ -96,6 +119,7 @@ public class LinkSection extends AbstractSection<INode> {
 			}
 			listWidget.pack();
 			listWidget.redraw();
+			listWidget.update();
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
