@@ -21,6 +21,7 @@
 		<module>importExportPNML</module>
 		<module>modelExamples</module>
 		<module>languagePack</module>
+		<module>formalismDD</module>
 		<module>coloaneMain</module>
 		<module>coloaneMainSources</module>
 	</modules>
