@@ -74,7 +74,7 @@
              contributorClass="fr.lip6.move.coloane.core.ui.actions.ColoaneActionBarContributor"
              default="true"
              extensions="model"
-             icon="resources/icons/model_resource.png"
+             icon="resources/formalisms/ptn/ptn.png"
              id="fr.lip6.move.coloane.editor.petri"
              name="%EDITOR_NAME">
        </editor>
@@ -405,7 +405,7 @@
     <Formalism
           extension="ptn"
           id="PT-Net"
-          image="resources/icons/model_resource.png"
+          image="resources/formalisms/ptn/ptn.png"
           name="Place/Transition Net"
           fkname="AMI-Net">
        <XmlDescription>
@@ -447,8 +447,8 @@
                       drawable="true"
                       fill="false"
                       height="15"
-                      icon16px="resources/formalisms/place_16.png"
-                      icon24px="resources/formalisms/place_24.png"
+                      icon16px="resources/formalisms/ptn/place_16.png"
+                      icon24px="resources/formalisms/ptn/place_24.png"
                       palettable="true"
                       paletteName="Place"
                       width="15">
@@ -478,8 +478,8 @@
                       drawable="true"
                       fill="false"
                       height="7"
-                      icon16px="resources/formalisms/transition_16.png"
-                      icon24px="resources/formalisms/transition_24.png"
+                      icon16px="resources/formalisms/ptn/transition_16.png"
+                      icon24px="resources/formalisms/ptn/transition_24.png"
                       palettable="true"
                       paletteName="Transition"
                       width="25">
@@ -506,8 +506,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Create an arc"
                       drawable="true"
-                      icon16px="resources/formalisms/arc_16.png"
-                      icon24px="resources/formalisms/arc_24.png"
+                      icon16px="resources/formalisms/ptn/arc_16.png"
+                      icon24px="resources/formalisms/ptn/arc_24.png"
                       palettable="true"
                       paletteName="Arc">
                 </GraphicInfo>
@@ -553,8 +553,8 @@
           extension="cpn"
           fkname="AMI-Net"
           id="CPN"
-          image="resources/icons/colored.png"
-          name="Colored Petri Net">
+          image="resources/formalisms/cpn/cpn.png"
+          name="Coloured Petri Net">
        <XmlDescription>
           <Graph
                 name="AMI-Net">
@@ -599,8 +599,8 @@
                       drawable="true"
                       fill="false"
                       height="15"
-                      icon16px="resources/formalisms/place_16.png"
-                      icon24px="resources/formalisms/place_24.png"
+                      icon16px="resources/formalisms/cpn/place_16.png"
+                      icon24px="resources/formalisms/cpn/place_24.png"
                       palettable="true"
                       paletteName="Place"
                       width="15">
@@ -630,8 +630,8 @@
                       drawable="true"
                       fill="false"
                       height="7"
-                      icon16px="resources/formalisms/transition_16.png"
-                      icon24px="resources/formalisms/transition_24.png"
+                      icon16px="resources/formalisms/cpn/transition_16.png"
+                      icon24px="resources/formalisms/cpn/transition_24.png"
                       palettable="true"
                       paletteName="Transition"
                       width="25">
@@ -664,8 +664,8 @@
                       drawable="true"
                       fill="false"
                       height="7"
-                      icon16px="resources/formalisms/queue_16.png"
-                      icon24px="resources/formalisms/queue_24.png"
+                      icon16px="resources/formalisms/cpn/queue_16.png"
+                      icon24px="resources/formalisms/cpn/queue_24.png"
                       palettable="true"
                       paletteName="Queue"
                       width="25">
@@ -692,8 +692,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Create an arc"
                       drawable="true"
-                      icon16px="resources/formalisms/arc_16.png"
-                      icon24px="resources/formalisms/arc_24.png"
+                      icon16px="resources/formalisms/cpn/arc_16.png"
+                      icon24px="resources/formalisms/cpn/arc_24.png"
                       palettable="true"
                       paletteName="Arc">
                 </GraphicInfo>
@@ -710,8 +710,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
                       description="Create an inhibitor arc between a place and a transition"
                       drawable="true"
-                      icon16px="resources/formalisms/inhibitor_16.png"
-                      icon24px="resources/formalisms/inhibitor_24.png"
+                      icon16px="resources/formalisms/cpn/inhibitor_16.png"
+                      icon24px="resources/formalisms/cpn/inhibitor_24.png"
                       palettable="true"
                       paletteName="Inhibitor Arc">
                 </GraphicInfo>
@@ -754,7 +754,7 @@
     <Formalism
           extension="rg"
           id="RG"
-          image="resources/icons/reachability.png"
+          image="resources/formalisms/rg/rg.png"
           name="Reachability Graph"
           fkname="ReachabilityGraph">
        <XmlDescription>
@@ -768,8 +768,8 @@
                       description="Create an initial state"
                       drawable="true"
                       height="15"
-                      icon16px="resources/formalisms/initial_16.png"
-                      icon24px="resources/formalisms/initial_24.png"
+                      icon16px="resources/formalisms/rg/initial_16.png"
+                      icon24px="resources/formalisms/rg/initial_24.png"
                       palettable="true"
                       paletteName="Initial State"
                       width="15">
@@ -789,8 +789,8 @@
                       drawable="true"
                       fill="true"
                       height="15"
-                      icon16px="resources/formalisms/terminal_16.png"
-                      icon24px="resources/formalisms/terminal_24.png"
+                      icon16px="resources/formalisms/rg/terminal_16.png"
+                      icon24px="resources/formalisms/rg/terminal_24.png"
                       palettable="true"
                       paletteName="Terminal State"
                       width="15">
@@ -810,8 +810,8 @@
                       drawable="true"
                       fill="false"
                       height="15"
-                      icon16px="resources/formalisms/state_16.png"
-                      icon24px="resources/formalisms/state_24.png"
+                      icon16px="resources/formalisms/rg/state_16.png"
+                      icon24px="resources/formalisms/rg/state_24.png"
                       palettable="true"
                       paletteName="State"
                       width="15">
@@ -828,8 +828,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Create an event"
                       drawable="true"
-                      icon16px="resources/formalisms/arc_16.png"
-                      icon24px="resources/formalisms/arc_24.png"
+                      icon16px="resources/formalisms/rg/arc_16.png"
+                      icon24px="resources/formalisms/rg/arc_24.png"
                       palettable="true"
                       paletteName="Event">
                 </GraphicInfo>
@@ -855,95 +855,6 @@
                    name="information">
              </Attribute>
           </Graph>
-       </XmlDescription>
-    </Formalism>
-    <Formalism
-          extension="dd"
-          fkname="DD"
-          id="Decision Diagram"
-          image="resources/icons/dd.png"
-          name="Decision Diagram">
-       <XmlDescription>
-          <Graph
-                name="DecisionDiagram">
-             <Node
-                   container="false"
-                   name="node">
-                <GraphicInfo
-                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
-                      description="Node"
-                      drawable="true"
-                      height="22"
-                      icon16px="resources/formalisms/place_16.png"
-                      icon24px="resources/formalisms/place_24.png"
-                      palettable="true"
-                      paletteName="Node"
-                      width="22">
-                </GraphicInfo>
-                <Attribute
-                      bold="true"
-                      drawable="true"
-                      multiline="false"
-                      name="variable">
-                </Attribute>
-             </Node>
-             <Node
-                   container="false"
-                   name="terminal">
-                <GraphicInfo
-                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
-                      description="Terminal Node"
-                      drawable="true"
-                      height="22"
-                      icon16px="resources/formalisms/square_16.png"
-                      icon24px="resources/formalisms/square_24.png"
-                      palettable="true"
-                      paletteName="Terminal"
-                      width="22">
-                </GraphicInfo>
-                <Attribute
-                      bold="true"
-                      drawable="true"
-                      multiline="false"
-                      name="value">
-                </Attribute>
-             </Node>
-             <Arc
-                   name="arc">
-                <GraphicInfo
-                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
-                      description="Arc"
-                      drawable="true"
-                      icon16px="resources/formalisms/arc_16.png"
-                      icon24px="resources/formalisms/arc_24.png"
-                      palettable="true"
-                      paletteName="Arc">
-                </GraphicInfo>
-                <Attribute
-                      drawable="true"
-                      italic="true"
-                      multiline="false"
-                      name="valuation">
-                </Attribute>
-             </Arc>
-          </Graph>
-          <Constraint
-                link="true"
-                name="Terminal (No output arc)"
-                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.CardinalityConstraint">
-             <parameter
-                   name="maxIn"
-                   value="-1">
-             </parameter>
-             <parameter
-                   name="maxOut"
-                   value="0">
-             </parameter>
-             <parameter
-                   name="element"
-                   value="terminal">
-             </parameter>
-          </Constraint>
        </XmlDescription>
     </Formalism>
  </extension>
