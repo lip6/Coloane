@@ -30,7 +30,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  */
 public class LinkSection extends AbstractSection<INode> {
 
-	private static final String NONE = "none";
+	private static final String NONE = "none"; //$NON-NLS-1$
 
 	private List listWidget;
 
@@ -90,7 +90,7 @@ public class LinkSection extends AbstractSection<INode> {
 				if (resource.getName().endsWith("model") && resource instanceof IFile) { //$NON-NLS-1$
 					IFile file = (IFile) resource;
 					for (PublicNodeHandler.PublicNode publicNode : ModelLoader.loadFromXML(file, new PublicNodeHandler(nodeFormalism)).getPublicNodes()) {
-						listWidget.add(file.getFullPath() + " - " + publicNode.toString());
+						listWidget.add(file.getFullPath() + " : " + publicNode.toString()); //$NON-NLS-1$
 					}
 				}
 			}
