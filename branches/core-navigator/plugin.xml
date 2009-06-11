@@ -403,8 +403,17 @@
           </input>
        </propertySection>
        <propertySection
+             afterSection="fr.lip6.move.coloane.core.section.NodePublicStateSection"
              class="fr.lip6.move.coloane.core.ui.properties.sections.LinkSection"
              id="fr.lip6.move.coloane.core.section.LinkSection"
+             tab="fr.lip6.move.coloane.core.properties.link">
+          <input
+                type="fr.lip6.move.coloane.interfaces.model.INode">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodePublicStateSection"
+             id="fr.lip6.move.coloane.core.section.NodePublicStateSection"
              tab="fr.lip6.move.coloane.core.properties.link">
           <input
                 type="fr.lip6.move.coloane.interfaces.model.INode">

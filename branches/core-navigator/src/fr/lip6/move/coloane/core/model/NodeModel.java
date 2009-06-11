@@ -44,6 +44,8 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** Links (comments) associated to this node */
 	private List<ILink> links = new ArrayList<ILink>();
 
+	private boolean publicState = false;
+
 	/**
 	 * Constructor
 	 * @param parent The parent of this node (often the graph itself)
@@ -205,5 +207,18 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 			name = attrName.getValue();
 		}
 		return "Node(" + getId() + ", " + name + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	}
+
+	/** {@inheritDoc} */
+	public final boolean isPublic() {
+		return this.publicState;
+	}
+
+	/** {@inheritDoc} */
+	public final void setPublic(boolean state) {
+		LOGGER.fine(this + " setPublic(" + state + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean oldValue = publicState;
+		this.publicState = state;
+		firePropertyChange(IAttribute.VALUE_PROP, oldValue, state);
 	}
 }

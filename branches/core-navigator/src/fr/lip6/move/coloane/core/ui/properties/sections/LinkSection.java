@@ -1,7 +1,10 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
+import fr.lip6.move.coloane.core.ui.files.ModelLoader;
+import fr.lip6.move.coloane.core.ui.files.PublicNodeHandler;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
@@ -26,6 +29,8 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * @author Clément Démoulins
  */
 public class LinkSection extends AbstractSection<INode> {
+
+	private static final String NONE = "none";
 
 	private List listWidget;
 
@@ -65,13 +70,29 @@ public class LinkSection extends AbstractSection<INode> {
 	/** {@inheritDoc} */
 	@Override
 	public final void refresh() {
+		listWidget.removeAll();
+		listWidget.add(NONE);
+
 		ColoaneEditor coloaneEditor = (ColoaneEditor) getPart();
 		IFile currentModel = ((FileEditorInput) coloaneEditor.getEditorInput()).getFile();
 
+		INodeFormalism nodeFormalism = getElements().get(0).getNodeFormalism();
+		for (INode node : getElements()) {
+			if (!nodeFormalism.getName().equals(node.getNodeFormalism().getName())) {
+				listWidget.pack();
+				listWidget.redraw();
+				return;
+			}
+		}
+
 		try {
-			listWidget.removeAll();
-			for (IResource r : currentModel.getParent().members()) {
-				listWidget.add(r.getFullPath().toString());
+			for (IResource resource : currentModel.getParent().members()) {
+				if (resource.getName().endsWith("model") && resource instanceof IFile) { //$NON-NLS-1$
+					IFile file = (IFile) resource;
+					for (PublicNodeHandler.PublicNode publicNode : ModelLoader.loadFromXML(file, new PublicNodeHandler(nodeFormalism)).getPublicNodes()) {
+						listWidget.add(file.getFullPath() + " - " + publicNode.toString());
+					}
+				}
 			}
 			listWidget.pack();
 			listWidget.redraw();

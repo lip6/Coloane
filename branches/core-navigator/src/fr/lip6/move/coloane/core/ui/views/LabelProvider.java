@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.views;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.ui.files.FormalismHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
@@ -33,7 +34,7 @@ public final class LabelProvider implements ILabelProvider, IDescriptionProvider
 		if (image == null && element instanceof IFile) {
 			IFile f = (IFile) element;
 			if ("model".equals(f.getFileExtension())) { //$NON-NLS-1$
-				IFormalism formalism = ModelLoader.loadFormalismFromXml(f);
+				IFormalism formalism = ModelLoader.loadFromXML(f, new FormalismHandler()).getFormalism();
 				if (formalism != null) {
 					image = ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage();
 					images.put(element, image);
@@ -87,7 +88,7 @@ public final class LabelProvider implements ILabelProvider, IDescriptionProvider
 		if (element instanceof IFile) {
 			IFile f = (IFile) element;
 			if ("model".equals(f.getFileExtension())) { //$NON-NLS-1$
-				IFormalism formalism = ModelLoader.loadFormalismFromXml(f);
+				IFormalism formalism = ModelLoader.loadFromXML(f, new FormalismHandler()).getFormalism();
 				if (formalism != null) {
 					return f.getFullPath() + "  —  " + formalism.getName(); //$NON-NLS-1$
 				}

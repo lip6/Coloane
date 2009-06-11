@@ -332,6 +332,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 				|| NODE_REMOVED_PROP.equals(prop)
 				|| INode.INCOMING_ARCS_PROP.equals(prop)
 				|| INode.OUTGOING_ARCS_PROP.equals(prop)
+				|| INode.PUBLIC_PROP.equals(prop)
 				|| IAttribute.VALUE_PROP.equals(prop)) {
 			updateDate();
 			setDirty(true);

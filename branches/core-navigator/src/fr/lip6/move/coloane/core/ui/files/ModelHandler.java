@@ -196,6 +196,15 @@ public class ModelHandler extends DefaultHandler {
 		} catch (NumberFormatException e) {
 			logger.fine("attribut background absent ou incorrect"); //$NON-NLS-1$
 		}
+
+		// Public state
+		try {
+			boolean state = Boolean.valueOf(attributes.getValue("public")); //$NON-NLS-1$
+			node.setPublic(state);
+		} catch (NumberFormatException e) {
+			logger.fine("attribut public absent ou incorrect"); //$NON-NLS-1$
+		}
+
 		stack.push(node);
 	}
 
