@@ -9,7 +9,7 @@
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.features</groupId>
-	<artifactId>ddFormalism</artifactId>
+	<artifactId>formalismDD</artifactId>
 	<packaging>jar</packaging>
 	<name>Features :: DD Formalism</name>
 	<description>DD Formalism</description>
