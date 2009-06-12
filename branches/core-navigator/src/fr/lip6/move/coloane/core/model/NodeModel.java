@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 /**
  * This class defines a node according to model considerations.
- *
+ * 
  * @author Jean-Baptiste Voron
  */
 public class NodeModel extends AbstractElement implements INode, ILocatedElement, ILinkableElement {
@@ -45,17 +45,24 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	private List<ILink> links = new ArrayList<ILink>();
 
 	private boolean publicState = false;
+	private String nodeLink;
+
 
 	/**
 	 * Constructor
-	 * @param parent The parent of this node (often the graph itself)
-	 * @param nodeFormalism The formalism description of the node
-	 * @param id The identifier (unique) of the node
+	 * 
+	 * @param parent
+	 *            The parent of this node (often the graph itself)
+	 * @param nodeFormalism
+	 *            The formalism description of the node
+	 * @param id
+	 *            The identifier (unique) of the node
 	 * @see {@link GraphModel#getId()} to get a new unique ID
 	 */
 	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id) {
 		super(id, parent, nodeFormalism.getAttributes());
-		LOGGER.finest("Création d'un NodeModel(" + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER
+				.finest("Création d'un NodeModel(" + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.nodeFormalism = nodeFormalism;
 		this.graphicInfos = new NodeGraphicInfo(this);
 	}
@@ -98,7 +105,9 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Add an outgoing arc for the considered node
-	 * @param outArc The arc to add to the list
+	 * 
+	 * @param outArc
+	 *            The arc to add to the list
 	 */
 	final void addOutgoingArc(IArc outArc) {
 		LOGGER.finest("addOutgoingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -108,7 +117,9 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Add an incoming arc for the considered node
-	 * @param inArc The arc to add to the list
+	 * 
+	 * @param inArc
+	 *            The arc to add to the list
 	 */
 	final void addIncomingArc(IArc inArc) {
 		LOGGER.finest("addIncomingArc(" + inArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -118,7 +129,9 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Remove an outgoing arc from the node
-	 * @param outArc The arc to remove from the list
+	 * 
+	 * @param outArc
+	 *            The arc to remove from the list
 	 */
 	final void removeOutcomingArc(IArc outArc) {
 		LOGGER.finest("removeOutcomingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -128,7 +141,9 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Remove an incoming arc from the node
-	 * @param inArc The arc to remove from the list
+	 * 
+	 * @param inArc
+	 *            The arc to remove from the list
 	 */
 	final void removeIncomingArc(IArc inArc) {
 		LOGGER.finest("removeIncomingArc(" + inArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -220,5 +235,15 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		boolean oldValue = publicState;
 		this.publicState = state;
 		firePropertyChange(IAttribute.VALUE_PROP, oldValue, state);
+	}
+
+	/** {@inheritDoc} */
+	public final String getNodeLink() {
+		return this.nodeLink;
+	}
+
+	/** {@inheritDoc} */
+	public final void setNodeLink(String link) {
+		this.nodeLink = link;
 	}
 }

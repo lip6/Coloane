@@ -47,6 +47,9 @@ public interface INode extends IElement {
 	/** When an alternate figure must be loaded */
 	String ALTERNATE_PROP = "Node.Alternate"; //$NON-NLS-1$
 
+	/** When public state of an node change */
+	String PUBLIC_PROP = "Node.Public";
+
 	/**
 	 * @return The formalism associated to the node
 	 */
@@ -71,4 +74,25 @@ public interface INode extends IElement {
 	 * Ask for updating tips associated to the node
 	 */
 	void updateTips();
+
+	/**
+	 * @return <code>true</code> if the node is public, it's for link nodes.
+	 */
+	boolean isPublic();
+
+	/**
+	 * Change the state of the node
+	 * @param state new state
+	 */
+	void setPublic(boolean state);
+
+	/**
+	 * @return reference to a public node or <code>null</code>.
+	 */
+	String getNodeLink();
+
+	/**
+	 * @param link new link to a public node or <code>null</code> to delete link.
+	 */
+	void setNodeLink(String link);
 }

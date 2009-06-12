@@ -4,8 +4,6 @@ import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangePublicCmd;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-import java.beans.PropertyChangeEvent;
-
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -72,7 +70,4 @@ public class NodePublicStateSection extends AbstractSection<INode> {
 		}
 		checkBox.redraw();
 	}
-
-	/** {@inheritDoc} */
-	public void propertyChange(PropertyChangeEvent evt) { }
 }

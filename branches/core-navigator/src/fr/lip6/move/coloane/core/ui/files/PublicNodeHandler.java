@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -16,6 +17,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class PublicNodeHandler extends DefaultHandler {
 
+	private IFile file;
 	private INodeFormalism nodeFormalism;
 	private PublicNode current;
 	private List<PublicNode> publicNodes = new ArrayList<PublicNode>();
@@ -28,6 +30,7 @@ public class PublicNodeHandler extends DefaultHandler {
 	public class PublicNode {
 		private int id;
 		private String name;
+		private IFile file;
 
 		/**
 		 * @return id of the node
@@ -53,21 +56,40 @@ public class PublicNodeHandler extends DefaultHandler {
 		public final void setName(String name) {
 			this.name = name;
 		}
+		/**
+		 * @return file
+		 */
+		public final IFile getFile() {
+			return file;
+		}
+		/**
+		 * @param file file
+		 */
+		public final void setFile(IFile file) {
+			this.file = file;
+		}
 		/** {@inheritDoc} */
 		@Override
 		public final String toString() {
-			if (name == null) {
-				return "@" + id; //$NON-NLS-1$
-			} else {
-				return name;
+			StringBuilder sb = new StringBuilder();
+			if (file != null) {
+				sb.append(file.getFullPath().toString());
 			}
+			sb.append("/"); //$NON-NLS-1$
+			if (name != null) {
+				sb.append(name);
+			}
+			sb.append(" [@" + id + "]"); //$NON-NLS-1$ //$NON-NLS-2$
+			return sb.toString();
 		}
 	}
 
 	/**
+	 * @param file file
 	 * @param nodeFormalism find public node for this formalism
 	 */
-	public PublicNodeHandler(INodeFormalism nodeFormalism) {
+	public PublicNodeHandler(IFile file, INodeFormalism nodeFormalism) {
+		this.file = file;
 		this.nodeFormalism = nodeFormalism;
 	}
 
@@ -79,6 +101,7 @@ public class PublicNodeHandler extends DefaultHandler {
 			if (nodeFormalismName != null && nodeFormalismName.equals(nodeFormalism.getName())) {
 				final int id = Integer.parseInt(attributes.getValue("id")); //$NON-NLS-1$
 				current = new PublicNode();
+				current.setFile(file);
 				current.setId(id);
 				publicNodes.add(current);
 			}
