@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FormAttachment;
@@ -42,6 +43,11 @@ public class LinkSection extends AbstractSection<INode> {
 
 	private List listWidget;
 	private Map<String, PublicNode> model = new HashMap<String, PublicNode>();
+
+	private Composite composite;
+
+	/** ScrolledComposite gardé en mémoire pour le rafraichissement */
+	private ScrolledComposite sc;
 
 	/**
 	 * Selection Listener, link change
@@ -98,7 +104,7 @@ public class LinkSection extends AbstractSection<INode> {
 			TabbedPropertySheetPage tabbedPropertySheetPage) {
 		super.createControls(parent, tabbedPropertySheetPage);
 
-		Composite composite = getWidgetFactory().createFlatFormComposite(parent);
+		composite = getWidgetFactory().createFlatFormComposite(parent);
 		FormData data;
 
 		listWidget = getWidgetFactory().createList(composite, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
@@ -134,9 +140,7 @@ public class LinkSection extends AbstractSection<INode> {
 		INodeFormalism nodeFormalism = getElements().get(0).getNodeFormalism();
 		for (INode node : getElements()) {
 			if (!nodeFormalism.getName().equals(node.getNodeFormalism().getName())) {
-				listWidget.pack();
-				listWidget.redraw();
-				listWidget.update();
+				redraw();
 				return;
 			}
 		}
@@ -166,11 +170,33 @@ public class LinkSection extends AbstractSection<INode> {
 			} else {
 				listWidget.select(select);
 			}
-			listWidget.pack();
-			listWidget.redraw();
-			listWidget.update();
+			redraw();
 		} catch (CoreException e) {
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Redraw this section
+	 */
+	public final void redraw() {
+		listWidget.pack();
+		listWidget.redraw();
+
+		// Récupération du ScrolledComposite
+		if (sc == null) {
+			Composite tmp = composite;
+			while (!(tmp instanceof ScrolledComposite)) {
+				tmp = tmp.getParent();
+			}
+			sc = (ScrolledComposite) tmp;
+		}
+		sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		Composite tmp = composite;
+		for (int i = 0; i < 20 && tmp != null; i++) {
+			tmp.layout();
+			tmp.redraw();
+			tmp = tmp.getParent();
 		}
 	}
 
