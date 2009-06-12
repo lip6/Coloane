@@ -554,7 +554,7 @@
           fkname="AMI-Net"
           id="CPN"
           image="resources/formalisms/cpn/cpn.png"
-          name="Coloured Petri Net">
+          name="Colored Petri Net">
        <XmlDescription>
           <Graph
                 name="AMI-Net">
