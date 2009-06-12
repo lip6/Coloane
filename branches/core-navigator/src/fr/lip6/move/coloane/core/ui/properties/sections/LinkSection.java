@@ -87,7 +87,6 @@ public class LinkSection extends AbstractSection<INode> {
 
 		public void resourceChanged(IResourceChangeEvent event) {
 			if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
-				System.err.println();
 				process(event.getDelta());
 			}
 		}

@@ -4,20 +4,13 @@ import fr.lip6.move.coloane.core.ui.actions.AlternateAction;
 import fr.lip6.move.coloane.core.ui.actions.CurveAction;
 import fr.lip6.move.coloane.core.ui.actions.RemoveInflexAction;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
-import org.eclipse.jface.action.AbstractAction;
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * Provides context menu actions for the ShapesEditor.
@@ -55,30 +48,6 @@ class ColoaneContextMenuProvider extends ContextMenuProvider {
 		menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.COPY.getId()));
 		menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.CUT.getId()));
 		menu.prependToGroup(GEFActionConstants.GROUP_EDIT, getAction(ActionFactory.SELECT_ALL.getId()));
-
-		System.err.println("avant");
-		MenuManager linksModelMenu = new MenuManager("links to");
-		for (final IViewReference o : PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getViewReferences()) {
-			linksModelMenu.add(new Action() {
-
-				@Override
-				public String getText() {
-					return "" + o.getId();
-				}
-
-			});
-			menu.appendToGroup(GEFActionConstants.GROUP_EDIT, linksModelMenu);
-		}
-		linksModelMenu.add(new Action() {
-
-			@Override
-			public String getText() {
-				return "" + ((FileEditorInput) ((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActivePart()).getEditorInput()).getStorage();
-			}
-
-		});
-		menu.appendToGroup(GEFActionConstants.GROUP_EDIT, linksModelMenu);
-		System.err.println("après");
 
 		// Curve or Straight arcs
 		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, getAction(CurveAction.ID));

@@ -83,6 +83,7 @@ public class NodeSizeSection extends AbstractSection<INode> {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (INode.RESIZE_PROP.equals(evt.getPropertyName())) {
 			refresh();
