@@ -205,6 +205,14 @@ public class ModelHandler extends DefaultHandler {
 			logger.fine("attribut public absent ou incorrect"); //$NON-NLS-1$
 		}
 
+		// Node link
+		try {
+			String nodeLink = attributes.getValue("link"); //$NON-NLS-1$
+			node.setNodeLink(nodeLink);
+		} catch (NumberFormatException e) {
+			logger.fine("attribut link absent ou incorrect"); //$NON-NLS-1$
+		}
+
 		stack.push(node);
 	}
 
