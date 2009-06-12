@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.exportToDOT"
-      label="Coloane - Export to DOT"
-      version="1.2.1"
+      id="fr.lip6.move.coloane.feature.formalisms.dd"
+      label="Coloane - DD Formalism"
+      version="1.0.0"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This Eclipse features brings DOT export to Coloane. Place/Transition nets and Colored nets can be exported.
+      This Eclipse features brings the support of DD formalisms into Coloane
    </description>
 
    <copyright url="http://coloane.lip6.fr">
