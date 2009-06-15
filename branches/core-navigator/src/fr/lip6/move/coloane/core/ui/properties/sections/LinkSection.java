@@ -38,11 +38,11 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * @author Clément Démoulins
  */
 public class LinkSection extends AbstractSection<INode> {
-
 	private static final String NONE = "none"; //$NON-NLS-1$
+	private static final String BROKEN = "broken node"; //$NON-NLS-1$
 
 	private List listWidget;
-	private Map<String, PublicNode> model = new HashMap<String, PublicNode>();
+	private Map<String, PublicNode> widgetModel = new HashMap<String, PublicNode>();
 
 	private Composite composite;
 
@@ -57,9 +57,12 @@ public class LinkSection extends AbstractSection<INode> {
 
 		public void widgetSelected(SelectionEvent e) {
 			CompoundCommand cc = new CompoundCommand();
-			String newLink = ((List) e.widget).getSelection()[0];
-			if (NONE.equals(newLink)) {
+			String selection = ((List) e.widget).getSelection()[0];
+			String newLink;
+			if (NONE.equals(selection) || BROKEN.equals(selection)) {
 				newLink = null;
+			} else {
+				newLink = widgetModel.get(selection).getLink();
 			}
 			for (INode node : getElements()) {
 				cc.add(new NodeLinkCmd(node, newLink));
@@ -128,7 +131,7 @@ public class LinkSection extends AbstractSection<INode> {
 	@Override
 	public final void refresh() {
 		listWidget.removeAll();
-		model.clear();
+		widgetModel.clear();
 		listWidget.add(NONE);
 
 		ColoaneEditor coloaneEditor = (ColoaneEditor) getPart();
@@ -156,15 +159,22 @@ public class LinkSection extends AbstractSection<INode> {
 				if (resource.getName().endsWith("model") && resource instanceof IFile) { //$NON-NLS-1$
 					IFile file = (IFile) resource;
 					for (PublicNode publicNode : ModelLoader.loadFromXML(file, new PublicNodeHandler(file, nodeFormalism)).getPublicNodes()) {
-						model.put(publicNode.toString(), publicNode);
+						widgetModel.put(publicNode.toString(), publicNode);
 						listWidget.add(publicNode.toString());
 
-						if (select == 0 && publicNode.toString().equals(getElements().get(0).getNodeLink())) {
+						if (select == 0 && publicNode.getLink().equals(getElements().get(0).getNodeLink())) {
 							select = listWidget.getItemCount() - 1;
 						}
 					}
 				}
 			}
+
+			// Broken link
+			if (select == 0 && getElements().get(0).getNodeLink() != null) {
+				listWidget.add(BROKEN);
+				select = listWidget.getItemCount() - 1;
+			}
+
 			if (select == -1) {
 				listWidget.deselectAll();
 			} else {

@@ -25,9 +25,13 @@ public class PublicNodeHandler extends DefaultHandler {
 	private StringBuilder data;
 
 	/**
-	 * Class for public node with minimun data for link a node.
+	 * Class for public node with minimun data for link a node.<br>
+	 * <ol>
+	 * <li>method toString() return a string to display to the users.
+	 * <li>method getLink() must be use in the model to link a node to a public node.
+	 * </ol>
 	 */
-	public class PublicNode {
+	public static class PublicNode {
 		private int id;
 		private String name;
 		private IFile file;
@@ -67,6 +71,12 @@ public class PublicNodeHandler extends DefaultHandler {
 		 */
 		public final void setFile(IFile file) {
 			this.file = file;
+		}
+		/**
+		 * @return String representation of a link to this node.
+		 */
+		public final String getLink() {
+			return file.getFullPath() + "/@" + id; //$NON-NLS-1$
 		}
 		/** {@inheritDoc} */
 		@Override
