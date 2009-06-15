@@ -27,6 +27,13 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 
+// Bug list
+// Bug 1：Can not process several parallel non-sequence activities.
+// For example: <Flow> <Invoke> <Reply> <Receive> </Flow>			
+// Discovery Time: 09/06/2009
+// Status: Solved
+// Last Update Time: 15/09/2009
+
 
 /**
  * Import the BPEL process XML files into coloane
@@ -78,6 +85,7 @@ public class ImportFromImpl implements IImportFrom {
 			// Graph Reduction in level 2 
 			// Level 2 is much better than level 1
 			// make the model much smaller.
+			
 			GraphReductionLevel2(graph);
 			
 			
@@ -951,6 +959,9 @@ public class ImportFromImpl implements IImportFrom {
 		   * @param  level show the level of node (activity) 
 		   * @return IGraph
 		   */
+	    
+	    // Bug1：Flow存在问题，就是当Flow下面紧跟着sequence的情况是正确的，但是如果紧跟着是一个invoke单个的活动
+	    // 就会出现问题
 	    public IGraph GenerateFlow(Element elem,String formalism, int level, int[] numArray){
 
 	    	IGraph tempGraph = new GraphModel(formalism);
@@ -1006,7 +1017,19 @@ public class ImportFromImpl implements IImportFrom {
 			    	while(iterTemp.hasNext()){
 		 			   Element elemTemp =(Element)iterTemp.next();
 
-		 			   tempGraphA = BPELPNModelGenerator(elemTemp, formalism, level, numArray);
+		 			   // Modified by zj on 15/06/09
+		 			   // Content: Solve the bug1 - process several parallel non-sequence activities.
+		 			   // For example: <Flow> <Invoke> <Reply> <Receive> </Flow>
+		 			   if(elemTemp.getName().equalsIgnoreCase("sequence"))
+		 			   {
+		 				   // Used to process parallel sequence activities
+		 				   tempGraphA = BPELPNModelGenerator(elemTemp, formalism, level, numArray);
+		 			   }
+		 			   else
+		 			   {
+		 				   // Used to process parallel non-sequence activities
+		 				  tempGraphA = BPELPNModelGeneratorEach(elemTemp, formalism, level, numArray);
+		 			   }
 		 			   tempGraph.addGraph(tempGraphA);
 		 			   numArray[level]++;
 	 			   
