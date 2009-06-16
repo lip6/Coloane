@@ -49,9 +49,12 @@ public class PublicNodeHandler extends DefaultHandler {
 			this.id = id;
 		}
 		/**
-		 * @return name or null if not set
+		 * @return name or id if name is not set
 		 */
 		public final String getName() {
+			if (name == null) {
+				return "@" + id; //$NON-NLS-1$
+			}
 			return name;
 		}
 		/**
@@ -76,7 +79,7 @@ public class PublicNodeHandler extends DefaultHandler {
 		 * @return String representation of a link to this node.
 		 */
 		public final String getLink() {
-			return file.getFullPath() + "/@" + id; //$NON-NLS-1$
+			return file.getFullPath() + "@" + id; //$NON-NLS-1$
 		}
 		/** {@inheritDoc} */
 		@Override
@@ -103,12 +106,19 @@ public class PublicNodeHandler extends DefaultHandler {
 		this.nodeFormalism = nodeFormalism;
 	}
 
+	/**
+	 * @param file file
+	 */
+	public PublicNodeHandler(IFile file) {
+		this(file, null);
+	}
+
 	/** {@inheritDoc} */
 	@Override
 	public final void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
 		if ("node".equals(name) && Boolean.valueOf(attributes.getValue("public"))) { //$NON-NLS-1$ //$NON-NLS-2$
 			String nodeFormalismName = attributes.getValue("nodetype"); //$NON-NLS-1$
-			if (nodeFormalismName != null && nodeFormalismName.equals(nodeFormalism.getName())) {
+			if (nodeFormalismName != null && (nodeFormalism == null || nodeFormalismName.equals(nodeFormalism.getName()))) {
 				final int id = Integer.parseInt(attributes.getValue("id")); //$NON-NLS-1$
 				current = new PublicNode();
 				current.setFile(file);

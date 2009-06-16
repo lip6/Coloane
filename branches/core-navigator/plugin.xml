@@ -197,6 +197,9 @@
           <contentExtension
                 pattern="fr.lip6.move.coloane.core.modelcontents">
           </contentExtension>
+          <contentExtension
+                pattern="fr.lip6.move.coloane.core.treecontents">
+          </contentExtension>
        </includes>
     </viewerContentBinding>
     <viewerActionBinding
@@ -212,14 +215,19 @@
        point="org.eclipse.ui.navigator.navigatorContent">
     <navigatorContent
           activeByDefault="true"
-          contentProvider="fr.lip6.move.coloane.core.ui.views.TreeContentProvider"
+          contentProvider="fr.lip6.move.coloane.core.ui.views.ModelContentProvider"
           icon="resources/icons/model_contents.gif"
           id="fr.lip6.move.coloane.core.modelcontents"
-          labelProvider="fr.lip6.move.coloane.core.ui.views.LabelProvider"
+          labelProvider="fr.lip6.move.coloane.core.ui.views.ModelLabelProvider"
           name="Model Contents"
           priority="normal">
        <triggerPoints>
        </triggerPoints>
+       <possibleChildren>
+          <instanceof
+                value="org.eclipse.core.resources.IFile">
+          </instanceof>
+       </possibleChildren>
     </navigatorContent>
     <commonWizard
           type="new"
@@ -231,6 +239,21 @@
           wizardId="fr.lip6.move.coloane.wizard.projectWizard">
        <enablement></enablement>
     </commonWizard>
+    <navigatorContent
+          activeByDefault="true"
+          contentProvider="fr.lip6.move.coloane.core.ui.views.TreeContentProvider"
+          icon="resources/icons/model_contents.gif"
+          id="fr.lip6.move.coloane.core.treecontents"
+          labelProvider="fr.lip6.move.coloane.core.ui.views.TreeLabelProvider"
+          name="Tree Content"
+          priority="normal">
+       <triggerPoints></triggerPoints>
+       <possibleChildren>
+          <instanceof
+                value="fr.lip6.move.coloane.core.ui.views.Tree">
+          </instanceof>
+       </possibleChildren>
+    </navigatorContent>
  </extension>
  <extension
        id="modelingproject"

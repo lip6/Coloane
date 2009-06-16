@@ -32,7 +32,12 @@ public class NodeLinkHandler extends DefaultHandler {
 				throw new IllegalArgumentException(link);
 			}
 			this.id = Integer.valueOf(args[1]);
-			this.path = args[1];
+			this.path = args[0];
+		}
+		/** {@inheritDoc} */
+		@Override
+		public final String toString() {
+			return path + "@" + id; //$NON-NLS-1$
 		}
 		/**
 		 * @return id

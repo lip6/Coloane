@@ -4,57 +4,49 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * TODO: A documenter
- * @author jbvoron
- *
+ * Content provider for {@link Tree}
+ * 
+ * @author Clément Démoulins
  */
-public final class TreeContentProvider implements ITreeContentProvider {
+public class TreeContentProvider implements ITreeContentProvider {
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object[] getChildren(Object parentElement) {
-		System.err.println(" >> getChildren (" + parentElement + ")");
+	/** {@inheritDoc} */
+	@SuppressWarnings("unchecked")
+	public final Object[] getChildren(Object parentElement) {
+		if (parentElement instanceof Tree) {
+			return ((Tree<Object>) parentElement).getChildren().toArray();
+		}
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object getParent(Object element) {
-		System.err.println(" >> getParent (" + element + ")");
+	/** {@inheritDoc} */
+	@SuppressWarnings("unchecked")
+	public final Object getParent(Object element) {
+		if (element instanceof Tree) {
+			return ((Tree<Object>) element).getParent();
+		}
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public boolean hasChildren(Object element) {
-		// Pour le moment aucun element n'a de fils
-		System.err.println(" >> hasChildren (" + element.getClass() + ")");
-		return false;
+	/** {@inheritDoc} */
+	public final boolean hasChildren(Object element) {
+		Object[] childs = getChildren(element);
+		return childs != null && childs.length > 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public Object[] getElements(Object inputElement) {
-		System.err.println(" >> getElements (" + inputElement + ")");
+	/** {@inheritDoc} */
+	@SuppressWarnings("unchecked")
+	public final Object[] getElements(Object inputElement) {
+		if (inputElement instanceof Tree) {
+			return new Object[] {((Tree<Object>) inputElement).getElement()};
+		}
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void dispose() {
-		System.err.println(" >> dispose ()");
-	}
+	/** {@inheritDoc} */
+	public final void dispose() { }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		System.err.println(" >> inputChanged (" + viewer + ", " + oldInput + "," + newInput + ")");
-	}
+	/** {@inheritDoc} */
+	public final void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
 
 }

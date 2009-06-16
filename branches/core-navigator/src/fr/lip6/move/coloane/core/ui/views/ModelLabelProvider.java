@@ -17,11 +17,12 @@ import org.eclipse.ui.navigator.IDescriptionProvider;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
- * TODO: A documenter
- * @author jbvoron
- *
+ * Provide formalism icons for models and give a short description.
+ * This label provider is use by the models navigator.
+ * 
+ * @author Clément Démoulins
  */
-public final class LabelProvider implements ILabelProvider, IDescriptionProvider {
+public final class ModelLabelProvider implements ILabelProvider, IDescriptionProvider {
 	private final Image errorImage = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/obj16/error_tsk.gif").createImage(); //$NON-NLS-1$ //$NON-NLS-2$
 	private final Map<Object, Image> images = new HashMap<Object, Image>();
 
@@ -29,7 +30,6 @@ public final class LabelProvider implements ILabelProvider, IDescriptionProvider
 	 * {@inheritDoc}
 	 */
 	public Image getImage(Object element) {
-		System.err.println(" << " + this + element);
 		Image image = images.get(element);
 		if (image == null && element instanceof IFile) {
 			IFile f = (IFile) element;
