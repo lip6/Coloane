@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.core.ui.views;
 
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.NodeLinkHandler;
-import fr.lip6.move.coloane.core.ui.files.PublicNodeHandler;
 import fr.lip6.move.coloane.core.ui.files.NodeLinkHandler.NodeLink;
+import fr.lip6.move.coloane.core.ui.files.PublicNodeHandler;
 import fr.lip6.move.coloane.core.ui.files.PublicNodeHandler.PublicNode;
 
 import java.util.ArrayList;
@@ -32,6 +32,7 @@ public final class ModelContentProvider implements ITreeContentProvider {
 			IFile file = (IFile) parentElement;
 			List<Tree<String>> children = new ArrayList<Tree<String>>();
 
+			// Construct public nodes tree
 			PublicNodeHandler pnh = ModelLoader.loadFromXML(file, new PublicNodeHandler(file));
 			if (pnh.getPublicNodes().size() > 0) {
 				Tree<String> publicNodes = new Tree<String>(Messages.ModelContentProvider_0);
@@ -41,6 +42,7 @@ public final class ModelContentProvider implements ITreeContentProvider {
 				children.add(publicNodes);
 			}
 
+			// Construct links tree
 			NodeLinkHandler nlh = ModelLoader.loadFromXML(file, new NodeLinkHandler());
 			if (nlh.getNodeLinks().size() > 0) {
 				Tree<String> links = new Tree<String>(Messages.ModelContentProvider_1);
