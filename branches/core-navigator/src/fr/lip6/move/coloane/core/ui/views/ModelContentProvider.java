@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
@@ -47,7 +48,24 @@ public final class ModelContentProvider implements ITreeContentProvider {
 			if (nlh.getNodeLinks().size() > 0) {
 				Tree<String> links = new Tree<String>(Messages.ModelContentProvider_1);
 				for (NodeLink nl : nlh.getNodeLinks()) {
-					links.addChild(new Tree<String>(nl.getPath().replaceAll("/.*/", "") + "@" + nl.getId())); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					String filenameLink = nl.getPath().replaceAll("/.*/", ""); //$NON-NLS-1$ //$NON-NLS-2$
+					IResource resLink = file.getParent().findMember(filenameLink);
+
+					// File pointed by the link exist
+					boolean linkIsValid = false;
+					String name = "@" + nl.getId(); //$NON-NLS-1$
+					if (resLink != null && resLink instanceof IFile) {
+						IFile fileLink = (IFile) resLink;
+						PublicNodeHandler pnhLink = ModelLoader.loadFromXML(fileLink, new PublicNodeHandler(file));
+						for (PublicNode pn : pnhLink.getPublicNodes()) {
+							if (pn.getId() == nl.getId()) {
+								linkIsValid = true;
+								name = pn.getName();
+								break;
+							}
+						}
+					}
+					links.addChild(new Tree<String>(filenameLink + "/" + name + " [" + linkIsValid + "]")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 				children.add(links);
 			}
