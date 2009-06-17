@@ -41,12 +41,17 @@ import org.eclipse.ui.progress.UIJob;
  * @author Clément Démoulins
  */
 public final class ModelContentProvider implements ITreeContentProvider, IResourceChangeListener, IResourceDeltaVisitor {
-	private final ImageDescriptor NODE_LINK_DESCRIPTOR = ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/node_link.png"); //$NON-NLS-1$
-	private final ImageDescriptor ERROR_OVELAY_DESCRIPTOR = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui.navigator.resources", "$nl$/icons/full/ovr16/error_co.gif"); //$NON-NLS-1$ //$NON-NLS-2$
-	private final Image NODE_LINK_IMAGE = NODE_LINK_DESCRIPTOR.createImage();
-	private final ImageDescriptor NODE_LINK_ERROR_DESCRIPTOR = new DecorationOverlayIcon(NODE_LINK_IMAGE, ERROR_OVELAY_DESCRIPTOR, IDecoration.TOP_RIGHT);
+	private final ImageDescriptor nodeLinkDescriptor = ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/node_link.png"); //$NON-NLS-1$
+	private final ImageDescriptor errorOverlayDescriptor = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui.navigator.resources", "$nl$/icons/full/ovr16/error_co.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+	private final Image nodeLinkImage = nodeLinkDescriptor.createImage();
+	private final ImageDescriptor nodeLinkErrorDescriptor = new DecorationOverlayIcon(nodeLinkImage, errorOverlayDescriptor, IDecoration.TOP_RIGHT);
+
 	private StructuredViewer viewer;
 
+	/**
+	 * Constructor
+	 * Add a listener on the workspace
+	 */
 	public ModelContentProvider() {
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_CHANGE);
 	}
@@ -98,9 +103,9 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 
 					Tree<String> nlLeaf = new Tree<String>(filenameLink + "/" + name); //$NON-NLS-1$
 					if (linkIsValid) {
-						nlLeaf.setIcon(NODE_LINK_DESCRIPTOR);
+						nlLeaf.setIcon(nodeLinkDescriptor);
 					} else {
-						nlLeaf.setIcon(NODE_LINK_ERROR_DESCRIPTOR);
+						nlLeaf.setIcon(nodeLinkErrorDescriptor);
 					}
 					links.addChild(nlLeaf);
 				}
@@ -136,7 +141,7 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 
 	/** {@inheritDoc} */
 	public void dispose() {
-		NODE_LINK_IMAGE.dispose();
+		nodeLinkImage.dispose();
 	}
 
 	/** {@inheritDoc} */
@@ -149,30 +154,34 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 		IResourceDelta delta = event.getDelta();
 		try {
 			delta.accept(this);
-		} catch (CoreException e) { 
+		} catch (CoreException e) {
 			e.printStackTrace();
-		} 
+		}
 	}
 
 	/** {@inheritDoc} */
 	public boolean visit(IResourceDelta delta) throws CoreException {
 		IResource source = delta.getResource();
 		switch (source.getType()) {
+
 		case IResource.FILE:
 			final IFile file = (IFile) source;
 			if (file.getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
 				new UIJob("Update Models navigator") {  //$NON-NLS-1$
 					@Override
 					public IStatus runInUIThread(IProgressMonitor monitor) {
-						if (viewer != null && !viewer.getControl().isDisposed())
+						if (viewer != null && !viewer.getControl().isDisposed()) {
 							viewer.refresh(file);
-						return Status.OK_STATUS;						
+						}
+						return Status.OK_STATUS;
 					}
-				}.schedule();
+				} .schedule();
 			}
 			return false;
+
+		default:
+			return true;
 		}
-		return true;
 	}
 
 }
