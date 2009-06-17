@@ -73,7 +73,7 @@
              class="fr.lip6.move.coloane.core.ui.ColoaneEditor"
              contributorClass="fr.lip6.move.coloane.core.ui.actions.ColoaneActionBarContributor"
              default="true"
-             extensions="model"
+             extensions="%MODEL_EXTENSION"
              icon="resources/icons/model_resource.png"
              id="fr.lip6.move.coloane.editor.petri"
              name="%EDITOR_NAME">

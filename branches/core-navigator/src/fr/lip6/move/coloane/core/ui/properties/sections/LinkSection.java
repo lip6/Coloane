@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeLinkCmd;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
@@ -17,6 +18,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
@@ -137,7 +139,7 @@ public class LinkSection extends AbstractSection<INode> {
 		ColoaneEditor coloaneEditor = (ColoaneEditor) getPart();
 		IFile currentModel = ((FileEditorInput) coloaneEditor.getEditorInput()).getFile();
 
-		currentModel.getWorkspace().addResourceChangeListener(resourceChangeListener);
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener);
 
 		// Test if all selected element use the same formalism.
 		INodeFormalism nodeFormalism = getElements().get(0).getNodeFormalism();
@@ -156,7 +158,7 @@ public class LinkSection extends AbstractSection<INode> {
 			}
 
 			for (IResource resource : currentModel.getParent().members()) {
-				if (resource.getName().endsWith("model") && resource instanceof IFile) { //$NON-NLS-1$
+				if (resource.getName().endsWith(Coloane.getParam("MODEL_EXTENSION")) && resource instanceof IFile) { //$NON-NLS-1$
 					IFile file = (IFile) resource;
 					for (PublicNode publicNode : ModelLoader.loadFromXML(file, new PublicNodeHandler(file, nodeFormalism)).getPublicNodes()) {
 						widgetModel.put(publicNode.toString(), publicNode);
@@ -213,8 +215,6 @@ public class LinkSection extends AbstractSection<INode> {
 	/** {@inheritDoc} */
 	@Override
 	protected final void internalDispose() {
-		ColoaneEditor coloaneEditor = (ColoaneEditor) getPart();
-		IFile currentModel = ((FileEditorInput) coloaneEditor.getEditorInput()).getFile();
-		currentModel.getWorkspace().removeResourceChangeListener(resourceChangeListener);
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
 	}
 }

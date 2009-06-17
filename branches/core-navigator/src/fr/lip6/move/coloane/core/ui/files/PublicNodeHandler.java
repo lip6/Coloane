@@ -1,11 +1,16 @@
 package fr.lip6.move.coloane.core.ui.files;
 
+import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -16,6 +21,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Clément Démoulins
  */
 public class PublicNodeHandler extends DefaultHandler {
+	private IFormalism formalism;
 
 	private IFile file;
 	private INodeFormalism nodeFormalism;
@@ -35,7 +41,20 @@ public class PublicNodeHandler extends DefaultHandler {
 		private int id;
 		private String name;
 		private IFile file;
+		private ImageDescriptor icon;
 
+		/**
+		 * @return the icon
+		 */
+		public final ImageDescriptor getIcon() {
+			return icon;
+		}
+		/**
+		 * @param icon the icon to set
+		 */
+		public final void setIcon(ImageDescriptor icon) {
+			this.icon = icon;
+		}
 		/**
 		 * @return id of the node
 		 */
@@ -121,8 +140,16 @@ public class PublicNodeHandler extends DefaultHandler {
 			if (nodeFormalismName != null && (nodeFormalism == null || nodeFormalismName.equals(nodeFormalism.getName()))) {
 				final int id = Integer.parseInt(attributes.getValue("id")); //$NON-NLS-1$
 				current = new PublicNode();
-				current.setFile(file);
 				current.setId(id);
+				current.setFile(file);
+				if (nodeFormalism != null) {
+					current.setIcon(ImageDescriptor.createFromFile(Coloane.class, nodeFormalism.getGraphicalDescription().getIcon16px()));
+				} else if (formalism != null) {
+					IElementFormalism elementFormalism = formalism.getMasterGraph().getElementFormalism(nodeFormalismName);
+					if (elementFormalism != null) {
+						current.setIcon(ImageDescriptor.createFromFile(Coloane.class, elementFormalism.getGraphicalDescription().getIcon16px()));
+					}
+				}
 				publicNodes.add(current);
 			}
 		} else if (current != null && "attribute".equals(name)) { //$NON-NLS-1$
@@ -131,6 +158,14 @@ public class PublicNodeHandler extends DefaultHandler {
 				data = new StringBuilder();
 			} else {
 				data = null;
+			}
+		} else if ("model".equals(name)) { //$NON-NLS-1$
+			// Récupération du nom du formalisme
+			String formalismName = attributes.getValue("formalism"); //$NON-NLS-1$
+			try {
+				formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
+			} catch (IllegalArgumentException e) {
+				throw new SAXException(e);
 			}
 		}
 	}

@@ -33,7 +33,7 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 		Image image = images.get(element);
 		if (image == null && element instanceof IFile) {
 			IFile f = (IFile) element;
-			if ("model".equals(f.getFileExtension())) { //$NON-NLS-1$
+			if (f.getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
 				IFormalism formalism = ModelLoader.loadFromXML(f, new FormalismHandler()).getFormalism();
 				if (formalism != null) {
 					image = ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage();
@@ -87,7 +87,7 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 	public String getDescription(Object element) {
 		if (element instanceof IFile) {
 			IFile f = (IFile) element;
-			if ("model".equals(f.getFileExtension())) { //$NON-NLS-1$
+			if (f.getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
 				IFormalism formalism = ModelLoader.loadFromXML(f, new FormalismHandler()).getFormalism();
 				if (formalism != null) {
 					return f.getFullPath() + "  —  " + formalism.getName(); //$NON-NLS-1$
