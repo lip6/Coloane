@@ -18,10 +18,9 @@ public final class TreeLabelProvider implements ILabelProvider {
 	private final List<Image> images = new ArrayList<Image>();
 
 	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
 	public Image getImage(Object element) {
 		if (element instanceof Tree) {
-			ImageDescriptor descriptor = ((Tree<Object>) element).getIcon();
+			ImageDescriptor descriptor = ((Tree) element).getIcon();
 			if (descriptor != null) {
 				Image icon = descriptor.createImage();
 				images.add(icon);
@@ -32,10 +31,9 @@ public final class TreeLabelProvider implements ILabelProvider {
 	}
 
 	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
 	public String getText(Object element) {
 		if (element instanceof Tree) {
-			return ((Tree<Object>) element).getElement().toString();
+			return ((Tree) element).getName();
 		}
 		return null;
 	}

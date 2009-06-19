@@ -16,17 +16,17 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Find public node in a xml file.
+ * Find interfaces in a xml file.
  *
  * @author Clément Démoulins
  */
-public class PublicNodeHandler extends DefaultHandler {
+public class InterfacesHandler extends DefaultHandler {
 	private IFormalism formalism;
 
 	private IFile file;
 	private INodeFormalism nodeFormalism;
-	private PublicNode current;
-	private List<PublicNode> publicNodes = new ArrayList<PublicNode>();
+	private NodeInterface current;
+	private List<NodeInterface> nodeInterfaces = new ArrayList<NodeInterface>();
 
 	private StringBuilder data;
 
@@ -37,7 +37,7 @@ public class PublicNodeHandler extends DefaultHandler {
 	 * <li>method getLink() must be use in the model to link a node to a public node.
 	 * </ol>
 	 */
-	public static class PublicNode {
+	public static class NodeInterface {
 		private int id;
 		private String name;
 		private IFile file;
@@ -120,7 +120,7 @@ public class PublicNodeHandler extends DefaultHandler {
 	 * @param file file
 	 * @param nodeFormalism find public node for this formalism
 	 */
-	public PublicNodeHandler(IFile file, INodeFormalism nodeFormalism) {
+	public InterfacesHandler(IFile file, INodeFormalism nodeFormalism) {
 		this.file = file;
 		this.nodeFormalism = nodeFormalism;
 	}
@@ -128,7 +128,7 @@ public class PublicNodeHandler extends DefaultHandler {
 	/**
 	 * @param file file
 	 */
-	public PublicNodeHandler(IFile file) {
+	public InterfacesHandler(IFile file) {
 		this(file, null);
 	}
 
@@ -139,7 +139,7 @@ public class PublicNodeHandler extends DefaultHandler {
 			String nodeFormalismName = attributes.getValue("nodetype"); //$NON-NLS-1$
 			if (nodeFormalismName != null && (nodeFormalism == null || nodeFormalismName.equals(nodeFormalism.getName()))) {
 				final int id = Integer.parseInt(attributes.getValue("id")); //$NON-NLS-1$
-				current = new PublicNode();
+				current = new NodeInterface();
 				current.setId(id);
 				current.setFile(file);
 				if (nodeFormalism != null) {
@@ -150,7 +150,7 @@ public class PublicNodeHandler extends DefaultHandler {
 						current.setIcon(ImageDescriptor.createFromFile(Coloane.class, elementFormalism.getGraphicalDescription().getIcon16px()));
 					}
 				}
-				publicNodes.add(current);
+				nodeInterfaces.add(current);
 			}
 		} else if (current != null && "attribute".equals(name)) { //$NON-NLS-1$
 			String attrName = attributes.getValue("name"); //$NON-NLS-1$
@@ -206,8 +206,8 @@ public class PublicNodeHandler extends DefaultHandler {
 	/**
 	 * @return List of public node.
 	 */
-	public final List<PublicNode> getPublicNodes() {
-		return publicNodes;
+	public final List<NodeInterface> getInterfaces() {
+		return nodeInterfaces;
 	}
 
 }

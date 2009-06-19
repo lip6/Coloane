@@ -13,6 +13,8 @@ public final class Messages extends NLS {
 	public static String ExportImageAction_11;
 	public static String ExportImageAction_2;
 	public static String ExportImageAction_3;
+	public static String OpenInterfaceAction_0;
+	public static String OpenTargetLinkAction_0;
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

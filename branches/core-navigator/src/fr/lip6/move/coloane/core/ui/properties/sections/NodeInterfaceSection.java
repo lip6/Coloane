@@ -20,7 +20,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  *
  * @author Clément Démoulins
  */
-public class NodePublicStateSection extends AbstractSection<INode> {
+public class NodeInterfaceSection extends AbstractSection<INode> {
 
 	private Button checkBox;
 	private Listener listener = new Listener() {
@@ -52,7 +52,7 @@ public class NodePublicStateSection extends AbstractSection<INode> {
 		checkBox.addListener(SWT.Selection, listener);
 
 		// Etiquette
-		CLabel label = getWidgetFactory().createCLabel(composite, "Public :"); //$NON-NLS-1$
+		CLabel label = getWidgetFactory().createCLabel(composite, Messages.NodeInterfaceSection_0);
 		data = new FormData();
 		data.top = new FormAttachment(checkBox, 0, SWT.TOP);
 		data.left = new FormAttachment(0, 5);

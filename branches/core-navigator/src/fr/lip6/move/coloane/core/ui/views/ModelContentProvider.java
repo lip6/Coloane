@@ -1,11 +1,11 @@
 package fr.lip6.move.coloane.core.ui.views;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.ui.files.InterfacesHandler;
+import fr.lip6.move.coloane.core.ui.files.InterfacesHandler.NodeInterface;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
-import fr.lip6.move.coloane.core.ui.files.NodeLinkHandler;
-import fr.lip6.move.coloane.core.ui.files.NodeLinkHandler.NodeLink;
-import fr.lip6.move.coloane.core.ui.files.PublicNodeHandler;
-import fr.lip6.move.coloane.core.ui.files.PublicNodeHandler.PublicNode;
+import fr.lip6.move.coloane.core.ui.files.NodeLinksHandler;
+import fr.lip6.move.coloane.core.ui.files.NodeLinksHandler.NodeLink;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,54 +62,56 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof IFile && ((IFile) parentElement).getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
 			IFile file = (IFile) parentElement;
-			List<Tree<String>> children = new ArrayList<Tree<String>>();
+			List<Tree> children = new ArrayList<Tree>();
 
 			// Construct public nodes tree
-			PublicNodeHandler pnh = ModelLoader.loadFromXML(file, new PublicNodeHandler(file));
-			if (pnh.getPublicNodes().size() > 0) {
-				Tree<String> publicNodes = new Tree<String>(Messages.ModelContentProvider_0);
-				publicNodes.setIcon(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/public_nodes.png")); //$NON-NLS-1$
-				for (PublicNode pn : pnh.getPublicNodes()) {
-					Tree<String> pnLeaf = new Tree<String>(pn.getName());
-					pnLeaf.setIcon(pn.getIcon());
-					publicNodes.addChild(pnLeaf);
+			InterfacesHandler interfaces = ModelLoader.loadFromXML(file, new InterfacesHandler(file));
+			if (interfaces.getInterfaces().size() > 0) {
+				Tree interfaceTree = new Tree(Messages.ModelContentProvider_0);
+				interfaceTree.setIcon(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/interfaces.png")); //$NON-NLS-1$
+				for (NodeInterface nodeInterface : interfaces.getInterfaces()) {
+					Tree nodeInterfaceLeaf = new Tree(nodeInterface.getName(), nodeInterface);
+					nodeInterfaceLeaf.setIcon(nodeInterface.getIcon());
+					interfaceTree.addChild(nodeInterfaceLeaf);
 				}
-				children.add(publicNodes);
+				children.add(interfaceTree);
 			}
 
 			// Construct links tree
-			NodeLinkHandler nlh = ModelLoader.loadFromXML(file, new NodeLinkHandler());
-			if (nlh.getNodeLinks().size() > 0) {
-				Tree<String> links = new Tree<String>(Messages.ModelContentProvider_1);
-				links.setIcon(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/node_links.png")); //$NON-NLS-1$
-				for (NodeLink nl : nlh.getNodeLinks()) {
-					String filenameLink = nl.getPath().replaceAll("/.*/", ""); //$NON-NLS-1$ //$NON-NLS-2$
-					IResource resLink = file.getParent().findMember(filenameLink);
+			NodeLinksHandler nodeLinks = ModelLoader.loadFromXML(file, new NodeLinksHandler());
+			if (nodeLinks.getNodeLinks().size() > 0) {
+				Tree nodeLinkTree = new Tree(Messages.ModelContentProvider_1);
+				nodeLinkTree.setIcon(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/node_links.png")); //$NON-NLS-1$
+				for (NodeLink nl : nodeLinks.getNodeLinks()) {
+					String targetModel = nl.getPath().replaceAll("/.*/", ""); //$NON-NLS-1$ //$NON-NLS-2$
+					IResource targetResource = file.getParent().findMember(targetModel);
 
-					// File pointed by the link exist
 					boolean linkIsValid = false;
-					String name = "@" + nl.getId(); //$NON-NLS-1$
-					if (resLink != null && resLink instanceof IFile) {
-						IFile fileLink = (IFile) resLink;
-						PublicNodeHandler pnhLink = ModelLoader.loadFromXML(fileLink, new PublicNodeHandler(file));
-						for (PublicNode pn : pnhLink.getPublicNodes()) {
-							if (pn.getId() == nl.getId()) {
+					String targetInterface = "@" + nl.getTargetId(); //$NON-NLS-1$
+					// Test if file pointed by the link exist
+					if (targetResource != null && targetResource instanceof IFile) {
+						IFile targetFile = (IFile) targetResource;
+
+						// Look for the interface
+						InterfacesHandler interfacesOfLink = ModelLoader.loadFromXML(targetFile, new InterfacesHandler(file));
+						for (NodeInterface nodeInterface : interfacesOfLink.getInterfaces()) {
+							if (nodeInterface.getId() == nl.getTargetId()) {
 								linkIsValid = true;
-								name = pn.getName();
+								targetInterface = nodeInterface.getName();
 								break;
 							}
 						}
 					}
 
-					Tree<String> nlLeaf = new Tree<String>(filenameLink + "/" + name); //$NON-NLS-1$
+					Tree nodeLinkLeaf = new Tree(nl.getSourceName() + " —> " + targetModel + "/" + targetInterface, nl); //$NON-NLS-1$
 					if (linkIsValid) {
-						nlLeaf.setIcon(nodeLinkDescriptor);
+						nodeLinkLeaf.setIcon(nodeLinkDescriptor);
 					} else {
-						nlLeaf.setIcon(nodeLinkErrorDescriptor);
+						nodeLinkLeaf.setIcon(nodeLinkErrorDescriptor);
 					}
-					links.addChild(nlLeaf);
+					nodeLinkTree.addChild(nodeLinkLeaf);
 				}
-				children.add(links);
+				children.add(nodeLinkTree);
 			}
 
 			return children.toArray();

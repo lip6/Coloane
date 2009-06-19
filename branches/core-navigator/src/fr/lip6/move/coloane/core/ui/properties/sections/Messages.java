@@ -8,6 +8,7 @@ public class Messages extends NLS {
 	public static String AttributeSection_0;
 	public static String NodeColorSection_0;
 	public static String NodeColorSection_1;
+	public static String NodeInterfaceSection_0;
 	public static String NodeLocationSection_0;
 	public static String NodeSizeSection_0;
 	static {

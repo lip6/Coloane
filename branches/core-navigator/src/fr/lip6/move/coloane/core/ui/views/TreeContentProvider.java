@@ -11,19 +11,17 @@ import org.eclipse.jface.viewers.Viewer;
 public class TreeContentProvider implements ITreeContentProvider {
 
 	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
 	public final Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof Tree) {
-			return ((Tree<Object>) parentElement).getChildren().toArray();
+			return ((Tree) parentElement).getChildren().toArray();
 		}
 		return null;
 	}
 
 	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
 	public final Object getParent(Object element) {
 		if (element instanceof Tree) {
-			return ((Tree<Object>) element).getParent();
+			return ((Tree) element).getParent();
 		}
 		return null;
 	}
@@ -35,10 +33,9 @@ public class TreeContentProvider implements ITreeContentProvider {
 	}
 
 	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
 	public final Object[] getElements(Object inputElement) {
 		if (inputElement instanceof Tree) {
-			return new Object[] {((Tree<Object>) inputElement).getElement()};
+			return new Object[] {((Tree) inputElement).getElement()};
 		}
 		return null;
 	}

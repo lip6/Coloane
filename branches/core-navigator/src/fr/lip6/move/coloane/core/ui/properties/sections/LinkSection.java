@@ -3,9 +3,9 @@ package fr.lip6.move.coloane.core.ui.properties.sections;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeLinkCmd;
+import fr.lip6.move.coloane.core.ui.files.InterfacesHandler;
+import fr.lip6.move.coloane.core.ui.files.InterfacesHandler.NodeInterface;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
-import fr.lip6.move.coloane.core.ui.files.PublicNodeHandler;
-import fr.lip6.move.coloane.core.ui.files.PublicNodeHandler.PublicNode;
 import fr.lip6.move.coloane.core.ui.properties.LabelText;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -44,7 +44,7 @@ public class LinkSection extends AbstractSection<INode> {
 	private static final String BROKEN = "broken node"; //$NON-NLS-1$
 
 	private List listWidget;
-	private Map<String, PublicNode> widgetModel = new HashMap<String, PublicNode>();
+	private Map<String, NodeInterface> widgetModel = new HashMap<String, NodeInterface>();
 
 	private Composite composite;
 
@@ -160,11 +160,11 @@ public class LinkSection extends AbstractSection<INode> {
 			for (IResource resource : currentModel.getParent().members()) {
 				if (resource.getName().endsWith(Coloane.getParam("MODEL_EXTENSION")) && resource instanceof IFile) { //$NON-NLS-1$
 					IFile file = (IFile) resource;
-					for (PublicNode publicNode : ModelLoader.loadFromXML(file, new PublicNodeHandler(file, nodeFormalism)).getPublicNodes()) {
-						widgetModel.put(publicNode.toString(), publicNode);
-						listWidget.add(publicNode.toString());
+					for (NodeInterface nodeInterface : ModelLoader.loadFromXML(file, new InterfacesHandler(file, nodeFormalism)).getInterfaces()) {
+						widgetModel.put(nodeInterface.toString(), nodeInterface);
+						listWidget.add(nodeInterface.toString());
 
-						if (select == 0 && publicNode.getLink().equals(getElements().get(0).getNodeLink())) {
+						if (select == 0 && nodeInterface.getLink().equals(getElements().get(0).getNodeLink())) {
 							select = listWidget.getItemCount() - 1;
 						}
 					}

@@ -253,6 +253,9 @@
                 value="fr.lip6.move.coloane.core.ui.views.Tree">
           </instanceof>
        </possibleChildren>
+       <actionProvider
+             class="fr.lip6.move.coloane.core.ui.views.NavigatorActionProvider">
+       </actionProvider>
     </navigatorContent>
  </extension>
  <extension
@@ -435,7 +438,7 @@
           </input>
        </propertySection>
        <propertySection
-             class="fr.lip6.move.coloane.core.ui.properties.sections.NodePublicStateSection"
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeInterfaceSection"
              id="fr.lip6.move.coloane.core.section.NodePublicStateSection"
              tab="fr.lip6.move.coloane.core.properties.link">
           <input

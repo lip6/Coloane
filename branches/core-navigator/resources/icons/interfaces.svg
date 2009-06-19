@@ -33,7 +33,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35"
-     inkscape:cx="-262.14286"
+     inkscape:cx="-697.85715"
      inkscape:cy="520"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -68,21 +68,22 @@
        d="M 374.28572,420.93362 A 141.42857,142.85715 0 1 1 91.428574,420.93362 A 141.42857,142.85715 0 1 1 374.28572,420.93362 z"
        transform="matrix(1.0458167,0,0,1.0355029,-5.6687501,-19.944376)"
        inkscape:export-filename="/home/clement/workspaces/coloane-navigator/fr.lip6.move.coloane.core/resources/icons/public_nodes.png"
-       inkscape:export-xdpi="4.487967"
-       inkscape:export-ydpi="4.487967" />
+       inkscape:export-xdpi="4.4899998"
+       inkscape:export-ydpi="4.4899998" />
     <text
        xml:space="preserve"
-       style="font-size:284.31921387px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="169.75009"
+       style="font-size:284.31921387px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:DejaVu Serif;-inkscape-font-specification:DejaVu Serif"
+       x="193.70695"
        y="499.58337"
        id="text5683"
        transform="scale(0.9519511,1.0504741)"
        inkscape:export-filename="/home/clement/workspaces/coloane-navigator/fr.lip6.move.coloane.core/resources/icons/public_nodes.png"
-       inkscape:export-xdpi="4.487967"
-       inkscape:export-ydpi="4.487967"><tspan
+       inkscape:export-xdpi="4.4899998"
+       inkscape:export-ydpi="4.4899998"
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan5685"
-         x="169.75009"
-         y="499.58337">P</tspan></text>
+         x="193.70695"
+         y="499.58337">I</tspan></text>
   </g>
 </svg>

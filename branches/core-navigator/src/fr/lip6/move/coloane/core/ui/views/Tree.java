@@ -8,36 +8,59 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
  * Tree structure for the model of the Models Navigator.
- * @param <T> Type of element contains in nodes of the tree.
  *
  * @author Clément Démoulins
  */
-public class Tree<T> {
+public class Tree {
 
-	private Tree<T> parent = null;
-	private List<Tree<T>> children = new ArrayList<Tree<T>>();
+	private Tree parent = null;
+	private List<Tree> children = new ArrayList<Tree>();
 	
-	private T element;
+	private String name;
+	private Object element;
 	private ImageDescriptor icon;
 
 	/**
+	 * @param name name of the element
+	 */
+	public Tree(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @param name name of the element
 	 * @param element element contains in this node
 	 */
-	public Tree(T element) {
+	public Tree(String name, Object element) {
+		this.name = name;
 		this.element = element;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public final String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public final void setName(String name) {
+		this.name = name;
 	}
 
 	/**
 	 * @return the element
 	 */
-	public final T getElement() {
+	public final Object getElement() {
 		return element;
 	}
 
 	/**
 	 * @param element the element to set
 	 */
-	public final void setElement(T element) {
+	public final void setElement(Object element) {
 		this.element = element;
 	}
 
@@ -58,14 +81,14 @@ public class Tree<T> {
 	/**
 	 * @return the parent
 	 */
-	public final Tree<T> getParent() {
+	public final Tree getParent() {
 		return parent;
 	}
 
 	/**
 	 * @return a readonly list of the children
 	 */
-	public final List<Tree<T>> getChildren() {
+	public final List<Tree> getChildren() {
 		return Collections.unmodifiableList(children);
 	}
 
@@ -73,7 +96,7 @@ public class Tree<T> {
 	 * Add a child to this node, if the child was attached to another node it's previously removed.
 	 * @param child child to add
 	 */
-	public final void addChild(Tree<T> child) {
+	public final void addChild(Tree child) {
 		if (child.getParent() != null) {
 			child.getParent().removeChild(child);
 		}
@@ -85,7 +108,7 @@ public class Tree<T> {
 	 * @param child child to remove
 	 * @return <code>true</code> if the child was removed
 	 */
-	public final boolean removeChild(Tree<T> child) {
+	public final boolean removeChild(Tree child) {
 		boolean r = children.remove(child);
 		if (r) {
 			child.setParent(null);
@@ -96,7 +119,7 @@ public class Tree<T> {
 	/**
 	 * @param parent the parent to set
 	 */
-	final void setParent(Tree<T> parent) {
+	final void setParent(Tree parent) {
 		this.parent = parent;
 	}
 }
