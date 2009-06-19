@@ -8,9 +8,6 @@ import fr.lip6.move.coloane.core.ui.files.NodeLinksHandler.NodeLink;
 import fr.lip6.move.coloane.core.ui.views.Tree;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.jface.action.Action;
@@ -38,7 +35,7 @@ public class OpenSourceLinkAction extends Action {
 	 * @param provider The selection provider
 	 */
 	public OpenSourceLinkAction(IWorkbenchPage page, ISelectionProvider provider) {
-		setText(Messages.OpenTargetLinkAction_0);
+		setText(Messages.OpenSourceLinkAction_0);
 		this.page = page;
 		this.provider = provider;
 	}
@@ -65,19 +62,15 @@ public class OpenSourceLinkAction extends Action {
 	public final void run() {
 		if (isEnabled()) {
 			try {
-				IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(data.getPath());
-				if (res == null || !(res instanceof IFile)) {
-					return;
-				}
-				IEditorPart editor = IDE.openEditor(page, (IFile) res);
+				IEditorPart editor = IDE.openEditor(page, data.getSourceFile());
 
 				if (editor instanceof ColoaneEditor) {
 					ColoaneEditor coloaneEditor	= (ColoaneEditor) editor;
 
-					INode node = coloaneEditor.getGraph().getNode(data.getTargetId());
+					INode node = coloaneEditor.getGraph().getNode(data.getSourceId());
 
 					// Interface doesn't exist
-					if (node == null || !node.isPublic()) {
+					if (node == null) {
 						return;
 					}
 

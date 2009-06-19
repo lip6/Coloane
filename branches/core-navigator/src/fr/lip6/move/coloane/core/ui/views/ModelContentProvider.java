@@ -78,7 +78,7 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 			}
 
 			// Construct links tree
-			NodeLinksHandler nodeLinks = ModelLoader.loadFromXML(file, new NodeLinksHandler());
+			NodeLinksHandler nodeLinks = ModelLoader.loadFromXML(file, new NodeLinksHandler(file));
 			if (nodeLinks.getNodeLinks().size() > 0) {
 				Tree nodeLinkTree = new Tree(Messages.ModelContentProvider_1);
 				nodeLinkTree.setIcon(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/node_links.png")); //$NON-NLS-1$
@@ -103,7 +103,7 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 						}
 					}
 
-					Tree nodeLinkLeaf = new Tree(nl.getSourceName() + " —> " + targetModel + "/" + targetInterface, nl); //$NON-NLS-1$
+					Tree nodeLinkLeaf = new Tree(nl.getSourceName() + " > " + targetModel + "/" + targetInterface, nl); //$NON-NLS-1$ //$NON-NLS-2$
 					if (linkIsValid) {
 						nodeLinkLeaf.setIcon(nodeLinkDescriptor);
 					} else {

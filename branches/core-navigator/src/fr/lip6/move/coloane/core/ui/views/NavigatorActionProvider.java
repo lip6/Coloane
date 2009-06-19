@@ -4,6 +4,7 @@
 package fr.lip6.move.coloane.core.ui.views;
 
 import fr.lip6.move.coloane.core.ui.actions.OpenInterfaceAction;
+import fr.lip6.move.coloane.core.ui.actions.OpenSourceLinkAction;
 import fr.lip6.move.coloane.core.ui.actions.OpenTargetLinkAction;
 
 import org.eclipse.jface.action.IMenuManager;
@@ -23,6 +24,7 @@ import org.eclipse.ui.navigator.ICommonViewerWorkbenchSite;
 public class NavigatorActionProvider extends CommonActionProvider {
 
 	private OpenInterfaceAction openInterfaceAction;
+	private OpenSourceLinkAction openSourceLinkAction;
 	private OpenTargetLinkAction openTargetLinkAction;
 
 	/** {@inheritDoc} */
@@ -32,6 +34,7 @@ public class NavigatorActionProvider extends CommonActionProvider {
 		if (viewSite instanceof ICommonViewerWorkbenchSite) {
 			ICommonViewerWorkbenchSite workbenchSite = (ICommonViewerWorkbenchSite) viewSite;
 			openInterfaceAction = new OpenInterfaceAction(workbenchSite.getPage(), workbenchSite.getSelectionProvider());
+			openSourceLinkAction = new OpenSourceLinkAction(workbenchSite.getPage(), workbenchSite.getSelectionProvider());
 			openTargetLinkAction = new OpenTargetLinkAction(workbenchSite.getPage(), workbenchSite.getSelectionProvider());
 		}
 	}
@@ -41,6 +44,9 @@ public class NavigatorActionProvider extends CommonActionProvider {
 	public final void fillContextMenu(IMenuManager menu) {
 		if (openInterfaceAction.isEnabled()) {
 			menu.appendToGroup(ICommonMenuConstants.GROUP_OPEN, openInterfaceAction);
+		}
+		if (openSourceLinkAction.isEnabled()) {
+			menu.appendToGroup(ICommonMenuConstants.GROUP_OPEN_WITH, openSourceLinkAction);
 		}
 		if (openTargetLinkAction.isEnabled()) {
 			menu.appendToGroup(ICommonMenuConstants.GROUP_OPEN, openTargetLinkAction);

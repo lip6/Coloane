@@ -14,6 +14,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Clément Démoulins
  */
 public class NodeLinksHandler extends DefaultHandler {
+
+	private final IFile file;
 	
 	private List<NodeLink> links = new ArrayList<NodeLink>();
 	private NodeLink current;
@@ -26,22 +28,22 @@ public class NodeLinksHandler extends DefaultHandler {
 	public static class NodeLink {
 		private final int sourceId;
 		private String sourceName;
-//		private final IFile sourceFile;
+		private final IFile sourceFile;
 
 		private final int targetId;
 		private final String path;
 
 		/**
-		 * @param sourceFile 
+		 * @param sourceFile The source file
 		 * @param sourceId The source id
 		 * @param link A string in this format : path@targetId
 		 */
-		public NodeLink(int sourceId, String link) {
+		public NodeLink(IFile sourceFile, int sourceId, String link) {
 			String[] args = link.split("@"); //$NON-NLS-1$
 			if (args.length != 2) {
 				throw new IllegalArgumentException(link);
 			}
-//			this.sourceFile = sourceFile;
+			this.sourceFile = sourceFile;
 			this.sourceId = sourceId;
 			this.targetId = Integer.valueOf(args[1]);
 			this.path = args[0];
@@ -54,9 +56,9 @@ public class NodeLinksHandler extends DefaultHandler {
 		/**
 		 * @return the sourceFile
 		 */
-//		public final IFile getSourceFile() {
-//			return sourceFile;
-//		}
+		public final IFile getSourceFile() {
+			return sourceFile;
+		}
 		/**
 		 * @return The id of the source node
 		 */
@@ -92,11 +94,18 @@ public class NodeLinksHandler extends DefaultHandler {
 		}
 	}
 
+	/**
+	 * @param file xml file
+	 */
+	public NodeLinksHandler(IFile file) {
+		this.file = file;
+	}
+	
 	/** {@inheritDoc} */
 	@Override
 	public final void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
 		if ("node".equals(name) && attributes.getValue("id") != null && attributes.getValue("link") != null) { //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			current = new NodeLink(Integer.valueOf(attributes.getValue("id")), attributes.getValue("link")); //$NON-NLS-1$ //$NON-NLS-2$
+			current = new NodeLink(file, Integer.valueOf(attributes.getValue("id")), attributes.getValue("link")); //$NON-NLS-1$ //$NON-NLS-2$
 			links.add(current);
 		} else if (current != null && "attribute".equals(name)) { //$NON-NLS-1$
 			String attrName = attributes.getValue("name"); //$NON-NLS-1$
