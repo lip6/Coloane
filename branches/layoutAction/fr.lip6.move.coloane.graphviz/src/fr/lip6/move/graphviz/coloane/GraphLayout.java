@@ -1,15 +1,11 @@
 package fr.lip6.move.graphviz.coloane;
 
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
-import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.osgi.framework.internal.protocol.StreamHandlerFactory;
 import org.eclipse.swt.graphics.Point;
 
 import fr.lip6.move.coloane.interfaces.model.IArc;
