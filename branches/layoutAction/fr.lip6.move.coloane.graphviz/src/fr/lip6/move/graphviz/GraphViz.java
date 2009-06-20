@@ -19,7 +19,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -39,7 +38,7 @@ import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 
-
+import fr.lip6.move.graphviz.GraphVizActivator.DotAlgo;
 import fr.lip6.move.graphviz.ProcessController.TimeOutException;
 import fr.lip6.move.graphviz.io.IOUtils;
 import fr.lip6.move.graphviz.io.LogUtils;
@@ -158,7 +157,8 @@ public class GraphViz {
 		List<String> cmd = new ArrayList<String>();
 		cmd.add("-o" + dotOutput.getAbsolutePath());
 		cmd.add("-T" + format);
-		cmd.add("-K"+"neato");
+		DotAlgo algo = GraphVizActivator.getInstance().getDotAlgo();
+		cmd.add("-K"+algo);
 		if (widthInInches > 0 && heightInInches > 0)
 			cmd.add("-Gsize=" + widthInInches + ',' + heightInInches);
 		cmd.add(dotInput.getAbsolutePath());

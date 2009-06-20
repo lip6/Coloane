@@ -28,7 +28,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.preferences.IEclipsePreferences;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
@@ -37,6 +36,27 @@ import fr.lip6.move.graphviz.io.LogUtils;
 
 public class GraphVizActivator extends AbstractUIPlugin {
 
+
+	public enum DotAlgo {
+		DOT, NEATO, CIRCO;
+		/**
+		 * Given a string, looks up the corresponding DotAlgo. If no match,
+		 * returns the default NEATO.
+		 */
+		static public DotAlgo find(String term) {
+			for (DotAlgo p : DotAlgo.values()) {
+				if (p.name().equals(term)) {
+					return p;
+				}
+			}
+			return NEATO;
+		}
+		
+		@Override
+		public String toString() {
+			return super.toString().toLowerCase();
+		}
+	}
 
 	/**
 	 * DotLocation keeps track of how the user wants to select the dot
@@ -65,6 +85,8 @@ public class GraphVizActivator extends AbstractUIPlugin {
 	// The manual path is entered by the user. It should never be changed or
 	// deleted except by the user.
 	public static final String DOT_MANUAL_PATH = "dotManualPath";
+	
+	public static final String DOT_ALGO = "dotAlgo";
 	
 	public static final String DOT_FILE_NAME = "dot";
 
@@ -226,6 +248,12 @@ public class GraphVizActivator extends AbstractUIPlugin {
 		String value = getPreference(DOT_SEARCH_METHOD);
 		return value != null ? DotMethod.find(value) : DotMethod.AUTO;
 	}
+	
+	public DotAlgo getDotAlgo() {
+		String value = getPreference(DOT_ALGO);
+		return value != null ? DotAlgo.find(value) : DotAlgo.NEATO;
+	}
+	
 
 	public File getGraphVizDirectory() {
 		IPath dotLocation = getDotLocation();
@@ -250,6 +278,10 @@ public class GraphVizActivator extends AbstractUIPlugin {
 
 	public void setDotSearchMethod(DotMethod dotMethod) {
 		setPreference(DOT_SEARCH_METHOD, dotMethod.name());
+	}
+
+	public void setDotAlgo(DotAlgo dotAlgo) {
+		setPreference(DOT_ALGO, dotAlgo.name());
 	}
 
 	public void setManualDotPath(String newLocation) {
