@@ -39,6 +39,7 @@ import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 // Status: Solved
 // Last Update Time:  18/06/2009
 
+//********************************************************
 
 //Bug 3: The transformation of "WHILE" activity is not finished.
 //Discovery Time: 15/06/2009
