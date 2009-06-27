@@ -53,6 +53,7 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 	private Button useBundledDotButton;
 	private Button autodetectDotButton;
 	private Button specifyDotButton;
+	@SuppressWarnings("unused")
 	private Button specifyAlgoButton;
 
 	private FileBrowserField dotBrowser;
