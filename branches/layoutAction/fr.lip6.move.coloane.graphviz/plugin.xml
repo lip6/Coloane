@@ -18,4 +18,25 @@
             name="Layout Preferences">
       </page>
    </extension>
+   <extension
+         id="fr.lip6.move.coloane.graphviz.layout"
+         name="layout"
+         point="org.eclipse.ui.editorActions">
+      <editorContribution
+            id="fr.lip6.move.coloane.graphviz.layout"
+            targetID="fr.lip6.move.coloane.editor.petri">
+         <action
+               actionID="fr.lip6.move.coloane.graphviz.runLayoutAction"
+               class="fr.lip6.move.coloane.graphviz.LayoutEditorActionDelegate"
+               definitionId="fr.lip6.move.coloane.graphviz.layout"
+               disabledIcon="resources/layout.PNG"
+               icon="resources/layout.PNG"
+               id="fr.lip6.move.coloane.graphviz.actionLayout"
+               label="Layout"
+               style="push"
+               toolbarPath="Normal/additions"
+               tooltip="Layout the current graph. See Preferences-&gt;Coloane-&gt;Layout for options.">
+         </action>
+      </editorContribution>
+   </extension>
 </plugin>
