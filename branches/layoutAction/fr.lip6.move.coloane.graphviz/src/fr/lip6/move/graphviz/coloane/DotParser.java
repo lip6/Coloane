@@ -103,7 +103,9 @@ public class DotParser {
 	 */
 	private static void parseArc(StringTokenizer st, IGraph graph) {
 		assert st.countTokens() > 3;
+		@SuppressWarnings("unused")
 		int idSource = parseID(st);
+		@SuppressWarnings("unused")
 		int idDest = parseID(st);
 		int nbInflex = Integer.parseInt(st.nextToken());
 		List<Point> newPi = new ArrayList<Point>();
