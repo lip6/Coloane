@@ -1,0 +1,24 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: TestITS Plug-in
+Bundle-SymbolicName: fr.lip6.move.coloane.its;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: testits.Activator
+Bundle-Vendor: Yann
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.jface.text,
+ org.eclipse.core.resources,
+ org.eclipse.ui.editors,
+ org.eclipse.ui.ide,
+ fr.lip6.move.coloane.core,
+ fr.lip6.move.coloane.interfaces,
+ fr.lip6.move.graphviz
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Import-Package: fr.lip6.move.coloane.core.ui.files,
+ fr.lip6.move.coloane.interfaces.formalism,
+ fr.lip6.move.coloane.interfaces.model,
+ fr.lip6.move.graphviz,
+ org.eclipse.gef,
+ org.eclipse.jface.databinding.viewers
