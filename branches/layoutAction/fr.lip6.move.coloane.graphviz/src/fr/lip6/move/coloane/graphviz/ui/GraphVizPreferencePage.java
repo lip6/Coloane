@@ -7,6 +7,7 @@
  *
  * Contributors:
  *     Scott Bronson
+ *     Yann Thierry-Mieg (added algo choice and some temp file based functionality)
  *******************************************************************************/
 package fr.lip6.move.coloane.graphviz.ui;
 
@@ -30,24 +31,14 @@ import fr.lip6.move.graphviz.GraphVizActivator;
 import fr.lip6.move.graphviz.GraphVizActivator.DotAlgo;
 import fr.lip6.move.graphviz.GraphVizActivator.DotMethod;
 
-
-public class GraphVizPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
-	/**
-	 * Utility method that creates a radio button instance and sets the default
-	 * layout data.
-	 * 
-	 * @param parent
-	 *            the parent for the new button
-	 * @param label
-	 *            the label for the new button
-	 * @return the newly-created button
-	 */
-
-	protected static Button createRadioButton(Composite parent, String label) {
-		Button button = new Button(parent, SWT.RADIO | SWT.LEFT);
-		button.setText(label);
-		return button;
-	}
+/**
+ * The preferences page contributed by the plugin.
+ * @author Yann
+ *
+ */
+public class GraphVizPreferencePage
+	extends PreferencePage
+	implements IWorkbenchPreferencePage {
 
 	private Button automaticDotButton;
 	private Button useBundledDotButton;
@@ -59,7 +50,7 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 	private FileBrowserField dotBrowser;
 	private Button dotDotButton;
 	private Button neatoDotButton;
-	private Button circoDotButton; 
+	private Button circoDotButton;
 
 	/**
 	 * Creates the mildly complex radio buttons that the prefs dialog uses.
@@ -68,9 +59,8 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 	 *            The group to add the button to.
 	 * @param label
 	 *            The text for the button's label
-	 * @param location
-	 *            String to append to the label, null to append nothing and
-	 *            disable the button.
+	 * @param enabled
+	 *            enabled/disabled.
 	 * @param method
 	 *            If this matches the current method, the button is
 	 *            automatically selected.
@@ -95,14 +85,14 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 
 	/**
 	 * Creates the mildly complex radio buttons that the prefs dialog uses.
+	 * Here code for the radio selection algo button.
 	 * 
 	 * @param group
 	 *            The group to add the button to.
 	 * @param label
 	 *            The text for the button's label
-	 * @param location
-	 *            String to append to the label, null to append nothing and
-	 *            disable the button.
+	 * @param enabled
+	 *            Not really sure what this is for.
 	 * @param method
 	 *            If this matches the current method, the button is
 	 *            automatically selected.
@@ -122,11 +112,10 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 	 * Creates the composite which will contain all the preference controls for
 	 * this page.
 	 * 
-	 * @param parent
-	 *            the parent composite
+	 * @param parent the parent composite
 	 * @return the composite for this page
 	 */
-	protected Composite createComposite(Composite parent) {
+	private Composite createComposite(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
 		layout.marginWidth = 0;
@@ -136,13 +125,12 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 		return composite;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.jface.preference.PreferencePage
 	 */
 	@Override
-	protected Control createContents(Composite parent) {
+	protected final Control createContents(Composite parent) {
 		Composite composite = createComposite(parent);
 		createOpenModeGroup(composite);
 		createAlgoModeGroup(composite);
@@ -150,6 +138,10 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 		return composite;
 	}
 
+	/**
+	 * Builds up the algorithm choice zone.
+	 * @param composite the parent in which we add stuff.
+	 */
 	private void createAlgoModeGroup(Composite composite) {
 		Group buttonComposite = new Group(composite, SWT.LEFT);
 		GridLayout layout = new GridLayout();
@@ -159,8 +151,8 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 		buttonComposite.setText("Dot layout algorithm");
 
 		dotDotButton = createButton(buttonComposite, "dot (acyclic graph)", true, DotAlgo.DOT);
-		dotDotButton.setToolTipText("A mode adapted to acyclic graphs, a good setting for decision diagrams for instance. \n" +
-				"Depending on the graph, may work well also for state space graphs, although neato is also a good option.");
+		dotDotButton.setToolTipText("A mode adapted to acyclic graphs, a good setting for decision diagrams for instance. \n"
+				+ "Depending on the graph, may work well also for state space graphs, although neato is also a good option.");
 		neatoDotButton = createButton(buttonComposite, "neato (spring model)[recommended]", true, DotAlgo.NEATO);
 		neatoDotButton.setToolTipText("A mode base on a spring model, well adapted to graphs with cycles. This setting gives best results for Petri net and their variants.");
 		circoDotButton = createButton(buttonComposite, "circo (circular layout)", true, DotAlgo.CIRCO);
@@ -168,8 +160,11 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 
 	}
 
-	
-	protected void createOpenModeGroup(Composite composite) {
+	/**
+	 * Build the area with dot detection options.
+	 * @param composite the parent in which we add stuff.
+	 */
+	private void createOpenModeGroup(Composite composite) {
 		Group buttonComposite = new Group(composite, SWT.LEFT);
 		GridLayout layout = new GridLayout();
 		buttonComposite.setLayout(layout);
@@ -182,7 +177,12 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 		useBundledDotButton = createButton(buttonComposite, "Bundled", graphviz.hasBundledInstall(), DotMethod.BUNDLE);
 		String detectedDotLocation = graphviz.autodetectDots();
 		final boolean dotDetected = detectedDotLocation != null;
-		String detectLabel = "Detected: " + (dotDetected ? detectedDotLocation : "(none)");
+		String detectLabel = "Detected: ";
+		if (dotDetected) {
+			detectLabel += detectedDotLocation;
+		} else {
+			detectLabel += "(none)";
+		}
 		autodetectDotButton = createButton(buttonComposite, detectLabel, dotDetected, DotMethod.DETECT);
 		specifyDotButton = createButton(buttonComposite, "Specify Manually:", true, DotMethod.MANUAL);
 
@@ -202,9 +202,14 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 		dotBrowser.setLayoutData(data);
 	}
 
-	public void dotBrowserChanged(String newText) {
+	/**
+	 * Called when user has done something. Grab the path text.
+	 * @param txt the new text
+	 */
+	public final void dotBrowserChanged(String txt) {
 		setErrorMessage(null);
 		setMessage(null);
+		String newText = txt;
 		if (newText == null) {
 			newText = dotBrowser.getText();
 		}
@@ -217,8 +222,9 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 			File dotFile = new File(newText);
 			String fileName = dotFile.getName();
 			int extensionPos;
-			while ((extensionPos = fileName.lastIndexOf('.')) > 0)
+			while ((extensionPos = fileName.lastIndexOf('.')) > 0) {
 				fileName = fileName.substring(0, extensionPos);
+			}
 			if (!dotFile.exists()) {
 				setErrorMessage(newText + " doesn't exist");
 				setValid(false);
@@ -227,20 +233,27 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 				setErrorMessage(newText + " is a directory");
 				setValid(false);
 				return;
-			} else if (!GraphVizActivator.isExecutable(dotFile))
+			} else if (!GraphVizActivator.isExecutable(dotFile)) {
 				setMessage(newText + " is not executable!", IMessageProvider.WARNING);
-			else if (!GraphVizActivator.DOT_FILE_NAME.equalsIgnoreCase(fileName))
+			} else if (!GraphVizActivator.DOT_FILE_NAME.equalsIgnoreCase(fileName)) {
 				setMessage("The file name should be " + GraphVizActivator.DOT_FILE_NAME , IMessageProvider.WARNING);
+			}
 		}
 		setValid(true);
 	}
 
-	/** Returns the Dot search method that is currently in effect */
-	DotMethod getCurrentDotMethod() {
+	/** Returns the Dot search method that is currently in effect.
+	 * @return the method set in the prefs page
+	 * */
+	private DotMethod getCurrentDotMethod() {
 		return GraphVizActivator.getInstance().getDotSearchMethod();
 	}
 
 
+	/** 
+	 * Return the dot algorithm positioned in the prefs page.
+	 * @return the current algo
+	 */
 	private DotAlgo getCurrentDotAlgo() {
 		return GraphVizActivator.getInstance().getDotAlgo();
 	}
@@ -249,23 +262,42 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 	/**
 	 * Scans the radio buttons and returns the dot method that the user has
 	 * selected.
+	 * @return the currently selected dot search method
 	 */
-	DotMethod getNewDotMethod() {
-		return useBundledDotButton.getSelection() ? DotMethod.BUNDLE : autodetectDotButton.getSelection()
-						? DotMethod.DETECT : specifyDotButton.getSelection() ? DotMethod.MANUAL : DotMethod.AUTO;
-	}
-
-	/* Scans the radio buttons and returns the dot method that the user has
-	 * selected.
-	 */
-	DotAlgo getNewDotAlgo() {
-		return dotDotButton.getSelection() ? DotAlgo.DOT :
-				neatoDotButton.getSelection() ? DotAlgo.NEATO : 
-					circoDotButton.getSelection() ? DotAlgo.CIRCO 
-							: DotAlgo.NEATO;
+	private DotMethod getNewDotMethod() {
+		if (useBundledDotButton.getSelection()) {
+			return DotMethod.BUNDLE;
+		}
+		if (autodetectDotButton.getSelection()) {
+			return DotMethod.DETECT;
+		}
+		if (specifyDotButton.getSelection()) {
+			return DotMethod.MANUAL;
+		}
+		return DotMethod.AUTO;
 	}
 
 	/**
+	 *  Scans the radio buttons and returns the dot method that the user has
+	 * selected.
+	 * @return the currently selected algorithm
+	 */
+	private DotAlgo getNewDotAlgo() {
+		if (dotDotButton.getSelection()) {
+			return DotAlgo.DOT;
+		}
+		if (neatoDotButton.getSelection()) {
+			return DotAlgo.NEATO;
+		}
+		if (circoDotButton.getSelection()) {
+			return DotAlgo.CIRCO;
+		}
+		// default to neato
+		return DotAlgo.NEATO;
+	}
+
+	/**
+	 * {@inheritDoc}
 	 * @see IWorkbenchPreferencePage
 	 */
 	public void init(IWorkbench workbench) {
@@ -275,7 +307,7 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 	 * The default button has been pressed.
 	 */
 	@Override
-	protected void performDefaults() {
+	protected final void performDefaults() {
 		DotMethod dotMethod = DotMethod.AUTO;
 		automaticDotButton.setSelection(dotMethod == DotMethod.AUTO);
 		useBundledDotButton.setSelection(dotMethod == DotMethod.BUNDLE);
@@ -287,21 +319,37 @@ public class GraphVizPreferencePage extends PreferencePage implements IWorkbench
 		dotDotButton.setSelection(dotAlgo == DotAlgo.DOT);
 		neatoDotButton.setSelection(dotAlgo == DotAlgo.NEATO);
 		circoDotButton.setSelection(dotAlgo == DotAlgo.CIRCO);
-		
-		
 		super.performDefaults();
 	}
 
 	/**
 	 * The user has pressed OK or Apply. Store this page's values.
+	 * @return true
 	 */
 	@Override
-	public boolean performOk() {
+	public final boolean performOk() {
 		GraphVizActivator graphviz = GraphVizActivator.getInstance();
 		graphviz.setDotSearchMethod(getNewDotMethod());
 		graphviz.setManualDotPath(dotBrowser.getText());
-		
+
 		graphviz.setDotAlgo(getNewDotAlgo());
 		return true;
+	}
+
+	/**
+	 * Utility method that creates a radio button instance and sets the default
+	 * layout data.
+	 * 
+	 * @param parent
+	 *            the parent for the new button
+	 * @param label
+	 *            the label for the new button
+	 * @return the newly-created button
+	 */
+
+	private static Button createRadioButton(Composite parent, String label) {
+		Button button = new Button(parent, SWT.RADIO | SWT.LEFT);
+		button.setText(label);
+		return button;
 	}
 }

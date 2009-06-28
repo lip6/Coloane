@@ -32,6 +32,10 @@ public class FileBrowserField extends Composite {
 	private Text text;
 	private Button button;
 
+	/**
+	 * Constructor.
+	 * @param parent the composite we add stuff to.
+	 */
 	public FileBrowserField(Composite parent) {
 		super(parent, 0);
 
@@ -78,7 +82,11 @@ public class FileBrowserField extends Composite {
 		});
 	}
 
-	protected String doBrowse() {
+	/**
+	 * invoke a file chooser and return selected path.
+	 * @return the path
+	 */
+	private String doBrowse() {
 		File f = new File(text.getText());
 		if (!f.exists()) {
 			f = null;
@@ -90,6 +98,11 @@ public class FileBrowserField extends Composite {
 		return d.getAbsolutePath();
 	}
 
+	/**
+	 * instanciate a file chooser in the same folder as before.
+	 * @param startingDirectory the start dir
+	 * @return a file
+	 */
 	private File getFile(File startingDirectory) {
 		FileDialog dialog = new FileDialog(getShell(), SWT.OPEN);
 		if (startingDirectory != null) {
@@ -106,17 +119,24 @@ public class FileBrowserField extends Composite {
 		return null;
 	}
 
-	public String getText() {
-		return text != null ? text.getText() : "";
+	/**
+	 * return the user provided path to dot
+	 * @return the path or "" if not set
+	 */
+	public final String getText() {
+		if (text != null) {
+			return text.getText();
+		} else {
+			return "";
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
+	/**
+	 * {@inheritDoc}
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
 	@Override
-	public void setEnabled(boolean enabled) {
+	public final void setEnabled(boolean enabled) {
 		text.setEnabled(enabled);
 		button.setEnabled(enabled);
 		super.setEnabled(enabled);
@@ -125,10 +145,11 @@ public class FileBrowserField extends Composite {
 	/**
 	 * Sets this field editor's value ensuring that textChanged() is called.
 	 * 
-	 * @param value
+	 * @param vvalue
 	 *            the new value, or <code>null</code> meaning the empty string
 	 */
-	public void setText(String value) {
+	public final void setText(String vvalue) {
+		String value = vvalue;
 		if (value == null) {
 			value = "";
 		}

@@ -34,16 +34,24 @@ import org.osgi.service.prefs.Preferences;
 
 import fr.lip6.move.graphviz.io.LogUtils;
 
+/** The plugin class.
+ * 
+ */
 public class GraphVizActivator extends AbstractUIPlugin {
 
 
+	/** the dot algos we can use.
+	 * 
+	 */
 	public enum DotAlgo {
 		DOT, NEATO, CIRCO;
 		/**
 		 * Given a string, looks up the corresponding DotAlgo. If no match,
 		 * returns the default NEATO.
+		 * @param term the term
+		 * @return see doc
 		 */
-		static public DotAlgo find(String term) {
+		public static DotAlgo find(String term) {
 			for (DotAlgo p : DotAlgo.values()) {
 				if (p.name().equals(term)) {
 					return p;
@@ -51,7 +59,10 @@ public class GraphVizActivator extends AbstractUIPlugin {
 			}
 			return NEATO;
 		}
-		
+
+		/** 
+		 * {@inheritDoc}
+		 */
 		@Override
 		public String toString() {
 			return super.toString().toLowerCase();
@@ -69,8 +80,10 @@ public class GraphVizActivator extends AbstractUIPlugin {
 		/**
 		 * Given a string, looks up the corresponding DotMethod. If no match,
 		 * returns the default AUTO.
+		 * @param term the term
+		 * @return see doc
 		 */
-		static public DotMethod find(String term) {
+		public static DotMethod find(String term) {
 			for (DotMethod p : DotMethod.values()) {
 				if (p.name().equals(term)) {
 					return p;
@@ -90,36 +103,10 @@ public class GraphVizActivator extends AbstractUIPlugin {
 	
 	public static final String DOT_FILE_NAME = "dot";
 
-	public static String ID = GraphVizActivator.class.getPackage().getName();
+	private static String ID = GraphVizActivator.class.getPackage().getName();
 
 	private static GraphVizActivator instance;
 
-	public static GraphVizActivator getInstance() {
-		return instance;
-	}
-
-	/**
-	 * Returns whether the given file is executable. Depending on the platform
-	 * we might not get this right.
-	 * 
-	 * TODO find a better home for this function
-	 */
-	public static boolean isExecutable(File file) {
-		if (!file.isFile())
-			return false;
-		if (Platform.getOS().equals(Platform.OS_WIN32))
-			// executable attribute is a *ix thing, on Windows all files are
-			// executable
-			return true;
-		IFileStore store = EFS.getLocalFileSystem().fromLocalFile(file);
-		if (store == null)
-			return false;
-		return store.fetchInfo().getAttribute(EFS.ATTRIBUTE_EXECUTABLE);
-	}
-
-	public static void logUnexpected(String message, Exception e) {
-		LogUtils.logError(ID, message, e);
-	}
 
 	// store paths as strings so they won't get screwed up by platform issues.
 	/**
@@ -142,6 +129,23 @@ public class GraphVizActivator extends AbstractUIPlugin {
 		instance = this;
 	}
 
+	/** singleton.
+	 * 
+	 * @return the sole instance
+	 */
+	public static GraphVizActivator getInstance() {
+		return instance;
+	}
+
+	/**
+	 * call to logger.error.
+	 * @param message the msg
+	 * @param e the exception.
+	 */
+	public static void logUnexpected(String message, Exception e) {
+		LogUtils.logError(ID, message, e);
+	}
+
 	/**
 	 * This routine browses through the user's PATH looking for dot executables.
 	 * 
@@ -150,7 +154,7 @@ public class GraphVizActivator extends AbstractUIPlugin {
 	 *         called while the plugin is running (in case user has installed
 	 *         dot without restarting Eclipse).
 	 */
-	public String autodetectDots() {
+	public final String autodetectDots() {
 		autodetectedDotLocation = null;
 		String paths = System.getenv("PATH");
 		for (String path : paths.split(File.pathSeparator)) {
@@ -165,16 +169,29 @@ public class GraphVizActivator extends AbstractUIPlugin {
 		return autodetectedDotLocation;
 	}
 	
+	/**
+	 * A file filter that looks for executable files.
+	 *
+	 */
 	private static class ExecutableFinder implements FileFilter {
 		private String nameToMatch;
-		
+
+		/**
+		 * constructor
+		 * @param nameToMatch the name
+		 */
 		public ExecutableFinder(String nameToMatch) {
 			this.nameToMatch = nameToMatch;
 		}
 
+		/** {@inheritDoc}
+		 * 
+		 */
+		@Override
 		public boolean accept(File candidate) {
-			if (!isExecutable(candidate))
+			if (!isExecutable(candidate)) {
 				return false;
+			}
 			return candidate.getName().equalsIgnoreCase(nameToMatch)
 							|| candidate.getName().startsWith(nameToMatch + '.');
 		}
@@ -185,11 +202,12 @@ public class GraphVizActivator extends AbstractUIPlugin {
 	 * Graphviz install. If cannot find, the Graphviz integration will only work
 	 * if the #
 	 * 
-	 * @param context
-	 * @throws IOException
+	 * @param context the context
+	 * @return null if not found or the path otherwise
+	 * @throws IOException if problems
 	 */
 	private String extractGraphVizBinaries(BundleContext context) throws IOException {
-		Enumeration<?> found = context.getBundle().findEntries("/graphviz-min/", "eg_dot*", false);
+		Enumeration< ? > found = context.getBundle().findEntries("/graphviz-min/", "eg_dot*", false);
 		if (found == null || !found.hasMoreElements()) {
 			return null;
 		}
@@ -208,7 +226,11 @@ public class GraphVizActivator extends AbstractUIPlugin {
 		return bundledDotLocation;
 	}
 
-	public String getBundledDotLocation() {
+	/**
+	 * bundled location if available
+	 * @return null if none found.
+	 */
+	public final String getBundledDotLocation() {
 		return bundledDotLocation;
 	}
 
@@ -217,25 +239,46 @@ public class GraphVizActivator extends AbstractUIPlugin {
 	/**
 	 * Gets the path to the dot executable. It takes user's preferences into
 	 * account so it should always do the right thing.
+	 * @return the path to dot after resolution.
 	 */
-	public IPath getDotLocation() {
+	public final IPath getDotLocation() {
 		final String manualLocation = getManualDotPath();
 		switch (getDotSearchMethod()) {
 		case AUTO:
-			if (bundledDotLocation != null)
+			if (bundledDotLocation != null) {
 				return new Path(bundledDotLocation);
-			if (autodetectedDotLocation != null)
+			}
+			if (autodetectedDotLocation != null) {
 				return new Path(autodetectedDotLocation);
-			return manualLocation != null ? new Path(manualLocation) : null;
+			}
+			if (manualLocation != null) {
+				return new Path(manualLocation);
+			} else {
+				return null;
+			}
 
 		case BUNDLE:
-			return bundledDotLocation != null ? new Path(bundledDotLocation) : null;
+			if (bundledDotLocation != null) {
+				return new Path(bundledDotLocation);
+			} else {
+				return null;
+			}
 
 		case DETECT:
-			return autodetectedDotLocation != null ? new Path(autodetectedDotLocation) : null;
+			if (autodetectedDotLocation != null) {
+				return new Path(autodetectedDotLocation);
+			} else {
+				return null;
+			}
 
 		case MANUAL:
-			return manualLocation != null ? new Path(manualLocation) : null;
+			if (manualLocation != null) {
+				return new Path(manualLocation);
+			} else {
+				return null;
+			}
+		default:
+			break;
 		}
 
 		// Someone must have edited the prefs file manually... just reset the
@@ -244,52 +287,102 @@ public class GraphVizActivator extends AbstractUIPlugin {
 		return null;
 	}
 
-	public DotMethod getDotSearchMethod() {
+	/** Scans for dot search method.
+	 * 
+	 * @return the current dot method
+	 */
+	public final DotMethod getDotSearchMethod() {
 		String value = getPreference(DOT_SEARCH_METHOD);
-		return value != null ? DotMethod.find(value) : DotMethod.AUTO;
+		if (value != null) {
+			return DotMethod.find(value);
+		} else {
+			return DotMethod.AUTO;
+		}
 	}
 	
-	public DotAlgo getDotAlgo() {
+	/**
+	 * Scan for dot algo.
+	 * @return the current dot algo.
+	 */
+	public final DotAlgo getDotAlgo() {
 		String value = getPreference(DOT_ALGO);
-		return value != null ? DotAlgo.find(value) : DotAlgo.NEATO;
+		if (value != null) {
+			return DotAlgo.find(value);
+		} else {
+			return DotAlgo.NEATO;
+		}
 	}
 	
-
-	public File getGraphVizDirectory() {
+	/**
+	 * split the dot path to get dot bin dir.
+	 * @return the folder found.
+	 */
+	public final File getGraphVizDirectory() {
 		IPath dotLocation = getDotLocation();
-		return dotLocation == null ? null : dotLocation.removeLastSegments(1).toFile();
+		if (dotLocation == null) {
+			return null;
+		} else {
+			return dotLocation.removeLastSegments(1).toFile();
+		}
 	}
 
-	public String getManualDotPath() {
+	/** Grab the manual dot path from prefs.
+	 * 
+	 * @return the path
+	 */
+	public final String getManualDotPath() {
 		return getPreference(DOT_MANUAL_PATH);
 	}
 
-	/** Returns the preference with the given name */
-	public String getPreference(String preference_name) {
+	/** Returns the preference with the given name
+	 * @param preferenceName the pref
+	 * @return the value */
+	public final String getPreference(String preferenceName) {
 		Preferences node =
 						Platform.getPreferencesService().getRootNode().node(InstanceScope.SCOPE).node(
 										GraphVizActivator.ID);
-		return node.get(preference_name, null);
+		return node.get(preferenceName, null);
 	}
 
-	public boolean hasBundledInstall() {
+	/** 
+	 * test for bundled install
+	 * @return true if this is the case
+	 */
+	public final boolean hasBundledInstall() {
 		return bundledDotLocation != null;
 	}
 
-	public void setDotSearchMethod(DotMethod dotMethod) {
+	/**
+	 * update setting in preferences.
+	 * 
+	 * @param dotMethod the new method
+	 */
+	public final void setDotSearchMethod(DotMethod dotMethod) {
 		setPreference(DOT_SEARCH_METHOD, dotMethod.name());
 	}
 
-	public void setDotAlgo(DotAlgo dotAlgo) {
+	/**
+	 * update setting in preferences.
+	 * @param dotAlgo new setting
+	 */
+	public final void setDotAlgo(DotAlgo dotAlgo) {
 		setPreference(DOT_ALGO, dotAlgo.name());
 	}
 
-	public void setManualDotPath(String newLocation) {
+	/**
+	 * update setting in preferences.
+	 * @param newLocation the location
+	 */
+	public final void setManualDotPath(String newLocation) {
 		setPreference(DOT_MANUAL_PATH, newLocation);
 	}
 
-	/** Sets the given preference to the given value */
-	public void setPreference(String preferenceName, String value) {
+	/**
+	 * Sets the given preference to the given value.
+	 * @param preferenceName the preference
+	 * @param value the value to set
+	 */
+	private void setPreference(String preferenceName, String value) {
 		IEclipsePreferences root = Platform.getPreferencesService().getRootNode();
 		Preferences node = root.node(InstanceScope.SCOPE).node(GraphVizActivator.ID);
 		node.put(preferenceName, value);
@@ -300,7 +393,11 @@ public class GraphVizActivator extends AbstractUIPlugin {
 		}
 	}
 
-	public void start(BundleContext context) throws Exception {
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final void start(BundleContext context) throws Exception {
 		// try to find a bundled dot.
 		try {
 			extractGraphVizBinaries(context);
@@ -316,8 +413,42 @@ public class GraphVizActivator extends AbstractUIPlugin {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
-		// nothing to do 
+		// nothing to do
+	}
+
+	
+	/**
+	 * Returns whether the given file is executable. Depending on the platform
+	 * we might not get this right.
+	 * @param file the file to test
+	 * @return true if executable is detected with certitude
+	 */
+	public static boolean isExecutable(File file) {
+		if (!file.isFile()) {
+			return false;
+		}
+		if (Platform.getOS().equals(Platform.OS_WIN32)) {
+			// executable attribute is a *ix thing, on Windows all files are
+			// executable
+			return true;
+		}
+		IFileStore store = EFS.getLocalFileSystem().fromLocalFile(file);
+		if (store == null) {
+			return false;
+		}
+		return store.fetchInfo().getAttribute(EFS.ATTRIBUTE_EXECUTABLE);
+	}
+
+	/**
+	 * @return the ID
+	 */
+	public static String getID() {
+		return ID;
 	}
 
 }

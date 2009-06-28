@@ -85,7 +85,8 @@ public class LineIterator implements Iterator<String> {
      * @return <code>true</code> if the Reader has more lines
      * @throws IllegalStateException if an IO exception occurs
      */
-    public boolean hasNext() {
+    @Override
+    public final boolean hasNext() throws IllegalStateException {
         if (cachedLine != null) {
             return true;
         } else if (finished) {
@@ -102,7 +103,7 @@ public class LineIterator implements Iterator<String> {
                         return true;
                     }
                 }
-            } catch(IOException ioe) {
+            } catch (IOException ioe) {
                 close();
                 throw new IllegalStateException(ioe.toString());
             }
@@ -115,7 +116,7 @@ public class LineIterator implements Iterator<String> {
      * @param line  the line that is to be validated
      * @return true if valid, false to remove from the iterator
      */
-    protected boolean isValidLine(String line) {
+    protected final boolean isValidLine(String line) {
         return true;
     }
 
@@ -125,7 +126,8 @@ public class LineIterator implements Iterator<String> {
      * @return the next line from the input
      * @throws NoSuchElementException if there is no line to return
      */
-    public String next() {
+    @Override
+    public final String next() throws NoSuchElementException {
         return nextLine();
     }
 
@@ -135,13 +137,13 @@ public class LineIterator implements Iterator<String> {
      * @return the next line from the input
      * @throws NoSuchElementException if there is no line to return
      */
-    public String nextLine() {
+    public final String nextLine() throws NoSuchElementException {
         if (!hasNext()) {
             throw new NoSuchElementException("No more lines");
         }
         String currentLine = cachedLine;
         cachedLine = null;
-        return currentLine;        
+        return currentLine;
     }
 
     /**
@@ -151,7 +153,7 @@ public class LineIterator implements Iterator<String> {
      * then the <code>Reader</code> remains open.
      * This method can safely be called multiple times.
      */
-    public void close() {
+    public final void close() {
         finished = true;
         IOUtils.closeQuietly(bufferedReader);
         cachedLine = null;
@@ -162,7 +164,8 @@ public class LineIterator implements Iterator<String> {
      *
      * @throws UnsupportedOperationException always
      */
-    public void remove() {
+    @Override
+    public final void remove() throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Remove unsupported on LineIterator");
     }
 

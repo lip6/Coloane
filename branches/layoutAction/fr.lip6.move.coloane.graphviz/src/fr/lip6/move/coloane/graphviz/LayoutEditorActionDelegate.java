@@ -9,21 +9,35 @@ import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.graphviz.coloane.GraphLayout;
 
+/**
+ * The action of laying out a graph.
+ *
+ */
 public class LayoutEditorActionDelegate implements IEditorActionDelegate {
 
 	private IGraph graph = null;
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void setActiveEditor(IAction action, IEditorPart targetEditor) {
-		graph = ((ColoaneEditor)targetEditor).getGraph();
+	public final void setActiveEditor(IAction action, IEditorPart targetEditor) {
+		graph = ((ColoaneEditor) targetEditor).getGraph();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	public void run(IAction action) {
-		if ( graph != null )
-			GraphLayout.Layout(graph);
+	public final void run(IAction action) {
+		if (graph != null) {
+			GraphLayout.layout(graph);
+		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		// NOP

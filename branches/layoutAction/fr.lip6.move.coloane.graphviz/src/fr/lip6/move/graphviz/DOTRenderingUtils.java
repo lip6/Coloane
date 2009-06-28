@@ -12,15 +12,41 @@ package fr.lip6.move.graphviz;
 
 import java.io.PrintWriter;
 
-public class DOTRenderingUtils {
+/**
+ * A helper class to create dot content.
+ *
+ */
+public final class DOTRenderingUtils {
+	
+	/**
+	 * hide constructor.
+	 */
+	private DOTRenderingUtils() { }
+	
+	/** 
+	 * Add an attribute=value(int) pair to a node/arc.
+	 * @param pw output stream
+	 * @param attribute attribute
+	 * @param value value
+	 */
 	public static void addAttribute(PrintWriter pw, String attribute, int value) {
 		pw.println(attribute + " = " + value);
 	}
 
+	/** 
+	 * Add an attribute=value(string) pair to a node/arc.
+	 * @param pw output stream
+	 * @param attribute attribute
+	 * @param value value
+	 */
 	public static void addAttribute(PrintWriter pw, String attribute, String value) {
 		pw.println(attribute + " = \"" + value + "\"");
 	}
 
+	/**
+	 * push a newline onto the stream
+	 * @param pw stream to add to.
+	 */
 	public static void newLine(PrintWriter pw) {
 		pw.print("\\n");
 	}

@@ -30,10 +30,15 @@ public class ProcessController {
 		 */
 		private static final long serialVersionUID = 1L;
 
+		/** default ctor
+		 * 
+		 */
 		public TimeOutException() {
-			super();
 		}
-
+		/** ctor
+		 * 
+		 * @param message the message.
+		 */
 		public TimeOutException(String message) {
 			super(message);
 		}
@@ -59,6 +64,8 @@ public class ProcessController {
 	 *            the maximum time the process should take to run
 	 * @param params
 	 *            the parameters to be passed to the controlled process
+	 * @param env the environment vars
+	 * @param baseDir the base directory
 	 */
 	public ProcessController(long timeout, String[] params, String[] env, File baseDir) {
 		timeLimit = timeout;
@@ -67,11 +74,14 @@ public class ProcessController {
 		this.baseDir = baseDir;
 	}
 
+	/**
+	 * Run a process in a thread.
+	 */
 	private void controlProcess() {
 		new Thread("Process controller") {
 			@Override
 			public void run() {
-				while (!isFinished() && !timedOut())
+				while (!isFinished() && !timedOut()) {
 					synchronized (this) {
 						try {
 							wait(100);
@@ -79,9 +89,10 @@ public class ProcessController {
 							break;
 						}
 					}
+				}
 				kill();
 			}
-		}.start();
+		} .start();
 	}
 
 	/**
@@ -93,29 +104,34 @@ public class ProcessController {
 	 * not time constrained.
 	 * 
 	 * @return the process exit value
-	 * @throws InterruptedException
-	 * @throws IOException
+	 * @throws InterruptedException if thread problems
+	 * @throws IOException if file problems
 	 * @throws TimeOutException
 	 *             if the process did not complete in time
 	 */
-	public int execute() throws InterruptedException, IOException, TimeOutException {
+	public final int execute() throws InterruptedException, IOException, TimeOutException {
 		startupTime = System.currentTimeMillis();
 		process = Runtime.getRuntime().exec(params, env, baseDir);
-		if (forwardStdErr != null)
+		if (forwardStdErr != null) {
 			forwardStream("stderr", process.getErrorStream(), forwardStdErr);
-		if (forwardStdOut != null)
+		}
+		if (forwardStdOut != null) {
 			forwardStream("stdout", process.getInputStream(), forwardStdOut);
-		if (forwardStdIn != null)
+		}
+		if (forwardStdIn != null) {
 			forwardStream("stdin", forwardStdIn, process.getOutputStream());
-		if (timeLimit > 0)
+		}
+		if (timeLimit > 0) {
 			// ensures process execution time does not exceed the time limit
 			controlProcess();
+		}
 		try {
 			return process.waitFor();
 		} finally {
 			markFinished();
-			if (wasKilled())
+			if (wasKilled()) {
 				throw new TimeOutException();
+			}
 		}
 	}
 
@@ -127,7 +143,7 @@ public class ProcessController {
 	 *            an output stream where to forward the process standard error
 	 *            output to
 	 */
-	public void forwardErrorOutput(OutputStream err) {
+	public final void forwardErrorOutput(OutputStream err) {
 		forwardStdErr = err;
 	}
 
@@ -139,7 +155,7 @@ public class ProcessController {
 	 *            an input stream where the process standard input will be
 	 *            forwarded to
 	 */
-	public void forwardInput(InputStream in) {
+	public final void forwardInput(InputStream in) {
 		forwardStdIn = in;
 	}
 
@@ -151,18 +167,25 @@ public class ProcessController {
 	 *            an output stream where to forward the process standard output
 	 *            to
 	 */
-	public void forwardOutput(OutputStream out) {
+	public final void forwardOutput(OutputStream out) {
 		forwardStdOut = out;
 	}
 
+	/** 
+	 * forward the stream, using a thread, with name "name"
+	 * @param name name used to identify this thread
+	 * @param in input
+	 * @param out output
+	 */
 	private void forwardStream(final String name, final InputStream in, final OutputStream out) {
 		new Thread("Stream forwarder [" + name + "]") {
 			@Override
 			public void run() {
 				try {
 					while (!isFinished()) {
-						while (safeIsAvailable(in) > 0)
+						while (safeIsAvailable(in) > 0) {
 							out.write(in.read());
+						}
 						synchronized (this) {
 							this.wait(100);
 						}
@@ -183,7 +206,7 @@ public class ProcessController {
 					return 0;
 				}
 			}
-		}.start();
+		} .start();
 	}
 
 	/**
@@ -192,32 +215,44 @@ public class ProcessController {
 	 * 
 	 * @return the underlying process
 	 */
-	public Process getProcess() {
+	public final Process getProcess() {
 		return process;
 	}
 
-	protected synchronized boolean isFinished() {
+	/** 
+	 * test if task is finished
+	 * @return true when it is...
+	 */
+	protected final synchronized boolean isFinished() {
 		return finished;
 	}
 
 	/**
 	 * Kills the process. Does nothing if it has been finished already.
 	 */
-	public void kill() {
+	public final void kill() {
 		synchronized (this) {
-			if (isFinished())
+			if (isFinished()) {
 				return;
+			}
 			killed = true;
 		}
 		process.destroy();
 	}
 
+	/** mark finished state.
+	 * 
+	 */
 	private synchronized void markFinished() {
 		finished = true;
 		notifyAll();
 	}
 
-	protected synchronized boolean timedOut() {
+	/** test if timeout has occurred.
+	 * 
+	 * @return true if time exceeded
+	 */
+	protected final synchronized boolean timedOut() {
 		return System.currentTimeMillis() - startupTime > timeLimit;
 	}
 
@@ -227,7 +262,7 @@ public class ProcessController {
 	 * @return <code>true</code> if the process was killed, <code>false</code>
 	 *         if the completed normally
 	 */
-	public boolean wasKilled() {
+	public final boolean wasKilled() {
 		return killed;
 	}
 }
