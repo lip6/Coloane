@@ -197,7 +197,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		layoutTypeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				GraphLayout.Layout(currentSelectedTypeDecl.getGraph());
+				GraphLayout.layout(currentSelectedTypeDecl.getGraph());
 				
 			}
 		});
@@ -226,7 +226,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 					IPath path = new Path(filePath);
 					IFile outputff = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
 					IGraph flatModel=mf.getFlatModel();
-					GraphLayout.Layout(flatModel);
+					GraphLayout.layout(flatModel);
 					outputff.create(new StringBufferInputStream(
 							ModelWriter.translateToXML(flatModel)), 0, null);
 					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();					
