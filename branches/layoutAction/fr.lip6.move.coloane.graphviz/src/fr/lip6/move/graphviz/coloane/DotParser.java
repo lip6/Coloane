@@ -8,12 +8,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.eclipse.core.commands.Command;
 import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.geometry.Point;
 
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.command.CreateInflexPointCommand;
+import fr.lip6.move.coloane.interfaces.model.command.DeleteInflexPointsCommand;
+import fr.lip6.move.coloane.interfaces.model.command.ICommand;
+import fr.lip6.move.coloane.interfaces.model.command.ObjectPositionCommand;
+import fr.lip6.move.coloane.interfaces.model.command.ResetAttributesPositionCommand;
 
 /**
  plain ,
@@ -85,10 +91,16 @@ public final class DotParser {
 	 * 
 	 * @param input to read from
 	 * @param graph to write the positions into
+	 * @return the list of modifications to do as Commands.
 	 * @throws IOException in case of any parse problem.
 	 */
-	public static void parseGraphPositions(InputStream input, IGraph graph) throws IOException {
+	public static List<ICommand> parseGraphPositions(InputStream input, IGraph graph) throws IOException {
+		List<ICommand> commands = new ArrayList<ICommand>();
 		BufferedReader in = new BufferedReader(new InputStreamReader(input));
+
+		// Start by removing all inflex points.
+		commands.add(new DeleteInflexPointsCommand());
+
 		parseGraphDescription(in);
 		while (in.ready()) {
 			String line = in.readLine();
@@ -96,13 +108,14 @@ public final class DotParser {
 			assert st.hasMoreElements();
 			String cmdType = st.nextToken();
 			if ("stop".equals(cmdType)) {
-				return;
+				return commands;
 			} else if ("node".equals(cmdType)) {
-				parseNode(st, graph);
+				parseNode(st, graph, commands);
 			} else if ("edge".equals(cmdType)) {
-				parseArc(st, graph);
+				parseArc(st, graph, commands);
 			}
 		}
+		return commands;
 	}
 	/**
 	 * NB: edge token consumed
@@ -111,30 +124,27 @@ public final class DotParser {
 	 * edge ID7 ID11 4 1.4028 4.8856 1.4028 4.7201 1.4028 4.5005 1.4028 4.3122 ID15 1.5972 4.5278 solid black
 	 * @param st to read from
 	 * @param graph to write into
+	 * @param commands the list of commands we are building
 	 */
-	private static void parseArc(StringTokenizer st, IGraph graph) {
+	private static void parseArc(StringTokenizer st, IGraph graph, List<ICommand> commands) {
 		assert st.countTokens() > 3;
 		@SuppressWarnings("unused")
 		int idSource = parseID(st);
 		@SuppressWarnings("unused")
 		int idDest = parseID(st);
 		int nbInflex = Integer.parseInt(st.nextToken());
+
 		List<Point> newPi = new ArrayList<Point>();
 		for (int i = 0; i < nbInflex; i++) {
 			Point pi = parsePoint(st);
 			newPi.add(pi);
 		}
 		int idArc = parseID(st);
-		IArc arc = graph.getArc(idArc);
-		List<AbsoluteBendpoint> l = arc.getInflexPoints();
-		int oldsize = l.size();
-		for (int i = 0; i < nbInflex; i++) {
-			if (i < oldsize) {
-				arc.modifyInflexPoint(i, newPi.get(i));
-			} else {
-				arc.addInflexPoint(newPi.get(i));
-			}
+		for (Point point : newPi) {
+			commands.add(new CreateInflexPointCommand(idArc, point.x, point.y));
 		}
+		// reset arc label position
+		commands.add(new ResetAttributesPositionCommand(idArc));
 	}
 
 	/** 
@@ -156,14 +166,16 @@ public final class DotParser {
 	 * node ID3 1.8889 6.3611 0.75 0.5 ID3 solid ellipse black lightgrey
 	 * @param st to read from
 	 * @param graph to write into
+	 * @param commands The list of commands we are building
 	 * @throws IOException in case of problems
 	 */
-	private static void parseNode(StringTokenizer st, IGraph graph) throws IOException {
+	private static void parseNode(StringTokenizer st, IGraph graph, List<ICommand> commands) throws IOException {
 		try {
 			assert st.countTokens() > 3;
 			int id = parseID(st);
-			INode node = graph.getNode(id);
-			node.getGraphicInfo().setLocation(parsePoint(st));
+			Point p = parsePoint(st);
+			commands.add(new ObjectPositionCommand(id, p.x, p.y));
+			commands.add(new ResetAttributesPositionCommand(id));
 		} catch (NumberFormatException e) {
 			throw new IOException("Bad token in stream while parsing dot node line.");
 		} catch (NullPointerException e) {
