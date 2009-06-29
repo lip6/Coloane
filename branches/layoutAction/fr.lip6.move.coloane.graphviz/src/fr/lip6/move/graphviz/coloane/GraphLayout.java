@@ -1,17 +1,24 @@
 package fr.lip6.move.graphviz.coloane;
 
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.command.ICommand;
+import fr.lip6.move.graphviz.GraphViz;
+import fr.lip6.move.graphviz.GraphVizActivator;
+import fr.lip6.move.graphviz.io.LogUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.graphics.Point;
 
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.graphviz.GraphViz;
 
 /**
  * A utility class that offers "Layout" that modifies in place the given graph.
@@ -23,15 +30,31 @@ import fr.lip6.move.graphviz.GraphViz;
 public final class GraphLayout {
 	
 	/** 
-	 * Hide constructor : dunctionality is all static.
+	 * Hide constructor : functionality is all static.
 	 */
 	private GraphLayout() { }
+
+	/** 
+	 * Main non GUI related function, updates a graph in place.
+	 * @param graph the graph to update
+	 */
+	public static void doLayout(IGraph graph) {
+		List<ICommand> commands = layout(graph);
+		try {
+			for (ICommand command : commands) {
+				command.execute(graph);
+			}
+		} catch (ModelException e) {
+			LogUtils.logWarning(GraphVizActivator.getID(), "model formalism error", e);
+		}
+	}
 
 	/**
 	 * The main user function : apply dot layout to the provided Graph instance.
 	 * @param graph the graph to be updated with new positions.
+	 * @return the list of position commands to execute
 	 */
-	public static void layout(IGraph graph) {
+	public static List<ICommand> layout(IGraph graph) {
 		StringBuffer sb = new StringBuffer();
 		sb.append("digraph G {\n");
 		for (INode node : graph.getNodes()) {
@@ -49,14 +72,14 @@ public final class GraphLayout {
 			InputStream dotOutput = GraphViz.generate(new ByteArrayInputStream(sb.toString().getBytes()),
 								"plain", // format to basic annotated positions
 								new Point(20, 20));
-			DotParser.parseGraphPositions(dotOutput, graph);
+			return DotParser.parseGraphPositions(dotOutput, graph);
 
 		} catch (CoreException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		return new ArrayList<ICommand>();
 	}
 
 	
