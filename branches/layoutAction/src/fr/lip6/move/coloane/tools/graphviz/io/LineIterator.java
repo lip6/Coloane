@@ -47,7 +47,6 @@ import java.util.NoSuchElementException;
  * @author Niall Pemberton
  * @author Stephen Colebourne
  * @author Sandy McArthur
- * @version $Id: LineIterator.java 437567 2006-08-28 06:39:07Z bayard $
  * @since Commons IO 1.2
  */
 public class LineIterator implements Iterator<String> {
@@ -85,7 +84,6 @@ public class LineIterator implements Iterator<String> {
      * @return <code>true</code> if the Reader has more lines
      * @throws IllegalStateException if an IO exception occurs
      */
-    @Override
     public final boolean hasNext() throws IllegalStateException {
         if (cachedLine != null) {
             return true;
@@ -126,7 +124,6 @@ public class LineIterator implements Iterator<String> {
      * @return the next line from the input
      * @throws NoSuchElementException if there is no line to return
      */
-    @Override
     public final String next() throws NoSuchElementException {
         return nextLine();
     }
@@ -164,7 +161,6 @@ public class LineIterator implements Iterator<String> {
      *
      * @throws UnsupportedOperationException always
      */
-    @Override
     public final void remove() throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Remove unsupported on LineIterator");
     }
