@@ -1,5 +1,12 @@
 package fr.lip6.move.coloane.actions.layout;
 
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.command.CreateInflexPointCommand;
+import fr.lip6.move.coloane.interfaces.model.command.DeleteInflexPointsCommand;
+import fr.lip6.move.coloane.interfaces.model.command.ICommand;
+import fr.lip6.move.coloane.interfaces.model.command.ObjectPositionCommand;
+import fr.lip6.move.coloane.interfaces.model.command.ResetAttributesPositionCommand;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -8,55 +15,57 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.eclipse.core.commands.Command;
-import org.eclipse.draw2d.AbsoluteBendpoint;
 import org.eclipse.draw2d.geometry.Point;
 
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.command.CreateInflexPointCommand;
-import fr.lip6.move.coloane.interfaces.model.command.DeleteInflexPointsCommand;
-import fr.lip6.move.coloane.interfaces.model.command.ICommand;
-import fr.lip6.move.coloane.interfaces.model.command.ObjectPositionCommand;
-import fr.lip6.move.coloane.interfaces.model.command.ResetAttributesPositionCommand;
-
 /**
- plain ,
- plain-ext
- The plain and plain-ext formats produce output using a simple, line-based language. The latter format differs in that, on edges, it provides port names on head and tail nodes when applicable.
- There are four types of statements.
+ The plain and plain-ext formats produce output using a simple, line-based language.<br>
+ The latter format differs in that, on edges, it provides port names on head and tail nodes when applicable.<br><br>
+ 
+ <b>There are four types of statements.</b><br>
 
- graph scale width height
- node name x y width height label style shape color fillcolor
- edge tail head n x1 y1 .. xn yn [label xl yl] style color
- stop
+ <ul>
+ 	<li><code>graph:</code> <code>scale</code> <code>width</code> <code>height</code></li>
+ 	<li><code>node:</code> <code>name</code> <code>x</code> <code>y</code> <code>width</code> <code>height</code> <code>label</code> <code>style</code> <code>shape</code> <code>color</code> <code>fillcolor</code></li>
+ 	<li><code>edge:</code> <code>tail</code> <code>head</code> <code>n</code> <code>x1</code> <code>y1</code> ... <code>xn</code> <code>yn</code> <code>[label xl yl]</code> <code>style</code> <code>color</code></li>
+ 	<li><code>stop</code></li>
+ </ul>
 
- ***graph
- The width and height values give the width and height of the drawing.
- The lower left corner of the drawing is at the origin.
- The scale value indicates how the drawing should be scaled if a size attribute was given and the drawing needs to be scaled to conform to that size.
- If no scaling is necessary, it will be set to 1.0. Note that all graph, node and edge coordinates and lengths are given unscaled.
- ***node
- The name value is the name of the node, and x and y give the node's position.
- The width and height are the width and height of the node.
- The label, style, shape, color and fillcolor give the node's label, style, shape, color and fillcolor, respectively, using attribute default values where necessary.
- If the node does not have a style attribute, "solid" is used.
- ***edge
- The tail and head values give the names of the head and tail nodes.
- In plain-ext format, the head or tail name will be appended with a colon and a portname if the edge connects to the node at a port.
- n is the number of control points defining the B-spline forming the edge.
- This is followed by 2*n numbers giving the x and y coordinates of the control points in order from tail to head.
- If the edge has a label, this comes next followed by the x and y coordinates of the label's position.
- The edge description is completed by the edge's style and color. As with nodes, if a style is not defined, "solid" is used.
- Note: The control points given in an edge statement define the body of the edge.
+ <b>graph</b><br>
+ <ul>
+ 	<li>The width and height values give the width and height of the drawing.</li>
+ 	<li>The lower left corner of the drawing is at the origin.</li>
+ 	<li>The scale value indicates how the drawing should be scaled if a size attribute was given and the drawing needs to be scaled to conform to that size.</li>
+ 	<li>If no scaling is necessary, it will be set to 1.0. Note that all graph, node and edge coordinates and lengths are given unscaled.</li>
+ </ul>
+ 
+ <b>node</b><br>
+ <ul>
+ 	<li>The name value is the name of the node, and x and y give the node's position.</li>
+ 	<li>The width and height are the width and height of the node.</li>
+ 	<li>The label, style, shape, color and fillcolor give the node's label, style, shape, color and fillcolor, respectively, using attribute default values where necessary.</li>
+ 	<li>If the node does not have a style attribute, "solid" is used.</li>
+ </ul>
+ 
+ <b>edge</b><br>
+ <ul>
+ 	<li>The tail and head values give the names of the head and tail nodes.</li>
+ 	<li>In plain-ext format, the head or tail name will be appended with a colon and a portname if the edge connects to the node at a port.</li>
+ 	<li>n is the number of control points defining the B-spline forming the edge.</li>
+ 	<li> This is followed by 2*n numbers giving the x and y coordinates of the control points in order from tail to head.</li>
+ </ul>
+ 
+ If the edge has a label, this comes next followed by the x and y coordinates of the label's position.<br>
+ The edge description is completed by the edge's style and color. As with nodes, if a style is not defined, "solid" is used.<br><br>
+ 
+ <i>Note:</i> The control points given in an edge statement define the body of the edge.
  In particular, if the edge has an arrowhead to the head or tail node, there will be a gap
- between the last or first control points and the boundary of the associated node.
- [NDE YANN: This behavior is fine in our setting, actually don't want dot to compute the edge]
+ between the last or first control points and the boundary of the associated node.<br><br>
+ 
+ <b>[NDE YANN: This behavior is fine in our setting, actually don't want dot to compute the edge]</b><br><br>
 
  Example: IDXX is object of ID "XX" in the IGRaph
 
-
+<pre>
 graph 0.031513 2.5833 6.6111
 node ID3 1.8889 6.3611 0.75 0.5 ID3 solid ellipse black lightgrey
 node ID4 0.375 3.9167 0.75 0.5 ID4 solid ellipse black lightgrey
@@ -77,11 +86,12 @@ edge ID9 ID6 4 1.4028 2.4412 1.4028 2.2757 1.4028 2.0561 1.4028 1.8678 ID17 1.59
 edge ID10 ID3 10 1.6403 0.45355 1.8735 0.67731 2.1944 1.0601 2.1944 1.4722 2.1944 5.1389 2.1944 5.1389 2.1944 5.1389 2.1944 5.4269 2.1136 5.742 2.0351 5.9801 ID12 2.3889 3.3056 solid black
 edge ID11 ID9 4 1.4028 3.6634 1.4028 3.4979 1.4028 3.2783 1.4028 3.09 ID14 1.5972 3.3056 solid black
 stop
+</pre>
 
  */
 public final class DotParser {
 
-	/** make ctor private */
+	/** make constructor private */
 	private DotParser() { }
 	
 	

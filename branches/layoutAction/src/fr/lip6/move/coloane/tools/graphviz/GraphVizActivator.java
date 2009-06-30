@@ -11,6 +11,8 @@
  *******************************************************************************/
 package fr.lip6.move.coloane.tools.graphviz;
 
+import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -31,8 +33,6 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
-
-import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
 
 /** 
  * The plugin class.
