@@ -204,7 +204,8 @@ public final class DotParser {
 		return Integer.parseInt(idstr);
 	}
 
-	/** Parse the first line of the file.
+	/** 
+	 * Parse the first line of the file.
 	 * Content is ignored.
 	 * @param in inputstream to read from
 	 * @throws IOException in case of parse errors
