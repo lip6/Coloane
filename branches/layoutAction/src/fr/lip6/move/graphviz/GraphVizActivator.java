@@ -34,14 +34,13 @@ import org.osgi.service.prefs.Preferences;
 
 import fr.lip6.move.graphviz.io.LogUtils;
 
-/** The plugin class.
- * 
+/** 
+ * The plugin class.
  */
 public class GraphVizActivator extends AbstractUIPlugin {
 
-
-	/** the dot algos we can use.
-	 * 
+	/** 
+	 * Dot algorithms available for use
 	 */
 	public enum DotAlgo {
 		DOT, NEATO, CIRCO;
@@ -95,8 +94,7 @@ public class GraphVizActivator extends AbstractUIPlugin {
 
 
 	public static final String DOT_SEARCH_METHOD = "dotSearchMethod";
-	// The manual path is entered by the user. It should never be changed or
-	// deleted except by the user.
+	// The manual path is entered by the user. It should never be changed or deleted except by the user.
 	public static final String DOT_MANUAL_PATH = "dotManualPath";
 	
 	public static final String DOT_ALGO = "dotAlgo";
@@ -108,7 +106,7 @@ public class GraphVizActivator extends AbstractUIPlugin {
 	private static GraphVizActivator instance;
 
 
-	// store paths as strings so they won't get screwed up by platform issues.
+	// Store paths as strings so they won't get screwed up by platform issues.
 	/**
 	 * Path to bundled dot or null if it can't be found. See
 	 * extractGraphVisBinaries().
@@ -129,8 +127,8 @@ public class GraphVizActivator extends AbstractUIPlugin {
 		instance = this;
 	}
 
-	/** singleton.
-	 * 
+	/** 
+	 * Singleton
 	 * @return the sole instance
 	 */
 	public static GraphVizActivator getInstance() {
@@ -138,7 +136,7 @@ public class GraphVizActivator extends AbstractUIPlugin {
 	}
 
 	/**
-	 * call to logger.error.
+	 * Call to logger error.
 	 * @param message the msg
 	 * @param e the exception.
 	 */
@@ -171,7 +169,6 @@ public class GraphVizActivator extends AbstractUIPlugin {
 	
 	/**
 	 * A file filter that looks for executable files.
-	 *
 	 */
 	private static class ExecutableFinder implements FileFilter {
 		private String nameToMatch;
@@ -184,10 +181,9 @@ public class GraphVizActivator extends AbstractUIPlugin {
 			this.nameToMatch = nameToMatch;
 		}
 
-		/** {@inheritDoc}
-		 * 
+		/** 
+		 * {@inheritDoc}
 		 */
-		@Override
 		public boolean accept(File candidate) {
 			if (!isExecutable(candidate)) {
 				return false;

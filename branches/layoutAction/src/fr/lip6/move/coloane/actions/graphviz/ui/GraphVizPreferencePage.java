@@ -9,7 +9,11 @@
  *     Scott Bronson
  *     Yann Thierry-Mieg (added algo choice and some temp file based functionality)
  *******************************************************************************/
-package fr.lip6.move.coloane.graphviz.ui;
+package fr.lip6.move.coloane.actions.graphviz.ui;
+
+import fr.lip6.move.graphviz.GraphVizActivator;
+import fr.lip6.move.graphviz.GraphVizActivator.DotAlgo;
+import fr.lip6.move.graphviz.GraphVizActivator.DotMethod;
 
 import java.io.File;
 
@@ -27,14 +31,9 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
-import fr.lip6.move.graphviz.GraphVizActivator;
-import fr.lip6.move.graphviz.GraphVizActivator.DotAlgo;
-import fr.lip6.move.graphviz.GraphVizActivator.DotMethod;
-
 /**
  * The preferences page contributed by the plugin.
- * @author Yann
- *
+ * @author Yann Thierry-Mieg
  */
 public class GraphVizPreferencePage
 	extends PreferencePage
@@ -55,15 +54,10 @@ public class GraphVizPreferencePage
 	/**
 	 * Creates the mildly complex radio buttons that the prefs dialog uses.
 	 * 
-	 * @param group
-	 *            The group to add the button to.
-	 * @param label
-	 *            The text for the button's label
-	 * @param enabled
-	 *            enabled/disabled.
-	 * @param method
-	 *            If this matches the current method, the button is
-	 *            automatically selected.
+	 * @param group The group to add the button to.
+	 * @param label The text for the button's label
+	 * @param enabled enabled/disabled.
+	 * @param method If this matches the current method, the button is automatically selected.
 	 * @return The new button.
 	 */
 	private Button createButton(Group group, String label, boolean enabled, DotMethod method) {
@@ -84,18 +78,13 @@ public class GraphVizPreferencePage
 	}
 
 	/**
-	 * Creates the mildly complex radio buttons that the prefs dialog uses.
-	 * Here code for the radio selection algo button.
+	 * Creates the mildly complex radio buttons that the preferences dialog uses.<br>
+	 * Here code for the radio selection algorithm button.
 	 * 
-	 * @param group
-	 *            The group to add the button to.
-	 * @param label
-	 *            The text for the button's label
-	 * @param enabled
-	 *            Not really sure what this is for.
-	 * @param method
-	 *            If this matches the current method, the button is
-	 *            automatically selected.
+	 * @param group The group to add the button to.
+	 * @param label The text for the button's label
+	 * @param enabled Not really sure what this is for.
+	 * @param method If this matches the current method, the button is automatically selected.
 	 * @return The new button.
 	 */
 	private Button createButton(Group group, String label,
@@ -109,8 +98,7 @@ public class GraphVizPreferencePage
 	}
 
 	/**
-	 * Creates the composite which will contain all the preference controls for
-	 * this page.
+	 * Creates the composite which will contain all the preference controls for this page.
 	 * 
 	 * @param parent the parent composite
 	 * @return the composite for this page
@@ -337,16 +325,12 @@ public class GraphVizPreferencePage
 	}
 
 	/**
-	 * Utility method that creates a radio button instance and sets the default
-	 * layout data.
+	 * Utility method that creates a radio button instance and sets the default layout data.
 	 * 
-	 * @param parent
-	 *            the parent for the new button
-	 * @param label
-	 *            the label for the new button
+	 * @param parent the parent for the new button
+	 * @param label the label for the new button
 	 * @return the newly-created button
 	 */
-
 	private static Button createRadioButton(Composite parent, String label) {
 		Button button = new Button(parent, SWT.RADIO | SWT.LEFT);
 		button.setText(label);

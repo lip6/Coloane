@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.graphviz;
+package fr.lip6.move.coloane.actions.graphviz;
 
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.ModificationResultCommand;
@@ -25,7 +25,6 @@ public class LayoutEditorActionDelegate implements IEditorActionDelegate {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public final void setActiveEditor(IAction action, IEditorPart targetEditor) {
 		graph = ((ColoaneEditor) targetEditor).getGraph();
 		ColoaneEditor ce = (ColoaneEditor) targetEditor;
@@ -36,20 +35,16 @@ public class LayoutEditorActionDelegate implements IEditorActionDelegate {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public final void run(IAction action)  {
 		if (graph != null) {
 			ModificationResultCommand  c = new ModificationResultCommand(graph, GraphLayout.layout(graph));
 			stack.execute(c);
 		}
 	}
-
-	
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 		// NOP
 	}

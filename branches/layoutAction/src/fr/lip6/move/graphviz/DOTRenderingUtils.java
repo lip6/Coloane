@@ -14,7 +14,6 @@ import java.io.PrintWriter;
 
 /**
  * A helper class to create dot content.
- *
  */
 public final class DOTRenderingUtils {
 	
