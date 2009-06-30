@@ -1,4 +1,4 @@
-package fr.lip6.move.graphviz.coloane;
+package fr.lip6.move.coloane.actions.layout;
 
 import java.io.BufferedReader;
 import java.io.IOException;

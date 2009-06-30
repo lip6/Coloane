@@ -3,7 +3,6 @@ package fr.lip6.move.coloane.actions.layout;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.ModificationResultCommand;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.graphviz.coloane.GraphLayout;
 
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.CommandStack;
