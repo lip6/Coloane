@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.actions.graphviz;
+package fr.lip6.move.coloane.actions.layout;
 
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.ModificationResultCommand;

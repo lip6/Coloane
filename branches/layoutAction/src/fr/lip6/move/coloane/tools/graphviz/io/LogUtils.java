@@ -1,4 +1,4 @@
-package fr.lip6.move.graphviz.io;
+package fr.lip6.move.coloane.tools.graphviz.io;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.IStatus;

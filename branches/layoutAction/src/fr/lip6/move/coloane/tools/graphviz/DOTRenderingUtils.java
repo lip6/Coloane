@@ -8,7 +8,7 @@
  * Contributors:
  *     abstratt technologies
  *******************************************************************************/
-package fr.lip6.move.graphviz;
+package fr.lip6.move.coloane.tools.graphviz;
 
 import java.io.PrintWriter;
 

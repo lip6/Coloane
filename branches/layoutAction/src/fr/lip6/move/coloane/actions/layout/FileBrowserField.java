@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.actions.graphviz.ui;
+package fr.lip6.move.coloane.actions.layout;
 
 import java.io.File;
 

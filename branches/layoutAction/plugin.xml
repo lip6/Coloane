@@ -8,7 +8,7 @@
 	</extension>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page category="fr.lip6.move.coloane.ui.dialogs.ColoanePreference"
-			class="fr.lip6.move.coloane.actions.graphviz.ui.GraphVizPreferencePage" id="fr.lip6.move.coloane.graphviz.preferences"
+			class="fr.lip6.move.coloane.actions.layout.GraphVizPreferencePage" id="fr.lip6.move.coloane.graphviz.preferences"
 			name="Layout Preferences">
 		</page>
 	</extension>
@@ -17,7 +17,7 @@
 		<editorContribution id="fr.lip6.move.coloane.graphviz.layout"
 			targetID="fr.lip6.move.coloane.editor.petri">
 			<action actionID="fr.lip6.move.coloane.graphviz.runLayoutAction"
-				class="fr.lip6.move.coloane.actions.graphviz.LayoutEditorActionDelegate"
+				class="fr.lip6.move.coloane.actions.layout.LayoutEditorActionDelegate"
 				definitionId="fr.lip6.move.coloane.graphviz.layout" disabledIcon="resources/layout.PNG"
 				icon="resources/layout.PNG" id="fr.lip6.move.coloane.graphviz.actionLayout"
 				label="Layout" style="push" toolbarPath="Normal/additions"

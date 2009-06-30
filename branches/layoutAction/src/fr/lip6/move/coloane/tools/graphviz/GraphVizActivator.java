@@ -9,7 +9,7 @@
  *     abstratt technologies
  *     Scott Bronson
  *******************************************************************************/
-package fr.lip6.move.graphviz;
+package fr.lip6.move.coloane.tools.graphviz;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -32,7 +32,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
-import fr.lip6.move.graphviz.io.LogUtils;
+import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
 
 /** 
  * The plugin class.

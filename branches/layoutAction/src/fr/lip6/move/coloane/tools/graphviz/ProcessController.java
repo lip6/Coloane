@@ -8,7 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package fr.lip6.move.graphviz;
+package fr.lip6.move.coloane.tools.graphviz;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,13 +30,13 @@ public class ProcessController {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		/** default ctor
-		 * 
+		/**
+		 * Default constructor
 		 */
 		public TimeOutException() {
 		}
-		/** ctor
-		 * 
+		/** 
+		 * Constructor
 		 * @param message the message.
 		 */
 		public TimeOutException(String message) {
@@ -57,15 +57,13 @@ public class ProcessController {
 	private File baseDir;
 
 	/**
-	 * Constructs an instance of ProcessController. This does not creates an OS
-	 * process. <code>run()</code> does that.
+	 * Constructs an instance of ProcessController.<br>
+	 * This does not creates an OS process. <code>run()</code> does that.
 	 * 
-	 * @param timeout
-	 *            the maximum time the process should take to run
-	 * @param params
-	 *            the parameters to be passed to the controlled process
-	 * @param env the environment vars
-	 * @param baseDir the base directory
+	 * @param timeout The maximum time the process should take to run
+	 * @param params The parameters to be passed to the controlled process
+	 * @param env The environment vars
+	 * @param baseDir The base directory
 	 */
 	public ProcessController(long timeout, String[] params, String[] env, File baseDir) {
 		timeLimit = timeout;
@@ -106,8 +104,7 @@ public class ProcessController {
 	 * @return the process exit value
 	 * @throws InterruptedException if thread problems
 	 * @throws IOException if file problems
-	 * @throws TimeOutException
-	 *             if the process did not complete in time
+	 * @throws TimeOutException If the process did not complete in time
 	 */
 	public final int execute() throws InterruptedException, IOException, TimeOutException {
 		startupTime = System.currentTimeMillis();
@@ -138,10 +135,7 @@ public class ProcessController {
 	/**
 	 * Forwards the process standard error output to the given output stream.
 	 * Must be called before execution has started.
-	 * 
-	 * @param err
-	 *            an output stream where to forward the process standard error
-	 *            output to
+	 * @param err An output stream where to forward the process standard error output to
 	 */
 	public final void forwardErrorOutput(OutputStream err) {
 		forwardStdErr = err;
@@ -151,9 +145,7 @@ public class ProcessController {
 	 * Forwards the given input stream to the process standard input. Must be
 	 * called before execution has started.
 	 * 
-	 * @param in
-	 *            an input stream where the process standard input will be
-	 *            forwarded to
+	 * @param in An input stream where the process standard input will be forwarded to
 	 */
 	public final void forwardInput(InputStream in) {
 		forwardStdIn = in;
@@ -163,16 +155,14 @@ public class ProcessController {
 	 * Forwards the process standard output to the given output stream. Must be
 	 * called before execution has started.
 	 * 
-	 * @param out
-	 *            an output stream where to forward the process standard output
-	 *            to
+	 * @param out An output stream where to forward the process standard output to
 	 */
 	public final void forwardOutput(OutputStream out) {
 		forwardStdOut = out;
 	}
 
 	/** 
-	 * forward the stream, using a thread, with name "name"
+	 * Forward the stream, using a thread, with name "name"
 	 * @param name name used to identify this thread
 	 * @param in input
 	 * @param out output
@@ -210,9 +200,8 @@ public class ProcessController {
 	}
 
 	/**
-	 * Returns the controled process. Will return <code>null</code> before
-	 * <code>execute</code> is called.
-	 * 
+	 * Returns the controlled process.<br>
+	 * Will return <code>null</code> before <code>execute</code> is called.
 	 * @return the underlying process
 	 */
 	public final Process getProcess() {
@@ -220,7 +209,7 @@ public class ProcessController {
 	}
 
 	/** 
-	 * test if task is finished
+	 * Test if task is finished
 	 * @return true when it is...
 	 */
 	protected final synchronized boolean isFinished() {
@@ -258,9 +247,7 @@ public class ProcessController {
 
 	/**
 	 * Returns whether the process was killed due to a time out.
-	 * 
-	 * @return <code>true</code> if the process was killed, <code>false</code>
-	 *         if the completed normally
+	 * @return <code>true</code> if the process was killed, <code>false</code> if the completed normally
 	 */
 	public final boolean wasKilled() {
 		return killed;

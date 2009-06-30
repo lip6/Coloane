@@ -6,9 +6,9 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
-import fr.lip6.move.graphviz.GraphViz;
-import fr.lip6.move.graphviz.GraphVizActivator;
-import fr.lip6.move.graphviz.io.LogUtils;
+import fr.lip6.move.coloane.tools.graphviz.GraphViz;
+import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator;
+import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

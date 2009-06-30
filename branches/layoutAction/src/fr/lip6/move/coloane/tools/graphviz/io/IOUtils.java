@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.lip6.move.graphviz.io;
+package fr.lip6.move.coloane.tools.graphviz.io;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;

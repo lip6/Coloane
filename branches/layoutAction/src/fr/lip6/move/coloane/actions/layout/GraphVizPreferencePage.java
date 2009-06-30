@@ -9,11 +9,11 @@
  *     Scott Bronson
  *     Yann Thierry-Mieg (added algo choice and some temp file based functionality)
  *******************************************************************************/
-package fr.lip6.move.coloane.actions.graphviz.ui;
+package fr.lip6.move.coloane.actions.layout;
 
-import fr.lip6.move.graphviz.GraphVizActivator;
-import fr.lip6.move.graphviz.GraphVizActivator.DotAlgo;
-import fr.lip6.move.graphviz.GraphVizActivator.DotMethod;
+import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator;
+import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator.DotAlgo;
+import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator.DotMethod;
 
 import java.io.File;
 

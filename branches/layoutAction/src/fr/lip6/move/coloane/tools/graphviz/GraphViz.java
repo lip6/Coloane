@@ -9,12 +9,12 @@
  *     abstratt technologies
  *     Scott Bronson
  *******************************************************************************/
-package fr.lip6.move.graphviz;
+package fr.lip6.move.coloane.tools.graphviz;
 
-import fr.lip6.move.graphviz.GraphVizActivator.DotAlgo;
-import fr.lip6.move.graphviz.ProcessController.TimeOutException;
-import fr.lip6.move.graphviz.io.IOUtils;
-import fr.lip6.move.graphviz.io.LogUtils;
+import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator.DotAlgo;
+import fr.lip6.move.coloane.tools.graphviz.ProcessController.TimeOutException;
+import fr.lip6.move.coloane.tools.graphviz.io.IOUtils;
+import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
