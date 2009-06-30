@@ -118,14 +118,14 @@
        id="preferencePages"
        name="Coloane&apos;s Preference Pages"
        point="org.eclipse.ui.preferencePages">
-        <page id="fr.lip6.move.coloane.ui.dialogs.ColoanePreference"
+        <page id="fr.lip6.move.coloane.ui.prefs.main"
                 name="Coloane"
                 class="fr.lip6.move.coloane.core.ui.prefs.ColoanePrefsPage">
         </page>
-        <page id="org.eclipse.ui.articles.BadWordsColorPreference"
+        <page id="fr.lip6.move.coloane.ui.prefs.colors"
                 name="%PREF_COLORS"
                 class="fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs"
-                category="fr.lip6.move.coloane.ui.dialogs.ColoanePreference">
+                category="fr.lip6.move.coloane.ui.prefs.main">
         </page>
     
 	</extension>
