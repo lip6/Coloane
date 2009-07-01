@@ -17,21 +17,19 @@ public class InflexDeleteCmd extends Command {
 	/**
 	 * Constructeur
 	 * @param arcModel L'arc concerne par le point d'inflexion
-	 * @param p La position
 	 * @param i L'index
 	 */
-	public InflexDeleteCmd(IArc arcModel, Point p, int i) {
+	public InflexDeleteCmd(IArc arcModel, int i) {
 		super(Messages.InflexDeleteCmd_0);
 		this.arc = arcModel;
-		this.position = p;
 		this.index = i;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
+		this.position = arc.getInflexPoint(index);
 		this.redo();
-		super.execute();
 	}
 
 	/** {@inheritDoc} */
