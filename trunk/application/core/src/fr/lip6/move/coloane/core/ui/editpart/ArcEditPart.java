@@ -163,7 +163,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 				LOGGER.finest("Suppression du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
 				Point p = request.getLocation();
 				getConnection().translateToRelative(p);
-				InflexDeleteCmd com = new InflexDeleteCmd((IArc) getModel(), request.getLocation(), request.getIndex());
+				InflexDeleteCmd com = new InflexDeleteCmd((IArc) getModel(), request.getIndex());
 				return com;
 			}
 			@Override
