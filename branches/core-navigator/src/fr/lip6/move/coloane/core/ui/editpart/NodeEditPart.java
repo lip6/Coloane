@@ -505,7 +505,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 						INode targetNode = coloaneEditor.getGraph().getNode(id);
 
 						// Interface doesn't exist
-						if (targetNode == null || !targetNode.isPublic()) {
+						if (targetNode == null || !targetNode.isInterface()) {
 							return;
 						}
 

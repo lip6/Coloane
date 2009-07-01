@@ -78,13 +78,13 @@ public interface INode extends IElement {
 	/**
 	 * @return <code>true</code> if the node is public, it's for link nodes.
 	 */
-	boolean isPublic();
+	boolean isInterface();
 
 	/**
 	 * Change the state of the node
 	 * @param state new state
 	 */
-	void setPublic(boolean state);
+	void setInterface(boolean state);
 
 	/**
 	 * @return reference to a public node or <code>null</code>.

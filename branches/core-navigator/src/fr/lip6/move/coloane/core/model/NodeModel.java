@@ -44,7 +44,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** Links (comments) associated to this node */
 	private List<ILink> links = new ArrayList<ILink>();
 
-	private boolean publicState = false;
+	private boolean isInterface = false;
 	private String nodeLink;
 
 
@@ -225,15 +225,15 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
-	public final boolean isPublic() {
-		return this.publicState;
+	public final boolean isInterface() {
+		return this.isInterface;
 	}
 
 	/** {@inheritDoc} */
-	public final void setPublic(boolean state) {
-		LOGGER.fine(this + " setPublic(" + state + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		boolean oldValue = publicState;
-		this.publicState = state;
+	public final void setInterface(boolean state) {
+		LOGGER.fine(this + " setInterface(" + state + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean oldValue = isInterface;
+		this.isInterface = state;
 		firePropertyChange(IAttribute.VALUE_PROP, oldValue, state);
 	}
 

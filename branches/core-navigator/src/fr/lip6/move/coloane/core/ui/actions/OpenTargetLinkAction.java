@@ -77,7 +77,7 @@ public class OpenTargetLinkAction extends Action {
 					INode node = coloaneEditor.getGraph().getNode(data.getTargetId());
 
 					// Interface doesn't exist
-					if (node == null || !node.isPublic()) {
+					if (node == null || !node.isInterface()) {
 						return;
 					}
 

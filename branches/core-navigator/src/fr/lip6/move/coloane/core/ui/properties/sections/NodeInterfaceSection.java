@@ -64,7 +64,7 @@ public class NodeInterfaceSection extends AbstractSection<INode> {
 	@Override
 	public final void refresh() {
 		if (getElements().size() == 1) {
-			checkBox.setSelection(getElements().get(0).isPublic());
+			checkBox.setSelection(getElements().get(0).isInterface());
 		} else {
 			checkBox.setSelection(false);
 		}

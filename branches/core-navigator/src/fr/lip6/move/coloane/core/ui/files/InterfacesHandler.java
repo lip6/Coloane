@@ -135,7 +135,7 @@ public class InterfacesHandler extends DefaultHandler {
 	/** {@inheritDoc} */
 	@Override
 	public final void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
-		if ("node".equals(name) && Boolean.valueOf(attributes.getValue("public"))) { //$NON-NLS-1$ //$NON-NLS-2$
+		if ("node".equals(name) && Boolean.valueOf(attributes.getValue("interface"))) { //$NON-NLS-1$ //$NON-NLS-2$
 			String nodeFormalismName = attributes.getValue("nodetype"); //$NON-NLS-1$
 			if (nodeFormalismName != null && (nodeFormalism == null || nodeFormalismName.equals(nodeFormalism.getName()))) {
 				final int id = Integer.parseInt(attributes.getValue("id")); //$NON-NLS-1$

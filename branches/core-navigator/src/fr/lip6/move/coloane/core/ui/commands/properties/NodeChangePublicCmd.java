@@ -27,20 +27,20 @@ public class NodeChangePublicCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		this.oldState = node.isPublic();
+		this.oldState = node.isInterface();
 		redo();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		node.setPublic(newState);
+		node.setInterface(newState);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		node.setPublic(oldState);
+		node.setInterface(oldState);
 	}
 
 }
