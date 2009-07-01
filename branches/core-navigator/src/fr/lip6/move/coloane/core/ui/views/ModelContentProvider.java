@@ -143,6 +143,7 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 
 	/** {@inheritDoc} */
 	public void dispose() {
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 		nodeLinkImage.dispose();
 	}
 
