@@ -6,6 +6,7 @@ public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.core.ui.properties.sections.messages"; //$NON-NLS-1$
 	public static String ArcColorSection_0;
 	public static String AttributeSection_0;
+	public static String LinkSection_0;
 	public static String NodeColorSection_0;
 	public static String NodeColorSection_1;
 	public static String NodeInterfaceSection_0;

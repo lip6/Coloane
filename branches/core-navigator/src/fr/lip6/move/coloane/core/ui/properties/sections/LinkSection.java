@@ -36,6 +36,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
  * Section in property view to edit link between the current selected node and a public node.
+ * This section save the interfaces displayed into the widget.
  *
  * @author Clément Démoulins
  */
@@ -112,6 +113,7 @@ public class LinkSection extends AbstractSection<INode> {
 		composite = getWidgetFactory().createFlatFormComposite(parent);
 		FormData data;
 
+		// List of links
 		listWidget = getWidgetFactory().createList(composite, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
@@ -119,8 +121,8 @@ public class LinkSection extends AbstractSection<INode> {
 		listWidget.setLayoutData(data);
 		listWidget.addSelectionListener(linkSelectionListener);
 
-		// Etiquette
-		CLabel label = getWidgetFactory().createCLabel(composite, "Link to :"); //$NON-NLS-1$
+		// Label : "Link to"
+		CLabel label = getWidgetFactory().createCLabel(composite, Messages.LinkSection_0);
 		data = new FormData();
 		data.top = new FormAttachment(listWidget, 0, SWT.TOP);
 		data.left = new FormAttachment(0, 5);
@@ -134,16 +136,16 @@ public class LinkSection extends AbstractSection<INode> {
 	public final void refresh() {
 		listWidget.removeAll();
 		widgetModel.clear();
+
+		// add NONE link if the user want to delete a link
 		listWidget.add(NONE);
 
 		ColoaneEditor coloaneEditor = (ColoaneEditor) getPart();
 		IFile currentModel = ((FileEditorInput) coloaneEditor.getEditorInput()).getFile();
 
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener);
-
 		// Test if all selected element use the same formalism.
 		INodeFormalism nodeFormalism = getElements().get(0).getNodeFormalism();
-		for (INode node : getElements()) {
+		for (INode node : getElements().subList(1, getElements().size())) {
 			if (!nodeFormalism.getName().equals(node.getNodeFormalism().getName())) {
 				redraw();
 				return;
@@ -157,6 +159,7 @@ public class LinkSection extends AbstractSection<INode> {
 				select = -1;
 			}
 
+			// Look into all model in the same folder
 			for (IResource resource : currentModel.getParent().members()) {
 				if (resource.getName().endsWith(Coloane.getParam("MODEL_EXTENSION")) && resource instanceof IFile) { //$NON-NLS-1$
 					IFile file = (IFile) resource;
@@ -177,8 +180,11 @@ public class LinkSection extends AbstractSection<INode> {
 				select = listWidget.getItemCount() - 1;
 			}
 
+			// Multi selection
 			if (select == -1) {
 				listWidget.deselectAll();
+
+			// Single selection
 			} else {
 				listWidget.select(select);
 			}
@@ -191,7 +197,7 @@ public class LinkSection extends AbstractSection<INode> {
 	/**
 	 * Redraw this section
 	 */
-	public final void redraw() {
+	private void redraw() {
 		listWidget.pack();
 		listWidget.redraw();
 
@@ -214,7 +220,13 @@ public class LinkSection extends AbstractSection<INode> {
 
 	/** {@inheritDoc} */
 	@Override
-	protected final void internalDispose() {
+	public final void aboutToBeHidden() {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(resourceChangeListener);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final void aboutToBeShown() {
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(resourceChangeListener);
 	}
 }
