@@ -1110,19 +1110,4 @@
           name="disconnect">
     </command>
  </extension>
- <extension
-       point="org.eclipse.ui.decorators">
-    <decorator
-          class="fr.lip6.move.coloane.core.ui.views.ModelDecorator"
-          id="fr.lip6.move.coloane.core.decorator1"
-          label="label"
-          location="BOTTOM_RIGHT"
-          state="false">
-       <enablement>
-          <objectClass
-                name="org.eclipse.core.resources.IFile">
-          </objectClass>
-       </enablement>
-    </decorator>
- </extension>
 </plugin>
