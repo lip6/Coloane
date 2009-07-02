@@ -7,6 +7,7 @@
    <extension-point id="examples" name="Examples" schema="schema/examples.exsd"/>
    <extension-point id="formalisms" name="Formalisms" schema="schema/formalisms.exsd"/>
    <extension-point id="apis" name="Api" schema="schema/api.exsd"/>
+   <extension-point id="tools" name="Tools" schema="schema/tools.exsd"/>
    <extension
          id="perspective"
          name="Coloane's perspective"
@@ -914,11 +915,12 @@
     <menuContribution
           locationURI="menu:org.eclipse.ui.main.menu?after=additions">
        <menu
-             id="fr.lip6.move.coloane.core.menu"
+             id="fr.lip6.move.coloane.core.services"
              label="%MENUBAR_LABEL"
              mnemonic="S">
           <menu
-                id="fr.lip6.move.coloane.core.menu.platform"
+                icon="resources/icons/network.png"
+                id="fr.lip6.move.coloane.core.services.platform"
                 label="%PLATFORM_MENU">
              <command
                    commandId="%AUTHENTICATION"
@@ -957,6 +959,15 @@
                    tooltip="%DISCONNECT_TIP">
              </command>
           </menu>
+       </menu>
+       <menu
+             icon="resources/icons/local.png"
+             id="fr.lip6.move.coloane.core.tools"
+             label="%LOCAL_MENU">
+          <dynamic
+                class="fr.lip6.move.coloane.core.extensions.ToolsContribution"
+                id="fr.lip6.move.coloane.core.dynamic1">
+          </dynamic>
        </menu>
     </menuContribution>
     <menuContribution
