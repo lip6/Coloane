@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.wizards.exportmodel;
 
 import fr.lip6.move.coloane.core.extensions.ExportToExtension;
+import fr.lip6.move.coloane.core.ui.files.FormalismHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
@@ -47,7 +48,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 
 		// On vérifie que chaque fichier peut être exporté
 		for (IResource res : page.getSelectedRessource()) {
-			IFormalism formalism = ModelLoader.loadFormalismFromXml((IFile) res);
+			IFormalism formalism = ModelLoader.loadFromXML(((IFile) res), new FormalismHandler()).getFormalism();
 			if (formalism == null || !ExportToExtension.canPerform(idWizard, formalism)) {
 				canPerform = false;
 				page.setErrorMessage(Messages.ExportWizard_0 + "'" + res.getName() + "'" + Messages.ExportWizard_3);  //$NON-NLS-1$//$NON-NLS-2$

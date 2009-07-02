@@ -196,6 +196,23 @@ public class ModelHandler extends DefaultHandler {
 		} catch (NumberFormatException e) {
 			logger.fine("attribut background absent ou incorrect"); //$NON-NLS-1$
 		}
+
+		// Is interface
+		try {
+			boolean state = Boolean.valueOf(attributes.getValue("interface")); //$NON-NLS-1$
+			node.setInterface(state);
+		} catch (NumberFormatException e) {
+			logger.fine("attribut interface absent ou incorrect"); //$NON-NLS-1$
+		}
+
+		// Node link
+		try {
+			String nodeLink = attributes.getValue("link"); //$NON-NLS-1$
+			node.setNodeLink(nodeLink);
+		} catch (NumberFormatException e) {
+			logger.fine("attribut link absent ou incorrect"); //$NON-NLS-1$
+		}
+
 		stack.push(node);
 	}
 
