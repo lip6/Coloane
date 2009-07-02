@@ -73,7 +73,7 @@
              class="fr.lip6.move.coloane.core.ui.ColoaneEditor"
              contributorClass="fr.lip6.move.coloane.core.ui.actions.ColoaneActionBarContributor"
              default="true"
-             extensions="model"
+             extensions="%MODEL_EXTENSION"
              icon="resources/formalisms/ptn/ptn.png"
              id="fr.lip6.move.coloane.editor.petri"
              name="%EDITOR_NAME">
@@ -197,6 +197,9 @@
           <contentExtension
                 pattern="fr.lip6.move.coloane.core.modelcontents">
           </contentExtension>
+          <contentExtension
+                pattern="fr.lip6.move.coloane.core.treecontents">
+          </contentExtension>
        </includes>
     </viewerContentBinding>
     <viewerActionBinding
@@ -212,14 +215,19 @@
        point="org.eclipse.ui.navigator.navigatorContent">
     <navigatorContent
           activeByDefault="true"
-          contentProvider="fr.lip6.move.coloane.core.ui.views.TreeContentProvider"
+          contentProvider="fr.lip6.move.coloane.core.ui.views.ModelContentProvider"
           icon="resources/icons/model_contents.gif"
           id="fr.lip6.move.coloane.core.modelcontents"
-          labelProvider="fr.lip6.move.coloane.core.ui.views.LabelProvider"
+          labelProvider="fr.lip6.move.coloane.core.ui.views.ModelLabelProvider"
           name="Model Contents"
           priority="normal">
        <triggerPoints>
        </triggerPoints>
+       <possibleChildren>
+          <instanceof
+                value="org.eclipse.core.resources.IFile">
+          </instanceof>
+       </possibleChildren>
     </navigatorContent>
     <commonWizard
           type="new"
@@ -231,6 +239,24 @@
           wizardId="fr.lip6.move.coloane.wizard.projectWizard">
        <enablement></enablement>
     </commonWizard>
+    <navigatorContent
+          activeByDefault="true"
+          contentProvider="fr.lip6.move.coloane.core.ui.views.TreeContentProvider"
+          icon="resources/icons/model_contents.gif"
+          id="fr.lip6.move.coloane.core.treecontents"
+          labelProvider="fr.lip6.move.coloane.core.ui.views.TreeLabelProvider"
+          name="Tree Content"
+          priority="normal">
+       <triggerPoints></triggerPoints>
+       <possibleChildren>
+          <instanceof
+                value="fr.lip6.move.coloane.core.ui.views.Tree">
+          </instanceof>
+       </possibleChildren>
+       <actionProvider
+             class="fr.lip6.move.coloane.core.ui.views.NavigatorActionProvider">
+       </actionProvider>
+    </navigatorContent>
  </extension>
  <extension
        id="modelingproject"
@@ -334,6 +360,12 @@
              id="fr.lip6.move.coloane.core.properties.graphic"
              label="Graphic">
        </propertyTab>
+       <propertyTab
+             afterTab="fr.lip6.move.coloane.core.properties.graphic"
+             category="all"
+             id="fr.lip6.move.coloane.core.properties.link"
+             label="Link">
+       </propertyTab>
     </propertyTabs>
  </extension>
  <extension
@@ -392,6 +424,23 @@
              class="fr.lip6.move.coloane.core.ui.properties.sections.NodeSizeSection"
              id="fr.lip6.move.coloane.core.section.NodeSizeSection"
              tab="fr.lip6.move.coloane.core.properties.graphic">
+          <input
+                type="fr.lip6.move.coloane.interfaces.model.INode">
+          </input>
+       </propertySection>
+       <propertySection
+             afterSection="fr.lip6.move.coloane.core.section.NodePublicStateSection"
+             class="fr.lip6.move.coloane.core.ui.properties.sections.LinkSection"
+             id="fr.lip6.move.coloane.core.section.LinkSection"
+             tab="fr.lip6.move.coloane.core.properties.link">
+          <input
+                type="fr.lip6.move.coloane.interfaces.model.INode">
+          </input>
+       </propertySection>
+       <propertySection
+             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeInterfaceSection"
+             id="fr.lip6.move.coloane.core.section.NodePublicStateSection"
+             tab="fr.lip6.move.coloane.core.properties.link">
           <input
                 type="fr.lip6.move.coloane.interfaces.model.INode">
           </input>
@@ -971,20 +1020,5 @@
           id="%DISCONNECT"
           name="disconnect">
     </command>
- </extension>
- <extension
-       point="org.eclipse.ui.decorators">
-    <decorator
-          class="fr.lip6.move.coloane.core.ui.views.ModelDecorator"
-          id="fr.lip6.move.coloane.core.decorator1"
-          label="label"
-          location="BOTTOM_RIGHT"
-          state="false">
-       <enablement>
-          <objectClass
-                name="org.eclipse.core.resources.IFile">
-          </objectClass>
-       </enablement>
-    </decorator>
  </extension>
 </plugin>

@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.extensions.pnexamples;
 
 import fr.lip6.move.coloane.core.extensions.IExample;
+import fr.lip6.move.coloane.core.ui.files.ModelHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.exceptions.PluginException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -27,7 +28,7 @@ public class Philosophers implements IExample {
 		URL xmlExample = Activator.class.getResource("/resources/Philo.model");
 		IGraph model = null;
 		try {
-			model = ModelLoader.loadFromXML(xmlExample.toURI());
+			model = ModelLoader.loadFromXML(xmlExample.toURI(), new ModelHandler()).getGraph();
 		} catch (URISyntaxException e) {
 			throw new PluginException(Activator.PLUGIN_ID, "Bad URI: " + e.getMessage());
 		}

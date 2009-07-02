@@ -8,6 +8,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
@@ -32,6 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Figure;
@@ -46,7 +50,9 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartListener;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.editpolicies.ComponentEditPolicy;
@@ -56,6 +62,10 @@ import org.eclipse.gef.requests.CreateConnectionRequest;
 import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.ide.IDE;
 
 /**
  * EditPart in charge of nodes management
@@ -475,5 +485,38 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	/** {@inheritDoc} */
 	public final EditPartListener getSelectionEditPartListener() {
 		return editPartListener;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final void performRequest(Request req) {
+		INode node = (INode) getModel();
+
+		// Double click on the node : follow the link (if exist)
+		if (req.getType().equals(RequestConstants.REQ_OPEN)) {
+			String path = node.getNodeLink().replaceAll("(.*)@.*", "$1"); //$NON-NLS-1$ //$NON-NLS-2$
+			IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(path);
+			if (res instanceof IFile) {
+				try {
+					IEditorPart editor = IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), (IFile) res);
+					if (editor instanceof ColoaneEditor) {
+						ColoaneEditor coloaneEditor = (ColoaneEditor) editor;
+						int id = Integer.valueOf(((INode) getModel()).getNodeLink().replaceAll(".*@(.*)", "$1")); //$NON-NLS-1$ //$NON-NLS-2$
+						INode targetNode = coloaneEditor.getGraph().getNode(id);
+
+						// Interface doesn't exist
+						if (targetNode == null || !targetNode.isInterface()) {
+							return;
+						}
+
+						GraphicalViewer viewer = (GraphicalViewer) editor.getAdapter(GraphicalViewer.class);
+						viewer.deselectAll();
+						viewer.appendSelection((EditPart) viewer.getEditPartRegistry().get(targetNode));
+					}
+				} catch (PartInitException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }

@@ -92,6 +92,7 @@ public class ArcColorSection extends AbstractSection<IArc> {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 		if (IArc.COLOR_PROP.equals(prop)) {
