@@ -47,7 +47,7 @@ public class TypeDeclaration {
 	 * @throws IOException */
 	private static IGraph loadGraph(IFile typePath) throws IOException {
 		// Construction d'un modele en memoire a partir de se representation en XML
-		IGraph graph = ModelLoader.loadFromXML(typePath);
+		IGraph graph = ModelLoader.loadGraphFromXML(typePath);
 
 		// Si le chargement a échoué, on annule l'ouverture de l'éditeur
 		if (graph == null) {
