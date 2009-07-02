@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.IOException;
 import java.net.URI;
@@ -86,5 +87,21 @@ public final class ModelLoader {
 		}
 
 		return handler;
+	}
+
+	/**
+	 * @param xmlFile XML File
+	 * @return IGraph loaded or <code>null</code>
+	 */
+	public static IGraph loadGraphFromXML(IFile xmlFile) {
+		return loadFromXML(xmlFile, new ModelHandler()).getGraph();
+	}
+
+	/**
+	 * @param xmlURI URI to an XML File
+	 * @return IGraph loaded or <code>null</code>
+	 */
+	public static IGraph loadGraphFromXML(URI xmlURI) {
+		return loadFromXML(xmlURI, new ModelHandler()).getGraph();
 	}
 }
