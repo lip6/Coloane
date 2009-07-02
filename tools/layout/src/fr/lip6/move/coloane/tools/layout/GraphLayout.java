@@ -1,10 +1,13 @@
 package fr.lip6.move.coloane.tools.layout;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.tools.graphviz.GraphViz;
+import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator;
+import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -27,6 +30,21 @@ public final class GraphLayout {
 	 * Hide constructor : functionality is all static.
 	 */
 	private GraphLayout() { }
+	
+	 /**
+	  * Main non GUI related function, updates a graph in place.
+	  * @param graph the graph to update
+	  */
+	public static void doLayout(IGraph graph) {
+		List<ICommand> commands = layout(graph);
+		try {
+			for (ICommand command : commands) {
+				command.execute(graph);
+			}
+		} catch (ModelException e) {
+			LogUtils.logWarning(GraphVizActivator.getID(), "model formalism error", e);
+		}
+	}
 
 	/**
 	 * The main user function : apply dot layout to the provided Graph instance.
