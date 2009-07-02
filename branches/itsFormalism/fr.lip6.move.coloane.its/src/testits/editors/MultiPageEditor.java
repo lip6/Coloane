@@ -3,7 +3,7 @@ package testits.editors;
 
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.graphviz.coloane.GraphLayout;
+import fr.lip6.move.coloane.tools.layout.GraphLayout;
 import its.CompositeTypeDeclaration;
 import its.Concept;
 import its.ModelFlattener;
@@ -14,8 +14,8 @@ import its.labelsui.LabelsTable;
 import its.tpnui.NodesTable;
 import its.typesui.TypesTable;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -227,8 +227,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 					IFile outputff = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
 					IGraph flatModel=mf.getFlatModel();
 					GraphLayout.layout(flatModel);
-					outputff.create(new StringBufferInputStream(
-							ModelWriter.translateToXML(flatModel)), 0, null);
+					outputff.create(new ByteArrayInputStream(ModelWriter.translateToXML(flatModel).getBytes()), 0, null);
 					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();					
 					try {
 						if (outputff.exists())
@@ -387,7 +386,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		String xmlStr = io.ModelWriter.translateToXML(types);
-		InputStream is = new StringBufferInputStream(xmlStr); 
+		InputStream is = new ByteArrayInputStream(xmlStr.getBytes()); 
 		try {
 			((FileEditorInput)getEditorInput()).getFile().setContents(is, false, false, null);
 		} catch (CoreException e) {
