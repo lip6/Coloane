@@ -1,14 +1,11 @@
 package fr.lip6.move.coloane.actions.layout;
 
 
-import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.tools.graphviz.GraphViz;
-import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator;
-import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,11 +18,10 @@ import org.eclipse.swt.graphics.Point;
 
 
 /**
- * A utility class that offers "Layout" that modifies in place the given graph.
+ * A utility class that offers "Layout" that modifies in place the given graph.<br>
  * Graphviz settings (preferences) are used.
  * 
- * @author Yann
- *
+ * @author Yann Thierry-Mieg
  */
 public final class GraphLayout {
 	
@@ -33,21 +29,6 @@ public final class GraphLayout {
 	 * Hide constructor : functionality is all static.
 	 */
 	private GraphLayout() { }
-
-	/** 
-	 * Main non GUI related function, updates a graph in place.
-	 * @param graph the graph to update
-	 */
-	public static void doLayout(IGraph graph) {
-		List<ICommand> commands = layout(graph);
-		try {
-			for (ICommand command : commands) {
-				command.execute(graph);
-			}
-		} catch (ModelException e) {
-			LogUtils.logWarning(GraphVizActivator.getID(), "model formalism error", e);
-		}
-	}
 
 	/**
 	 * The main user function : apply dot layout to the provided Graph instance.
@@ -74,7 +55,7 @@ public final class GraphLayout {
 								new Point(20, 20));
 			return DotParser.parseGraphPositions(dotOutput, graph);
 
-		} catch (CoreException e) {
+		} catch (CoreException e) { 
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -92,5 +73,4 @@ public final class GraphLayout {
 	private static String getDotID(INode node) {
 		return "ID" + node.getId();
 	}
-	
 }

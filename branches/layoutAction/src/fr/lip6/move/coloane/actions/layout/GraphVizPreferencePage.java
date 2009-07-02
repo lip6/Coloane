@@ -141,7 +141,7 @@ public class GraphVizPreferencePage
 		dotDotButton = createButton(buttonComposite, "dot (acyclic graph)", true, DotAlgo.DOT);
 		dotDotButton.setToolTipText("A mode adapted to acyclic graphs, a good setting for decision diagrams for instance. \n"
 				+ "Depending on the graph, may work well also for state space graphs, although neato is also a good option.");
-		neatoDotButton = createButton(buttonComposite, "neato (spring model)[recommended]", true, DotAlgo.NEATO);
+		neatoDotButton = createButton(buttonComposite, "neato (spring model) [recommended]", true, DotAlgo.NEATO);
 		neatoDotButton.setToolTipText("A mode base on a spring model, well adapted to graphs with cycles. This setting gives best results for Petri net and their variants.");
 		circoDotButton = createButton(buttonComposite, "circo (circular layout)", true, DotAlgo.CIRCO);
 		circoDotButton.setToolTipText("A circular layout, nodes are placed on a circle. This setting gives poor results with Petri nets.");
@@ -164,7 +164,7 @@ public class GraphVizPreferencePage
 		automaticDotButton = createButton(buttonComposite, "Choose Automatically", true, DotMethod.AUTO);
 		useBundledDotButton = createButton(buttonComposite, "Bundled", graphviz.hasBundledInstall(), DotMethod.BUNDLE);
 		String detectedDotLocation = graphviz.autodetectDots();
-		final boolean dotDetected = detectedDotLocation != null;
+		boolean dotDetected = detectedDotLocation != null;
 		String detectLabel = "Detected: ";
 		if (dotDetected) {
 			detectLabel += detectedDotLocation;
@@ -227,6 +227,12 @@ public class GraphVizPreferencePage
 				setMessage("The file name should be " + GraphVizActivator.DOT_FILE_NAME , IMessageProvider.WARNING);
 			}
 		}
+
+		if (automaticDotButton.getSelection()) {
+			if (!autodetectDotButton.isEnabled()) {
+				setErrorMessage("No dot executable has been found");
+			}
+		}
 		setValid(true);
 	}
 
@@ -248,8 +254,7 @@ public class GraphVizPreferencePage
 
 	
 	/**
-	 * Scans the radio buttons and returns the dot method that the user has
-	 * selected.
+	 * Scans the radio buttons and returns the dot method that the user has selected.
 	 * @return the currently selected dot search method
 	 */
 	private DotMethod getNewDotMethod() {

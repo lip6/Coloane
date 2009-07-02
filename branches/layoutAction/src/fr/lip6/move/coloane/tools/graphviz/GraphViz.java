@@ -11,6 +11,7 @@
  *******************************************************************************/
 package fr.lip6.move.coloane.tools.graphviz;
 
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator.DotAlgo;
 import fr.lip6.move.coloane.tools.graphviz.ProcessController.TimeOutException;
 import fr.lip6.move.coloane.tools.graphviz.io.IOUtils;
@@ -85,8 +86,10 @@ public final class GraphViz {
 			}
 			IStatus result = runDot(format, dimension, dotInput, dotOutput);
 			if (dotOutput.isFile()) {
-				if (!result.isOK() && Platform.inDebugMode()) {
+				if (!result.isOK()) {
 					Logger.getLogger("graphviz").info(status.getMessage());
+					GraphVizActivator.getInstance().getLog().log(result);
+					Coloane.showErrorMsg(result.getMessage());
 				}
 				// success!
 				return;

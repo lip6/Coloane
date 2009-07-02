@@ -92,8 +92,8 @@ public class GraphVizActivator extends AbstractUIPlugin {
 		}
 	}
 
-
 	public static final String DOT_SEARCH_METHOD = "dotSearchMethod";
+
 	// The manual path is entered by the user. It should never be changed or deleted except by the user.
 	public static final String DOT_MANUAL_PATH = "dotManualPath";
 	
