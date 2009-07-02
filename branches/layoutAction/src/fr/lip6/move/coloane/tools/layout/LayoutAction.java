@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * The action of laying out a graph.
  */
-public class LayoutEditorActionDelegate implements IColoaneAction {
+public class LayoutAction implements IColoaneAction {
 	/**
 	 * {@inheritDoc}
 	 */

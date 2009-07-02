@@ -10,8 +10,9 @@
  <extension
        point="fr.lip6.move.coloane.core.tools">
     <Tool
-          action="fr.lip6.move.coloane.tools.layout.LayoutEditorActionDelegate"
-          icon="resources/share.png"
+          action="fr.lip6.move.coloane.tools.layout.LayoutAction"
+          description="Layout the current graph"
+          icon="resources/layout_icon.png"
           name="Layout">
     </Tool>
  </extension>
