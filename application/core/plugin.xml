@@ -959,15 +959,19 @@
                    tooltip="%DISCONNECT_TIP">
              </command>
           </menu>
-       </menu>
-       <menu
-             icon="resources/icons/local.png"
-             id="fr.lip6.move.coloane.core.tools"
-             label="%LOCAL_MENU">
-          <dynamic
-                class="fr.lip6.move.coloane.core.extensions.ToolsContribution"
-                id="fr.lip6.move.coloane.core.dynamic1">
-          </dynamic>
+          <menu
+                icon="resources/icons/local.png"
+                id="fr.lip6.move.coloane.core.services.local"
+                label="%LOCAL_MENU">
+             <dynamic
+                   class="fr.lip6.move.coloane.core.extensions.ToolsContribution"
+                   id="fr.lip6.move.coloane.core.services.local.tools">
+             </dynamic>
+          </menu>
+          <separator
+                name="separator.type"
+                visible="true">
+          </separator>
        </menu>
     </menuContribution>
     <menuContribution

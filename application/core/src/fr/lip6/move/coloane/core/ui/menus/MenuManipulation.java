@@ -129,7 +129,7 @@ public final class MenuManipulation {
 		// On ne fait pas de clean si le menu n'existe pas
 		if (getColoaneMenu() != null && !getColoaneMenu().isDisposed()) {
 			for (MenuItem item : getColoaneMenu().getItems()) {
-				if (!item.getText().equals(Coloane.getParam("PLATFORM_MENU"))) { //$NON-NLS-1$
+				if (!item.getText().equals(Coloane.getParam("PLATFORM_MENU")) && !item.getText().equals(Coloane.getParam("LOCAL_MENU"))) { //$NON-NLS-1$ //$NON-NLS-2$
 					item.dispose();
 				}
 			}
