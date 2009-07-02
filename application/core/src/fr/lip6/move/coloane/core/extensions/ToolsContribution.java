@@ -36,7 +36,7 @@ public class ToolsContribution extends CompoundContributionItem {
 	 */
 	@Override
 	public final boolean isDynamic() {
-		return false;
+		return true;
 	}
 
 	/**
