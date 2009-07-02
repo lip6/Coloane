@@ -22,10 +22,10 @@ import org.eclipse.swt.widgets.Text;
  * Just a combination text entry box and browse button. Right now it's
  * specialized for browsing files but it would be easy to refactor to do just
  * about anything: just extract doBrowse().
- * <p>
+ * <br>
  * Cribbed from StringButtonFieldEditor and friends.
  * 
- * @author bronson
+ * @author Bronson
  */
 
 public class FileBrowserField extends Composite {

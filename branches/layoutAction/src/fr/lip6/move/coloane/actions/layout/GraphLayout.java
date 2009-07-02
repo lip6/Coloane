@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.actions.layout;
 
-
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -15,7 +14,6 @@ import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.graphics.Point;
-
 
 /**
  * A utility class that offers "Layout" that modifies in place the given graph.<br>
@@ -39,13 +37,12 @@ public final class GraphLayout {
 		StringBuffer sb = new StringBuffer();
 		sb.append("digraph G {\n");
 		for (INode node : graph.getNodes()) {
-			// produce one line
+			// Produce one line
 			sb.append("    " + getDotID(node) + " ;\n");
 		}
 		for (IArc arc : graph.getArcs()) {
-			// one line per arc
-			sb.append(getDotID(arc.getSource()) + " -> " + getDotID(arc.getTarget())
-					+ "[label=ID" + arc.getId() + " ] ;\n");
+			// One line per arc
+			sb.append(getDotID(arc.getSource()) + " -> " + getDotID(arc.getTarget()) + "[label=ID" + arc.getId() + " ] ;\n");
 		}
 		sb.append("}");
 		System.err.println(sb.toString());
@@ -55,14 +52,14 @@ public final class GraphLayout {
 								new Point(20, 20));
 			return DotParser.parseGraphPositions(dotOutput, graph);
 
-		} catch (CoreException e) { 
+		// TODO: Exceptions must be handled more carefully !
+		} catch (CoreException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return new ArrayList<ICommand>();
 	}
-
 	
 	/**
 	 * Convert an integer node ID to a string passed to dot as object ID

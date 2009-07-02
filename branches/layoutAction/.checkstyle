@@ -3,7 +3,4 @@
     <fileset name="tous" enabled="true" check-config-name="Coloane Checkstyle" local="false">
         <file-match-pattern match-pattern="." include-pattern="true"/>
     </fileset>
-    <filter name="FileTypesFilter" enabled="true">
-        <filter-data value="properties"/>
-    </filter>
 </fileset-config>
