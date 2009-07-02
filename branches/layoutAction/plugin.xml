@@ -3,14 +3,14 @@
 <plugin>
 	<extension point="org.eclipse.ui.preferencePages">
 		<page category="fr.lip6.move.coloane.ui.prefs.main"
-			class="fr.lip6.move.coloane.actions.layout.GraphVizPreferencePage" id="fr.lip6.move.coloane.ui.prefs.graphviz"
+			class="fr.lip6.move.coloane.tools.layout.GraphVizPreferencePage" id="fr.lip6.move.coloane.ui.prefs.graphviz"
 			name="Layout Preferences">
 		</page>
 	</extension>
  <extension
        point="fr.lip6.move.coloane.core.tools">
     <Tool
-          action="fr.lip6.move.coloane.actions.layout.LayoutEditorActionDelegate"
+          action="fr.lip6.move.coloane.tools.layout.LayoutEditorActionDelegate"
           icon="resources/share.png"
           name="Layout">
     </Tool>

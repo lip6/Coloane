@@ -9,7 +9,7 @@
  *     Scott Bronson
  *     Yann Thierry-Mieg (added algo choice and some temp file based functionality)
  *******************************************************************************/
-package fr.lip6.move.coloane.actions.layout;
+package fr.lip6.move.coloane.tools.layout;
 
 import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator;
 import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator.DotAlgo;

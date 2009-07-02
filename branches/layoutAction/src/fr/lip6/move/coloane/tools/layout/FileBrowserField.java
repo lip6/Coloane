@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.actions.layout;
+package fr.lip6.move.coloane.tools.layout;
 
 import java.io.File;
 
