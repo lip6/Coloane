@@ -5,11 +5,11 @@
          point="fr.lip6.move.coloane.core.exports">
       <Export
             class="fr.lip6.move.coloane.extension.importExportRomeo.exportToRomeo.ExportToImpl"
-            extension="cami"
+            extension="xml"
             id="fr.lip6.move.coloane.extensions.exportromeo"
             reference="fr.lip6.move.coloane.wizard.export.romeo">
          <AcceptedFormalism
-               id="Timed Petri Net">
+               id="Time Petri Net">
          </AcceptedFormalism>
       </Export>
    </extension>
@@ -17,16 +17,10 @@
          point="fr.lip6.move.coloane.core.imports">
       <Import
             class="fr.lip6.move.coloane.extension.importExportRomeo.importFromRomeo.ImportFromImpl"
-            id="fr.lip6.move.coloane.extensions.importcami"
-            reference="fr.lip6.move.coloane.wizard.import.cami">
+            id="fr.lip6.move.coloane.extensions.importromeo"
+            reference="fr.lip6.move.coloane.wizard.import.romeo">
          <AcceptedFormalism
-               id="PT-Net">
-         </AcceptedFormalism>
-         <AcceptedFormalism
-               id="CPN">
-         </AcceptedFormalism>
-         <AcceptedFormalism
-               id="RG">
+               id="Time Petri Net">
          </AcceptedFormalism>
       </Import>
    </extension>
@@ -36,10 +30,10 @@
             category="fr.lip6.move.coloane.wizard.export.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
             icon="resources/camifile.png"
-            id="fr.lip6.move.coloane.wizard.export.cami"
-            name="Cami File">
+            id="fr.lip6.move.coloane.wizard.export.romeo"
+            name="Romeo File">
 		 <description>
-            Export local models to your file system using CAMI syntax.
+            Export local timed Petri net model  to your file system using Romeo syntax.
          </description>
       </wizard>
    </extension>
@@ -49,10 +43,10 @@
             category="fr.lip6.move.coloane.wizard.import.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.importmodel.ImportWizard"
             icon="resources/camifile.png"
-            id="fr.lip6.move.coloane.wizard.import.cami"
-            name="Cami File">
+            id="fr.lip6.move.coloane.wizard.import.romeo"
+            name="Romeo File">
          <description>
-            Import models written in CAMI from the local file system.
+            Import models written in Romeo from the local file system.
          </description>
       </wizard>
    </extension>
