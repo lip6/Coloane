@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.extensions;
 
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.command.ICommand;
+import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 import java.util.List;
 
@@ -21,5 +21,5 @@ public interface IColoaneAction {
 	 * @param model The current session graph model
 	 * @return A set of commands that will be executed by the core
 	 */
-	List<ICommand> run(IGraph model);
+	List<IResult> run(IGraph model);
 }
