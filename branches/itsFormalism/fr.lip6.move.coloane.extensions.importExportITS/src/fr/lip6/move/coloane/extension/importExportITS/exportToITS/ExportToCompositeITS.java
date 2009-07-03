@@ -22,7 +22,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
  *
  * @author Yann
  */
-public class ExportToImpl implements IExportTo {
+public class ExportToCompositeITS implements IExportTo {
 
 	/**
 	 * Export a model to ITS XML formatted file
@@ -95,7 +95,7 @@ public class ExportToImpl implements IExportTo {
 				sb.append("/>\n");
 
 			}
-			sb.append("</model>\n");			
+			sb.append("</model>\n");
 			sb.newLine();
 			// End of writing : clean & close
 			sb.flush();
