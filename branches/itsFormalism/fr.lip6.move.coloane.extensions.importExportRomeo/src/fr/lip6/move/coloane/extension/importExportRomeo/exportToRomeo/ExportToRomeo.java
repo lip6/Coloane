@@ -24,7 +24,7 @@ import org.eclipse.draw2d.geometry.Point;
  *
  * @author Yann Thierry-Mieg
  */
-public class ExportToImpl implements IExportTo {
+public class ExportToRomeo implements IExportTo {
 	
 	// the indent level for pretty printing
 	private int indent = 0;
