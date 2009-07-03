@@ -154,7 +154,7 @@ public class ExportToImpl implements IExportTo {
 		try {
 			sb.append("lft=\"" + Integer.parseInt(lft) + "\" ");
 		} catch (NumberFormatException e) {
-			sb.append("lft=\"-1\" ");
+			sb.append("lft=\"infini\" ");
 		}
 		sb.append(">\n");
 
