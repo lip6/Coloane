@@ -4,6 +4,7 @@ package testits.editors;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.tools.layout.GraphLayout;
+import io.ITSModelWriter;
 import its.CompositeTypeDeclaration;
 import its.Concept;
 import its.ModelFlattener;
@@ -37,6 +38,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
@@ -89,6 +91,8 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	private NodesTable tpnTable;
 
 	private Button flatTypeButton;
+	
+	private Button exportTypeButton;
 
 	protected TypeDeclaration currentSelectedTypeDecl;
 
@@ -173,6 +177,10 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		layoutTypeButton.setText("Layout a coloane graph");
 		layoutTypeButton.setToolTipText("Use ATT graphviz to layout the graph.");
 
+		exportTypeButton = new Button(buttonZone, SWT.PUSH);
+		exportTypeButton.setText("Export to SDD-ITS");
+		exportTypeButton.setToolTipText("Export the instance Romeo-SDD format.");
+		
 		/** add listener to connect the two tables */
 		table.getViewer().getTable().addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
@@ -242,6 +250,23 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 			}
 		});	
 
+		
+		exportTypeButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				ITSModelWriter mw = new ITSModelWriter();
+				try {
+					DirectoryDialog dialog = new DirectoryDialog(getSite().getShell());
+				    String directory = dialog.open();
+					mw.exportITSModel(types, currentSelectedTypeDecl, directory);
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
+		});
+		
 		addTypeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
