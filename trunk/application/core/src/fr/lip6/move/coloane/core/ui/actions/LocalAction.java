@@ -6,7 +6,9 @@ import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.ModificationResultCommand;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
+import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.gef.GraphicalViewer;
@@ -87,7 +89,11 @@ public class LocalAction extends Action {
 	@Override
 	public final void run() {
 		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
-		List<ICommand> commands = action.run(currentGraph);
+		List<IResult> results = action.run(currentGraph);
+		List<ICommand> commands = new ArrayList<ICommand>();
+		for (IResult result : results) {
+			commands.addAll(result.getModificationsOnCurrentGraph());
+		}
 		Command result = new ModificationResultCommand(currentGraph, commands);
 		ColoaneEditor ce = (ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		GraphicalViewer viewer = (GraphicalViewer) ce.getAdapter(GraphicalViewer.class);
