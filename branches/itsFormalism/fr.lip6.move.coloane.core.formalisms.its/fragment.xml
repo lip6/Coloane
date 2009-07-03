@@ -6,7 +6,7 @@
       <Formalism
             extension="tpn"
             fkname="AMI-Net"
-            id="TPN Time Petri Net"
+            id="Time Petri Net"
             image="resources/tpn_icon.PNG"
             name="TimePetriNet">
          <XmlDescription>
@@ -67,12 +67,12 @@
                         description="Create a transition"
                         drawable="true"
                         fill="false"
-                        height="7"
+                        height="10"
                         icon16px="resources/formalisms/transition_16.png"
                         icon24px="resources/formalisms/transition_24.png"
                         palettable="true"
                         paletteName="Transition"
-                        width="25">
+                        width="20">
                   </GraphicInfo>
                   <Attribute
                         bold="true"
