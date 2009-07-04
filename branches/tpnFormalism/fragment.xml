@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<fragment>
+   <extension
+         point="fr.lip6.move.coloane.core.formalisms">
+      <Formalism
+            extension="tpn"
+            fkname="Time Petri Net"
+            id="tpn"
+            image="resources/clock.png"
+            name="Time Petri Net">
+      </Formalism>
+   </extension>
+</fragment>
