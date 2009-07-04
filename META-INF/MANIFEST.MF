@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ExportToSTAT Plug-in
-Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exportToSTAT
+Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exportToSTATS
 Bundle-Version: 0.5.0
 Bundle-Activator: fr.lip6.move.coloane.extensions.exporttostat.Activator
 Bundle-Vendor: LIP6 / MoVe
