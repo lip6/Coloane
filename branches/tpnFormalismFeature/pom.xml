@@ -9,15 +9,15 @@
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.features</groupId>
-	<artifactId>formalismDD</artifactId>
+	<artifactId>formalismTPN</artifactId>
 	<packaging>jar</packaging>
-	<name>Features :: DD Formalism</name>
-	<description>DD Formalism</description>
+	<name>Features :: TPN Formalism</name>
+	<description>TPN Formalism</description>
 
 	<dependencies>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.fragments.formalisms</groupId>
-			<artifactId>dd</artifactId>
+			<artifactId>tpn</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
