@@ -4,11 +4,11 @@
    <extension
          point="fr.lip6.move.coloane.core.formalisms">
       <Formalism
-            extension="tpn"
-            fkname="Time Petri Net"
-            id="tpn"
+            extension="gspn"
+            fkname="GreatSPN Net"
+            id="gspn"
             image="resources/clock.png"
-            name="Time Petri Net">
+            name="GreatSPN Net">
       </Formalism>
    </extension>
 </fragment>
