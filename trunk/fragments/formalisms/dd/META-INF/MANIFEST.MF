@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: DD Formalism
+Bundle-Name: Decision Diagram Formalism
 Bundle-SymbolicName: fr.lip6.move.coloane.fragments.formalisms.dd;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Vendor: LIP6 / MoVe
