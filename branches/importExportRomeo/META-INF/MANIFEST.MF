@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ImportExportROMEO Plug-in
+Bundle-SymbolicName: fr.lip6.move.coloane.extensions.importExportROMEO;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: fr.lip6.move.coloane.extensions.importexportromeo.Activator
+Bundle-Vendor: LIP6 / MoVe
+Require-Bundle: org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
