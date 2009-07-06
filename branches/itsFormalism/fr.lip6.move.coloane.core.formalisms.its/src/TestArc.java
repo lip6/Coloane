@@ -37,7 +37,7 @@ public class TestArc extends RoundedPolylineConnection implements IArcFigure {
 		decoration.setTemplate(decorationPointList);
 		decoration.setFill(true);
 		decoration.setBackgroundColor(ColorConstants.gray);
-		decoration.setScale(.8, .8);
+		
 
 		return decoration;
 	}

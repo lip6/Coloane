@@ -37,7 +37,7 @@ public class ResetArc extends RoundedPolylineConnection implements IArcFigure {
 		decoration.setTemplate(decorationPointList);
 		decoration.setFill(true);
 		decoration.setBackgroundColor(ColorConstants.black);
-		decoration.setScale(.8, .8);
+		
 
 		return decoration;
 	}
