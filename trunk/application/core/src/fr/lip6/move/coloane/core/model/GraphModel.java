@@ -251,7 +251,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			LOGGER.warning("Cet id existe déjà."); //$NON-NLS-1$
 		} else if (!nodes.containsKey(arc.getSource().getId()) || !nodes.containsKey(arc.getTarget().getId())) {
 			LOGGER.warning("La source et/ou la cible de cet arc n'existe pas."); //$NON-NLS-1$
-		} else if (!formalism.isLinkAllowed(arc.getSource(), arc.getTarget())) {
+		} else if (!formalism.isLinkAllowed(arc.getSource(), arc.getTarget(), arc.getArcFormalism())) {
 			LOGGER.warning("Cet arc n'est pas autorisé par ce formalisme."); //$NON-NLS-1$
 		} else {
 			LOGGER.finest("addArc(" + arc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
