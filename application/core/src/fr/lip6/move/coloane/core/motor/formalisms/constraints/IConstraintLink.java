@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
@@ -17,8 +18,8 @@ public interface IConstraintLink {
 	 * Est-ce que la contrainte est satisfaite ?
 	 * @param source Le noeud <b>source</b> de l'arc a tester
 	 * @param target Le noeud <b>cible</b> de l'arc a tester
+	 * @param arcFormalism Le formalisme de l'arc
 	 * @return <code>true</code> si la connexion est possible. <code>false</code> sinon.
 	 */
-	boolean isSatisfied(INode source, INode target);
-
+	boolean isSatisfied(INode source, INode target, IArcFormalism arcFormalism);
 }

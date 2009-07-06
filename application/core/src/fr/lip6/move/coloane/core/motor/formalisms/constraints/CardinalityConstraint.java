@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.HashMap;
@@ -53,7 +54,7 @@ public class CardinalityConstraint implements IConstraint, IConstraintLink, IExe
 	}
 
 	/** {@inheritDoc} */
-	public final boolean isSatisfied(INode source, INode target) {
+	public final boolean isSatisfied(INode source, INode target, IArcFormalism arcFormalism) {
 		// On doit verifier que les contrainte de cardinalites s'applique pour les noeuds source et cible
 
 		// Pour le noeud source on verifie le formalisme pour appliquer la contrainte

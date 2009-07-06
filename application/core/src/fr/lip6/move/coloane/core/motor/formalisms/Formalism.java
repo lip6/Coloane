@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.motor.formalisms;
 
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintLink;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintNode;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -58,10 +59,10 @@ public class Formalism implements IFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final boolean isLinkAllowed(INode source, INode target) {
+	public final boolean isLinkAllowed(INode source, INode target, IArcFormalism arcFormalism) {
 		// Parcours de toutes les contraintes définies dans le formalisme
 		for (IConstraintLink constraint : linkconstraints) {
-			if (!constraint.isSatisfied(source, target)) {
+			if (!constraint.isSatisfied(source, target, arcFormalism)) {
 				return false;
 			}
 		}
