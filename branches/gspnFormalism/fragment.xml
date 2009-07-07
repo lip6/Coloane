@@ -260,6 +260,23 @@
                   </Attribute>
                </Arc>
                <Arc
+                     name="broken colored arc">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                        description="broken colored arc"
+                        drawable="true"
+                        palettable="true"
+                        paletteName="broken colored arc">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="color">
+                  </Attribute>
+               </Arc>
+               <Arc
                      name="inhibitor arc">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
@@ -303,6 +320,23 @@
                         drawable="true"
                         palettable="true"
                         paletteName="colored inhibitor arc">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="color">
+                  </Attribute>
+               </Arc>
+               <Arc
+                     name="broken colored inhibitor arc">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
+                        description="broken colored inhibitor arc"
+                        drawable="true"
+                        palettable="true"
+                        paletteName="broken colored inhibitor arc">
                   </GraphicInfo>
                   <Attribute
                         bold="false"
