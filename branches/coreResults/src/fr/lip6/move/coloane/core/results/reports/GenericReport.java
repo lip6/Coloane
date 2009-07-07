@@ -70,10 +70,9 @@ public class GenericReport implements IReport {
 					node.addChild(new ResultTreeImpl(Messages.GenericReport_5, s));
 				}
 			}
+			root.addChild(node);
 			
 			addResultTreeImpl(sub.getChildren(),node);
-			
-			root.addChild(node);
 		}
 	}
 	
