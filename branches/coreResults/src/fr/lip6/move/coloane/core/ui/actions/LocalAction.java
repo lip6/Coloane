@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
 import fr.lip6.move.coloane.core.extensions.IColoaneAction;
+import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.ModificationResultCommand;
@@ -92,6 +93,7 @@ public class LocalAction extends Action {
 		List<IResult> results = action.run(currentGraph);
 		List<ICommand> commands = new ArrayList<ICommand>();
 		for (IResult result : results) {
+			Motor.getInstance().addResult(result);
 			commands.addAll(result.getModificationsOnCurrentGraph());
 		}
 		Command result = new ModificationResultCommand(currentGraph, commands);
