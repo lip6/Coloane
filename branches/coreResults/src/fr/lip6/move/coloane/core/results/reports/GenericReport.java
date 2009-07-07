@@ -2,7 +2,10 @@ package fr.lip6.move.coloane.core.results.reports;
 
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
@@ -41,42 +44,50 @@ public class GenericReport implements IReport {
 
 			// Create a node result
 			ResultTreeImpl node;
-			if (sub.getTextualResults().size() == 1) {
-				if (!("".equals(sub.getName()))) { //$NON-NLS-1$
-					node = new ResultTreeImpl(Messages.GenericReport_0 + (i + 1), sub.getName(), sub.getTextualResults().get(0));
+			if (!("".equals(sub.getName()))) { //$NON-NLS-1$
+				if(!("".equals(sub.getInformation()))) {  //$NON-NLS-1$
+					node = new ResultTreeImpl(sub.getName(), sub.getInformation());
 				} else {
-					node = new ResultTreeImpl(Messages.GenericReport_1 + (i + 1), sub.getTextualResults().get(0));
+					node = new ResultTreeImpl(sub.getName());
 				}
 			} else {
-				node = new ResultTreeImpl(Messages.GenericReport_2 + (i + 1), sub.getName());
-			}
-			
-						
-			for (int id : sub.getObjectsOutline()) {
-				String name = String.valueOf(id);
-				IElement element = root.getSessionManager().getCurrentSession().getGraph().getObject(id);
-				if ((element != null) && (element instanceof INode)) {
-					String value = element.getAttribute(Messages.GenericReport_3).getValue();
-					if (!("".equals(value))) { //$NON-NLS-1$
-						name = value;
-					}
-				}
-				node.addChild(new ResultTreeImpl(id, Messages.GenericReport_4, name));
-				node.addHighlighted(id);
+				node = new ResultTreeImpl(Messages.GenericReport_0 + (i + 1));
 			}
 
-			if (sub.getTextualResults().size() > 1) {
-				for (String s : sub.getTextualResults()) {
-					node.addChild(new ResultTreeImpl(Messages.GenericReport_5, s));
-				}
-			}
 			root.addChild(node);
-			
 			addResultTreeImpl(sub.getChildren(),node);
+			
+			for (int id : sub.getObjectsOutline()) {
+				String name = "id : " + String.valueOf(id); //$NON-NLS-1$
+				IElement element = root.getSessionManager().getCurrentSession().getGraph().getObject(id);
+				if (element != null) {
+					String formalismName = "Le formalisme n'a pas de nom pour cet objet"; //$NON-NLS-1$
+					if (element instanceof INode) {
+						String value = element.getAttribute(Messages.GenericReport_3).getValue();
+						if (!("".equals(value))) { //$NON-NLS-1$
+							name = value;
+						}
+						formalismName = ((INode)element).getNodeFormalism().getName();
+					}
+					if (element instanceof IArc) {
+						formalismName = ((IArc)element).getArcFormalism().getName();
+					}
+					if (element instanceof IGraph) {
+						formalismName = ((IGraph)element).getFormalism().getName();
+					}
+					node.addChild(new ResultTreeImpl(id, formalismName, name));
+				}			
+			}			
+			
+			node.addChild(new ResultTreeImpl(sub.getTextualResultsMenu().toArray(new String[sub.getTextualResultsMenu().size()])));
+			for (List<String> tabStr : sub.getTextualResults()) {
+				node.addChild(new ResultTreeImpl(tabStr.toArray(new String[tabStr.size()])));
+			}
+			
 		}
 	}
-	
-	/** {@inheritDoc} */
+	/*
+	/** {@inheritDoc} 
 	public final ResultTreeImpl buildOriginal(IResult result) {
 
 		// 1. Build the root of the resultat tree
@@ -123,4 +134,5 @@ public class GenericReport implements IReport {
 		}
 		return root;
 	}
+	*/
 }

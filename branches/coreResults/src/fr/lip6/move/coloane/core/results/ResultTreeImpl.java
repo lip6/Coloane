@@ -20,7 +20,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	/** Le logger pour la classe */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** List vide non modifiable */
+	/** Liste vide non modifiable */
 	private static final List<ICoreTip> EMPTY_TIPS_LIST = Collections.unmodifiableList(new ArrayList<ICoreTip>(0));
 
 	private String serviceName;
