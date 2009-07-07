@@ -38,6 +38,7 @@ public class InflexCreateCmd extends Command {
 	@Override
 	public final void execute() {
 		this.redo();
+		super.execute();
 	}
 
 	/** {@inheritDoc} */

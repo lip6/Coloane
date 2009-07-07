@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.motor.formalisms.constraints;
 
-import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.HashMap;
@@ -22,9 +21,6 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 	/** Element en sortie de l'arc. */
 	private String target;
 
-	/** Type de l'arc concerné. */
-	private String arcType;
-
 	/**
 	 * Constructeur utilisé par le <i>formalisme builder</i>
 	 * @see {@link FormalismManager}
@@ -43,12 +39,8 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 	}
 
 	/** {@inheritDoc} */
-	public final boolean isSatisfied(INode source, INode target, IArcFormalism arcFormalism) {
-		if ((this.arcType == null) || (arcFormalism.getName().equals(this.arcType))) {
-			return (!(this.source.equals(source.getNodeFormalism().getName())) || !(this.target.equals(target.getNodeFormalism().getName())));
-		} else {
-			return true;
-		}
+	public final boolean isSatisfied(INode source, INode target) {
+		return (!(this.source.equals(source.getNodeFormalism().getName())) || !(this.target.equals(target.getNodeFormalism().getName())));
 	}
 
 	/** {@inheritDoc} */
@@ -72,8 +64,7 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 
 		this.source = myParams.get("source"); //$NON-NLS-1$
 		this.target = myParams.get("target"); //$NON-NLS-1$
-		this.arcType = myParams.get("arcType"); //$NON-NLS-1$
- 	}
+	}
 
 	/** {@inheritDoc} */
 	public final String getName() {

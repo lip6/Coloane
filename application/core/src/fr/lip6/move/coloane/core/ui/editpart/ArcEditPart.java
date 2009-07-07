@@ -163,7 +163,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 				LOGGER.finest("Suppression du point d'inflexion : " + request.getIndex()); //$NON-NLS-1$
 				Point p = request.getLocation();
 				getConnection().translateToRelative(p);
-				InflexDeleteCmd com = new InflexDeleteCmd((IArc) getModel(), request.getIndex());
+				InflexDeleteCmd com = new InflexDeleteCmd((IArc) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
 			@Override
@@ -262,10 +262,8 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			refreshVisuals();
 		} else if (INode.OUTGOING_ARCS_PROP.equals(prop)) {
 			refreshSourceConnections();
-		} else if (IArc.INFLEXPOINT_PROP.equals(prop)) {
-			refreshVisuals();
 
-			// If the user has curved an arc, visuals must be refreshed
+		// If the user has curved an arc, visuals must be refreshed
 		} else if (IArc.CURVE_PROP.equals(prop)) {
 			refreshVisuals();
 		}

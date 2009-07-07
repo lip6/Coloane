@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.wizards.newmodel;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.ExampleExtension;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
@@ -228,11 +227,6 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 			LOGGER.warning("Impossible de creer le nouveau fichier"); //$NON-NLS-1$
 			LOGGER.warning(e.getMessage());
 			Coloane.showErrorMsg(e.getMessage());
-			return null;
-		} catch (ColoaneException pluginException) {
-			LOGGER.warning("Plugin failure"); //$NON-NLS-1$
-			LOGGER.warning(pluginException.getMessage());
-			Coloane.showErrorMsg(pluginException.getMessage());
 			return null;
 		}
 		return inputS;

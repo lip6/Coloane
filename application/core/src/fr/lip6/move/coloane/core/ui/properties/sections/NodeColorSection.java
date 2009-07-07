@@ -148,7 +148,6 @@ public class NodeColorSection extends AbstractSection<INode> {
 	}
 
 	/** {@inheritDoc} */
-	@Override
 	public final void propertyChange(java.beans.PropertyChangeEvent evt) {
 		if (INode.FOREGROUND_COLOR_PROP.equals(evt.getPropertyName())) {
 			refresh();

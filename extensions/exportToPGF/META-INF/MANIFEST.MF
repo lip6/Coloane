@@ -8,11 +8,12 @@ Bundle-Vendor: LIP6 / MoVe
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  fr.lip6.move.coloane.core,
- fr.lip6.move.coloane.interfaces
+ fr.lip6.move.coloane.interfaces,
+ org.eclipse.gef
 Eclipse-LazyStart: true
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: lib/antlr-2.7.7.jar,
  lib/stringtemplate.jar,
- templates/,
- .
+ .,
+ templates/

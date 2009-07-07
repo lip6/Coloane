@@ -8,13 +8,12 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 public interface IFormalism {
 
 	/**
-	 * Indique si la création de l'arc est possible
-	 * @param source (modele) La source de l'arc
-	 * @param target (modele) La cible de l'arc
-	 * @param arcFormalism Le formalism de l'arc
+	 * Indique si la liaison entre deux élément est possible
+	 * @param source Element (modele) source de l'arc
+	 * @param target Element (modele) cible de l'arc
 	 * @return <code>true</code> si la liaison est possible
 	 */
-	boolean isLinkAllowed(INode source, INode target, IArcFormalism arcFormalism);
+	boolean isLinkAllowed(INode source, INode target);
 
 	/**
 	 * Indique si l'action sur un noeud du modele est envisageable

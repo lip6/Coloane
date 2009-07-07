@@ -97,10 +97,6 @@ public final class ModelWriter {
 			sb.append(" xposition='").append(node.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" yposition='").append(node.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" scale='").append(node.getGraphicInfo().getScale()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-			sb.append(" interface='").append(node.isInterface()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-			if (node.getNodeLink() != null) {
-				sb.append(" link='").append(node.getNodeLink()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
 			sb.append(" alt='").append(node.getGraphicInfo().getGdIndex()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" foreground='").append(color2String(node.getGraphicInfo().getForeground())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" background='").append(color2String(node.getGraphicInfo().getBackground())).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$

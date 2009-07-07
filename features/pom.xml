@@ -5,7 +5,7 @@
 	<parent> 
 		<groupId>fr.lip6.move.coloane</groupId> 
 		<artifactId>coloane-parent</artifactId> 
-		<version>0.16.2-SNAPSHOT</version> 
+		<version>0.16.1-SNAPSHOT</version> 
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.features</groupId>
@@ -21,9 +21,7 @@
 		<module>importExportPNML</module>
 		<module>modelExamples</module>
 		<module>languagePack</module>
-		<module>formalismDD</module>
 		<module>coloaneMain</module>
-		<module>coloaneMainSources</module>
 	</modules>
 
 	<build>

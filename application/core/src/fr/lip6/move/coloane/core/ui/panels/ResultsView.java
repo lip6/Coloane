@@ -71,7 +71,8 @@ public class ResultsView extends ViewPart {
 			results = MANAGER.getCurrentSession().getServiceResults();
 		}
 
-		// Création d'un observer de ResultTreeList qui fera les mises à jours nécessaire en cas modification des résultats : ajouts/suppressions.
+		// Création d'un observer de ResultTreeList qui fera les mises à jours nécessaire
+		// en cas modification des résultats : ajouts/suppressions.
 		final Observer resultObserver = new Observer() {
 			public void update(final Observable o, Object arg) {
 				final Integer width = (Integer) arg;
@@ -203,6 +204,7 @@ public class ResultsView extends ViewPart {
 		});
 
 		createToolbar();
+
 		updateColumnsWidth();
 		Tree tree = viewer.getTree();
 		tree.setHeaderVisible(true);

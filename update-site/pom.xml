@@ -5,7 +5,7 @@
 	<parent> 
 		<groupId>fr.lip6.move.coloane</groupId> 
 		<artifactId>coloane-parent</artifactId> 
-		<version>0.16.2-SNAPSHOT</version> 
+		<version>0.16.1-SNAPSHOT</version> 
 	</parent>
 
 	<artifactId>update-site</artifactId>
@@ -74,11 +74,6 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>coloaneMain</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>coloaneMainSources</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

@@ -61,7 +61,6 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
-		if (location == null) { return; }
 		setLocation(location.x, location.y);
 	}
 

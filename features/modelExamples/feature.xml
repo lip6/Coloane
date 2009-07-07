@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="fr.lip6.move.coloane.feature.modelexamples"
-      label="Coloane - Model Examples"
+      label="Model Examples"
       version="0.8.0"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">

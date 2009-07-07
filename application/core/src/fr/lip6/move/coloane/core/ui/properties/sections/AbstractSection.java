@@ -2,13 +2,11 @@ package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.interfaces.model.IAbstractPropertyChange;
 
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CommandStack;
@@ -22,9 +20,6 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
  * @param <T>
  */
 public abstract class AbstractSection<T extends IAbstractPropertyChange> extends AbstractPropertySection implements PropertyChangeListener {
-	/** Le logger */
-	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
 	private List<T> elements = new ArrayList<T>();
 	private boolean isDisposed = false;
 
@@ -33,14 +28,6 @@ public abstract class AbstractSection<T extends IAbstractPropertyChange> extends
 	@Override
 	public final void dispose() {
 		isDisposed = true;
-		LOGGER.finest("Dispose the section " + this.getClass()); //$NON-NLS-1$
-		internalDispose();
-	}
-
-	/**
-	 * @see AbstractSection.dispose() method
-	 */
-	protected void internalDispose() {
 	}
 
 	/**
@@ -88,9 +75,4 @@ public abstract class AbstractSection<T extends IAbstractPropertyChange> extends
 		CommandStack cs = o.getParent().getViewer().getEditDomain().getCommandStack();
 		return cs;
 	}
-
-	/** {@inheritDoc} */
-	public void propertyChange(PropertyChangeEvent evt) {
-	}
-
 }

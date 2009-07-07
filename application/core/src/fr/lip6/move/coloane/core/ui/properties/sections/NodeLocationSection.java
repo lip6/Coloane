@@ -124,7 +124,6 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 	}
 
 	/** {@inheritDoc} */
-	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (ILocationInfo.LOCATION_PROP.equals(evt.getPropertyName())) {
 			refresh();

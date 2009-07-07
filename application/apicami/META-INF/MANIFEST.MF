@@ -1,8 +1,11 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: fr.lip6.move.coloane.apicami;singleton:=true
 Bundle-Version: 1.0.1
-Bundle-Name: %pluginName
-Bundle-Vendor: %providerName
+Bundle-Name: Coloane API (cami)
+Bundle-Vendor: LIP6 / MoVe
+Provide-Package: fr.lip6.move.coloane.api.main,
+ fr.lip6.move.coloane.api.utils,
+ fr.lip6.move.coloane.apicami.exceptions
 Require-Bundle: fr.lip6.move.coloane.interfaces,
  fr.lip6.move.coloane.core
 Bundle-ManifestVersion: 2

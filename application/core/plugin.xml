@@ -7,7 +7,6 @@
    <extension-point id="examples" name="Examples" schema="schema/examples.exsd"/>
    <extension-point id="formalisms" name="Formalisms" schema="schema/formalisms.exsd"/>
    <extension-point id="apis" name="Api" schema="schema/api.exsd"/>
-   <extension-point id="tools" name="Tools" schema="schema/tools.exsd"/>
    <extension
          id="perspective"
          name="Coloane's perspective"
@@ -74,8 +73,8 @@
              class="fr.lip6.move.coloane.core.ui.ColoaneEditor"
              contributorClass="fr.lip6.move.coloane.core.ui.actions.ColoaneActionBarContributor"
              default="true"
-             extensions="%MODEL_EXTENSION"
-             icon="resources/formalisms/ptn/ptn.png"
+             extensions="model"
+             icon="resources/icons/model_resource.png"
              id="fr.lip6.move.coloane.editor.petri"
              name="%EDITOR_NAME">
        </editor>
@@ -119,14 +118,14 @@
        id="preferencePages"
        name="Coloane&apos;s Preference Pages"
        point="org.eclipse.ui.preferencePages">
-        <page id="fr.lip6.move.coloane.ui.prefs.main"
+        <page id="fr.lip6.move.coloane.ui.dialogs.ColoanePreference"
                 name="Coloane"
                 class="fr.lip6.move.coloane.core.ui.prefs.ColoanePrefsPage">
         </page>
-        <page id="fr.lip6.move.coloane.ui.prefs.colors"
+        <page id="org.eclipse.ui.articles.BadWordsColorPreference"
                 name="%PREF_COLORS"
                 class="fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs"
-                category="fr.lip6.move.coloane.ui.prefs.main">
+                category="fr.lip6.move.coloane.ui.dialogs.ColoanePreference">
         </page>
     
 	</extension>
@@ -198,9 +197,6 @@
           <contentExtension
                 pattern="fr.lip6.move.coloane.core.modelcontents">
           </contentExtension>
-          <contentExtension
-                pattern="fr.lip6.move.coloane.core.treecontents">
-          </contentExtension>
        </includes>
     </viewerContentBinding>
     <viewerActionBinding
@@ -216,19 +212,14 @@
        point="org.eclipse.ui.navigator.navigatorContent">
     <navigatorContent
           activeByDefault="true"
-          contentProvider="fr.lip6.move.coloane.core.ui.views.ModelContentProvider"
+          contentProvider="fr.lip6.move.coloane.core.ui.views.TreeContentProvider"
           icon="resources/icons/model_contents.gif"
           id="fr.lip6.move.coloane.core.modelcontents"
-          labelProvider="fr.lip6.move.coloane.core.ui.views.ModelLabelProvider"
+          labelProvider="fr.lip6.move.coloane.core.ui.views.LabelProvider"
           name="Model Contents"
           priority="normal">
        <triggerPoints>
        </triggerPoints>
-       <possibleChildren>
-          <instanceof
-                value="org.eclipse.core.resources.IFile">
-          </instanceof>
-       </possibleChildren>
     </navigatorContent>
     <commonWizard
           type="new"
@@ -240,24 +231,6 @@
           wizardId="fr.lip6.move.coloane.wizard.projectWizard">
        <enablement></enablement>
     </commonWizard>
-    <navigatorContent
-          activeByDefault="true"
-          contentProvider="fr.lip6.move.coloane.core.ui.views.TreeContentProvider"
-          icon="resources/icons/model_contents.gif"
-          id="fr.lip6.move.coloane.core.treecontents"
-          labelProvider="fr.lip6.move.coloane.core.ui.views.TreeLabelProvider"
-          name="Tree Content"
-          priority="normal">
-       <triggerPoints></triggerPoints>
-       <possibleChildren>
-          <instanceof
-                value="fr.lip6.move.coloane.core.ui.views.Tree">
-          </instanceof>
-       </possibleChildren>
-       <actionProvider
-             class="fr.lip6.move.coloane.core.ui.views.NavigatorActionProvider">
-       </actionProvider>
-    </navigatorContent>
  </extension>
  <extension
        id="modelingproject"
@@ -361,12 +334,6 @@
              id="fr.lip6.move.coloane.core.properties.graphic"
              label="Graphic">
        </propertyTab>
-       <propertyTab
-             afterTab="fr.lip6.move.coloane.core.properties.graphic"
-             category="all"
-             id="fr.lip6.move.coloane.core.properties.link"
-             label="Link">
-       </propertyTab>
     </propertyTabs>
  </extension>
  <extension
@@ -429,23 +396,6 @@
                 type="fr.lip6.move.coloane.interfaces.model.INode">
           </input>
        </propertySection>
-       <propertySection
-             afterSection="fr.lip6.move.coloane.core.section.NodePublicStateSection"
-             class="fr.lip6.move.coloane.core.ui.properties.sections.LinkSection"
-             id="fr.lip6.move.coloane.core.section.LinkSection"
-             tab="fr.lip6.move.coloane.core.properties.link">
-          <input
-                type="fr.lip6.move.coloane.interfaces.model.INode">
-          </input>
-       </propertySection>
-       <propertySection
-             class="fr.lip6.move.coloane.core.ui.properties.sections.NodeInterfaceSection"
-             id="fr.lip6.move.coloane.core.section.NodePublicStateSection"
-             tab="fr.lip6.move.coloane.core.properties.link">
-          <input
-                type="fr.lip6.move.coloane.interfaces.model.INode">
-          </input>
-       </propertySection>
     </propertySections>
  </extension>
  <extension
@@ -455,7 +405,7 @@
     <Formalism
           extension="ptn"
           id="PT-Net"
-          image="resources/formalisms/ptn/ptn.png"
+          image="resources/icons/model_resource.png"
           name="Place/Transition Net"
           fkname="AMI-Net">
        <XmlDescription>
@@ -497,8 +447,8 @@
                       drawable="true"
                       fill="false"
                       height="15"
-                      icon16px="resources/formalisms/ptn/place_16.png"
-                      icon24px="resources/formalisms/ptn/place_24.png"
+                      icon16px="resources/formalisms/place_16.png"
+                      icon24px="resources/formalisms/place_24.png"
                       palettable="true"
                       paletteName="Place"
                       width="15">
@@ -528,8 +478,8 @@
                       drawable="true"
                       fill="false"
                       height="7"
-                      icon16px="resources/formalisms/ptn/transition_16.png"
-                      icon24px="resources/formalisms/ptn/transition_24.png"
+                      icon16px="resources/formalisms/transition_16.png"
+                      icon24px="resources/formalisms/transition_24.png"
                       palettable="true"
                       paletteName="Transition"
                       width="25">
@@ -556,8 +506,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Create an arc"
                       drawable="true"
-                      icon16px="resources/formalisms/ptn/arc_16.png"
-                      icon24px="resources/formalisms/ptn/arc_24.png"
+                      icon16px="resources/formalisms/arc_16.png"
+                      icon24px="resources/formalisms/arc_24.png"
                       palettable="true"
                       paletteName="Arc">
                 </GraphicInfo>
@@ -603,7 +553,7 @@
           extension="cpn"
           fkname="AMI-Net"
           id="CPN"
-          image="resources/formalisms/cpn/cpn.png"
+          image="resources/icons/colored.png"
           name="Colored Petri Net">
        <XmlDescription>
           <Graph
@@ -649,8 +599,8 @@
                       drawable="true"
                       fill="false"
                       height="15"
-                      icon16px="resources/formalisms/cpn/place_16.png"
-                      icon24px="resources/formalisms/cpn/place_24.png"
+                      icon16px="resources/formalisms/place_16.png"
+                      icon24px="resources/formalisms/place_24.png"
                       palettable="true"
                       paletteName="Place"
                       width="15">
@@ -680,8 +630,8 @@
                       drawable="true"
                       fill="false"
                       height="7"
-                      icon16px="resources/formalisms/cpn/transition_16.png"
-                      icon24px="resources/formalisms/cpn/transition_24.png"
+                      icon16px="resources/formalisms/transition_16.png"
+                      icon24px="resources/formalisms/transition_24.png"
                       palettable="true"
                       paletteName="Transition"
                       width="25">
@@ -714,8 +664,8 @@
                       drawable="true"
                       fill="false"
                       height="7"
-                      icon16px="resources/formalisms/cpn/queue_16.png"
-                      icon24px="resources/formalisms/cpn/queue_24.png"
+                      icon16px="resources/formalisms/queue_16.png"
+                      icon24px="resources/formalisms/queue_24.png"
                       palettable="true"
                       paletteName="Queue"
                       width="25">
@@ -742,8 +692,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Create an arc"
                       drawable="true"
-                      icon16px="resources/formalisms/cpn/arc_16.png"
-                      icon24px="resources/formalisms/cpn/arc_24.png"
+                      icon16px="resources/formalisms/arc_16.png"
+                      icon24px="resources/formalisms/arc_24.png"
                       palettable="true"
                       paletteName="Arc">
                 </GraphicInfo>
@@ -760,8 +710,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
                       description="Create an inhibitor arc between a place and a transition"
                       drawable="true"
-                      icon16px="resources/formalisms/cpn/inhibitor_16.png"
-                      icon24px="resources/formalisms/cpn/inhibitor_24.png"
+                      icon16px="resources/formalisms/inhibitor_16.png"
+                      icon24px="resources/formalisms/inhibitor_24.png"
                       palettable="true"
                       paletteName="Inhibitor Arc">
                 </GraphicInfo>
@@ -804,7 +754,7 @@
     <Formalism
           extension="rg"
           id="RG"
-          image="resources/formalisms/rg/rg.png"
+          image="resources/icons/reachability.png"
           name="Reachability Graph"
           fkname="ReachabilityGraph">
        <XmlDescription>
@@ -818,8 +768,8 @@
                       description="Create an initial state"
                       drawable="true"
                       height="15"
-                      icon16px="resources/formalisms/rg/initial_16.png"
-                      icon24px="resources/formalisms/rg/initial_24.png"
+                      icon16px="resources/formalisms/initial_16.png"
+                      icon24px="resources/formalisms/initial_24.png"
                       palettable="true"
                       paletteName="Initial State"
                       width="15">
@@ -839,8 +789,8 @@
                       drawable="true"
                       fill="true"
                       height="15"
-                      icon16px="resources/formalisms/rg/terminal_16.png"
-                      icon24px="resources/formalisms/rg/terminal_24.png"
+                      icon16px="resources/formalisms/terminal_16.png"
+                      icon24px="resources/formalisms/terminal_24.png"
                       palettable="true"
                       paletteName="Terminal State"
                       width="15">
@@ -860,8 +810,8 @@
                       drawable="true"
                       fill="false"
                       height="15"
-                      icon16px="resources/formalisms/rg/state_16.png"
-                      icon24px="resources/formalisms/rg/state_24.png"
+                      icon16px="resources/formalisms/state_16.png"
+                      icon24px="resources/formalisms/state_24.png"
                       palettable="true"
                       paletteName="State"
                       width="15">
@@ -878,8 +828,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Create an event"
                       drawable="true"
-                      icon16px="resources/formalisms/rg/arc_16.png"
-                      icon24px="resources/formalisms/rg/arc_24.png"
+                      icon16px="resources/formalisms/arc_16.png"
+                      icon24px="resources/formalisms/arc_24.png"
                       palettable="true"
                       paletteName="Event">
                 </GraphicInfo>
@@ -907,6 +857,95 @@
           </Graph>
        </XmlDescription>
     </Formalism>
+    <Formalism
+          extension="dd"
+          fkname="DD"
+          id="Decision Diagram"
+          image="resources/icons/dd.png"
+          name="Decision Diagram">
+       <XmlDescription>
+          <Graph
+                name="DecisionDiagram">
+             <Node
+                   container="false"
+                   name="node">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                      description="Node"
+                      drawable="true"
+                      height="22"
+                      icon16px="resources/formalisms/place_16.png"
+                      icon24px="resources/formalisms/place_24.png"
+                      palettable="true"
+                      paletteName="Node"
+                      width="22">
+                </GraphicInfo>
+                <Attribute
+                      bold="true"
+                      drawable="true"
+                      multiline="false"
+                      name="variable">
+                </Attribute>
+             </Node>
+             <Node
+                   container="false"
+                   name="terminal">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                      description="Terminal Node"
+                      drawable="true"
+                      height="22"
+                      icon16px="resources/formalisms/square_16.png"
+                      icon24px="resources/formalisms/square_24.png"
+                      palettable="true"
+                      paletteName="Terminal"
+                      width="22">
+                </GraphicInfo>
+                <Attribute
+                      bold="true"
+                      drawable="true"
+                      multiline="false"
+                      name="value">
+                </Attribute>
+             </Node>
+             <Arc
+                   name="arc">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                      description="Arc"
+                      drawable="true"
+                      icon16px="resources/formalisms/arc_16.png"
+                      icon24px="resources/formalisms/arc_24.png"
+                      palettable="true"
+                      paletteName="Arc">
+                </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      italic="true"
+                      multiline="false"
+                      name="valuation">
+                </Attribute>
+             </Arc>
+          </Graph>
+          <Constraint
+                link="true"
+                name="Terminal (No output arc)"
+                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.CardinalityConstraint">
+             <parameter
+                   name="maxIn"
+                   value="-1">
+             </parameter>
+             <parameter
+                   name="maxOut"
+                   value="0">
+             </parameter>
+             <parameter
+                   name="element"
+                   value="terminal">
+             </parameter>
+          </Constraint>
+       </XmlDescription>
+    </Formalism>
  </extension>
  <extension
        id="fr.lip6.move.coloane.menus"
@@ -915,12 +954,11 @@
     <menuContribution
           locationURI="menu:org.eclipse.ui.main.menu?after=additions">
        <menu
-             id="fr.lip6.move.coloane.core.services"
+             id="fr.lip6.move.coloane.core.menu"
              label="%MENUBAR_LABEL"
              mnemonic="S">
           <menu
-                icon="resources/icons/network.png"
-                id="fr.lip6.move.coloane.core.services.platform"
+                id="fr.lip6.move.coloane.core.menu.platform"
                 label="%PLATFORM_MENU">
              <command
                    commandId="%AUTHENTICATION"
@@ -959,19 +997,6 @@
                    tooltip="%DISCONNECT_TIP">
              </command>
           </menu>
-          <menu
-                icon="resources/icons/local.png"
-                id="fr.lip6.move.coloane.core.services.local"
-                label="%LOCAL_MENU">
-             <dynamic
-                   class="fr.lip6.move.coloane.core.extensions.ToolsContribution"
-                   id="fr.lip6.move.coloane.core.services.local.tools">
-             </dynamic>
-          </menu>
-          <separator
-                name="separator.type"
-                visible="true">
-          </separator>
        </menu>
     </menuContribution>
     <menuContribution
@@ -1035,5 +1060,20 @@
           id="%DISCONNECT"
           name="disconnect">
     </command>
+ </extension>
+ <extension
+       point="org.eclipse.ui.decorators">
+    <decorator
+          class="fr.lip6.move.coloane.core.ui.views.ModelDecorator"
+          id="fr.lip6.move.coloane.core.decorator1"
+          label="label"
+          location="BOTTOM_RIGHT"
+          state="false">
+       <enablement>
+          <objectClass
+                name="org.eclipse.core.resources.IFile">
+          </objectClass>
+       </enablement>
+    </decorator>
  </extension>
 </plugin>

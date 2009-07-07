@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 
 /**
  * This class defines a node according to model considerations.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class NodeModel extends AbstractElement implements INode, ILocatedElement, ILinkableElement {
@@ -44,13 +44,8 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** Links (comments) associated to this node */
 	private List<ILink> links = new ArrayList<ILink>();
 
-	private boolean isInterface = false;
-	private String nodeLink;
-
-
 	/**
 	 * Constructor
-	 * 
 	 * @param parent The parent of this node (often the graph itself)
 	 * @param nodeFormalism The formalism description of the node
 	 * @param id The identifier (unique) of the node
@@ -101,7 +96,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Add an outgoing arc for the considered node
-	 * 
 	 * @param outArc The arc to add to the list
 	 */
 	final void addOutgoingArc(IArc outArc) {
@@ -112,7 +106,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Add an incoming arc for the considered node
-	 * 
 	 * @param inArc The arc to add to the list
 	 */
 	final void addIncomingArc(IArc inArc) {
@@ -123,7 +116,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Remove an outgoing arc from the node
-	 * 
 	 * @param outArc The arc to remove from the list
 	 */
 	final void removeOutcomingArc(IArc outArc) {
@@ -134,7 +126,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Remove an incoming arc from the node
-	 * 
 	 * @param inArc The arc to remove from the list
 	 */
 	final void removeIncomingArc(IArc inArc) {
@@ -214,28 +205,5 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 			name = attrName.getValue();
 		}
 		return "Node(" + getId() + ", " + name + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	}
-
-	/** {@inheritDoc} */
-	public final boolean isInterface() {
-		return this.isInterface;
-	}
-
-	/** {@inheritDoc} */
-	public final void setInterface(boolean state) {
-		LOGGER.fine(this + " setInterface(" + state + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		boolean oldValue = isInterface;
-		this.isInterface = state;
-		firePropertyChange(IAttribute.VALUE_PROP, oldValue, state);
-	}
-
-	/** {@inheritDoc} */
-	public final String getNodeLink() {
-		return this.nodeLink;
-	}
-
-	/** {@inheritDoc} */
-	public final void setNodeLink(String link) {
-		this.nodeLink = link;
 	}
 }

@@ -9,8 +9,6 @@ import fr.lip6.move.coloane.core.motor.Motor;
 import fr.lip6.move.coloane.core.ui.actions.AlternateAction;
 import fr.lip6.move.coloane.core.ui.actions.CurveAction;
 import fr.lip6.move.coloane.core.ui.actions.NodeMoveAction;
-import fr.lip6.move.coloane.core.ui.actions.RemoveInflexAction;
-import fr.lip6.move.coloane.core.ui.files.ModelHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.core.ui.palette.PaletteFactory;
@@ -397,7 +395,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		setPartProperty("session.id", file.getFullPath().toString()); //$NON-NLS-1$
 
 		// Construction d'un modele en memoire a partir de se representation en XML
-		graph = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
+		graph = ModelLoader.loadFromXML(file);
 
 		// Si le chargement a échoué, on annule l'ouverture de l'éditeur
 		if (graph == null) {
@@ -692,12 +690,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
 
-        // Création de l'action pour le changement de figure (alternate style)
-        action = new RemoveInflexAction((IWorkbenchPart) this);
-        registry.registerAction(action);
-        getSelectionActions().add(action.getId());
-
-        // Création des actions pour les alignements
+		// Création des actions pour les alignements
 		action = new AlignmentAction((IWorkbenchPart) this, PositionConstants.LEFT);
 		registry.registerAction(action);
 		getSelectionActions().add(action.getId());

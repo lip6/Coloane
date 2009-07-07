@@ -78,12 +78,12 @@ public class ArcReconnectCmd extends Command {
 		IFormalism formalism = this.arc.getArcFormalism().getFormalism();
 
 		// Est-ce que la connexion est autorisée ?
-		if ((this.newSource != null) && !formalism.isLinkAllowed(newSource, oldTarget, this.arc.getArcFormalism())) {
+		if ((this.newSource != null) && !formalism.isLinkAllowed(newSource, oldTarget)) {
 			return false;
 		}
 
 		// Est-ce que la connexion est autorisée ?
-		if ((this.newTarget != null) && !formalism.isLinkAllowed(oldSource, newTarget, this.arc.getArcFormalism())) {
+		if ((this.newTarget != null) && !formalism.isLinkAllowed(oldSource, newTarget)) {
 			return false;
 		}
 

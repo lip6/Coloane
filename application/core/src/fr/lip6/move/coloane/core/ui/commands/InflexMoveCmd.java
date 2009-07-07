@@ -29,12 +29,14 @@ public class InflexMoveCmd extends Command {
 		this.newPosition = p;
 		this.newPosition.x = Math.max(this.newPosition.x, 0);
 		this.newPosition.y = Math.max(this.newPosition.y, 0);
+		this.oldPosition = this.arc.getInflexPoint(this.index);
+
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		this.oldPosition = this.arc.getInflexPoint(this.index);
+		super.execute();
 		this.redo();
 	}
 

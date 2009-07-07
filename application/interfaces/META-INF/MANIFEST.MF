@@ -1,9 +1,8 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: fr.lip6.move.coloane.interfaces;singleton:=true
 Bundle-Version: 1.3.0
-Bundle-Name: %pluginName
-Bundle-Vendor: %providerName
-Bundle-Localization: plugin
+Bundle-Name: Coloane Interfaces
+Bundle-Vendor: LIP6 / MoVe
 Export-Package: fr.lip6.move.coloane.interfaces.api,
  fr.lip6.move.coloane.interfaces.api.evenements,
  fr.lip6.move.coloane.interfaces.api.exceptions,

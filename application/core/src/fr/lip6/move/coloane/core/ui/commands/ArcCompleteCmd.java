@@ -52,7 +52,7 @@ public class ArcCompleteCmd extends Command {
 	public final boolean canExecute() {
 
 		// La connexion est-elle autorisee par le formalisme ?
-		if (!arcFormalism.getFormalism().isLinkAllowed(this.source, this.target, this.arcFormalism)) {
+		if (!arcFormalism.getFormalism().isLinkAllowed(source, target)) {
 			return false;
 		}
 

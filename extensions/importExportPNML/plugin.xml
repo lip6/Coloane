@@ -22,6 +22,9 @@
          <AcceptedFormalism
                id="PT-Net">
          </AcceptedFormalism>
+         <AcceptedFormalism
+               id="CPN">
+         </AcceptedFormalism>
       </Import>
    </extension>
       <extension

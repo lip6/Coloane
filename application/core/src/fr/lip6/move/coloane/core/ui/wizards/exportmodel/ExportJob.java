@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.core.ui.wizards.exportmodel;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
-import fr.lip6.move.coloane.core.ui.files.ModelHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
@@ -53,7 +52,7 @@ public class ExportJob extends Job {
 	protected final IStatus run(IProgressMonitor monitor) {
 		LOGGER.finer("Fichier a exporter : " + file.getName() + " vers " + outputDirectory); //$NON-NLS-1$ //$NON-NLS-2$
 
-		IGraph model = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
+		IGraph model = ModelLoader.loadFromXML(file);
 		LOGGER.fine("L'assistant d'export a ete trouve et instancie... Calcul du nom final"); //$NON-NLS-1$
 
 		// Manipulation du nom de fichier pour supprimer l'ancienne extension et remplacer par la nouvelle

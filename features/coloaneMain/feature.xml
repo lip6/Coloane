@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="fr.lip6.move.coloane.feature.main"
-      label="Coloane - Core"
-      version="0.16.2"
+      label="Coloane Core"
+      version="0.16.1"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core"
       os="linux,macosx,win32"

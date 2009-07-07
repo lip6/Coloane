@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %pluginName
+Bundle-Name: Coloane API (web-services)
 Bundle-SymbolicName: fr.lip6.move.coloane.apiws;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-ClassPath: .,
@@ -28,5 +28,4 @@ Export-Package: fr.lip6.move.coloane.apiws,
  fr.lip6.move.coloane.apiws.observables,
  fr.lip6.move.coloane.apiws.session,
  fr.lip6.move.coloane.apiws.wrapperCommunication
-Bundle-Vendor: %providerName
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-Vendor: LIP6 / MoVe

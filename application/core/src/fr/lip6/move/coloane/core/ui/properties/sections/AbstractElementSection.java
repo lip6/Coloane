@@ -176,7 +176,6 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	}
 
 	/** {@inheritDoc} */
-	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (!isDisposed() && IAttribute.VALUE_PROP.equals(evt.getPropertyName())) {
 			refreshContent();

@@ -13,20 +13,20 @@ public class Activator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static Activator plugin;
-
+	
 	/**
 	 * The constructor
 	 */
 	public Activator() { }
 
 	/** {@inheritDoc} */
-	public final void start(BundleContext context) throws Exception {
+	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 	}
 
 	/** {@inheritDoc} */
-	public final void stop(BundleContext context) throws Exception {
+	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
 	}

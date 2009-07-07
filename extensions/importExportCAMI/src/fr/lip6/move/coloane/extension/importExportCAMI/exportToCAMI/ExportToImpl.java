@@ -1,5 +1,17 @@
 package fr.lip6.move.coloane.extension.importExportCAMI.exportToCAMI;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.util.Vector;
+import java.util.logging.Logger;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.draw2d.AbsoluteBendpoint;
+
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -7,46 +19,26 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.logging.Logger;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.draw2d.AbsoluteBendpoint;
-
-/**
- * Export models to CAMI format
- *
- * @author Jean-Baptiste Voron
- */
 public class ExportToImpl implements IExportTo {
-
-	/** Maximum length of a CAMI command **/
+	
+	/** Longueur maximum d'une commande CAMI **/
 	private static int MAXLENGHT = 255;
 
 	/**
-	 * Default constructor
+	 * Constructeur par défaut
 	 */
-	public ExportToImpl() { }
+	public ExportToImpl() {}
 
 	/**
-	 * Export a model to CAMI formatted file
-	 * @param model The model to export
-	 * @param filePath The path of the destination file
-	 * @param monitor A monitor to follow the export progression
-	 * @throws ColoaneException Something wrong has happened.
+	 * Exporte un modèle en fichier CAMI
+	 * @param model Le modèle à exporter en CAMI
+	 * @param filePath nom du fichier de destination
+	 * @throws ColoaneException
 	 */
-	public final void export(IGraph model, String filePath, IProgressMonitor monitor) throws ColoaneException {
+	public void export(IGraph model, String filePath, IProgressMonitor monitor) throws ColoaneException {
 		FileOutputStream writer;
-
-		// Filename checks
+		
+		// Controle sur le nom du fichier
 		if (filePath.equalsIgnoreCase("") || filePath == null) { //$NON-NLS-1$
 			throw new ColoaneException("The filename is not correct. Please provide a valid filename");
 		}
@@ -55,18 +47,18 @@ public class ExportToImpl implements IExportTo {
 		monitor.beginTask("Export to CAMI", totalWork);
 
 		try {
-			// File creation
+			// Creation du fichier
 			writer = new FileOutputStream(new File(filePath)); //$NON-NLS-1$
 			BufferedWriter writerBuffer = new BufferedWriter(new OutputStreamWriter(writer));
-
-			// Translation
-			Collection<String> cami = translateModel(model, monitor);
+			
+			// Traduction et écriture
+			Vector<String> cami = translateModel(model, monitor);
 			for (String line : cami) {
 				writerBuffer.write(line);
 				writerBuffer.newLine();
 			}
-
-			// End of writing : clean & close
+			
+			// Fin del'écriture : nettoyage et fermeture
 			writerBuffer.flush();
 			writer.flush();
 			writerBuffer.close();
@@ -80,32 +72,32 @@ public class ExportToImpl implements IExportTo {
 		}
 		monitor.done();
 	}
-
+	
 	/**
-	 * Translate a model into CAMI commands
-	 * @param model The model to translate
-	 * @param monitor The monitor to follow the progression
-	 * @return A collection of CAMI commands
+	 * Traduction d'un modèle en vecteur de commandes CAMI
+	 * @param model Le modèle à convertir
+	 * @param monitor 
+	 * @return Un vecteur de chaines de caractères (commandes CAMI)
 	 */
-	private Collection<String> translateModel(IGraph model, IProgressMonitor monitor) {
-		List<String> toReturn = new ArrayList<String>();
+	private final Vector<String> translateModel(IGraph model, IProgressMonitor monitor) {
+		Vector<String> toReturn = new Vector<String>();
 
-		// Add model node (top level)
+		// Ajout du noeud du modele
 		toReturn.add(new String("CN(3:net,1)")); //$NON-NLS-1$
 
-		// Attributes
+		// Ajout des attributs
 		for (IAttribute attribute : model.getAttributes()) {
 			toReturn.addAll(this.translateAttribute(attribute));
 		}
 
-		// Nodes
+		// Ajout des noeuds
 		monitor.subTask("Export nodes");
 		for (INode node : model.getNodes()) {
 			toReturn.addAll(this.translateNode(node));
 			monitor.worked(1);
 		}
 
-		// Arcs
+		// Ajout des arcs
 		monitor.subTask("Export arcs");
 		for (IArc arc : model.getArcs()) {
 			toReturn.addAll(this.translateArc(arc));
@@ -116,14 +108,14 @@ public class ExportToImpl implements IExportTo {
 	}
 
 	/**
-	 * Translate an arc into CAMI commands
-	 * @param arc The arc to convert
-	 * @return A collection of CAMI commands (describing the arc)
+	 * Traduction d'un arc du modèle en commandes CAMI
+	 * @param arc L'arc à convertir
+	 * @return Un vecteur de chaines de caractères correspondant aux commandes CAMI adéquates
 	 */
-	private Collection<String> translateArc(IArc arc) {
-		List<String> toReturn = new ArrayList<String>();
+	private final Vector<String> translateArc(IArc arc) {
+		Vector<String> toReturn = new Vector<String>();
 
-		// Arc itself
+		// traduction de la partie principale
 		StringBuffer buffer = new StringBuffer();
 		buffer.append("CA("); //$NON-NLS-1$
 		buffer.append(arc.getArcFormalism().getName().length() + ":" + arc.getArcFormalism().getName() + ","); //$NON-NLS-1$ //$NON-NLS-2$
@@ -132,12 +124,12 @@ public class ExportToImpl implements IExportTo {
 		buffer.append(")"); //$NON-NLS-1$
 		toReturn.add(buffer.toString());
 
-		// Bend Points
+		// Traduction des points intermediaires
 		for (AbsoluteBendpoint pi : arc.getInflexPoints()) {
 			toReturn.add(new String("PI(-1," + arc.getId() + "," + pi.x + "," + pi.y + ",-1)"));  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
 		}
 
-		// Arc attributes
+		// Traduction des attributs
 		for (IAttribute att : arc.getAttributes()) {
 			toReturn.addAll(this.translateAttribute(att));
 		}
@@ -146,23 +138,23 @@ public class ExportToImpl implements IExportTo {
 	}
 
 	/**
-	 * Translate an attribute into CAMI commands
-	 * @param attribute The attribute to convert
-	 * @return A collection of CAMI commands (describing the attribute)
+	 * Traduction d'un attribut du modèle en commandes CAMI
+	 * @param arc L'attribut à convertir
+	 * @return Un vecteur de chaines de caractères correspondant aux commandes CAMI adéquates
 	 */
-	private Collection<String> translateAttribute(IAttribute attribute) {
-		List<String> toReturn = new ArrayList<String>();
+	private final Vector<String> translateAttribute(IAttribute attribute) {
+		Vector<String> toReturn = new Vector<String>();
 		String attributeValue = attribute.getValue();
 
-		// No need to translate if the attribute value is empty
+		// Si la valeur de l'attribut est vide... on retourne
 		if (attributeValue.equals("")) { //$NON-NLS-1$
 			return toReturn;
 		}
 
-		// Split string if it contains any new line (or return)
+		// Decoupage de la chaine de charactere suivant un pattern
 		String[] valueTable = attributeValue.split("(\n\r)|(\r\n)|(\n)|(\r)"); //$NON-NLS-1$
 
-		// If there is only one line and the length less than 255, the attribute is single line
+		// Si la tableau obtenu est de taille 1 et que la ligne est de taille < a 255, on a un attribut d'une ligne
 		if (valueTable.length == 1 && valueTable[0].length() > 0 && valueTable[0].length() <= MAXLENGHT) {
 
 				StringBuffer buffer = new StringBuffer();
@@ -171,55 +163,55 @@ public class ExportToImpl implements IExportTo {
 				buffer.append(")"); //$NON-NLS-1$
 				toReturn.add(buffer.toString());
 
-		// Otherwise, this attribute is composed of multiple lines
+		// Sinon, on a un attribut multiligne
 		} else {
-			int lineCounter = 1; // Line counter
+			int lineCounter = 1; // compteur ligne utile
 
 			for (int i = 0; i < valueTable.length; i++) {
 
-				// Test for each line if the length is less than 255
+				// Pour chaque ligne, on teste si on doit la decouper car trop longue
 				if (valueTable[i].length() < MAXLENGHT) {
 					StringBuffer buffer = new StringBuffer();
 					buffer.append("CM(" + attribute.getName().length() + ":" + attribute.getName() + "," + attribute.getReference().getId() + ",");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 					buffer.append(lineCounter++ + ","); //$NON-NLS-1$
-					buffer.append(1 + ","); // Framekit sucks //$NON-NLS-1$
+					buffer.append(1 + ","); // Archaisme de Framekit //$NON-NLS-1$
 					buffer.append(valueTable[i].length() + ":" + valueTable[i]); //$NON-NLS-1$
 					buffer.append(")"); //$NON-NLS-1$
-					toReturn.add(buffer.toString());
+					toReturn.addElement(buffer.toString());
 				} else {
 					int start = 0;
 					int end = MAXLENGHT;
 
-					// Translate first 255 characters
+					// Traduction des n*255 premiers caracteres
 					while (end < valueTable[i].length()) {
 						String sub = valueTable[i].substring(start, end);
 						StringBuffer buffer = new StringBuffer();
 						buffer.append("CM(" + attribute.getName().length() + ":" + attribute.getName() + "," + attribute.getReference().getId() + ",");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 						buffer.append(lineCounter++ + ","); //$NON-NLS-1$
-						buffer.append(1 + ","); // Framekit sucks (again ?) //$NON-NLS-1$
+						buffer.append(1 + ","); // archaisme de Framekit //$NON-NLS-1$
 						buffer.append(sub.length() + ":" + sub); //$NON-NLS-1$
 						buffer.append(")"); //$NON-NLS-1$
-						toReturn.add(buffer.toString());
+						toReturn.addElement(buffer.toString());
 
 						start += MAXLENGHT;
 						end += MAXLENGHT;
 					}
 
-					// Translate all remaining characters
+					// Traduction des caracteres restants
 					String sub = valueTable[i].substring(start, valueTable[i].length());
 					StringBuffer buffer = new StringBuffer();
 					buffer.append("CM(" + attribute.getName().length() + ":" + attribute.getName() + "," + attribute.getReference().getId() + ",");   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
 					buffer.append(lineCounter++ + ","); //$NON-NLS-1$
-					buffer.append(1 + ","); // FrameKit again... //$NON-NLS-1$
+					buffer.append(1 + ","); // archaisme de Framekit //$NON-NLS-1$
 					buffer.append(sub.length() + ":" + sub); //$NON-NLS-1$
 					buffer.append(")"); //$NON-NLS-1$
-					toReturn.add(buffer.toString());
+					toReturn.addElement(buffer.toString());
 				}
 			}
 
 		}
 
-		// Translate attribute location
+		//Traduit la position de l'attribut
 		if (attribute.getGraphicInfo().getLocation().x != 0 || attribute.getGraphicInfo().getLocation().y != 0) {
 			StringBuffer buffer = new StringBuffer();
 			buffer.append("PT(" + attribute.getReference().getId() + "," + attribute.getName().length() + ":" + attribute.getName() + ",");   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
@@ -232,16 +224,16 @@ public class ExportToImpl implements IExportTo {
 	}
 
 	/**
-	 * Translate an arc into CAMI commandes
-	 * @param node The node to convert
-	 * @return A collection of CAMI commands (describing the node)
+	 * Traduction d'un noeud du modèle en commandes CAMI
+	 * @param arc Le noeud à convertir
+	 * @return Un vecteur de chaines de caractères correspondant aux commandes CAMI adéquates
 	 */
-	private Collection<String> translateNode(INode node) {
-		List<String> toReturn = new ArrayList<String>();
+	private final Vector<String> translateNode(INode node) {
+		Vector<String> toReturn = new Vector<String>();
 		toReturn.add(new String("CN(" + node.getNodeFormalism().getName().length() + ":" + node.getNodeFormalism().getName() + "," + node.getId() + ")")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		toReturn.add(new String("PO(" + node.getId() + "," + node.getGraphicInfo().getLocation().x + "," + node.getGraphicInfo().getLocation().y + ")"));  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 
-		// Node attributes
+		// Traduction des attributs
 		for (IAttribute att : node.getAttributes()) { toReturn.addAll(this.translateAttribute(att));	}
 
 		return toReturn;

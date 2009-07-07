@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>fr.lip6.move.coloane.application</groupId>
 		<artifactId>application-parent</artifactId>
-		<version>0.16.2-SNAPSHOT</version>
+		<version>0.16.1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>apiws</artifactId>
