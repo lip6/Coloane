@@ -67,10 +67,12 @@
 		<developer>
 			<id>cdemoulins</id>
 			<name>Clément Demoulins</name>
-			<organization>LIP6</organization>
+			<email>Clement.Demoulins@systeme.lip6.fr</email>
+			<organization>UPMC/LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
-				<role>developer (internship)</role>
+				<role>architect</role>
+				<role>developer</role>
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
@@ -115,8 +117,8 @@
 		</contributor>
 		<contributor>
 			<name>Racim Yasri</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<organization>UPMC</organization>
+			<organizationUrl>http://www.upmc.fr</organizationUrl>
 			<roles>
 				<role>developer (internship)</role>
 			</roles>
@@ -124,8 +126,8 @@
 		</contributor>
 		<contributor>
 			<name>Bassem Barbouche</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<organization>UPMC</organization>
+			<organizationUrl>http://www.upmc.fr</organizationUrl>
 			<roles>
 				<role>developer (internship)</role>
 			</roles>
@@ -133,8 +135,8 @@
 		</contributor>
 		<contributor>
 			<name>Eric Masliah</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<organization>UPMC</organization>
+			<organizationUrl>http://www.upmc.fr</organizationUrl>
 			<roles>
 				<role>developer (internship)</role>
 			</roles>
@@ -142,8 +144,8 @@
 		</contributor>
 		<contributor>
 			<name>Dimitri Charles</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<organization>UPMC</organization>
+			<organizationUrl>http://www.upmc.fr</organizationUrl>
 			<roles>
 				<role>developer (internship)</role>
 			</roles>
@@ -151,8 +153,8 @@
 		</contributor>
 		<contributor>
 			<name>David Cheng</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<organization>UPMC</organization>
+			<organizationUrl>http://www.upmc.fr</organizationUrl>
 			<roles>
 				<role>developer (internship)</role>
 			</roles>
@@ -160,8 +162,8 @@
 		</contributor>
 		<contributor>
 			<name>Alexandre Ortiz</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<organization>UPMC</organization>
+			<organizationUrl>http://www.upmc.fr</organizationUrl>
 			<roles>
 				<role>developer (internship)</role>
 			</roles>
@@ -169,8 +171,8 @@
 		</contributor>
 		<contributor>
 			<name>Monir Chaouki</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<organization>UPMC</organization>
+			<organizationUrl>http://www.upmc.fr</organizationUrl>
 			<roles>
 				<role>developer (internship)</role>
 			</roles>
@@ -178,8 +180,26 @@
 		</contributor>
 		<contributor>
 			<name>Kahina Bouarab</name>
-			<organization>LIP6</organization>
-			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<organization>UPMC</organization>
+			<organizationUrl>http://www.upmc.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Florian David</name>
+			<organization>UPMC</organization>
+			<organizationUrl>http://www.upmc.fr</organizationUrl>
+			<roles>
+				<role>developer (internship)</role>
+			</roles>
+			<timezone>+1</timezone>
+		</contributor>
+		<contributor>
+			<name>Yamina Aziz</name>
+			<organization>Université Paris 13</organization>
+			<organizationUrl>http://www.univ-paris13.fr/</organizationUrl>
 			<roles>
 				<role>developer (internship)</role>
 			</roles>
@@ -251,12 +271,12 @@
 		<repository> 
 			<id>coloane.releases</id> 
 			<name>Internal Release Repository for Coloane</name> 
-			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.releases/</url> 
+			<url>http://coloane.lip6.fr:8081/archiva/repository/coloane.releases/</url> 
 		</repository> 
 		<snapshotRepository> 
 			<id>coloane.snapshots</id> 
 			<name>Internal Snapshot Repository for Coloane</name> 
-			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.snapshots</url> 
+			<url>http://coloane.lip6.fr:8081/archiva/repository/coloane.snapshots</url> 
 		</snapshotRepository> 
 		<site> 
 			<id>Coloane-Reports</id> 
@@ -556,7 +576,7 @@
 		<repository>
 			<id>archiva.internal</id>
 			<name>Archiva Managed Repository for LIP6/MoVe</name>
-			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/internal/</url>
+			<url>http://coloane.lip6.fr:8081/archiva/repository/internal/</url>
 			<releases>
 				<enabled>true</enabled>
 			</releases>
@@ -567,7 +587,7 @@
 		<repository>
 			<id>coloane.snapshots</id>
 			<name>Archiva Managed Snapshot Repository for Coloane</name>
-			<url>http://izanami.rsr.lip6.fr:8082/archiva/repository/coloane.snapshots/</url>
+			<url>http://coloane.lip6.fr:8081/archiva/repository/coloane.snapshots/</url>
 			<releases>
 				<enabled>false</enabled>
 			</releases>
