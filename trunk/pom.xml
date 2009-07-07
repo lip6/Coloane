@@ -77,6 +77,17 @@
 			<timezone>+1</timezone>
 		</developer>
 		<developer>
+			<id>ythierry</id>
+			<name>Yann Thierry-Mieg</name>
+			<email>Yann.Thierry-Mieg@lip6.fr</email>
+			<organization>LIP6</organization>
+			<organizationUrl>http://www.lip6.fr</organizationUrl>
+			<roles>
+				<role>developer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+		<developer>
 			<id>alinard</id>
 			<name>Alban Linard</name>
 			<email>Alban.Linard@lip6.fr</email>
