@@ -9,7 +9,7 @@
             id="fr.lip6.move.coloane.extensions.exportstats"
             reference="fr.lip6.move.coloane.wizard.export.stats">
          <AcceptedFormalism
-               id="fr.lip6.move.coloane.extensions.exportToSTATS.AcceptedFormalism1">
+               id="gspn">
          </AcceptedFormalism>
       </Export>
    </extension>
