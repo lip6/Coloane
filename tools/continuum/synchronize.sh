@@ -13,19 +13,19 @@ dest=$2
 night=$source"/night-updates"
 targetnight=$dest"/night-updates"
 if [ -d $source ]; then
-	rsync -avz -r -C -S -e ssh $night/* continuum@coloane.lip6.fr:$targetnight
+	rsync -avz -r -C -S -e ssh $night/* coloane@coloane.lip6.fr:$targetnight
 fi
 
 # For updates...
 update=$source"/updates"
 targetupdate=$dest"/updates"
 if [ -d $update ]; then
-	rsync -avz -r -C -S -e ssh $update/* continuum@coloane.lip6.fr:$targetupdate
+	rsync -avz -r -C -S -e ssh $update/* coloane@coloane.lip6.fr:$targetupdate
 fi
 
 # For night-updates...
 reports=$source"/reports"
 targetreports=$dest"/reports"
 if [ -d $reports ]; then
-	rsync -avz -r -C -S -e ssh $reports/* continuum@coloane.lip6.fr:$targetreports
+	rsync -avz -r -C -S -e ssh $reports/* coloane@coloane.lip6.fr:$targetreports
 fi
