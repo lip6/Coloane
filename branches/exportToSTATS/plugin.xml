@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="fr.lip6.move.coloane.core.exports">
+      <Export
+            class="fr.lip6.move.coloane.extensions.exporttostats.ExportToImpl"
+            extension="stats"
+            id="fr.lip6.move.coloane.extensions.exportstats"
+            reference="fr.lip6.move.coloane.wizard.export.stats">
+         <AcceptedFormalism
+               id="fr.lip6.move.coloane.extensions.exportToSTATS.AcceptedFormalism1">
+         </AcceptedFormalism>
+      </Export>
+   </extension>
+
+</plugin>

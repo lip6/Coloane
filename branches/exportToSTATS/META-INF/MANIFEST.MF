@@ -1,10 +1,11 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ExportToSTAT Plug-in
-Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exportToSTATS
+Bundle-Name: ExportToSTATS Plug-in
+Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exportToSTATS;singleton:=true
 Bundle-Version: 0.5.0
-Bundle-Activator: fr.lip6.move.coloane.extensions.exporttostat.Activator
+Bundle-Activator: fr.lip6.move.coloane.extensions.exporttostats.Activator
 Bundle-Vendor: LIP6 / MoVe
-Require-Bundle: org.eclipse.core.runtime
+Require-Bundle: org.eclipse.core.runtime,
+ fr.lip6.move.coloane.core
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy

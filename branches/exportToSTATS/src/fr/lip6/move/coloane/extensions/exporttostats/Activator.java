@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extensions.exporttostat;
+package fr.lip6.move.coloane.extensions.exporttostats;
 
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
