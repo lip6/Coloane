@@ -7,7 +7,7 @@
             extension="gspn"
             fkname="GreatSPN"
             id="gspn"
-            name="fr.lip6.move.coloane.formalisms.gspn.Formalism1">
+            name="GreatSPN">
          <XmlDescription>
             <Graph
                   name="gspn">
