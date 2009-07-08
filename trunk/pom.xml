@@ -33,8 +33,8 @@
 		<!-- A changer lors du passage à Maven 2.1 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
-		<!-- Pour le déploiement -->
-		<project.deployPath>/data/coloane_deposit</project.deployPath>
+		<!-- Pour le déploiement (uniquement sur la machine coloane.lip6.fr) -->
+		<project.deployPath>/home/coloane/build_tmp</project.deployPath>
 	</properties>
 
 	<!-- L'équipe de développement (actifs)--> 
