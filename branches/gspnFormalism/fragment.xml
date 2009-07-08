@@ -62,7 +62,7 @@
                   </GraphicInfo>
                   <Attribute
                         bold="false"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="tag">
@@ -106,7 +106,7 @@
                   </GraphicInfo>
                   <Attribute
                         bold="false"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="tag">
@@ -142,7 +142,7 @@
                   </GraphicInfo>
                   <Attribute
                         bold="false"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="tag">
@@ -177,7 +177,7 @@
                   </GraphicInfo>
                   <Attribute
                         bold="false"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="tag">
@@ -218,7 +218,7 @@
                   <Attribute
                         bold="false"
                         default="1"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="multiplicity">
@@ -236,7 +236,7 @@
                   <Attribute
                         bold="false"
                         default="1"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="multiplicity">
@@ -288,7 +288,7 @@
                   <Attribute
                         bold="false"
                         default="1"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="multiplicity">
@@ -306,7 +306,7 @@
                   <Attribute
                         bold="false"
                         default="1"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="multiplicity">
