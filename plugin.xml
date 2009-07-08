@@ -13,5 +13,14 @@
          </AcceptedFormalism>
       </Export>
    </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="fr.lip6.move.coloane.wizard.export.coloane"
+            class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
+            id="fr.lip6.move.coloane.wizard.export.stats"
+            name="Stats File">
+      </wizard>
+   </extension>
 
 </plugin>
