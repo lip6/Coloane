@@ -11,45 +11,49 @@ import org.eclipse.swt.widgets.Control;
  */
 public interface IAttributeLabel {
 
-	/** Largeur du label */
+	/** Width of the Label field. */
 	int LABEL_WIDTH = 100;
 
 	/**
-	 * Redessine le LabelText.
+	 * Redraw and refresh the display.
 	 */
 	void redraw();
 
 	/**
-	 * @return <code>true</code> si le LabelText est visible
+	 * @return <code>true</code> if the label is currently visible.
 	 */
 	boolean isVisible();
 
 	/**
-	 * Change la visibilité du LabelText
-	 * @param visible nouvelle état
+	 * Change visibility of the embedded graphical elements.
+	 * @param visible the new visibility.
 	 */
 	void setVisible(boolean visible);
 
 	/**
-	 * @return la valeur du LabelText
+	 * @return The current value of this attribute.
 	 */
 	String getText();
 
 	/**
-	 * @param string nouvelle valeur du LabelText
+	 * @param string Update the current value of this attribute.
 	 */
 	void setText(String string);
 
 	/**
-	 * @return le parent de ce pseudo-widget
+	 * @return the parent of this (pseudo) widget.
 	 */
 	Composite getParent();
 
 	/**
-	 * @return Le controle (Text ou Combo) qui ancre la position de l'élement suivant.
+	 * @return The control (Text or Combo) used to anchor the position of the next element.
 	 */
 	Control getControl();
 
+	/**
+	 * Allows to register a listener for modifications.
+	 * @param listener the listener.
+	 */
 	void addModifyListener(ModifyListener listener);
 
 	/** 
