@@ -21,6 +21,10 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import org.eclipse.core.runtime.IProgressMonitor;
 //import org.eclipse.draw2d.AbsoluteBendpoint;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 /**
  * Export models to STATS format
  *
@@ -63,7 +67,6 @@ public class ExportToImpl implements IExportTo {
 			writerBuffer = new BufferedWriter(new OutputStreamWriter(writer));
 
 			// Statistics
-			//System.out.println(graph.getFormalism().getName());
 			Collection<String> stat = translateGraph(graph, monitor);
 			for (String line : stat) {
 				writerBuffer.write(line);
@@ -94,70 +97,46 @@ public class ExportToImpl implements IExportTo {
 	 */
 	private Collection<String> translateGraph(IGraph graph, IProgressMonitor monitor) {
 		List<String> toReturn = new ArrayList<String>();
-		int a=0, b=0, c=0, d=0, e=0, f=0, g=0, h=0, i=0, j=0, k=0, l=0, m=0;
-
+		Map<String, Integer> hmNode = new HashMap<String, Integer>();
+		Map<String, Integer> hmArc = new HashMap<String, Integer>();
+		
 		// Nodes
 		monitor.subTask("Export nodes");
 		toReturn.add(new String("Number of nodes: " + graph.getNodes().size()));
 		for (INode node : graph.getNodes()) {
-						
-			if(node.getNodeFormalism().getName().equals("place"))
-				a++;
-			if(node.getNodeFormalism().getName().equals("immediate transition"))
-				b++;
-			if(node.getNodeFormalism().getName().equals("transition (Infinite)"))
-				c++;
-			if(node.getNodeFormalism().getName().equals("transition (Marking Dependent)"))
-				d++;
-			if(node.getNodeFormalism().getName().equals("transition (1-Server)"))
-				e++;
-			
+			Integer i = hmNode.get(node.getNodeFormalism().getName());
+			if(i == null)
+				hmNode.put(node.getNodeFormalism().getName(), 1);
+			else
+				hmNode.put(node.getNodeFormalism().getName(), i+1);
 			monitor.worked(1);
 		}
 		
-		toReturn.add(new String("\t" +a+ " places"));
-		toReturn.add(new String("\t" +b+ " immediate transition"));
-		toReturn.add(new String("\t" +c+ " transition (Infinite)"));
-		toReturn.add(new String("\t" +d+ " transition (Marking Dependent)"));
-		toReturn.add(new String("\t" +e+ " transition (1-Server)"));
-
+		for(String s: hmNode.keySet()){
+			toReturn.add("\t"+ s + ":" + hmNode.get(s));
+			}
+		toReturn.add("\n");
+		
 		// Arcs
 		monitor.subTask("Export arcs");
 		toReturn.add(new String("Number of arcs: " + graph.getArcs().size()));
 		for (IArc arc : graph.getArcs()) {
-						
-			if(arc.getArcFormalism().getName().equals("arc"))
-				f++;
-			if(arc.getArcFormalism().getName().equals("broken arc"))
-				g++;
-			if(arc.getArcFormalism().getName().equals("colored arc"))
-				h++;
-			if(arc.getArcFormalism().getName().equals("broken colored arc"))
-				i++;
-			if(arc.getArcFormalism().getName().equals("inhibitor arc"))
-				j++;
-			if(arc.getArcFormalism().getName().equals("broken inhibitor arc"))
-				k++;
-			if(arc.getArcFormalism().getName().equals("colored inhibitor arc"))
-				l++;
-			if(arc.getArcFormalism().getName().equals("broken colored inhibitor arc"))
-				m++;
+			Integer j = hmArc.get(arc.getArcFormalism().getName());
+			if(j == null)
+				hmArc.put(arc.getArcFormalism().getName(), 1);
+			else
+				hmArc.put(arc.getArcFormalism().getName(), j+1);
 			
 			monitor.worked(1);
 		}
 		
-		toReturn.add(new String("\t" +f+ " arc"));
-		toReturn.add(new String("\t" +g+ " broken arc"));
-		toReturn.add(new String("\t" +h+ " colored arc"));
-		toReturn.add(new String("\t" +i+ " broken colored arc"));
-		toReturn.add(new String("\t" +j+ " inhibitor arc"));
-		toReturn.add(new String("\t" +k+ " broken inhibitor arc"));
-		toReturn.add(new String("\t" +l+ " colored inhibitor arc"));
-		toReturn.add(new String("\t" +m+ " broken colored inhibitor arc"));
-		
-
+		for(String str: hmArc.keySet()){
+			toReturn.add("\t"+ str + ":" + hmArc.get(str));
+		}
+				
 		return toReturn;
 	}
+
 }
 	
 	
