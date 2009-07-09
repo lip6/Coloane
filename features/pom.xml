@@ -15,15 +15,21 @@
 	<description>All features related to Coloane project</description>
 
 	<modules>
+		<module>coloaneMain</module>
+		<module>coloaneMainSources</module>
+		<!-- IMPORT / EXPORT -->
 		<module>exportToDOT</module>
 		<module>exportToPGF</module>
 		<module>importExportCAMI</module>
 		<module>importExportPNML</module>
+		<!-- EXAMPLES -->
 		<module>modelExamples</module>
+		<!-- FRAGMENTS -->
 		<module>languagePack</module>
+		<!-- FORMALISM -->
 		<module>formalismDD</module>
-		<module>coloaneMain</module>
-		<module>coloaneMainSources</module>
+		<!-- ACTIONS -->
+		<module>layoutAction</module>
 	</modules>
 
 	<build>
