@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.properties;
 
+import java.util.List;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
@@ -10,7 +12,7 @@ public class LabelTextFactory {
 	private final Composite parent;
 	private final TabbedPropertySheetWidgetFactory factory;
 
-	private LabelText last;
+	private IAttributeLabel last;
 
 	/**
 	 * @param parent parent fourni à tous les LabelText créé
@@ -28,7 +30,7 @@ public class LabelTextFactory {
 	 * @param style style SWT
 	 * @return un nouveau LabelText
 	 */
-	public final LabelText create(String label, String value, int style) {
+	public final IAttributeLabel create(String label, String value, int style) {
 		LabelText lt;
 		if (last == null) {
 			lt = new LabelText(
@@ -47,6 +49,25 @@ public class LabelTextFactory {
 					last);
 		}
 		// On conserve le dernier LabelText créé pour que le suivant soient placé en dessous.
+		last = lt;
+		return lt;
+	}
+
+	/**
+	 * Creation d'un widget attribut muni d'une liste déroulante pour l'edition.
+	 * @param label le nom de l'attribut
+	 * @param value sa valeur initiale
+	 * @param enumeration les valeurs possibles (a priori spécifiées via le formalisme)
+	 * @return
+	 */
+	public IAttributeLabel create(String label, String value,
+			List<String> enumeration) {
+		IAttributeLabel lt;
+		if (last == null) {
+			lt = new LabelCombo(parent, factory, label, value, enumeration);
+		} else {
+			lt = new LabelCombo(parent, factory, label, value, enumeration, last);
+		}
 		last = lt;
 		return lt;
 	}
