@@ -26,7 +26,7 @@ import java.util.Map;
 
 
 /**
- * Export models to STATS format
+ * Export graphs to STATS format
  *
  * @author Yamina Aziz
  */
