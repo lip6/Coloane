@@ -84,9 +84,16 @@
                   <Attribute
                         bold="false"
                         drawable="true"
+                        enumerated="true"
                         italic="false"
                         multiline="false"
-                        name="public">
+                        name="visibility">
+                     <EnumerationValue
+                           name="private">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="public">
+                     </EnumerationValue>
                   </Attribute>
                   <Attribute
                         bold="true"
