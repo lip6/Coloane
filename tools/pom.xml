@@ -11,7 +11,7 @@
 	<groupId>fr.lip6.move.coloane.tools</groupId>
 	<artifactId>tools-parent</artifactId>
 	<packaging>pom</packaging>
-	<name>Local Tools</name>
+	<name>Tools</name>
 	<description>Group of Coloane's dedicated tools</description>
 
 	<modules>
