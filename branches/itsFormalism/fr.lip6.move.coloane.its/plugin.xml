@@ -5,24 +5,25 @@
    <extension
          point="org.eclipse.ui.editors">
       <editor
-            name="Sample Multi-page Editor"
-            extensions="mpe"
-            icon="icons/sample.gif"
+            name="ITS Editor"
+            extensions="xmlits"
+            icon="icons/models_navigator.gif"
             contributorClass="testits.editors.MultiPageEditorContributor"
             class="testits.editors.MultiPageEditor"
-            id="testits.editors.MultiPageEditor">
+            id="testits.editors.ITSEditor">
       </editor>
    </extension>
    <extension
          point="org.eclipse.ui.newWizards">
       <category
-            name="Sample Wizards"
-            id="TestITS">
+            id="ITSComposition"
+            name="ITS Composition Model"
+            parentCategory="fr.lip6.move.coloane">
       </category>
       <wizard
-            name="Multi-page Editor file"
-            icon="icons/sample.gif"
-            category="TestITS"
+            name="ITS Composition Model"
+            icon="icons/models_navigator.gif"
+            category="ITSComposition"
             class="testits.wizards.SampleNewWizard"
             id="testits.wizards.SampleNewWizard">
       </wizard>
