@@ -37,7 +37,7 @@ public class ModelFlattener {
 	}
 	
 	public void doFlatten (CompositeTypeDeclaration root) throws ModelException {
-		flatModel = new GraphModelFactory().createGraph("TimePetriNet");
+		flatModel = new GraphModelFactory().createGraph("Time Petri Net");
 		idsPerInstance = new HashMap<String, Map<INode,INode>>();
 		flatten(root,"");
 		
