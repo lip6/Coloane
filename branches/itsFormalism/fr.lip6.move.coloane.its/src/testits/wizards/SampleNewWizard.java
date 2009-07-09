@@ -34,7 +34,7 @@ import org.eclipse.ui.ide.IDE;
  * (a folder or a project) is selected in the workspace 
  * when the wizard is opened, it will accept it as the target
  * container. The wizard creates one file with the extension
- * "its". If a sample multi-page editor (also available
+ * "xmlits". If a sample multi-page editor (also available
  * as a template) is registered for the same extension, it will
  * be able to open it.
  */
@@ -144,7 +144,13 @@ public class SampleNewWizard extends Wizard implements INewWizard {
 
 	private InputStream openContentStream() {
 		String contents =
-			"This is the initial file contents for *.its file that should be word-sorted in the Preview page of the multi-page editor";
+			"<?xml version='1.0' encoding='UTF-8'?>\n"
+			+ "<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'>\n"
+			+ "<types>\n"
+			+ "</types>\n"
+			+ "<concepts>\n"
+			+ "</concepts>\n"
+			+ "</model>\n\n";
 		return new ByteArrayInputStream(contents.getBytes());
 	}
 

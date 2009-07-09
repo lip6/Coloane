@@ -42,8 +42,8 @@ public class SampleNewWizardPage extends WizardPage {
 	 */
 	public SampleNewWizardPage(ISelection selection) {
 		super("wizardPage");
-		setTitle("Multi-page Editor File");
-		setDescription("This wizard creates a new file with *.its extension that can be opened by a multi-page editor.");
+		setTitle("ITS Composition Model");
+		setDescription("This wizard creates a new file with *.xmlits extension that can be opened by ITS Composition editor.");
 		this.selection = selection;
 	}
 
@@ -112,7 +112,7 @@ public class SampleNewWizardPage extends WizardPage {
 				containerText.setText(container.getFullPath().toString());
 			}
 		}
-		fileText.setText("new_file.its");
+		fileText.setText("new_file.xmlits");
 	}
 
 	/**
@@ -165,8 +165,8 @@ public class SampleNewWizardPage extends WizardPage {
 		int dotLoc = fileName.lastIndexOf('.');
 		if (dotLoc != -1) {
 			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase("its") == false) {
-				updateStatus("File extension must be \"its\"");
+			if (ext.equalsIgnoreCase("xmlits") == false) {
+				updateStatus("File extension must be \"xmlits\"");
 				return;
 			}
 		}
