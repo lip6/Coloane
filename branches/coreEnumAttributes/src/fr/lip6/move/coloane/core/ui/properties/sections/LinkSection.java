@@ -6,7 +6,7 @@ import fr.lip6.move.coloane.core.ui.commands.properties.NodeLinkCmd;
 import fr.lip6.move.coloane.core.ui.files.InterfacesHandler;
 import fr.lip6.move.coloane.core.ui.files.InterfacesHandler.NodeInterface;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
-import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.core.ui.properties.IAttributeLabel;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -115,7 +115,7 @@ public class LinkSection extends AbstractSection<INode> {
 		listWidget = getWidgetFactory().createList(composite, SWT.SINGLE | SWT.BORDER | SWT.V_SCROLL);
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
-		data.left = new FormAttachment(0, LabelText.LABEL_WIDTH + 7);
+		data.left = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH + 7);
 		listWidget.setLayoutData(data);
 		listWidget.addSelectionListener(linkSelectionListener);
 
@@ -124,7 +124,7 @@ public class LinkSection extends AbstractSection<INode> {
 		data = new FormData();
 		data.top = new FormAttachment(listWidget, 0, SWT.TOP);
 		data.left = new FormAttachment(0, 5);
-		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
+		data.right = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH);
 		label.setLayoutData(data);
 
 	}

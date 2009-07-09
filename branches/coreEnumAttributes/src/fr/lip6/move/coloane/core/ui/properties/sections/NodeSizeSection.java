@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeSizeCmd;
-import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.core.ui.properties.IAttributeLabel;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
@@ -57,7 +57,7 @@ public class NodeSizeSection extends AbstractSection<INode> {
 		size = new Spinner(composite, SWT.BORDER);
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
-		data.left = new FormAttachment(0, LabelText.LABEL_WIDTH + 7);
+		data.left = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH + 7);
 		size.setLayoutData(data);
 		size.setMinimum(MIN_VALUE);
 		size.setMaximum(MAX_VALUE);
@@ -69,7 +69,7 @@ public class NodeSizeSection extends AbstractSection<INode> {
 		data = new FormData();
 		data.bottom = new FormAttachment(size, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
-		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
+		data.right = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH);
 		label.setLayoutData(data);
 	}
 
