@@ -332,7 +332,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	protected void displayDetails(TypeDeclaration typeDecl) {
 		detailITSCZone.setVisible(false);
 		detailTPNZone.setVisible(false);
-		if (typeDecl.getTypeType().equals("TimePetriNet")) {
+		if (typeDecl.getTypeType().equals("Time Petri Net")) {
 			displayTPNdetails(typeDecl);
 			detailTPNZone.setVisible(true);
 		} else if (typeDecl.getTypeType().equals("ITSComposite")) {			
