@@ -79,7 +79,7 @@ public class ITSModelWriter {
 
 					// export the TPN to Romeo xml format.
 					new ExportToRomeo().export(td.getGraph(), directory+ "/" + td.getTypeName() + ".xml", new NullProgressMonitor());
-					sb.append("<type name='"+td.getTypeName()+"' formalism='TimePetriNet' format='Romeo' path='./"+td.getTypeName() + ".xml' />\n");
+					sb.append("<type name='"+td.getTypeName()+"' formalism='Time Petri Net' format='Romeo' path='./"+td.getTypeName() + ".xml' />\n");
 				}
 			}
 
