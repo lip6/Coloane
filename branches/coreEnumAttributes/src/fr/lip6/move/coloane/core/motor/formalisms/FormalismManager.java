@@ -141,7 +141,19 @@ public final class FormalismManager {
 		// Browse all attributes from the element description
 		IConfigurationElement[] attributes = description.getChildren("Attribute"); //$NON-NLS-1$
 		for (IConfigurationElement attribute : attributes) {
-			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), Boolean.parseBoolean(attribute.getAttribute("drawable")), Boolean.parseBoolean(attribute.getAttribute("multiline")));  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+
+			// Test whether this attribute is limited to an enumerated range of values.
+			boolean isEnum = Boolean.parseBoolean(attribute.getAttribute("enumerated")); //$NON-NLS-1$
+			List<String> enumValues = null;
+			if (isEnum) {
+				enumValues = new ArrayList<String>();
+				for (IConfigurationElement enumVal : attribute.getChildren("EnumerationValue")) { //$NON-NLS-1$
+					enumValues.add(enumVal.getAttribute("name")); //$NON-NLS-1$
+				}
+			}
+			// now either ! isEnum, or enumValues is not null.
+
+			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), Boolean.parseBoolean(attribute.getAttribute("drawable")), Boolean.parseBoolean(attribute.getAttribute("multiline")), isEnum, enumValues);  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
 			LOGGER.finer("Construction de l'attribut " + a.getName() + " pour l'element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Parse the default value
