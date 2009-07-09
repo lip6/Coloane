@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 
+import java.util.List;
+
 /**
  * Cette classe représente les caracteristiques d'un attribut d'un élément de formalisme.<br>
  * Un attribut est une caractéristique d'un élément de base.<br>
@@ -29,16 +31,28 @@ public class AttributeFormalism implements IAttributeFormalism {
 	/** Style d'affichage : Taille de la police ? */
 	private int size = 10;
 
+	/** Defines if this attribute is enumerated, and then enumeration is non null. */
+	private boolean enumerated;
+
+	/** Defines the set of legal values for this attribute */
+	private List<String> enumeration;
+
 	/**
 	 * Construit un nouvel attribut
 	 * @param name Le nom de l'attribut.
 	 * @param drawable L'information est elle affichable a l'ecran ?
 	 * @param multiline L'attribut est il multi-lignes ?
+	 * @param enumerated L'attribut est-il énuméré ?
+	 * @param enumeration Les valeurs possible de l'attribut, ou null si enumerated = false.
 	 */
-	public AttributeFormalism(String name, boolean drawable, boolean multiline) {
+	public AttributeFormalism(String name, boolean drawable,
+			boolean multiline,
+			boolean enumerated, List<String> enumeration) {
 		this.name = name;
 		this.drawable = drawable;
 		this.multiline = multiline;
+		this.enumerated = enumerated;
+		this.enumeration = enumeration;
 	}
 
 	/**
@@ -48,8 +62,10 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * @param multiline L'attribut est il multi-lignes ?
 	 * @param defaultValue La valeur par defaut de l'attribut.
 	 */
-	public AttributeFormalism(String name, boolean drawable, boolean multiline, String defaultValue) {
-		this(name, drawable, multiline);
+	public AttributeFormalism(String name, boolean drawable, boolean multiline,
+			boolean enumerated, List<String> enumeration,
+			String defaultValue) {
+		this(name, drawable, multiline, enumerated, enumeration);
 		this.defaultValue = defaultValue;
 	}
 
@@ -115,5 +131,19 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 */
 	public final void setSize(String size) {
 		this.size = Integer.valueOf(size);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public final List<String> getEnumeration() {
+		return enumeration;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean isEnumerated() {
+		return enumerated;
 	}
 }
