@@ -1,11 +1,5 @@
 package fr.lip6.move.coloane.extensions.exporttostats;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IExportTo;
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,7 +11,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
+import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.extensions.IExportTo;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+//import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
+
 import org.eclipse.core.runtime.IProgressMonitor;
+//import org.eclipse.draw2d.AbsoluteBendpoint;
 
 /**
  * Export models to STATS format
@@ -92,54 +94,70 @@ public class ExportToImpl implements IExportTo {
 	 */
 	private Collection<String> translateGraph(IGraph graph, IProgressMonitor monitor) {
 		List<String> toReturn = new ArrayList<String>();
+		int a=0, b=0, c=0, d=0, e=0, f=0, g=0, h=0, i=0, j=0, k=0, l=0, m=0;
 
 		// Nodes
 		monitor.subTask("Export nodes");
+		toReturn.add(new String("Number of nodes: " + graph.getNodes().size()));
 		for (INode node : graph.getNodes()) {
-			toReturn.addAll(this.translateNode(graph, node));
+						
+			if(node.getNodeFormalism().getName().equals("place"))
+				a++;
+			if(node.getNodeFormalism().getName().equals("immediate transition"))
+				b++;
+			if(node.getNodeFormalism().getName().equals("transition (Infinite)"))
+				c++;
+			if(node.getNodeFormalism().getName().equals("transition (Marking Dependent)"))
+				d++;
+			if(node.getNodeFormalism().getName().equals("transition (1-Server)"))
+				e++;
+			
 			monitor.worked(1);
 		}
+		
+		toReturn.add(new String("\t" +a+ " places"));
+		toReturn.add(new String("\t" +b+ " immediate transition"));
+		toReturn.add(new String("\t" +c+ " transition (Infinite)"));
+		toReturn.add(new String("\t" +d+ " transition (Marking Dependent)"));
+		toReturn.add(new String("\t" +e+ " transition (1-Server)"));
 
 		// Arcs
 		monitor.subTask("Export arcs");
+		toReturn.add(new String("Number of arcs: " + graph.getArcs().size()));
 		for (IArc arc : graph.getArcs()) {
-			toReturn.addAll(this.translateArc(graph, arc));
+						
+			if(arc.getArcFormalism().getName().equals("arc"))
+				f++;
+			if(arc.getArcFormalism().getName().equals("broken arc"))
+				g++;
+			if(arc.getArcFormalism().getName().equals("colored arc"))
+				h++;
+			if(arc.getArcFormalism().getName().equals("broken colored arc"))
+				i++;
+			if(arc.getArcFormalism().getName().equals("inhibitor arc"))
+				j++;
+			if(arc.getArcFormalism().getName().equals("broken inhibitor arc"))
+				k++;
+			if(arc.getArcFormalism().getName().equals("colored inhibitor arc"))
+				l++;
+			if(arc.getArcFormalism().getName().equals("broken colored inhibitor arc"))
+				m++;
+			
 			monitor.worked(1);
 		}
-
-		return toReturn;
-	}
-	
-	/**
-	 * Translate a node into STATS commands
-	 * @param graph The graph of nodes
-	 * @param node The node to convert
-	 * @return A collection of STATS commands (describing the node)
-	 */
-	
-	private Collection<String> translateNode(IGraph graph, INode node) {
-		List<String> toReturn = new ArrayList<String>();
-		toReturn.add(new String("Number of nodes: " + graph.getNodes().size()));
-		toReturn.add(new String("which[" + node.getNodeFormalism().getName().length() + ":" + node.getNodeFormalism().getName() + "]"));
 		
-		return toReturn;
-	}
-	
-	/**
-	 * Translate an arc into STATS commands
-	 * @param graph The graph of arcs
-	 * @param arc The arc to convert
-	 * @return A collection of STATS commands (describing the arc)
-	 */
-	
-	private Collection<String> translateArc(IGraph graph, IArc arc) {
-		List<String> toReturn = new ArrayList<String>();
-		toReturn.add(new String("Number of arcs: " + graph.getArcs().size()));
-		toReturn.add(new String("which[" + arc.getArcFormalism().getName().length() + ":" + arc.getArcFormalism().getName() + "]"));
+		toReturn.add(new String("\t" +f+ " arc"));
+		toReturn.add(new String("\t" +g+ " broken arc"));
+		toReturn.add(new String("\t" +h+ " colored arc"));
+		toReturn.add(new String("\t" +i+ " broken colored arc"));
+		toReturn.add(new String("\t" +j+ " inhibitor arc"));
+		toReturn.add(new String("\t" +k+ " broken inhibitor arc"));
+		toReturn.add(new String("\t" +l+ " colored inhibitor arc"));
+		toReturn.add(new String("\t" +m+ " broken colored inhibitor arc"));
 		
+
 		return toReturn;
 	}
-
-
-
 }
+	
+	
