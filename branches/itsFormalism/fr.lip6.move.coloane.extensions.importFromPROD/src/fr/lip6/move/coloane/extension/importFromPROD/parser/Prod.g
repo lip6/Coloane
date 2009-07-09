@@ -35,7 +35,7 @@ import java.util.Map;
 }
 
 @parser::members {
-       private IGraph graph = new GraphModelFactory().createGraph("TimePetriNet");
+       private IGraph graph = new GraphModelFactory().createGraph("Time Petri Net");
        private Map<String,INode> nodes = new HashMap<String, INode>();
 }
 
