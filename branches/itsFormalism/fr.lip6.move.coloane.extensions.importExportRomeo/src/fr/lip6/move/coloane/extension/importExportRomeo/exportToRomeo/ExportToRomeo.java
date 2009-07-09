@@ -72,7 +72,7 @@ public class ExportToRomeo implements IExportTo {
 						exportArc(arc, "TransitionPlace", sb);						
 					}
 				} else if ("inhibitor".equals(arcType)){
-					exportArc(arc, "LogicalInhibitor", sb);											
+					exportArc(arc, "logicalInhibitor", sb);											
 				} else if ("reset".equals(arcType)){
 					exportArc(arc, "flush", sb);
 				} else if ("test".equals(arcType)){
