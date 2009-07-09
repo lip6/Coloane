@@ -6,7 +6,7 @@
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core"
       os="linux,macosx,win32"
-      ws="carbon,gtk,win32"
+      ws="carbon,cocoa,gtk,win32"
       arch="ppc,x86,x86_64">
 
    <description url="http://coloane.lip6.fr/">
