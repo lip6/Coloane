@@ -41,7 +41,7 @@
                   <Attribute
                         bold="false"
                         default="0"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="marking">
