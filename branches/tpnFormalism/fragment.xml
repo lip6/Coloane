@@ -83,9 +83,10 @@
                   </Attribute>
                   <Attribute
                         bold="false"
+                        default="private"
                         drawable="true"
                         enumerated="true"
-                        italic="false"
+                        italic="true"
                         multiline="false"
                         name="visibility">
                      <EnumerationValue
