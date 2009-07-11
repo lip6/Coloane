@@ -8,12 +8,12 @@ import org.eclipse.draw2d.ColorConstants;
  *
  * @author yann based on jbv
  */
-public class TestArc extends DiamondArc {
+public class TestArc extends DirectedArc {
 	/**
 	 * Constructor
 	 */
 	public TestArc() {
-		super(ColorConstants.gray);
+		setSourceDecoration(buildDecoration());
 	}
 
 }
