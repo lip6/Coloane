@@ -36,8 +36,8 @@ public class NodesTable {
 		viewer.setLabelProvider(new TransitionLabelProvider());
 	}
 
-	private static String [] columnTitles = {"Name","eft","lft"}; 
-	private static int [] columnSizes = {100,100,100};
+	private static String [] columnTitles = {"Visibility","Label","eft","lft"}; 
+	private static int [] columnSizes = {100,100,100,100};
 	
 	private void createColumns(TableViewer viewer2) {
 		for (int i=0; i < columnSizes.length ; ++i ) {

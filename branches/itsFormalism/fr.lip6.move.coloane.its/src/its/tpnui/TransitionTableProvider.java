@@ -22,14 +22,19 @@ public class TransitionTableProvider implements IStructuredContentProvider {
 		IElementFormalism trans = formalism.getElementFormalism("transition"); 
 		Collection<INode> nodes = graph.getNodes();
 		
-		List<INode> toret= new ArrayList<INode>();
+		List<INode> toret = new ArrayList<INode>();
+		List<INode> privates = new ArrayList<INode>();
 		for (Iterator<INode> iterator = nodes.iterator(); iterator.hasNext();) {
 			INode node = iterator.next();
 			if ( node.getNodeFormalism().equals(trans) ) {
-				toret.add(node);
+				if (node.getAttribute("visibility").equals("public")) {
+					toret.add(node);
+				} else { 
+					privates.add(node);
+				}
 			}
 		}
-		
+		toret.addAll(privates);
 		return toret.toArray();
 	}
 
