@@ -1,5 +1,7 @@
 package testits.editors;
 
+import its.actions.AddType;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
@@ -25,7 +27,7 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
  */
 public class MultiPageEditorContributor extends MultiPageEditorActionBarContributor {
 	private IEditorPart activeEditorPart;
-	private Action sampleAction;
+	private Action addTypeAction;
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -87,26 +89,26 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		}
 	}
 	private void createActions() {
-		sampleAction = new Action() {
+		addTypeAction = new Action() {
 			@Override
 			public void run() {
-				MessageDialog.openInformation(null, "TestITS Plug-in", "Sample Action Executed");
+				new AddType();
 			}
 		};
-		sampleAction.setText("Sample Action");
-		sampleAction.setToolTipText("Sample Action tool tip");
-		sampleAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
-				getImageDescriptor(IDE.SharedImages.IMG_OBJS_TASK_TSK));
+		addTypeAction.setText("Add Type Action");
+		addTypeAction.setToolTipText("Add a type to the types declared.");
+		addTypeAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
+				getImageDescriptor(IDE.SharedImages.IMG_OPEN_MARKER));
 	}
 	@Override
 	public void contributeToMenu(IMenuManager manager) {
-		IMenuManager menu = new MenuManager("Editor &Menu");
+		IMenuManager menu = new MenuManager("ITS &Menu");
 		manager.prependToGroup(IWorkbenchActionConstants.MB_ADDITIONS, menu);
-		menu.add(sampleAction);
+		menu.add(addTypeAction);
 	}
 	@Override
 	public void contributeToToolBar(IToolBarManager manager) {
 		manager.add(new Separator());
-		manager.add(sampleAction);
+		manager.add(addTypeAction);
 	}
 }
