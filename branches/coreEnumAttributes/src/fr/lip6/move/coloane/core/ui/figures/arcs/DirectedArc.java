@@ -24,7 +24,7 @@ public class DirectedArc extends RoundedPolylineConnection implements IArcFigure
 	 * Create the decoration that will be used for the target-side of the arc
 	 * @return the decoration
 	 */
-	private PolygonDecoration buildDecoration() {
+	protected PolygonDecoration buildDecoration() {
 		PolygonDecoration decoration = new PolygonDecoration();
 		decoration.setTemplate(PolygonDecoration.TRIANGLE_TIP);
 		decoration.setScale(3, 3);
