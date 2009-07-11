@@ -1,6 +1,7 @@
 package testits.editors;
 
 import its.actions.AddType;
+import its.actions.AddTypeAction;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -27,7 +28,8 @@ import org.eclipse.ui.texteditor.ITextEditorActionConstants;
  */
 public class MultiPageEditorContributor extends MultiPageEditorActionBarContributor {
 	private IEditorPart activeEditorPart;
-	private Action addTypeAction;
+	private AddTypeAction addTypeAction;
+
 	/**
 	 * Creates a multi-page contributor.
 	 */
@@ -47,12 +49,18 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 	 */
 
 	@Override
+	public void setActiveEditor(IEditorPart part) {
+		super.setActiveEditor(part);
+		addTypeAction.setEditor((MultiPageEditor) part);
+	}
+	
+	@Override
 	public void setActivePage(IEditorPart part) {
 		if (activeEditorPart == part)
 			return;
-
+		
 		activeEditorPart = part;
-
+		
 		IActionBars actionBars = getActionBars();
 		if (actionBars != null) {
 
@@ -89,12 +97,7 @@ public class MultiPageEditorContributor extends MultiPageEditorActionBarContribu
 		}
 	}
 	private void createActions() {
-		addTypeAction = new Action() {
-			@Override
-			public void run() {
-				new AddType();
-			}
-		};
+		addTypeAction = new AddTypeAction((MultiPageEditor) activeEditorPart);
 		addTypeAction.setText("Add Type Action");
 		addTypeAction.setToolTipText("Add a type to the types declared.");
 		addTypeAction.setImageDescriptor(PlatformUI.getWorkbench().getSharedImages().
