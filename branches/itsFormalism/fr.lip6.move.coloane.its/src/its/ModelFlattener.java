@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.eclipse.draw2d.ColorConstants;
+
 import fr.lip6.move.coloane.core.model.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
@@ -39,19 +41,27 @@ public class ModelFlattener {
 	public void doFlatten (CompositeTypeDeclaration root) throws ModelException {
 		flatModel = new GraphModelFactory().createGraph("Time Petri Net");
 		idsPerInstance = new HashMap<String, Map<INode,INode>>();
-		flatten(root,"");
-		
+		try {
+			flatten(root,"");
 		for (String label : root.getLabels() ) {
-			// obtain effects of all private ("" label) syncs
+			// obtain effects of all public syncs
 			List< List<ResolvedTrans> > tset = cumulateLabelEffect(root, label, "", emptyEffect);
 			buildTransitions ( tset, label);
 			
 		}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 	
 
 	private void flatten (CompositeTypeDeclaration ctd, String prefix) throws ModelException {
+		// we build one transition node in the flat net for each possible sync instantiation
+		// obtain effects of all private ("" label) syncs
+		// scan for instances and get private events of each instance
+		
 		// grab the appropriate formalism elements to analyze an ITS Composite
 		IGraphFormalism formalism = ctd.getGraph().getFormalism().getMasterGraph();
 		IElementFormalism inst = formalism.getElementFormalism("instance"); 
@@ -81,24 +91,7 @@ public class ModelFlattener {
 		List< List<ResolvedTrans> > tset = cumulateLabelEffect(ctd, "", prefix, emptyEffect);
 		// create corresponding effect in the resulting net
 		buildTransitions ( tset, "");
-		
-		// we build one transition node in the flat net for each possible sync instantiation
-		// obtain effects of all private ("" label) syncs
-		// scan for instances and get private events of each instance
-		
-		// NOTE : this behavior is already taken into account by above calls to flatten
-		
-//		for (Iterator<INode> iterator = nodes.iterator(); iterator.hasNext();) {
-//			INode node = iterator.next();
-//			// An instance
-//			if ( node.getNodeFormalism().equals(inst) ) {
-//				String instName = node.getAttribute("name").getValue();
-//		
-//				List< List<ResolvedTrans> > privateSubset = cumulateLabelEffect(ctd, "", prefix, tset);
-//				tset.addAll(privateSubset);
-//			}
-//		}
-		
+				
 				
 	}
 	
@@ -111,15 +104,27 @@ public class ModelFlattener {
 	private void buildTransitions(List<List<ResolvedTrans>> tset, String label) throws ModelException {
 		for (List<ResolvedTrans> effectSet : tset) {
 			INode t = flatModel.createNode("transition");
-			StringBuffer sb = new StringBuffer();
-			for (ResolvedTrans rt : effectSet) {
-				sb.append(rt);
-				sb.append(",");
-			}
-			// kill trailing comma
-			sb.deleteCharAt(sb.length()-1);
-			t.getAttribute("name").setValue(sb.toString());
-			t.getAttribute("label").setValue(label);
+			
+			if ("".equals(label)) {
+				StringBuffer sb = new StringBuffer();
+				for (ResolvedTrans rt : effectSet) {
+					sb.append(rt);
+					sb.append(",");
+				}
+				// kill trailing comma
+				sb.deleteCharAt(sb.length()-1);
+
+				t.getAttribute("label").setValue(sb.toString());
+				t.getAttribute("visibility").setValue("private");
+				t.getGraphicInfo().setBackground(ColorConstants.lightBlue);
+
+			} else {
+				t.getAttribute("label").setValue(label);
+				t.getAttribute("visibility").setValue("public");
+				t.getGraphicInfo().setBackground(ColorConstants.green);
+
+			}				
+			
 			for (ResolvedTrans rt : effectSet) {
 				for (IArc a : rt.getTransition().getIncomingArcs()) {
 					INode place = a.getSource();
@@ -291,6 +296,7 @@ public class ModelFlattener {
 	}
 
 	private void flatten(TypeDeclaration t, String prefix, INode nodeInstance) throws ModelException {
+		
 		// grab the appropriate formalism elements to analyze an ITS Composite
 		IGraphFormalism formalism = t.getGraph().getFormalism().getMasterGraph();
 		IElementFormalism place = formalism.getElementFormalism("place"); 
@@ -298,7 +304,7 @@ public class ModelFlattener {
 		// to store node mapping of places
 		Map<INode,INode> ids = new HashMap<INode, INode>();
 		idsPerInstance.put(prefix,ids);	
-		//		Marking mark = (Marking) state;
+
 		/** Scan through the Nodes to find all places and flatten them */
 		Collection<INode> nodes = t.getGraph().getNodes();
 		for (Iterator<INode> iterator = nodes.iterator(); iterator.hasNext();) {
@@ -309,6 +315,7 @@ public class ModelFlattener {
 				String marking = node.getAttribute("marking").getValue();
 				// create a new place in the flat model
 				INode p = flatModel.createNode("place");
+				p.getGraphicInfo().setBackground(ColorConstants.yellow);
 				ids.put(node, p);
 
 				String newPName = prefix+"."+placeName;
@@ -323,15 +330,17 @@ public class ModelFlattener {
 			INode node = iterator.next();
 			// A transition
 			if ( node.getNodeFormalism().equals(trans) ) {
-				String label = node.getAttribute("label").getValue();
-				if (label == null || "".equals(label)) {
+				boolean isPublic = "public".equals(node.getAttribute("visibility").getValue());
+				if (! isPublic) {
 					// a "private" transition
-					String transName = node.getAttribute("name").getValue();
+					String transName = node.getAttribute("label").getValue();
 
 					// create a new transition in the flat model
 					INode newt = flatModel.createNode("transition");
+					newt.getGraphicInfo().setBackground(ColorConstants.lightBlue);
+
 					String tname = prefix+"."+transName;
-					newt.getAttribute("name").setValue(tname);
+					newt.getAttribute("label").setValue(tname);
 					//handle arcs
 					for (IArc a :node.getIncomingArcs()) {
 						// find the source place mapped in the flat model
