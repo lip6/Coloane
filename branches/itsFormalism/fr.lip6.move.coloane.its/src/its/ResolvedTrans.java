@@ -27,6 +27,6 @@ public class ResolvedTrans {
 	
 	@Override
 	public String toString() {
-		return instance+"."+transition.getAttribute("name").getValue();
+		return instance+"."+transition.getAttribute("label").getValue();
 	}
 }
