@@ -98,6 +98,8 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	protected TypeDeclaration currentSelectedTypeDecl;
 
 	private Button layoutTypeButton;
+
+	private boolean isDirty = false;
 	/**
 	 * Creates a multi-page editor example.
 	 */
@@ -422,6 +424,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+		setDirty(false);
 	}
 	/**
 	 * Saves the multi-page editor's document as another file.
@@ -434,6 +437,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		editor.doSaveAs();
 		setPageText(0, editor.getTitle());
 		setInput(editor.getEditorInput());
+		setDirty(false);
 	}
 	/* (non-Javadoc)
 	 * Method declared on IEditorPart
@@ -495,5 +499,15 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 
 	public TableViewer getTableviewer() {
 		return table.getViewer();
+	}
+	
+	@Override
+	public boolean isDirty() {
+		return editor.isDirty() || isDirty ;
+	}
+	
+	public void setDirty(boolean isDirty) {
+		this.isDirty = isDirty;
+		firePropertyChange(PROP_DIRTY);
 	}
 }
