@@ -31,6 +31,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -142,6 +143,9 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		// create a table
 		table = new TypesTable(types);
 		table.createWidgets(tableContainer);
+		// Make the selection available
+		getSite().setSelectionProvider(table.getViewer());
+
 
 
 
@@ -485,5 +489,11 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 			});
 		}
 	}
+	public TypeList getTypes() {
+		return types;
+	}
 
+	public TableViewer getTableviewer() {
+		return table.getViewer();
+	}
 }
