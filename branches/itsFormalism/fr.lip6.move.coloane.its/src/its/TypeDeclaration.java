@@ -18,13 +18,13 @@ public class TypeDeclaration {
 	/** The underlying coloane Graph */
 	private IGraph graph;
 	private Set<String> labels=null;
-	
+
 	protected TypeDeclaration (String typeName, IFile modelFile, IGraph graph) {
 		this.typeName = typeName;
 		typeFile = modelFile ;
 		this.graph = graph;
 	}
-	
+
 	public String getTypeName() {
 		return typeName;
 	}
@@ -34,15 +34,15 @@ public class TypeDeclaration {
 	public IFile getTypeFile() {
 		return typeFile;
 	}
-	
+
 	public String getTypeType() {
 		return graph.getFormalism().getName();
 	}
-	
+
 	public IGraph getGraph() {		
 		return graph;
 	}
-	
+
 	/**  Load a IGraph from a file 
 	 * @throws IOException */
 	private static IGraph loadGraph(IFile typePath) throws IOException {
@@ -52,7 +52,7 @@ public class TypeDeclaration {
 		// Si le chargement a échoué, on annule l'ouverture de l'éditeur
 		if (graph == null) {
 			throw new IOException("Load from XML file failed !");
-			}
+		}
 		return graph;
 	}
 
@@ -70,16 +70,31 @@ public class TypeDeclaration {
 		if (labels == null) {
 			labels = new HashSet<String>();
 			Collection<INode> nodes = graph.getNodes();
-			for (INode node : nodes) {
-				IAttribute atts = node.getAttribute("label");
-				if (atts != null && (! atts.getValue().equals(""))) {
-					labels.add(atts.getValue());
+			if (graph.getFormalism().getName().equals("Time Petri Net")) {
+				for (INode node : nodes) {
+					if ("transition".equals(node.getNodeFormalism().getName())) {
+						IAttribute visibility = node.getAttribute("visibility");
+						if ("public".equals(visibility.getValue())) {
+							IAttribute atts = node.getAttribute("label");
+							labels.add(atts.getValue());					
+						}
+					}
 				}
+			} else {
+				// Composite case
+				for (INode node : nodes) {
+					if ("synchronization".equals(node.getNodeFormalism().getName())) {						
+						IAttribute atts = node.getAttribute("label");
+						if (atts != null && (! "".equals(atts.getValue()))) {
+							labels.add(atts.getValue());					
+						}
+					}
+				}				
 			}
 		}
 		return labels;
 	}
-	
+
 	/** Specifies if all the concepts of this type have an effective realization. 
 	 * @return true for a basic type declaration
 	 */
