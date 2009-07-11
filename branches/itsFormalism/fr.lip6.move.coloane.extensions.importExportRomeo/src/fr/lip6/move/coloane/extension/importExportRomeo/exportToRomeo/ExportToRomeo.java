@@ -144,10 +144,11 @@ public class ExportToRomeo implements IExportTo {
 		indent(sb);
 		sb.append("<transition ");
 		sb.append("id=\"" + node.getId() + "\" ");
-		if ("".equals(node.getAttribute("label").getValue())) {
-			sb.append("label=\"" + node.getAttribute("name").getValue() + "\" public=\"0\" ");
+		sb.append("label=\"" + node.getAttribute("label").getValue() + "\"");
+		if ("public".equals(node.getAttribute("visibility").getValue())) {
+			sb.append(" public=\"0\" ");
 		} else {
-			sb.append("label=\"" + node.getAttribute("name").getValue() + "\" public=\"1\" ");
+			sb.append(" public=\"1\" ");
 		}
 		sb.append("eft=\"" + node.getAttribute("earliestFiringTime").getValue() + "\" ");
 		String lft = node.getAttribute("latestFiringTime").getValue();
@@ -201,7 +202,14 @@ public class ExportToRomeo implements IExportTo {
 		sb.append("<position x=\"" + loc.x + "\" y=\"" + loc.y + "\"/>\n");
 
 		// label position (delta)
-		Point loctag = node.getAttribute("name").getGraphicInfo().getLocation();
+		IAttribute lab;
+		if (node.getNodeFormalism().getName().equals("transition")) {
+			lab = node.getAttribute("label");
+		} else {
+			// place 
+			lab = node.getAttribute("name");			
+		}
+		Point loctag = lab.getGraphicInfo().getLocation();
 		indent(sb);
 		sb.append("<deltaLabel deltax=\"" + (loctag.x - loc.x) + "\" deltay=\"" + (loctag.y - loc.y) + "\"/>\n");
 		indent--;
