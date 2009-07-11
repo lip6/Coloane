@@ -27,7 +27,6 @@ public class TypesTable {
 
 	public void createWidgets(Composite parent) {
 		createViewer(parent);
-		viewer.setInput(types);
 	}
 
 	private void createViewer(Composite parent) {
@@ -35,6 +34,10 @@ public class TypesTable {
 		createColumns(viewer);
 		viewer.setContentProvider(new TypeListProvider());
 		viewer.setLabelProvider(new TypeLabelProvider());		
+		// Get the content for the viewer, setInput will call getElements in the
+		// contentProvider
+		viewer.setInput(types);
+	
 	}
 
 	private static String [] columnTitles = {"Type Name","Type","Path","Resolved"}; 
