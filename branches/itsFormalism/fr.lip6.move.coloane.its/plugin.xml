@@ -37,25 +37,5 @@
             name="fr.lip6.move.coloane.its.commands.AddType">
       </command>
    </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            locationURI="menu:org.eclipse.ui.main.menu">
-         <menu
-               icon="icons/sample.gif"
-               id="ITSMenu"
-               label="ITS &amp;Menu"
-               tooltip="ITS composition editor menu.">
-            <command
-                  commandId="fr.lip6.move.coloane.its.commands.AddType"
-                  icon="icons/models_navigator.gif"
-                  id="fr.lip6.move.coloane.its.menus.commands.AddType"
-                  label="Add a type."
-                  style="push"
-                  tooltip="Add a type declaration, by importing a Coloane model file.">
-            </command>
-         </menu>
-      </menuContribution>
-   </extension>
 
 </plugin>
