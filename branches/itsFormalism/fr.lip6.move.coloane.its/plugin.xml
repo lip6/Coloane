@@ -28,5 +28,34 @@
             id="testits.wizards.SampleNewWizard">
       </wizard>
    </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="its.actions.AddType"
+            description="Add a type to an ITS type list."
+            id="fr.lip6.move.coloane.its.commands.AddType"
+            name="fr.lip6.move.coloane.its.commands.AddType">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+         <menu
+               icon="icons/sample.gif"
+               id="ITSMenu"
+               label="ITS &amp;Menu"
+               tooltip="ITS composition editor menu.">
+            <command
+                  commandId="fr.lip6.move.coloane.its.commands.AddType"
+                  icon="icons/models_navigator.gif"
+                  id="fr.lip6.move.coloane.its.menus.commands.AddType"
+                  label="Add a type."
+                  style="push"
+                  tooltip="Add a type declaration, by importing a Coloane model file.">
+            </command>
+         </menu>
+      </menuContribution>
+   </extension>
 
 </plugin>
