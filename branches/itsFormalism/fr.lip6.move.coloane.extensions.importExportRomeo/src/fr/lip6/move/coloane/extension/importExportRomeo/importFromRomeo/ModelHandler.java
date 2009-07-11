@@ -7,12 +7,16 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Logger;
 
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.swt.graphics.Color;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -34,6 +38,12 @@ public class ModelHandler extends DefaultHandler {
 	// object constructed
 	private IGraph graph;
 
+	private Map<String, List<INode>> transColors;
+
+	private Map<String, List<INode>> placeColors;
+
+//	private Map<String, List<IArc>> arcColors;
+
 	/** {@inheritDoc} */
 	@Override
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
@@ -42,11 +52,24 @@ public class ModelHandler extends DefaultHandler {
 			graph = new GraphModelFactory().createGraph("Time Petri Net");
 			placeIds = new HashMap<String, INode>();
 			transIds = new HashMap<String, INode>();
+			transColors = new HashMap<String, List<INode>>();
+			placeColors = new HashMap<String, List<INode>>();
+//			arcColors = new HashMap<String, List<IArc>>();
+			// 6 colors only.
+			for (int i = 0; i < 6; i++) {
+				String lab = "c"+i;
+				transColors.put(lab, new ArrayList<INode>());
+				placeColors.put(lab, new ArrayList<INode>());
+//				arcColors.put(lab, new ArrayList<IArc>());
+			}
 		} else if ("place".equals(baliseName)) { //$NON-NLS-1$
 			// stack a the place
 			stack.push(handlePlace(attributes));
 		} else if ("graphics".equals(baliseName)) { //$NON-NLS-1$
-			// NOP
+			String colorLab = attributes.getValue("color");
+			if (colorLab != null) {
+				storeObjectColor(colorLab);
+			}
 		} else if ("position".equals(baliseName)) { //$NON-NLS-1$
 			handleNodePosition((INode) stack.peek(),attributes);
 		} else if ("deltaLabel".equals(baliseName)) { //$NON-NLS-1$
@@ -61,9 +84,44 @@ public class ModelHandler extends DefaultHandler {
 			stack.push(handleArc(attributes));
 		} else if ("nail".equals(baliseName)) { //$NON-NLS-1$
 			handleArcNail((IArc) stack.peek(), attributes);
+		} else if ("preferences".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		} else if ("colorPlace".equals(baliseName)) { //$NON-NLS-1$
+			handlePlaceColors(attributes);
+		} else if ("colorTransition".equals(baliseName)) { //$NON-NLS-1$
+			handleTransitionColors(attributes);
+		} else if ("colorArc".equals(baliseName)) { //$NON-NLS-1$
+			// Happily ignore arc colors, feature unimplemented in Romeo GUI anyway.
+			//			handleArcColors(attributes);
 		} else {
 			logger.warning("Unknown XML tag in source file: "+ baliseName); //$NON-NLS-1$
 		}
+	}
+
+
+	/**
+	 * Stores the color of an element (i.e. top of the stack)
+	 * into the appropriate container.
+	 * @param colorLab
+	 */
+	private void storeObjectColor(String colorLab) {
+		Object obj = stack.peek();
+		if (obj instanceof INode) {
+			INode node = (INode) obj;
+			if (node.getNodeFormalism().getName().equals("transition")) {		
+				transColors.get("c"+colorLab).add(node);
+			} else {
+				placeColors.get("c"+colorLab).add(node);
+			}
+		}
+		// IGNORE ARC COLORS
+//		} else {
+//			if (obj instanceof IArc) {
+//				IArc arc = (IArc) obj;
+//				arcColors.get("c"+colorLab).add(arc);
+//			}
+//		}
+
 	}
 
 
@@ -75,6 +133,9 @@ public class ModelHandler extends DefaultHandler {
 			// cleanup
 			placeIds = null;
 			transIds = null;
+			transColors = null;
+//			arcColors = null;
+			placeColors = null;
 		} else if ("place".equals(baliseName)) { //$NON-NLS-1$
 			// pop place from context stack
 			stack.pop();
@@ -92,6 +153,14 @@ public class ModelHandler extends DefaultHandler {
 		} else if ("arc".equals(baliseName)) { //$NON-NLS-1$
 			// stack a the place
 			stack.pop();
+		} else if ("preferences".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		} else if ("colorPlace".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		} else if ("colorTransition".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		} else if ("colorArc".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
 		} else {
 			logger.warning("Unknown XML tag in source file: "+ baliseName); //$NON-NLS-1$
 		}
@@ -233,6 +302,68 @@ public class ModelHandler extends DefaultHandler {
 			arc.addInflexPoint(nail);
 		}
 	}
+
+	/**
+	 * Parse place colors.
+	 * @param attributes the attributes of the xml element.
+	 */
+	private void handlePlaceColors(Attributes attributes) {
+		for (int i = 0; i < 6; i++) {
+			String colorIndex = "c"+i;
+			String color = attributes.getValue(colorIndex);
+			
+			Color bgColor = getColor (color);
+			if (color == null) {
+				break;
+			}
+			for (INode place : placeColors.get(colorIndex)) {				
+				place.getGraphicInfo().setBackground(bgColor);
+			}
+		}
+	}
+
+	/**
+	 * Parse transition colors.
+	 * @param attributes the attributes of the xml element.
+	 */
+	private void handleTransitionColors(Attributes attributes) {
+		for (int i = 0; i < 6; i++) {
+			String colorIndex = "c"+i;
+			String color = attributes.getValue(colorIndex);
+			
+			Color bgColor = getColor (color);
+			if (color == null) {
+				break;
+			}
+			for (INode trans : transColors.get(colorIndex)) {				
+				trans.getGraphicInfo().setBackground(bgColor);
+			}
+		}
+	}
+
+	/**
+	 * Attempt to produce an approaching color based on the color name in Romeo.
+	 * @param color the color name in romeo
+	 * @return an appropriate color constant or null if no match found.
+	 */
+	private Color getColor(String color) {
+		Color bgColor = null;
+		if ("cyan".equals(color)) {
+			bgColor  = ColorConstants.cyan;
+		} else if ("yellow".equals(color)) {
+			bgColor = ColorConstants.yellow;
+		} else if ("gray".equals(color)) {
+			bgColor = ColorConstants.gray;
+		} else if ("brown".equals(color)) {
+			bgColor = ColorConstants.darkGreen;
+		} else if ("SkyBlue2".equals(color)) {
+			bgColor = ColorConstants.lightBlue;
+		} else if ("green".equals(color)) {
+			bgColor = ColorConstants.green;
+		} 
+		return bgColor;
+	}
+
 
 	/**
 	 * @return the graph loaded from the XML file
