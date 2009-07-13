@@ -8,6 +8,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
@@ -71,60 +72,55 @@ public class AddTypeDialog extends TitleAreaDialog {
 
 		return parent;
 	}
-
+	
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		((GridLayout) parent.getLayout()).numColumns++;
 		((GridLayout) parent.getLayout()).numColumns++;
 
-		Button cancel = new Button(parent, SWT.PUSH);
-		cancel.setText("Cancel");
-		cancel.setFont(JFaceResources.getDialogFont());
-		cancel.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				type = null;
-				setErrorMessage(null);
-				setMessage("Please select the model file containing your type definition.");				
-			}
-		});
+		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, true);
 		
-		Button button = new Button(parent, SWT.PUSH);
-		button.setText("OK");
-		button.setFont(JFaceResources.getDialogFont());
-		button.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				String filePath = fileField.getText();
-				if (filePath == null || "".equals(filePath)) {
-					setErrorMessage("Please Specify a model file using the \"Browse\" button");
-					return;
-				}
-				IPath path = new Path(filePath);
-				IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
-
-				String typeName = newTypeTextfield.getText();
-				if (typeName == null || typeName.equals("")) {
-					setErrorMessage("The model type name cannot be empty.");
-					return;
-				}
-				for (TypeDeclaration itType : types) {
-					if (itType.getTypeName().equals(typeName)) {
-						setErrorMessage("Type name already exists");
-						return;
-					}
-				}
-				try {
-					type = TypeDeclaration.create(typeName,file);
-				} catch (Exception ex) {
-					setErrorMessage("Error loading model file: "+
-							"Your file does not seem to contain a recognized Coloane model. Details:\n"+ex.getMessage());
-					return;
-				}
-				setErrorMessage(null);
-				setMessage("Model successfully loaded, quit this dialog to confirm.");
-			}
-		});
+		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
+		
 	}
 
+	@Override
+	protected void cancelPressed() {
+		type = null;
+		super.cancelPressed();
+	}
+	
+	@Override
+	protected void okPressed() {
+		String filePath = fileField.getText();
+		if (filePath == null || "".equals(filePath)) {
+			setErrorMessage("Please Specify a model file using the \"Browse\" button");
+			return;
+		}
+		IPath path = new Path(filePath);
+		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
+
+		String typeName = newTypeTextfield.getText();
+		if (typeName == null || typeName.equals("")) {
+			setErrorMessage("The model type name cannot be empty.");
+			return;
+		}
+		for (TypeDeclaration itType : types) {
+			if (itType.getTypeName().equals(typeName)) {
+				setErrorMessage("Type name already exists");
+				return;
+			}
+		}
+		try {
+			type = TypeDeclaration.create(typeName,file);
+		} catch (Exception ex) {
+			setErrorMessage("Error loading model file: "+
+					"Your file does not seem to contain a recognized Coloane model. Details:\n"+ex.getMessage());
+			return;
+		}
+		super.okPressed();
+	}
+	
 	public TypeDeclaration getType() {
 		return type;
 	}
