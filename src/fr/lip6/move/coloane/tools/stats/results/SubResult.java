@@ -15,6 +15,11 @@ import java.util.Map;
  * @author Jean-Baptiste Voron
  */
 public class SubResult implements ISubResult {
+	/** Nom du sous-résultat */
+	private String name;
+
+	/** Information sur le nom du sous résultat*/
+	private String information;
 
 	/** Les sous-résultats par rapport à ce résultat */
 	private List<ISubResult> children;
@@ -31,36 +36,28 @@ public class SubResult implements ISubResult {
 	/** Liste des attributs à mettre en valeur */
 	private Map<Integer, List<String>> attributesOutline;
 
-	/** Nom du sous-résultat */
-	private String name;
-
-	/** Information sur le nom du sous résultat*/
-	private String information;
 
 	/**
 	 * Constructeur d'un ensemble de résultats
 	 * @param name Le nom de l'ensemble de résultats
-	 * @param type Le type de cet ensemble
 	 */
 	public SubResult(String name) {
-		this.name = name;
-		this.information = "";
-		this.children = new ArrayList<ISubResult>();
-		this.objectsDesignation = new ArrayList<Integer>();
-		this.objectsOutline = new ArrayList<Integer>();
-		this.attributesOutline = new HashMap<Integer, List<String>>();
-		this.textualResults = new ArrayList<String>();
+		this(name, "");
 	}
 
 	/**
 	 * Constructeur d'un ensemble de résultats doté d'une information sur cet ensemble
 	 * @param name Le nom de l'ensemble de résultats
 	 * @param information Une information sur l'ensemble de résultats
-	 * @param type Le type de cet ensemble
 	 */
 	public SubResult(String name, String information) {
-		this(name);
+		this.name = name;
 		this.information = information;
+		this.children = new ArrayList<ISubResult>();
+		this.objectsDesignation = new ArrayList<Integer>();
+		this.objectsOutline = new ArrayList<Integer>();
+		this.attributesOutline = new HashMap<Integer, List<String>>();
+		this.textualResults = new ArrayList<String>();
 	}
 	
 	/**
