@@ -26,7 +26,7 @@ public class SubResult implements ISubResult {
 	private List<Integer> objectsOutline;
 
 	/** Liste des résultats textuels */
-	private List<List<String>> textualResults;
+	private List<String> textualResults;
 
 	/** Liste des attributs à mettre en valeur */
 	private Map<Integer, List<String>> attributesOutline;
@@ -37,9 +37,6 @@ public class SubResult implements ISubResult {
 	/** Information sur le nom du sous résultat*/
 	private String information;
 
-	/** En-tête pour les résultats textuels*/
-	private List<String> textualResultsMenu;
-
 	/**
 	 * Constructeur d'un ensemble de résultats
 	 * @param name Le nom de l'ensemble de résultats
@@ -48,12 +45,11 @@ public class SubResult implements ISubResult {
 	public SubResult(String name) {
 		this.name = name;
 		this.information = "";
-		this.textualResultsMenu = null;
 		this.children = new ArrayList<ISubResult>();
 		this.objectsDesignation = new ArrayList<Integer>();
 		this.objectsOutline = new ArrayList<Integer>();
 		this.attributesOutline = new HashMap<Integer, List<String>>();
-		this.textualResults = new ArrayList<List<String>>();
+		this.textualResults = new ArrayList<String>();
 	}
 
 	/**
@@ -97,18 +93,13 @@ public class SubResult implements ISubResult {
 	public final void addObjectOutline(Integer id) {
 		this.objectsOutline.add(id);
 	}
-
+	
 	/**
 	 * Ajoute un résultat textuel à la liste
 	 * @param result Le résultat qui doit être ajouté dans la liste
 	 */
-	public final void addTextualResult(String... result) {
-		if (result != null){
-			ArrayList<String> tab = new ArrayList<String>();
-			for(String s : result)
-				tab.add(s);
-			this.textualResults.add(tab);
-		}
+	public final void addTextualResult(String result) {
+		this.textualResults.add(result);
 	}
 	
 	/**
@@ -143,7 +134,7 @@ public class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final List<List<String>> getTextualResults() {
+	public final List<String> getTextualResults() {
 		return textualResults;
 	}
 
@@ -166,25 +157,5 @@ public class SubResult implements ISubResult {
 	 */
 	public String getInformation() {
 		return information;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	public List<String> getTextualResultsMenu() {
-		return textualResultsMenu;
-	}
-
-	/**
-	 * TODO
-	 * @param textualResultsMenu
-	 */
-	public void setTextualResultsMenu(String... textualResultsMenu) {
-		if (textualResultsMenu != null){
-			ArrayList<String> tab = new ArrayList<String>();
-			for(String s : textualResultsMenu)
-				tab.add(s);
-			this.textualResultsMenu = tab;
-		}
 	}
 }
