@@ -64,8 +64,8 @@ public class ExportToImpl implements IExportTo {
 			writerBuffer = new BufferedWriter(new OutputStreamWriter(writer));
 
 			// Translation
-			Collection<String> stat = translateGraph(graph, monitor);
-			for (String line : stat) {
+			Collection<String> gspn = translateGraph(graph, monitor);
+			for (String line : gspn) {
 				writerBuffer.write(line);
 				writerBuffer.newLine();
 			}
@@ -131,15 +131,6 @@ public class ExportToImpl implements IExportTo {
 						
 		}
 
-		/*
-		// Arcs
-		monitor.subTask("Export arcs");
-		for (IArc arc : model.getArcs()) {
-			toReturn.addAll(this.translateArc(arc));
-			monitor.worked(1);
-		}
-		*/
-		
 		return toReturn;
 	}
 
