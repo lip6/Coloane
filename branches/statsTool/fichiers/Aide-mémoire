@@ -11,3 +11,5 @@ fr.lip6.move.coloane.core.results.reports.GenericReport ====> création du Resul
 Les tips ===> à oublier pour l'instant
 
 les id ==> permet de désigner les éléments du modèle pour ensuite les traiter (ex: les highlighter, ...)
+
+fr.lip6.move.coloane.core.ui.panels.ResultsView ====> Contient la vue pour afficher les ResultTreeImpl

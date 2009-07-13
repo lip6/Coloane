@@ -6,6 +6,8 @@ import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -56,6 +58,18 @@ public class ResultsView extends ViewPart {
 		createActions();
 	}
 
+	/** {@inheritDoc} */
+	@Override
+	public void dispose() {
+		for(IArc arc : MANAGER.getCurrentSession().getGraph().getArcs()) {
+			((ISpecialState)arc).setSpecialState(false);
+		}
+		for(INode node : MANAGER.getCurrentSession().getGraph().getNodes()) {
+			((ISpecialState)node).setSpecialState(false);
+		}
+		super.dispose();
+	}
+	
 	/** {@inheritDoc} */
 	@Override
 	public final void createPartControl(final Composite parent) {
@@ -168,12 +182,43 @@ public class ResultsView extends ViewPart {
 					checkResult(session, child, viewer.getChecked(child), toCheck);
 				}
 			}
-
+			/**
+			 * Permet d'empêcher de cocher les textualsResults 
+			 * 
+			 * @param result le sous-resultat coché dans l'arbre
+			 * @param checked représente le nouvel état coché dans l'arbre : true si le résultat est coché, false s'il ne l'est pas
+			 * @return true si le résultat a été coché ou si au moins un des sous-résultats est coché, false sinon
+			 */
+			private boolean disableTextualResults(IResultTree result, boolean checked) {
+				boolean bool = false;
+				// Appel récursif sur tous les children du résultat
+				for (IResultTree child : result.getChildren()) {
+					boolean tmpbool = disableTextualResults(child, checked);
+					// Si un des fils est coché pendant l'appel récursif, bool prendra la valeur vrai en sortie de boucle
+					bool = bool || tmpbool;
+				}
+				// Si au moins l'un des sous-résultat a été coché, alors on coche le résultat courant (le parent du sous-résultat coché)
+				// On passe dans ce if uniquement si le résultat courant comporte des sous-résultats
+				if (bool) {
+					viewer.setChecked(result, checked);
+					return true;
+				}
+				// Si le résultat n'a pas de sous résultats, on regarde s'il a des objets du graphe à highlight
+				// Si non, on le décoche
+				// Si oui, on le laisse tel quel  car son état a déjà été modifié avant l'appel de la méthode
+				if (result.getHighlighted().size() == 0) {
+					viewer.setChecked(result, false);
+					return false;
+				}
+				return true;
+			}
+			
 			/** {@inheritDoc} */
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				IResultTree result = (IResultTree) event.getElement();
 				checkResult(MANAGER.getCurrentSession(), result, !event.getChecked(), event.getChecked());
 				viewer.setSubtreeChecked(event.getElement(), event.getChecked());
+				disableTextualResults(result, event.getChecked());
 			}
 		});
 

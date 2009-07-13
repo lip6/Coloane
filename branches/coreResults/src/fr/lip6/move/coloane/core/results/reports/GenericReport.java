@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.core.results.reports;
 
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
-import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -17,15 +16,8 @@ import java.util.List;
  */
 public class GenericReport implements IReport {
 
-	
-	public final ResultTreeImpl build(IResult result) {
-		return this.buildTest(result);
-	}
-	
-	
 	/** {@inheritDoc} */
-	public final ResultTreeImpl buildTest(IResult result) {
-
+	public final ResultTreeImpl build(IResult result) {
 		// 1. Build the root of the resultat tree
 		ResultTreeImpl root = new ResultTreeImpl(result.getServiceName());
 
@@ -78,61 +70,13 @@ public class GenericReport implements IReport {
 					node.addChild(new ResultTreeImpl(id, formalismName, name));
 				}			
 			}			
-			
-			node.addChild(new ResultTreeImpl(sub.getTextualResultsMenu().toArray(new String[sub.getTextualResultsMenu().size()])));
-			for (List<String> tabStr : sub.getTextualResults()) {
-				node.addChild(new ResultTreeImpl(tabStr.toArray(new String[tabStr.size()])));
+
+			if (sub.getTextualResults().size() > 0) {
+				for (String str : sub.getTextualResults()) {
+					node.addChild(new ResultTreeImpl(str));
+				}
 			}
 			
 		}
 	}
-	/*
-	/** {@inheritDoc} 
-	public final ResultTreeImpl buildOriginal(IResult result) {
-
-		// 1. Build the root of the resultat tree
-		ResultTreeImpl root = new ResultTreeImpl(result.getServiceName());
-
-		// 2. Attach the session Manager to the root
-		root.setSessionManager(SessionManager.getInstance());
-
-		// For each subgroup of results
-		for (int i = 0; i < result.getSubResults().size(); i++) {
-			ISubResult sub = result.getSubResults().get(i);
-
-			// Create a node result
-			ResultTreeImpl node;
-			if (sub.getTextualResults().size() == 1) {
-				if (!("".equals(sub.getName()))) { //$NON-NLS-1$
-					node = new ResultTreeImpl(Messages.GenericReport_0 + (i + 1), sub.getName(), sub.getTextualResults().get(0));
-				} else {
-					node = new ResultTreeImpl(Messages.GenericReport_1 + (i + 1), sub.getTextualResults().get(0));
-				}
-			} else {
-				node = new ResultTreeImpl(Messages.GenericReport_2 + (i + 1), sub.getName());
-			}
-
-			for (int id : sub.getObjectsOutline()) {
-				String name = String.valueOf(id);
-				IElement element = root.getSessionManager().getCurrentSession().getGraph().getObject(id);
-				if ((element != null) && (element instanceof INode)) {
-					String value = element.getAttribute(Messages.GenericReport_3).getValue();
-					if (!("".equals(value))) { //$NON-NLS-1$
-						name = value;
-					}
-				}
-				node.addChild(new ResultTreeImpl(id, Messages.GenericReport_4, name));
-				node.addHighlighted(id);
-			}
-
-			if (sub.getTextualResults().size() > 1) {
-				for (String s : sub.getTextualResults()) {
-					node.addChild(new ResultTreeImpl(Messages.GenericReport_5, s));
-				}
-			}
-			root.addChild(node);
-		}
-		return root;
-	}
-	*/
 }

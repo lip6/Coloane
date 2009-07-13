@@ -16,7 +16,7 @@ public interface IResultTree {
 	 * @return l'arbre parent
 	 */
 	IResultTree getParent();
-
+	
 	/**
 	 * Indique qui est le père de l'arbre de résultats.<br>
 	 * Attention ! Seul le lien fils -> pere est fait.<br>
