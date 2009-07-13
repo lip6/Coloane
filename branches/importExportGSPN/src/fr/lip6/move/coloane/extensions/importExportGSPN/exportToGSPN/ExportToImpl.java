@@ -8,14 +8,14 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+//import java.util.Map;
 import java.util.logging.Logger;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
-import fr.lip6.move.coloane.interfaces.model.IArc;
+//import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -55,7 +55,7 @@ public class ExportToImpl implements IExportTo {
 			throw new ColoaneException("The filename is not correct. Please provide a valid filename");
 		}
 		
-		int totalWork = graph.getNodes().size() + graph.getArcs().size();
+		int totalWork = graph.getNodes().size();
 		monitor.beginTask("Export to GSPN", totalWork);
 		
 		try {
@@ -92,31 +92,54 @@ public class ExportToImpl implements IExportTo {
 	 * @param monitor The monitor to follow the progression
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> translateGraph(IGraph model, IProgressMonitor monitor) {
+	private Collection<String> translateGraph(IGraph graph, IProgressMonitor monitor) {
 		List<String> toReturn = new ArrayList<String>();
-/*
-		// Add model node (top level)
-		toReturn.add(new String("CN(3:net,1)")); //$NON-NLS-1$
-
-		// Attributes
-		for (IAttribute attribute : model.getAttributes()) {
-			toReturn.addAll(this.translateAttribute(attribute));
-		}
-*/
+		char lettre='\0';
+		
+		toReturn.add("|256");
+		toReturn.add("%");
+		toReturn.add("|");
+		
 		// Nodes
 		monitor.subTask("Export nodes");
-		for (INode node : model.getNodes()) {
-			//toReturn.addAll(this.translateNode(node));
+		for (INode node : graph.getNodes()) {
+			for(IAttribute attribute : node.getAttributes()){
+				if((attribute.getName().equals("marking"))){
+					lettre='m';
+					if(attribute.getValue().equals("0")==false){
+						toReturn.add("(" + attribute.getValue() + " " + lettre + " " + attribute.getGraphicInfo().getLocation().x + " " + attribute.getGraphicInfo().getLocation().y + " " + "(@" + lettre);
+						toReturn.add("))");
+					}
+				}
 			monitor.worked(1);
+			}
+		}
+		
+		// Attributes
+		for (IAttribute attribute : graph.getAttributes()) {
+			if(attribute.getName().equals("colorset")){
+				lettre='c';
+			}
+			if(attribute.getName().equals("function")){
+				lettre='f';
+			}
+			
+			if(attribute.getValue().equals("")==false){
+				toReturn.add("(" + attribute.getValue() + " " + lettre + " " + attribute.getGraphicInfo().getLocation().x + " " + attribute.getGraphicInfo().getLocation().y + " " + "(@" + lettre);
+				toReturn.add("))");
+			}
+						
 		}
 
+		/*
 		// Arcs
 		monitor.subTask("Export arcs");
 		for (IArc arc : model.getArcs()) {
-			//toReturn.addAll(this.translateArc(arc));
+			toReturn.addAll(this.translateArc(arc));
 			monitor.worked(1);
 		}
-
+		*/
+		
 		return toReturn;
 	}
 

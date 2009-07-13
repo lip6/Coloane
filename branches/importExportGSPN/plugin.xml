@@ -9,7 +9,7 @@
             id="fr.lip6.move.coloane.extensions.exportgspn"
             reference="fr.lip6.move.coloane.wizard.export.gspn">
          <AcceptedFormalism
-               id="fr.lip6.move.coloane.extensions.importExportGSPN.AcceptedFormalism2">
+               id="gspn">
          </AcceptedFormalism>
       </Export>
    </extension>
