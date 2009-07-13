@@ -43,7 +43,7 @@
                         default="0"
                         drawable="true"
                         italic="false"
-                        multiline="false"
+                        multiline="true"
                         name="marking">
                   </Attribute>
                </Node>
@@ -358,7 +358,7 @@
                      drawable="true"
                      italic="false"
                      multiline="true"
-                     name="function??">
+                     name="function">
                </Attribute>
             </Graph>
             <Constraint
