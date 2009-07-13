@@ -26,6 +26,11 @@ public class GenericReport implements IReport {
 
 		addResultTreeImpl(result.getSubResults(),root);
 		
+		if (result.getTextualResults().size() > 0) {
+			for (String str : result.getTextualResults()) {
+				root.addChild(new ResultTreeImpl(str));
+			}
+		}
 		return root; 
 	}
 	
@@ -37,10 +42,10 @@ public class GenericReport implements IReport {
 			// Create a node result
 			ResultTreeImpl node;
 			if (!("".equals(sub.getName()))) { //$NON-NLS-1$
-				if(!("".equals(sub.getInformation()))) {  //$NON-NLS-1$
+				if (sub.getObjectsDesignation().size() > 0) {
+					node = new ResultTreeImpl(sub.getObjectsDesignation(), sub.getName(), sub.getInformation());
+				} else {						
 					node = new ResultTreeImpl(sub.getName(), sub.getInformation());
-				} else {
-					node = new ResultTreeImpl(sub.getName());
 				}
 			} else {
 				node = new ResultTreeImpl(Messages.GenericReport_0 + (i + 1));

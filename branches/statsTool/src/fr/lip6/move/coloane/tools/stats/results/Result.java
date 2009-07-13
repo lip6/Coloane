@@ -17,8 +17,6 @@ import java.util.List;
  * @author Jean-Baptiste Voron
  */
 public class Result implements IResult {
-	/** Le nom du menu racine qui contient le service invoqué */
-	private String rootName;
 
 	/** Le nom du service qui a été invoqué */
 	private String serviceName;
@@ -38,6 +36,9 @@ public class Result implements IResult {
 
 	/** La liste des commandes pour construire le graphe résultat */
 	private List<ICommand> outputCommandsList;
+	
+	/** Liste des résultats textuels */
+	private List<String> textualResults;
 
 	/**
 	 * Constructeur
@@ -45,8 +46,7 @@ public class Result implements IResult {
 	 * @param serviceName Le service qui fournit les résultats
 	 * @param outputGraph Le modèle résultat envoyé par le core... à remplir
 	 */
-	public Result(String rootName, String serviceName, IGraph outputGraph) {
-		this.rootName = rootName;
+	public Result(String serviceName, IGraph outputGraph) {
 		this.serviceName = serviceName;
 		this.outputGraph = outputGraph;
 		this.computedGraph = null;
@@ -54,6 +54,7 @@ public class Result implements IResult {
 		this.tipsList = new ArrayList<ITip>();
 		this.commandsList = new ArrayList<ICommand>();
 		this.outputCommandsList = new ArrayList<ICommand>();
+		this.textualResults = new ArrayList<String>();
 	}
 
 	/**
@@ -91,13 +92,6 @@ public class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final String getRootName() {
-		return this.rootName;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	public final String getServiceName() {
 		return this.serviceName;
 	}
@@ -123,6 +117,21 @@ public class Result implements IResult {
 		return this.commandsList;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final List<String> getTextualResults() {
+		return textualResults;
+	}
+	
+	/**
+	 * Ajoute un résultat textuel à la liste
+	 * @param result Le résultat qui doit être ajouté dans la liste
+	 */
+	public final void addTextualResult(String result) {
+		this.textualResults.add(result);
+	}
+	
 	/**
 	 * Construit le modèle résultat à partir des commandes transmises par la plate-forme
 	 * @return Le modèle résultat construit

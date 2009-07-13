@@ -14,46 +14,74 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 public class StatAction implements IColoaneAction {
 
-	public List<IResult> run(IGraph model) {
+	public List<IResult> run1(IGraph model) {
 		ArrayList<INode> tabNodes = new ArrayList<INode>(model.getNodes());
 		ArrayList<IArc> tabArcs = new ArrayList<IArc>(model.getArcs());
-		
-		Result res1 = new Result("", "Plop", null);
-		SubResult subres1 = new SubResult("Places et transitions");
+
+		Result res1 = new Result("Plop", model);
+		SubResult subres1 = new SubResult("Places et transitions", "Affiche tous les noeuds	");
 		SubResult subres2 = new SubResult("Arcs");
-		
+
 		for(int i = 0; i < tabNodes.size(); i++) {
-			subres1.addObjectOutline(tabNodes.get(i).getId());
+			subres1.addObjectDesignation(tabNodes.get(i).getId());
 		}
-		
+
 		for(int i = 0; i < tabArcs.size(); i++) {
 			subres2.addObjectOutline(tabArcs.get(i).getId());
 		}
-		
-		subres2.addTextualResult("gfgrtrthge");
-		subres2.addTextualResult("gfgrtrthge");
+		subres2.addTextualResult("plop");
+		subres2.addTextualResult("plop");
+		subres2.addTextualResult("plop");
 
-		subres1.addTextualResult("jhiohouh");
-		subres1.addTextualResult("jhiohouh");
-		subres1.addTextualResult("jhiohouh");
 
-		
-		subres1.addSubResult(subres2);
 		res1.addSubResult(subres1);
-		
+		res1.addSubResult(subres2);
 
-		Result res2 = new Result("", "Plip", null);
-		SubResult subres21 = new SubResult("Places et transitions");
-		
-		for(int i = 0; i < tabNodes.size(); i++) {
-			subres21.addObjectOutline(tabNodes.get(i).getId());
-		}
-		res2.addSubResult(subres21);
-		
-		
 		ArrayList<IResult> al = new ArrayList<IResult>();
 		al.add(res1);
-		al.add(res2);
+		return al;
+	}
+	
+	public List<IResult> run(IGraph model) {
+		ArrayList<INode> tabNodes = new ArrayList<INode>(model.getNodes());
+		ArrayList<IArc> tabArcs = new ArrayList<IArc>(model.getArcs());
+
+		Result res1 = new Result("StatTool", model);
+		SubResult subres1 = new SubResult("Places et transitions", "Affiche tous les noeuds");
+		SubResult subres2 = new SubResult("Arcs", "Affiche tous les arcs");
+
+		for(int i = 0; i < tabNodes.size(); i++) {
+			subres1.addObjectDesignation(tabNodes.get(i).getId());
+		}
+		for(int i = 0; i < tabArcs.size(); i++) {
+			subres2.addObjectDesignation(tabArcs.get(i).getId());
+		}
+
+
+
+		SubResult subres3 = new SubResult("Places et transitions", "Liste tous les noeuds");
+		SubResult subres4 = new SubResult("Arcs", "Liste tous les arcs");
+
+		for(int i = 0; i < tabNodes.size(); i++) {
+			subres3.addObjectOutline(tabNodes.get(i).getId());
+		}
+		for(int i = 0; i < tabArcs.size(); i++) {
+			subres4.addObjectOutline(tabArcs.get(i).getId());
+		}
+
+
+		res1.addTextualResult("Nombre de noeuds : "+tabNodes.size());
+		res1.addTextualResult("Nombre d'arcs : "+tabArcs.size());
+
+
+		res1.addSubResult(subres1);
+		res1.addSubResult(subres2);
+		res1.addSubResult(subres3);
+		res1.addSubResult(subres4);
+
+
+		ArrayList<IResult> al = new ArrayList<IResult>();
+		al.add(res1);
 		return al;
 	}
 }

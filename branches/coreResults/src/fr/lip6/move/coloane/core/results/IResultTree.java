@@ -48,7 +48,7 @@ public interface IResultTree {
 	 * @return la liste d'identifiants d'objets a mettre en valeur
 	 */
 	List<Integer> getHighlighted();
-
+	
 	/**
 	 * Ajoute un ou plusieurs elements à mettre en valeur lors de la selection du sous-resultat
 	 * @param toHighlight élément(s) à ajouter
