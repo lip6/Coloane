@@ -19,8 +19,9 @@ public class StatAction implements IColoaneAction {
 		ArrayList<IArc> tabArcs = new ArrayList<IArc>(model.getArcs());
 
 		Result res1 = new Result("Plop", model);
+		Result res2 = new Result("Plip", model);
 		SubResult subres1 = new SubResult("Places et transitions", "Affiche tous les noeuds	");
-		SubResult subres2 = new SubResult("Arcs");
+		SubResult subres2 = new SubResult("Menu Arcs");
 
 		for(int i = 0; i < tabNodes.size(); i++) {
 			subres1.addObjectDesignation(tabNodes.get(i).getId());
@@ -34,11 +35,13 @@ public class StatAction implements IColoaneAction {
 		subres2.addTextualResult("plop");
 
 
+
 		res1.addSubResult(subres1);
-		res1.addSubResult(subres2);
+		res2.addSubResult(subres2);
 
 		ArrayList<IResult> al = new ArrayList<IResult>();
 		al.add(res1);
+		al.add(res2);
 		return al;
 	}
 	
@@ -47,8 +50,8 @@ public class StatAction implements IColoaneAction {
 		ArrayList<IArc> tabArcs = new ArrayList<IArc>(model.getArcs());
 
 		Result res1 = new Result("StatTool", model);
-		SubResult subres1 = new SubResult("Places et transitions", "Affiche tous les noeuds");
-		SubResult subres2 = new SubResult("Arcs", "Affiche tous les arcs");
+		SubResult subres1 = new SubResult("Places et transitions", "Affiche tous les noeuds sur le graphe");
+		SubResult subres2 = new SubResult("Arcs", "Affiche tous les arcs sur le graphe");
 
 		for(int i = 0; i < tabNodes.size(); i++) {
 			subres1.addObjectDesignation(tabNodes.get(i).getId());
@@ -56,7 +59,6 @@ public class StatAction implements IColoaneAction {
 		for(int i = 0; i < tabArcs.size(); i++) {
 			subres2.addObjectDesignation(tabArcs.get(i).getId());
 		}
-
 
 
 		SubResult subres3 = new SubResult("Places et transitions", "Liste tous les noeuds");
@@ -70,9 +72,9 @@ public class StatAction implements IColoaneAction {
 		}
 
 
-		res1.addTextualResult("Nombre de noeuds : "+tabNodes.size());
-		res1.addTextualResult("Nombre d'arcs : "+tabArcs.size());
-
+		res1.addTextualResult("Nombre de noeuds :",String.valueOf(tabNodes.size()));
+		res1.addTextualResult("Nombre d'arcs :",String.valueOf(tabArcs.size()));
+		res1.addTextualResult("","","","");
 
 		res1.addSubResult(subres1);
 		res1.addSubResult(subres2);
