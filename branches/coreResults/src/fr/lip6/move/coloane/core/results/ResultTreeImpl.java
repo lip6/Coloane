@@ -153,8 +153,16 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 				setChanged();
 				notifyObservers();
 			}
-		} else {
-			parent.remove();
+		}
+		else {
+			for (IResultTree resultTree : this.parent.getChildren()) {
+				if (resultTree.equals(this)) {
+					this.parent.getChildren().remove(this);
+					setChanged();
+					notifyObservers();
+					return;
+				}
+			}
 		}
 	}
 

@@ -18,6 +18,7 @@ import java.util.Observer;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
@@ -50,6 +51,12 @@ public class ResultsView extends ViewPart {
 	/** Action pour supprimer tous les résultats de l'arbre */
 	private Action deleteAll;
 
+	/** Action pour collapser tous les résultats de l'arbre */
+	private Action collapseAll;
+
+	/** Action pour expand tous les résultats de l'arbre */
+	private Action expandAll;
+	
 	/**
 	 * Constructeur
 	 */
@@ -260,7 +267,30 @@ public class ResultsView extends ViewPart {
 	private void createActions() {
 		ImageDescriptor cross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 		ImageDescriptor doubleCross = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_remall.gif"); //$NON-NLS-1$ //$NON-NLS-2$
-
+		ImageDescriptor collapse = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/collapseall.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		ImageDescriptor expand = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui.cheatsheets", "$nl$/icons/elcl16/expandall.gif"); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		// CollapseAll
+		collapseAll = new Action(Messages.ResultsView_4) {
+			@Override
+			public void run() {
+				viewer.collapseAll();
+			}
+		};
+		collapseAll.setToolTipText(Messages.ResultsView_4);
+		collapseAll.setImageDescriptor(collapse);
+		
+		// ExpandAll
+		expandAll = new Action(Messages.ResultsView_5) {
+			@Override
+			public void run() {
+				viewer.expandAll();
+			}
+		};
+		expandAll.setToolTipText(Messages.ResultsView_5);
+		expandAll.setImageDescriptor(expand);
+		
+		
 		// Suppression d'un résultat
 		delete = new Action(Messages.ResultsView_0) {
 			private void uncheckResult(ISession session, IResultTree result) {
@@ -331,6 +361,9 @@ public class ResultsView extends ViewPart {
 	 */
 	private void createToolbar() {
 		IToolBarManager toolbarManager = getViewSite().getActionBars().getToolBarManager();
+		toolbarManager.add(expandAll);
+		toolbarManager.add(collapseAll);
+		toolbarManager.add(new Separator());
 		toolbarManager.add(delete);
 		toolbarManager.add(deleteAll);
 	}

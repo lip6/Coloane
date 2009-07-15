@@ -18,24 +18,23 @@ public class GenericReport implements IReport {
 
 	/** {@inheritDoc} */
 	public final ResultTreeImpl build(IResult result) {
-		// 1. Build the root of the resultat tree
+		// 1. Build the root of the result tree
 		ResultTreeImpl root = new ResultTreeImpl(result.getServiceName());
 
 		// 2. Attach the session Manager to the root
 		root.setSessionManager(SessionManager.getInstance());
 
 		addResultTreeImpl(result.getSubResults(),root);
-		
-		if (result.getTextualResults().size() > 0) {
-			for (String str : result.getTextualResults()) {
-				root.addChild(new ResultTreeImpl(str));
-			}
+
+		// Creation of textualResults
+		for (List<String> tabStr : result.getTextualResults()) { 
+			root.addChild(new ResultTreeImpl(tabStr.toArray(new String[tabStr.size()]))); 
 		}
 		return root; 
 	}
 	
 	private void addResultTreeImpl(List<ISubResult> subresults, ResultTreeImpl root) {
-		// For each subgroup of results
+		// For each group of subResults
 		for (int i = 0; i < subresults.size(); i++) {
 			ISubResult sub = subresults.get(i);
 
@@ -54,13 +53,14 @@ public class GenericReport implements IReport {
 			root.addChild(node);
 			addResultTreeImpl(sub.getChildren(),node);
 			
+			// Create objectsOutline
 			for (int id : sub.getObjectsOutline()) {
 				String name = "id : " + String.valueOf(id); //$NON-NLS-1$
 				IElement element = root.getSessionManager().getCurrentSession().getGraph().getObject(id);
 				if (element != null) {
 					String formalismName = "Le formalisme n'a pas de nom pour cet objet"; //$NON-NLS-1$
 					if (element instanceof INode) {
-						String value = element.getAttribute(Messages.GenericReport_3).getValue();
+						String value = element.getAttribute(Messages.GenericReport_2).getValue();
 						if (!("".equals(value))) { //$NON-NLS-1$
 							name = value;
 						}
@@ -76,12 +76,10 @@ public class GenericReport implements IReport {
 				}			
 			}			
 
-			if (sub.getTextualResults().size() > 0) {
-				for (String str : sub.getTextualResults()) {
-					node.addChild(new ResultTreeImpl(str));
-				}
+			// Create textualResults
+			for (List<String> tabStr : sub.getTextualResults()) { 
+				root.addChild(new ResultTreeImpl(tabStr.toArray(new String[tabStr.size()]))); 
 			}
-			
 		}
 	}
 }

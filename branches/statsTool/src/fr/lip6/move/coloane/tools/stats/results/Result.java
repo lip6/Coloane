@@ -38,7 +38,7 @@ public class Result implements IResult {
 	private List<ICommand> outputCommandsList;
 	
 	/** Liste des résultats textuels */
-	private List<String> textualResults;
+	private List<List<String>> textualResults;
 
 	/**
 	 * Constructeur
@@ -54,7 +54,7 @@ public class Result implements IResult {
 		this.tipsList = new ArrayList<ITip>();
 		this.commandsList = new ArrayList<ICommand>();
 		this.outputCommandsList = new ArrayList<ICommand>();
-		this.textualResults = new ArrayList<String>();
+		this.textualResults = new ArrayList<List<String>>();
 	}
 
 	/**
@@ -120,16 +120,32 @@ public class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final List<String> getTextualResults() {
+	public final List<List<String>> getTextualResults() {
 		return textualResults;
 	}
 	
 	/**
 	 * Ajoute un résultat textuel à la liste
-	 * @param result Le résultat qui doit être ajouté dans la liste
+	 * @param result Les résultats textuels qui doivent être ajoutés dans la liste
 	 */
-	public final void addTextualResult(String result) {
-		this.textualResults.add(result);
+	public final void addTextualResult(String... result) {
+		// emptyList permet de savoir si le tableau construit est constitué uniquement de chaînes vides
+		boolean emptyList = true;
+		ArrayList<String> array = new ArrayList<String>(result.length);
+		for(int i = 0; i < result.length; i++) {
+			array.add(result[i]);
+			emptyList = emptyList && ("".equals(result[i]));
+		}
+		
+		// Si toutes chaînes sont vides, on ajoute un tableau vide
+		if (emptyList) {
+			array.clear();
+			array.add("No result");
+			this.textualResults.add(array);
+		}
+		else {
+			this.textualResults.add(array);
+		}
 	}
 	
 	/**

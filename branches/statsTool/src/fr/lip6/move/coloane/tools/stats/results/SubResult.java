@@ -31,7 +31,7 @@ public class SubResult implements ISubResult {
 	private List<Integer> objectsOutline;
 
 	/** Liste des résultats textuels */
-	private List<String> textualResults;
+	private List<List<String>> textualResults;
 
 	/** Liste des attributs à mettre en valeur */
 	private Map<Integer, List<String>> attributesOutline;
@@ -57,7 +57,7 @@ public class SubResult implements ISubResult {
 		this.objectsDesignation = new ArrayList<Integer>();
 		this.objectsOutline = new ArrayList<Integer>();
 		this.attributesOutline = new HashMap<Integer, List<String>>();
-		this.textualResults = new ArrayList<String>();
+		this.textualResults = new ArrayList<List<String>>();
 	}
 	
 	/**
@@ -93,10 +93,26 @@ public class SubResult implements ISubResult {
 	
 	/**
 	 * Ajoute un résultat textuel à la liste
-	 * @param result Le résultat qui doit être ajouté dans la liste
+	 * @param result Les résultats textuels qui doivent être ajoutés dans la liste
 	 */
-	public final void addTextualResult(String result) {
-		this.textualResults.add(result);
+	public final void addTextualResult(String... result) {
+		// emptyList permet de savoir si le tableau construit est constitué uniquement de chaînes vides
+		boolean emptyList = true;
+		ArrayList<String> array = new ArrayList<String>(result.length);
+		for(int i = 0; i < result.length; i++) {
+			array.add(result[i]);
+			emptyList = emptyList && ("".equals(result[i]));
+		}
+		
+		// Si toutes chaînes sont vides, on ajoute un tableau vide
+		if (emptyList) {
+			array.clear();
+			array.add("No result");
+			this.textualResults.add(array);
+		}
+		else {
+			this.textualResults.add(array);
+		}
 	}
 	
 	/**
@@ -131,7 +147,7 @@ public class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final List<String> getTextualResults() {
+	public final List<List<String>> getTextualResults() {
 		return textualResults;
 	}
 

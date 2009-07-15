@@ -201,12 +201,6 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		return;
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public final String toString() {
-		return map.toString();
-	}
-
 	/**
 	 * Supprime le resultat serviceName
 	 * @param serviceName nom du service
