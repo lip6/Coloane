@@ -164,15 +164,15 @@
                </Node>
                <Node
                      container="true"
-                     name="transition (1-Server)">
+                     name="transition (Server)">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
-                        description="transition (1-Server)"
+                        description="transition (Server)"
                         drawable="true"
                         fill="false"
                         height="7"
                         palettable="true"
-                        paletteName="transition (1-Server)"
+                        paletteName="transition (Server)"
                         width="25">
                   </GraphicInfo>
                   <Attribute
