@@ -134,6 +134,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 
 		Connection connection = (Connection) getFigure();
 		connection.getConnectionRouter();
+		// TODO : risque de NullPointer
 		((RoundedPolyline) connection).setCurved(arcModel.getGraphicInfo().getCurve());
 
 		List<AbsoluteBendpoint> modelConstraint = arcModel.getInflexPoints();
