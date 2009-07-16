@@ -353,13 +353,6 @@
                      multiline="true"
                      name="colorset">
                </Attribute>
-               <Attribute
-                     bold="false"
-                     drawable="true"
-                     italic="false"
-                     multiline="true"
-                     name="function">
-               </Attribute>
             </Graph>
             <Constraint
                   link="true"
