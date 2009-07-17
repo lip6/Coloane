@@ -43,7 +43,7 @@
                         default="0"
                         drawable="true"
                         italic="false"
-                        multiline="true"
+                        multiline="false"
                         name="marking">
                   </Attribute>
                </Node>
@@ -351,7 +351,14 @@
                      drawable="true"
                      italic="false"
                      multiline="true"
-                     name="colorset">
+                     name="color classes">
+               </Attribute>
+               <Attribute
+                     bold="false"
+                     drawable="true"
+                     italic="false"
+                     multiline="true"
+                     name="static subclasses">
                </Attribute>
             </Graph>
             <Constraint
