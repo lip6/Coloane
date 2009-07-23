@@ -26,7 +26,7 @@
                   </GraphicInfo>
                   <Attribute
                         bold="false"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="tag">
@@ -415,7 +415,7 @@
             </Constraint>
             <Constraint
                   link="true"
-                  name="immediate transition-transition (1-Server)"
+                  name="immediate transition-transition (Server)"
                   type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
                <parameter
                      name="source"
@@ -423,7 +423,7 @@
                </parameter>
                <parameter
                      name="target"
-                     value="transition (1-Server)">
+                     value="transition (Server)">
                </parameter>
             </Constraint>
             <Constraint
@@ -467,7 +467,7 @@
             </Constraint>
             <Constraint
                   link="true"
-                  name="transition (Infinite)-transition (1-Server)"
+                  name="transition (Infinite)-transition (Server)"
                   type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
                <parameter
                      name="source"
@@ -475,7 +475,7 @@
                </parameter>
                <parameter
                      name="target"
-                     value="transition (1-Server)">
+                     value="transition (Server)">
                </parameter>
             </Constraint>
             <Constraint
@@ -506,7 +506,7 @@
             </Constraint>
             <Constraint
                   link="true"
-                  name="transition (Marking Dependent)-transition (1-Server)"
+                  name="transition (Marking Dependent)-transition (Server)"
                   type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
                <parameter
                      name="source"
@@ -514,7 +514,7 @@
                </parameter>
                <parameter
                      name="target"
-                     value="transition (1-Server)">
+                     value="transition (Server)">
                </parameter>
             </Constraint>
             <Constraint
@@ -532,24 +532,24 @@
             </Constraint>
             <Constraint
                   link="true"
-                  name="transition (1-Server)-transition (1-Server)"
+                  name="transition (Server)-transition (Server)"
                   type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
                <parameter
                      name="source"
-                     value="transition (1-Server)">
+                     value="transition (Server)">
                </parameter>
                <parameter
                      name="target"
-                     value="transition (1-Server)">
+                     value="transition (Server)">
                </parameter>
             </Constraint>
             <Constraint
                   link="true"
-                  name="transition (1-Server)-immediate transition"
+                  name="transition (Server)-immediate transition"
                   type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
                <parameter
                      name="source"
-                     value="transition (1-Server)">
+                     value="transition (Server)">
                </parameter>
                <parameter
                      name="target"
@@ -558,11 +558,11 @@
             </Constraint>
             <Constraint
                   link="true"
-                  name="transition (1-Server)-transition (Infinite)"
+                  name="transition (Server)-transition (Infinite)"
                   type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
                <parameter
                      name="source"
-                     value="transition (1-Server)">
+                     value="transition (Server)">
                </parameter>
                <parameter
                      name="target"
@@ -571,15 +571,287 @@
             </Constraint>
             <Constraint
                   link="true"
-                  name="transition (1-Server)-transition (Marking Dependent)"
+                  name="transition (Server)-transition (Marking Dependent)"
                   type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
                <parameter
                      name="source"
-                     value="transition (1-Server)">
+                     value="transition (Server)">
                </parameter>
                <parameter
                      name="target"
                      value="transition (Marking Dependent)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="inhibitor arc transition (Infinite)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="inhibitor arc transition (Marking Dependent)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="inhibitor arc transition (Server)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="inhibitor arc immediate transition-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken inhibitor arc transition (Infinite)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken inhibitor arc transition (Marking Dependent)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken inhibitor arc transition (Server)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken inhibitor arc immediate transition-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="colored inhibitor arc transition (Infinite)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="colored inhibitor arc transition (Marking Dependent)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="colored inhibitor arc transition (Server)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="colored inhibitor arc immediate transition-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken colored inhibitor arc transition (Infinite)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken colored inhibitor arc transition (Marking Dependent)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken colored inhibitor arc transition (Server)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken colored inhibitor arc immediate transition-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken colored inhibitor arc">
                </parameter>
             </Constraint>
          </XmlDescription>
