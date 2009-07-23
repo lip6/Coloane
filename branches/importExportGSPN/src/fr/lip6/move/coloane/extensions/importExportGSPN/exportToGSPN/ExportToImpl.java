@@ -9,15 +9,13 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-//import java.util.HashMap;
 import java.util.List;
-//import java.util.Map;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
-//import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -32,6 +30,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 public class ExportToImpl implements IExportTo {
 
+	/** Minimum number of group **/
+	private static int MINGRP = 1;
+	/** Minimum number of transition (Marking Dependent)'s definition **/
+	private static int MINMKD = 1;
+	
 	/**
 	 * Default constructor
 	 */
@@ -97,20 +100,24 @@ public class ExportToImpl implements IExportTo {
 	private Collection<String> translateGraph(IGraph graph, IProgressMonitor monitor) {
 		List<String> toReturn = new ArrayList<String>();
 		char lettre='\0';
-		int i=1;
-		String label=new String(), description=new String();;
+		String label="", description="";
+		Map<String, Integer> hmMarking = new HashMap<String, Integer>();
+		int index2=0;
 		
 		
-		/* .DEF */
-		// Management of transitions (Marking Dependent)
+		/** .DEF **/
+		
+		// Management of transition (Marking Dependent)'s definition
+		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()) {
 			for(IAttribute attribute : node.getAttributes()){
 				if(attribute.getName().equals("definition")){
-					toReturn.add("|"+i);
+					toReturn.add("|"+ MINMKD);
 					toReturn.add(attribute.getValue());
-					i++;
+					MINMKD++;
 				}
 			}
+			//monitor.worked(1);
 		}
 		
 		toReturn.add("|256");
@@ -118,7 +125,7 @@ public class ExportToImpl implements IExportTo {
 		toReturn.add("|");
 		
 		// Marking of places
-		monitor.subTask("Export nodes");
+		//monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()) {
 			for(IAttribute attribute : node.getAttributes()){
 				if((attribute.getName().equals("marking"))){
@@ -127,10 +134,12 @@ public class ExportToImpl implements IExportTo {
 						toReturn.add("(" + lettre + node.getId() + " " + lettre + " " + attribute.getGraphicInfo().getLocation().x + " " + attribute.getGraphicInfo().getLocation().y + " " + "(@" + lettre);
 						toReturn.add(attribute.getValue());
 						toReturn.add("))");
+						index2++;
+						hmMarking.put(attribute.getValue(), index2);
 					}
 				}
-			//monitor.worked(1);
 			}
+			monitor.worked(1);
 		}
 		
 		// Color classes and static subclasses
@@ -139,16 +148,14 @@ public class ExportToImpl implements IExportTo {
 			if((attribute.getValue().equals("")==false)){
 				String classes=attribute.getValue();
 				String[] color=classes.split("\n");
-				for(int j=0;j<color.length;j++){
-					if(color[j].contains("=")){
-						String[] separator=color[j].split("=");
-						for(int k=0;k<separator.length;k++){
-							if(k%2==0)
-								label=separator[k];
+				for(int i=0;i<color.length;i++){
+					if(color[i].contains("=")){
+						String[] separator=color[i].split("=");
+						for(int j=0;j<separator.length;j++){
+							if(j%2==0)
+								label=separator[j];
 							else
-								description=separator[k];
-							Map<String, String> hmColor = new HashMap<String, String>();
-							hmColor.put(label, description);
+								description=separator[j];
 						}
 						toReturn.add("(" + label + " " + lettre + " " + attribute.getGraphicInfo().getLocation().x + " " + attribute.getGraphicInfo().getLocation().y + " (@" + lettre);
 						toReturn.add(description);
@@ -162,19 +169,24 @@ public class ExportToImpl implements IExportTo {
 		
 		
 		
-		/* .NET */
 		
 		
 		
-		int nb_places=0, nb_transitions=0, nb_imm=0;
-		String tag=new String(), color, rate=new String(), definition=new String(), priority=new String(), marking=new String();
-		int abs_node, ord_node, abs_att, ord_att, abs_color, ord_color;
+		/** .NET **/
+		
+		int nb_places=0, nb_transitions=0, nb_imm=0, num_imm=0;
+		String tag="", color="", rate="", definition="", priority="", marking="", weight="", multiplicity="", arc_color="";
+		int abs_node, ord_node, abs_att, ord_att, abs_color, ord_color, abs_arc_color, ord_arc_color;
+		int index=0;
+		Map<Integer, Integer> hmPlace = new HashMap<Integer, Integer>();
+		String value="";
+		Integer index_marking;
 				
-		
+		// Introduction
 		toReturn.add("|0|");
 		toReturn.add("|");
 		
-		// Nodes
+		// Noobjs
 		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()) {
 			if(node.getNodeFormalism().getName().equals("place"))
@@ -183,12 +195,15 @@ public class ExportToImpl implements IExportTo {
 				nb_transitions++;
 			if(node.getNodeFormalism().getName().equals("immediate transition"))
 				nb_imm++;
+			monitor.worked(1);
 		}
-		toReturn.add("f  0  " + nb_places + "  0  " + nb_transitions + "  " + nb_imm + "  0  0");
+		toReturn.add("f   0   " + nb_places + "   0   " + nb_transitions + "   " + nb_imm + "   0   0");
 		
 		
+		
+		// Management of places
+		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()){
-			// Management of places
 			if(node.getNodeFormalism().getName().equals("place")){
 				abs_node=node.getGraphicInfo().getLocation().x;
 				ord_node=node.getGraphicInfo().getLocation().y;
@@ -197,54 +212,13 @@ public class ExportToImpl implements IExportTo {
 						tag=attribute.getValue();
 					if(attribute.getName().equals("marking")){
 						if((attribute.getValue().equals(attribute.getAttributeFormalism().getDefaultValue()))==false){
-							marking="-1000" + node.getId();
-							//i++;
+							value=attribute.getValue();
+							index_marking=hmMarking.get(value);
+							marking="-1000" + index_marking;
 						}
 						else
 							marking="0";
 					}
-					//abs_att=attribute.getGraphicInfo().getLocation().x;
-					//ord_att=attribute.getGraphicInfo().getLocation().y;
-					if(attribute.getName().equals("color label")){
-						if(attribute.getValue().equals("")==false){
-							abs_color=attribute.getGraphicInfo().getLocation().x;
-							ord_color=attribute.getGraphicInfo().getLocation().y;
-							color=attribute.getValue();
-							toReturn.add(tag + "  " + marking + " " + abs_node + " " + ord_node + " " + "abs_att" + " " + "ord_att" + " 0 " + abs_color + " " + ord_color + " " + color);
-						}
-						else
-							toReturn.add(tag + "  " + marking + " " + abs_node + " " + ord_node + " " + "abs_att" + " " + "ord_att" + " 0 ");
-					}
-					
-				}
-			}
-		}
-		
-		
-		for(INode node : graph.getNodes()){
-			// Management of groups
-			if(node.getNodeFormalism().getName().equals("immediate transition")){
-				for(IAttribute attribute : node.getAttributes()){
-					if(attribute.getName().equals("priority")){
-						priority=attribute.getValue();
-						toReturn.add("Gi  0 0 " + priority);
-					}
-				}
-			}
-				
-		}
-		
-				
-		for(INode node : graph.getNodes()){
-			// Management of transitions
-			if(node.getNodeFormalism().getName().equals("transition (Infinite)")){
-				abs_node=node.getGraphicInfo().getLocation().x;
-				ord_node=node.getGraphicInfo().getLocation().y;
-				for(IAttribute attribute : node.getAttributes()){
-					if(attribute.getName().equals("tag"))
-						tag=attribute.getValue();
-					if(attribute.getName().equals("rate"))
-						rate=attribute.getValue();
 					abs_att=attribute.getGraphicInfo().getLocation().x;
 					ord_att=attribute.getGraphicInfo().getLocation().y;
 					if(attribute.getName().equals("color label")){
@@ -252,25 +226,66 @@ public class ExportToImpl implements IExportTo {
 							abs_color=attribute.getGraphicInfo().getLocation().x;
 							ord_color=attribute.getGraphicInfo().getLocation().y;
 							color=attribute.getValue();
-							toReturn.add(tag + " " + rate + "  0  0  nb_arcs 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "pos1 pos2 0 " + abs_color + " " + ord_color + " " + color);
+							toReturn.add(tag + "    " + marking + " " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " 0 " + abs_color + " " + ord_color + " " + color);
 						}
 						else
-							toReturn.add(tag + " " + rate + "  0  0  nb_arcs 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "pos1 pos2 0");
-							
+							toReturn.add(tag + "    " + marking + " " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " 0 ");	
 					}
 				}
-				
-				//for(IArc arc : graph.getArcs()){
-					//for(IAttribute attribute : arc.getAttributes()){
-						
-					//}
-				//}
-				
+				index++;
+				hmPlace.put(node.getId(), index);
 			}
+			monitor.worked(1);
+		}
+		
+		
+		
+		
+		// Management of groups
+		monitor.subTask("Export nodes");
+		for(INode node : graph.getNodes()){
+			// Management of groups
+			if(node.getNodeFormalism().getName().equals("immediate transition")){
+				for(IAttribute attribute : node.getAttributes()){
+					if(attribute.getName().equals("priority")){
+						priority=attribute.getValue();
+						toReturn.add("G" + MINGRP + "  0 0 " + priority);
+						MINGRP++;
+					}
+				}
+			}
+			monitor.worked(1);
+		}
+		
+		
+		
+		// Management of transitions
+		int id_source, id_target;
+		Integer index_place;
+		
+		monitor.subTask("Export nodes");
+		for(INode node : graph.getNodes()){
+			if((node.getNodeFormalism().getName().equals("transition (Infinite)"))||(node.getNodeFormalism().getName().equals("transition (Server)"))||(node.getNodeFormalism().getName().equals("transition (Marking Dependent)"))||(node.getNodeFormalism().getName().equals("immediate transition"))){
+				int nb_input_arcs=0, nb_output_arcs=0, nb_inhibitor_arcs=0;
+				// Number of a transition's input arcs
+				for(IArc arc : node.getIncomingArcs()){
+					if((arc.getArcFormalism().getName().equals("arc"))||(arc.getArcFormalism().getName().equals("broken arc"))||(arc.getArcFormalism().getName().equals("colored arc"))||(arc.getArcFormalism().getName().equals("broken colored arc")))
+						nb_input_arcs++;
+				}
+				// Number of a transition's output arcs
+				for(IArc arc : node.getOutgoingArcs()){
+					if((arc.getArcFormalism().getName().equals("arc"))||(arc.getArcFormalism().getName().equals("broken arc"))||(arc.getArcFormalism().getName().equals("colored arc"))||(arc.getArcFormalism().getName().equals("broken colored arc")))
+						nb_output_arcs++;
+				}
+				// Number of inhibitors arcs
+				for(IArc arc : node.getIncomingArcs()){
+					if((arc.getArcFormalism().getName().equals("inhibitor arc"))||(arc.getArcFormalism().getName().equals("broken inhibitor arc"))||(arc.getArcFormalism().getName().equals("colored inhibitor arc"))||(arc.getArcFormalism().getName().equals("broken colored inhibitor arc")))
+						nb_inhibitor_arcs++;
+				}
 			
-			if(node.getNodeFormalism().getName().equals("transition (Server)")){
 				abs_node=node.getGraphicInfo().getLocation().x;
 				ord_node=node.getGraphicInfo().getLocation().y;
+			
 				for(IAttribute attribute : node.getAttributes()){
 					if(attribute.getName().equals("tag"))
 						tag=attribute.getValue();
@@ -278,69 +293,169 @@ public class ExportToImpl implements IExportTo {
 						rate=attribute.getValue();
 					if(attribute.getName().equals("priority"))
 						priority=attribute.getValue();
-					abs_att=attribute.getGraphicInfo().getLocation().x;
-					ord_att=attribute.getGraphicInfo().getLocation().y;
-					if(attribute.getName().equals("color label")){
-						if(attribute.getValue().equals("")==false){
-							abs_color=attribute.getGraphicInfo().getLocation().x;
-							ord_color=attribute.getGraphicInfo().getLocation().y;
-							color=attribute.getValue();
-							toReturn.add(tag + " " + rate + "  " + priority + "  0  nb_arcs 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "pos1 pos2 0 " + abs_color + " " + ord_color + " " + color);
-						}
-						else
-							toReturn.add(tag + " " + rate + "  " + priority + "  0  nb_arcs 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "pos1 pos2 0");
-							
-					}
-				}
-				
-				//for(IArc arc : graph.getArcs()){
-					//for(IAttribute attribute : arc.getAttributes()){
-						
-					//}
-				//}
-				
-			}
-			
-			if(node.getNodeFormalism().getName().equals("transition (Marking Dependent)")){
-				abs_node=node.getGraphicInfo().getLocation().x;
-				ord_node=node.getGraphicInfo().getLocation().y;
-				for(IAttribute attribute : node.getAttributes()){
-					if(attribute.getName().equals("tag"))
-						tag=attribute.getValue();
 					if(attribute.getName().equals("definition"))
-						definition=attribute.getValue();
+						definition="-510";
+					if(attribute.getName().equals("weight"))
+						weight=attribute.getValue();
 					abs_att=attribute.getGraphicInfo().getLocation().x;
 					ord_att=attribute.getGraphicInfo().getLocation().y;
 					if(attribute.getName().equals("color label")){
-						if(attribute.getValue().equals("")==false){
-							abs_color=attribute.getGraphicInfo().getLocation().x;
-							ord_color=attribute.getGraphicInfo().getLocation().y;
-							color=attribute.getValue();
-							toReturn.add(tag + " " + definition + "  1  0  nb_arcs 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "pos1 pos2 0 " + abs_color + " " + ord_color + " " + color);
+						abs_color=attribute.getGraphicInfo().getLocation().x;
+						ord_color=attribute.getGraphicInfo().getLocation().y;
+						color=attribute.getValue();
+						
+						// Transition (Infinite)
+						if(node.getNodeFormalism().getName().equals("transition (Infinite)")){
+							if(attribute.getValue().equals("")==false)
+								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 " + abs_color + " " + ord_color + " " + color);
+							else
+								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 ");						
+
 						}
-						else
-							toReturn.add(tag + " " + definition + "  1  0  nb_arcs 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "pos1 pos2 0");
-							
+											
+						// Transition (Server)
+						if(node.getNodeFormalism().getName().equals("transition (Server)")){
+							if(attribute.getValue().equals("")==false)
+								toReturn.add(tag + "  " + rate + "   " + priority + "  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 " + abs_color + " " + ord_color + " " + color);
+							else
+								toReturn.add(tag + "  " + rate + "  " + priority + "  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 ");
+						}
+						
+						// Transition (Marking Dependent)
+						if(node.getNodeFormalism().getName().equals("transition (Marking Dependent)")){
+							if(attribute.getValue().equals("")==false)
+								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 " + abs_color + " " + ord_color + " " + color);
+							else
+								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 ");
+						}
+					
+						// Immediate transition
+						if(node.getNodeFormalism().getName().equals("immediate transition")){
+							num_imm++;
+							if(attribute.getValue().equals("")==false)
+								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 " + abs_color + " " + ord_color + " " + color);
+							else
+								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 ");
+						}
+					
+					
+						// Management of arcs
+						monitor.subTask("Export arcs");
+						for(IArc arc : node.getIncomingArcs()){
+							id_source=arc.getSource().getId();
+							index_place=hmPlace.get(id_source);
+							if((arc.getArcFormalism().getName().equals("arc"))||(arc.getArcFormalism().getName().equals("broken arc"))||(arc.getArcFormalism().getName().equals("colored arc"))||(arc.getArcFormalism().getName().equals("broken colored arc"))){
+								for(IAttribute attribute2 : arc.getAttributes()){
+									if(attribute2.getName().equals("multiplicity")){
+										multiplicity=attribute2.getValue();
+										if(arc.getArcFormalism().getName().equals("broken arc"))
+											toReturn.add("  -" + multiplicity + " " + index_place + " 0 0");
+										else											
+											toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
+									}
+									else{
+										abs_arc_color=attribute2.getGraphicInfo().getLocation().x;
+										ord_arc_color=attribute2.getGraphicInfo().getLocation().y;
+										arc_color=attribute2.getValue();
+										if(arc.getArcFormalism().getName().equals("broken colored arc")){
+											if(attribute2.getValue().equals("")==false)
+												toReturn.add("  -1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+											else
+												toReturn.add("  -1 " + index_place + " 0 0");
+										}
+										else{
+											if(attribute2.getValue().equals("")==false)
+												toReturn.add("  1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+											else
+												toReturn.add("  1 " + index_place + " 0 0");
+										}
+									}
+								}
+							}
+							monitor.worked(1);
+						}
+						toReturn.add("   " + nb_output_arcs);
+						monitor.subTask("Export arcs");
+						for(IArc arc : node.getOutgoingArcs()){
+							id_target=arc.getTarget().getId();
+							index_place=hmPlace.get(id_target);
+							if((arc.getArcFormalism().getName().equals("arc"))||(arc.getArcFormalism().getName().equals("broken arc"))||(arc.getArcFormalism().getName().equals("colored arc"))||(arc.getArcFormalism().getName().equals("broken colored arc"))){
+								for(IAttribute attribute2 : arc.getAttributes()){
+									if(attribute2.getName().equals("multiplicity")){
+										multiplicity=attribute2.getValue();
+										if(arc.getArcFormalism().getName().equals("broken arc"))
+											toReturn.add("  -" + multiplicity + " " + index_place + " 0 0");
+										else
+											toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
+									}
+									else{
+										abs_arc_color=attribute2.getGraphicInfo().getLocation().x;
+										ord_arc_color=attribute2.getGraphicInfo().getLocation().y;
+										arc_color=attribute2.getValue();
+										if(arc.getArcFormalism().getName().equals("broken colored arc")){
+											if(attribute2.getValue().equals("")==false)
+												toReturn.add("  -1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+											else
+												toReturn.add("  -1 " + index_place + " 0 0");
+										}
+										else{
+											if(attribute2.getValue().equals("")==false)
+												toReturn.add("  1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+											else
+												toReturn.add("  1 " + index_place + " 0 0");
+										}
+									}
+								}
+							}
+							monitor.worked(1);
+						}
+						toReturn.add("   " + nb_inhibitor_arcs);
+						monitor.subTask("Export arcs");
+						for(IArc arc : node.getIncomingArcs()){
+							id_source=arc.getSource().getId();
+							index_place=hmPlace.get(id_source);
+							if((arc.getArcFormalism().getName().equals("inhibitor arc"))||(arc.getArcFormalism().getName().equals("broken inhibitor arc"))||(arc.getArcFormalism().getName().equals("colored inhibitor arc"))||(arc.getArcFormalism().getName().equals("broken colored inhibitor arc"))){
+								for(IAttribute attribute2 : arc.getAttributes()){
+									if(attribute2.getName().equals("multiplicity")){
+										multiplicity=attribute2.getValue();
+										if(arc.getArcFormalism().getName().equals("broken inhibitor arc"))
+											toReturn.add("  -" + multiplicity + " " + index_place + " 0 0");
+										else
+											toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
+									}
+									else{
+										abs_arc_color=attribute2.getGraphicInfo().getLocation().x;
+										ord_arc_color=attribute2.getGraphicInfo().getLocation().y;
+										arc_color=attribute2.getValue();
+										if(arc.getArcFormalism().getName().equals("broken colored inhibitor arc")){
+											if(attribute2.getValue().equals("")==false)
+												toReturn.add("  -1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+											else
+												toReturn.add("  -1 " + index_place + " 0 0");
+										}
+										else{
+											if(attribute2.getValue().equals("")==false)
+												toReturn.add("  1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+											else
+												toReturn.add("  1 " + index_place + " 0 0");
+										}
+									}
+								}
+							}
+							monitor.worked(1);
+						}
 					}
 				}
-				
-				//for(IArc arc : graph.getArcs()){
-					//for(IAttribute attribute : arc.getAttributes()){
-						
-					//}
-				//}
-				
 			}
-			
-			// immediate transition
-			// [...]
-			
 			monitor.worked(1);
 		}
-		
-		
 
 		return toReturn;
+	}
+	
+	// Mettre les coordonnees des noeuds dans cette methode 
+	int getCoordinates (INode node){
+		return 0;
 	}
 
 
