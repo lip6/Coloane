@@ -34,7 +34,7 @@ public class SubResult implements ISubResult {
 
 	/** Liste des informations */
 	// TODO : traduire en anglais
-	private List<ITip> tips;
+	private Map<Integer,List<ITip>> tips;
 
 	/** 
 	 * 	Liste d'objets pouvant être mis en surbrillance dans le modèle.<br>
@@ -81,30 +81,48 @@ public class SubResult implements ISubResult {
 		this.objectsOutline = new ArrayList<Integer>();
 		this.attributesOutline = new HashMap<Integer,List<String>>();
 		this.textualResults = new ArrayList<List<String>>();
-		this.tips = new ArrayList<ITip>();
+		this.tips = new HashMap<Integer,List<ITip>>();
 	}
 
 
 	/**
-	 * TODO : A traduire
 	 * Ajoute une information à la liste des informations renvoyées par la plate-forme
 	 * @param tip L'information à ajouter à la liste
 	 */
 	public final void addTip(ITip tip) {
-		this.tips.add(tip);
+		if (this.tips.containsKey(tip.getIdObject())) {
+			(this.tips.get(tip.getIdObject())).add(tip);
+		}
+		else {
+			List<ITip> list = new ArrayList<ITip>();
+			list.add(tip);
+			this.tips.put(tip.getIdObject(), list);
+		}
 	}
 
-
+	/**
+	 * TODO : A remplir (en anglais, of course !)
+	 * 
+	 * @param object
+	 * @param name
+	 * @param value
+	 */
+	public final void addTip(IElement object, String name, String value) {
+		if (object != null) {
+			this.addTip(new Tip(object.getId(),name,value));
+		}
+	}
 	/**
 	 * TODO : A traduire
 	 * @return la liste d'informations associées au résultat
 	 */
-	public List<ITip> getTips() {
-		return tips;
+	public final Map<Integer,List<ITip>>  getTips() {
+		return this.tips;
 	}
 
 
 	/**
+	 * TODO : Essayer de factoriser cette méthode avec celle dans le Result
 	 * Add a result in the form of text in the list.
 	 * Ajoute un résultat sous forme de texte dans la liste.
 	 * 
