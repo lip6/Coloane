@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
 /**
  * Description d'un attribut d'un objet du modèle
  */
-public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement {
+public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement, ISpecialState {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -107,5 +108,10 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	@Override
 	public final String toString() {
 		return "Attribut(" + name + ": " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	}
+	
+	/** {@inheritDoc} */
+	public final void setSpecialState(boolean state) {
+		firePropertyChange(SPECIAL_STATE_CHANGE, null, state);
 	}
 }

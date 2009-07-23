@@ -7,11 +7,15 @@ import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.IResultTree;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -20,9 +24,7 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
-import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITreeSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -35,6 +37,9 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
+ * TODO : Les attributs peuvent être linker uniquement aux sub-result, i.e. au menu.
+ *  On ne peut pas les associer à un noeud ou à un arc.
+ * 
  * Gestion de la vue des résultats
  */
 public class ResultsView extends ViewPart {
@@ -43,7 +48,7 @@ public class ResultsView extends ViewPart {
 	private static final ISessionManager MANAGER = SessionManager.getInstance();
 
 	/** Vue représentant l'arbre des résultats */
-	private CheckboxTreeViewer viewer;
+	private static CheckboxTreeViewer viewer;
 
 	/** Action pour supprimer un résultat de l'arbre */
 	private Action delete;
@@ -57,6 +62,12 @@ public class ResultsView extends ViewPart {
 	/** Action pour expand tous les résultats de l'arbre */
 	private Action expandAll;
 	
+	/** Listener sur les cases cochées */
+	private CheckStateListener checkStateListener;
+	
+	/** Map contenant le nombre de fois qu'un objet est coché */
+	private static Map<ISpecialState, Integer> checkStateMap = new HashMap<ISpecialState, Integer>();
+	
 	/**
 	 * Constructeur
 	 */
@@ -68,19 +79,24 @@ public class ResultsView extends ViewPart {
 	/** {@inheritDoc} */
 	@Override
 	public void dispose() {
-		for(IArc arc : MANAGER.getCurrentSession().getGraph().getArcs()) {
-			((ISpecialState)arc).setSpecialState(false);
-		}
-		for(INode node : MANAGER.getCurrentSession().getGraph().getNodes()) {
-			((ISpecialState)node).setSpecialState(false);
-		}
+		unHighlightAll(MANAGER.getCurrentSession().getGraph());
+		checkStateMap.clear();
 		super.dispose();
 	}
+	
+	/**
+	 * Permet d'enlever un résultat de la vue et de modifier la checkStateMap en conséquence. Voir {@link ResultTreeList#add}
+	 * @param result Le résultat à enlever de la vue 
+	 */
+	public static void reinitResultView(IResultTree result) {
+		uncheckAllResult(MANAGER.getCurrentSession(),result);
+	}
+	
 	
 	/** {@inheritDoc} */
 	@Override
 	public final void createPartControl(final Composite parent) {
-		viewer = new CheckboxTreeViewer(parent);
+		viewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.BORDER | SWT.CHECK);
 		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 		viewer.setContentProvider(new ResultContentProvider());
 
@@ -104,7 +120,7 @@ public class ResultsView extends ViewPart {
 							column.setLabelProvider(new ResultColumnLabelProvider(i));
 						}
 						updateColumnsWidth();
-
+						
 						// Rafraîchissement de la vue
 						viewer.refresh();
 					}
@@ -117,7 +133,7 @@ public class ResultsView extends ViewPart {
 			viewer.setInput(results);
 			results.addObserver(resultObserver);
 		}
-
+		
 		// Action quand on clic dans l'arbre : activer la suppression des résultats
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -126,108 +142,8 @@ public class ResultsView extends ViewPart {
 		});
 
 		// Action quand on check un des résultats : mise en valeur dans l'éditeur
-		viewer.addCheckStateListener(new ICheckStateListener() {
-
-			/**
-			 * Map conservant pour chaque noeud mis en valeur, le nombre de résultat
-			 * coché dans la vue le concernant (le noeud).
-			 * */
-			private Map<ISpecialState, Integer> map = new HashMap<ISpecialState, Integer>();
-
-			/**
-			 * Mise a jour de l'état check d'une ligne de résultat ainsi que de
-			 * tous les fils (récursivement)
-			 * @param session session courante
-			 * @param result sous arbre de résultat
-			 * @param wasCheck ancienne état de result
-			 * @param toCheck nouvel état
-			 */
-			private void checkResult(ISession session, IResultTree result, boolean wasCheck, boolean toCheck) {
-				// On vérifie qu'on passe de true à false ou inversement
-				if (wasCheck != toCheck) {
-					// On traite tous les éléments devant être mis en valeur
-					for (int id : result.getHighlighted()) {
-						ISpecialState element = (ISpecialState) session.getGraph().getObject(id);
-						if (element != null) {
-							// On compte le nombre de fois qu'un élément a été
-							// demandé a être mis en valeur.
-							Integer value = map.get(element);
-							if (toCheck) {
-								if (value == null) {
-									value = 0;
-								}
-								element.setSpecialState(true);
-								value++;
-							} else {
-								value--;
-								if (value == 0) {
-									element.setSpecialState(false);
-								}
-							}
-							map.put(element, value);
-						}
-					}
-				}
-				// Gestion des Tips
-				if (toCheck) {
-					if (result.getHighlighted().size() > 0) {
-						session.removeAllTips(result.getTips(result.getHighlighted()));
-						session.addAllTips(result.getTips(result.getHighlighted()));
-					} else {
-						session.removeAllTips(result.getTips());
-						session.addAllTips(result.getTips());
-					}
-				} else {
-					if (result.getHighlighted().size() > 0) {
-						session.removeAllTips(result.getTips(result.getHighlighted()));
-					} else {
-						session.removeAllTips(result.getTips());
-					}
-				}
-				// Appel récursif sur tous les fils
-				for (IResultTree child : result.getChildren()) {
-					checkResult(session, child, viewer.getChecked(child), toCheck);
-				}
-			}
-			/**
-			 * Permet d'empêcher de cocher les textualsResults 
-			 * 
-			 * @param result le sous-resultat coché dans l'arbre
-			 * @param checked représente le nouvel état coché dans l'arbre : true si le résultat est coché, false s'il ne l'est pas
-			 * @return true si le résultat a été coché ou si au moins un des sous-résultats est coché, false sinon
-			 */
-			private boolean disableTextualResults(IResultTree result, boolean checked) {
-				boolean bool = false;
-				// Appel récursif sur tous les children du résultat
-				for (IResultTree child : result.getChildren()) {
-					boolean tmpbool = disableTextualResults(child, checked);
-					// Si un des fils est coché pendant l'appel récursif, bool prendra la valeur vrai en sortie de boucle
-					bool = bool || tmpbool;
-				}
-				// Si au moins l'un des sous-résultat a été coché, alors on coche le résultat courant (le parent du sous-résultat coché)
-				// On passe dans ce if uniquement si le résultat courant comporte des sous-résultats
-				if (bool) {
-					viewer.setChecked(result, checked);
-					return true;
-				}
-				// Si le résultat n'a pas de sous résultats, on regarde s'il a des objets du graphe à highlight
-				// Si non, on le décoche
-				// Si oui, on le laisse tel quel  car son état a déjà été modifié avant l'appel de la méthode
-				if (result.getHighlighted().size() == 0) {
-					viewer.setChecked(result, false);
-					return false;
-				}
-				return true;
-			}
-			
-			/** {@inheritDoc} */
-			public void checkStateChanged(CheckStateChangedEvent event) {
-				IResultTree result = (IResultTree) event.getElement();
-				checkResult(MANAGER.getCurrentSession(), result, !event.getChecked(), event.getChecked());
-				viewer.setSubtreeChecked(event.getElement(), event.getChecked());
-				disableTextualResults(result, event.getChecked());
-			}
-		});
+		checkStateListener = new CheckStateListener(viewer, checkStateMap);
+		viewer.addCheckStateListener(checkStateListener);
 
 		// Ajout d'un Observer sur les changements de sessions
 		MANAGER.addPropertyChangeListener(new PropertyChangeListener() {
@@ -270,7 +186,7 @@ public class ResultsView extends ViewPart {
 		ImageDescriptor collapse = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/collapseall.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 		ImageDescriptor expand = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui.cheatsheets", "$nl$/icons/elcl16/expandall.gif"); //$NON-NLS-1$ //$NON-NLS-2$
 		
-		// CollapseAll
+		// Action for collapsing all results
 		collapseAll = new Action(Messages.ResultsView_4) {
 			@Override
 			public void run() {
@@ -280,7 +196,7 @@ public class ResultsView extends ViewPart {
 		collapseAll.setToolTipText(Messages.ResultsView_4);
 		collapseAll.setImageDescriptor(collapse);
 		
-		// ExpandAll
+		// Action for expanding all results
 		expandAll = new Action(Messages.ResultsView_5) {
 			@Override
 			public void run() {
@@ -290,32 +206,16 @@ public class ResultsView extends ViewPart {
 		expandAll.setToolTipText(Messages.ResultsView_5);
 		expandAll.setImageDescriptor(expand);
 		
-		
-		// Suppression d'un résultat
+		// Action for deleting a result
 		delete = new Action(Messages.ResultsView_0) {
-			private void uncheckResult(ISession session, IResultTree result) {
-				for (int id : result.getHighlighted()) {
-					ISpecialState element = (ISpecialState) session.getGraph().getNode(id);
-					if (element == null) {
-						element = (ISpecialState) session.getGraph().getArc(id);
-					}
-					if (element != null) {
-						element.setSpecialState(false);
-					}
-				}
-				session.removeAllTips(result.getTips());
-				for (IResultTree child : result.getChildren()) {
-					uncheckResult(session, child);
-				}
-			}
-
 			@Override
 			public void run() {
 				for (Object obj : ((ITreeSelection) viewer.getSelection()).toList()) {
 					IResultTree node = (IResultTree) obj;
 					ISession session = MANAGER.getCurrentSession();
-					uncheckResult(session, node);
+					ResultsView.uncheckAllResult(session, node);
 					node.remove();
+					viewer.refresh();
 					this.setEnabled(false);
 				}
 			}
@@ -324,38 +224,128 @@ public class ResultsView extends ViewPart {
 		delete.setToolTipText(Messages.ResultsView_1);
 		delete.setImageDescriptor(cross);
 
-		// Suppression de tous les résultats
+		// Action for deleting all results
 		deleteAll = new Action(Messages.ResultsView_2) {
-			private void uncheckResult(ISession session, IResultTree result) {
-				for (int id : result.getHighlighted()) {
-					ISpecialState element = (ISpecialState) session.getGraph().getNode(id);
-					if (element == null) {
-						element = (ISpecialState) session.getGraph().getArc(id);
-					}
-					if (element != null) {
-						element.setSpecialState(false);
-					}
-				}
-				session.removeAllTips(result.getTips());
-				for (IResultTree child : result.getChildren()) {
-					uncheckResult(session, child);
-				}
-			}
-
 			@Override
 			public void run() {
 				ISession session = MANAGER.getCurrentSession();
 				ResultTreeList list = session.getServiceResults();
+				ResultsView.this.unHighlightAll(session.getGraph());
 				for (IResultTree result : list.getChildren()) {
-					uncheckResult(session, result);
+					ResultsView.this.removeTips(session, result);
 				}
 				list.removeAll();
 			}
 		};
 		deleteAll.setToolTipText(Messages.ResultsView_3);
 		deleteAll.setImageDescriptor(doubleCross);
-}
+	}
 
+	/**
+	 * TODO : ?
+	 * 
+	 * @param session
+	 * @param result
+	 */
+	private void removeTips(ISession session, IResultTree result) {
+		session.removeAllTips(result.getTips());
+		for (IResultTree child : result.getChildren()) {
+			removeTips(session, child);
+		}
+	}
+
+	/**
+	 * This method uncheck results provided by the IResultTree. It also modify the checkStateMap consequently.
+	 * 
+	 * @param session The session in which is link the result.
+	 * @param result The result to be unchecked.
+	 */
+	private static void uncheckAllResult(ISession session, IResultTree result) {
+		// If the result is checked . . .
+		if (viewer.getChecked(result)) {
+			/* Model objects which are only highlight by this result will be unhighlighted
+			 * For each object ID in the highlight list
+			 */
+			for (int id : result.getHighlighted()) {
+				// We get the associate element
+				ISpecialState element = (ISpecialState) session.getGraph().getObject(id);
+				if (element != null) {
+					// The checkStateMap is modified
+					Integer value = checkStateMap.get(element);
+					if (value != null) {
+						// If the object is checked strictly more than 1 time, we just decrement its check value 
+						if (value > 1) {
+							value--;
+							checkStateMap.put(element, value);
+						}
+						// If the object is only check 1 time, it's only by this result so we unhighlight it
+						else if (value == 1) {
+							value--;
+							checkStateMap.put(element, value);
+							element.setSpecialState(false);
+						}
+					}
+				}
+			}
+
+			// Now the attributes . . .
+			Map<Integer,List<String>> attributesMap = result.getAttributesOutline();
+			// For each object ID in the checkStateMap 
+			for (int id : attributesMap.keySet()) {
+				// We get the associate element
+				IElement element = session.getGraph().getObject(id);
+				if (element != null) {
+					// Then we get the highlighted attributes list 
+					List<String> listAttribute = attributesMap.get(id);
+					for (String strAttribute : listAttribute) {
+						// For each attribute, we get its check value
+						ISpecialState attribute = (ISpecialState) element.getAttribute(strAttribute);
+						Integer value = checkStateMap.get(attribute);
+						if (value != null) {
+							// If the attribute is checked strictly more than 1 time, we just decrement its check value
+							if (value > 1) {
+								value--;
+								checkStateMap.put(attribute, value);
+							}
+							// If the attribute is only check 1 time, it's only by this result so we unhighlight it
+							else if (value == 1) {
+								value--;
+								checkStateMap.put(attribute, value);
+								attribute.setSpecialState(false);
+							}
+						}
+					}
+				}
+			}
+			/** TODO : le removeAllTips doit-il etre présent dans la méthode uncheck*/
+			session.removeAllTips(result.getTips());
+		}
+		
+		// We call the method recursively on every child result
+		for (IResultTree child : result.getChildren()) {
+			uncheckAllResult(session, child);
+		}
+	}
+
+	/**
+	 * 
+	 * @param session
+	 */
+	private void unHighlightAll(IGraph graph) {
+		for(IArc arc : graph.getArcs()) {
+			((ISpecialState)arc).setSpecialState(false);
+			for (IAttribute attribute : arc.getAttributes()) {
+				((ISpecialState)attribute).setSpecialState(false);
+			}
+		}
+		for(INode node : graph.getNodes()) {
+			((ISpecialState)node).setSpecialState(false);
+			for (IAttribute attribute : node.getAttributes()) {
+				((ISpecialState)attribute).setSpecialState(false);
+			}
+		}
+	}
+	
 	/**
 	 * Création de la barre d'outils des résultats
 	 */

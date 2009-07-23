@@ -7,6 +7,10 @@
             action="fr.lip6.move.coloane.tools.stats.StatAction"
             name="StatTool">
       </Tool>
+      <Tool
+            action="fr.lip6.move.coloane.tools.stats.StatAction1"
+            name="StatToolBis">
+      </Tool>
    </extension>
 
 </plugin>

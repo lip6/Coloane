@@ -470,7 +470,7 @@ public final class Motor {
 					LOGGER.fine("Ajout d'un résultat"); //$NON-NLS-1$
 					Display.getDefault().asyncExec(new Runnable() {
 						public void run() {
-							currentSession.getServiceResults().add(result.getServiceName(), result);
+							currentSession.getServiceResults().add(result.getResultName(), result);
 						}
 					});
 					UserInterface.getInstance().displayResults();

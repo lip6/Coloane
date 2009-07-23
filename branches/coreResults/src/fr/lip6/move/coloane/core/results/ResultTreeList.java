@@ -5,23 +5,17 @@ import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.reports.GenericReport;
-import fr.lip6.move.coloane.core.results.reports.IReport;
+import fr.lip6.move.coloane.core.ui.panels.ResultsView;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.Platform;
 
 /**
  * Liste de ResultTree. Cette liste étend Observable.<br>
@@ -31,17 +25,8 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	/** Le logger pour la classe */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/**
-	 * Attributs du point d'extension 'exports'
-	 */
-	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.reports"; //$NON-NLS-1$
-	private static final String SERVICE_EXTENSION = "service_name"; //$NON-NLS-1$
-	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
-
 	private final Map<String, IResultTree> map;
 	private final List<Integer> highlights;
-	private Map<String, IReport> services;
-	private final IReport generic;
 
 	/**
 	 * Constructeur
@@ -49,26 +34,6 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	public ResultTreeList() {
 		map = new LinkedHashMap<String, IResultTree>();
 		highlights = new ArrayList<Integer>();
-		generic = new GenericReport();
-	}
-
-	/**
-	 * Ajouter tous les services disponible par le point d'extension SERVICE_EXTENSION
-	 */
-	private void buildServicesList() {
-		services = new HashMap<String, IReport>();
-
-		IExtensionRegistry reg = Platform.getExtensionRegistry();
-		for (IConfigurationElement element : reg.getConfigurationElementsFor(EXTENSION_POINT_ID)) {
-			String service = element.getAttribute(SERVICE_EXTENSION);
-			try {
-				IReport report = (IReport) element.createExecutableExtension(CLASS_EXTENSION);
-				services.put(service, report);
-				LOGGER.fine("Ajout du service de resultat : " + service); //$NON-NLS-1$
-			} catch (CoreException e) {
-				LOGGER.warning("Probleme avec l'extension : " + service); //$NON-NLS-1$
-			}
-		}
 	}
 
 	/**
@@ -78,24 +43,12 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	 * @param result L'objet (en provenance de Com) qui contient les resultats
 	 */
 	public final void add(String serviceName, IResult result) {
-		if (services == null) {
-			this.buildServicesList();
-		}
-
-		ResultTreeImpl newResult = null;
-
-		IReport report = services.get(serviceName.trim());
-		if (report != null) {
-			newResult = report.build(result);
-		}
-
-		// Si aucun report specialise n'est disponible, on utilise le GenericReport
-		if (newResult == null) {
-			newResult = generic.build(result);
-		}
+		ResultTreeImpl newResult = (new GenericReport()).build(result);
 
 		// Si un résultat pour ce service existait déjà ou le supprime
 		if (map.containsKey(serviceName)) {
+			// On enlève les resultats de la vue
+			ResultsView.reinitResultView(map.get(serviceName));
 			map.remove(serviceName);
 		}
 
@@ -105,6 +58,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		for (ITip tip : result.getTipsList()) {
 			coreTips.add(new CoreTipModel(tip));
 		}
+
 		newResult.setTips(coreTips);
 		map.put(serviceName, newResult);
 		update(null, getWidth(newResult));
@@ -220,6 +174,13 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		update(null, 0);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final Map<Integer, List<String>> getAttributesOutline() {
+		return null;
+	}
+	
 	/** {@inheritDoc} */
 	public final List<ICoreTip> getTips() {
 		throw new UnsupportedOperationException();

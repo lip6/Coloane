@@ -2,10 +2,15 @@ package fr.lip6.move.coloane.core.results;
 
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
+import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.logging.Logger;
 
@@ -28,6 +33,10 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	private IResultTree parent;
 	private List<IResultTree> children;
 	private List<Object> elements;
+	
+	/** Liste des attributs à mettre en valeur */
+	private Map<Integer, List<String>> attributesOutline;
+	
 	private final List<Integer> highlights;
 	private List<ICoreTip> tips = EMPTY_TIPS_LIST;
 
@@ -47,7 +56,9 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	public ResultTreeImpl(List<Integer> toHighlight, String...elements) {
 		// Element a mettre en valeur lors de la selection de cet arbre (feuille) de resultat
 		highlights = new ArrayList<Integer>();
-
+		
+		this.attributesOutline = new HashMap<Integer, List<String>>();
+		
 		if (toHighlight != null) {
 			this.highlights.addAll(toHighlight);
 		}
@@ -146,15 +157,14 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 
 	/** {@inheritDoc} */
 	public final void remove() {
-		if (serviceName != null) {
-			this.sessionManager = this.getSessionManager();
-			if (this.sessionManager != null) {
-				this.sessionManager.getCurrentSession().getServiceResults().remove(serviceName);
-				setChanged();
-				notifyObservers();
-			}
-		}
-		else {
+		// Si le parent du noeud est un ResultTreeList, ce noeud est donc le noeud racine du résultat.
+		// Il faut donc enlever le résultat du ResultTreeList
+		if (this.parent instanceof ResultTreeList) {
+			((ResultTreeList)parent).remove(serviceName);
+			setChanged();
+			notifyObservers();
+		} else {
+			// Sinon le parent est un ResultTreeImpl, on cherche donc le noeud à enlever dans son père et on le supprime
 			for (IResultTree resultTree : this.parent.getChildren()) {
 				if (resultTree.equals(this)) {
 					this.parent.getChildren().remove(this);
@@ -213,5 +223,43 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		} else {
 			this.tips = EMPTY_TIPS_LIST;
 		}
+	}
+
+	/**
+	 * Ajoute une liste d'attributs à mettre en surbrillance.<br>
+	 * Avant de les rajouter, on vérifie que ces attributs existent bien dans le graphe courant.
+	 * @param map L'identifiant de l'objet à qui appartient l'attribut
+	 * 
+	 * TODO : expliquer le code
+	 */
+	public void addAttributesOutline(Map<Integer, List<String>> map, Integer... ObjectIds) {
+		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
+		
+		for (int id : ObjectIds) {
+			IElement element = currentGraph.getObject(id);
+			if (element != null) {
+				List<String> listAttribute = map.get(id);
+				if (listAttribute != null) {
+					for (String attribute : listAttribute) {
+						if (element.getAttribute(attribute) != null) {
+							if (this.attributesOutline.containsKey(id)) {
+								this.attributesOutline.get(id).add(attribute);
+							} else {
+								List<String> first = new ArrayList<String>();
+								first.add(attribute);
+								this.attributesOutline.put(id, first);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public final Map<Integer, List<String>> getAttributesOutline() {
+		return attributesOutline;
 	}
 }

@@ -8,8 +8,9 @@ public class Messages extends NLS {
 	public static String ComputeBoundsReport_1;
 	public static String ComputeBoundsReport_2;
 	public static String GenericReport_0;
-	public static String GenericReport_1;
+	public static String GenericReport_4;
 	public static String GenericReport_2;
+	public static String GenericReport_3;
 	public static String IsTheNetQuestionReport_0;
 	public static String MinimalSyphonTrapReport_0;
 	public static String MinimalSyphonTrapReport_1;

@@ -10,17 +10,27 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Cette classe va générer un arbre de résultat générique
  */
-public class GenericReport implements IReport {
+public class GenericReport {
 
-	/** {@inheritDoc} */
+	/**
+	 * Construction de l'arbre des résultats qui seront affiches dans la fenetre "resultats"
+	 * @param result Objet contenant les données brutes en provenance de la Com
+	 * @return Arbre des résultats
+	 */
 	public final ResultTreeImpl build(IResult result) {
 		// 1. Build the root of the result tree
-		ResultTreeImpl root = new ResultTreeImpl(result.getServiceName());
-
+		ResultTreeImpl root;
+		if (!"".equals(result.getResultName())) { //$NON-NLS-1$
+			root = new ResultTreeImpl(result.getResultName());
+		} else {
+			root = new ResultTreeImpl(Messages.GenericReport_0);
+		}
+		
 		// 2. Attach the session Manager to the root
 		root.setSessionManager(SessionManager.getInstance());
 
@@ -33,6 +43,7 @@ public class GenericReport implements IReport {
 		return root; 
 	}
 	
+	// TODO : Expliquer le code
 	private void addResultTreeImpl(List<ISubResult> subresults, ResultTreeImpl root) {
 		// For each group of subResults
 		for (int i = 0; i < subresults.size(); i++) {
@@ -40,27 +51,29 @@ public class GenericReport implements IReport {
 
 			// Create a node result
 			ResultTreeImpl node;
-			if (!("".equals(sub.getName()))) { //$NON-NLS-1$
+			if (!("".equals(sub.getSubResultName()))) { //$NON-NLS-1$
 				if (sub.getObjectsDesignation().size() > 0) {
-					node = new ResultTreeImpl(sub.getObjectsDesignation(), sub.getName(), sub.getInformation());
+					node = new ResultTreeImpl(sub.getObjectsDesignation(), sub.getSubResultName(), sub.getInformation());
 				} else {						
-					node = new ResultTreeImpl(sub.getName(), sub.getInformation());
+					node = new ResultTreeImpl(sub.getSubResultName(), sub.getInformation());
 				}
 			} else {
-				node = new ResultTreeImpl(Messages.GenericReport_0 + (i + 1));
+				node = new ResultTreeImpl(Messages.GenericReport_4 + (i + 1));
 			}
 
 			root.addChild(node);
-			addResultTreeImpl(sub.getChildren(),node);
+			addResultTreeImpl(sub.getSubResults(),node);
 			
+			
+			Map<Integer, List<String>> attributesMap = sub.getAttributesOutline();
 			// Create objectsOutline
 			for (int id : sub.getObjectsOutline()) {
 				String name = "id : " + String.valueOf(id); //$NON-NLS-1$
 				IElement element = root.getSessionManager().getCurrentSession().getGraph().getObject(id);
 				if (element != null) {
-					String formalismName = "Le formalisme n'a pas de nom pour cet objet"; //$NON-NLS-1$
+					String formalismName = Messages.GenericReport_2;
 					if (element instanceof INode) {
-						String value = element.getAttribute(Messages.GenericReport_2).getValue();
+						String value = element.getAttribute(Messages.GenericReport_3).getValue();
 						if (!("".equals(value))) { //$NON-NLS-1$
 							name = value;
 						}
@@ -72,14 +85,21 @@ public class GenericReport implements IReport {
 					if (element instanceof IGraph) {
 						formalismName = ((IGraph)element).getFormalism().getName();
 					}
-					node.addChild(new ResultTreeImpl(id, formalismName, name));
-				}			
-			}			
+					ResultTreeImpl child = new ResultTreeImpl(id, formalismName, name);
+					child.addAttributesOutline(attributesMap,id);
+					attributesMap.remove(id);
+					node.addChild(child);
+				}
+			}
+
 
 			// Create textualResults
 			for (List<String> tabStr : sub.getTextualResults()) { 
 				root.addChild(new ResultTreeImpl(tabStr.toArray(new String[tabStr.size()]))); 
 			}
+
+			// Create 
+			node.addAttributesOutline(attributesMap,attributesMap.keySet().toArray(new Integer[attributesMap.size()]));
 		}
 	}
 }

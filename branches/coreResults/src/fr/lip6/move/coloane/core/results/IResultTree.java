@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Arbre de résultats<br>
@@ -56,7 +57,13 @@ public interface IResultTree {
 	void addHighlighted(int... toHighlight);
 
 	/**
+	 * @return La liste des attributs qui doivent être mis en valeur
+	 */
+	Map<Integer, List<String>> getAttributesOutline();
+	
+	/**
 	 * Supprime ce service de la liste des resultats
+	 * TODO : changer l'explication en fonction de ce que fait la méthode
 	 * @see {@link SessionManager.#getInstance()}
 	 */
 	void remove();

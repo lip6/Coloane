@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.tools.stats.results;
 
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,62 +10,138 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Cette classe contient toutes les informations qui définissent un sous-résultat<br>
- * Un sous résultat est forcément contenu dans un résultat (ou un sous résultat).
- * D'autres sous-résultats peuvent le composer.
+ * Cette classe contient toutes les informations qui définissent un sous-résultat<br><br>
+ * This class define a sub-result.<br><br>
+ * 
+ * Un sous résultat est forcément contenu dans un résultat ou un sous-résultat.<br>
+ * D'autres sous-résultats peuvent le composer pour assurer une structure arborescente.
+ *
+ * A sub-result is always contained in a result or a sub-result.<br>
+ * Other sub-results can be added to ensure a tree structure.
+ *
  *
  * @author Jean-Baptiste Voron
  */
 public class SubResult implements ISubResult {
-	/** Nom du sous-résultat */
-	private String name;
+	/** Sub-result name. */
+	private String subResultName;
 
-	/** Information sur le nom du sous résultat*/
+	/** Information about the sub-result. */
 	private String information;
 
-	/** Les sous-résultats par rapport à ce résultat */
-	private List<ISubResult> children;
+	/** Sub-results included in this sub-result. */
+	private List<ISubResult> subResults;
 
-	/** Liste des objets désignés par la plate-forme */
+	/** Liste des informations */
+	// TODO : traduire en anglais
+	private List<ITip> tips;
+
+	/** 
+	 * 	Liste d'objets pouvant être mis en surbrillance dans le modèle.<br>
+	 *  Ces objets ne seront pas affichés dans le menu du sous-résultat. 
+	 */
+	// TODO : traduire en anglais
 	private List<Integer> objectsDesignation;
 
-	/** Liste des objets à mettre en valeur */
+	/** 
+	 * Liste d'objets pouvant être mis en surbrillance dans le modèle.<br>
+	 * Ces objets seront affichés dans le menu du sous-résultat. 
+	 */
+	// TODO : traduire en anglais
 	private List<Integer> objectsOutline;
 
-	/** Liste des résultats textuels */
-	private List<List<String>> textualResults;
-
-	/** Liste des attributs à mettre en valeur */
+	/** Liste des attributs d'objets du graphe pouvant être mis en surbrillance dans le modèle. */
+	// TODO : traduire en anglais
 	private Map<Integer, List<String>> attributesOutline;
 
+	/** List of results in the form of text. */
+	private List<List<String>> textualResults;
+
 
 	/**
-	 * Constructeur d'un ensemble de résultats
-	 * @param name Le nom de l'ensemble de résultats
+	 * Constructs an empty sub-result.
+	 * 
+	 * @param subResultName Name of the sub-result.
 	 */
-	public SubResult(String name) {
-		this(name, "");
+	public SubResult(String subResultName) {
+		this(subResultName, "");
 	}
 
 	/**
-	 * Constructeur d'un ensemble de résultats doté d'une information sur cet ensemble
-	 * @param name Le nom de l'ensemble de résultats
-	 * @param information Une information sur l'ensemble de résultats
+	 * Constructs an empty sub-result with an information about it.
+	 * 
+	 * @param subResultName Name of the sub-result.
+	 * @param information Information about the sub-result.
 	 */
-	public SubResult(String name, String information) {
-		this.name = name;
+	public SubResult(String subResultName, String information) {
+		this.subResultName = subResultName;
 		this.information = information;
-		this.children = new ArrayList<ISubResult>();
+		this.subResults = new ArrayList<ISubResult>();
 		this.objectsDesignation = new ArrayList<Integer>();
 		this.objectsOutline = new ArrayList<Integer>();
-		this.attributesOutline = new HashMap<Integer, List<String>>();
+		this.attributesOutline = new HashMap<Integer,List<String>>();
 		this.textualResults = new ArrayList<List<String>>();
+		this.tips = new ArrayList<ITip>();
+	}
+
+
+	/**
+	 * TODO : A traduire
+	 * Ajoute une information à la liste des informations renvoyées par la plate-forme
+	 * @param tip L'information à ajouter à la liste
+	 */
+	public final void addTip(ITip tip) {
+		this.tips.add(tip);
+	}
+
+
+	/**
+	 * TODO : A traduire
+	 * @return la liste d'informations associées au résultat
+	 */
+	public List<ITip> getTips() {
+		return tips;
+	}
+
+
+	/**
+	 * Add a result in the form of text in the list.
+	 * Ajoute un résultat sous forme de texte dans la liste.
+	 * 
+	 * @param result Le résultat textuel qui doit être ajouté dans la liste.<br>
+	 *  Celui-ci est stocké sous forme de tableau pour être affiché dans les colonnes de la vue. 
+	 * @param result the textual result to be added to the list.<br>
+	 * It's stored in an array for being displayed in the columns of the view.
+	 */
+	public final void addTextualResult(String... result) {
+		// emptyList permet de savoir si le tableau construit est constitué uniquement de chaînes vides
+		// emptyList allow us to know is the constructed array is only constituted by empty string
+		boolean emptyList = true;
+		ArrayList<String> array = new ArrayList<String>(result.length);
+		for(int i = 0; i < result.length; i++) {
+			array.add(result[i]);
+			emptyList = emptyList && ("".equals(result[i]));
+		}
+
+		if (emptyList) {
+			// Si toutes chaînes sont vides, on renvoie un tableau vide avec "No Result" pour l'indiquer à l'utilisateur
+			// If all strings are empty, we return instead an array with "No result" inside to indicate to the user
+			array.clear();
+			array.add("No result");
+			this.textualResults.add(array);
+		}
+		else {
+			this.textualResults.add(array);
+		}
 	}
 	
+	
 	/**
-	 * Ajoute un attribut dans la liste de ceux qui doivent être mis en valeur
-	 * @param objectId L'identifiant de l'objet à qui appartient l'attribut
-	 * @param attributeName Le nom de l'attribut à mettre en valeur
+	 * Add an attribute (associated with a graph object) in the list of those who will be able to be highlighted in the model.
+	 * Ajoute un attribut (associé à un objet du graphe) dans la liste de ceux qui doivent être mis en surbrillance dans le modèle.
+	 * 
+	 * @param objectId The object ID to whom belongs the attribute.
+	 * @param attributeName The name of the attribute to be highlighted.
 	 */
 	public final void addAttributeOutline(Integer objectId, String attributeName) {
 		if (this.attributesOutline.containsKey(objectId)) {
@@ -76,58 +154,77 @@ public class SubResult implements ISubResult {
 	}
 
 	/**
-	 * Ajoute l'identifiant d'un objet à désigner
-	 * @param id L'identifiant qui doit être ajouté dans la liste
+	 * Add an attribute (associated with a graph object) in the list of those who will be able to be highlighted in the model.
+	 * Ajoute un attribut (associé à un objet du graphe) dans la liste de ceux qui doivent être mis en surbrillance dans le modèle.
+	 * 
+	 * @param object The object to whom belongs the attribute.
+	 * @param attributeName The name of the attribute to be highlighted.
 	 */
-	public final void addObjectDesignation(Integer id) {
-		this.objectsDesignation.add(id);
+	public final void addAttributeOutline(IElement object, String attributeName) {
+		if (object != null) {
+			addAttributeOutline(object.getId(), attributeName);
+		}
+	}
+	
+	/**
+	 * Add an object which will be able to be highlighted in the model but won't be added to the menu.
+	 * Ajoute un objet qui pourra être mis en surbrillance dans le modèle mais qui ne sera pas ajouté au menu.
+	 * 
+	 * @param objectId The object ID to be added to the list.
+	 */
+	public final void addObjectDesignation(Integer objectId) {
+		this.objectsDesignation.add(objectId);
+	}
+	
+	/**
+	 * Add an object which will be able to be highlighted in the model but won't be added to the menu.
+	 * Ajoute un objet qui pourra être mis en surbrillance dans le modèle mais qui ne sera pas ajouté au menu.
+	 * 
+	 * @param object The object to be added to the list.
+	 */
+	public final void addObjectDesignation(IElement object) {
+		if (object != null) {
+			this.objectsDesignation.add(object.getId());
+		}
 	}
 
 	/**
-	 * Ajoute l'identifiant d'un objet à mettre en valeur
-	 * @param id L'identifiant qui doit être ajouté dans la liste
+	 * Add an object which will be able to be highlighted in the model and will be added to the menu.
+	 * Ajoute un objet qui pourra être mis en surbrillance dans le modèle et qui sera ajouté au menu.
+	 * 
+	 * @param objectId The object ID to be added to the list.
 	 */
-	public final void addObjectOutline(Integer id) {
-		this.objectsOutline.add(id);
+	public final void addObjectOutline(Integer objectId) {
+		this.objectsOutline.add(objectId);
 	}
-	
+
 	/**
-	 * Ajoute un résultat textuel à la liste
-	 * @param result Les résultats textuels qui doivent être ajoutés dans la liste
+	 * Add an object which will be able to be highlighted in the model and will be added to the menu.
+	 * Ajoute un objet qui pourra être mis en surbrillance dans le modèle et qui sera ajouté au menu.
+	 * 
+	 * @param object The object to be added to the list.
 	 */
-	public final void addTextualResult(String... result) {
-		// emptyList permet de savoir si le tableau construit est constitué uniquement de chaînes vides
-		boolean emptyList = true;
-		ArrayList<String> array = new ArrayList<String>(result.length);
-		for(int i = 0; i < result.length; i++) {
-			array.add(result[i]);
-			emptyList = emptyList && ("".equals(result[i]));
-		}
-		
-		// Si toutes chaînes sont vides, on ajoute un tableau vide
-		if (emptyList) {
-			array.clear();
-			array.add("No result");
-			this.textualResults.add(array);
-		}
-		else {
-			this.textualResults.add(array);
+	public final void addObjectOutline(IElement object) {
+		if (object != null) {
+			this.objectsOutline.add(object.getId());
 		}
 	}
-	
+
 	/**
-	 * Ajoute un sous-resultat à la liste des sous-résultats
-	 * @param subResult Le sous-résultat qui doit être attaché à la liste
+	 * Add a sub-result in the sub-result list.
+	 * Ajoute un sous-resultat à la liste des sous-résultats.
+	 * 
+	 * @param subResult The sub-result added to the list.
 	 */
 	public final void addSubResult(ISubResult subResult) {
-		this.children.add(subResult);
+		this.subResults.add(subResult);
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public final List<ISubResult> getChildren() {
-		return children;
+	public final List<ISubResult> getSubResults() {
+		return this.subResults;
 	}
 
 	/**
@@ -161,8 +258,8 @@ public class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final String getName() {
-		return name;
+	public final String getSubResultName() {
+		return this.subResultName;
 	}
 
 	/**
