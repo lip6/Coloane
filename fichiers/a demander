@@ -1,0 +1,3 @@
+ResultTreeList : ==> TODO
+ResultView : ==> Séparation du ICheckListener pour la HashMap
+ResultTreeImpl : ==> Appel du SessionManager statique
