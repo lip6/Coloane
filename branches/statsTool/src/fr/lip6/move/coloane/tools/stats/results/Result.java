@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.tools.stats.results;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
@@ -8,7 +9,9 @@ import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Permet à un outil de renvoyer un résultat qui sera affiché dans une vue d'Eclipse<br><br>
@@ -29,7 +32,7 @@ public class Result implements IResult {
 	private List<ISubResult> subResults;
 
 	/** Liste des informations */
-	private List<ITip> tipsList;
+	private Map<Integer,List<ITip>> tips;
 
 	/** Liste des commandes de modifications du modele */
 	private List<ICommand> commandsList;
@@ -55,7 +58,7 @@ public class Result implements IResult {
 		this.outputGraph = outputGraph;
 		this.computedGraph = null;
 		this.subResults = new ArrayList<ISubResult>();
-		this.tipsList = new ArrayList<ITip>();
+		this.tips = new HashMap<Integer,List<ITip>>();
 		this.commandsList = new ArrayList<ICommand>();
 		this.deltaCommands = new ArrayList<ICommand>();
 		this.textualResults = new ArrayList<List<String>>();
@@ -76,9 +79,29 @@ public class Result implements IResult {
 	 * @param tip L'information à ajouter à la liste
 	 */
 	public final void addTip(ITip tip) {
-		this.tipsList.add(tip);
+		if (this.tips.containsKey(tip.getIdObject())) {
+			(this.tips.get(tip.getIdObject())).add(tip);
+		}
+		else {
+			List<ITip> list = new ArrayList<ITip>();
+			list.add(tip);
+			this.tips.put(tip.getIdObject(), list);
+		}
 	}
 
+	/**
+	 * TODO : A remplir (en anglais, of course !)
+	 * 
+	 * @param object
+	 * @param name
+	 * @param value
+	 */
+	public final void addTip(IElement object, String name, String value) {
+		if (object != null) {
+			this.addTip(new Tip(object.getId(),name,value));
+		}
+	}
+	
 	/**
 	 * Ajouter une commande de modification du modèle à la liste
 	 * @param command La commande qui doit être ajoutée
@@ -112,8 +135,8 @@ public class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final List<ITip> getTipsList() {
-		return this.tipsList;
+	public final Map<Integer,List<ITip>> getTips() {
+		return this.tips;
 	}
 
 	/**
@@ -131,6 +154,7 @@ public class Result implements IResult {
 	}
 	
 	/**
+	 * TODO : Essayer de factoriser cette méthode avec celle dans le Result
 	 * Add a result in the form of text in the list.
 	 * Ajoute un résultat sous forme de texte dans la liste.
 	 * 

@@ -6,10 +6,8 @@ import java.util.List;
 
 import fr.lip6.move.coloane.tools.stats.results.Result;
 import fr.lip6.move.coloane.tools.stats.results.SubResult;
-import fr.lip6.move.coloane.tools.stats.results.Tip;
 import fr.lip6.move.coloane.core.extensions.IColoaneAction;
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
@@ -25,20 +23,14 @@ public class StatAction implements IColoaneAction {
 		
 		int i = 1;
 		for (INode node : tabNodes) {
-			subres1.addObjectOutline(node);
-			res1.addTip(new Tip(node.getId(), "Nom "+i, "Value "+i));
+			subres1.addObjectDesignation(node);
+			subres1.addTip(node, "Nom "+i, "Value "+i);
 			i++;
 		}
 		for (INode node : tabNodes) {
 			subres1.addAttributeOutline(node,"name");
 		}
-		/*
-		for (IArc arc : tabArcs) {
-			subres1.addObjectOutline(arc);
-		}
-		 */
-		for (IAttribute att : tabArcs.get(0).getAttributes())
-			subres1.addAttributeOutline(tabArcs.get(0), att.getName());
+
 
 		res1.addSubResult(subres1);
 		ArrayList<IResult> al = new ArrayList<IResult>();

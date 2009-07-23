@@ -8,6 +8,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ import java.util.Map;
 public class GenericReport {
 
 	/**
+	 * TODO : Expliquer le code
+	 * 
 	 * Construction de l'arbre des résultats qui seront affiches dans la fenetre "resultats"
 	 * @param result Objet contenant les données brutes en provenance de la Com
 	 * @return Arbre des résultats
@@ -34,12 +37,19 @@ public class GenericReport {
 		// 2. Attach the session Manager to the root
 		root.setSessionManager(SessionManager.getInstance());
 
+		
 		addResultTreeImpl(result.getSubResults(),root);
 
+		
 		// Creation of textualResults
 		for (List<String> tabStr : result.getTextualResults()) { 
 			root.addChild(new ResultTreeImpl(tabStr.toArray(new String[tabStr.size()]))); 
 		}
+
+		// Creation of tips
+		Map<Integer,List<ITip>> tipsMap = result.getTips();
+		root.setTips(tipsMap,tipsMap.keySet().toArray(new Integer[tipsMap.size()]));
+		
 		return root; 
 	}
 	
@@ -52,20 +62,24 @@ public class GenericReport {
 			// Create a node result
 			ResultTreeImpl node;
 			if (!("".equals(sub.getSubResultName()))) { //$NON-NLS-1$
-				if (sub.getObjectsDesignation().size() > 0) {
 					node = new ResultTreeImpl(sub.getObjectsDesignation(), sub.getSubResultName(), sub.getInformation());
-				} else {						
-					node = new ResultTreeImpl(sub.getSubResultName(), sub.getInformation());
-				}
 			} else {
-				node = new ResultTreeImpl(Messages.GenericReport_4 + (i + 1));
+				node = new ResultTreeImpl(sub.getObjectsDesignation(), Messages.GenericReport_4 + (i + 1));
 			}
 
+			
+			
+			
+			
+			
+			
+			
 			root.addChild(node);
 			addResultTreeImpl(sub.getSubResults(),node);
 			
 			
 			Map<Integer, List<String>> attributesMap = sub.getAttributesOutline();
+			Map<Integer,List<ITip>> tipsMap = sub.getTips();
 			// Create objectsOutline
 			for (int id : sub.getObjectsOutline()) {
 				String name = "id : " + String.valueOf(id); //$NON-NLS-1$
@@ -88,18 +102,22 @@ public class GenericReport {
 					ResultTreeImpl child = new ResultTreeImpl(id, formalismName, name);
 					child.addAttributesOutline(attributesMap,id);
 					attributesMap.remove(id);
+					child.setTips(tipsMap, id);
+					tipsMap.remove(id);
 					node.addChild(child);
 				}
 			}
 
-
+			// Create attributeOutline
+			node.addAttributesOutline(attributesMap,attributesMap.keySet().toArray(new Integer[attributesMap.size()]));
+			
+			// Create tips
+			root.setTips(tipsMap,tipsMap.keySet().toArray(new Integer[tipsMap.size()]));
+			
 			// Create textualResults
 			for (List<String> tabStr : sub.getTextualResults()) { 
 				root.addChild(new ResultTreeImpl(tabStr.toArray(new String[tabStr.size()]))); 
 			}
-
-			// Create 
-			node.addAttributesOutline(attributesMap,attributesMap.keySet().toArray(new Integer[attributesMap.size()]));
 		}
 	}
 }

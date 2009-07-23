@@ -14,7 +14,7 @@ public class ResultTest extends TestCase {
 		assertTrue(res1.getModificationsOnCurrentGraph() != null);
 		assertTrue(res1.getSubResults() != null);
 		assertTrue(res1.getTextualResults() != null);
-		assertTrue(res1.getTipsList() != null);
+		assertTrue(res1.getTips() != null);
 	}
 
 	public void testAddSubResult() {

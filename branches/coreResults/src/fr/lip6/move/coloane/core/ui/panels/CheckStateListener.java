@@ -116,6 +116,7 @@ public class CheckStateListener implements ICheckStateListener {
 				session.removeAllTips(result.getTips());
 			}
 		}
+
 		// Appel récursif sur tous les fils
 		for (IResultTree child : result.getChildren()) {
 			checkResult(session, child, viewer.getChecked(child), toCheck);
@@ -146,6 +147,7 @@ public class CheckStateListener implements ICheckStateListener {
 		// Si le résultat n'a pas de sous résultats, on regarde s'il a des objets du graphe à highlight
 		// Si non, on le décoche
 		// Si oui, on le laisse tel quel  car son état a déjà été modifié avant l'appel de la méthode
+		// TODO : si des attributs du modèle sont supprimés, cela devient un textualResult mais ce n'est pas pris en compte
 		if ((result.getHighlighted().size() == 0) && result.getAttributesOutline().isEmpty()) {
 			viewer.setChecked(result, false);
 			return false;

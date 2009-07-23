@@ -1,10 +1,12 @@
 package fr.lip6.move.coloane.core.results;
 
+import fr.lip6.move.coloane.core.model.CoreTipModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.session.ISessionManager;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -217,9 +219,27 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	}
 
 	/** {@inheritDoc} */
-	public final void setTips(List<ICoreTip> tips) {
-		if (tips != null) {
-			this.tips = new ArrayList<ICoreTip>(tips);
+	// TODO : Expliquer
+	public void setTips(Map<Integer, List<ITip>> map, Integer... objectIds) {
+		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
+		List<ICoreTip> coreTips = new ArrayList<ICoreTip>();
+		
+		
+		for (Integer id : objectIds) {
+			IElement element = currentGraph.getObject(id);
+			if (element != null) {
+				List<ITip> listTip = map.get(id);
+				if (listTip != null) {
+					for (ITip tip : listTip) {
+						coreTips.add(new CoreTipModel(tip));
+					}
+					
+				}
+			}
+		}
+		
+		if (coreTips != null) {
+			this.tips = coreTips;
 		} else {
 			this.tips = EMPTY_TIPS_LIST;
 		}
@@ -232,10 +252,10 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	 * 
 	 * TODO : expliquer le code
 	 */
-	public void addAttributesOutline(Map<Integer, List<String>> map, Integer... ObjectIds) {
+	public void addAttributesOutline(Map<Integer, List<String>> map, Integer... objectIds) {
 		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
 		
-		for (int id : ObjectIds) {
+		for (int id : objectIds) {
 			IElement element = currentGraph.getObject(id);
 			if (element != null) {
 				List<String> listAttribute = map.get(id);
