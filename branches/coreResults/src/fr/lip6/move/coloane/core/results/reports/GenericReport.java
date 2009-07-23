@@ -66,14 +66,6 @@ public class GenericReport {
 			} else {
 				node = new ResultTreeImpl(sub.getObjectsDesignation(), Messages.GenericReport_4 + (i + 1));
 			}
-
-			
-			
-			
-			
-			
-			
-			
 			root.addChild(node);
 			addResultTreeImpl(sub.getSubResults(),node);
 			
@@ -112,7 +104,7 @@ public class GenericReport {
 			node.addAttributesOutline(attributesMap,attributesMap.keySet().toArray(new Integer[attributesMap.size()]));
 			
 			// Create tips
-			root.setTips(tipsMap,tipsMap.keySet().toArray(new Integer[tipsMap.size()]));
+			node.setTips(tipsMap,tipsMap.keySet().toArray(new Integer[tipsMap.size()]));
 			
 			// Create textualResults
 			for (List<String> tabStr : sub.getTextualResults()) { 
