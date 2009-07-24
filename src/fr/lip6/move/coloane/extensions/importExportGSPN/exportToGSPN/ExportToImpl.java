@@ -117,7 +117,7 @@ public class ExportToImpl implements IExportTo {
 					MINMKD++;
 				}
 			}
-			//monitor.worked(1);
+			monitor.worked(1);
 		}
 		
 		toReturn.add("|256");
@@ -125,13 +125,13 @@ public class ExportToImpl implements IExportTo {
 		toReturn.add("|");
 		
 		// Marking of places
-		//monitor.subTask("Export nodes");
+		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()) {
 			for(IAttribute attribute : node.getAttributes()){
 				if((attribute.getName().equals("marking"))){
 					lettre='m';
 					if(attribute.getValue().equals(attribute.getAttributeFormalism().getDefaultValue())==false){
-						toReturn.add("(" + lettre + node.getId() + " " + lettre + " " + attribute.getGraphicInfo().getLocation().x + " " + attribute.getGraphicInfo().getLocation().y + " " + "(@" + lettre);
+						toReturn.add("(" + lettre + node.getId() + " " + lettre + " " + getAttributeXCoordinate(attribute) + " " + getAttributeYCoordinate(attribute) + " " + "(@" + lettre);
 						toReturn.add(attribute.getValue());
 						toReturn.add("))");
 						index2++;
@@ -157,7 +157,7 @@ public class ExportToImpl implements IExportTo {
 							else
 								description=separator[j];
 						}
-						toReturn.add("(" + label + " " + lettre + " " + attribute.getGraphicInfo().getLocation().x + " " + attribute.getGraphicInfo().getLocation().y + " (@" + lettre);
+						toReturn.add("(" + label + " " + lettre + " " + getAttributeXCoordinate(attribute) + " " + getAttributeYCoordinate(attribute) + " (@" + lettre);
 						toReturn.add(description);
 						toReturn.add("))");
 					}
@@ -176,7 +176,8 @@ public class ExportToImpl implements IExportTo {
 		
 		int nb_places=0, nb_transitions=0, nb_imm=0, num_imm=0;
 		String tag="", color="", rate="", definition="", priority="", marking="", weight="", multiplicity="", arc_color="";
-		int abs_node, ord_node, abs_att, ord_att, abs_color, ord_color, abs_arc_color, ord_arc_color;
+		double abs_node, ord_node, abs_tag=0, ord_tag=0, abs_rate=0, ord_rate=0, abs_color, ord_color;
+		//int abs_arc_color, ord_arc_color;
 		int index=0;
 		Map<Integer, Integer> hmPlace = new HashMap<Integer, Integer>();
 		String value="";
@@ -205,11 +206,14 @@ public class ExportToImpl implements IExportTo {
 		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()){
 			if(node.getNodeFormalism().getName().equals("place")){
-				abs_node=node.getGraphicInfo().getLocation().x;
-				ord_node=node.getGraphicInfo().getLocation().y;
+				abs_node=getNodeXCoordinate(node);
+				ord_node=getNodeYCoordinate(node);
 				for(IAttribute attribute : node.getAttributes()){
-					if(attribute.getName().equals("tag"))
+					if(attribute.getName().equals("tag")){
+						abs_tag=getAttributeXCoordinate(attribute);
+						ord_tag=getAttributeYCoordinate(attribute);
 						tag=attribute.getValue();
+					}
 					if(attribute.getName().equals("marking")){
 						if((attribute.getValue().equals(attribute.getAttributeFormalism().getDefaultValue()))==false){
 							value=attribute.getValue();
@@ -219,17 +223,15 @@ public class ExportToImpl implements IExportTo {
 						else
 							marking="0";
 					}
-					abs_att=attribute.getGraphicInfo().getLocation().x;
-					ord_att=attribute.getGraphicInfo().getLocation().y;
 					if(attribute.getName().equals("color label")){
 						if(attribute.getValue().equals("")==false){
-							abs_color=attribute.getGraphicInfo().getLocation().x;
-							ord_color=attribute.getGraphicInfo().getLocation().y;
+							abs_color=getAttributeXCoordinate(attribute);
+							ord_color=getAttributeYCoordinate(attribute);
 							color=attribute.getValue();
-							toReturn.add(tag + "    " + marking + " " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " 0 " + abs_color + " " + ord_color + " " + color);
+							toReturn.add(tag + "    " + marking + " " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " 0 " + abs_color + " " + ord_color + " " + color);
 						}
 						else
-							toReturn.add(tag + "    " + marking + " " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " 0 ");	
+							toReturn.add(tag + "    " + marking + " " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " 0 ");	
 					}
 				}
 				index++;
@@ -277,65 +279,69 @@ public class ExportToImpl implements IExportTo {
 					if((arc.getArcFormalism().getName().equals("arc"))||(arc.getArcFormalism().getName().equals("broken arc"))||(arc.getArcFormalism().getName().equals("colored arc"))||(arc.getArcFormalism().getName().equals("broken colored arc")))
 						nb_output_arcs++;
 				}
-				// Number of inhibitors arcs
+				// Number of a transition's inhibitors arcs
 				for(IArc arc : node.getIncomingArcs()){
 					if((arc.getArcFormalism().getName().equals("inhibitor arc"))||(arc.getArcFormalism().getName().equals("broken inhibitor arc"))||(arc.getArcFormalism().getName().equals("colored inhibitor arc"))||(arc.getArcFormalism().getName().equals("broken colored inhibitor arc")))
 						nb_inhibitor_arcs++;
 				}
 			
-				abs_node=node.getGraphicInfo().getLocation().x;
-				ord_node=node.getGraphicInfo().getLocation().y;
+				abs_node=getNodeXCoordinate(node);
+				ord_node=getNodeYCoordinate(node);
 			
 				for(IAttribute attribute : node.getAttributes()){
-					if(attribute.getName().equals("tag"))
+					if(attribute.getName().equals("tag")){
+						abs_tag=getAttributeXCoordinate(attribute);
+						ord_tag=getAttributeYCoordinate(attribute);
 						tag=attribute.getValue();
-					if(attribute.getName().equals("rate"))
+					}
+					if(attribute.getName().equals("rate")){
+						abs_rate=getAttributeXCoordinate(attribute);
+						ord_rate=getAttributeYCoordinate(attribute);
 						rate=attribute.getValue();
+					}
 					if(attribute.getName().equals("priority"))
 						priority=attribute.getValue();
 					if(attribute.getName().equals("definition"))
 						definition="-510";
 					if(attribute.getName().equals("weight"))
 						weight=attribute.getValue();
-					abs_att=attribute.getGraphicInfo().getLocation().x;
-					ord_att=attribute.getGraphicInfo().getLocation().y;
 					if(attribute.getName().equals("color label")){
-						abs_color=attribute.getGraphicInfo().getLocation().x;
-						ord_color=attribute.getGraphicInfo().getLocation().y;
+						abs_color=getAttributeXCoordinate(attribute);
+						ord_color=getAttributeYCoordinate(attribute);
 						color=attribute.getValue();
 						
 						// Transition (Infinite)
 						if(node.getNodeFormalism().getName().equals("transition (Infinite)")){
 							if(attribute.getValue().equals("")==false)
-								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 " + abs_color + " " + ord_color + " " + color);
+								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 ");						
+								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 ");						
 
 						}
 											
 						// Transition (Server)
 						if(node.getNodeFormalism().getName().equals("transition (Server)")){
 							if(attribute.getValue().equals("")==false)
-								toReturn.add(tag + "  " + rate + "   " + priority + "  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 " + abs_color + " " + ord_color + " " + color);
+								toReturn.add(tag + "  " + rate + "  " + priority + "  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + rate + "  " + priority + "  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 ");
+								toReturn.add(tag + "  " + rate + "  " + priority + "  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 ");
 						}
 						
 						// Transition (Marking Dependent)
 						if(node.getNodeFormalism().getName().equals("transition (Marking Dependent)")){
 							if(attribute.getValue().equals("")==false)
-								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 " + abs_color + " " + ord_color + " " + color);
+								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 ");
+								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 ");
 						}
 					
 						// Immediate transition
 						if(node.getNodeFormalism().getName().equals("immediate transition")){
 							num_imm++;
 							if(attribute.getValue().equals("")==false)
-								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 " + abs_color + " " + ord_color + " " + color);
+								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_att + " " + ord_att + " " + "? ? 0 ");
+								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 ");
 						}
 					
 					
@@ -354,18 +360,18 @@ public class ExportToImpl implements IExportTo {
 											toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
 									}
 									else{
-										abs_arc_color=attribute2.getGraphicInfo().getLocation().x;
-										ord_arc_color=attribute2.getGraphicInfo().getLocation().y;
+										//abs_arc_color=getAttributeXCoordinate(attribute2);
+										//ord_arc_color=getAttributeYCoordinate(attribute2);
 										arc_color=attribute2.getValue();
 										if(arc.getArcFormalism().getName().equals("broken colored arc")){
 											if(attribute2.getValue().equals("")==false)
-												toReturn.add("  -1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+												toReturn.add("  -1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
 											else
 												toReturn.add("  -1 " + index_place + " 0 0");
 										}
 										else{
 											if(attribute2.getValue().equals("")==false)
-												toReturn.add("  1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+												toReturn.add("  1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
 											else
 												toReturn.add("  1 " + index_place + " 0 0");
 										}
@@ -389,18 +395,18 @@ public class ExportToImpl implements IExportTo {
 											toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
 									}
 									else{
-										abs_arc_color=attribute2.getGraphicInfo().getLocation().x;
-										ord_arc_color=attribute2.getGraphicInfo().getLocation().y;
+										//abs_arc_color=getAttributeXCoordinate(attribute2);
+										//ord_arc_color=getAttributeYCoordinate(attribute2);
 										arc_color=attribute2.getValue();
 										if(arc.getArcFormalism().getName().equals("broken colored arc")){
 											if(attribute2.getValue().equals("")==false)
-												toReturn.add("  -1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+												toReturn.add("  -1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
 											else
 												toReturn.add("  -1 " + index_place + " 0 0");
 										}
 										else{
 											if(attribute2.getValue().equals("")==false)
-												toReturn.add("  1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+												toReturn.add("  1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
 											else
 												toReturn.add("  1 " + index_place + " 0 0");
 										}
@@ -424,18 +430,18 @@ public class ExportToImpl implements IExportTo {
 											toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
 									}
 									else{
-										abs_arc_color=attribute2.getGraphicInfo().getLocation().x;
-										ord_arc_color=attribute2.getGraphicInfo().getLocation().y;
+										//abs_arc_color=getAttributeXCoordinate(attribute2);
+										//ord_arc_color=getAttributeYCoordinate(attribute2);
 										arc_color=attribute2.getValue();
 										if(arc.getArcFormalism().getName().equals("broken colored inhibitor arc")){
 											if(attribute2.getValue().equals("")==false)
-												toReturn.add("  -1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+												toReturn.add("  -1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
 											else
 												toReturn.add("  -1 " + index_place + " 0 0");
 										}
 										else{
 											if(attribute2.getValue().equals("")==false)
-												toReturn.add("  1 " + index_place + " 0 0 " + abs_arc_color + " " + ord_arc_color + " " + arc_color);
+												toReturn.add("  1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
 											else
 												toReturn.add("  1 " + index_place + " 0 0");
 										}
@@ -453,10 +459,24 @@ public class ExportToImpl implements IExportTo {
 		return toReturn;
 	}
 	
-	// Mettre les coordonnees des noeuds dans cette methode 
-	int getCoordinates (INode node){
-		return 0;
+		
+	// X coordinate of nodes
+	double getNodeXCoordinate (INode node){
+		return 0.01*node.getGraphicInfo().getLocation().x;
 	}
 
+	// Y coordinate of nodes
+	double getNodeYCoordinate (INode node){
+		return 0.01*node.getGraphicInfo().getLocation().y;
+	}
+	// X coordinate of attributes
+	double getAttributeXCoordinate (IAttribute attribute){
+		return 0.01*attribute.getGraphicInfo().getLocation().x;
+	}
+	// X coordinate of attributes
+	double getAttributeYCoordinate (IAttribute attribute){
+		return 0.01*attribute.getGraphicInfo().getLocation().y;
+	}
+	
 
 }
