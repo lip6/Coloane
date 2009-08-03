@@ -76,8 +76,7 @@
                   </Attribute>
                   <Attribute
                         bold="false"
-                        default="1"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="weight">
@@ -120,8 +119,7 @@
                   </Attribute>
                   <Attribute
                         bold="false"
-                        default="1"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="rate">
@@ -156,7 +154,7 @@
                   </Attribute>
                   <Attribute
                         bold="false"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="true"
                         name="definition">
@@ -191,8 +189,7 @@
                   </Attribute>
                   <Attribute
                         bold="false"
-                        default="1"
-                        drawable="false"
+                        drawable="true"
                         italic="false"
                         multiline="false"
                         name="rate">
