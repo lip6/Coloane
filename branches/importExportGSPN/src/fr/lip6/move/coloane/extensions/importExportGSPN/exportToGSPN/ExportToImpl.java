@@ -176,7 +176,7 @@ public class ExportToImpl implements IExportTo {
 		
 		int nb_places=0, nb_transitions=0, nb_imm=0, num_imm=0;
 		String tag="", color="", rate="", definition="", priority="", marking="", weight="", multiplicity="", arc_color="";
-		double abs_node, ord_node, abs_tag=0, ord_tag=0, abs_rate=0, ord_rate=0, abs_color, ord_color;
+		double abs_node, ord_node, abs_tag=0, ord_tag=0, abs_rate=0, ord_rate=0, abs_weight=0, ord_weight=0, abs_def=0, ord_def=0, abs_color, ord_color;
 		//int abs_arc_color, ord_arc_color;
 		int index=0;
 		Map<Integer, Integer> hmPlace = new HashMap<Integer, Integer>();
@@ -299,12 +299,18 @@ public class ExportToImpl implements IExportTo {
 						ord_rate=getAttributeYCoordinate(attribute);
 						rate=attribute.getValue();
 					}
+					if(attribute.getName().equals("weight")){
+						abs_weight=getAttributeXCoordinate(attribute);
+						ord_weight=getAttributeYCoordinate(attribute);
+						weight=attribute.getValue();
+					}
 					if(attribute.getName().equals("priority"))
 						priority=attribute.getValue();
-					if(attribute.getName().equals("definition"))
+					if(attribute.getName().equals("definition")){
 						definition="-510";
-					if(attribute.getName().equals("weight"))
-						weight=attribute.getValue();
+						abs_def=getAttributeXCoordinate(attribute);
+						ord_def=getAttributeYCoordinate(attribute);
+					}
 					if(attribute.getName().equals("color label")){
 						abs_color=getAttributeXCoordinate(attribute);
 						ord_color=getAttributeYCoordinate(attribute);
@@ -330,18 +336,18 @@ public class ExportToImpl implements IExportTo {
 						// Transition (Marking Dependent)
 						if(node.getNodeFormalism().getName().equals("transition (Marking Dependent)")){
 							if(attribute.getValue().equals("")==false)
-								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 " + abs_color + " " + ord_color + " " + color);
+								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_def + " " + ord_def + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 ");
+								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_def + " " + ord_def + " 0 ");
 						}
 					
 						// Immediate transition
 						if(node.getNodeFormalism().getName().equals("immediate transition")){
 							num_imm++;
 							if(attribute.getValue().equals("")==false)
-								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 " + abs_color + " " + ord_color + " " + color);
+								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 ");
+								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0 ");
 						}
 					
 					
