@@ -35,6 +35,15 @@ public class ExportToImpl implements IExportTo {
 	/** Minimum number of transition (Marking Dependent)'s definition **/
 	private static int MINMKD = 1;
 	
+	private char lettre;
+	private int index=0, index2=0, nb_places=0, nb_transitions=0, nb_grp=0, num_imm, id_source, id_target, nb_input_arcs, nb_output_arcs, nb_inhibitor_arcs;
+	private String label, description, tag, marking, rate, definition, weight, priority, color, multiplicity, arc_color, value;
+	private double abs_node, ord_node, abs_tag, ord_tag, abs_rate, ord_rate, abs_weight, ord_weight, abs_def, ord_def, abs_color, ord_color;
+	//private double abs_arc_color, ord_arc_color;
+	private Integer index_marking, index_place;
+	private Map<String, Integer> hmMarking = new HashMap<String, Integer>();
+	private Map<Integer, Integer> hmPlace = new HashMap<Integer, Integer>();
+	
 	/**
 	 * Default constructor
 	 */
@@ -91,6 +100,7 @@ public class ExportToImpl implements IExportTo {
 		monitor.done();		
 	}
 	
+	
 	/**
 	 * Translate a graph into GSPN commands
 	 * @param graph The graph to translate
@@ -99,15 +109,31 @@ public class ExportToImpl implements IExportTo {
 	 */
 	private Collection<String> translateGraph(IGraph graph, IProgressMonitor monitor) {
 		List<String> toReturn = new ArrayList<String>();
-		char lettre='\0';
-		String label="", description="";
-		Map<String, Integer> hmMarking = new HashMap<String, Integer>();
-		int index2=0;
 		
+		toReturn.addAll(this.definitionMD(graph, monitor));
+		toReturn.addAll(this.headerDef());
+		toReturn.addAll(this.markingOfPlaces(graph, monitor));
+		toReturn.addAll(this.colorDef(graph, monitor));
+		toReturn.add("\n\n\n");
+		toReturn.addAll(this.headerNet());
+		toReturn.addAll(this.noobjs(graph, monitor));
+		toReturn.addAll(this.places(graph, monitor));
+		toReturn.addAll(this.groups(graph, monitor));
+		toReturn.addAll(this.transitionsAndArcs(graph, monitor));
 		
-		/** .DEF **/
+		return toReturn;
+	}
+	
+	
+	/**
+	 * Manages definition of transition (Marking Dependent) for .def
+	 * @param graph The graph to translate
+	 * @param monitor The monitor to follow the progression
+	 * @return A collection of GSPN commands
+	 */
+	private Collection<String> definitionMD(IGraph graph, IProgressMonitor monitor){
+		List<String> toReturn = new ArrayList<String>();
 		
-		// Management of transition (Marking Dependent)'s definition
 		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()) {
 			for(IAttribute attribute : node.getAttributes()){
@@ -120,11 +146,34 @@ public class ExportToImpl implements IExportTo {
 			monitor.worked(1);
 		}
 		
+		return toReturn;
+	}
+	
+
+	/**
+	 * Manages the .def header
+	 * @return A collection of GSPN commands
+	 */
+	private Collection<String> headerDef(){
+		List<String> toReturn = new ArrayList<String>();
+		
 		toReturn.add("|256");
 		toReturn.add("%");
 		toReturn.add("|");
 		
-		// Marking of places
+		return toReturn;
+	}
+	
+	
+	/**
+	 * Manages the attribute "marking" of places for .def
+	 * @param graph The graph to translate
+	 * @param monitor The monitor to follow the progression
+	 * @return A collection of GSPN commands
+	 */
+	private Collection<String> markingOfPlaces(IGraph graph, IProgressMonitor monitor){
+		List<String> toReturn = new ArrayList<String>();
+		
 		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()) {
 			for(IAttribute attribute : node.getAttributes()){
@@ -134,15 +183,27 @@ public class ExportToImpl implements IExportTo {
 						toReturn.add("(" + lettre + node.getId() + " " + lettre + " " + getAttributeXCoordinate(attribute) + " " + getAttributeYCoordinate(attribute) + " " + "(@" + lettre);
 						toReturn.add(attribute.getValue());
 						toReturn.add("))");
-						index2++;
-						hmMarking.put(attribute.getValue(), index2);
+						index++;
+						hmMarking.put(attribute.getValue(), index);
 					}
 				}
 			}
 			monitor.worked(1);
 		}
 		
-		// Color classes and static subclasses
+		return toReturn;
+	}
+	
+	
+	/**
+	 * Manages the attributes "color classes" and "static subclasses" of graph for .def
+	 * @param graph The graph to translate
+	 * @param monitor The monitor to follow the progression
+	 * @return A collection of GSPN commands
+	 */
+	private Collection<String> colorDef(IGraph graph, IProgressMonitor monitor){
+		List<String> toReturn = new ArrayList<String>();
+		
 		for (IAttribute attribute : graph.getAttributes()) {
 			lettre='c';
 			if((attribute.getValue().equals("")==false)){
@@ -164,30 +225,35 @@ public class ExportToImpl implements IExportTo {
 				}
 			}
 		}
-							
-		toReturn.add("\n\n\n");
 		
+		return toReturn;
+	}
+	
+	
+	/**
+	 * Translate a graph into GSPN commands
+	 * This method manages the .net header
+	 * @return A collection of GSPN commands
+	 */
+	private Collection<String> headerNet(){
+		List<String> toReturn = new ArrayList<String>();
 		
-		
-		
-		
-		
-		/** .NET **/
-		
-		int nb_places=0, nb_transitions=0, nb_imm=0, num_imm=0;
-		String tag="", color="", rate="", definition="", priority="", marking="", weight="", multiplicity="", arc_color="";
-		double abs_node, ord_node, abs_tag=0, ord_tag=0, abs_rate=0, ord_rate=0, abs_weight=0, ord_weight=0, abs_def=0, ord_def=0, abs_color, ord_color;
-		//int abs_arc_color, ord_arc_color;
-		int index=0;
-		Map<Integer, Integer> hmPlace = new HashMap<Integer, Integer>();
-		String value="";
-		Integer index_marking;
-				
-		// Introduction
 		toReturn.add("|0|");
 		toReturn.add("|");
 		
-		// Noobjs
+		return toReturn;
+	}
+	
+	
+	/**
+	 * Manages the objects' number of graph for .net
+	 * @param graph The graph to translate
+	 * @param monitor The monitor to follow the progression
+	 * @return A collection of GSPN commands
+	 */
+	private Collection<String> noobjs(IGraph graph, IProgressMonitor monitor){
+		List<String> toReturn = new ArrayList<String>();
+		
 		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()) {
 			if(node.getNodeFormalism().getName().equals("place"))
@@ -195,14 +261,24 @@ public class ExportToImpl implements IExportTo {
 			if((node.getNodeFormalism().getName().equals("immediate transition"))||(node.getNodeFormalism().getName().equals("transition (Infinite)"))||(node.getNodeFormalism().getName().equals("transition (Marking Dependent)"))||(node.getNodeFormalism().getName().equals("transition (Server)")))
 				nb_transitions++;
 			if(node.getNodeFormalism().getName().equals("immediate transition"))
-				nb_imm++;
+				nb_grp++;
 			monitor.worked(1);
 		}
-		toReturn.add("f   0   " + nb_places + "   0   " + nb_transitions + "   " + nb_imm + "   0   0");
+		toReturn.add("f   0   " + nb_places + "   0   " + nb_transitions + "   " + nb_grp + "   0   0");
 		
+		return toReturn;
+	}
+	
+	
+	/**
+	 * Manages places of graph for .net
+	 * @param graph The graph to translate
+	 * @param monitor The monitor to follow the progression
+	 * @return A collection of GSPN commands
+	 */
+	private Collection<String> places(IGraph graph, IProgressMonitor monitor){
+		List<String> toReturn = new ArrayList<String>();
 		
-		
-		// Management of places
 		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()){
 			if(node.getNodeFormalism().getName().equals("place")){
@@ -234,19 +310,27 @@ public class ExportToImpl implements IExportTo {
 							toReturn.add(tag + "    " + marking + " " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " 0 ");	
 					}
 				}
-				index++;
-				hmPlace.put(node.getId(), index);
+				index2++;
+				hmPlace.put(node.getId(), index2);
 			}
 			monitor.worked(1);
 		}
 		
+		return toReturn;
+	}
+	
+	
+	/**
+	 * Manages groups of graph for .net
+	 * @param graph The graph to translate
+	 * @param monitor The monitor to follow the progression
+	 * @return A collection of GSPN commands
+	 */
+	private Collection<String> groups(IGraph graph, IProgressMonitor monitor){
+		List<String> toReturn = new ArrayList<String>();
 		
-		
-		
-		// Management of groups
 		monitor.subTask("Export nodes");
 		for(INode node : graph.getNodes()){
-			// Management of groups
 			if(node.getNodeFormalism().getName().equals("immediate transition")){
 				for(IAttribute attribute : node.getAttributes()){
 					if(attribute.getName().equals("priority")){
@@ -259,16 +343,26 @@ public class ExportToImpl implements IExportTo {
 			monitor.worked(1);
 		}
 		
-		
+		return toReturn;
+	}
+	
+	
+	/**
+	 * Manages transitions and arcs of graph for .net
+	 * @param graph The graph to translate
+	 * @param monitor The monitor to follow the progression
+	 * @return A collection of GSPN commands
+	 */
+	private Collection<String> transitionsAndArcs(IGraph graph, IProgressMonitor monitor){
+		List<String> toReturn = new ArrayList<String>();
 		
 		// Management of transitions
-		int id_source, id_target;
-		Integer index_place;
-		
 		monitor.subTask("Export nodes");
 		for(INode node : graph.getNodes()){
 			if((node.getNodeFormalism().getName().equals("transition (Infinite)"))||(node.getNodeFormalism().getName().equals("transition (Server)"))||(node.getNodeFormalism().getName().equals("transition (Marking Dependent)"))||(node.getNodeFormalism().getName().equals("immediate transition"))){
-				int nb_input_arcs=0, nb_output_arcs=0, nb_inhibitor_arcs=0;
+				nb_input_arcs=0;
+				nb_output_arcs=0;
+				nb_inhibitor_arcs=0;
 				// Number of a transition's input arcs
 				for(IArc arc : node.getIncomingArcs()){
 					if((arc.getArcFormalism().getName().equals("arc"))||(arc.getArcFormalism().getName().equals("broken arc"))||(arc.getArcFormalism().getName().equals("colored arc"))||(arc.getArcFormalism().getName().equals("broken colored arc")))
@@ -321,8 +415,7 @@ public class ExportToImpl implements IExportTo {
 							if(attribute.getValue().equals("")==false)
 								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 ");						
-
+								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 ");
 						}
 											
 						// Transition (Server)
@@ -350,7 +443,7 @@ public class ExportToImpl implements IExportTo {
 								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0 ");
 						}
 					
-					
+						
 						// Management of arcs
 						monitor.subTask("Export arcs");
 						for(IArc arc : node.getIncomingArcs()){
@@ -461,28 +554,45 @@ public class ExportToImpl implements IExportTo {
 			}
 			monitor.worked(1);
 		}
-
+		
 		return toReturn;
 	}
-	
 		
-	// X coordinate of nodes
+		
+	/**
+	 * Manages X coordinate of nodes
+	 * @param node The node to manage
+	 * @return X coordinate of nodes
+	 */
 	double getNodeXCoordinate (INode node){
 		return 0.01*node.getGraphicInfo().getLocation().x;
 	}
 
-	// Y coordinate of nodes
+	/**
+	 * Manages Y coordinate of nodes
+	 * @param node The node to manage
+	 * @return Y coordinate of nodes
+	 */
 	double getNodeYCoordinate (INode node){
 		return 0.01*node.getGraphicInfo().getLocation().y;
 	}
-	// X coordinate of attributes
+	
+	/**
+	 * Manages X coordinate of attributes
+	 * @param attribute The attribute to manage
+	 * @return X coordinate of attributes
+	 */
 	double getAttributeXCoordinate (IAttribute attribute){
 		return 0.01*attribute.getGraphicInfo().getLocation().x;
 	}
-	// X coordinate of attributes
+	
+	/**
+	 * Manages Y coordinate of attributes
+	 * @param attribute The attribute to manage
+	 * @return Y coordinate of attributes
+	 */
 	double getAttributeYCoordinate (IAttribute attribute){
 		return 0.01*attribute.getGraphicInfo().getLocation().y;
 	}
 	
-
 }
