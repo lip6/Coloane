@@ -341,11 +341,13 @@ public class ExportToImpl implements IExportTo {
 				
 		for(String s: tmGroup.keySet()){
 			if(s.equals("1")){
+				monitor.subTask("Export nodes");
 				for(INode node: graph.getNodes()){
 					if(node.getNodeFormalism().getName().equals("immediate transition")){
 						abs_node=getNodeXCoordinate(node);
 						ord_node=getNodeYCoordinate(node);
 					}
+					monitor.worked(1);
 				}
 				toReturn.add("G" + tmGroup.get(s) + " " + abs_node + " " + ord_node + " " + s);
 			}
@@ -448,7 +450,6 @@ public class ExportToImpl implements IExportTo {
 					
 						// Immediate transition
 						if(node.getNodeFormalism().getName().equals("immediate transition")){
-							//num_imm++;
 							if(attribute.getValue().equals("")==false)
 								toReturn.add(tag + "  " + weight + "  1  " + index_priority + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
