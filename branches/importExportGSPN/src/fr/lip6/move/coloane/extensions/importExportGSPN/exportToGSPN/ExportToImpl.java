@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.logging.Logger;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
@@ -30,19 +31,18 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 public class ExportToImpl implements IExportTo {
 
-	/** Minimum number of group **/
-	private static int MINGRP = 1;
 	/** Minimum number of transition (Marking Dependent)'s definition **/
 	private static int MINMKD = 1;
 	
 	private char lettre;
-	private int index=0, index2=0, nb_places=0, nb_transitions=0, nb_grp=0, num_imm, id_source, id_target, nb_input_arcs, nb_output_arcs, nb_inhibitor_arcs;
+	private int index=0, index2=0, index3=1, nb_places=0, nb_transitions=0, id_source, id_target, nb_input_arcs, nb_output_arcs, nb_inhibitor_arcs;
 	private String label, description, tag, marking, rate, definition, weight, priority, color, multiplicity, arc_color, value;
 	private double abs_node, ord_node, abs_tag, ord_tag, abs_rate, ord_rate, abs_weight, ord_weight, abs_def, ord_def, abs_color, ord_color;
 	//private double abs_arc_color, ord_arc_color;
-	private Integer index_marking, index_place;
+	private Integer index_marking, index_place, index_priority, address;
 	private Map<String, Integer> hmMarking = new HashMap<String, Integer>();
 	private Map<Integer, Integer> hmPlace = new HashMap<Integer, Integer>();
+	private Map<String, Integer> tmGroup = new TreeMap<String, Integer>();
 	
 	/**
 	 * Default constructor
@@ -260,11 +260,21 @@ public class ExportToImpl implements IExportTo {
 				nb_places++;
 			if((node.getNodeFormalism().getName().equals("immediate transition"))||(node.getNodeFormalism().getName().equals("transition (Infinite)"))||(node.getNodeFormalism().getName().equals("transition (Marking Dependent)"))||(node.getNodeFormalism().getName().equals("transition (Server)")))
 				nb_transitions++;
-			if(node.getNodeFormalism().getName().equals("immediate transition"))
-				nb_grp++;
+			if(node.getNodeFormalism().getName().equals("immediate transition")){
+				for(IAttribute attribute : node.getAttributes()){
+					if(attribute.getName().equals("priority")){
+						priority=attribute.getValue();
+						address = tmGroup.get(priority);
+						if(address==null){
+							tmGroup.put(priority, index3);
+							index3++;
+						}
+					}
+				}
+			}
 			monitor.worked(1);
 		}
-		toReturn.add("f   0   " + nb_places + "   0   " + nb_transitions + "   " + nb_grp + "   0   0");
+		toReturn.add("f   0   " + nb_places + "   0   " + nb_transitions + "   " + tmGroup.size() + "   0   0");
 		
 		return toReturn;
 	}
@@ -328,19 +338,19 @@ public class ExportToImpl implements IExportTo {
 	 */
 	private Collection<String> groups(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
-		
-		monitor.subTask("Export nodes");
-		for(INode node : graph.getNodes()){
-			if(node.getNodeFormalism().getName().equals("immediate transition")){
-				for(IAttribute attribute : node.getAttributes()){
-					if(attribute.getName().equals("priority")){
-						priority=attribute.getValue();
-						toReturn.add("G" + MINGRP + "  0 0 " + priority);
-						MINGRP++;
+				
+		for(String s: tmGroup.keySet()){
+			if(s.equals("1")){
+				for(INode node: graph.getNodes()){
+					if(node.getNodeFormalism().getName().equals("immediate transition")){
+						abs_node=getNodeXCoordinate(node);
+						ord_node=getNodeYCoordinate(node);
 					}
 				}
+				toReturn.add("G" + tmGroup.get(s) + " " + abs_node + " " + ord_node + " " + s);
 			}
-			monitor.worked(1);
+			else
+				toReturn.add("G" + tmGroup.get(s) + " " + "0" + " " + "0" + " " + s);
 		}
 		
 		return toReturn;
@@ -398,8 +408,10 @@ public class ExportToImpl implements IExportTo {
 						ord_weight=getAttributeYCoordinate(attribute);
 						weight=attribute.getValue();
 					}
-					if(attribute.getName().equals("priority"))
+					if(attribute.getName().equals("priority")){
 						priority=attribute.getValue();
+						index_priority=tmGroup.get(priority);
+					}
 					if(attribute.getName().equals("definition")){
 						definition="-510";
 						abs_def=getAttributeXCoordinate(attribute);
@@ -436,11 +448,11 @@ public class ExportToImpl implements IExportTo {
 					
 						// Immediate transition
 						if(node.getNodeFormalism().getName().equals("immediate transition")){
-							num_imm++;
+							//num_imm++;
 							if(attribute.getValue().equals("")==false)
-								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0 " + abs_color + " " + ord_color + " " + color);
+								toReturn.add(tag + "  " + weight + "  1  " + index_priority + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + weight + "  1  " + num_imm + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0 ");
+								toReturn.add(tag + "  " + weight + "  1  " + index_priority + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0 ");
 						}
 					
 						
