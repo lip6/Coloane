@@ -69,8 +69,13 @@ public class ExportToImpl implements IExportTo {
 			throw new ColoaneException("The filename is not correct. Please provide a valid filename");
 		}
 		
-		int totalWork = graph.getNodes().size() + graph.getArcs().size();
-		monitor.beginTask("Export to GSPN", totalWork);
+		// Graph check
+		if(graph==null) {
+			throw new ColoaneException("The graph cannot be null");
+		}
+		
+		//int totalWork = graph.getNodes().size() + graph.getArcs().size();
+		//monitor.beginTask("Export to GSPN", totalWork);
 		
 		try {
 			// File creation
@@ -107,7 +112,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param monitor The monitor to follow the progression
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> translateGraph(IGraph graph, IProgressMonitor monitor) {
+	public Collection<String> translateGraph(IGraph graph, IProgressMonitor monitor) {
 		List<String> toReturn = new ArrayList<String>();
 		
 		toReturn.addAll(this.definitionMD(graph, monitor));
@@ -131,7 +136,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param monitor The monitor to follow the progression
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> definitionMD(IGraph graph, IProgressMonitor monitor){
+	public Collection<String> definitionMD(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
 		
 		monitor.subTask("Export nodes");
@@ -154,7 +159,7 @@ public class ExportToImpl implements IExportTo {
 	 * Manages the .def header
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> headerDef(){
+	public Collection<String> headerDef(){
 		List<String> toReturn = new ArrayList<String>();
 		
 		toReturn.add("|256");
@@ -171,7 +176,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param monitor The monitor to follow the progression
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> markingOfPlaces(IGraph graph, IProgressMonitor monitor){
+	public Collection<String> markingOfPlaces(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
 		
 		monitor.subTask("Export nodes");
@@ -201,7 +206,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param monitor The monitor to follow the progression
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> colorDef(IGraph graph, IProgressMonitor monitor){
+	public Collection<String> colorDef(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
 		
 		for (IAttribute attribute : graph.getAttributes()) {
@@ -235,7 +240,7 @@ public class ExportToImpl implements IExportTo {
 	 * This method manages the .net header
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> headerNet(){
+	public Collection<String> headerNet(){
 		List<String> toReturn = new ArrayList<String>();
 		
 		toReturn.add("|0|");
@@ -251,7 +256,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param monitor The monitor to follow the progression
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> noobjs(IGraph graph, IProgressMonitor monitor){
+	public Collection<String> noobjs(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
 		
 		monitor.subTask("Export nodes");
@@ -286,7 +291,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param monitor The monitor to follow the progression
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> places(IGraph graph, IProgressMonitor monitor){
+	public Collection<String> places(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
 		
 		monitor.subTask("Export nodes");
@@ -317,7 +322,7 @@ public class ExportToImpl implements IExportTo {
 							toReturn.add(tag + "    " + marking + " " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " 0 " + abs_color + " " + ord_color + " " + color);
 						}
 						else
-							toReturn.add(tag + "    " + marking + " " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " 0 ");	
+							toReturn.add(tag + "    " + marking + " " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " 0");	
 					}
 				}
 				index2++;
@@ -336,7 +341,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param monitor The monitor to follow the progression
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> groups(IGraph graph, IProgressMonitor monitor){
+	public Collection<String> groups(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
 				
 		for(String s: tmGroup.keySet()){
@@ -365,7 +370,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param monitor The monitor to follow the progression
 	 * @return A collection of GSPN commands
 	 */
-	private Collection<String> transitionsAndArcs(IGraph graph, IProgressMonitor monitor){
+	public Collection<String> transitionsAndArcs(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
 		
 		// Management of transitions
@@ -429,7 +434,7 @@ public class ExportToImpl implements IExportTo {
 							if(attribute.getValue().equals("")==false)
 								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 ");
+								toReturn.add(tag + "  " + rate + "  0  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0");
 						}
 											
 						// Transition (Server)
@@ -437,7 +442,7 @@ public class ExportToImpl implements IExportTo {
 							if(attribute.getValue().equals("")==false)
 								toReturn.add(tag + "  " + rate + "  " + priority + "  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + rate + "  " + priority + "  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0 ");
+								toReturn.add(tag + "  " + rate + "  " + priority + "  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_rate + " " + ord_rate + " 0");
 						}
 						
 						// Transition (Marking Dependent)
@@ -445,7 +450,7 @@ public class ExportToImpl implements IExportTo {
 							if(attribute.getValue().equals("")==false)
 								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_def + " " + ord_def + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_def + " " + ord_def + " 0 ");
+								toReturn.add(tag + "  " + definition + "  1  0  " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_def + " " + ord_def + " 0");
 						}
 					
 						// Immediate transition
@@ -453,7 +458,7 @@ public class ExportToImpl implements IExportTo {
 							if(attribute.getValue().equals("")==false)
 								toReturn.add(tag + "  " + weight + "  1  " + index_priority + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0 " + abs_color + " " + ord_color + " " + color);
 							else
-								toReturn.add(tag + "  " + weight + "  1  " + index_priority + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0 ");
+								toReturn.add(tag + "  " + weight + "  1  " + index_priority + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0");
 						}
 					
 						
@@ -577,7 +582,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param node The node to manage
 	 * @return X coordinate of nodes
 	 */
-	double getNodeXCoordinate (INode node){
+	public double getNodeXCoordinate (INode node){
 		return 0.01*node.getGraphicInfo().getLocation().x;
 	}
 
@@ -586,7 +591,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param node The node to manage
 	 * @return Y coordinate of nodes
 	 */
-	double getNodeYCoordinate (INode node){
+	public double getNodeYCoordinate (INode node){
 		return 0.01*node.getGraphicInfo().getLocation().y;
 	}
 	
@@ -595,7 +600,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param attribute The attribute to manage
 	 * @return X coordinate of attributes
 	 */
-	double getAttributeXCoordinate (IAttribute attribute){
+	public double getAttributeXCoordinate (IAttribute attribute){
 		return 0.01*attribute.getGraphicInfo().getLocation().x;
 	}
 	
@@ -604,7 +609,7 @@ public class ExportToImpl implements IExportTo {
 	 * @param attribute The attribute to manage
 	 * @return Y coordinate of attributes
 	 */
-	double getAttributeYCoordinate (IAttribute attribute){
+	public double getAttributeYCoordinate (IAttribute attribute){
 		return 0.01*attribute.getGraphicInfo().getLocation().y;
 	}
 	
