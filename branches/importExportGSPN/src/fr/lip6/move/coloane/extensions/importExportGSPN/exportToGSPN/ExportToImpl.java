@@ -74,8 +74,8 @@ public class ExportToImpl implements IExportTo {
 			throw new ColoaneException("The graph cannot be null");
 		}
 		
-		//int totalWork = graph.getNodes().size() + graph.getArcs().size();
-		//monitor.beginTask("Export to GSPN", totalWork);
+		int totalWork = graph.getNodes().size() + graph.getArcs().size();
+		monitor.beginTask("Export to GSPN", totalWork);
 		
 		try {
 			// File creation
