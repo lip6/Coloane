@@ -37,8 +37,8 @@
                         drawable="true"
                         fill="false"
                         height="15"
-                        icon16px="resources/formalisms/place_16.png"
-                        icon24px="resources/formalisms/place_24.png"
+                        icon16px="resources/formalisms/tpn/place_16.png"
+                        icon24px="resources/formalisms/tpn/place_24.png"
                         palettable="true"
                         paletteName="Place"
                         width="15">
@@ -68,8 +68,8 @@
                         drawable="true"
                         fill="false"
                         height="10"
-                        icon16px="resources/formalisms/transition_16.png"
-                        icon24px="resources/formalisms/transition_24.png"
+                        icon16px="resources/formalisms/tpn/transition_16.png"
+                        icon24px="resources/formalisms/tpn/transition_24.png"
                         palettable="true"
                         paletteName="Transition"
                         width="20">
@@ -118,8 +118,8 @@
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                         description="Create an simple arc"
                         drawable="true"
-                        icon16px="resources/formalisms/arc_16.png"
-                        icon24px="resources/formalisms/arc_24.png"
+                        icon16px="resources/formalisms/tpn/arc_16.png"
+                        icon24px="resources/formalisms/tpn/arc_24.png"
                         palettable="true"
                         paletteName="Arc">
                   </GraphicInfo>
@@ -138,8 +138,8 @@
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
                         description="Create a logical inhibitor arc"
                         drawable="true"
-                        icon16px="resources/formalisms/inhibitor_16.png"
-                        icon24px="resources/formalisms/inhibitor_24.png"
+                        icon16px="resources/formalisms/tpn/inhibitor_16.png"
+                        icon24px="resources/formalisms/tpn/inhibitor_24.png"
                         palettable="true"
                         paletteName="InhibitorArc">
                   </GraphicInfo>
@@ -156,8 +156,8 @@
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.TestArc"
                         description="Create a test arc (a.k.a read arc)"
                         drawable="true"
-                        icon16px="resources/formalisms/test_16.PNG"
-                        icon24px="resources/formalisms/test_24.PNG"
+                        icon16px="resources/formalisms/test_16.png"
+                        icon24px="resources/formalisms/test_24.png"
                         palettable="true"
                         paletteName="Test Arc">
                   </GraphicInfo>
@@ -174,8 +174,8 @@
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.ResetArc"
                         description="Create a reset arc"
                         drawable="true"
-                        icon16px="resources/formalisms/reset_16.PNG"
-                        icon24px="resources/formalisms/reset_24.PNG"
+                        icon16px="resources/formalisms/reset_16.png"
+                        icon24px="resources/formalisms/reset_24.png"
                         palettable="true"
                         paletteName="Reset Arc">
                   </GraphicInfo>

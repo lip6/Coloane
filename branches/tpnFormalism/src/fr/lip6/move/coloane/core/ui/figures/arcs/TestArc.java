@@ -1,12 +1,10 @@
 package fr.lip6.move.coloane.core.ui.figures.arcs;
 
-import org.eclipse.draw2d.ColorConstants;
-
 /**
  * Test arc definition.<br>
- * This arc has a grey losange at its end.
+ * This arc has a grey diamond at its end.
  *
- * @author yann based on jbv
+ * @author Yann Thierry-Mieg based on Jean-Baptiste Voron
  */
 public class TestArc extends DirectedArc {
 	/**
@@ -15,5 +13,4 @@ public class TestArc extends DirectedArc {
 	public TestArc() {
 		setSourceDecoration(buildDecoration());
 	}
-
 }

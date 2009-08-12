@@ -4,10 +4,10 @@ package fr.lip6.move.coloane.core.ui.figures.arcs;
 import org.eclipse.draw2d.ColorConstants;
 
 /**
- * Test arc definition.<br>
- * This arc has a black losange at its end.
+ * Reset arc definition.<br>
+ * This arc has a black diamond at its end.
  *
- * @author yann based on jbv
+ * @author Yann Thierry-Mieg based on Jean-Baptiste Voron
  */
 public class ResetArc extends DiamondArc {
 	/**
@@ -16,5 +16,4 @@ public class ResetArc extends DiamondArc {
 	public ResetArc() {
 		super(ColorConstants.black);
 	}
-
 }

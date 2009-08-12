@@ -8,7 +8,7 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * Test or reset arc definition.<br>
+ * Test or Reset arc definition.<br>
  * This arc has a colored diamond shape at its target end.
  *
  * @author Yann Thierry-Mieg
@@ -18,10 +18,11 @@ public class DiamondArc extends RoundedPolylineConnection implements IArcFigure 
 
 	/**
 	 * Constructor
+	 * @param color The color used for the diamond
 	 */
 	public DiamondArc(Color color) {
 		this.color = color;
-		setTargetDecoration(buildDecoration());		
+		setTargetDecoration(buildDecoration());
 	}
 
 	/**
@@ -40,7 +41,6 @@ public class DiamondArc extends RoundedPolylineConnection implements IArcFigure 
 		decoration.setTemplate(decorationPointList);
 		decoration.setFill(true);
 		decoration.setBackgroundColor(color);
-		
 
 		return decoration;
 	}
