@@ -1,5 +1,15 @@
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 		monitor.subTask("Export nodes");
 		for(INode node : graph.getNodes()){
@@ -366,3 +376,104 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 				}
 			}
 		}
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		private Collection<String> noobjs(IGraph graph, IProgressMonitor monitor){
+			List<String> toReturn = new ArrayList<String>();
+			Map<String, Integer> hmNbGrp = new HashMap<String, Integer>();
+			
+			monitor.subTask("Export nodes");
+			for (INode node : graph.getNodes()) {
+				if(node.getNodeFormalism().getName().equals("place"))
+					nb_places++;
+				if((node.getNodeFormalism().getName().equals("immediate transition"))||(node.getNodeFormalism().getName().equals("transition (Infinite)"))||(node.getNodeFormalism().getName().equals("transition (Marking Dependent)"))||(node.getNodeFormalism().getName().equals("transition (Server)")))
+					nb_transitions++;
+				if(node.getNodeFormalism().getName().equals("immediate transition")){
+					for(IAttribute attribute : node.getAttributes()){
+						if(attribute.getName().equals("priority")){
+							priority=attribute.getValue();
+							Integer i = hmNbGrp.get(priority);
+							if(i == null)
+								hmNbGrp.put(priority, 1);
+							else
+								hmNbGrp.put(priority, i+1);
+						}
+					}
+				}
+				monitor.worked(1);
+			}
+			for(String s: hmNbGrp.keySet()){
+				nb_grp+=hmNbGrp.get(s);
+				}
+			toReturn.add("f   0   " + nb_places + "   0   " + nb_transitions + "   " + nb_grp + "   0   0");
+			
+			return toReturn;
+		}
+		
+		
+		
+		
+		
+		
+		
+		private Collection<String> groups(IGraph graph, IProgressMonitor monitor){
+			List<String> toReturn = new ArrayList<String>();
+			Map<String, String> hmGroup = new HashMap<String, String>();
+			
+			monitor.subTask("Export nodes");
+			for(INode node : graph.getNodes()){
+				if(node.getNodeFormalism().getName().equals("immediate transition")){
+					for(IAttribute attribute : node.getAttributes()){
+						if(attribute.getName().equals("priority")){
+							priority=attribute.getValue();
+							hmGroup.put(priority, "G" + MINGRP);
+							MINGRP++;
+							
+							if(attribute.getValue().equals(attribute.getAttributeFormalism().getDefaultValue())){
+								abs_node=getNodeXCoordinate(node);
+								ord_node=getNodeYCoordinate(node);
+							}
+							else{
+								abs_node=0;
+								ord_node=0;
+							}	
+											
+						}
+					}
+				}
+				monitor.worked(1);
+			}
+			
+			for(String s: hmGroup.keySet())
+				toReturn.add(hmGroup.get(s) + " " + abs_node + " " + ord_node + " " + s);
+			
+			return toReturn;
+		}
+		
+		
+		
+		
+		
+		
+		
+		
