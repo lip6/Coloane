@@ -30,7 +30,6 @@ public final class ResultCommand implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<ICommand> getModificationsOnCurrentGraph() {
 		return this.commands;
 	}
@@ -38,7 +37,6 @@ public final class ResultCommand implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public IGraph getNewGraph() {
 		return null;
 	}
@@ -46,7 +44,6 @@ public final class ResultCommand implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public String getRootName() {
 		return null;
 	}
@@ -54,7 +51,6 @@ public final class ResultCommand implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public String getServiceName() {
 		return null;
 	}
@@ -62,7 +58,6 @@ public final class ResultCommand implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<ISubResult> getSubResults() {
 		return null;
 	}
@@ -70,7 +65,6 @@ public final class ResultCommand implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<ITip> getTipsList() {
 		return null;
 	}
