@@ -17,7 +17,15 @@ import fr.lip6.move.coloane.core.ui.palette.PaletteFactory;
 import fr.lip6.move.coloane.core.ui.palette.PaletteToolListener;
 import fr.lip6.move.coloane.core.ui.rulers.EditorRuler;
 import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
+import fr.lip6.move.coloane.interfaces.formalism.IArcAttributeChecker;
+import fr.lip6.move.coloane.interfaces.formalism.IArcChecker;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeAttributeChecker;
+import fr.lip6.move.coloane.interfaces.formalism.INodeChecker;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -29,6 +37,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -67,14 +76,15 @@ import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
-import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.rulers.RulerComposite;
+import org.eclipse.gmf.runtime.common.ui.services.marker.MarkerNavigationService;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
@@ -88,11 +98,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -103,7 +116,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 /**
  * Cette classe est la base (le plus haut parent) d'un éditeur
  */
-public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements ITabbedPropertySheetPageContributor {
+public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements ITabbedPropertySheetPageContributor, IGotoMarker {
 
 	/**
 	 * Gestion de l'outline
@@ -468,9 +481,11 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		// Recupere le resultat de la boite de dialogue
 		IPath path = dialog.getResult();
 
+
 		if (path != null) {
 			// try to save the editor's contents under a different file name
 			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			
 			try {
 				new ProgressMonitorDialog(shell).run(false, false, new WorkspaceModifyOperation() {
 					@Override
@@ -514,6 +529,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			LOGGER.config("Mise en place de l'ecouteur de focus"); //$NON-NLS-1$
 			listener = new TabListener();
 			getSite().getPage().addPartListener(listener);
+
+			this.getCommandStack().addCommandStackEventListener(new ColoaneCommandStackEventListener());
 		}
 		super.createPartControl(parent);
 	}
@@ -726,5 +743,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	/** {@inheritDoc} */
 	public final String getContributorId() {
 		return CONTRIBUTOR_ID;
+	}
+
+	public void gotoMarker(IMarker marker) {
+		MarkerNavigationService.getInstance().gotoMarker(this, marker);
 	}
 }

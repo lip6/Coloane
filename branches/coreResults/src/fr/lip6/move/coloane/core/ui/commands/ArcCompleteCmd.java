@@ -82,4 +82,8 @@ public class ArcCompleteCmd extends Command {
 	public final void undo() {
 		graph.deleteArc(arc);
 	}
+
+	public IArc getArc() {
+		return arc;
+	}
 }

@@ -242,7 +242,6 @@ public class ResultsView extends ViewPart {
 	}
 
 	/**
-	 * TODO : ?
 	 * 
 	 * @param session
 	 * @param result

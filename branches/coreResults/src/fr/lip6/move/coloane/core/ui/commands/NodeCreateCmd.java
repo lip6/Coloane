@@ -74,4 +74,8 @@ public class NodeCreateCmd extends Command {
 			graph.deleteNode(node);
 		}
 	}
+
+	public INode getNode() {
+		return node;
+	}
 }

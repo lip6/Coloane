@@ -17,7 +17,15 @@ import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
+import fr.lip6.move.coloane.interfaces.formalism.IArcAttributeChecker;
+import fr.lip6.move.coloane.interfaces.formalism.IArcChecker;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeAttributeChecker;
+import fr.lip6.move.coloane.interfaces.formalism.INodeChecker;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
@@ -132,6 +140,34 @@ public final class Motor {
 		sessionManager.newSession(name); // On ajoute la session au moteur de sessions
 		sessionManager.getSession(name).setModel(graph); // On associe le modele a la session
 
+		
+		// On recrée les markers à l'ouverture de la session
+		IFormalism formalism = graph.getFormalism();
+
+		for (IArc arc : graph.getArcs()) {
+			for (IArcChecker arcChecker : formalism.getArcCheckers()) {
+				arcChecker.arcCheck(arc);
+			}
+			
+			for (IAttribute attribute : arc.getAttributes()) {
+				for (IArcAttributeChecker arcAttributeChecker : formalism.getArcAttributeCheckers()) {
+					arcAttributeChecker.arcAttributeCheck(arc, attribute);
+				}
+			}
+		}
+		
+		for (INode node : graph.getNodes()) {
+			for (INodeChecker nodeChecker : formalism.getNodeCheckers()) {
+				nodeChecker.nodeCheck(node);
+			}
+			
+			for (IAttribute attribute : node.getAttributes()) {
+				for (INodeAttributeChecker nodeAttributeChecker : formalism.getNodeAttributeCheckers()) {
+					nodeAttributeChecker.nodeAttributeCheck(node, attribute);
+				}
+			}
+		}
+		
 		return true;
 	}
 
@@ -210,6 +246,7 @@ public final class Motor {
 			}
 		};
 
+		
 		job.setPriority(Job.SHORT);
 		job.setUser(true);
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());

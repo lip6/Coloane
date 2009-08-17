@@ -133,6 +133,24 @@ public final class SessionManager implements ISessionManager {
 		LOG.fine("Destruction de la session " + sessionName); //$NON-NLS-1$
 		ISession toDestroy = sessions.remove(sessionName);
 		if (toDestroy != null) {
+			
+			/*
+			// TODO : SUPPRESSION DES MARKERS DONT L'ATTRIBUT "DIRTY" VAUT TRUE
+			IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(toDestroy.getName()));
+			// On delete les markers dirtys avant de charger le modèle
+			try {
+				for (IMarker marker : resource.findMarkers("org.eclipse.core.resources.problemmarker", true, IResource.DEPTH_ZERO)) {
+					Boolean bool = (Boolean) marker.getAttribute("dirty");
+					if (bool)
+						marker.delete();
+				}
+			} catch(CoreException e) {
+				e.printStackTrace();
+			}
+			*/
+			
+			
+			
 			((Session) toDestroy).destroy();
 			// La session courante devient nulle
 			if (toDestroy.equals(currentSession)) {

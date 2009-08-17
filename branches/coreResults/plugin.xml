@@ -985,4 +985,103 @@
           name="disconnect">
     </command>
  </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.checker.ColoaneMarkerNavigationProvider"
+       name="Coloane Navigation Marker Provider"
+       point="org.eclipse.gmf.runtime.common.ui.services.markerNavigationProviders">
+    <MarkerNavigationProvider
+          class="fr.lip6.move.coloane.core.ui.checker.ColoaneMarkerNavigationProvider">
+       <Priority
+             name="Highest">
+       </Priority>
+       <MarkerType
+             name="fr.lip6.move.coloane.core.ui.marking.nodeMarker">
+       </MarkerType>
+       <MarkerType
+             name="fr.lip6.move.coloane.core.ui.marking.nodeAttributeMarker">
+       </MarkerType>
+       <MarkerType
+             name="fr.lip6.move.coloane.core.ui.marking.arcMarker">
+       </MarkerType>
+       <MarkerType
+             name="fr.lip6.move.coloane.core.ui.marking.arcAttributeMarker">
+       </MarkerType>
+    </MarkerNavigationProvider>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.marking.rootMarker"
+       name="Root Marker"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="org.eclipse.core.resources.problemmarker">
+    </super>
+    <persistent
+          value="false">
+    </persistent>
+    <attribute
+          name="id">
+    </attribute>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.marking.nodeMarker"
+       name="Node Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.marking.rootMarker">
+    </super>
+    <persistent
+          value="false">
+    </persistent>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.marking.nodeAttributeMarker"
+       name="Node Attribute Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.marking.rootMarker">
+    </super>
+    <persistent
+          value="false">
+    </persistent>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.marking.arcMarker"
+       name="Arc Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.marking.rootMarker">
+    </super>
+    <persistent
+          value="false">
+    </persistent>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.marking.arcAttributeMarker"
+       name="Arc Attribute Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.marking.rootMarker">
+    </super>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.marking.MarkerResolutionGenerator"
+       name="Coloane Marker Resolution Generator"
+       point="org.eclipse.ui.ide.markerResolution">
+    <markerResolutionGenerator
+          class="fr.lip6.move.coloane.core.ui.checker.MarkerResolutionGenerator"
+          markerType="fr.lip6.move.coloane.core.ui.marking.nodeMarker">
+    </markerResolutionGenerator>
+    <markerResolutionGenerator
+          class="fr.lip6.move.coloane.core.ui.checker.MarkerResolutionGenerator"
+          markerType="fr.lip6.move.coloane.core.ui.marking.nodeAttributeMarker">
+    </markerResolutionGenerator>
+    <markerResolutionGenerator
+          class="fr.lip6.move.coloane.core.ui.checker.MarkerResolutionGenerator"
+          markerType="fr.lip6.move.coloane.core.ui.marking.arcMarker">
+    </markerResolutionGenerator>
+    <markerResolutionGenerator
+          class="fr.lip6.move.coloane.core.ui.checker.MarkerResolutionGenerator"
+          markerType="fr.lip6.move.coloane.core.ui.marking.arcAttributeMarker">
+    </markerResolutionGenerator>
+ </extension>
 </plugin>

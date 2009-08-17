@@ -74,4 +74,8 @@ public class ArcDeleteCmd extends Command {
 
 		session.addAllTips(tips);
 	}
+
+	public IArc getArc() {
+		return arc;
+	}
 }

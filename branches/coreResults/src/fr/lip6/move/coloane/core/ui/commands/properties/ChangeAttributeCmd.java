@@ -8,16 +8,16 @@ import org.eclipse.gef.commands.Command;
  * Commande pour changer la valeur d'un attribut.
  */
 public class ChangeAttributeCmd extends Command {
-	private IAttribute attr;
+	private IAttribute attribute;
 	private String oldValue;
 	private String newValue;
 
 	/**
-	 * @param attr Attribut à modifier
+	 * @param attribute attribut à modifier
 	 * @param newValue Nouvelle valeur
 	 */
-	public ChangeAttributeCmd(IAttribute attr, String newValue) {
-		this.attr = attr;
+	public ChangeAttributeCmd(IAttribute attribute, String newValue) {
+		this.attribute = attribute;
 		this.newValue = newValue;
 	}
 
@@ -27,20 +27,24 @@ public class ChangeAttributeCmd extends Command {
 		if (!canExecute()) {
 			return;
 		}
-		oldValue = attr.getValue();
+		oldValue = attribute.getValue();
 		redo();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		attr.setValue(newValue);
+		attribute.setValue(newValue);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		attr.setValue(oldValue);
+		attribute.setValue(oldValue);
+	}
+
+	public IAttribute getAttribute() {
+		return attribute;
 	}
 
 }

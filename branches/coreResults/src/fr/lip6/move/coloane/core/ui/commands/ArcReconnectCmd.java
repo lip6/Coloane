@@ -12,6 +12,22 @@ import org.eclipse.gef.commands.Command;
  */
 public class ArcReconnectCmd extends Command {
 
+	public INode getNewSource() {
+		return newSource;
+	}
+
+	public INode getNewTarget() {
+		return newTarget;
+	}
+
+	public INode getOldSource() {
+		return oldSource;
+	}
+
+	public INode getOldTarget() {
+		return oldTarget;
+	}
+
 	/** L'arc qu'on manipule */
 	private IArc arc;
 
@@ -156,5 +172,9 @@ public class ArcReconnectCmd extends Command {
 	@Override
 	public final void undo() {
 		this.arc.reconnect(oldSource, oldTarget);
+	}
+
+	public IArc getArc() {
+		return arc;
 	}
 }

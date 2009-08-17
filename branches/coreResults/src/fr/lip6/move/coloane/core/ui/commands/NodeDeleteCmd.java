@@ -108,4 +108,16 @@ public class NodeDeleteCmd extends Command {
 
 		session.addAllTips(tips);
 	}
+
+	public INode getNode() {
+		return node;
+	}
+
+	public List<IArc> getOutgoingArcs() {
+		return outArcs;
+	}
+
+	public List<IArc> getIncomingArcs() {
+		return inArcs;
+	}
 }
