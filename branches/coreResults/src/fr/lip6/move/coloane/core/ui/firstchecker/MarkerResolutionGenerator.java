@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.checker;
+package fr.lip6.move.coloane.core.ui.firstchecker;
 
 
 import org.eclipse.core.resources.IMarker;
