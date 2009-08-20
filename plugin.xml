@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <category
+            name="PNMLWeb File Import"
+            id="fr.lip6.move.coloane.extensions.importexportpnmlweb.importWizards.sampleCategory">
+      </category>
+      <wizard
+            name="Import File"
+            icon="icons/sample.gif"
+            category="fr.lip6.move.coloane.extensions.importexportpnmlweb.importWizards.sampleCategory"
+            class="fr.lip6.move.coloane.extensions.importexportpnmlweb.importWizards.ImportWizard"
+            id="fr.lip6.move.coloane.extensions.importexportpnmlweb.importWizards.ImportWizard">
+         <description>
+            Import a file from the local file system into the workspace.
+         </description>
+      </wizard>
+   </extension>
+
+</plugin>
