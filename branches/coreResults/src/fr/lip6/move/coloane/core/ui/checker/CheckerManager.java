@@ -53,54 +53,63 @@ public class CheckerManager {
 	 */
 	private Checker buildChecker(IConfigurationElement description) {
 		LOGGER.finer("Création d'un checker défini par le formalisme "+description.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$
+		// Checker creation
 		Checker checker = new Checker();
 		
 		IConfigurationElement[] xmlDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
-		
 		IConfigurationElement[] graphes = xmlDescription[0].getChildren("Graph"); //$NON-NLS-1$
 		IConfigurationElement graph = graphes[0];
 		
+		// Getting graph checkers description
 		IConfigurationElement[] graphConditions = graph.getChildren("GraphChecker"); //$NON-NLS-1$
-		// On récupère les checkers sur le graphe.
 		for (IConfigurationElement condition : graphConditions) {
+			// For each graph checker,
 			try {
+				// we instantiate the IGraphChecker class from the "class_condition" attribute defined in the extension point.
 				IGraphChecker graphCondition = (IGraphChecker) condition.createExecutableExtension("class_condition"); //$NON-NLS-1$
 				String message = condition.getAttribute("message"); //$NON-NLS-1$
 				Integer severity;
 				
+				// then we retrieve the marker severity
 				if (condition.getAttribute("severity").equals("Error")) { //$NON-NLS-1$ //$NON-NLS-2$
 					severity = IMarker.SEVERITY_ERROR;
 				} else {
 					severity = IMarker.SEVERITY_WARNING;
 				}
 				
+				// and finally constructs the GraphChecker and add it to the Checker
 				GraphChecker graphChecker = new GraphChecker(graphCondition, message, severity);
 				checker.addGraphChecker(graphChecker);
 				LOGGER.finer("Ajout d'un GraphChecker sur l'arc '"+description.getAttribute("name")+"'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			} catch (CoreException core) {
 				LOGGER.warning("Erreur dans la définition d'un GraphChecker ! Une condition a été mal définie: "+core.getMessage()); //$NON-NLS-1$
 			}
-			//new GraphChecker
 		}
+		// Building AttributeCheckers on graph attributes
 		this.buildAttributesCheckers(graph, checker);
 
 
+		// Getting nodes description
 		IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
-		// On récupère ensuite les checkers sur les nodes.
 		for (IConfigurationElement node : nodes){
+			// For each node description, we get all node checkers description
 			IConfigurationElement[] nodeConditions = node.getChildren("NodeChecker"); //$NON-NLS-1$
 			for (IConfigurationElement condition : nodeConditions) {
+				// For each node checker,
 				try {
+					// we instantiate the INodeChecker class from the "class_condition" attribute defined in the extension point.
 					INodeChecker nodeCondition = (INodeChecker) condition.createExecutableExtension("class_condition"); //$NON-NLS-1$
 					String message = condition.getAttribute("message"); //$NON-NLS-1$
 					Integer severity;
 					
+					// then we retrieve the marker severity
 					if (condition.getAttribute("severity").equals("Error")) { //$NON-NLS-1$ //$NON-NLS-2$
 						severity = IMarker.SEVERITY_ERROR;
 					} else {
 						severity = IMarker.SEVERITY_WARNING;
 					}
 					
+					// and finally constructs the NodeChecker and add it to the Checker
 					NodeChecker nodeChecker = new NodeChecker(nodeCondition, message, severity);
 					checker.addNodeChecker(node.getAttribute("name"), nodeChecker); //$NON-NLS-1$
 					LOGGER.finer("Ajout d'un NodeChecker sur le noeud '"+description.getAttribute("name")+"'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -108,27 +117,32 @@ public class CheckerManager {
 					LOGGER.warning("Erreur dans la définition d'un NodeChecker ! Une condition a été mal définie: "+core.getMessage()); //$NON-NLS-1$
 				}
 			}
+			// Building AttributeCheckers on node attributes
 			this.buildAttributesCheckers(node, checker);
 		}
 		
 		
-		
+		// Getting arcs description
 		IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
-		// Et enfin les checkers sur les arcs.
 		for (IConfigurationElement arc : arcs){
+			// For each arc description, we get all arc checkers description 
 			IConfigurationElement[] arcConditions = arc.getChildren("ArcChecker"); //$NON-NLS-1$
 			for (IConfigurationElement condition : arcConditions) {
+				// For each arc checker,
 				try {
+					// we instantiate the IArcChecker class from the "class_condition" attribute defined in the extension point.
 					IArcChecker arcCondition = (IArcChecker) condition.createExecutableExtension("class_condition"); //$NON-NLS-1$
 					String message = condition.getAttribute("message"); //$NON-NLS-1$
 					Integer severity;
 					
+					// then we retrieve the marker severity
 					if (condition.getAttribute("severity").equals("Error")) { //$NON-NLS-1$ //$NON-NLS-2$
 						severity = IMarker.SEVERITY_ERROR;
 					} else {
 						severity = IMarker.SEVERITY_WARNING;
 					}
 					
+					// and finally constructs the ArcChecker and add it to the Checker
 					ArcChecker arcChecker = new ArcChecker(arcCondition, message, severity);
 					checker.addArcChecker(arc.getAttribute("name"), arcChecker); //$NON-NLS-1$
 					LOGGER.finer("Ajout d'un ArcChecker sur l'arc '"+description.getAttribute("name")+"'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -136,10 +150,10 @@ public class CheckerManager {
 					LOGGER.warning("Erreur dans la définition d'un ArcChecker ! Une condition a été mal définie: "+core.getMessage()); //$NON-NLS-1$
 				}
 			}
+			// Building AttributeCheckers on arc attributes
 			this.buildAttributesCheckers(arc, checker);
-		}	
-		
-		
+		}
+
 		return checker;
 	}
 
@@ -150,30 +164,39 @@ public class CheckerManager {
 	 * @param checker the checker under construction.
 	 */
 	private void buildAttributesCheckers(IConfigurationElement description, Checker checker) {
+		// First we get all attributes.
 		IConfigurationElement[] attributes = description.getChildren("Attribute"); //$NON-NLS-1$
 		for (IConfigurationElement attribute : attributes) {
+			// For each attribute description, we get all attribute checkers description
 			IConfigurationElement[] conditions = attribute.getChildren("AttributeChecker"); //$NON-NLS-1$
 			for (IConfigurationElement condition : conditions) {
+				// For each attribute checker,
 				try {
+					// we instantiate the IAttributeChecker class from the "class_condition" attribute defined in the extension point.
 					IAttributeChecker attributeCondition = (IAttributeChecker) condition.createExecutableExtension("class_condition"); //$NON-NLS-1$
 					String message = condition.getAttribute("message"); //$NON-NLS-1$
 					Integer severity;
 					
+					// then we retrieve the marker severity
 					if (condition.getAttribute("severity").equals("Error")) { //$NON-NLS-1$ //$NON-NLS-2$
 						severity = IMarker.SEVERITY_ERROR;
 					} else {
 						severity = IMarker.SEVERITY_WARNING;
 					}
 
+					// and finally constructs the ArcChecker and add it to the correct attribute checkers list in the checker.
 					AttributeChecker attributeChecker = new AttributeChecker(attributeCondition, message, severity);
 					
 					if (description.getName().equals("Arc")) { //$NON-NLS-1$
+						// Adding the attributeChecker to arcAttributeChecker
 						checker.addArcAttributeChecker(description.getAttribute("name"), attribute.getAttribute("name"), attributeChecker); //$NON-NLS-1$ //$NON-NLS-2$
 						LOGGER.finer("Ajout d'un AttributeChecker sur l'attribut '"+attribute.getAttribute("name")+"' de l'arc '"+description.getAttribute("name")+"'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$ //$NON-NLS-5$
 					} else if (description.getName().equals("Node")) { //$NON-NLS-1$
+						// Adding the attributeChecker to nodeAttributeChecker
 						checker.addNodeAttributeChecker(description.getAttribute("name"), attribute.getAttribute("name"), attributeChecker); //$NON-NLS-1$ //$NON-NLS-2$
 						LOGGER.finer("Ajout d'un AttributeChecker sur l'attribut '"+attribute.getAttribute("name")+"' du noeud '"+description.getAttribute("name")+"'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$ //$NON-NLS-5$
 					} else if (description.getName().equals("Graph")) { //$NON-NLS-1$
+						// Adding the attributeChecker to graphAttributeChecker
 						checker.addGraphAttributeChecker(attribute.getAttribute("name"), attributeChecker); //$NON-NLS-1$
 						LOGGER.finer("Ajout d'un AttributeChecker sur l'attribut '"+attribute.getAttribute("name")+"' du graphe '"+description.getAttribute("name")+"'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$ //$NON-NLS-5$
 					}
@@ -195,7 +218,7 @@ public class CheckerManager {
 	 */
 	public void checkArc(Checker checker, IResource resource, IGraph graph, IArc arc) {
 		// First we check the arc itself.
-		// Deleting it markers.
+		// Deleting its markers.
 		MarkerManager.deleteElementMarkers(resource, MarkerManager.ARC_MARKER, arc);
 		MarkerManager.deleteElementMarkers(resource, MarkerManager.ARC_ATTRIBUTE_MARKER, arc);
 
@@ -234,30 +257,32 @@ public class CheckerManager {
 		List<IArc> inArcs = node.getIncomingArcs();
 		List<IArc> outArcs = node.getOutgoingArcs();
 
-		// Suppression des markers du noeud et des attributs du noeud.
+		// We delete the node markers and its attributes markers, 
 		MarkerManager.deleteElementMarkers(resource, MarkerManager.NODE_MARKER, node);
 		MarkerManager.deleteElementMarkers(resource, MarkerManager.NODE_ATTRIBUTE_MARKER, node);
-		// Supression des markers des arcs et des attributs des arcs reliés au noeud ainsi que les markers du noeud situé à l'autre extrémité de chaque arc.
+
 		for (IArc arc : inArcs) {
+			// all attributes markers and arcs markers of its incoming arcs
 			MarkerManager.deleteElementMarkers(resource, MarkerManager.ARC_MARKER, arc);
 			MarkerManager.deleteElementMarkers(resource, MarkerManager.ARC_ATTRIBUTE_MARKER, arc);
-			// Pour les arcs entrants, on supprime les markers du noeud source.
+			// and node markers of incoming arc node source
 			MarkerManager.deleteElementMarkers(resource, MarkerManager.NODE_MARKER, arc.getSource());
 		}
 		for (IArc arc : outArcs) {
+			// all attributes markers and arcs markers of its outgoing arcs
 			MarkerManager.deleteElementMarkers(resource, MarkerManager.ARC_MARKER, arc);
 			MarkerManager.deleteElementMarkers(resource, MarkerManager.ARC_ATTRIBUTE_MARKER, arc);
-			// Pour les arcs sortants, on supprime les markers du noeud target.
+			// and node markers of outgoing arc node target.
 			MarkerManager.deleteElementMarkers(resource, MarkerManager.NODE_MARKER, arc.getTarget());
 		}
 
-		// Si le noeud appartient encore au graphe,
+		// If the node still belongs to the graph,
 		if (graph.getNode(node.getId()) != null) {
-			// On vérifie ses markers et ceux de ses attributs.
+			// We check its markers and those of its attributes
 			checkINode(checker, node, resource);
 			checkIElementAttributes(checker, node, MarkerManager.NODE_ATTRIBUTE_MARKER, resource);
 
-			// Ensuite on vérifie les markers des arcs entrants et de leurs attributs. 
+			// Then we check markers and attributes markers of its incoming arcs.
 			for (IArc arc : inArcs) {
 				if (graph.getArc(arc.getId()) != null) {
 					checkIArc(checker, arc, resource);
@@ -265,7 +290,7 @@ public class CheckerManager {
 				}
 			}
 
-			// On vérifie les markers des arcs sortants et les markers des attributs de ces arcs.
+			// Then we check markers and attributes markers of its outgoing arcs.
 			for (IArc arc : outArcs ) {
 				if (graph.getArc(arc.getId()) != null) {
 					checkIArc(checker, arc, resource);
@@ -274,13 +299,14 @@ public class CheckerManager {
 			}
 		}
 
-		// Pour finir, on verifie les nodes target des arc sortants et les nodes source des arcs entrants. 
+		// At last, we check node markers of incoming arc node source 
 		for (IArc arc : inArcs) {
 			INode nodeSource = arc.getSource();
 			if (graph.getNode(nodeSource.getId()) != null) {
 				checkINode(checker, nodeSource, resource);
 			}
 		}
+		// and node markers of outgoing arc node target.
 		for (IArc arc : outArcs) {
 			INode nodeTarget = arc.getTarget();
 			if (graph.getNode(nodeTarget.getId()) != null) {
