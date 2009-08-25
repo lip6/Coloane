@@ -414,6 +414,12 @@
                       drawable="true"
                       multiline="true"
                       name="authors">
+                   <AttributeChecker
+                         class_condition="fr.lip6.move.coloane.core.ui.checkerCondition.CheckerGraphAttribute"
+                         message="graph attribute authors"
+                         name="fr.lip6.move.coloane.core.AttributeChecker13"
+                         severity="Error">
+                   </AttributeChecker>
                 </Attribute>
                 <Attribute
                       default="0,0"
@@ -466,7 +472,19 @@
                       italic="true"
                       multiline="true"
                       name="marking">
+                   <AttributeChecker
+                         class_condition="fr.lip6.move.coloane.core.ui.checkerCondition.CheckerNodeAttribute"
+                         message="marking place attribute"
+                         name="fr.lip6.move.coloane.core.AttributeChecker15"
+                         severity="Error">
+                   </AttributeChecker>
                 </Attribute>
+                <NodeChecker
+                      class_condition="fr.lip6.move.coloane.core.ui.checkerCondition.CheckerNode"
+                      message="place node checker"
+                      name="fr.lip6.move.coloane.core.NodeChecker1"
+                      severity="Error">
+                </NodeChecker>
              </Node>
              <Node
                    container="false"
@@ -489,6 +507,12 @@
                       italic="false"
                       multiline="false"
                       name="name">
+                   <AttributeChecker
+                         class_condition="fr.lip6.move.coloane.core.ui.checkerCondition.CheckerNodeAttribute"
+                         message="name transition attribute"
+                         name="fr.lip6.move.coloane.core.AttributeChecker14"
+                         severity="Error">
+                   </AttributeChecker>
                 </Attribute>
                 <GraphicInfo
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
@@ -498,6 +522,12 @@
                       palettable="false"
                       width="7">
                 </GraphicInfo>
+                <NodeChecker
+                      class_condition="fr.lip6.move.coloane.core.ui.checkerCondition.CheckerNode"
+                      message="transition node checker"
+                      name="fr.lip6.move.coloane.core.NodeChecker2"
+                      severity="Error">
+                </NodeChecker>
              </Node>
              <Arc
                    name="arc">
@@ -517,8 +547,26 @@
                       italic="false"
                       multiline="true"
                       name="valuation">
+                   <AttributeChecker
+                         class_condition="fr.lip6.move.coloane.core.ui.checkerCondition.CheckerArcAttribute"
+                         message="valuation arc attribute"
+                         name="fr.lip6.move.coloane.core.AttributeChecker12"
+                         severity="Error">
+                   </AttributeChecker>
                 </Attribute>
+                <ArcChecker
+                      class_condition="fr.lip6.move.coloane.core.ui.checkerCondition.CheckerArc"
+                      message="arc checker"
+                      name="fr.lip6.move.coloane.core.ArcChecker3"
+                      severity="Error">
+                </ArcChecker>
              </Arc>
+             <GraphChecker
+                   class_condition="fr.lip6.move.coloane.core.ui.checkerCondition.CheckerGraph"
+                   message="graph checker"
+                   name="fr.lip6.move.coloane.core.GraphChecker1"
+                   severity="Error">
+             </GraphChecker>
           </Graph>
           <Constraint
                 link="true"
@@ -987,101 +1035,132 @@
  </extension>
  <extension
        id="fr.lip6.move.coloane.core.ui.checker.ColoaneMarkerNavigationProvider"
-       name="Coloane Navigation Marker Provider"
+       name="Marker Manager"
        point="org.eclipse.gmf.runtime.common.ui.services.markerNavigationProviders">
     <MarkerNavigationProvider
-          class="fr.lip6.move.coloane.core.ui.checker.ColoaneMarkerNavigationProvider">
+          class="fr.lip6.move.coloane.core.ui.checker.MarkerManager">
        <Priority
              name="Highest">
        </Priority>
        <MarkerType
-             name="fr.lip6.move.coloane.core.ui.marking.nodeMarker">
+             name="fr.lip6.move.coloane.core.ui.checker.nodeMarker">
        </MarkerType>
        <MarkerType
-             name="fr.lip6.move.coloane.core.ui.marking.nodeAttributeMarker">
+             name="fr.lip6.move.coloane.core.ui.checker.nodeAttributeMarker">
        </MarkerType>
        <MarkerType
-             name="fr.lip6.move.coloane.core.ui.marking.arcMarker">
+             name="fr.lip6.move.coloane.core.ui.checker.arcMarker">
        </MarkerType>
        <MarkerType
-             name="fr.lip6.move.coloane.core.ui.marking.arcAttributeMarker">
+             name="fr.lip6.move.coloane.core.ui.checker.arcAttributeMarker">
+       </MarkerType>
+       <MarkerType
+             name="fr.lip6.move.coloane.core.ui.checker.graphMarker">
+       </MarkerType>
+       <MarkerType
+             name="fr.lip6.move.coloane.core.ui.checker.graphAttributeMarker">
        </MarkerType>
     </MarkerNavigationProvider>
  </extension>
  <extension
-       id="fr.lip6.move.coloane.core.ui.marking.rootMarker"
+       id="fr.lip6.move.coloane.core.ui.checker.rootMarker"
        name="Root Marker"
        point="org.eclipse.core.resources.markers">
     <super
           type="org.eclipse.core.resources.problemmarker">
     </super>
     <persistent
-          value="false">
+          value="true">
     </persistent>
     <attribute
           name="id">
     </attribute>
  </extension>
  <extension
-       id="fr.lip6.move.coloane.core.ui.marking.nodeMarker"
+       id="fr.lip6.move.coloane.core.ui.checker.nodeMarker"
        name="Node Problem"
        point="org.eclipse.core.resources.markers">
     <super
-          type="fr.lip6.move.coloane.core.ui.marking.rootMarker">
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
     </super>
     <persistent
-          value="false">
+          value="true">
     </persistent>
  </extension>
  <extension
-       id="fr.lip6.move.coloane.core.ui.marking.nodeAttributeMarker"
+       id="fr.lip6.move.coloane.core.ui.checker.nodeAttributeMarker"
        name="Node Attribute Problem"
        point="org.eclipse.core.resources.markers">
     <super
-          type="fr.lip6.move.coloane.core.ui.marking.rootMarker">
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
     </super>
     <persistent
-          value="false">
+          value="true">
     </persistent>
  </extension>
  <extension
-       id="fr.lip6.move.coloane.core.ui.marking.arcMarker"
+       id="fr.lip6.move.coloane.core.ui.checker.arcMarker"
        name="Arc Problem"
        point="org.eclipse.core.resources.markers">
     <super
-          type="fr.lip6.move.coloane.core.ui.marking.rootMarker">
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
     </super>
     <persistent
-          value="false">
+          value="true">
     </persistent>
  </extension>
  <extension
-       id="fr.lip6.move.coloane.core.ui.marking.arcAttributeMarker"
+       id="fr.lip6.move.coloane.core.ui.checker.arcAttributeMarker"
        name="Arc Attribute Problem"
        point="org.eclipse.core.resources.markers">
     <super
-          type="fr.lip6.move.coloane.core.ui.marking.rootMarker">
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
     </super>
+    <persistent
+          value="true">
+    </persistent>
  </extension>
  <extension
-       id="fr.lip6.move.coloane.core.ui.marking.MarkerResolutionGenerator"
+       id="fr.lip6.move.coloane.core.ui.checker.graphAttributeMarker"
+       name="Graph Attribute Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.checker.graphMarker"
+       name="Graph Attribute Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.firstchecker.MarkerResolutionGenerator"
        name="Coloane Marker Resolution Generator"
        point="org.eclipse.ui.ide.markerResolution">
     <markerResolutionGenerator
-          class="fr.lip6.move.coloane.core.ui.checker.MarkerResolutionGenerator"
-          markerType="fr.lip6.move.coloane.core.ui.marking.nodeMarker">
+          class="fr.lip6.move.coloane.core.ui.firstchecker.MarkerResolutionGenerator"
+          markerType="fr.lip6.move.coloane.core.ui.checker.nodeMarker">
     </markerResolutionGenerator>
     <markerResolutionGenerator
-          class="fr.lip6.move.coloane.core.ui.checker.MarkerResolutionGenerator"
-          markerType="fr.lip6.move.coloane.core.ui.marking.nodeAttributeMarker">
+          class="fr.lip6.move.coloane.core.ui.firstchecker.MarkerResolutionGenerator"
+          markerType="fr.lip6.move.coloane.core.ui.checker.nodeAttributeMarker">
     </markerResolutionGenerator>
     <markerResolutionGenerator
-          class="fr.lip6.move.coloane.core.ui.checker.MarkerResolutionGenerator"
-          markerType="fr.lip6.move.coloane.core.ui.marking.arcMarker">
+          class="fr.lip6.move.coloane.core.ui.firstchecker.MarkerResolutionGenerator"
+          markerType="fr.lip6.move.coloane.core.ui.checker.arcMarker">
     </markerResolutionGenerator>
     <markerResolutionGenerator
-          class="fr.lip6.move.coloane.core.ui.checker.MarkerResolutionGenerator"
-          markerType="fr.lip6.move.coloane.core.ui.marking.arcAttributeMarker">
+          class="fr.lip6.move.coloane.core.ui.firstchecker.MarkerResolutionGenerator"
+          markerType="fr.lip6.move.coloane.core.ui.checker.arcAttributeMarker">
     </markerResolutionGenerator>
  </extension>
 </plugin>

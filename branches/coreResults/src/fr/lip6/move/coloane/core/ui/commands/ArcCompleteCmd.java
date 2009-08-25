@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
+import fr.lip6.move.coloane.core.ui.checker.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -8,14 +9,12 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.logging.Logger;
 
-import org.eclipse.gef.commands.Command;
-
 /**
  * Deuxieme étape de la création d'un lien entre deux noeuds !<br>
  * Cette commande est créée lors du second clic (donc sur l'element d'arrivee).
  * @see ArcCreateCmd
  */
-public class ArcCompleteCmd extends Command {
+public class ArcCompleteCmd extends CheckableCmd {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -65,6 +64,7 @@ public class ArcCompleteCmd extends Command {
 		// Construction de l'arc
 		try {
 			arc = graph.createArc(arcFormalism.getName(), source, target);
+			addCheckableElement(arc);
 		} catch (ModelException e) {
 			LOGGER.warning("Impossible de construire l'arc: " + e.toString()); //$NON-NLS-1$
 			e.printStackTrace();
@@ -81,9 +81,5 @@ public class ArcCompleteCmd extends Command {
 	@Override
 	public final void undo() {
 		graph.deleteArc(arc);
-	}
-
-	public IArc getArc() {
-		return arc;
 	}
 }

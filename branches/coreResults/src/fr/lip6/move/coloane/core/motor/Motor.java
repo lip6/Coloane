@@ -11,21 +11,15 @@ import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.ModifyCurrentModel;
 import fr.lip6.move.coloane.core.ui.SaveReceivedModel;
 import fr.lip6.move.coloane.core.ui.UserInterface;
+import fr.lip6.move.coloane.core.ui.checker.Checker;
+import fr.lip6.move.coloane.core.ui.checker.CheckerManager;
 import fr.lip6.move.coloane.core.ui.dialogs.AuthenticationInformation;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptServiceState;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.IConnectionInfo;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptServiceStateObserver;
-import fr.lip6.move.coloane.interfaces.formalism.IArcAttributeChecker;
-import fr.lip6.move.coloane.interfaces.formalism.IArcChecker;
-import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.INodeAttributeChecker;
-import fr.lip6.move.coloane.interfaces.formalism.INodeChecker;
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
@@ -34,9 +28,11 @@ import fr.lip6.move.coloane.interfaces.objects.service.IService;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.swt.widgets.Display;
@@ -67,7 +63,10 @@ public final class Motor {
 
 	/** La fenetre graphique actuelle */
 	private IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-
+	
+	/** Le gestionnaire de Checkers */
+	private CheckerManager checkerManager;
+	
 	/**
 	 * Constructeur du module moteur en prive pour eviter les doublons<br>
 	 * Pattern singleton<br>
@@ -76,6 +75,7 @@ public final class Motor {
 	private Motor() {
 		formalismManager = FormalismManager.getInstance();
 		sessionManager = SessionManager.getInstance();
+		checkerManager = CheckerManager.getInstance();
 	}
 
 	/**
@@ -139,35 +139,12 @@ public final class Motor {
 		// Creation d'une nouvelle session
 		sessionManager.newSession(name); // On ajoute la session au moteur de sessions
 		sessionManager.getSession(name).setModel(graph); // On associe le modele a la session
-
+		Checker checker = checkerManager.setChecker(sessionManager.getSession(name)); // We attach the checker to the session
 		
-		// On recrée les markers à l'ouverture de la session
-		IFormalism formalism = graph.getFormalism();
-
-		for (IArc arc : graph.getArcs()) {
-			for (IArcChecker arcChecker : formalism.getArcCheckers()) {
-				arcChecker.arcCheck(arc);
-			}
-			
-			for (IAttribute attribute : arc.getAttributes()) {
-				for (IArcAttributeChecker arcAttributeChecker : formalism.getArcAttributeCheckers()) {
-					arcAttributeChecker.arcAttributeCheck(arc, attribute);
-				}
-			}
-		}
-		
-		for (INode node : graph.getNodes()) {
-			for (INodeChecker nodeChecker : formalism.getNodeCheckers()) {
-				nodeChecker.nodeCheck(node);
-			}
-			
-			for (IAttribute attribute : node.getAttributes()) {
-				for (INodeAttributeChecker nodeAttributeChecker : formalism.getNodeAttributeCheckers()) {
-					nodeAttributeChecker.nodeAttributeCheck(node, attribute);
-				}
-			}
-		}
-		
+		// Then we check the whole graph with the checker
+		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(name));
+		checkerManager.checkAll(checker, resource, graph);
+	
 		return true;
 	}
 

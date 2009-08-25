@@ -231,10 +231,6 @@ public final class FormalismManager {
 		}
 	}
 
-	private void buildConditionAttribute() {
-		//TODO : à remplir après avoir construit la factory
-	}
-	
 	/**
 	 * Returns a formalism from its name or throws an {@link IllegalArgumentException} is no formalism is found.
 	 * @param name The name of the formalism

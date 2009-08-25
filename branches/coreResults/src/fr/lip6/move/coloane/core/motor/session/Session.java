@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
+import fr.lip6.move.coloane.core.ui.checker.Checker;
 import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
 import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
@@ -78,7 +79,8 @@ public class Session implements ISession {
 	/** La gestion des listeners est déléguée a cette classe */
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
-
+	private Checker checker;
+	
 	/**
 	 * Constructeur<br>
 	 * Tous les champs sont initialisés.<br>
@@ -140,6 +142,16 @@ public class Session implements ISession {
 	/** {@inheritDoc} */
 	public final void setModel(IGraph model) {
 		this.graph = model;
+	}
+
+	/** {@inheritDoc} */
+	public final Checker getChecker() {
+		return checker;
+	}
+
+	/** {@inheritDoc} */
+	public final void setChecker(Checker checker) {
+		this.checker = checker;
 	}
 
 	/** {@inheritDoc} */

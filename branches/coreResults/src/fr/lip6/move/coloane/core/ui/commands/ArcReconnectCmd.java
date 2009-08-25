@@ -1,32 +1,15 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
+import fr.lip6.move.coloane.core.ui.checker.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
-
-import org.eclipse.gef.commands.Command;
 
 /**
  * Commande permettant la re-connexion d'un arc.<br>
  * Le but de cette commande est de permettre de changer la source ou la cible d'un arc sans pour autant le detruire.
  */
-public class ArcReconnectCmd extends Command {
-
-	public INode getNewSource() {
-		return newSource;
-	}
-
-	public INode getNewTarget() {
-		return newTarget;
-	}
-
-	public INode getOldSource() {
-		return oldSource;
-	}
-
-	public INode getOldTarget() {
-		return oldTarget;
-	}
+public class ArcReconnectCmd extends CheckableCmd {
 
 	/** L'arc qu'on manipule */
 	private IArc arc;
@@ -52,6 +35,11 @@ public class ArcReconnectCmd extends Command {
 		this.arc = a;
 		this.oldSource = a.getSource();
 		this.oldTarget = a.getTarget();
+		addCheckableElement(arc);
+		addCheckableElement(newSource);
+		addCheckableElement(newTarget);
+		addCheckableElement(oldSource);
+		addCheckableElement(oldTarget);
 	}
 
 	/**
@@ -172,9 +160,5 @@ public class ArcReconnectCmd extends Command {
 	@Override
 	public final void undo() {
 		this.arc.reconnect(oldSource, oldTarget);
-	}
-
-	public IArc getArc() {
-		return arc;
 	}
 }

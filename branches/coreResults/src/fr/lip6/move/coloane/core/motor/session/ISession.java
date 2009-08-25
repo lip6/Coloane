@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.motor.session;
 
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
+import fr.lip6.move.coloane.core.ui.checker.Checker;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
@@ -32,7 +33,7 @@ public interface ISession {
 	String getName();
 
 	/**
-	 * Retoune le modele
+	 * Retourne le modele
 	 * @return IGraph Le modele de la session
 	 */
 	IGraph getGraph();
@@ -43,6 +44,18 @@ public interface ISession {
 	 */
 	void setModel(IGraph graph);
 
+	/**
+	 * Retourne le checker
+	 * @return le checker de la session
+	 */
+	Checker getChecker();
+
+	/**
+	 * Défini le checker
+	 * @param checker le checker 
+	 */
+	void setChecker(Checker checker);
+	
 	/**
 	 * Retourne le menu de service de la session
 	 * @return la racine du menu de services

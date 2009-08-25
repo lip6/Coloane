@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
+import fr.lip6.move.coloane.core.ui.checker.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -8,12 +9,11 @@ import java.util.logging.Logger;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.commands.Command;
 
 /**
  * Commande pour ajouter un nouveau noeud
  */
-public class NodeCreateCmd extends Command {
+public class NodeCreateCmd extends CheckableCmd {
 	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Nouveau noeud */
@@ -53,6 +53,7 @@ public class NodeCreateCmd extends Command {
 		try {
 			node = graph.createNode(nodeFormalismName);
 			node.getGraphicInfo().setLocation(location);
+			addCheckableElement(node);
 		} catch (ModelException e) {
 			logger.warning(e.toString());
 			e.printStackTrace();
@@ -73,9 +74,5 @@ public class NodeCreateCmd extends Command {
 		if (node != null) {
 			graph.deleteNode(node);
 		}
-	}
-
-	public INode getNode() {
-		return node;
 	}
 }

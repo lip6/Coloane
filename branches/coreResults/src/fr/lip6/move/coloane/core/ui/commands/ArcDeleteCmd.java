@@ -6,18 +6,17 @@ import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.checker.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gef.commands.Command;
-
 /**
  * Commande de suppression d'un arc
  */
-public class ArcDeleteCmd extends Command {
+public class ArcDeleteCmd extends CheckableCmd {
 	/** Graphe contenant l'arc à supprimer */
 	private IGraph graph;
 
@@ -40,6 +39,7 @@ public class ArcDeleteCmd extends Command {
 		this.graph = (IGraph) toDelete.getParent();
 		this.arc = toDelete;
 		this.session = SessionManager.getInstance().getCurrentSession();
+		addCheckableElement(toDelete);
 	}
 
 	/** {@inheritDoc} */
@@ -73,9 +73,5 @@ public class ArcDeleteCmd extends Command {
 		}
 
 		session.addAllTips(tips);
-	}
-
-	public IArc getArc() {
-		return arc;
 	}
 }

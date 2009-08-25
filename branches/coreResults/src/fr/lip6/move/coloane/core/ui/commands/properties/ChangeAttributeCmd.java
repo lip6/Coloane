@@ -1,13 +1,12 @@
 package fr.lip6.move.coloane.core.ui.commands.properties;
 
+import fr.lip6.move.coloane.core.ui.checker.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-
-import org.eclipse.gef.commands.Command;
 
 /**
  * Commande pour changer la valeur d'un attribut.
  */
-public class ChangeAttributeCmd extends Command {
+public class ChangeAttributeCmd extends CheckableCmd {
 	private IAttribute attribute;
 	private String oldValue;
 	private String newValue;
@@ -19,6 +18,7 @@ public class ChangeAttributeCmd extends Command {
 	public ChangeAttributeCmd(IAttribute attribute, String newValue) {
 		this.attribute = attribute;
 		this.newValue = newValue;
+		addCheckableElement(attribute.getReference());
 	}
 
 	/** {@inheritDoc} */
@@ -42,9 +42,4 @@ public class ChangeAttributeCmd extends Command {
 	public final void undo() {
 		attribute.setValue(oldValue);
 	}
-
-	public IAttribute getAttribute() {
-		return attribute;
-	}
-
 }

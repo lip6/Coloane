@@ -144,7 +144,7 @@
             <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="Graph" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="GraphicInfo" minOccurs="1" maxOccurs="unbounded"/>
-            <element ref="ConditionNode" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="NodeChecker" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -173,7 +173,7 @@
          <sequence>
             <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="GraphicInfo"/>
-            <element ref="ConditionArc" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="ArcChecker" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -193,7 +193,7 @@
       </annotation>
       <complexType>
          <sequence>
-            <element ref="ConditionAttribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="AttributeChecker" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -258,7 +258,7 @@
             <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="Node" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="Arc" minOccurs="0" maxOccurs="unbounded"/>
-            <element ref="ConditionGraph" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="GraphChecker" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -420,7 +420,7 @@
       </complexType>
    </element>
 
-   <element name="ConditionAttribute">
+   <element name="AttributeChecker">
       <annotation>
          <documentation>
             Condition on an attribute.
@@ -434,13 +434,13 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="class" type="string" use="required">
+         <attribute name="class_condition" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java"/>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -459,47 +459,17 @@
                </restriction>
             </simpleType>
          </attribute>
-      </complexType>
-   </element>
-
-   <element name="ConditionNode">
-      <complexType>
-         <attribute name="name" type="string" use="required">
-            <annotation>
-               <documentation>
-                  Node condition name
-               </documentation>
-            </annotation>
-         </attribute>
-         <attribute name="class" type="string" use="required">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-               <appInfo>
-                  <meta.attribute kind="java"/>
-               </appInfo>
-            </annotation>
-         </attribute>
-         <attribute name="severity" use="required">
+         <attribute name="message" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
             </annotation>
-            <simpleType>
-               <restriction base="string">
-                  <enumeration value="Error">
-                  </enumeration>
-                  <enumeration value="Warning">
-                  </enumeration>
-               </restriction>
-            </simpleType>
          </attribute>
       </complexType>
    </element>
 
-   <element name="ConditionArc">
+   <element name="ArcChecker">
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -508,13 +478,13 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="class" type="string" use="required">
+         <attribute name="class_condition" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java"/>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.formalism.IArcChecker"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -533,10 +503,61 @@
                </restriction>
             </simpleType>
          </attribute>
+         <attribute name="message" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
-   <element name="ConditionGraph">
+   <element name="NodeChecker">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Node condition name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class_condition" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.formalism.INodeChecker"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="severity" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="Error">
+                  </enumeration>
+                  <enumeration value="Warning">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="message" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="GraphChecker">
       <complexType>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -545,13 +566,13 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="class" type="string" use="required">
+         <attribute name="class_condition" type="string" use="required">
             <annotation>
                <documentation>
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java"/>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.formalism.IGraphChecker"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -569,6 +590,13 @@
                   </enumeration>
                </restriction>
             </simpleType>
+         </attribute>
+         <attribute name="message" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
          </attribute>
       </complexType>
    </element>

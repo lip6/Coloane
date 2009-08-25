@@ -1,18 +1,12 @@
 package fr.lip6.move.coloane.core.motor.formalisms;
 
-import fr.lip6.move.coloane.core.motor.formalisms.constraints.CheckArcValuation;
-import fr.lip6.move.coloane.core.motor.formalisms.constraints.CheckPlaceIncomingArcs;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintLink;
 import fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraintNode;
 import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.IArcAttributeChecker;
-import fr.lip6.move.coloane.interfaces.formalism.IArcChecker;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.INodeAttributeChecker;
-import fr.lip6.move.coloane.interfaces.formalism.INodeChecker;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
@@ -42,11 +36,6 @@ public class Formalism implements IFormalism {
 
 	/** Le graphe défnini par le formalisme */
 	private IGraphFormalism master = null;
-	
-	private List<INodeChecker> nodeCheckList;
-	private List<IArcChecker> arcCheckList;
-	private List<IArcAttributeChecker> arcAttributeCheckList;
-	private List<INodeAttributeChecker> nodeAttributeCheckList;
 
 	/** Nom du fichier de l'image avec extension ex: icon.gif */
 	private String image;
@@ -67,14 +56,6 @@ public class Formalism implements IFormalism {
 
 		this.linkconstraints = new ArrayList<IConstraintLink>();
 		this.nodeconstraints = new ArrayList<IConstraintNode>();
-		
-		this.nodeCheckList = new ArrayList<INodeChecker>();
-		this.arcCheckList = new ArrayList<IArcChecker>();
-		this.arcAttributeCheckList = new ArrayList<IArcAttributeChecker>();
-		this.nodeAttributeCheckList = new ArrayList<INodeAttributeChecker>();
-
-		this.nodeCheckList.add(new CheckPlaceIncomingArcs());
-		this.arcAttributeCheckList.add(new CheckArcValuation(0,2));
 	}
 
 	/**
@@ -172,21 +153,5 @@ public class Formalism implements IFormalism {
 	@Override
 	public final String toString() {
 		return getName();
-	}
-
-	public List<IArcChecker> getArcCheckers() {
-		return arcCheckList;
-	}
-
-	public List<INodeChecker> getNodeCheckers() {
-		return nodeCheckList;
-	}
-	
-	public List<IArcAttributeChecker> getArcAttributeCheckers() {
-		return arcAttributeCheckList;
-	}
-	
-	public List<INodeAttributeChecker> getNodeAttributeCheckers() {
-		return nodeAttributeCheckList;
 	}
 }

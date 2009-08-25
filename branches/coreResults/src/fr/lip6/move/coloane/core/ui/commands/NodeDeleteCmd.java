@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.checker.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -13,12 +14,10 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gef.commands.Command;
-
 /**
  * Commande de suppression d'un noeud du modele
  */
-public class NodeDeleteCmd extends Command {
+public class NodeDeleteCmd extends CheckableCmd {
 
 	/** Noeud a retirer */
 	private final INode node;
@@ -49,6 +48,7 @@ public class NodeDeleteCmd extends Command {
 		this.graph = graph;
 		this.node = node;
 		this.session = SessionManager.getInstance().getCurrentSession();
+		addCheckableElement(node);
 	}
 
 	/** {@inheritDoc} */
@@ -107,17 +107,5 @@ public class NodeDeleteCmd extends Command {
 		}
 
 		session.addAllTips(tips);
-	}
-
-	public INode getNode() {
-		return node;
-	}
-
-	public List<IArc> getOutgoingArcs() {
-		return outArcs;
-	}
-
-	public List<IArc> getIncomingArcs() {
-		return inArcs;
 	}
 }
