@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="ITS Editor"
+            extensions="xmlits"
+            icon="icons/models_navigator.gif"
+            contributorClass="testits.editors.MultiPageEditorContributor"
+            class="testits.editors.MultiPageEditor"
+            id="testits.editors.ITSEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="ITSComposition"
+            name="ITS Composition Model"
+            parentCategory="fr.lip6.move.coloane">
+      </category>
+      <wizard
+            name="ITS Composition Model"
+            icon="icons/models_navigator.gif"
+            category="ITSComposition"
+            class="testits.wizards.SampleNewWizard"
+            id="testits.wizards.SampleNewWizard">
+      </wizard>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="its.actions.AddType"
+            description="Add a type to an ITS type list."
+            id="fr.lip6.move.coloane.its.commands.AddType"
+            name="fr.lip6.move.coloane.its.commands.AddType">
+      </command>
+   </extension>
+
+</plugin>

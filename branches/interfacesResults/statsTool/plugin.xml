@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="fr.lip6.move.coloane.core.tools">
+      <Tool
+            action="fr.lip6.move.coloane.tools.stats.StatAction"
+            name="StatTool">
+      </Tool>
+      <Tool
+            action="fr.lip6.move.coloane.tools.stats.StatAction1"
+            name="StatToolBis">
+      </Tool>
+   </extension>
+
+</plugin>

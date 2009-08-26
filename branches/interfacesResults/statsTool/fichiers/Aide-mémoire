@@ -1,0 +1,15 @@
+package fr.lip6.move.coloane.core.ui.actions.LocalAction
+===> Méthode run qui renvoie la liste de Results.
+
+Appel et affichage de IResult :
+fr.lip6.move.coloane.core.results ====> Création des IResult tree pour l'affichage
+fr.lip6.move.coloane.core.results.reports ====> adapteur pour les outils permettant d'afficher des IResult correctes
+fr.lip6.move.coloane.core.motor.Motor ====> contient la méthode addResult(IResult) pour ajouter le Result
+fr.lip6.move.coloane.core.communications.ReceptResultObserver ====> appel de la méthode addResult(IResult)
+fr.lip6.move.coloane.core.results.reports.GenericReport ====> création du ResultTreeImpl, créer à partir du IResult, qui sera afficher
+
+Les tips ===> à oublier pour l'instant
+
+les id ==> permet de désigner les éléments du modèle pour ensuite les traiter (ex: les highlighter, ...)
+
+fr.lip6.move.coloane.core.ui.panels.ResultsView ====> Contient la vue pour afficher les ResultTreeImpl
