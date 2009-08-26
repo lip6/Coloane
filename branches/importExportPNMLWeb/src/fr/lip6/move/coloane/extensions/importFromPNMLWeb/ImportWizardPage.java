@@ -8,7 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package fr.lip6.move.coloane.extension.importexportpnmlweb;
+package fr.lip6.move.coloane.extensions.importFromPNMLWeb;
 
 import java.io.File;
 import java.io.FileInputStream;
