@@ -4,7 +4,7 @@
    <extension
          point="fr.lip6.move.coloane.core.exports">
       <Export
-            class="fr.lip6.move.coloane.extension.importExportCAMI.exportToCAMI.ExportToImpl"
+            class="fr.lip6.move.coloane.extensions.importExportCAMI.exportToCAMI.ExportToImpl"
             extension="cami"
             id="fr.lip6.move.coloane.extensions.exportcami"
             reference="fr.lip6.move.coloane.wizard.export.cami">
@@ -22,7 +22,7 @@
    <extension
          point="fr.lip6.move.coloane.core.imports">
       <Import
-            class="fr.lip6.move.coloane.extension.importExportCAMI.importFromCAMI.ImportFromImpl"
+            class="fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importcami"
             reference="fr.lip6.move.coloane.wizard.import.cami">
          <AcceptedFormalism

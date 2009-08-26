@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.importExportCAMI.importFromCAMI;
+package fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
