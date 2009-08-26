@@ -7,21 +7,24 @@
             extension="gspn"
             fkname="GreatSPN"
             id="gspn"
+            image="resources/formalisms/gspn/gspn.png"
             name="GreatSPN">
          <XmlDescription>
             <Graph
                   name="gspn">
                <Node
-                     container="true"
+                     container="false"
                      name="place">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
-                        description="place"
+                        description="Place"
                         drawable="true"
                         fill="false"
                         height="15"
+                        icon16px="resources/formalisms/gspn/place_16.png"
+                        icon24px="resources/formalisms/gspn/place_24.png"
                         palettable="true"
-                        paletteName="place"
+                        paletteName="Place"
                         width="15">
                   </GraphicInfo>
                   <Attribute
@@ -29,14 +32,14 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="tag">
+                        name="Tag">
                   </Attribute>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="color label">
+                        name="Color Label">
                   </Attribute>
                   <Attribute
                         bold="false"
@@ -44,20 +47,22 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="marking">
+                        name="Marking">
                   </Attribute>
                </Node>
                <Node
-                     container="true"
+                     container="false"
                      name="immediate transition">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
-                        description="immediate transition"
+                        description="Immediate Transition"
                         drawable="true"
                         fill="true"
                         height="7"
+                        icon16px="resources/formalisms/gspn/immediate_16.png"
+                        icon24px="resources/formalisms/gspn/immediate_24.png"
                         palettable="true"
-                        paletteName="immediate transition"
+                        paletteName="I. Transition"
                         width="25">
                   </GraphicInfo>
                   <Attribute
@@ -65,21 +70,21 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="tag">
+                        name="Tag">
                   </Attribute>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="color label">
+                        name="Color Label">
                   </Attribute>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="weight">
+                        name="Weight">
                   </Attribute>
                   <Attribute
                         bold="false"
@@ -87,20 +92,22 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="priority">
+                        name="Priority">
                   </Attribute>
                </Node>
                <Node
-                     container="true"
-                     name="transition (Infinite)">
+                     container="false"
+                     name="transition (infinite)">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
-                        description="transition (Infinite)"
+                        description="Transition (Infinite)"
                         drawable="true"
                         fill="false"
                         height="7"
+                        icon16px="resources/formalisms/gspn/transition_16.png"
+                        icon24px="resources/formalisms/gspn/transition_24.png"
                         palettable="true"
-                        paletteName="transition (Infinite)"
+                        paletteName="Transition (I)"
                         width="25">
                   </GraphicInfo>
                   <Attribute
@@ -108,34 +115,36 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="tag">
+                        name="Tag">
                   </Attribute>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="color label">
+                        name="Color Label">
                   </Attribute>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="rate">
+                        name="Rate">
                   </Attribute>
                </Node>
                <Node
-                     container="true"
-                     name="transition (Marking Dependent)">
+                     container="false"
+                     name="transition (marking dependent)">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
-                        description="transition (Marking Dependent)"
+                        description="Transition (Marking Dependent)"
                         drawable="true"
                         fill="false"
                         height="7"
+                        icon16px="resources/formalisms/gspn/transition_16.png"
+                        icon24px="resources/formalisms/gspn/transition_24.png"
                         palettable="true"
-                        paletteName="transition (Marking Dependent)"
+                        paletteName="Transition (MD)"
                         width="25">
                   </GraphicInfo>
                   <Attribute
@@ -143,34 +152,36 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="tag">
+                        name="Tag">
                   </Attribute>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="color label">
+                        name="Color Label">
                   </Attribute>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="true"
-                        name="definition">
+                        name="Definition">
                   </Attribute>
                </Node>
                <Node
-                     container="true"
-                     name="transition (Server)">
+                     container="false"
+                     name="transition (server)">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
-                        description="transition (Server)"
+                        description="Transition (Server)"
                         drawable="true"
                         fill="false"
                         height="7"
+                        icon16px="resources/formalisms/gspn/transition_16.png"
+                        icon24px="resources/formalisms/gspn/transition_24.png"
                         palettable="true"
-                        paletteName="transition (Server)"
+                        paletteName="Transition (S)"
                         width="25">
                   </GraphicInfo>
                   <Attribute
@@ -178,21 +189,21 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="tag">
+                        name="Tag">
                   </Attribute>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="color label">
+                        name="Color Label">
                   </Attribute>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="rate">
+                        name="Rate">
                   </Attribute>
                   <Attribute
                         bold="false"
@@ -200,17 +211,19 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="priority">
+                        name="Priority">
                   </Attribute>
                </Node>
                <Arc
                      name="arc">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
-                        description="arc"
+                        description="Arc"
                         drawable="true"
+                        icon16px="resources/formalisms/gspn/arc_16.png"
+                        icon24px="resources/formalisms/gspn/arc_24.png"
                         palettable="true"
-                        paletteName="arc">
+                        paletteName="Arc">
                   </GraphicInfo>
                   <Attribute
                         bold="false"
@@ -218,17 +231,19 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="multiplicity">
+                        name="Multiplicity">
                   </Attribute>
                </Arc>
                <Arc
                      name="broken arc">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
-                        description="broken arc"
+                        description="Broken Arc"
                         drawable="true"
+                        icon16px="resources/formalisms/gspn/broken_arc_16.png"
+                        icon24px="resources/formalisms/gspn/broken_arc_24.png"
                         palettable="true"
-                        paletteName="broken arc">
+                        paletteName="B. Arc">
                   </GraphicInfo>
                   <Attribute
                         bold="false"
@@ -236,51 +251,57 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="multiplicity">
+                        name="Multiplicity">
                   </Attribute>
                </Arc>
                <Arc
                      name="colored arc">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
-                        description="colored arc"
+                        description="Colored arc"
                         drawable="true"
+                        icon16px="resources/formalisms/gspn/colored_arc_16.png"
+                        icon24px="resources/formalisms/gspn/colored_arc_24.png"
                         palettable="true"
-                        paletteName="colored arc">
+                        paletteName="C. Arc">
                   </GraphicInfo>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="color">
+                        name="Color">
                   </Attribute>
                </Arc>
                <Arc
                      name="broken colored arc">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
-                        description="broken colored arc"
+                        description="Broken Colored Arc"
                         drawable="true"
+                        icon16px="resources/formalisms/gspn/broken_colored_arc_16.png"
+                        icon24px="resources/formalisms/gspn/broken_colored_arc_24.png"
                         palettable="true"
-                        paletteName="broken colored arc">
+                        paletteName="B.C. Arc">
                   </GraphicInfo>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="color">
+                        name="Color">
                   </Attribute>
                </Arc>
                <Arc
                      name="inhibitor arc">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
-                        description="inhibitor arc"
+                        description="Inhibitor Arc"
                         drawable="true"
+                        icon16px="resources/formalisms/gspn/inhibitor_arc_16.png"
+                        icon24px="resources/formalisms/gspn/inhibitor_arc_24.png"
                         palettable="true"
-                        paletteName="inhibitor arc">
+                        paletteName="I. Arc">
                   </GraphicInfo>
                   <Attribute
                         bold="false"
@@ -288,17 +309,19 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="multiplicity">
+                        name="Multiplicity">
                   </Attribute>
                </Arc>
                <Arc
                      name="broken inhibitor arc">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
-                        description="broken inhibitor arc"
+                        description="Broken Inhibitor Arc"
                         drawable="true"
+                        icon16px="resources/formalisms/gspn/broken_inhibitor_arc_16.png"
+                        icon24px="resources/formalisms/gspn/broken_inhibitor_arc_24.png"
                         palettable="true"
-                        paletteName="broken inhibitor arc">
+                        paletteName="B.I. Arc">
                   </GraphicInfo>
                   <Attribute
                         bold="false"
@@ -306,41 +329,45 @@
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="multiplicity">
+                        name="Multiplicity">
                   </Attribute>
                </Arc>
                <Arc
                      name="colored inhibitor arc">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
-                        description="colored inhibitor arc"
+                        description="Colored Inhibitor Arc"
                         drawable="true"
+                        icon16px="resources/formalisms/gspn/colored_inhibitor_arc_16.png"
+                        icon24px="resources/formalisms/gspn/colored_inhibitor_arc_24.png"
                         palettable="true"
-                        paletteName="colored inhibitor arc">
+                        paletteName="C.I. Arc">
                   </GraphicInfo>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="color">
+                        name="Color">
                   </Attribute>
                </Arc>
                <Arc
                      name="broken colored inhibitor arc">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
-                        description="broken colored inhibitor arc"
+                        description="Broken Colored Inhibitor Arc"
                         drawable="true"
+                        icon16px="resources/formalisms/gspn/broken_colored_inhibitor_arc_16.png"
+                        icon24px="resources/formalisms/gspn/broken_colored_inhibitor_arc_24.png"
                         palettable="true"
-                        paletteName="broken colored inhibitor arc">
+                        paletteName="B.C.I. Arc">
                   </GraphicInfo>
                   <Attribute
                         bold="false"
                         drawable="true"
                         italic="false"
                         multiline="false"
-                        name="color">
+                        name="Color">
                   </Attribute>
                </Arc>
                <Attribute
@@ -348,14 +375,14 @@
                      drawable="true"
                      italic="false"
                      multiline="true"
-                     name="color classes">
+                     name="Color Classes">
                </Attribute>
                <Attribute
                      bold="false"
                      drawable="true"
                      italic="false"
                      multiline="true"
-                     name="static subclasses">
+                     name="Static Subclasses">
                </Attribute>
             </Graph>
             <Constraint
