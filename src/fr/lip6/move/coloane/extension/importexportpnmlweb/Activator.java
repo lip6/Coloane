@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extensions.importexportpnmlweb;
+package fr.lip6.move.coloane.extension.importexportpnmlweb;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
