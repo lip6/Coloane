@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extensions.importexportpnmlweb.importWizards;
+package fr.lip6.move.coloane.extensions.importFromPNMLWeb;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
