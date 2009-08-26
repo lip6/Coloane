@@ -8,7 +8,7 @@
  * Contributors:
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
-package fr.lip6.move.coloane.extension.importexportpnmlweb;
+package fr.lip6.move.coloane.extensions.importFromPNMLWeb;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
