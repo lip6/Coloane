@@ -4,18 +4,14 @@
 
    <extension
          point="org.eclipse.ui.importWizards">
-      <category
-            name="Sample File Import"
-            id="fr.lip6.move.coloane.importpnml_wizard.importWizards.sampleCategory">
-      </category>
       <wizard
-            name="Import File"
+            name="Import From PNML-Web"
             icon="icons/sample.gif"
-            category="fr.lip6.move.coloane.importpnml_wizard.importWizards.sampleCategory"
-            class="fr.lip6.move.coloane.importpnml_wizard.importWizards.ImportWizard"
-            id="fr.lip6.move.coloane.importpnml_wizard.importWizards.ImportWizard">
+            category="fr.lip6.move.coloane.wizard.import.coloane"
+            class="fr.lip6.move.coloane.extensions.importFromPNMLWeb.ImportWizard"
+            id="fr.lip6.move.coloane.wizard.import.pnmlweb">
          <description>
-            Import a file from the local file system into the workspace.
+            Import a file from the PNML-Web repository.
          </description>
       </wizard>
    </extension>

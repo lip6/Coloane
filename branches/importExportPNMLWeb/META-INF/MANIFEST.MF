@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Importpnml_wizard
 Bundle-SymbolicName: fr.lip6.move.coloane.importpnml_wizard; singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: fr.lip6.move.coloane.importpnml_wizard.Activator
+Bundle-Activator: fr.lip6.move.coloane.extensions.importFromPNMLWeb.Activator
 Require-Bundle: org.eclipse.ui,org.eclipse.core.runtime,org.eclipse.ui.ide,org.eclipse.core.resources,
  org.eclipse.ui,
  org.eclipse.core.runtime,
