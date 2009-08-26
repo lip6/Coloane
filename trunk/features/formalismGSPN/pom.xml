@@ -9,15 +9,15 @@
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.features</groupId>
-	<artifactId>formalismTPN</artifactId>
+	<artifactId>formalismGSPN</artifactId>
 	<packaging>jar</packaging>
-	<name>Features :: TPN Formalism</name>
-	<description>TPN Formalism</description>
+	<name>Features :: GSPN Formalism</name>
+	<description>GSPN Formalism</description>
 
 	<dependencies>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.fragments.formalisms</groupId>
-			<artifactId>tpn</artifactId>
+			<artifactId>gspn</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
