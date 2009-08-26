@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.exportToDOT;
+package fr.lip6.move.coloane.extensions.exportToDOT;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
