@@ -7,43 +7,50 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This interface describe a result sent by a tool.
+ * This interface describes a <b>result</b> sent by a tool.
+ * A result is basically composed of :
+ * <ul>
+ * 	<li>Sub-Results</li>
+ * 	<li>Textual Results</li>
+ * 	<li>Special Information: Tips</li>
+ * 	<li>A new model</li>
+ * 	<li>Some modifications to perform on the current model</li>
+ * </ul>
+ *
+ * @author Jean-Baptiste Voron
+ * @author Florian David
  */
 public interface IResult {
 
 	/**
-	 * Return the name of the result (Name of the called tool is preferred).
-	 * 
+	 * Return the name of the result (name of the called tool is preferred).
 	 * @return the result name.
 	 */
 	String getResultName();
 
 	/**
-	 * Return the sub-result list contained in the sub-result.
-	 * 
-	 * @return the sub-result list.
+	 * @return The list of sub-results contained in the result.
 	 */
 	List<ISubResult> getSubResults();
 
 	/**
-	 * Return the list of results in the form of text.
-	 * 
-	 * @return the list of textuals results.
+	 * @return The list of textual results contained in the result.
 	 */
 	List<List<String>> getTextualResults();
 
 	/**
-	 * @return la liste d'informations associées au résultat
+	 * @see ITip
+	 * @return The list of special information associated to the result.
 	 */
 	Map<Integer, List<ITip>> getTips();
 
 	/**
-	 * @return le nouveau graphe qui doit être affiché dans une nouvelle fenêtre
+	 * @return A new graph provided by the tool (or <code>null</code> if there is no new graph to display)
 	 */
 	IGraph getNewGraph();
 
 	/**
-	 * @return les modifications à faire sur le graphe courant
+	 * @return A list of modification to perform on the current model
 	 */
 	List<ICommand> getModificationsOnCurrentGraph();
 }

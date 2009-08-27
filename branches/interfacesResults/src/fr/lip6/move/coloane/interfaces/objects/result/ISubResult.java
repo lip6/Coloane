@@ -4,63 +4,59 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This interface describe a sub-result.
+ * This interface describes a <b>sub-result</b>.
+ * A sub-result is composed of the following elements:
+ * <ul>
+ * 	<li>Sub-results</li>
+ * 	<li>Object identifiers that will be highlighted in the editor</li>
+ * 	<li>Attribute that will be highlighted in the editor</li>
+ * 	<li>Textual results</li>
+ * 	<li>Special information</li>
+ * </ul>
  *
  * @author Jean-Baptiste Voron
+ * @author Florian David
  */
 public interface ISubResult {
 	
 	/**
-	 * Return the name of the sub-result.
-	 * 
-	 * @return the sub-result name.
+	 * @return A name associated to the sub-result (often a category name).
 	 */
 	String getSubResultName();
 
 	/**
-	 * Return an information about the sub-result.
-	 * 
-	 * @return the information.
+	 * @return A description of the sub-result.
 	 */
 	String getInformation();
 	
 	/**
-	 * Return the sub-result list contained in the sub-result.
-	 * 
-	 * @return the sub-result list.
+	 * @return A list of sub-results contained into the sub-result.
 	 */
 	List<ISubResult> getSubResults();
 
 	/**
-	 * Return the list of the objects ID which will be able to be highlighted in the model and will be added to the menu.
-	 * 
-	 * @return the list of objects IDs.
+	 * @return The list of the objects identifier which will be able to be highlighted in the model and <b>will be added to the result view</b>.
 	 */
 	List<Integer> getObjectsOutline();
 
 	/**
-	 * Return the list of the objects ID which will be able to be highlighted in the model but won't be added to the menu.
-	 * 
-	 * @return the list of objects IDs.
+	 * @return Return the list of the objects identifier which will be able to be highlighted in the model but <b>won't be added to the result view</b>.
 	 */
 	List<Integer> getObjectsDesignation();
 
 	/**
-	 * Return the map of attributes which will be able to be highlighted in the model.
-	 * 
-	 * @return the map of objects IDs and attribute.
+	 * @return The map of attributes which will be able to be highlighted in the model.
 	 */
 	Map<Integer, List<String>> getAttributesOutline();
 
 	/**
-	 * Return the list of results in the form of text.
-	 * 
-	 * @return the list of textuals results.
+	 * @return The list of textual results
 	 */
 	List<List<String>> getTextualResults();
 	
 	/**
-	 * @return la liste d'informations associées au résultat
+	 * @see ITip
+	 * @return The list of special information
 	 */
 	Map<Integer, List<ITip>> getTips();
 }
