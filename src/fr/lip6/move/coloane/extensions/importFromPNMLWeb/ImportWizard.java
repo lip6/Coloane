@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.extensions.importFromPNMLWeb;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
@@ -8,8 +7,10 @@ import org.eclipse.ui.IWorkbench;
 
 public class ImportWizard extends Wizard implements IImportWizard {
 	
-	ImportWizardPage mainPage;
-	ModelsDescriptorPage modelsDescriptorPage;
+	public ImportWizardPage mainPage;
+	public ModelsDescriptorPage modelsDescriptorPage;
+	public DownloadModelsPage downloadModelsPage;
+	
 
 	public ImportWizard() {
 		super();
@@ -17,7 +18,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
 
 	
 	public boolean canFinish() {
-		if (this.getContainer().getCurrentPage() == modelsDescriptorPage) 
+		if (this.getContainer().getCurrentPage() == downloadModelsPage) 
 			return true;
 		//System.out.println("yes !");
         return false;		
@@ -48,6 +49,8 @@ public class ImportWizard extends Wizard implements IImportWizard {
         addPage(mainPage);  
         modelsDescriptorPage = new ModelsDescriptorPage("Models Descriptor");
         addPage(modelsDescriptorPage);
+        downloadModelsPage = new DownloadModelsPage("Download models descriptor");
+        addPage(downloadModelsPage);
     }
 
 }
