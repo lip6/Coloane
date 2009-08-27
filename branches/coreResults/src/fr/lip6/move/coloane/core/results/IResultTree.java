@@ -96,8 +96,9 @@ public interface IResultTree {
 	List<ICoreTip> getTips(List<Integer> mayHaveTips);
 
 	/**
-	 * Permet de spécifier la liste des tips pour de résultat
-	 * @param tips liste des tips
+	 * Add tips list to the result.
+	 * @param map the map containing graph element ids associated to a tips list.
+	 * @param objectIds graph element ids of whom tips will be added to the result.
 	 */
 	void setTips(Map<Integer, List<ITip>> map, Integer... objectIds);
 }
