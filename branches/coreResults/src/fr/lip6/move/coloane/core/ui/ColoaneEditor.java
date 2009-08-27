@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.core.ui.actions.CurveAction;
 import fr.lip6.move.coloane.core.ui.actions.NodeMoveAction;
 import fr.lip6.move.coloane.core.ui.actions.RemoveInflexAction;
 import fr.lip6.move.coloane.core.ui.checker.CommandStackListener;
+import fr.lip6.move.coloane.core.ui.checker.MarkerManager;
 import fr.lip6.move.coloane.core.ui.files.ModelHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
@@ -77,7 +78,6 @@ import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.rulers.RulerComposite;
-import org.eclipse.gmf.runtime.common.ui.services.marker.MarkerNavigationService;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.swt.SWT;
@@ -741,6 +741,6 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	 * {@inheritDoc}
 	 */
 	public final void gotoMarker(IMarker marker) {
-		MarkerNavigationService.getInstance().gotoMarker(this, marker);
+		MarkerManager.getInstance().doGotoMarker(marker);
 	}
 }

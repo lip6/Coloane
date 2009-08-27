@@ -986,35 +986,6 @@
     </command>
  </extension>
  <extension
-       id="fr.lip6.move.coloane.core.ui.checker.ColoaneMarkerNavigationProvider"
-       name="Marker Manager"
-       point="org.eclipse.gmf.runtime.common.ui.services.markerNavigationProviders">
-    <MarkerNavigationProvider
-          class="fr.lip6.move.coloane.core.ui.checker.MarkerManager">
-       <Priority
-             name="Highest">
-       </Priority>
-       <MarkerType
-             name="fr.lip6.move.coloane.core.ui.checker.nodeMarker">
-       </MarkerType>
-       <MarkerType
-             name="fr.lip6.move.coloane.core.ui.checker.nodeAttributeMarker">
-       </MarkerType>
-       <MarkerType
-             name="fr.lip6.move.coloane.core.ui.checker.arcMarker">
-       </MarkerType>
-       <MarkerType
-             name="fr.lip6.move.coloane.core.ui.checker.arcAttributeMarker">
-       </MarkerType>
-       <MarkerType
-             name="fr.lip6.move.coloane.core.ui.checker.graphMarker">
-       </MarkerType>
-       <MarkerType
-             name="fr.lip6.move.coloane.core.ui.checker.graphAttributeMarker">
-       </MarkerType>
-    </MarkerNavigationProvider>
- </extension>
- <extension
        id="fr.lip6.move.coloane.core.ui.checker.rootMarker"
        name="Root Marker"
        point="org.eclipse.core.resources.markers">
@@ -1073,8 +1044,8 @@
     </persistent>
  </extension>
  <extension
-       id="fr.lip6.move.coloane.core.ui.checker.graphAttributeMarker"
-       name="Graph Attribute Problem"
+       id="fr.lip6.move.coloane.core.ui.checker.graphMarker"
+       name="Graph Problem"
        point="org.eclipse.core.resources.markers">
     <super
           type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
@@ -1084,7 +1055,7 @@
     </persistent>
  </extension>
  <extension
-       id="fr.lip6.move.coloane.core.ui.checker.graphMarker"
+       id="fr.lip6.move.coloane.core.ui.checker.graphAttributeMarker"
        name="Graph Attribute Problem"
        point="org.eclipse.core.resources.markers">
     <super

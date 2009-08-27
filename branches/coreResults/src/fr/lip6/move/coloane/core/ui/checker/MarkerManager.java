@@ -13,18 +13,24 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gmf.runtime.common.ui.services.marker.AbstractMarkerNavigationProvider;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
 /**
- * Marker manager.
+ * Marker manager.<br>
+ * It managed all markers operations :
+ * <ul>
+ * 	<li>Create markers</li>
+ * 	<li>Delete markers</li>
+ *  <li>Provide navigation from the marker to the correct graph element</li>
+ * </ul>
+ * 
  * 
  * @author Florian David
  */
-public class MarkerManager extends AbstractMarkerNavigationProvider {
+public final class MarkerManager {
 	/** ID of the root marker. */
 	private static String ROOT_MARKER = "fr.lip6.move.coloane.core.ui.checker.rootMarker"; //$NON-NLS-1$
 	/** ID of the node marker. */
@@ -41,9 +47,18 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	private static String GRAPH_ATTRIBUTE_MARKER = "fr.lip6.move.coloane.core.ui.checker.graphAttributeMarker"; //$NON-NLS-1$
 	/** ID the marker attribute "ID". Used to keep the IElement id with which the marker is linked. */
 	private static String ID = "id"; //$NON-NLS-1$
-
+	
+	/** The instance */
+	private static MarkerManager instance;
+	
 	/** Constructor */
-	public MarkerManager() { }
+	private MarkerManager() { }
+	
+	/** @return The CheckerManager instance */
+	public static synchronized MarkerManager getInstance() {
+		if (instance == null) { instance = new MarkerManager(); }
+		return instance;
+	}
 
 	/** 
 	 * Create one marker.
@@ -75,7 +90,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
 	 */
-	public static void createNodeMarker(IResource resource, String message, IElement element, Integer severity) {
+	public void createNodeMarker(IResource resource, String message, IElement element, Integer severity) {
 		createMarker(resource, NODE_MARKER, message, element, severity);
 	}
 
@@ -86,7 +101,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
 	 */
-	public static void createNodeAttributeMarker(IResource resource, String message, IElement element, Integer severity) {
+	public void createNodeAttributeMarker(IResource resource, String message, IElement element, Integer severity) {
 		createMarker(resource, NODE_ATTRIBUTE_MARKER, message, element, severity);
 	}
 
@@ -97,7 +112,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
 	 */
-	public static void createArcMarker(IResource resource, String message, IElement element, Integer severity) {
+	public void createArcMarker(IResource resource, String message, IElement element, Integer severity) {
 		createMarker(resource, ARC_MARKER, message, element, severity);
 	}
 
@@ -108,7 +123,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
 	 */
-	public static void createArcAttributeMarker(IResource resource, String message, IElement element, Integer severity) {
+	public void createArcAttributeMarker(IResource resource, String message, IElement element, Integer severity) {
 		createMarker(resource, ARC_ATTRIBUTE_MARKER, message, element, severity);
 	}
 
@@ -119,7 +134,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
 	 */
-	public static void createGraphMarker(IResource resource, String message, IElement element, Integer severity) {
+	public void createGraphMarker(IResource resource, String message, IElement element, Integer severity) {
 		createMarker(resource, GRAPH_MARKER, message, element, severity);
 	}
 
@@ -130,7 +145,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
 	 */
-	public static void createGraphAttributeMarker(IResource resource, String message, IElement element, Integer severity) {
+	public void createGraphAttributeMarker(IResource resource, String message, IElement element, Integer severity) {
 		createMarker(resource, GRAPH_ATTRIBUTE_MARKER, message, element, severity);
 	}
 	
@@ -138,7 +153,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * Delete all markers from a file.
 	 * @param resource file from where markers are deleted.
 	 */
-	public static void deleteAllMarkers(IResource resource) {
+	public void deleteAllMarkers(IResource resource) {
 		try {
 			resource.deleteMarkers(ROOT_MARKER, true, IResource.DEPTH_ZERO);
 		} catch (CoreException e) {
@@ -181,7 +196,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * @param resource the resource file from where markers are deleted.
 	 * @param element marker associated to this element will be deleted.
 	 */
-	public static void deleteNodeMarkers(IResource resource, IElement element) {
+	public void deleteNodeMarkers(IResource resource, IElement element) {
 		deleteMarkers(resource, NODE_MARKER, element);
 	}
 
@@ -190,7 +205,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * @param resource the resource file from where markers are deleted.
 	 * @param element marker associated to this element will be deleted.
 	 */
-	public static void deleteNodeAttributeMarkers(IResource resource, IElement element) {
+	public void deleteNodeAttributeMarkers(IResource resource, IElement element) {
 		deleteMarkers(resource, NODE_ATTRIBUTE_MARKER, element);
 	}
 
@@ -199,7 +214,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * @param resource the resource file from where markers are deleted.
 	 * @param element marker associated to this element will be deleted.
 	 */
-	public static void deleteArcMarkers(IResource resource, IElement element) {
+	public void deleteArcMarkers(IResource resource, IElement element) {
 		deleteMarkers(resource, ARC_MARKER, element);
 	}
 	
@@ -208,7 +223,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * @param resource the resource file from where markers are deleted.
 	 * @param element marker associated to this element will be deleted.
 	 */
-	public static void deleteArcAttributeMarkers(IResource resource, IElement element) {
+	public void deleteArcAttributeMarkers(IResource resource, IElement element) {
 		deleteMarkers(resource, ARC_ATTRIBUTE_MARKER, element);
 	}
 	
@@ -216,7 +231,7 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * Delete graph markers associated to the graph.
 	 * @param resource the resource file from where markers are deleted.
 	 */
-	public static void deleteGraphMarkers(IResource resource) {
+	public void deleteGraphMarkers(IResource resource) {
 		deleteMarkers(resource, GRAPH_MARKER, null);
 	}
 	
@@ -224,13 +239,15 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 	 * Delete graph attribute markers.
 	 * @param resource the resource file from where markers are deleted.
 	 */
-	public static void deleteGraphAttributeMarkers(IResource resource) {
+	public void deleteGraphAttributeMarkers(IResource resource) {
 		deleteMarkers(resource, GRAPH_ATTRIBUTE_MARKER, null);
 	}
 	
-	/** {@inheritDoc} */
-	@Override
-	protected final void doGotoMarker(IMarker marker) {
+    /**
+     * Sets the cursor and selection state for an editor to reveal the position of the given marker.
+     * @param marker the marker.
+     */
+	public void doGotoMarker(IMarker marker) {
 		// We get the IElement id associated to the marker
 		Integer objectId = -1;
 		try {
