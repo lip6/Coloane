@@ -1,62 +1,31 @@
 package fr.lip6.move.coloane.extensions.importFromPNMLWeb;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.preference.FileFieldEditor;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
+
+import fr.lip6.move.pnmlweb.Caller;
 
 
 
-public class ImportWizardPage extends WizardPage {
+public class ImportWizardPage extends WizardPage 
+//implements Listener 
+{
 	
-	protected FileFieldEditor editor;
-	private Text myText;
+	public Text myText;
 
 	public ImportWizardPage(String pageName) {
 		super(pageName);
 		setTitle(pageName); //NON-NLS-1
 		setDescription("Search of models descriptors"); //NON-NLS-1
-	}
-
-	 /* (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#createLinkTarget()
-	 */
-	protected void createLinkTarget() {
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#getInitialContents()
-	 */
-	protected InputStream getInitialContents() {
-		try {
-			return new FileInputStream(new File(editor.getStringValue()));
-		} catch (FileNotFoundException e) {
-			return null;
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.dialogs.WizardNewFileCreationPage#validateLinkedResource()
-	 */
-	protected IStatus validateLinkedResource() {
-		return new Status(IStatus.OK, "fr.lip6.move.coloane.extensions.importExportPNMLWeb", IStatus.OK, "", null); //NON-NLS-1 //NON-NLS-2
 	}
 
 	public void createControl(Composite parent) {
@@ -67,13 +36,20 @@ public class ImportWizardPage extends WizardPage {
 		myLabel.setText("Query: ");
 		myText = new Text(myComposite, SWT.BORDER);
 		myText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
+		//myText.addListener(SWT.KeyUp, this);
 		// set the composite as the control for this page
 		setControl(myComposite);
 	}
 	
+	/*
+	public void handleEvent(Event event) {
+		// TODO Auto-generated method stub
+		
+	}	
+	*/
 	
-	public IWizardPage getNextPage() {    		
+	
+	public IWizardPage getNextPage() {    
 		ModelsDescriptorPage page = ((ImportWizard)getWizard()).modelsDescriptorPage;
 		return page;
 	}
@@ -82,8 +58,51 @@ public class ImportWizardPage extends WizardPage {
 	 * @see IWizardPage#canFlipToNextPage()
 	 */
 	public boolean canFlipToNextPage() {
+		//if (getErrorMessage() != null) return false;
+		/*
+		if (isTextNonEmpty(myText))
+			return true;
+		return false;
+		*/
 		return true;
 	}
 	
+	private static boolean isTextNonEmpty(Text t) {
+		String s = t.getText();
+		if ((s!=null) && (s.trim().length() >0)) return true;
+		return false;
+	}
+
+	
+	
+	
+	/*
+	/**
+	 * Applies the status to the status line of a dialog page.
+	 */
+	/*
+	private void applyToStatusLine(IStatus status) {
+		String message= status.getMessage();
+		if (message.length() == 0) message= null;
+		switch (status.getSeverity()) {
+			case IStatus.OK:
+				setErrorMessage(null);
+				setMessage(message);
+				break;
+			case IStatus.WARNING:
+				setErrorMessage(null);
+				setMessage(message, WizardPage.WARNING);
+				break;				
+			case IStatus.INFO:
+				setErrorMessage(null);
+				setMessage(message, WizardPage.INFORMATION);
+				break;			
+			default:
+				setErrorMessage(message);
+				setMessage(null);
+				break;		
+		}
+	}
+	*/
 	
 }
