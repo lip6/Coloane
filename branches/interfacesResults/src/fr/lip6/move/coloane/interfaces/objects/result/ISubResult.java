@@ -4,45 +4,63 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Définition d'un sous-résultat<br>
- * Un sous-résultat peut contenir d'autres réstulats.
+ * This interface describe a sub-result.
  *
- * @author Jean-Baptiste
+ * @author Jean-Baptiste Voron
  */
 public interface ISubResult {
-
+	
 	/**
-	 * @return Tous les sous-résultats
+	 * Return the name of the sub-result.
+	 * 
+	 * @return the sub-result name.
 	 */
-	List<ISubResult> getChildren();
+	String getSubResultName();
 
 	/**
-	 * @return La liste des objets désignés par la plate-forme
+	 * Return an information about the sub-result.
+	 * 
+	 * @return the information.
 	 */
-	List<Integer> getObjectsDesignation();
+	String getInformation();
+	
+	/**
+	 * Return the sub-result list contained in the sub-result.
+	 * 
+	 * @return the sub-result list.
+	 */
+	List<ISubResult> getSubResults();
 
 	/**
-	 * @return La liste des objets qui doivent être mis en valeur
+	 * Return the list of the objects ID which will be able to be highlighted in the model and will be added to the menu.
+	 * 
+	 * @return the list of objects IDs.
 	 */
 	List<Integer> getObjectsOutline();
 
 	/**
-	 * @return La liste des attributs qui doivent être mis en valeur
+	 * Return the list of the objects ID which will be able to be highlighted in the model but won't be added to the menu.
+	 * 
+	 * @return the list of objects IDs.
+	 */
+	List<Integer> getObjectsDesignation();
+
+	/**
+	 * Return the map of attributes which will be able to be highlighted in the model.
+	 * 
+	 * @return the map of objects IDs and attribute.
 	 */
 	Map<Integer, List<String>> getAttributesOutline();
 
 	/**
-	 * @return La liste des résultats textuels
+	 * Return the list of results in the form of text.
+	 * 
+	 * @return the list of textuals results.
 	 */
-	List<String> getTextualResults();
-
+	List<List<String>> getTextualResults();
+	
 	/**
-	 * @return Le nom de l'ensemble de résultats
+	 * @return la liste d'informations associées au résultat
 	 */
-	String getName();
-
-	/**
-	 * @return Le type de l'ensemble de résultat
-	 */
-	int getType();
+	Map<Integer, List<ITip>> getTips();
 }

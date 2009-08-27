@@ -4,31 +4,38 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Cette interface décrit un résultat renvoyé par la plate-forme
+ * This interface describe a result sent by a tool.
  */
 public interface IResult {
 
 	/**
-	 * @return tous les sous-résultats
+	 * Return the name of the result (Name of the called tool is preferred).
+	 * 
+	 * @return the result name.
+	 */
+	String getResultName();
+
+	/**
+	 * Return the sub-result list contained in the sub-result.
+	 * 
+	 * @return the sub-result list.
 	 */
 	List<ISubResult> getSubResults();
 
 	/**
-	 * @return le nom du menu racine qui contient le service qui fournit ces résultats
+	 * Return the list of results in the form of text.
+	 * 
+	 * @return the list of textuals results.
 	 */
-	String getRootName();
-
-	/**
-	 * @return le nom du service qui a été invoqué
-	 */
-	String getServiceName();
+	List<List<String>> getTextualResults();
 
 	/**
 	 * @return la liste d'informations associées au résultat
 	 */
-	List<ITip> getTipsList();
+	Map<Integer, List<ITip>> getTips();
 
 	/**
 	 * @return le nouveau graphe qui doit être affiché dans une nouvelle fenêtre
