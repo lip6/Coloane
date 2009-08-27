@@ -11,14 +11,13 @@ import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class build a generic result tree.
  * @author Jean-Baptiste Voron
  * @author Florian David
  */
-public class GenericReport {
+public class GenericReport implements IReport {
 
 	/**
 	 * Build a result tree from an {@link IResult}. It will be displayed in the result view.
@@ -66,7 +65,7 @@ public class GenericReport {
 
 			// we create a node which will contain all data from the subResults list.
 			ResultTreeImpl node;
-			if (!("".equals(sub.getSubResultName()))) { //$NON-NLS-1$
+			if (!("".equals(sub.getName()))) { //$NON-NLS-1$
 				// Create a node with a specified name and all objects designation.
 				node = new ResultTreeImpl(sub.getObjectsDesignation(), sub.getSubResultName(), sub.getInformation());
 			} else {
@@ -93,7 +92,7 @@ public class GenericReport {
 					String formalismName = Messages.GenericReport_2;
 					// We retrieve it formalism name ...
 					if (element instanceof INode) {
-						String value = element.getAttribute(Messages.GenericReport_3).getValue();
+						String value = element.getAttribute(Messages.GenericReport_2).getValue();
 						if (!("".equals(value))) { //$NON-NLS-1$
 							name = value;
 						}
