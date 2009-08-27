@@ -167,6 +167,13 @@ public class MarkerManager extends AbstractMarkerNavigationProvider {
 				e.printStackTrace();
 			}
 		}
+		if (type.equals(GRAPH_MARKER) || type.equals(GRAPH_ATTRIBUTE_MARKER)) {
+			try {
+				resource.deleteMarkers(type, false, IResource.DEPTH_ZERO);
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/**

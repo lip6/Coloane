@@ -375,13 +375,23 @@ public final class CheckerManager {
 	 */
 	private void checkIElementAttributes(Checker checker, IElement element, IResource resource) {
 		for (IAttribute attribute : element.getAttributes()) {
-			for (AttributeChecker attributeChecker : checker.getGraphAttributeCheckers(attribute.getName())) {
-				if (!attributeChecker.check(attribute.getValue())) {
-					if (element instanceof INode) {
+			if (element instanceof INode) {
+				INode node = (INode) element;
+				for (AttributeChecker attributeChecker : checker.getNodeAttributeCheckers(node.getNodeFormalism().getName(), attribute.getName())) {
+					if (!attributeChecker.check(attribute.getValue())) {
 						MarkerManager.createNodeAttributeMarker(resource, attributeChecker.getMessage(), element, attributeChecker.getSeverity());
-					} else if (element instanceof IArc) {
+					}
+				}
+			} else if (element instanceof IArc) {
+				IArc arc = (IArc) element;
+				for (AttributeChecker attributeChecker : checker.getArcAttributeCheckers(arc.getArcFormalism().getName(), attribute.getName())) {
+					if (!attributeChecker.check(attribute.getValue())) {
 						MarkerManager.createArcAttributeMarker(resource, attributeChecker.getMessage(), element, attributeChecker.getSeverity());
-					} else if (element instanceof IGraph) {
+					}
+				}
+			} else if (element instanceof IGraph) {
+				for (AttributeChecker attributeChecker : checker.getGraphAttributeCheckers(attribute.getName())) {
+					if (!attributeChecker.check(attribute.getValue())) {
 						MarkerManager.createGraphAttributeMarker(resource, attributeChecker.getMessage(), element, attributeChecker.getSeverity());
 					}
 				}

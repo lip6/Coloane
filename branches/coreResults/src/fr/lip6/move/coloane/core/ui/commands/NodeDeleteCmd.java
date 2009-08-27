@@ -49,6 +49,12 @@ public class NodeDeleteCmd extends CheckableCmd {
 		this.node = node;
 		this.session = SessionManager.getInstance().getCurrentSession();
 		addCheckableElement(node);
+		for (IArc arc : node.getIncomingArcs()) {
+			addCheckableElement(arc);
+		}
+		for (IArc arc : node.getOutgoingArcs()) {
+			addCheckableElement(arc);
+		}
 	}
 
 	/** {@inheritDoc} */
