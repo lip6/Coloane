@@ -58,9 +58,9 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	public ResultTreeImpl(List<Integer> toHighlight, String...elements) {
 		// Element a mettre en valeur lors de la selection de cet arbre (feuille) de resultat
 		highlights = new ArrayList<Integer>();
-		
+
 		this.attributesOutline = new HashMap<Integer, List<String>>();
-		
+
 		if (toHighlight != null) {
 			this.highlights.addAll(toHighlight);
 		}
@@ -162,7 +162,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		// Si le parent du noeud est un ResultTreeList, ce noeud est donc le noeud racine du résultat.
 		// Il faut donc enlever le résultat du ResultTreeList
 		if (this.parent instanceof ResultTreeList) {
-			((ResultTreeList)parent).remove(serviceName);
+			((ResultTreeList) parent).remove(serviceName);
 			setChanged();
 			notifyObservers();
 		} else {
@@ -219,12 +219,11 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	}
 
 	/** {@inheritDoc} */
-	// TODO : Expliquer
-	public void setTips(Map<Integer, List<ITip>> map, Integer... objectIds) {
+	public final void setTips(Map<Integer, List<ITip>> map, Integer... objectIds) {
 		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
 		List<ICoreTip> coreTips = new ArrayList<ICoreTip>();
-		
-		
+
+
 		for (Integer id : objectIds) {
 			IElement element = currentGraph.getObject(id);
 			if (element != null) {
@@ -233,11 +232,11 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 					for (ITip tip : listTip) {
 						coreTips.add(new CoreTipModel(tip));
 					}
-					
+
 				}
 			}
 		}
-		
+
 		if (coreTips != null) {
 			this.tips = coreTips;
 		} else {
@@ -248,20 +247,26 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	/**
 	 * Ajoute une liste d'attributs à mettre en surbrillance.<br>
 	 * Avant de les rajouter, on vérifie que ces attributs existent bien dans le graphe courant.
-	 * @param map L'identifiant de l'objet à qui appartient l'attribut
-	 * 
-	 * TODO : expliquer le code
+	 * @param map une map contenant les id des elements du graph associés à une liste d'attributs à mettre en surbrillance.
+	 * @param elementIds tous les id des éléments dont les attributes doivent être ajoutés dans la map attributesOutline.
 	 */
-	public void addAttributesOutline(Map<Integer, List<String>> map, Integer... objectIds) {
+	public final void addAttributesOutline(Map<Integer, List<String>> map, Integer... elementIds) {
 		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
-		
-		for (int id : objectIds) {
+
+		// For each object ID,
+		for (int id : elementIds) {
+			// we get the associated element in the graph.
 			IElement element = currentGraph.getObject(id);
+			// If the element is not null (so if the element is present in the graph),
 			if (element != null) {
+				// we get it attributes list in the map.
 				List<String> listAttribute = map.get(id);
 				if (listAttribute != null) {
+					// For each attribute of the map, we check if this attribute exists for the graph element.
 					for (String attribute : listAttribute) {
+						// If it exists,
 						if (element.getAttribute(attribute) != null) {
+							// we add the id of the graph element with the attribute name in the attributesOutline map.
 							if (this.attributesOutline.containsKey(id)) {
 								this.attributesOutline.get(id).add(attribute);
 							} else {

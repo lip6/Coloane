@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 /**
  * Wrapper defining a complete attribute checker.
@@ -38,7 +37,7 @@ public class AttributeChecker {
 	 * Getter on marker severity.
 	 * @return the marker severity.
 	 */
-	public Integer getSeverity() {
+	public final Integer getSeverity() {
 		return severity;
 	}
 
@@ -46,7 +45,7 @@ public class AttributeChecker {
 	 * Getter on marker message.
 	 * @return the marker message.
 	 */
-	public String getMessage() {
+	public final String getMessage() {
 		return message;
 	}
 	
@@ -55,7 +54,7 @@ public class AttributeChecker {
 	 * @param value the value to check. It can be parsed but beware of {@link NumberFormatException}.
 	 * @return <code>true</code> if a marker must be created, <code>false</code> otherwise.
 	 */
-	public boolean check(String value) {
+	public final boolean check(String value) {
 		return checker.check(value);
 	}
 }

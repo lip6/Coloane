@@ -69,9 +69,9 @@ import org.eclipse.gef.ui.actions.ToggleRulerVisibilityAction;
 import org.eclipse.gef.ui.actions.ToggleSnapToGeometryAction;
 import org.eclipse.gef.ui.actions.ZoomInAction;
 import org.eclipse.gef.ui.actions.ZoomOutAction;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 import org.eclipse.gef.ui.palette.PaletteViewerProvider;
-import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.gef.ui.parts.ContentOutlinePage;
 import org.eclipse.gef.ui.parts.GraphicalEditorWithFlyoutPalette;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
@@ -476,7 +476,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		if (path != null) {
 			// try to save the editor's contents under a different file name
 			final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			
+
 			try {
 				new ProgressMonitorDialog(shell).run(false, false, new WorkspaceModifyOperation() {
 					@Override
@@ -736,7 +736,10 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		return CONTRIBUTOR_ID;
 	}
 
-	public void gotoMarker(IMarker marker) {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void gotoMarker(IMarker marker) {
 		MarkerNavigationService.getInstance().gotoMarker(this, marker);
 	}
 }

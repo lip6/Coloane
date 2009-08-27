@@ -1,9 +1,5 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,18 +12,18 @@ import java.util.Map;
  */
 public class Checker {
 	/** Map of {@NodeChecker} stored by node formalism */
-	private Map<String,List<NodeChecker>> nodeCheckers;
+	private Map<String, List<NodeChecker>> nodeCheckers;
 	/** Map of {@ArcChecker} stored by arc formalism */
-	private Map<String,List<ArcChecker>> arcCheckers;
+	private Map<String, List<ArcChecker>> arcCheckers;
 	/** List of {@GraphChecker} */
 	private List<GraphChecker> graphCheckers;
 	
 	/** Map of {@AttributeChecker} for {@link INode} attributes stored by node formalism and then by attribute name */
-	private Map<String,Map<String,List<AttributeChecker>>> nodeAttributeCheckers;
+	private Map<String, Map<String, List<AttributeChecker>>> nodeAttributeCheckers;
 	/** Map of {@AttributeChecker} for {@link IArc} attributes stored by arc formalism and then by attribute name */
-	private Map<String,Map<String,List<AttributeChecker>>> arcAttributeCheckers;
+	private Map<String, Map<String, List<AttributeChecker>>> arcAttributeCheckers;
 	/** Map of {@AttributeChecker} for {@link IGraph} attributes stored by attribute name */
-	private Map<String,List<AttributeChecker>> graphAttributeCheckers;
+	private Map<String, List<AttributeChecker>> graphAttributeCheckers;
 
 	/** Empty {@AttributeChecker} list */
 	private List<AttributeChecker> emptyAttributeList;
@@ -43,13 +39,13 @@ public class Checker {
 		this.emptyAttributeList = Collections.unmodifiableList(new ArrayList<AttributeChecker>(0));
 		this.emptyNodeList = Collections.unmodifiableList(new ArrayList<NodeChecker>(0));
 		this.emptyArcList = Collections.unmodifiableList(new ArrayList<ArcChecker>(0));
-		
-		this.nodeAttributeCheckers = new HashMap<String,Map<String,List<AttributeChecker>>>();
-		this.arcAttributeCheckers = new HashMap<String,Map<String,List<AttributeChecker>>>();
-		this.graphAttributeCheckers = new HashMap<String,List<AttributeChecker>>();
-		
-		this.nodeCheckers = new HashMap<String,List<NodeChecker>>();
-		this.arcCheckers = new HashMap<String,List<ArcChecker>>();
+
+		this.nodeAttributeCheckers = new HashMap<String, Map<String, List<AttributeChecker>>>();
+		this.arcAttributeCheckers = new HashMap<String, Map<String, List<AttributeChecker>>>();
+		this.graphAttributeCheckers = new HashMap<String, List<AttributeChecker>>();
+
+		this.nodeCheckers = new HashMap<String, List<NodeChecker>>();
+		this.arcCheckers = new HashMap<String, List<ArcChecker>>();
 		this.graphCheckers = new ArrayList<GraphChecker>();
 	}
 
@@ -58,7 +54,7 @@ public class Checker {
 	 * @param nodeFormalism the name of the node formalism.
 	 * @return a list of {@NodeChecker}. Never returns <code>null</code>.
 	 */
-	public List<NodeChecker> getNodeCheckers(String nodeFormalism) {
+	public final List<NodeChecker> getNodeCheckers(String nodeFormalism) {
 		if (nodeCheckers.containsKey(nodeFormalism)) {
 			return nodeCheckers.get(nodeFormalism);
 		} else {
@@ -71,7 +67,7 @@ public class Checker {
 	 * @param arcFormalism the name of the arc formalism.
 	 * @return a list of {@ArcChecker}. Never returns <code>null</code>.
 	 */
-	public List<ArcChecker> getArcCheckers(String arcFormalism) {
+	public final List<ArcChecker> getArcCheckers(String arcFormalism) {
 		if (arcCheckers.containsKey(arcFormalism)) {
 			return arcCheckers.get(arcFormalism);
 		} else {
@@ -83,7 +79,7 @@ public class Checker {
 	 * This method returns the list of {@GraphChecker}.
 	 * @return a list of {@GraphChecker}. Never returns <code>null</code>.
 	 */
-	public List<GraphChecker> getGraphCheckers() {
+	public final List<GraphChecker> getGraphCheckers() {
 		return graphCheckers;
 	}
 
@@ -94,7 +90,7 @@ public class Checker {
 	 * @param attributeName the name of the attribute.
 	 * @return list of {@AttributeChecker}. Never returns <code>null</code>.
 	 */
-	public List<AttributeChecker> getNodeAttributeCheckers(String nodeFormalism, String attributeName) {
+	public final List<AttributeChecker> getNodeAttributeCheckers(String nodeFormalism, String attributeName) {
 		if (nodeAttributeCheckers.containsKey(nodeFormalism)) {
 			 if (nodeAttributeCheckers.get(nodeFormalism).containsKey(attributeName)) {
 				 return nodeAttributeCheckers.get(nodeFormalism).get(attributeName);
@@ -113,7 +109,7 @@ public class Checker {
 	 * @param attributeName the name of the attribute.
 	 * @return list of {@AttributeChecker}. Never returns <code>null</code>.
 	 */
-	public List<AttributeChecker> getArcAttributeCheckers(String arcFormalism, String attributeName) {
+	public final List<AttributeChecker> getArcAttributeCheckers(String arcFormalism, String attributeName) {
 		if (arcAttributeCheckers.containsKey(arcFormalism)) {
 			 if (arcAttributeCheckers.get(arcFormalism).containsKey(attributeName)) {
 				 return arcAttributeCheckers.get(arcFormalism).get(attributeName);
@@ -131,7 +127,7 @@ public class Checker {
 	 * @param attributeName the name of the attribute.
 	 * @return list of {@AttributeChecker}. Never returns <code>null</code>.
 	 */
-	public List<AttributeChecker> getGraphAttributeCheckers(String attributeName) {
+	public final List<AttributeChecker> getGraphAttributeCheckers(String attributeName) {
 		 if (graphAttributeCheckers.containsKey(attributeName)) {
 			 return graphAttributeCheckers.get(attributeName);
 		 } else {
@@ -144,7 +140,7 @@ public class Checker {
 	 * @param nodeFormalism the name of the node formalism.
 	 * @param nodeChecker the nodeChecker to add.
 	 */
-	public void addNodeChecker(String nodeFormalism, NodeChecker nodeChecker) {
+	public final void addNodeChecker(String nodeFormalism, NodeChecker nodeChecker) {
 		if (nodeCheckers.containsKey(nodeFormalism)) {
 			nodeCheckers.get(nodeFormalism).add(nodeChecker);
 		} else {
@@ -159,7 +155,7 @@ public class Checker {
 	 * @param arcFormalism the name of the arc formalism.
 	 * @param arcChecker the arcChecker to add.
 	 */
-	public void addArcChecker(String arcFormalism, ArcChecker arcChecker) {
+	public final void addArcChecker(String arcFormalism, ArcChecker arcChecker) {
 		if (arcCheckers.containsKey(arcFormalism)) {
 			arcCheckers.get(arcFormalism).add(arcChecker);
 		} else {
@@ -173,7 +169,7 @@ public class Checker {
 	 * Add a {@GraphChecker}.
 	 * @param graphChecker the graphChecker to add.
 	 */
-	public void addGraphChecker(GraphChecker graphChecker) {
+	public final void addGraphChecker(GraphChecker graphChecker) {
 		graphCheckers.add(graphChecker);
 	}
 
@@ -184,7 +180,7 @@ public class Checker {
 	 * @param attributeName the name of the attribute.
 	 * @param nodeAttributeChecker the node AttributeChecker to add.
 	 */
-	public void addNodeAttributeChecker(String nodeFormalism, String attributeName, AttributeChecker nodeAttributeChecker) {
+	public final void addNodeAttributeChecker(String nodeFormalism, String attributeName, AttributeChecker nodeAttributeChecker) {
 		if (nodeAttributeCheckers.containsKey(nodeFormalism)) {
 			if (nodeAttributeCheckers.get(nodeFormalism).containsKey(attributeName)) {
 				nodeAttributeCheckers.get(nodeFormalism).get(attributeName).add(nodeAttributeChecker);
@@ -194,9 +190,9 @@ public class Checker {
 				nodeAttributeCheckers.get(nodeFormalism).put(attributeName, list);
 			}
 		} else {
-			HashMap<String,List<AttributeChecker>> map = new HashMap<String,List<AttributeChecker>>();
+			Map<String, List<AttributeChecker>> map = new HashMap<String, List<AttributeChecker>>();
 			List<AttributeChecker> list = new ArrayList<AttributeChecker>();
-			
+
 			list.add(nodeAttributeChecker);
 			map.put(attributeName, list);
 			this.nodeAttributeCheckers.put(nodeFormalism, map);
@@ -210,7 +206,7 @@ public class Checker {
 	 * @param attributeName the name of the attribute.
 	 * @param arcAttributeChecker the arc AttributeChecker to add.
 	 */
-	public void addArcAttributeChecker(String arcFormalism, String attributeName, AttributeChecker arcAttributeChecker) {
+	public final void addArcAttributeChecker(String arcFormalism, String attributeName, AttributeChecker arcAttributeChecker) {
 		if (arcAttributeCheckers.containsKey(arcFormalism)) {
 			if (arcAttributeCheckers.get(arcFormalism).containsKey(attributeName)) {
 				arcAttributeCheckers.get(arcFormalism).get(attributeName).add(arcAttributeChecker);
@@ -220,9 +216,9 @@ public class Checker {
 				arcAttributeCheckers.get(arcFormalism).put(attributeName, list);
 			}
 		} else {
-			HashMap<String,List<AttributeChecker>> map = new HashMap<String,List<AttributeChecker>>();
+			Map<String, List<AttributeChecker>> map = new HashMap<String, List<AttributeChecker>>();
 			List<AttributeChecker> list = new ArrayList<AttributeChecker>();
-			
+
 			list.add(arcAttributeChecker);
 			map.put(attributeName, list);
 			this.arcAttributeCheckers.put(arcFormalism, map);
@@ -235,7 +231,7 @@ public class Checker {
 	 * @param attributeName the name of the attribute.
 	 * @param graphAttributeChecker the graph AttributeChecker to add.
 	 */
-	public void addGraphAttributeChecker(String attributeName, AttributeChecker graphAttributeChecker) {
+	public final void addGraphAttributeChecker(String attributeName, AttributeChecker graphAttributeChecker) {
 		if (graphAttributeCheckers.containsKey(attributeName)) {
 			graphAttributeCheckers.get(attributeName).add(graphAttributeChecker);
 		} else {

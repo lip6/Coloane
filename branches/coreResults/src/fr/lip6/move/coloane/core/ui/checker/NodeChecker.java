@@ -38,7 +38,7 @@ public class NodeChecker {
 	 * Getter on marker severity.
 	 * @return the marker severity.
 	 */
-	public Integer getSeverity() {
+	public final Integer getSeverity() {
 		return severity;
 	}
 
@@ -46,7 +46,7 @@ public class NodeChecker {
 	 * Getter on marker message.
 	 * @return the marker message.
 	 */
-	public String getMessage() {
+	public final String getMessage() {
 		return message;
 	}
 
@@ -55,7 +55,7 @@ public class NodeChecker {
 	 * @param node the {@link INode} to check.
 	 * @return <code>true</code> if a marker must be created, <code>false</code> otherwise.
 	 */
-	public boolean check(INode node) {
+	public final boolean check(INode node) {
 		return checker.check(node);
 	}
 }

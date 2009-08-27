@@ -14,17 +14,21 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 
+/**
+ * Listener for the result tree viewer used to display results from external tools.
+ */
 public class CheckStateListener implements ICheckStateListener {
-	/**
-	 * Map conservant pour chaque noeud mis en valeur, le nombre de résultat
-	 * coché dans la vue le concernant (le noeud).
-	 * */
+	/** Map containing for each node/arc highlighted how many checked results about it there is in the tree. */
 	private Map<ISpecialState, Integer> checkStateMap;
 
-	/** Vue représentant l'arbre des résultats */
-	private CheckboxTreeViewer viewer;	
+	/** Result tree viewer. */
+	private CheckboxTreeViewer viewer;
 
-
+	/**
+	 * Constructor
+	 * @param viewer the checkboxTreeViewer to listen.
+	 * @param map the map containing for each node/arc highlighted how many checked results about it there is in the tree.
+	 */
 	CheckStateListener(CheckboxTreeViewer viewer, Map<ISpecialState, Integer> map) {
 		this.viewer = viewer;
 		this.checkStateMap = map;
@@ -63,21 +67,21 @@ public class CheckStateListener implements ICheckStateListener {
 					checkStateMap.put(element, value);
 				}
 			}
-			
-			
+
+
 			// On traite ensuite tous les attributs devant être mis en valeur
-			Map<Integer,List<String>> attributesMap = result.getAttributesOutline();
+			Map<Integer, List<String>> attributesMap = result.getAttributesOutline();
 			Iterator<Integer> it = attributesMap.keySet().iterator();
-			
+
 			while (it.hasNext()) {
 				int objectId = it.next();
-				
+
 				IElement element = session.getGraph().getObject(objectId);
 				if (element != null) {
 					for (String str : attributesMap.get(objectId)) {
 						ISpecialState attribute = (ISpecialState) element.getAttribute(str);
-						
-						if (attribute != null) { 
+
+						if (attribute != null) {
 							// On compte le nombre de fois qu'un attribut a été
 							// demandé a être mis en valeur.
 							Integer value = checkStateMap.get(attribute);
@@ -125,28 +129,27 @@ public class CheckStateListener implements ICheckStateListener {
 	
 	
 	/**
-	 * Permet d'empêcher de cocher les textualsResults 
-	 * 
-	 * @param result le sous-resultat coché dans l'arbre
-	 * @param checked représente le nouvel état coché dans l'arbre : true si le résultat est coché, false s'il ne l'est pas
-	 * @return true si le résultat a été coché ou si au moins un des sous-résultats est coché, false sinon
+	 * Forbid to check textual results.
+	 * @param result the checked subResult in the tree.
+	 * @param checked represent the new checked state in the tree : <code>true</code> if it's checked, <code>false</code> otherwise.
+	 * @return <code>true</code> if the result is checked or if at least one of its subresults is checked, <code>false</code> otherwise.
 	 */
 	private boolean disableTextualResults(IResultTree result, boolean checked) {
 		boolean bool = false;
-		// Appel récursif sur tous les children du résultat
+		// Recursive call on all results children.
 		for (IResultTree child : result.getChildren()) {
-			// Si un des fils est coché pendant l'appel récursif, bool prendra la valeur vrai en sortie de boucle
-			bool = disableTextualResults(child, checked) ||bool;
+			// If at least one of its children is checked durring the recursive call, bool will be 'true' at the end of the 'for'.
+			bool = disableTextualResults(child, checked) || bool;
 		}
-		// Si au moins l'un des sous-résultat a été coché, alors on coche le résultat courant (le parent du sous-résultat coché)
-		// On passe dans ce if uniquement si le résultat courant comporte des sous-résultats
+		// If at least one of its children was checked, we check the current result (the parent of the checked subResult).
+		// We go through this 'if' only if the current result got subResult.
 		if (bool) {
 			viewer.setChecked(result, checked);
 			return true;
 		}
-		// Si le résultat n'a pas de sous résultats, on regarde s'il a des objets du graphe à highlight
-		// Si non, on le décoche
-		// Si oui, on le laisse tel quel  car son état a déjà été modifié avant l'appel de la méthode
+		// If the result don't have subResult, we look if there is graph element to highlight in the current result.
+		// If not : this is a textual result and we uncheck it.
+		// Otherwise we don't touch it because it state has already been modify before the call of the method.
 		if ((result.getHighlighted().size() == 0) && result.getAttributesOutline().isEmpty()) {
 			viewer.setChecked(result, false);
 			return false;
@@ -155,15 +158,11 @@ public class CheckStateListener implements ICheckStateListener {
 	}
 	
 	/** {@inheritDoc} */
-	public void checkStateChanged(CheckStateChangedEvent event) {
+	public final void checkStateChanged(CheckStateChangedEvent event) {
 		IResultTree result = (IResultTree) event.getElement();
 		checkResult(SessionManager.getInstance().getCurrentSession(), result, !event.getChecked(), event.getChecked());
 		viewer.setSubtreeChecked(event.getElement(), event.getChecked());
 		disableTextualResults(result, event.getChecked());
-	}
-
-	public Map<ISpecialState, Integer> getCheckStateMap() {
-		return checkStateMap;
 	}
 }
 

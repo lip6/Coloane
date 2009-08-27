@@ -52,7 +52,7 @@ public interface ISession {
 
 	/**
 	 * Défini le checker
-	 * @param checker le checker 
+	 * @param checker le checker
 	 */
 	void setChecker(Checker checker);
 	

@@ -17,13 +17,13 @@ import org.eclipse.gef.commands.CompoundCommand;
 public class ColoaneCommandStackEventListener implements CommandStackEventListener {
 
 	/** {@inheritDoc} */
-	public void stackChanged(CommandStackEvent event) {
+	public final void stackChanged(CommandStackEvent event) {
 		if ((event.getDetail() & CommandStack.POST_MASK) != 0) {
-			List<CheckableCmd> checkableCommandsList = new ArrayList<CheckableCmd>(1);
+			List<CheckableCmd> checkableCommandsList = new ArrayList<CheckableCmd>();
 
 			Command eventCommand = event.getCommand();
 			// A CompoundCommand is sometimes given when an undo/redo is done.
-			// We have to get all the CheckableCmd from it. 
+			// We have to get all the CheckableCmd from it.
 			if (eventCommand instanceof CompoundCommand) {
 				CompoundCommand compoundCommand = (CompoundCommand) eventCommand;
 				for (Object command : compoundCommand.getCommands()) {

@@ -140,7 +140,7 @@ public final class Motor {
 		sessionManager.newSession(name); // On ajoute la session au moteur de sessions
 		sessionManager.getSession(name).setModel(graph); // On associe le modele a la session
 		Checker checker = checkerManager.setChecker(sessionManager.getSession(name)); // We attach the checker to the session
-		
+
 		// Then we check the whole graph with the checker
 		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(name));
 		checkerManager.checkAll(checker, resource, graph);
@@ -223,7 +223,7 @@ public final class Motor {
 			}
 		};
 
-		
+
 		job.setPriority(Job.SHORT);
 		job.setUser(true);
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());

@@ -26,12 +26,15 @@ public abstract class CheckableCmd extends Command {
 	/** List of {@link IElement} to check when the command executed */
 	private List<IElement> checkableElements = new ArrayList<IElement>();
 	
-	/** Constructor corresponding to {@link Command#Command()} */
-	public CheckableCmd() {	
+	/** Constructor corresponding to {@link Command#Command()}. */
+	public CheckableCmd() {
 		super();
 	}
 	
-	/** Constructor corresponding to {@link Command#Command(String)} */
+	/**
+	 * Constructor corresponding to {@link Command#Command(String)}.
+	 * @param label the CheckableCmd's label.
+	 */
 	public CheckableCmd(String label) {
 		super(label);
 	}
@@ -40,20 +43,20 @@ public abstract class CheckableCmd extends Command {
 	 * Add an element which will be check when the command is executed.
 	 * @param element the element to check.
 	 */
-	protected void addCheckableElement(IElement element) {
+	protected final void addCheckableElement(IElement element) {
 		this.checkableElements.add(element);
 	}
 	
 	/**
 	 * Call checkers on all elements in the checkableElements list.
 	 */
-	public void checkElements() {
+	public final void checkElements() {
 		// First we get the current session, the resource associated with the session, the session checker and the session graph.
 		ISession session = SessionManager.getInstance().getCurrentSession();
 		IGraph graph = session.getGraph();
 		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(session.getName()));
 		Checker checker = session.getChecker();
-		
+
 		// We call the checker on the graph.
 		CheckerManager.getInstance().checkGraph(checker, resource, graph);
 		// Then for each IElement of checkableElement list, . . .

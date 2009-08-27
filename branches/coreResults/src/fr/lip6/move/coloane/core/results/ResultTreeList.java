@@ -14,16 +14,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Logger;
 
 /**
  * Liste de ResultTree. Cette liste étend Observable.<br>
  * Cette classe est thread-safe.
  */
 public class ResultTreeList extends Observable implements IResultTree, Observer {
-	/** Le logger pour la classe */
-	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
 	private final Map<String, IResultTree> map;
 	private final List<Integer> highlights;
 
