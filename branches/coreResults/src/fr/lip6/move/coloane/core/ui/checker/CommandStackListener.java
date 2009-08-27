@@ -14,7 +14,7 @@ import org.eclipse.gef.commands.CompoundCommand;
  * When a command {@link CheckableCmd} is executed, this class execute {@link CheckableCmd#checkElements()} of each command.
  * @author Florian David
  */
-public class ColoaneCommandStackEventListener implements CommandStackEventListener {
+public class CommandStackListener implements CommandStackEventListener {
 
 	/** {@inheritDoc} */
 	public final void stackChanged(CommandStackEvent event) {

@@ -10,7 +10,7 @@ import fr.lip6.move.coloane.core.ui.actions.AlternateAction;
 import fr.lip6.move.coloane.core.ui.actions.CurveAction;
 import fr.lip6.move.coloane.core.ui.actions.NodeMoveAction;
 import fr.lip6.move.coloane.core.ui.actions.RemoveInflexAction;
-import fr.lip6.move.coloane.core.ui.checker.ColoaneCommandStackEventListener;
+import fr.lip6.move.coloane.core.ui.checker.CommandStackListener;
 import fr.lip6.move.coloane.core.ui.files.ModelHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
@@ -521,7 +521,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			listener = new TabListener();
 			getSite().getPage().addPartListener(listener);
 
-			this.getCommandStack().addCommandStackEventListener(new ColoaneCommandStackEventListener());
+			// Add the command stack event listener for listening to new added Command.
+			this.getCommandStack().addCommandStackEventListener(new CommandStackListener());
 		}
 		super.createPartControl(parent);
 	}

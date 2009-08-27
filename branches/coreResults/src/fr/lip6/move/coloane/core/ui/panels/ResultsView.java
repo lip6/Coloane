@@ -37,9 +37,6 @@ import org.eclipse.ui.part.ViewPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
- * TODO : Les attributs peuvent être linker uniquement aux sub-result, i.e. au menu.
- *  On ne peut pas les associer à un noeud ou à un arc.
- * 
  * Gestion de la vue des résultats
  */
 public class ResultsView extends ViewPart {
@@ -313,7 +310,6 @@ public class ResultsView extends ViewPart {
 					}
 				}
 			}
-			/** TODO : le removeAllTips doit-il etre présent dans la méthode uncheck*/
 			session.removeAllTips(result.getTips());
 		}
 
