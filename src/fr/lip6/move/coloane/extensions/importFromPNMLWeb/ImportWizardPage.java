@@ -1,29 +1,20 @@
 package fr.lip6.move.coloane.extensions.importFromPNMLWeb;
 
-import org.eclipse.jface.preference.FileFieldEditor;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-import fr.lip6.move.pnmlweb.Caller;
 
-
-
-public class ImportWizardPage extends WizardPage 
-//implements Listener 
-{
+public class ImportWizardPage extends WizardPage {
 	
 	public Text myText;
 	
-	//public String query;
-
+	
 	public ImportWizardPage(String pageName) {
 		super(pageName);
 		setTitle(pageName); //NON-NLS-1
@@ -43,12 +34,6 @@ public class ImportWizardPage extends WizardPage
 		setControl(myComposite);
 	}
 	
-	/*
-	public void handleEvent(Event event) {
-		// TODO Auto-generated method stub
-		
-	}	
-	*/
 	
 	
 	public IWizardPage getNextPage() {
@@ -59,11 +44,6 @@ public class ImportWizardPage extends WizardPage
 		return page;
 	}
 	
-	/*
-	public String getQuery() {
-		return query;
-	}
-*/
 	
 	/**
 	 * @see IWizardPage#canFlipToNextPage()
@@ -88,39 +68,11 @@ public class ImportWizardPage extends WizardPage
 	
 	private void saveDataQuery(){
 		ImportWizard wizard = (ImportWizard)getWizard();
-		SearchModel model = wizard.model;
+		ModelsDescriptorPage model = wizard.model;
 		
 		model.query = myText.getText();
+		//model.query = myText.getText();
 	}
 	
-	
-	/*
-	/**
-	 * Applies the status to the status line of a dialog page.
-	 */
-	/*
-	private void applyToStatusLine(IStatus status) {
-		String message= status.getMessage();
-		if (message.length() == 0) message= null;
-		switch (status.getSeverity()) {
-			case IStatus.OK:
-				setErrorMessage(null);
-				setMessage(message);
-				break;
-			case IStatus.WARNING:
-				setErrorMessage(null);
-				setMessage(message, WizardPage.WARNING);
-				break;				
-			case IStatus.INFO:
-				setErrorMessage(null);
-				setMessage(message, WizardPage.INFORMATION);
-				break;			
-			default:
-				setErrorMessage(message);
-				setMessage(null);
-				break;		
-		}
-	}
-	*/
 	
 }
