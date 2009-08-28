@@ -41,9 +41,7 @@ public class ExportToImpl implements IExportTo {
 	/**
 	 * Default constructor
 	 */
-	public ExportToImpl() {
-		// TODO Auto-generated constructor stub
-	}
+	public ExportToImpl() { }
 	
 	/**
 	 * Export a graph to GSPN formatted file
