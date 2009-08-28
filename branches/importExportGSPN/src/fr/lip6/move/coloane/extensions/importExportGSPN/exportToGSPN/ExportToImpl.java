@@ -34,12 +34,6 @@ public class ExportToImpl implements IExportTo {
 	/** Minimum number of transition (Marking Dependent)'s definition **/
 	private static int MINMKD = 1;
 	
-	private char lettre;
-	private int index=0, index2=0, index3=1, nb_places=0, nb_transitions=0, id_source, id_target, nb_input_arcs, nb_output_arcs, nb_inhibitor_arcs;
-	private String label, description, tag, marking, rate, definition, weight, priority, color, multiplicity, arc_color, value;
-	private double abs_node, ord_node, abs_tag, ord_tag, abs_rate, ord_rate, abs_weight, ord_weight, abs_def, ord_def, abs_color, ord_color;
-	//private double abs_arc_color, ord_arc_color;
-	private Integer index_marking, index_place, index_priority, address;
 	private Map<String, Integer> hmMarking = new HashMap<String, Integer>();
 	private Map<Integer, Integer> hmPlace = new HashMap<Integer, Integer>();
 	private Map<String, Integer> tmGroup = new TreeMap<String, Integer>();
@@ -178,6 +172,8 @@ public class ExportToImpl implements IExportTo {
 	 */
 	public Collection<String> markingOfPlaces(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
+		char lettre;
+		int index=0;
 		
 		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()) {
@@ -208,6 +204,8 @@ public class ExportToImpl implements IExportTo {
 	 */
 	public Collection<String> colorDef(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
+		char lettre;
+		String label = null, description = null;
 		
 		for (IAttribute attribute : graph.getAttributes()) {
 			lettre='c';
@@ -258,6 +256,9 @@ public class ExportToImpl implements IExportTo {
 	 */
 	public Collection<String> noobjs(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
+		int nb_places=0, nb_transitions=0, index3=1;
+		String priority;
+		Integer address;
 		
 		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()) {
@@ -293,6 +294,10 @@ public class ExportToImpl implements IExportTo {
 	 */
 	public Collection<String> places(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
+		int index2=0;
+		double abs_node, ord_node, abs_tag = 0, ord_tag = 0, abs_color = 0, ord_color = 0;
+		String tag = null, value, marking = null, color = null;
+		Integer index_marking;
 		
 		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()){
@@ -346,7 +351,8 @@ public class ExportToImpl implements IExportTo {
 	 */
 	public Collection<String> groups(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
-				
+		double abs_node = 0, ord_node = 0;
+		
 		for(String s: tmGroup.keySet()){
 			if(s.equalsIgnoreCase("1")){
 				monitor.subTask("Export nodes");
@@ -375,6 +381,10 @@ public class ExportToImpl implements IExportTo {
 	 */
 	public Collection<String> transitionsAndArcs(IGraph graph, IProgressMonitor monitor){
 		List<String> toReturn = new ArrayList<String>();
+		int nb_input_arcs, nb_output_arcs, nb_inhibitor_arcs;
+		double abs_node, ord_node, abs_tag = 0, ord_tag = 0, abs_rate = 0, ord_rate = 0, abs_weight = 0, ord_weight = 0, abs_def = 0, ord_def = 0, abs_color, ord_color;
+		String tag = null, rate = null, weight = null, priority = null, definition = null, color;
+		Integer index_priority = null;
 		
 		// Management of transitions
 		monitor.subTask("Export nodes");
@@ -464,6 +474,9 @@ public class ExportToImpl implements IExportTo {
 								toReturn.add(tag + "  " + weight + "  1  " + index_priority + "   " + nb_input_arcs + " 0 " + abs_node + " " + ord_node + " " + abs_tag + " " + ord_tag + " " + abs_weight + " " + ord_weight + " 0");
 						}
 					
+						int id_source, id_target;
+						String multiplicity, arc_color;
+						Integer index_place;
 						
 						// Management of arcs
 						monitor.subTask("Export arcs");
