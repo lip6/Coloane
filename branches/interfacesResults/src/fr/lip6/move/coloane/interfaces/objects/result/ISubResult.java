@@ -72,8 +72,8 @@ public interface ISubResult {
 	Map<Integer, List<ITip>> getTips();
 	
 	/**
-	 * TODO : A implémenter
 	 * @return Le type de l'ensemble de résultat
+	 * @deprecated
 	 */
 	int getType();
 }
