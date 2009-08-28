@@ -296,12 +296,13 @@ public class ExportToImpl implements IExportTo {
 		List<String> toReturn = new ArrayList<String>();
 		int index2=0;
 		double abs_node, ord_node, abs_tag = 0, ord_tag = 0, abs_color = 0, ord_color = 0;
-		String tag = null, value, marking = null, color = null;
+		String tag = null, value, marking = null, color;
 		Integer index_marking;
 		
 		monitor.subTask("Export nodes");
 		for (INode node : graph.getNodes()){
 			if(node.getNodeFormalism().getName().equalsIgnoreCase("place")){
+				color=null;
 				abs_node=getNodeXCoordinate(node);
 				ord_node=getNodeYCoordinate(node);
 				for(IAttribute attribute : node.getAttributes()){
@@ -483,113 +484,137 @@ public class ExportToImpl implements IExportTo {
 						}
 					}
 					
-						int id_source, id_target;
-						String multiplicity, arc_color;
-						Integer index_place;
+				int id_source, id_target;
+				String multiplicity = null, arc_color = null;
+				Integer index_place;
 						
 				// Management of arcs
 				monitor.subTask("Export arcs");
 				for(IArc arc : node.getIncomingArcs()){
 					id_source=arc.getSource().getId();
 					index_place=hmPlace.get(id_source);
-					if((arc.getArcFormalism().getName().equalsIgnoreCase("arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("colored arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored arc"))){
-						for(IAttribute attribute2 : arc.getAttributes()){
-							if(attribute2.getName().equalsIgnoreCase("multiplicity")){
-								multiplicity=attribute2.getValue();
-								if(arc.getArcFormalism().getName().equalsIgnoreCase("broken arc"))
-									toReturn.add("  -" + multiplicity + " " + index_place + " 0 0");
-								else											
-									toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
-							}
-							else{
-								//abs_arc_color=getAttributeXCoordinate(attribute2);
-								//ord_arc_color=getAttributeYCoordinate(attribute2);
-								arc_color=attribute2.getValue();
-								if(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored arc")){
-									if(attribute2.getValue().equalsIgnoreCase("")==false)
-										toReturn.add("  -1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
-									else
-										toReturn.add("  -1 " + index_place + " 0 0");
-								}
-								else{
-									if(attribute2.getValue().equalsIgnoreCase("")==false)
-										toReturn.add("  1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
-									else
-										toReturn.add("  1 " + index_place + " 0 0");
-								}
-							}
+					for(IAttribute attribute2 : arc.getAttributes()){
+						if(attribute2.getName().equalsIgnoreCase("multiplicity")){
+							multiplicity=attribute2.getValue();
+						}
+						else{
+							//abs_arc_color=getAttributeXCoordinate(attribute2);
+							//ord_arc_color=getAttributeYCoordinate(attribute2);
+							arc_color=attribute2.getValue();
 						}
 					}
+					
+					//if((arc.getArcFormalism().getName().equalsIgnoreCase("arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("colored arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored arc"))){
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("broken arc")){
+							toReturn.add("  -" + multiplicity + " " + index_place + " 0 0");
+						}
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("arc")){											
+							toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
+						}
+						
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored arc")){
+							if(arc_color!=null){
+								toReturn.add("  -1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
+							}
+							else{
+								toReturn.add("  -1 " + index_place + " 0 0");
+							}
+						}
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("colored arc")){
+							if(arc_color!=null){
+								toReturn.add("  1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
+							}
+							else{
+								toReturn.add("  1 " + index_place + " 0 0");
+							}
+						}
+					//}
 					monitor.worked(1);
 				}
+				
 				toReturn.add("   " + nb_output_arcs);
+				
 				monitor.subTask("Export arcs");
 				for(IArc arc : node.getOutgoingArcs()){
 					id_target=arc.getTarget().getId();
 					index_place=hmPlace.get(id_target);
-					if((arc.getArcFormalism().getName().equalsIgnoreCase("arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("colored arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored arc"))){
+					//if((arc.getArcFormalism().getName().equalsIgnoreCase("arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("colored arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored arc"))){
 						for(IAttribute attribute2 : arc.getAttributes()){
 							if(attribute2.getName().equalsIgnoreCase("multiplicity")){
 								multiplicity=attribute2.getValue();
-								if(arc.getArcFormalism().getName().equalsIgnoreCase("broken arc"))
-									toReturn.add("  -" + multiplicity + " " + index_place + " 0 0");
-								else
-									toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
 							}
 							else{
 								//abs_arc_color=getAttributeXCoordinate(attribute2);
 								//ord_arc_color=getAttributeYCoordinate(attribute2);
 								arc_color=attribute2.getValue();
-								if(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored arc")){
-									if(attribute2.getValue().equalsIgnoreCase("")==false)
-										toReturn.add("  -1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
-									else
-										toReturn.add("  -1 " + index_place + " 0 0");
-								}
-								else{
-									if(attribute2.getValue().equalsIgnoreCase("")==false)
-										toReturn.add("  1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
-									else
-										toReturn.add("  1 " + index_place + " 0 0");
-								}
 							}
 						}
-					}
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("broken arc")){
+							toReturn.add("  -" + multiplicity + " " + index_place + " 0 0");
+						}
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("arc")){
+							toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
+						}
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored arc")){
+							if(arc_color!=null){
+								toReturn.add("  -1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
+							}
+							else{
+								toReturn.add("  -1 " + index_place + " 0 0");
+							}
+						}
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("colored arc")){
+							if(arc_color!=null){
+								toReturn.add("  1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
+							}
+							else{
+								toReturn.add("  1 " + index_place + " 0 0");
+							}
+						}
+					//}
 					monitor.worked(1);
 				}
+				
 				toReturn.add("   " + nb_inhibitor_arcs);
+				
 				monitor.subTask("Export arcs");
 				for(IArc arc : node.getIncomingArcs()){
 					id_source=arc.getSource().getId();
 					index_place=hmPlace.get(id_source);
-					if((arc.getArcFormalism().getName().equalsIgnoreCase("inhibitor arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken inhibitor arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("colored inhibitor arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored inhibitor arc"))){
+					//if((arc.getArcFormalism().getName().equalsIgnoreCase("inhibitor arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken inhibitor arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("colored inhibitor arc"))||(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored inhibitor arc"))){
 						for(IAttribute attribute2 : arc.getAttributes()){
 							if(attribute2.getName().equalsIgnoreCase("multiplicity")){
 								multiplicity=attribute2.getValue();
-								if(arc.getArcFormalism().getName().equalsIgnoreCase("broken inhibitor arc"))
-									toReturn.add("  -" + multiplicity + " " + index_place + " 0 0");
-								else
-									toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
 							}
 							else{
 								//abs_arc_color=getAttributeXCoordinate(attribute2);
 								//ord_arc_color=getAttributeYCoordinate(attribute2);
 								arc_color=attribute2.getValue();
-								if(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored inhibitor arc")){
-									if(attribute2.getValue().equalsIgnoreCase("")==false)
-										toReturn.add("  -1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
-									else
-										toReturn.add("  -1 " + index_place + " 0 0");
-								}
-								else{
-									if(attribute2.getValue().equalsIgnoreCase("")==false)
-										toReturn.add("  1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
-									else
-										toReturn.add("  1 " + index_place + " 0 0");
-								}
 							}
 						}
-					}
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("broken inhibitor arc")){
+							toReturn.add("  -" + multiplicity + " " + index_place + " 0 0");
+						}
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("inhibitor arc")){
+							toReturn.add("  " + multiplicity + " " + index_place + " 0 0");
+						}
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("broken colored inhibitor arc")){
+							if(arc_color!=null){
+								toReturn.add("  -1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
+							}
+							else{
+								toReturn.add("  -1 " + index_place + " 0 0");
+							}
+						}
+						if(arc.getArcFormalism().getName().equalsIgnoreCase("colored inhibitor arc")){
+							if(arc_color!=null){
+								toReturn.add("  1 " + index_place + " 0 0 " + "0" + " " + "0" + " " + arc_color);
+							}
+							else{
+								toReturn.add("  1 " + index_place + " 0 0");
+							}
+						}
+					//}
 					monitor.worked(1);
 				}
 			}
