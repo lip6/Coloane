@@ -14,31 +14,12 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 public class StatAction implements IColoaneAction {
 
-	public List<IResult> run(IGraph model) {
-		ArrayList<INode> tabNodes = new ArrayList<INode>(model.getNodes());
-		ArrayList<IArc> tabArcs = new ArrayList<IArc>(model.getArcs());
-
-		Result res1 = new Result("", null);
-		SubResult subres1 = new SubResult("");
-		
-		int i = 1;
-		for (INode node : tabNodes) {
-			subres1.addObjectDesignation(node);
-			subres1.addTip(node, "Nom "+i, "Value "+i);
-			i++;
-		}
-		for (INode node : tabNodes) {
-			subres1.addAttributeOutline(node,"name");
-		}
-
-
-		res1.addSubResult(subres1);
-		ArrayList<IResult> al = new ArrayList<IResult>();
-		al.add(res1);
-		return al;
-	}
-	
 	public List<IResult> run1(IGraph model) {
+
+		return (new ArrayList<IResult>());
+	}
+
+	public List<IResult> run(IGraph model) {
 		ArrayList<INode> tabNodes = new ArrayList<INode>(model.getNodes());
 		ArrayList<IArc> tabArcs = new ArrayList<IArc>(model.getArcs());
 
@@ -76,7 +57,6 @@ public class StatAction implements IColoaneAction {
 		res1.addSubResult(subres2);
 		res1.addSubResult(subres3);
 		res1.addSubResult(subres4);
-
 
 		ArrayList<IResult> al = new ArrayList<IResult>();
 		al.add(res1);

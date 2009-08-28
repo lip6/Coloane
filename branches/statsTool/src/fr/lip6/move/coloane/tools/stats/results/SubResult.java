@@ -10,17 +10,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Cette classe contient toutes les informations qui définissent un sous-résultat<br><br>
- * This class define a sub-result.<br><br>
- * 
- * Un sous résultat est forcément contenu dans un résultat ou un sous-résultat.<br>
+ * This class define a sub-result.<br>
+ * A sub-result is always contained in a result or a sub-result.
+ * Other sub-results can be added to ensure a tree structure.<br><br>
+ *
+ * Cette classe contient toutes les informations qui définissent un sous-résultat<br>
+ * Un sous résultat est forcément contenu dans un résultat ou un sous-résultat.
  * D'autres sous-résultats peuvent le composer pour assurer une structure arborescente.
- *
- * A sub-result is always contained in a result or a sub-result.<br>
- * Other sub-results can be added to ensure a tree structure.
- *
- *
+ * 
  * @author Jean-Baptiste Voron
+ * @author Florian David
  */
 public class SubResult implements ISubResult {
 	/** Sub-result name. */
@@ -32,8 +31,7 @@ public class SubResult implements ISubResult {
 	/** Sub-results included in this sub-result. */
 	private List<ISubResult> subResults;
 
-	/** Liste des informations */
-	// TODO : traduire en anglais
+	/** Tips list */
 	private Map<Integer,List<ITip>> tips;
 
 	/** 
@@ -122,7 +120,6 @@ public class SubResult implements ISubResult {
 
 
 	/**
-	 * TODO : Essayer de factoriser cette méthode avec celle dans le Result
 	 * Add a result in the form of text in the list.
 	 * Ajoute un résultat sous forme de texte dans la liste.
 	 * 
@@ -244,6 +241,13 @@ public class SubResult implements ISubResult {
 	public final List<ISubResult> getSubResults() {
 		return this.subResults;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public List<ISubResult> getChildren() {
+		return this.subResults;
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -283,7 +287,22 @@ public class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
+	public String getName() {
+		return this.subResultName;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getInformation() {
 		return information;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public int getType() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
