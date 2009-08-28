@@ -14,15 +14,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Permet à un outil de renvoyer un résultat qui sera affiché dans une vue d'Eclipse<br><br>
  * Allow a tool to send a result which will be displayed in an Eclipse view.<br><br>
+ * The result has an tree structure : it can contain {@link SubResult} which will also be able to contain others SubResult.<br><br>
  * 
- * 
- * Le résultat a une structure arborescente : il peut contenir des sous-résultats {@link SubResult} qui pourront
- *  à leur tour contenir d'autres sous-résultats.
- * 
+ * Permet à un outil de renvoyer un résultat qui sera affiché dans une vue d'Eclipse<br>
+ * Le résultat a une structure arborescente : il peut contenir des {@link SubResult} qui pourront à leur tour contenir d'autres sous-résultats.
  * 
  * @author Jean-Baptiste Voron
+ * @author Florian David
  */
 public class Result implements IResult {
 	/** Result name */
@@ -31,7 +30,7 @@ public class Result implements IResult {
 	/** Sub-results included in this result. */
 	private List<ISubResult> subResults;
 
-	/** Liste des informations */
+	/** Tips list */
 	private Map<Integer,List<ITip>> tips;
 
 	/** Liste des commandes de modifications du modele */
@@ -43,25 +42,35 @@ public class Result implements IResult {
 
 	/** La liste des commandes pour construire le graphe résultat */
 	private List<ICommand> deltaCommands;
-	
+
 	/** List of results in the form of text. */
 	private List<List<String>> textualResults;
 
 	/**
-	 * Constructs an empty result.
-	 * 
+	 * Constructor of an empty result.
 	 * @param resultName the name of the result (Name of the called tool is preferred).
-	 * @param outputGraph Le modèle résultat envoyé par le core... à remplir
+	 * @param outputGraph Le modèle résultat envoyé par le core... à remplir.
 	 */
 	public Result(String resultName, IGraph outputGraph) {
 		this.resultName = resultName;
 		this.outputGraph = outputGraph;
 		this.computedGraph = null;
 		this.subResults = new ArrayList<ISubResult>();
-		this.tips = new HashMap<Integer,List<ITip>>();
+		this.tips = new HashMap<Integer, List<ITip>>();
 		this.commandsList = new ArrayList<ICommand>();
 		this.deltaCommands = new ArrayList<ICommand>();
 		this.textualResults = new ArrayList<List<String>>();
+	}
+
+	/**
+	 * Constructor of an empty result.
+	 * @param resultName the name of the result (Name of the called tool is preferred).
+	 * @param serviceName service which provide results (now unused, replaced by the resultName argument).
+	 * @param outputGraph Le modèle résultat envoyé par le core... à remplir
+	 * @deprecated use {@link Result#Result(String, IGraph)} instead.
+	 */
+	public Result(String resultName, String serviceName, IGraph outputGraph) {
+		this(resultName, outputGraph);
 	}
 
 	/**
@@ -90,11 +99,10 @@ public class Result implements IResult {
 	}
 
 	/**
-	 * TODO : A remplir (en anglais, of course !)
-	 * 
-	 * @param object
-	 * @param name
-	 * @param value
+	 * Add a tip to the tip list.
+	 * @param object the tip will belong to this object.
+	 * @param name the tip name.
+	 * @param value the tip value.
 	 */
 	public final void addTip(IElement object, String name, String value) {
 		if (object != null) {
@@ -103,6 +111,7 @@ public class Result implements IResult {
 	}
 	
 	/**
+	 * TODO : A traduire (en anglais, of course !)
 	 * Ajouter une commande de modification du modèle à la liste
 	 * @param command La commande qui doit être ajoutée
 	 */
@@ -111,6 +120,7 @@ public class Result implements IResult {
 	}
 
 	/**
+	 * TODO : A traduire (en anglais, of course !)
 	 * Demande la création d'un nouveau graphe
 	 * @param commands La liste de commandes décrivant le nouveau noeud
 	 */
@@ -125,6 +135,20 @@ public class Result implements IResult {
 		return this.resultName;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getRootName() {
+		return this.resultName;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getServiceName() {
+		return this.resultName;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -154,14 +178,13 @@ public class Result implements IResult {
 	}
 	
 	/**
-	 * TODO : Essayer de factoriser cette méthode avec celle dans le Result
 	 * Add a result in the form of text in the list.
 	 * Ajoute un résultat sous forme de texte dans la liste.
 	 * 
 	 * @param result Le résultat textuel qui doit être ajouté dans la liste.<br>
 	 *  Celui-ci est stocké sous forme de tableau pour être affiché dans les colonnes de la vue. 
 	 * @param result the textual result to be added to the list.<br>
-	 * It's stored in an array for being displayed in the columns of the view.
+	 * This one is stored in an array for being displayed in the columns of the view.
 	 */
 	public final void addTextualResult(String... result) {
 		// emptyList permet de savoir si le tableau construit est constitué uniquement de chaînes vides

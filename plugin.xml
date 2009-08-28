@@ -12,5 +12,16 @@
             name="StatToolBis">
       </Tool>
    </extension>
+   <extension
+         id="fr.lip6.move.coloane.tools.stats"
+         name="Marker Perso"
+         point="org.eclipse.core.resources.markers">
+      <persistent
+            value="true">
+      </persistent>
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+   </extension>
 
 </plugin>
