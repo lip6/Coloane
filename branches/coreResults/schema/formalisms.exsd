@@ -456,6 +456,8 @@
                   </enumeration>
                   <enumeration value="Warning">
                   </enumeration>
+                  <enumeration value="Info">
+                  </enumeration>
                </restriction>
             </simpleType>
          </attribute>
@@ -499,6 +501,8 @@
                   <enumeration value="Error">
                   </enumeration>
                   <enumeration value="Warning">
+                  </enumeration>
+                  <enumeration value="Info">
                   </enumeration>
                </restriction>
             </simpleType>
@@ -544,6 +548,8 @@
                   </enumeration>
                   <enumeration value="Warning">
                   </enumeration>
+                  <enumeration value="Info">
+                  </enumeration>
                </restriction>
             </simpleType>
          </attribute>
@@ -587,6 +593,8 @@
                   <enumeration value="Error">
                   </enumeration>
                   <enumeration value="Warning">
+                  </enumeration>
+                  <enumeration value="Info">
                   </enumeration>
                </restriction>
             </simpleType>

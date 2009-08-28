@@ -79,8 +79,10 @@ public final class CheckerManager {
 				// then we retrieve the marker severity
 				if (condition.getAttribute("severity").equals("Error")) { //$NON-NLS-1$ //$NON-NLS-2$
 					severity = IMarker.SEVERITY_ERROR;
-				} else {
+				} else if (condition.getAttribute("severity").equals("Warning")) { //$NON-NLS-1$ //$NON-NLS-2$
 					severity = IMarker.SEVERITY_WARNING;
+				} else {
+					severity = IMarker.SEVERITY_INFO;
 				}
 
 				// and finally constructs the GraphChecker and add it to the Checker
@@ -111,8 +113,10 @@ public final class CheckerManager {
 					// then we retrieve the marker severity
 					if (condition.getAttribute("severity").equals("Error")) { //$NON-NLS-1$ //$NON-NLS-2$
 						severity = IMarker.SEVERITY_ERROR;
-					} else {
+					} else if (condition.getAttribute("severity").equals("Warning")) { //$NON-NLS-1$ //$NON-NLS-2$
 						severity = IMarker.SEVERITY_WARNING;
+					} else {
+						severity = IMarker.SEVERITY_INFO;
 					}
 
 					// and finally constructs the NodeChecker and add it to the Checker
@@ -144,8 +148,10 @@ public final class CheckerManager {
 					// then we retrieve the marker severity
 					if (condition.getAttribute("severity").equals("Error")) { //$NON-NLS-1$ //$NON-NLS-2$
 						severity = IMarker.SEVERITY_ERROR;
-					} else {
+					} else if (condition.getAttribute("severity").equals("Warning")) { //$NON-NLS-1$ //$NON-NLS-2$
 						severity = IMarker.SEVERITY_WARNING;
+					} else {
+						severity = IMarker.SEVERITY_INFO;
 					}
 
 					// and finally constructs the ArcChecker and add it to the Checker
@@ -186,8 +192,10 @@ public final class CheckerManager {
 					// then we retrieve the marker severity
 					if (condition.getAttribute("severity").equals("Error")) { //$NON-NLS-1$ //$NON-NLS-2$
 						severity = IMarker.SEVERITY_ERROR;
-					} else {
+					} else if (condition.getAttribute("severity").equals("Warning")) { //$NON-NLS-1$ //$NON-NLS-2$
 						severity = IMarker.SEVERITY_WARNING;
+					} else {
+						severity = IMarker.SEVERITY_INFO;
 					}
 
 					// and finally constructs the ArcChecker and add it to the correct attribute checkers list in the checker.
@@ -413,7 +421,7 @@ public final class CheckerManager {
 	 * @param graph the graph to check.
 	 */
 	public void checkAll(Checker checker, IResource resource, IGraph graph) {
-		LOGGER.finer("Check intégrale du graph de la session " + resource.getFullPath().toString()); //$NON-NLS-1$
+		LOGGER.finer("Check intégral du graphe de la session " + resource.getFullPath().toString()); //$NON-NLS-1$
 
 		// Deleting all the markers.
 		MarkerManager.getInstance().deleteAllMarkers(resource);
