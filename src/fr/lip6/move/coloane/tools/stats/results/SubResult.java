@@ -32,18 +32,18 @@ public class SubResult implements ISubResult {
 	private List<ISubResult> subResults;
 
 	/** Tips list */
-	private Map<Integer,List<ITip>> tips;
+	private Map<Integer, List<ITip>> tips;
 
 	/** 
 	 * 	Liste d'objets pouvant être mis en surbrillance dans le modèle.<br>
-	 *  Ces objets ne seront pas affichés dans le menu du sous-résultat. 
+	 *  Ces objets ne seront pas affichés dans le menu du sous-résultat.
 	 */
 	// TODO : traduire en anglais
 	private List<Integer> objectsDesignation;
 
 	/** 
 	 * Liste d'objets pouvant être mis en surbrillance dans le modèle.<br>
-	 * Ces objets seront affichés dans le menu du sous-résultat. 
+	 * Ces objets seront affichés dans le menu du sous-résultat.
 	 */
 	// TODO : traduire en anglais
 	private List<Integer> objectsOutline;
@@ -55,6 +55,8 @@ public class SubResult implements ISubResult {
 	/** List of results in the form of text. */
 	private List<List<String>> textualResults;
 
+	/** Type */
+	private Integer type;
 
 	/**
 	 * Constructs an empty sub-result.
@@ -62,7 +64,7 @@ public class SubResult implements ISubResult {
 	 * @param subResultName Name of the sub-result.
 	 */
 	public SubResult(String subResultName) {
-		this(subResultName, "");
+		this(subResultName, ""); //$NON-NLS-1$
 	}
 
 	/**
@@ -77,9 +79,10 @@ public class SubResult implements ISubResult {
 		this.subResults = new ArrayList<ISubResult>();
 		this.objectsDesignation = new ArrayList<Integer>();
 		this.objectsOutline = new ArrayList<Integer>();
-		this.attributesOutline = new HashMap<Integer,List<String>>();
+		this.attributesOutline = new HashMap<Integer, List<String>>();
 		this.textualResults = new ArrayList<List<String>>();
-		this.tips = new HashMap<Integer,List<ITip>>();
+		this.tips = new HashMap<Integer, List<ITip>>();
+		this.type = 0;
 	}
 
 
@@ -90,8 +93,7 @@ public class SubResult implements ISubResult {
 	public final void addTip(ITip tip) {
 		if (this.tips.containsKey(tip.getIdObject())) {
 			(this.tips.get(tip.getIdObject())).add(tip);
-		}
-		else {
+		} else {
 			List<ITip> list = new ArrayList<ITip>();
 			list.add(tip);
 			this.tips.put(tip.getIdObject(), list);
@@ -99,22 +101,21 @@ public class SubResult implements ISubResult {
 	}
 
 	/**
-	 * TODO : A remplir (en anglais, of course !)
-	 * 
-	 * @param object
-	 * @param name
-	 * @param value
+	 * Add a tip in the subResult.
+	 * @param object the element in which the tip will be linked.
+	 * @param name the tip name.
+	 * @param value the tip value.
 	 */
 	public final void addTip(IElement object, String name, String value) {
 		if (object != null) {
-			this.addTip(new Tip(object.getId(),name,value));
+			this.addTip(new Tip(object.getId(), name, value));
 		}
 	}
 	/**
 	 * TODO : A traduire
 	 * @return la liste d'informations associées au résultat
 	 */
-	public final Map<Integer,List<ITip>>  getTips() {
+	public final Map<Integer, List<ITip>> getTips() {
 		return this.tips;
 	}
 
@@ -124,7 +125,7 @@ public class SubResult implements ISubResult {
 	 * Ajoute un résultat sous forme de texte dans la liste.
 	 * 
 	 * @param result Le résultat textuel qui doit être ajouté dans la liste.<br>
-	 *  Celui-ci est stocké sous forme de tableau pour être affiché dans les colonnes de la vue. 
+	 * Celui-ci est stocké sous forme de tableau pour être affiché dans les colonnes de la vue.
 	 * @param result the textual result to be added to the list.<br>
 	 * It's stored in an array for being displayed in the columns of the view.
 	 */
@@ -132,20 +133,19 @@ public class SubResult implements ISubResult {
 		// emptyList permet de savoir si le tableau construit est constitué uniquement de chaînes vides
 		// emptyList allow us to know is the constructed array is only constituted by empty string
 		boolean emptyList = true;
-		ArrayList<String> array = new ArrayList<String>(result.length);
-		for(int i = 0; i < result.length; i++) {
+		List<String> array = new ArrayList<String>(result.length);
+		for (int i = 0; i < result.length; i++) {
 			array.add(result[i]);
-			emptyList = emptyList && ("".equals(result[i]));
+			emptyList = emptyList && ("".equals(result[i])); //$NON-NLS-1$
 		}
 
 		if (emptyList) {
 			// Si toutes chaînes sont vides, on renvoie un tableau vide avec "No Result" pour l'indiquer à l'utilisateur
 			// If all strings are empty, we return instead an array with "No result" inside to indicate to the user
 			array.clear();
-			array.add("No result");
+			array.add("No result"); //$NON-NLS-1$
 			this.textualResults.add(array);
-		}
-		else {
+		} else {
 			this.textualResults.add(array);
 		}
 	}
@@ -245,7 +245,7 @@ public class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<ISubResult> getChildren() {
+	public final List<ISubResult> getChildren() {
 		return this.subResults;
 	}
 
@@ -287,22 +287,29 @@ public class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getName() {
+	public final String getName() {
 		return this.subResultName;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getInformation() {
+	public final String getInformation() {
 		return information;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getType() {
-		// TODO Auto-generated method stub
-		return 0;
+	public final int getType() {
+		return this.type;
+	}
+
+	/**
+	 * Set the subresult type.
+	 * @param type the type.
+	 */
+	public final void setType(Integer type) {
+		this.type = type;
 	}
 }
