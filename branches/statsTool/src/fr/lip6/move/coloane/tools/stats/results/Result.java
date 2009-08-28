@@ -31,7 +31,7 @@ public class Result implements IResult {
 	private List<ISubResult> subResults;
 
 	/** Tips list */
-	private Map<Integer,List<ITip>> tips;
+	private Map<Integer, List<ITip>> tips;
 
 	/** Liste des commandes de modifications du modele */
 	private List<ICommand> commandsList;
@@ -90,8 +90,7 @@ public class Result implements IResult {
 	public final void addTip(ITip tip) {
 		if (this.tips.containsKey(tip.getIdObject())) {
 			(this.tips.get(tip.getIdObject())).add(tip);
-		}
-		else {
+		} else {
 			List<ITip> list = new ArrayList<ITip>();
 			list.add(tip);
 			this.tips.put(tip.getIdObject(), list);
@@ -106,12 +105,11 @@ public class Result implements IResult {
 	 */
 	public final void addTip(IElement object, String name, String value) {
 		if (object != null) {
-			this.addTip(new Tip(object.getId(),name,value));
+			this.addTip(new Tip(object.getId(), name, value));
 		}
 	}
 	
 	/**
-	 * TODO : A traduire (en anglais, of course !)
 	 * Ajouter une commande de modification du modèle à la liste
 	 * @param command La commande qui doit être ajoutée
 	 */
@@ -120,7 +118,6 @@ public class Result implements IResult {
 	}
 
 	/**
-	 * TODO : A traduire (en anglais, of course !)
 	 * Demande la création d'un nouveau graphe
 	 * @param commands La liste de commandes décrivant le nouveau noeud
 	 */
@@ -138,14 +135,14 @@ public class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getRootName() {
+	public final String getRootName() {
 		return this.resultName;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getServiceName() {
+	public final String getServiceName() {
 		return this.resultName;
 	}
 	
@@ -159,7 +156,7 @@ public class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final Map<Integer,List<ITip>> getTips() {
+	public final Map<Integer, List<ITip>> getTips() {
 		return this.tips;
 	}
 
@@ -182,7 +179,7 @@ public class Result implements IResult {
 	 * Ajoute un résultat sous forme de texte dans la liste.
 	 * 
 	 * @param result Le résultat textuel qui doit être ajouté dans la liste.<br>
-	 *  Celui-ci est stocké sous forme de tableau pour être affiché dans les colonnes de la vue. 
+	 * Celui-ci est stocké sous forme de tableau pour être affiché dans les colonnes de la vue.
 	 * @param result the textual result to be added to the list.<br>
 	 * This one is stored in an array for being displayed in the columns of the view.
 	 */
@@ -190,20 +187,19 @@ public class Result implements IResult {
 		// emptyList permet de savoir si le tableau construit est constitué uniquement de chaînes vides
 		// emptyList allow us to know is the constructed array is only constituted by empty string
 		boolean emptyList = true;
-		ArrayList<String> array = new ArrayList<String>(result.length);
-		for(int i = 0; i < result.length; i++) {
+		List<String> array = new ArrayList<String>(result.length);
+		for (int i = 0; i < result.length; i++) {
 			array.add(result[i]);
-			emptyList = emptyList && ("".equals(result[i]));
+			emptyList = emptyList && ("".equals(result[i])); //$NON-NLS-1$
 		}
 
 		if (emptyList) {
 			// Si toutes chaînes sont vides, on renvoie un tableau vide avec "No Result" pour l'indiquer à l'utilisateur
 			// If all strings are empty, we return instead an array with "No result" inside to indicate to the user
 			array.clear();
-			array.add("No result");
+			array.add("No result"); //$NON-NLS-1$
 			this.textualResults.add(array);
-		}
-		else {
+		} else {
 			this.textualResults.add(array);
 		}
 	}
@@ -224,7 +220,7 @@ public class Result implements IResult {
 			}
 		} catch (ModelException me) {
 			// TODO
-			System.err.println("Aie...");
+			System.err.println("Aie..."); //$NON-NLS-1$
 		}
 		return this.outputGraph;
 	}
