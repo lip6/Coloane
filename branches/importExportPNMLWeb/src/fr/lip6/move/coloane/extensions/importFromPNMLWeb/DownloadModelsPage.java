@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Text;
 public class DownloadModelsPage extends WizardPage {
 
 	private List modelsDescriptorList;
+	//protected String selected;
 	
 	protected DownloadModelsPage(String pageName) {
 		super(pageName);
@@ -29,7 +30,7 @@ public class DownloadModelsPage extends WizardPage {
 		myComposite.setLayout(new FillLayout(SWT.VERTICAL));
 		Label label = new Label (myComposite, SWT.UP);
 	    label.setText ("Clic to finish to import this model: ");
-	    //label.setText(+ );
+	    //label.setText(selected);
 	    
 	      
 	    setControl(myComposite);		
@@ -40,8 +41,15 @@ public class DownloadModelsPage extends WizardPage {
 		// no next page for this path through the wizard
 		return false;
 	}
-	
-	
-	
+	/*
+	public void onEnterPage()
+	{
+	    // Gets the model
+	    ImportWizard wizard = (ImportWizard)getWizard();
+		DownloadModelsPage model2 = wizard.model2;
+		System.out.println("**********"+model2.selected);
+		this.selected = model2.selected;
+	}
+	*/
 	
 }
