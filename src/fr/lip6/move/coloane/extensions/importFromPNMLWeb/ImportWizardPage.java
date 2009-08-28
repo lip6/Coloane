@@ -22,7 +22,7 @@ public class ImportWizardPage extends WizardPage
 	
 	public Text myText;
 	
-	public String query;
+	//public String query;
 
 	public ImportWizardPage(String pageName) {
 		super(pageName);
@@ -51,16 +51,20 @@ public class ImportWizardPage extends WizardPage
 	*/
 	
 	
-	public IWizardPage getNextPage() {    
+	public IWizardPage getNextPage() {
+		saveDataQuery();
 		ModelsDescriptorPage page = ((ImportWizard)getWizard()).modelsDescriptorPage;
-		this.query = myText.getText();
+		page.onEnterPage();
+		//this.query = myText.getText();
 		return page;
 	}
 	
+	/*
 	public String getQuery() {
 		return query;
 	}
-
+*/
+	
 	/**
 	 * @see IWizardPage#canFlipToNextPage()
 	 */
@@ -74,13 +78,20 @@ public class ImportWizardPage extends WizardPage
 		return true;
 	}
 	
+	/*
 	private static boolean isTextNonEmpty(Text t) {
 		String s = t.getText();
 		if ((s!=null) && (s.trim().length() >0)) return true;
 		return false;
 	}
-
+*/
 	
+	private void saveDataQuery(){
+		ImportWizard wizard = (ImportWizard)getWizard();
+		SearchModel model = wizard.model;
+		
+		model.query = myText.getText();
+	}
 	
 	
 	/*

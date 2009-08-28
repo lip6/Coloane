@@ -26,6 +26,10 @@ import fr.lip6.move.pnmlweb.interfaces.IModelDescriptor;
 public class ModelsDescriptorPage extends WizardPage {
 	
 	private List modelsDescriptorList;
+	private String query;
+	private String[] models;
+	
+	private java.util.List<IModelDescriptor> listModels;
 		
 	protected ModelsDescriptorPage(String pageName) {
 		super(pageName);
@@ -73,21 +77,24 @@ public class ModelsDescriptorPage extends WizardPage {
 				e.printStackTrace();
 			}
 			*/
-			
-
+		
+		
+		
 		/////////////
 		int nbModel = 0;
 		System.out.println("bbbbbbbbbbbbb");
 		Caller c = new Caller("http://pnmlweb.lip6.fr", "admin", "admin1234");
 		System.out.println("cccccccccccccccccc");
-		java.util.List<IModelDescriptor> listModels;
+		
 		
 		try {
 			System.out.println("1111111111111111111");
-			listModels = c.searchModeldescriptors("access");//((ImportWizardPage)getWizard()).myText.getText());
+			System.out.println("--------------" + query);
+			listModels = c.searchModeldescriptors(query);//((ImportWizardPage)getWizard()).myText.getText());
+			
 			System.out.println("ddddddddddddddddddddddd");
 			nbModel = listModels.size();
-			String[] models = new String[nbModel];
+			models = new String[nbModel];
 			for (int i = 0; i < nbModel; i++) {
 				models[i] = listModels.get(i).getName();
 			}
@@ -170,6 +177,16 @@ public class ModelsDescriptorPage extends WizardPage {
 		return true;
 	}
 	
+	public void onEnterPage()
+	{
+	    // Gets the model
+	    ImportWizard wizard = (ImportWizard)getWizard();
+		SearchModel model = wizard.model;
+		System.out.println("**********"+model.query);
+		this.query = model.query;	
+	}
+	
+	
 	/*
 	public boolean isPageComplete() {
 		//ImportWizard wizard = (ImportWizard)getWizard();
@@ -177,6 +194,22 @@ public class ModelsDescriptorPage extends WizardPage {
 	}
 	*/
 	
+	/*
+	private void saveDataToList()
+	{
+		ImportWizardPage wizard = (ImportWizardPage)getWizard();
+		
+		//wizard.model.selectedFlight = flightsList.getSelection()[0];
+		//wizard.modelsDescriptorPage.models = listModels.
+		//wizard.model.seatChoice = seatCombo.getText();
+		//wizard.model.price = price;
+		//wizard.planeCompleted = true;
+	}	
+	*/
+	
+	
+	
+	/*
 	public class MyStructuredContentProvider implements IStructuredContentProvider {
 		  public Object[] getElements(Object inputElement) {
 			  //java.util.List<IModelDescriptor> ms = c.searchModeldescriptors(((ImportWizardPage)getWizard()).myText.getText());
@@ -207,7 +240,7 @@ public class ModelsDescriptorPage extends WizardPage {
              return "";
     	}
     }
-
+*/
 	
 }
 

@@ -11,6 +11,8 @@ public class ImportWizard extends Wizard implements IImportWizard {
 	public ModelsDescriptorPage modelsDescriptorPage;
 	public DownloadModelsPage downloadModelsPage;
 	
+	public SearchModel model = new SearchModel();
+	
 
 	public ImportWizard() {
 		super();
