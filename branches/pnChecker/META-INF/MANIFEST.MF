@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PetriNet_Checker
+Bundle-SymbolicName: PetriNet_Checker;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: fr.lip6.move.coloane.core;bundle-version="0.16.2"
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
