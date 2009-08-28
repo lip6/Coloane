@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extensions.importExportGSPN.exportToGSPN;
+package fr.lip6.move.coloane.extensions.exportToGSPN;
 
 import java.io.BufferedWriter;
 import java.io.File;

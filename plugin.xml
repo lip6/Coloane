@@ -4,7 +4,7 @@
    <extension
          point="fr.lip6.move.coloane.core.exports">
       <Export
-            class="fr.lip6.move.coloane.extensions.importExportGSPN.exportToGSPN.ExportToImpl"
+            class="fr.lip6.move.coloane.extensions.exportToGSPN.ExportToImpl"
             extension="gspn"
             id="fr.lip6.move.coloane.extensions.exportgspn"
             reference="fr.lip6.move.coloane.wizard.export.gspn">
