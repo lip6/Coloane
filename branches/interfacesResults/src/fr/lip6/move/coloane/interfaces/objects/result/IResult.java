@@ -29,14 +29,14 @@ public interface IResult {
 	String getResultName();
 
 	/**
-	 * TODO : A implémenter
 	 * @return le nom du menu racine qui contient le service qui fournit ces résultats
+	 * @deprecated Use {@link IResult#getResultName()} instead.
 	 */
 	String getRootName();
 
 	/**
-	 * TODO : A implémenter
 	 * @return le nom du service qui a été invoqué
+	 * @deprecated Use {@link IResult#getResultName()} instead.
 	 */
 	String getServiceName();
 	

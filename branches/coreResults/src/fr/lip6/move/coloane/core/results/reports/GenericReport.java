@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.results.reports;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -93,13 +94,23 @@ public class GenericReport implements IReport {
 					String formalismName = Messages.GenericReport_2;
 					// We retrieve it formalism name ...
 					if (element instanceof INode) {
-						String value = element.getAttribute(Messages.GenericReport_3).getValue();
-						if (!("".equals(value))) { //$NON-NLS-1$
-							name = value;
+						IAttribute attribute = element.getAttribute("name");
+						if (attribute != null) {
+							String value = attribute.getValue();
+							if (!("".equals(value))) { //$NON-NLS-1$
+								name = value;
+							}
 						}
 						formalismName = ((INode) element).getNodeFormalism().getName();
 					}
 					if (element instanceof IArc) {
+						IAttribute attribute = element.getAttribute("name");
+						if (attribute != null) {
+							String value = attribute.getValue();
+							if (!("".equals(value))) { //$NON-NLS-1$
+								name = value;
+							}
+						}
 						formalismName = ((IArc) element).getArcFormalism().getName();
 					}
 					if (element instanceof IGraph) {
