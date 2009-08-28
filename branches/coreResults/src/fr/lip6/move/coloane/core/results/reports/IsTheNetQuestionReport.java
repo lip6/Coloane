@@ -19,14 +19,14 @@ public class IsTheNetQuestionReport implements IReport {
 			// La reponse est stockee dans le premier resultat textuel du
 			// premier sous-resultat
 			String answer = result.getSubResults().get(0).getTextualResults().get(0).get(0);
-			ResultTreeImpl root = new ResultTreeImpl(result.getServiceName(), answer);
+			ResultTreeImpl root = new ResultTreeImpl(result.getResultName(), answer);
 			root.setSessionManager(SessionManager.getInstance());
 			return root;
 		}
 
 		// Sinon, il faut afficher la reponse plus le detail
 		String answer = result.getSubResults().get(0).getTextualResults().get(0).get(0);
-		ResultTreeImpl root = new ResultTreeImpl(result.getServiceName(), answer);
+		ResultTreeImpl root = new ResultTreeImpl(result.getResultName(), answer);
 		root.setSessionManager(SessionManager.getInstance());
 
 		// Sinon on parcours les resultats

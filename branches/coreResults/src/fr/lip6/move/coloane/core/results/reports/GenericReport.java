@@ -94,7 +94,7 @@ public class GenericReport implements IReport {
 					String formalismName = Messages.GenericReport_2;
 					// We retrieve it formalism name ...
 					if (element instanceof INode) {
-						IAttribute attribute = element.getAttribute("name");
+						IAttribute attribute = element.getAttribute("name"); //$NON-NLS-1$
 						if (attribute != null) {
 							String value = attribute.getValue();
 							if (!("".equals(value))) { //$NON-NLS-1$
@@ -104,7 +104,7 @@ public class GenericReport implements IReport {
 						formalismName = ((INode) element).getNodeFormalism().getName();
 					}
 					if (element instanceof IArc) {
-						IAttribute attribute = element.getAttribute("name");
+						IAttribute attribute = element.getAttribute("name"); //$NON-NLS-1$
 						if (attribute != null) {
 							String value = attribute.getValue();
 							if (!("".equals(value))) { //$NON-NLS-1$

@@ -16,7 +16,7 @@ public class SyntaxCheckerReport implements IReport {
 
 		// Si aucun message (pas d'erreur)... Alors on affiche un message standard
 		if (result.getSubResults().size() == 0) {
-			root = new ResultTreeImpl(result.getServiceName(), Messages.SyntaxCheckerReport_0);
+			root = new ResultTreeImpl(result.getResultName(), Messages.SyntaxCheckerReport_0);
 			root.setSessionManager(SessionManager.getInstance());
 			return root;
 		}
@@ -24,9 +24,9 @@ public class SyntaxCheckerReport implements IReport {
 		// Sinon on affiche le nombre de messages dans la 2eme colonne
 		int errors = result.getSubResults().size();
 		if (errors == 1) {
-			root = new ResultTreeImpl(result.getServiceName(), Messages.SyntaxCheckerReport_1);
+			root = new ResultTreeImpl(result.getResultName(), Messages.SyntaxCheckerReport_1);
 		} else {
-			root = new ResultTreeImpl(result.getServiceName(), errors + Messages.SyntaxCheckerReport_2);
+			root = new ResultTreeImpl(result.getResultName(), errors + Messages.SyntaxCheckerReport_2);
 		}
 		root.setSessionManager(SessionManager.getInstance());
 

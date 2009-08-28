@@ -15,7 +15,7 @@ public class LTLModCheck implements IReport {
 
 	/** {@inheritDoc} */
 	public final ResultTreeImpl build(IResult result) {
-		ResultTreeImpl root = new ResultTreeImpl(result.getServiceName());
+		ResultTreeImpl root = new ResultTreeImpl(result.getResultName());
 		root.setSessionManager(SessionManager.getInstance());
 
 		// Parcours de tous les DE-FE
