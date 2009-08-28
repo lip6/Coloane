@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extensions.importExportGSPN;
+package fr.lip6.move.coloane.extensions.exportToGSPN;
 
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
