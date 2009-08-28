@@ -1,15 +1,13 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ImportExportGSPN Plug-in
-Bundle-SymbolicName: fr.lip6.move.coloane.extensions.importExportGSPN;singleton:=true
-Bundle-Version: 0.5.0
-Bundle-Activator: fr.lip6.move.coloane.extensions.importExportGSPN.Activator
-Bundle-Vendor: LIP6/MoVe
-Require-Bundle: org.eclipse.core.runtime,
- fr.lip6.move.coloane.core,
+Bundle-Name: ExportToGSPN Plug-in
+Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exportToGSPN;singleton:=true
+Bundle-Version: 0.6.0
+Bundle-Activator: fr.lip6.move.coloane.extensions.exportToGSPN.Activator
+Bundle-Vendor: LIP6 / MoVe
+Require-Bundle: fr.lip6.move.coloane.core,
  fr.lip6.move.coloane.interfaces;bundle-version="1.3.0",
- org.eclipse.ui,
- org.junit,
- org.junit4
+ org.eclipse.core.runtime,
+ org.eclipse.ui
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
