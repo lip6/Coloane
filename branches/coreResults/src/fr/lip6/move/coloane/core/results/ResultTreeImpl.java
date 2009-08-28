@@ -22,6 +22,9 @@ import java.util.logging.Logger;
  *   <li>l'arborescence décris les lignes</li>
  *   <li>une liste d'éléments pour les colonnes</li>
  * </ul>
+ * @author Jean-Baptiste Voron
+ * @author Clément Demoulins
+ * @author Florian David
  */
 public class ResultTreeImpl extends Observable implements IResultTree {
 	/** Le logger pour la classe */

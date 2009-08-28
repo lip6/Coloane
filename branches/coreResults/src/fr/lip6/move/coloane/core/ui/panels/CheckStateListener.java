@@ -16,6 +16,10 @@ import org.eclipse.jface.viewers.ICheckStateListener;
 
 /**
  * Listener for the result tree viewer used to display results from external tools.
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Demoulins
+ * @author Florian David
  */
 public class CheckStateListener implements ICheckStateListener {
 	/** Map containing for each node/arc highlighted how many checked results about it there is in the tree. */

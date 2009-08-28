@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class build a generic result tree.
@@ -65,12 +66,12 @@ public class GenericReport implements IReport {
 
 			// we create a node which will contain all data from the subResults list.
 			ResultTreeImpl node;
-			if (!("".equals(sub.getName()))) { //$NON-NLS-1$
+			if (!("".equals(sub.getSubResultName()))) { //$NON-NLS-1$
 				// Create a node with a specified name and all objects designation.
 				node = new ResultTreeImpl(sub.getObjectsDesignation(), sub.getSubResultName(), sub.getInformation());
 			} else {
 				// Create a node with a generic name and all objects designation.
-				node = new ResultTreeImpl(sub.getObjectsDesignation(), Messages.GenericReport_4 + (i + 1));
+				node = new ResultTreeImpl(sub.getObjectsDesignation(), Messages.GenericReport_1 + (i + 1));
 			}
 			// Adding the created node to the root and call recursively the GenericReport#addResultTreeImpl(List<ISubResult>, ResultTreeImpl) method
 			// in order to build the inferiors levels.
@@ -92,7 +93,7 @@ public class GenericReport implements IReport {
 					String formalismName = Messages.GenericReport_2;
 					// We retrieve it formalism name ...
 					if (element instanceof INode) {
-						String value = element.getAttribute(Messages.GenericReport_2).getValue();
+						String value = element.getAttribute(Messages.GenericReport_3).getValue();
 						if (!("".equals(value))) { //$NON-NLS-1$
 							name = value;
 						}

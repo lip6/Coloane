@@ -23,6 +23,11 @@ public interface ISubResult {
 	 * @return A name associated to the sub-result (often a category name).
 	 */
 	String getSubResultName();
+	/**
+	 * @return A name associated to the sub-result (often a category name).
+	 * @deprecated use {@link ISubResult#getSubResultName()} instead.
+	 */
+	String getName();
 
 	/**
 	 * @return A description of the sub-result.
@@ -33,6 +38,12 @@ public interface ISubResult {
 	 * @return A list of sub-results contained into the sub-result.
 	 */
 	List<ISubResult> getSubResults();
+	
+	/**
+	 * @return A list of sub-results contained into the sub-result.
+	 * @deprecated use {@link ISubResult#getSubResults()} instead.
+	 */
+	List<ISubResult> getChildren();
 
 	/**
 	 * @return The list of the objects identifier which will be able to be highlighted in the model and <b>will be added to the result view</b>.
@@ -59,4 +70,10 @@ public interface ISubResult {
 	 * @return The list of special information
 	 */
 	Map<Integer, List<ITip>> getTips();
+	
+	/**
+	 * TODO : A implémenter
+	 * @return Le type de l'ensemble de résultat
+	 */
+	int getType();
 }

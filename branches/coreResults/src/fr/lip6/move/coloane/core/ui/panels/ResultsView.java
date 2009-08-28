@@ -38,6 +38,10 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Gestion de la vue des résultats
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Demoulins
+ * @author Florian David
  */
 public class ResultsView extends ViewPart {
 	public static final String SELECTION_CHANGE = "ResultsView.SelectionChange"; //$NON-NLS-1$

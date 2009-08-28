@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.core.results.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 
+import java.util.List;
+
 /**
  * Rapport pour le service LTL
  * @author jbvoron
@@ -18,9 +20,10 @@ public class LTLModCheck implements IReport {
 
 		// Parcours de tous les DE-FE
 		for (ISubResult sub : result.getSubResults()) {
-			ResultTreeImpl node = new ResultTreeImpl(sub.getName());
+			ResultTreeImpl node = new ResultTreeImpl(sub.getSubResultName());
 			int i = 0;
-			for (String desc : sub.getTextualResults()) {
+			for (List<String> descList : sub.getTextualResults()) {
+				String desc = descList.get(0);
 				node.addChild(new ResultTreeImpl(desc + " " + i)); //$NON-NLS-1$
 			}
 //			for (Vector<String> toHighlight : sub.getCmdXA()) {

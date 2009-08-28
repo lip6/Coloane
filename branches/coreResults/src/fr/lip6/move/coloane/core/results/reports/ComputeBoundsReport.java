@@ -30,7 +30,7 @@ public class ComputeBoundsReport implements IReport {
 
 		// Sinon on parcours les resultats
 		for (ISubResult sub : result.getSubResults()) {
-			String res = sub.getTextualResults().get(0);
+			String res = sub.getTextualResults().get(0).get(0);
 			String firstPart = res.substring(0, res.indexOf(':')).trim();
 			String secondPart = res.substring(res.indexOf(':') + 1).trim();
 			ResultTreeImpl node = new ResultTreeImpl(firstPart, secondPart);

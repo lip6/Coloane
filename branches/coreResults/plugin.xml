@@ -397,6 +397,57 @@
        </propertySection>
     </propertySections>
  </extension>
+  <extension
+       point="fr.lip6.move.coloane.core.reports">
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.SyntaxCheckerReport"
+          service_name="Petri net syntax checker">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.LTLModCheck"
+          service_name="LTL model checking on the symbolic RG">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.PInvariantsReport"
+          service_name="P-positive invariants">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.ComputeBoundsReport"
+          service_name="Compute structural bounds">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.PInvariantsReport"
+          service_name="T-positive invariants">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.IsTheNetQuestionReport"
+          service_name="Is the net structurally bounded?">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.IsTheNetQuestionReport"
+          service_name="Is the net structuraly safe?">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.MinimalSyphonTrapReport"
+          service_name="Minimal syphon">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.MinimalSyphonTrapReport"
+          service_name="Minimal traps">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.ComputeBoundsReport"
+          service_name="Compute structural bounds by unfolding">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.IsTheNetQuestionReport"
+          service_name="Is the colored net structurally bounded?">
+    </report>
+    <report
+          class="fr.lip6.move.coloane.core.results.reports.IsTheNetQuestionReport"
+          service_name="Is the colored structurally net safe (by unfolding)?">
+    </report>
+ </extension>
  <extension
        id="fr.lip6.move.coloane.core.formalisms"
        name="Formalisms Definition"

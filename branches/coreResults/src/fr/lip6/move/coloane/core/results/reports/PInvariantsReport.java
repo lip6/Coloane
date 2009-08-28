@@ -29,7 +29,7 @@ public class PInvariantsReport implements IReport {
 		}
 
 		for (ISubResult sub : result.getSubResults()) {
-			ResultTreeImpl node = new ResultTreeImpl(sub.getTextualResults().get(0));
+			ResultTreeImpl node = new ResultTreeImpl(sub.getTextualResults().get(0).get(0));
 			System.err.println(sub.getObjectsDesignation());
 			System.err.println(sub.getObjectsOutline());
 			for (int id : sub.getObjectsDesignation()) {

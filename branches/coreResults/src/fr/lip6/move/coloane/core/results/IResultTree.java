@@ -10,6 +10,9 @@ import java.util.Map;
 /**
  * Arbre de résultats<br>
  * Les lignes sont décrites par l'arborescence et les colonnes par la liste d'élément.
+ * @author Jean-Baptiste Voron
+ * @author Clément Demoulins
+ * @author Florian David
  */
 public interface IResultTree {
 
@@ -58,14 +61,12 @@ public interface IResultTree {
 	void addHighlighted(int... toHighlight);
 
 	/**
-	 * @return La liste des attributs qui doivent être mis en valeur
+	 * @return attributes list which must be highlighted.
 	 */
 	Map<Integer, List<String>> getAttributesOutline();
 	
 	/**
-	 * Supprime ce service de la liste des resultats
-	 * TODO : changer l'explication en fonction de ce que fait la méthode
-	 * @see {@link SessionManager.#getInstance()}
+	 * Remove the result from the view.
 	 */
 	void remove();
 
@@ -73,19 +74,19 @@ public interface IResultTree {
 	 * Associe un gestionnaire de session avec le sous-arbre de resultats.<br>
 	 * Cette methode doit etre appelé sur le noeud pere. Les fils trouveront le gestionnaire par parcours d'arbre
 	 * @param sessionManager Le gestionnaire de session
-	 * @see SessionManager.#getInstance()
+	 * @see {@link SessionManager#getInstance()}
 	 */
 	void setSessionManager(ISessionManager sessionManager);
 
 	/**
-	 * Retourne le gestionnaire de session enregistre pour cet arbre de resultats<br>
-	 * La recherche est resursive (en partant des fils... jusqu'au pere)
-	 * @return le gestionnaire de session ou null si il est introuvable
+	 * Retourne le gestionnaire de session enregistre pour cet arbre de resultats.<br>
+	 * La recherche est resursive (en partant des fils... jusqu'au pere).
+	 * @return le gestionnaire de session ou null si il est introuvable.
 	 */
 	ISessionManager getSessionManager();
 
 	/**
-	 * @return la liste des tips à afficher quand ce résultat est sélectionné
+	 * @return la liste des tips à afficher quand ce résultat est sélectionné.
 	 */
 	List<ICoreTip> getTips();
 

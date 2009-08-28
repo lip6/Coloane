@@ -30,7 +30,7 @@ public class MinimalSyphonTrapReport implements IReport {
 
 		// Sinon on parcours les resultats
 		for (ISubResult sub : result.getSubResults()) {
-			String res = sub.getTextualResults().get(0);
+			String res = sub.getTextualResults().get(0).get(0);
 			ResultTreeImpl node = new ResultTreeImpl(res);
 
 			// On utilise l'object designation pour mettre en valeur l'objet dont on recoit les bornes

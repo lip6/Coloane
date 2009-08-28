@@ -29,6 +29,18 @@ public interface IResult {
 	String getResultName();
 
 	/**
+	 * TODO : A implémenter
+	 * @return le nom du menu racine qui contient le service qui fournit ces résultats
+	 */
+	String getRootName();
+
+	/**
+	 * TODO : A implémenter
+	 * @return le nom du service qui a été invoqué
+	 */
+	String getServiceName();
+	
+	/**
 	 * @return The list of sub-results contained in the result.
 	 */
 	List<ISubResult> getSubResults();
