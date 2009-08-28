@@ -21,6 +21,8 @@ public class ImportWizardPage extends WizardPage
 {
 	
 	public Text myText;
+	
+	public String query;
 
 	public ImportWizardPage(String pageName) {
 		super(pageName);
@@ -51,7 +53,12 @@ public class ImportWizardPage extends WizardPage
 	
 	public IWizardPage getNextPage() {    
 		ModelsDescriptorPage page = ((ImportWizard)getWizard()).modelsDescriptorPage;
+		this.query = myText.getText();
 		return page;
+	}
+	
+	public String getQuery() {
+		return query;
 	}
 
 	/**
