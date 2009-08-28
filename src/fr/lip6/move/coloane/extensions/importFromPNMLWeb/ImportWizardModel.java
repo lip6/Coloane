@@ -9,13 +9,14 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 
-import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.httpclient.HttpException;
 import org.eclipse.swt.widgets.Text;
 
 import fr.lip6.move.pnmlweb.Caller;
+import fr.lip6.move.pnmlweb.exceptions.CallerException;
 import fr.lip6.move.pnmlweb.exceptions.ModelDescriptorException;
+import fr.lip6.move.pnmlweb.exceptions.ParserException;
 import fr.lip6.move.pnmlweb.exceptions.PnmlWEBException;
 import fr.lip6.move.pnmlweb.interfaces.IFormat;
 import fr.lip6.move.pnmlweb.interfaces.IModelDescriptor;
@@ -24,7 +25,7 @@ public class ImportWizardModel {
 
 	private static Text myText;
 	
-	public static void main(String[] args) throws HttpException, PnmlWEBException, ModelDescriptorException, XMLStreamException, IOException {
+	public static void main(String[] args) throws HttpException, PnmlWEBException, ModelDescriptorException, IOException, ParserException, CallerException {
 		// TODO Auto-generated method stub
 
 		

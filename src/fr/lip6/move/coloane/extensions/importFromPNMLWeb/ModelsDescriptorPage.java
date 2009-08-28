@@ -2,8 +2,6 @@ package fr.lip6.move.coloane.extensions.importFromPNMLWeb;
 
 import java.io.IOException;
 
-import javax.xml.stream.XMLStreamException;
-
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.ListViewer;
@@ -18,14 +16,16 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
 
 import fr.lip6.move.pnmlweb.Caller;
+import fr.lip6.move.pnmlweb.exceptions.CallerException;
 import fr.lip6.move.pnmlweb.exceptions.ModelDescriptorException;
+import fr.lip6.move.pnmlweb.exceptions.ParserException;
 import fr.lip6.move.pnmlweb.exceptions.PnmlWEBException;
 import fr.lip6.move.pnmlweb.interfaces.IModelDescriptor;
 
 
 public class ModelsDescriptorPage extends WizardPage {
 	
-	//private List modelsDescriptorList;
+	private List modelsDescriptorList;
 		
 	protected ModelsDescriptorPage(String pageName) {
 		super(pageName);
@@ -36,52 +36,105 @@ public class ModelsDescriptorPage extends WizardPage {
 
 	public void createControl(Composite parent) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("aaaaaaa");
+		/*
+			Caller c = new Caller("http://pnmlweb.lip6.fr", "admin", "admin1234");
+			java.util.List<IModelDescriptor> ms;
+			try {
+				ms = c.searchModeldescriptors(((ImportWizardPage)getWizard()).myText.getText());
+				System.out.println("nbmodels:" + ms.size());
+				Composite myComposite = new Composite(parent, SWT.NONE);
+				myComposite.setLayout(new FillLayout(SWT.VERTICAL));
+				Label modelsDescriptorLabel = new Label(myComposite, SWT.NONE);
+				modelsDescriptorLabel.setText(ms.size() + "models descriptors found");
+				ListViewer modelsDescriptorListViewer = new ListViewer(myComposite, SWT.FULL_SELECTION);
+				modelsDescriptorListViewer.setContentProvider(new MyStructuredContentProvider());
+				modelsDescriptorListViewer.setLabelProvider(new MyLabelProvider());
+				modelsDescriptorListViewer.setInput(ms);
+				
+				List modelDescriptorList = modelsDescriptorListViewer.getList();
+				GridData gd = new GridData(GridData.FILL_BOTH);
+				modelDescriptorList.setLayoutData(gd);
+				
+				setControl(myComposite);
+				//setPageComplete(true);
+				
+			} catch (PnmlWEBException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ModelDescriptorException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParserException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (CallerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			*/
+			
+
+		/////////////
+		int nbModel = 0;
+		System.out.println("bbbbbbbbbbbbb");
+		Caller c = new Caller("http://pnmlweb.lip6.fr", "admin", "admin1234");
+		System.out.println("cccccccccccccccccc");
+		java.util.List<IModelDescriptor> listModels;
 		
 		try {
-			Caller c = new Caller("http://pnmlweb.lip6.fr", "admin", "admin1234");
-			java.util.List<IModelDescriptor> ms = c.searchModeldescriptors(((ImportWizardPage)getWizard()).myText.getText());
+			System.out.println("1111111111111111111");
+			listModels = c.searchModeldescriptors("access");//((ImportWizardPage)getWizard()).myText.getText());
+			System.out.println("ddddddddddddddddddddddd");
+			nbModel = listModels.size();
+			String[] models = new String[nbModel];
+			for (int i = 0; i < nbModel; i++) {
+				models[i] = listModels.get(i).getName();
+			}
+			
+			System.out.println("eeeeeeeeeeeeeeeee");
 			Composite myComposite = new Composite(parent, SWT.NONE);
 			myComposite.setLayout(new FillLayout(SWT.VERTICAL));
-			Label modelsDescriptorLabel = new Label(myComposite, SWT.NONE);
-			modelsDescriptorLabel.setText(ms.size() + "models descriptors found");
-			ListViewer modelsDescriptorListViewer = new ListViewer(myComposite, SWT.FULL_SELECTION);
-			modelsDescriptorListViewer.setContentProvider(new MyStructuredContentProvider());
-			modelsDescriptorListViewer.setLabelProvider(new MyLabelProvider());
-			modelsDescriptorListViewer.setInput(ms);
 			
-			List modelDescriptorList = modelsDescriptorListViewer.getList();
-			GridData gd = new GridData(GridData.FILL_BOTH);
-			modelDescriptorList.setLayoutData(gd);
-			
-			
+			System.out.println("ffffffffffffffffffffff");
+			modelsDescriptorList = new List (myComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+		    modelsDescriptorList.setItems(models);
+		    
+		    System.out.println("ggggggggggggggggggggggg");
+		    setControl(myComposite);
+			//setPageComplete(true);
+		    System.out.println("hhhhhhhhhhhhhhhhhhhhhhh");
+		    
+		} catch (PnmlWEBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ModelDescriptorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CallerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		/////////////
 			
 			/*
-			java.util.List<IModelDescriptor> ms = c.searchModeldescriptors(((ImportWizardPage)getWizard()).myText.getText());
-			modelsDescriptorList = (List) ms;
+			//java.util.List<IModelDescriptor> ms = c.searchModeldescriptors(((ImportWizardPage)getWizard()).myText.getText());
+			//modelsDescriptorList = (List) ms;
 			Composite myComposite = new Composite(parent, SWT.NONE);
 			myComposite.setLayout(new FillLayout(SWT.VERTICAL));
 			//Label label = new Label (myComposite, SWT.UP);
 		    //label.setText ("Choose a model descriptor to import: ");
 		    modelsDescriptorList = new List (myComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
 		    modelsDescriptorList.setItems (new String [] {"Item 1", "Item2"});
-		      */
 		      
-			setControl(myComposite);
+		    setControl(myComposite);
 			//setPageComplete(true);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (PnmlWEBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (XMLStreamException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ModelDescriptorException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		      */
+			
 		
 		
 		
