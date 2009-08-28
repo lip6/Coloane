@@ -86,7 +86,7 @@ public final class CheckerManager {
 				// and finally constructs the GraphChecker and add it to the Checker
 				GraphChecker graphChecker = new GraphChecker(graphCondition, message, severity);
 				checker.addGraphChecker(graphChecker);
-				LOGGER.finer("Ajout d'un GraphChecker sur l'arc '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				LOGGER.finer("Ajout d'un GraphChecker sur le graphe '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			} catch (CoreException core) {
 				LOGGER.warning("Erreur dans la définition d'un GraphChecker ! Une condition a été mal définie: " + core.getMessage()); //$NON-NLS-1$
 			}
@@ -118,7 +118,7 @@ public final class CheckerManager {
 					// and finally constructs the NodeChecker and add it to the Checker
 					NodeChecker nodeChecker = new NodeChecker(nodeCondition, message, severity);
 					checker.addNodeChecker(node.getAttribute("name"), nodeChecker); //$NON-NLS-1$
-					LOGGER.finer("Ajout d'un NodeChecker sur le noeud '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					LOGGER.finer("Ajout d'un NodeChecker sur le noeud '" + node.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				} catch (CoreException core) {
 					LOGGER.warning("Erreur dans la définition d'un NodeChecker ! Une condition a été mal définie: " + core.getMessage()); //$NON-NLS-1$
 				}
@@ -151,7 +151,7 @@ public final class CheckerManager {
 					// and finally constructs the ArcChecker and add it to the Checker
 					ArcChecker arcChecker = new ArcChecker(arcCondition, message, severity);
 					checker.addArcChecker(arc.getAttribute("name"), arcChecker); //$NON-NLS-1$
-					LOGGER.finer("Ajout d'un ArcChecker sur l'arc '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					LOGGER.finer("Ajout d'un ArcChecker sur l'arc '" + arc.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				} catch (CoreException core) {
 					LOGGER.warning("Erreur dans la définition d'un ArcChecker ! Une condition a été mal définie: " + core.getMessage()); //$NON-NLS-1$
 				}
