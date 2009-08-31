@@ -495,7 +495,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>updateManifest.sh</executable>
+							<executable>$BUILDTOOLS/updateManifest.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${buildNumber}</argument>
@@ -511,7 +511,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>deployJar.sh</executable>
+							<executable>$BUILDTOOLS/deployJar.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${build.finalName}.${project.packaging}</argument>
