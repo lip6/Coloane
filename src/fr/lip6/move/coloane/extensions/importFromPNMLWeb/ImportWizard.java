@@ -7,17 +7,10 @@ import org.eclipse.ui.IWorkbench;
 
 public class ImportWizard extends Wizard implements IImportWizard {
 	
-	/*
-	public ImportWizardPage mainPage;
-	public ModelsDescriptorPage modelsDescriptorPage;
-	public DownloadModelsPage downloadModelsPage;
-	public SearchModel model;
-	*/
-	
 	private ImportWizardPage mainPage;
 	private ModelsDescriptorPage modelsDescriptorPage;
 	private DownloadModelsPage downloadModelsPage;
-	private SearchModel model;
+	private SearchModel model = new SearchModel();
 
 	public ImportWizard() {
 		super();
@@ -60,11 +53,6 @@ public class ImportWizard extends Wizard implements IImportWizard {
         addPage(downloadModelsPage);
     }
     
-    /*
-    public ImportWizardPage getMainPage(){
-    	return mainPage;
-    }
-*/
     public ModelsDescriptorPage getModelsDescriptorPage(){
     	return modelsDescriptorPage;
     }
@@ -72,6 +60,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
     public DownloadModelsPage getDownloadModelsPage(){
     	return downloadModelsPage;
     }
+    
     
     public SearchModel getModel(){
     	return model;
