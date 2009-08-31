@@ -1,18 +1,24 @@
 package fr.lip6.move.coloane.extensions.importFromPNMLWeb;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 
-public class ImportWizardPage extends WizardPage {
+public class ImportWizardPage extends WizardPage 
+//implements Listener 
+{
 	
-	public Text myText;
+	private Text myText;
 	
 	
 	public ImportWizardPage(String pageName) {
@@ -32,16 +38,20 @@ public class ImportWizardPage extends WizardPage {
 		//myText.addListener(SWT.KeyUp, this);
 		// set the composite as the control for this page
 		setControl(myComposite);
+		//addListeners();
 	}
 	
 	
 	
 	public IWizardPage getNextPage() {
 		saveDataQuery();
-		ModelsDescriptorPage page = ((ImportWizard)getWizard()).modelsDescriptorPage;
-		page.onEnterPage();
-		//this.query = myText.getText();
-		return page;
+		//if(isTextNonEmpty(myText)){
+			ModelsDescriptorPage page = ((ImportWizard)getWizard()).getModelsDescriptorPage();
+			page.onEnterPage();
+			//this.query = myText.getText();
+			return page;
+		//}
+		//return null;
 	}
 	
 	
@@ -68,11 +78,35 @@ public class ImportWizardPage extends WizardPage {
 	
 	private void saveDataQuery(){
 		ImportWizard wizard = (ImportWizard)getWizard();
-		ModelsDescriptorPage model = wizard.model;
-		
+		SearchModel model = wizard.getModel();		
 		model.query = myText.getText();
-		//model.query = myText.getText();
 	}
+	
+	public Text getMyText(){
+		return myText;
+	}
+	
+	/*
+	private void addListeners() {
+		myText.addListener(SWT.KeyUp, this);
+	}
+	*/
+
+	/*
+	public void handleEvent(Event event) {
+		// TODO Auto-generated method stub
+		 // Initialize a variable with the no error status
+	    Status status = new Status(IStatus.OK, "not_used", 0, "", null);
+	    // If the event is triggered by the destination or departure fields
+	    // set the corresponding status variable to the right value
+	    if ((event.widget == myText)) {
+	        if (!"".equals(myText.getText()))
+	            status = new Status(IStatus.ERROR, "not_used", 0, 
+	                "Le champ \"query\" ne peut etre vide", null);        		
+	    }
+	    getWizard().getContainer().updateButtons();
+	}
+	*/
 	
 	
 }
