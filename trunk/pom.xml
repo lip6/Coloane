@@ -409,6 +409,11 @@
 					<version>2.2</version>
 				</plugin>
 			</plugins>
+			<plugin>
+				<groupId>com.google.code.maven-license-plugin</groupId>
+				<artifactId>maven-license-plugin</artifactId>
+				<version>1.4.0</version>
+			</plugin>
 		</pluginManagement>
 
 		<!-- Configuration des plugin de Maven -->
@@ -582,30 +587,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<!-- Depots (Repositories) -->
-	<repositories>
-		<repository>
-			<id>archiva.internal</id>
-			<name>Archiva Managed Repository for LIP6/MoVe</name>
-			<url>http://coloane.lip6.fr:8081/archiva/repository/internal/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>coloane.snapshots</id>
-			<name>Archiva Managed Snapshot Repository for Coloane</name>
-			<url>http://coloane.lip6.fr:8081/archiva/repository/coloane.snapshots/</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 </project>
