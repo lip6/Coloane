@@ -1,9 +1,19 @@
 package fr.lip6.move.coloane.extensions.importFromPNMLWeb;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
+
+import fr.lip6.move.pnmlweb.interfaces.IFormat;
 
 public class ImportWizard extends Wizard implements IImportWizard {
 	
@@ -30,8 +40,38 @@ public class ImportWizard extends Wizard implements IImportWizard {
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	public boolean performFinish() {
-		System.out.println("yes!");
-		return true;
+		IFormat f = model.selected.getCurrentVersion().getPNML();
+		int cpt = 0;
+		
+		URL url;
+		try {
+			url = new URL(f.getUri());
+			URLConnection uc = url.openConnection();	// open URL (HTTP query)
+
+			InputStreamReader input = new InputStreamReader(uc.getInputStream());	// open data stream
+			BufferedReader in = new BufferedReader(input);
+			String inputLine;
+
+			while ((inputLine = in.readLine()) != null) {
+				cpt++;
+			}
+
+			in.close();
+			System.out.println("yes, nbLine = " + cpt);
+			MessageDialog.openInformation(getShell(), "Resultat", "Le nombre de lignes est de : " + cpt);
+			return true;
+			
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			MessageDialog.openError(getShell(), "Error", e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			MessageDialog.openError(getShell(), "Error", e.getMessage());
+		} 
+		return false;
+        
 	}
 	 
 	/* (non-Javadoc)
