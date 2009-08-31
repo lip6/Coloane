@@ -528,7 +528,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>cleanManifest.sh</executable>
+							<executable>$BUILDTOOLS/cleanManifest.sh</executable>
 						</configuration>
 					</execution>
 				</executions>
