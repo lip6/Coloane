@@ -111,14 +111,13 @@ public class SubResult implements ISubResult {
 			this.addTip(new Tip(object.getId(), name, value));
 		}
 	}
+
 	/**
-	 * TODO : A traduire
-	 * @return la liste d'informations associées au résultat
+	 * {@inheritDoc}
 	 */
 	public final Map<Integer, List<ITip>> getTips() {
 		return this.tips;
 	}
-
 
 	/**
 	 * Add a result in the form of text in the list.
@@ -308,6 +307,7 @@ public class SubResult implements ISubResult {
 	/**
 	 * Set the subresult type.
 	 * @param type the type.
+	 * @deprecated unused.
 	 */
 	public final void setType(Integer type) {
 		this.type = type;
