@@ -65,7 +65,7 @@ public class Result implements IResult {
 	/**
 	 * Constructor of an empty result.
 	 * @param resultName the name of the result (Name of the called tool is preferred).
-	 * @param serviceName service which provide results (now unused, replaced by the resultName argument).
+	 * @param serviceName service which provide results (now unused, replaced by the <code>resultName</code> argument).
 	 * @param outputGraph Le modèle résultat envoyé par le core... à remplir
 	 * @deprecated use {@link Result#Result(String, IGraph)} instead.
 	 */
