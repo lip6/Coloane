@@ -1,14 +1,15 @@
 package fr.lip6.move.coloane.extensions.importFromPNMLWeb;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
-import org.eclipse.swt.widgets.Listener;
 
 import fr.lip6.move.pnmlweb.Caller;
 import fr.lip6.move.pnmlweb.exceptions.CallerException;
@@ -40,27 +41,25 @@ public class ModelsDescriptorPage extends WizardPage {
 		myComposite.setLayout(new FillLayout(SWT.VERTICAL));
 		modelsDescriptorLabel = new Label(myComposite, SWT.LEFT);
 		modelsDescriptorList = new List (myComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		
+		modelsDescriptorList.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) { return; }
+			public void widgetSelected(SelectionEvent e) { handleEvent(); }
+		});
+				
 		setControl(myComposite);
-		setPageComplete(true);
 	}
 
 	
 	public IWizardPage getNextPage() {    
-		//saveDataSelected();
-		for(int i=0; i<listModels.size();i++){
-			if(modelsDescriptorList.isSelected(i)){
-				DownloadModelsPage page = ((ImportWizard)getWizard()).getDownloadModelsPage();
-				//page.onEnterPage2();
-				return page;
-			}
-		}
-		return null;
+		saveDataSelected();
+		DownloadModelsPage page = ((ImportWizard)getWizard()).getDownloadModelsPage();
+		page.onEnterPage();
+		return page;
 	}
 	
 	public boolean canFlipToNextPage() {
 		// no next page for this path through the wizard
-		if(listModels.size()==0)
+		if(modelsDescriptorList.getSelectionCount() == 0)
 			return false;
 		return true;
 	}		
@@ -79,15 +78,19 @@ public class ModelsDescriptorPage extends WizardPage {
 		} catch (PnmlWEBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			MessageDialog.openError(getShell(), "Error", e.getMessage());
 		} catch (ModelDescriptorException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			MessageDialog.openError(getShell(), "Error", e.getMessage());
 		} catch (ParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			MessageDialog.openError(getShell(), "Error", e.getMessage());
 		} catch (CallerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			MessageDialog.openError(getShell(), "Error", e.getMessage());
 		}	
 		
 		nbModel = listModels.size();
@@ -103,37 +106,23 @@ public class ModelsDescriptorPage extends WizardPage {
 		modelsDescriptorList.redraw();
 				
 	}
-
 	
-	/*
-	public boolean isPageComplete(){
-		//ImportWizard wizard = (ImportWizard)getWizard();
-		if (modelsDescriptorList.getSelectionCount() == 0) { 
-			return false;
-		}
-		saveDataSelected();
-		return true;
+	/**
+	 *  Mettre à jour le formalisme choisi
+	 */
+	public void handleEvent() {
+		setPageComplete(isPageComplete());
+		getWizard().getContainer().updateButtons();
 	}
-	*/
-	
-	/*
+		
 	private void saveDataSelected(){
 		ImportWizard wizard = (ImportWizard)getWizard();
-		DownloadModelsPage model2 = wizard.getModel2();
+		SearchModel model = wizard.getModel();
+		model.selected = listModels.get(modelsDescriptorList.getSelectionIndex());
 		
-		model2.selected = modelsDescriptorList.getSelection()[0];
 	}
-	*/
-	
-	/*
-	public boolean isPageComplete() {
-		//ImportWizard wizard = (ImportWizard)getWizard();
-		return true;
-	}
-	*/
 	
 	
 }
-
 
 
