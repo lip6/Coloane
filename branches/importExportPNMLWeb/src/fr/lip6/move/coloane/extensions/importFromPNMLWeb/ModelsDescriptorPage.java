@@ -18,12 +18,10 @@ import fr.lip6.move.pnmlweb.exceptions.PnmlWEBException;
 import fr.lip6.move.pnmlweb.interfaces.IModelDescriptor;
 
 
-public class ModelsDescriptorPage extends WizardPage 
-//implements Listener
-{
+public class ModelsDescriptorPage extends WizardPage {
 	
 	private List modelsDescriptorList;
-	//private Label modelsDescriptorLabel;
+	private Label modelsDescriptorLabel;
 	private String query;
 	private String[] models;
 	
@@ -40,44 +38,43 @@ public class ModelsDescriptorPage extends WizardPage
 		
 		Composite myComposite = new Composite(parent, SWT.NONE);
 		myComposite.setLayout(new FillLayout(SWT.VERTICAL));
-		//modelsDescriptorLabel = new Label(myComposite, SWT.LEFT);
+		modelsDescriptorLabel = new Label(myComposite, SWT.LEFT);
 		modelsDescriptorList = new List (myComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
-		    
+		
 		setControl(myComposite);
-		//setPageComplete(true);
+		setPageComplete(true);
 	}
 
 	
 	public IWizardPage getNextPage() {    
 		//saveDataSelected();
-		//if(modelsDescriptorList.getSelection() != null){
-			DownloadModelsPage page = ((ImportWizard)getWizard()).getDownloadModelsPage();
-			//page.onEnterPage2();
-			return page;
-		//}
-		//return null;
+		for(int i=0; i<listModels.size();i++){
+			if(modelsDescriptorList.isSelected(i)){
+				DownloadModelsPage page = ((ImportWizard)getWizard()).getDownloadModelsPage();
+				//page.onEnterPage2();
+				return page;
+			}
+		}
+		return null;
 	}
 	
 	public boolean canFlipToNextPage() {
 		// no next page for this path through the wizard
-		//if(listModels.size()==0)
-			//return false;
+		if(listModels.size()==0)
+			return false;
 		return true;
-	}
-		
+	}		
 	
 	public void onEnterPage() {
 		
 		ImportWizard wizard = (ImportWizard)getWizard();
 		SearchModel model = wizard.getModel();
-		System.out.println("**********"+model.query);
 		this.query = model.query;
 				
 		int nbModel = 0;
 		Caller c = new Caller("http://pnmlweb.lip6.fr", "admin", "admin1234");
 		
 		try {
-			System.out.println("--------------" + query);
 			listModels = c.searchModeldescriptors(query);//((ImportWizardPage)getWizard()).myText.getText());
 		} catch (PnmlWEBException e) {
 			// TODO Auto-generated catch block
@@ -99,30 +96,16 @@ public class ModelsDescriptorPage extends WizardPage
 			models[i] = listModels.get(i).getName();
 		}
 		
-		//modelsDescriptorLabel.setText(listModels.size() + " models descriptors found.");
-		//modelsDescriptorLabel.redraw();
+		modelsDescriptorLabel.setText(listModels.size() + " models descriptors found.");
+		modelsDescriptorLabel.redraw();
 		
-		//if(nbModel!=0){
-			modelsDescriptorList.setItems(models);
-			modelsDescriptorList.redraw();
-		//}
-	    //modelsDescriptorList.addListener(SWT.Selection, this);
+		modelsDescriptorList.setItems(models);
+		modelsDescriptorList.redraw();
 				
 	}
 
-/*
-	public void handleEvent(Event event) {
-		// TODO Auto-generated method stub
-		if (event.widget == modelsDescriptorList) {
-			if (modelsDescriptorList.getSelectionIndex() >=0)
-				System.out.println("ok");
-		}
-		setPageComplete(isPageComplete());
-		getWizard().getContainer().updateButtons();	
-		
-	}
 	
-	
+	/*
 	public boolean isPageComplete(){
 		//ImportWizard wizard = (ImportWizard)getWizard();
 		if (modelsDescriptorList.getSelectionCount() == 0) { 
@@ -131,9 +114,9 @@ public class ModelsDescriptorPage extends WizardPage
 		saveDataSelected();
 		return true;
 	}
+	*/
 	
-	
-	
+	/*
 	private void saveDataSelected(){
 		ImportWizard wizard = (ImportWizard)getWizard();
 		DownloadModelsPage model2 = wizard.getModel2();

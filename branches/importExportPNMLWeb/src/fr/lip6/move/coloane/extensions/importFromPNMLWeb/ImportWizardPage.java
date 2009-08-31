@@ -14,9 +14,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
 
-public class ImportWizardPage extends WizardPage 
-//implements Listener 
-{
+public class ImportWizardPage extends WizardPage {
 	
 	private Text myText;
 	
@@ -35,23 +33,17 @@ public class ImportWizardPage extends WizardPage
 		myLabel.setText("Query: ");
 		myText = new Text(myComposite, SWT.BORDER);
 		myText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		//myText.addListener(SWT.KeyUp, this);
 		// set the composite as the control for this page
 		setControl(myComposite);
-		//addListeners();
 	}
 	
 	
 	
 	public IWizardPage getNextPage() {
 		saveDataQuery();
-		//if(isTextNonEmpty(myText)){
-			ModelsDescriptorPage page = ((ImportWizard)getWizard()).getModelsDescriptorPage();
-			page.onEnterPage();
-			//this.query = myText.getText();
-			return page;
-		//}
-		//return null;
+		ModelsDescriptorPage page = ((ImportWizard)getWizard()).getModelsDescriptorPage();
+		page.onEnterPage();
+		return page;
 	}
 	
 	
@@ -60,21 +52,8 @@ public class ImportWizardPage extends WizardPage
 	 */
 	public boolean canFlipToNextPage() {
 		//if (getErrorMessage() != null) return false;
-		/*
-		if (isTextNonEmpty(myText))
 			return true;
-		return false;
-		*/
-		return true;
 	}
-	
-	/*
-	private static boolean isTextNonEmpty(Text t) {
-		String s = t.getText();
-		if ((s!=null) && (s.trim().length() >0)) return true;
-		return false;
-	}
-*/
 	
 	private void saveDataQuery(){
 		ImportWizard wizard = (ImportWizard)getWizard();
@@ -86,27 +65,6 @@ public class ImportWizardPage extends WizardPage
 		return myText;
 	}
 	
-	/*
-	private void addListeners() {
-		myText.addListener(SWT.KeyUp, this);
-	}
-	*/
-
-	/*
-	public void handleEvent(Event event) {
-		// TODO Auto-generated method stub
-		 // Initialize a variable with the no error status
-	    Status status = new Status(IStatus.OK, "not_used", 0, "", null);
-	    // If the event is triggered by the destination or departure fields
-	    // set the corresponding status variable to the right value
-	    if ((event.widget == myText)) {
-	        if (!"".equals(myText.getText()))
-	            status = new Status(IStatus.ERROR, "not_used", 0, 
-	                "Le champ \"query\" ne peut etre vide", null);        		
-	    }
-	    getWizard().getContainer().updateButtons();
-	}
-	*/
-	
+		
 	
 }
