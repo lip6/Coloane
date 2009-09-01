@@ -15,28 +15,41 @@ import org.eclipse.ui.IWorkbench;
 
 import fr.lip6.move.pnmlweb.interfaces.IFormat;
 
+
+/**
+ * Import Wizard
+ * Manages pages of wizard
+ *
+ * @author Yamina Aziz
+ * @author Monir CHAOUKI
+ */
 public class ImportWizard extends Wizard implements IImportWizard {
 	
 	private ImportWizardPage mainPage;
 	private ModelsDescriptorPage modelsDescriptorPage;
-	private DownloadModelsPage downloadModelsPage;
+	private DescriptionModelsPage descriptionModelsPage;
 	private SearchModel model = new SearchModel();
 
+	/**
+	 * Constructor
+	 */
 	public ImportWizard() {
 		super();
 	}
 
-	
+	/**
+	 * State of button "finish"
+	 * @return true if "finish" is possible; else false
+	 */
 	public boolean canFinish() {
-		if (this.getContainer().getCurrentPage() == downloadModelsPage) 
+		if (this.getContainer().getCurrentPage() == descriptionModelsPage) 
 			return true;
-		//System.out.println("yes !");
-        return false;		
+		return false;		
 	}
 	
 	
 	
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
 	public boolean performFinish() {
@@ -52,6 +65,8 @@ public class ImportWizard extends Wizard implements IImportWizard {
 			BufferedReader in = new BufferedReader(input);
 			String inputLine;
 
+			// Inserer l'import PNML ICI
+			
 			while ((inputLine = in.readLine()) != null) {
 				cpt++;
 			}
@@ -74,7 +89,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
         
 	}
 	 
-	/* (non-Javadoc)
+	/** (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench, org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -82,26 +97,37 @@ public class ImportWizard extends Wizard implements IImportWizard {
 		mainPage = new ImportWizardPage("Import Pnml"); //NON-NLS-1
 	}
 	
-	/* (non-Javadoc)
+	/** (non-Javadoc)
      * @see org.eclipse.jface.wizard.IWizard#addPages()
      */
     public void addPages() {
         addPage(mainPage);  
         modelsDescriptorPage = new ModelsDescriptorPage("Models Descriptor");
         addPage(modelsDescriptorPage);
-        downloadModelsPage = new DownloadModelsPage("Download models descriptor");
-        addPage(downloadModelsPage);
+        descriptionModelsPage = new DescriptionModelsPage("Download models descriptor");
+        addPage(descriptionModelsPage);
     }
     
+    /**
+     * Gets models descriptor page
+     * @return modelsDescriptorPage
+     */
     public ModelsDescriptorPage getModelsDescriptorPage(){
     	return modelsDescriptorPage;
     }
     
-    public DownloadModelsPage getDownloadModelsPage(){
-    	return downloadModelsPage;
+    /**
+     * Gets description models page
+     * @return descriptionModelsPage
+     */
+    public DescriptionModelsPage getDescriptionModelsPage(){
+    	return descriptionModelsPage;
     }
     
-    
+    /**
+     * Gets model of SearchModel
+     * @return model
+     */
     public SearchModel getModel(){
     	return model;
     }
