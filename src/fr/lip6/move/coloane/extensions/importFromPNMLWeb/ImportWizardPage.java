@@ -16,7 +16,6 @@ import org.eclipse.swt.widgets.Text;
  * @author Yamina AZIZ
  *
  */
-
 public class ImportWizardPage extends WizardPage {
 	
 	private Text myText;

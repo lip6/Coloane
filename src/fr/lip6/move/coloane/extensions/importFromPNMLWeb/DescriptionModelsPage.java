@@ -65,7 +65,6 @@ public class DescriptionModelsPage extends WizardPage {
 	    // Gets the model
 	    ImportWizard wizard = (ImportWizard)getWizard();
 		SearchModel model = wizard.getModel();
-		System.out.println("**********"+model.selected);
 		this.selected = model.selected;
 
 		name.setText ("Name : " + selected.getName());

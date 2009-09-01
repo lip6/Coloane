@@ -72,7 +72,7 @@ public class ImportWizard extends Wizard implements IImportWizard {
 			}
 
 			in.close();
-			System.out.println("yes, nbLine = " + cpt);
+			System.out.println("yes, nbLines = " + cpt);
 			MessageDialog.openInformation(getShell(), "Resultat", "Le nombre de lignes est de : " + cpt);
 			return true;
 			
