@@ -18,23 +18,36 @@ import fr.lip6.move.pnmlweb.exceptions.ParserException;
 import fr.lip6.move.pnmlweb.exceptions.PnmlWEBException;
 import fr.lip6.move.pnmlweb.interfaces.IModelDescriptor;
 
-
+/**
+ * Import Wizard Page
+ * Choose a model descriptor found on PNMLWeb
+ * 
+ * @author Yamina AZIZ
+ * @author Monir CHAOUKI
+ *
+ */
 public class ModelsDescriptorPage extends WizardPage {
 	
 	private List modelsDescriptorList;
 	private Label modelsDescriptorLabel;
 	private String query;
 	private String[] models;
-	
 	private java.util.List<IModelDescriptor> listModels;
 		
-	protected ModelsDescriptorPage(String pageName) {
+	/**
+	 * Constructor
+	 * @param pageName  The name of this page
+	 */
+	public ModelsDescriptorPage(String pageName) {
 		super(pageName);
 		setTitle(pageName);
 		setDescription("Choose a model descriptor to import");
-		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Create the graphic components of this wizard page
+	 * @param parent  Composite of this wizard page
+	 */
 	public void createControl(Composite parent) {		
 		
 		Composite myComposite = new Composite(parent, SWT.NONE);
@@ -49,14 +62,20 @@ public class ModelsDescriptorPage extends WizardPage {
 		setControl(myComposite);
 	}
 
-	
+	/**
+	 * Gets the next page
+	 * @return page  The next page
+	 */
 	public IWizardPage getNextPage() {    
 		saveDataSelected();
-		DownloadModelsPage page = ((ImportWizard)getWizard()).getDownloadModelsPage();
+		DescriptionModelsPage page = ((ImportWizard)getWizard()).getDescriptionModelsPage();
 		page.onEnterPage();
 		return page;
 	}
 	
+	/**
+	 * @see IWizardPage#canFlipToNextPage()
+	 */
 	public boolean canFlipToNextPage() {
 		// no next page for this path through the wizard
 		if(modelsDescriptorList.getSelectionCount() == 0)
@@ -64,8 +83,10 @@ public class ModelsDescriptorPage extends WizardPage {
 		return true;
 	}		
 	
+	/**
+	 * Called when entering this wizard page.
+	 */
 	public void onEnterPage() {
-		
 		ImportWizard wizard = (ImportWizard)getWizard();
 		SearchModel model = wizard.getModel();
 		this.query = model.query;
@@ -108,13 +129,16 @@ public class ModelsDescriptorPage extends WizardPage {
 	}
 	
 	/**
-	 *  Mettre Ã  jour le formalisme choisi
+	 *  Met a jour le formalisme choisi
 	 */
 	public void handleEvent() {
 		setPageComplete(isPageComplete());
 		getWizard().getContainer().updateButtons();
 	}
 		
+	/**
+	 * Save data of the model's selection
+	 */
 	private void saveDataSelected(){
 		ImportWizard wizard = (ImportWizard)getWizard();
 		SearchModel model = wizard.getModel();
