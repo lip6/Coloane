@@ -39,7 +39,7 @@ public class ImportWizardPage extends WizardPage {
 		Composite myComposite =  new Composite(parent, SWT.NONE);
 		myComposite.setLayout(new GridLayout());
 		Label myLabel = new Label(myComposite, SWT.LEFT);
-		myLabel.setText("Query: ");
+		myLabel.setText("Models Browser: ");
 		myText = new Text(myComposite, SWT.BORDER);
 		myText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		// set the composite as the control for this page
