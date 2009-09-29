@@ -21,9 +21,10 @@ public class ServiceMenu extends Item implements IServiceMenu {
 	 * @param visibility La visibilité de l'item de menu
 	 * @param help La liste des messages d'aide associés au menu
 	 * @param associatedService Le service associé à l'imte de menu
+	 * @param path Chemin
 	 */
-	public ServiceMenu(String name, boolean visibility, List<String> help, String associatedService) {
-		super(name, visibility, help);
+	public ServiceMenu(String name, boolean visibility, List<String> help, String associatedService, String path) {
+		super(name, visibility, help, path);
 		this.associatedService = associatedService;
 		LOGGER.finest("Ajout du menu de service " + name + " (visible = " + visibility + "; valeur = " + associatedService + ")");
 	}

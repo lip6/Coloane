@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.apicami.communications;
 import fr.lip6.move.coloane.apicami.interfaces.ISpeaker;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -127,7 +128,7 @@ public class Speaker implements ISpeaker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void askForService(String rootName, String menuName, String serviceName) throws IOException {
+	public final void askForService(String rootName, String menuName, String serviceName, List<IOptionMenu> options) throws IOException {
 		// Fabrique et envoie la commande DT
 		String cmdToSend = CamiGenerator.generateCmdDT();
 		this.outputStream.write(cmdToSend);
@@ -139,6 +140,12 @@ public class Speaker implements ISpeaker {
 		// Fabrique et envoie la commande PQ (la deuxième)
 		cmdToSend = CamiGenerator.generateCmdPQ(rootName, serviceName);
 		this.outputStream.write(cmdToSend);
+
+		// Fabrique et envoie des options active
+		for (IOptionMenu option : options) {
+			cmdToSend = CamiGenerator.generateCmdPQ(rootName, option.getName());
+			this.outputStream.write(cmdToSend);
+		}
 
 		// Fabrique et envoie la commande FT
 		cmdToSend = CamiGenerator.generateCmdFT();

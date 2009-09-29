@@ -12,6 +12,7 @@ import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.io.IOException;
@@ -285,7 +286,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void askForService(IService service, List<String> options, List<IElement> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException {
+	public final void askForService(IService service, List<IOptionMenu> options, List<IElement> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException {
 		this.outputModel = null;
 		this.inputModel = inputModel;
 		if (mustSendModel & (this.stateMachine.getCurrentState() == ISessionStateMachine.IDLE_STATE)) {
@@ -307,7 +308,7 @@ public class ApiSession implements IApiSession {
 
 			try {
 				if (outputModel != null) { this.outputModel = outputModel; }
-				speaker.askForService(service.getRoot(), service.getParent(), service.getName());
+				speaker.askForService(service.getRoot(), service.getParent(), service.getName(), options);
 			} catch (IOException ioe) {
 				this.crashRecover("Error while speaking to the platform " + ioe.getMessage());
 			}

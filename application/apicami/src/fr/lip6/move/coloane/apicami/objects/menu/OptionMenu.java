@@ -21,9 +21,10 @@ public class OptionMenu extends Item implements IOptionMenu {
 	 * @param visibility La visibilité de l'item de menu
 	 * @param help Les messages d'aide associés à l'item de menu
 	 * @param validate L'état de l'option
+	 * @param path Chemin
 	 */
-	public OptionMenu(String name, boolean visibility, List<String> help, boolean validate) {
-		super(name, visibility, help);
+	public OptionMenu(String name, boolean visibility, List<String> help, boolean validate, String path) {
+		super(name, visibility, help, path);
 		this.validate = validate;
 		LOGGER.finest("Ajout de l'option " + name + " (visible = " + visibility + "; valeur = " + validate + ")");
 	}
