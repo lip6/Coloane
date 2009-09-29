@@ -37,9 +37,10 @@ public class SubMenu extends Item implements ISubMenu {
 	 * @param type Le type du sous-menu
 	 * @param behavior Le comportement du sous-menu
 	 * @param visibility Visibilité du sous-menu (et de ses enfants)
+	 * @param path Chemin
 	 */
-	public SubMenu(String name, int type, int behavior, boolean visibility) {
-		super(name, visibility, null);
+	public SubMenu(String name, int type, int behavior, boolean visibility, String path) {
+		super(name, visibility, null, path);
 		this.behavior = behavior;
 		this.services = new ArrayList<IServiceMenu>();
 		this.options = new ArrayList<IOptionMenu>();
@@ -123,7 +124,7 @@ public class SubMenu extends Item implements ISubMenu {
 	 * @param question La description du menu
 	 */
 	private void addOptionMenu(IQuestion question) {
-		IOptionMenu option = new OptionMenu(question.getName(), question.isVisible(), null, question.isValid());
+		IOptionMenu option = new OptionMenu(question.getName(), question.isVisible(), null, question.isValid(), getPath());
 		this.options.add(option);
 	}
 
@@ -132,7 +133,7 @@ public class SubMenu extends Item implements ISubMenu {
 	 * @param question La description du menu à ajouter
 	 */
 	private void addSubMenu(IQuestion question) {
-		SubMenu submenu = new SubMenu(question.getName(), question.getType(), question.getBehavior(), question.isVisible());
+		SubMenu submenu = new SubMenu(question.getName(), question.getType(), question.getBehavior(), question.isVisible(), getPath() + "/" + question.getName());
 		this.submenus.add(submenu);
 	}
 
@@ -144,7 +145,7 @@ public class SubMenu extends Item implements ISubMenu {
 	 * TODO : Gérer la question associée (pour le moment il s'agit du nom)
 	 */
 	private void addServiceMenu(ISubMenu root, IQuestion question) {
-		IServiceMenu service = new ServiceMenu(question.getName(), question.isVisible(), null, computeServiceId(root.getName(), question.getName()));
+		IServiceMenu service = new ServiceMenu(question.getName(), question.isVisible(), null, computeServiceId(root.getName(), question.getName()), getPath());
 		this.services.add(service);
 
 		// Ajout du service reel

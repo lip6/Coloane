@@ -18,13 +18,17 @@ public class Item implements IItemMenu {
 	/** Visibilité de l'item */
 	private boolean visibility;
 
+	/** Chemin */
+	private String path;
+
 	/**
 	 * Constructeur
 	 * @param name Le nom de l'item
 	 * @param visibility La visibilité de l'item
 	 * @param help La liste des messages d'aide associés à l'item
+	 * @param path Chemin
 	 */
-	public Item(String name, boolean visibility, List<String> help) {
+	public Item(String name, boolean visibility, List<String> help, String path) {
 		this.name = name;
 		if (help == null) {
 			this.help = new ArrayList<String>();
@@ -32,6 +36,7 @@ public class Item implements IItemMenu {
 			this.help = help;
 		}
 		this.visibility = visibility;
+		this.path = path;
 	}
 
 	/**
@@ -57,6 +62,10 @@ public class Item implements IItemMenu {
 	 */
 	public final boolean isVisible() {
 		return this.visibility;
+	}
+
+	public final String getPath() {
+		return this.path;
 	}
 
 	/**

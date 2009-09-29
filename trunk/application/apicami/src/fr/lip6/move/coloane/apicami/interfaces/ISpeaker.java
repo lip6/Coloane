@@ -2,8 +2,10 @@ package fr.lip6.move.coloane.apicami.interfaces;
 
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 
 import java.io.IOException;
+import java.util.List;
 
 
 /**
@@ -73,9 +75,10 @@ public interface ISpeaker {
 	 * @param rootName Le nom du menu principal
 	 * @param menuName Le nom du menu parent responsable
 	 * @param serviceName Le nom du service à exécuter
+	 * @param options Liste des options actives
 	 * @throws IOException En cas de problème
 	 */
-	void askForService(String rootName, String menuName, String serviceName) throws IOException;
+	void askForService(String rootName, String menuName, String serviceName, List<IOptionMenu> options) throws IOException;
 
 	/**
 	 * Demande lenvoi de la nouvelle date

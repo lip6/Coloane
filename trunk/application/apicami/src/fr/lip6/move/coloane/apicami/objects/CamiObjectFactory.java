@@ -43,7 +43,7 @@ public final class CamiObjectFactory {
 	 * @see IQuestion
 	 */
 	public static ISubMenu getNewRootMenu(String name, int type, int behavior, boolean visibility) {
-		return new SubMenu(name, type, behavior, visibility);
+		return new SubMenu(name, type, behavior, visibility, "/" + name);
 	}
 
 	/**
