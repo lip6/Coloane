@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.motor.session;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultTreeList;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.beans.PropertyChangeListener;
@@ -96,15 +97,16 @@ public interface ISession {
 	IService getService(String id);
 
 	/**
-	 * @param option nom de l'option
+	 * @param option option
 	 * @param state état de l'option
 	 */
-	void setOption(String option, boolean state);
+	void setOption(IOptionMenu option, boolean state);
 
 	/**
+	 * @param path restreint aux options ce trouvant dans la descendance de ce chemin
 	 * @return la liste des options actives
 	 */
-	List<String> getActiveOptions();
+	List<IOptionMenu> getActiveOptions(String path);
 
 	/**
 	 * @param listener listener à ajouter

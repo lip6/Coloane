@@ -218,7 +218,7 @@ public final class Motor {
 
 
 	/** {@inheritDoc} */
-	public void askForService(final IService service) {
+	public void askForService(final IService service, final String path) {
 		final ISession session = SessionManager.getInstance().getCurrentSession();
 		if (session == null) {
 			return;
@@ -250,7 +250,7 @@ public final class Motor {
 				};
 				Com.getInstance().setReceptServiceStateObserver(observer);
 				try {
-					((Session) session).askForService(service);
+					((Session) session).askForService(service, path);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", "Service " + service.getName() + " failed", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}

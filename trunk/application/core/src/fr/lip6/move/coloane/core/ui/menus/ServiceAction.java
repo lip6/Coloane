@@ -19,7 +19,7 @@ public class ServiceAction extends Action {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private String serviceId;
+	private IServiceMenu serviceMenu;
 
 	private ISession session;
 
@@ -31,19 +31,19 @@ public class ServiceAction extends Action {
 		super(service.getName(), IAction.AS_PUSH_BUTTON);
 		setId(service.getName());
 //		setToolTipText(service.getHelps());
-		this.serviceId = service.getAssociatedService();
+		this.serviceMenu = service;
 		this.session = session;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void run() {
-		LOGGER.fine("Execution du service : " + serviceId); //$NON-NLS-1$
-		IService service = session.getService(serviceId);
+		LOGGER.fine("Execution du service : " + serviceMenu.getAssociatedService()); //$NON-NLS-1$
+		IService service = session.getService(serviceMenu.getAssociatedService());
 		if (service == null) {
-			LOGGER.warning("Service non disponible : " + serviceId); //$NON-NLS-1$
+			LOGGER.warning("Service non disponible : " + serviceMenu.getAssociatedService()); //$NON-NLS-1$
 		} else {
-			Motor.getInstance().askForService(service);
+			Motor.getInstance().askForService(service, serviceMenu.getPath());
 		}
 	}
 }
