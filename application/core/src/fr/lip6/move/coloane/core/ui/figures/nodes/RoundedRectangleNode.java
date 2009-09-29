@@ -19,7 +19,7 @@ public class RoundedRectangleNode extends AbstractNodeFigure {
 	 */
 	@Override
 	protected final void fillShape(Graphics graphics) {
-		graphics.fillRectangle(getBounds());
+		graphics.fillRectangle(getBounds().getResized(-1, -1));
 	}
 
 	/**

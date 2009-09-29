@@ -23,7 +23,7 @@ public class DoubleEllipseNode extends AbstractNodeFigure {
 	@Override
 	protected final void fillShape(Graphics graphics) {
 		Rectangle r = Rectangle.SINGLETON;
-		r.setBounds(getBounds());
+		r.setBounds(getBounds().getResized(-1, -1));
 		r.shrink(MARGIN, MARGIN);
 		graphics.fillOval(r);
 	}

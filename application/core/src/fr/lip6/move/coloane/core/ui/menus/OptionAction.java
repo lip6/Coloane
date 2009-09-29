@@ -17,6 +17,7 @@ public class OptionAction extends Action {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private ISession session;
+	private IOptionMenu option;
 
 	/**
 	 * @param option Objet décrivant l'option
@@ -26,7 +27,8 @@ public class OptionAction extends Action {
 		super(option.getName(), convertStyle(option.getType()));
 		setId(option.getName());
 		setChecked(option.isValidated());
-		session.setOption(option.getName(), option.isValidated());
+		session.setOption(option, option.isValidated());
+		this.option = option;
 		this.session = session;
 	}
 
@@ -49,7 +51,7 @@ public class OptionAction extends Action {
 	@Override
 	public final void run() {
 		LOGGER.fine("Changement d'une option : " + getId() + " = " + isChecked()); //$NON-NLS-1$ //$NON-NLS-2$
-		session.setOption(getId(), isChecked());
+		session.setOption(option, isChecked());
 	}
 
 }

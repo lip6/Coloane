@@ -20,7 +20,7 @@ public class EllipseNode extends AbstractNodeFigure {
 	 */
 	@Override
 	protected final void fillShape(Graphics graphics) {
-		graphics.fillOval(getBounds());
+		graphics.fillOval(getBounds().getResized(-1, -1));
 	}
 
 	/**

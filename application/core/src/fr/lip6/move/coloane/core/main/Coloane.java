@@ -131,7 +131,7 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	private void initializeLogger() {
 		LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-		LOGGER.setLevel(Level.ALL); // On loggue tout !
+		LOGGER.setLevel(Level.OFF); // On loggue tout !
 
 		// Les logs sont affichés dans la console
 		LOGGER.addHandler(new ConsoleHandler());

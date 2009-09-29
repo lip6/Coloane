@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.beans.PropertyChangeListener;
@@ -64,7 +65,7 @@ public class Session implements ISession {
 	private Map<String, IService> services = new HashMap<String, IService>();
 
 	/** Liste des options active */
-	private Set<String> options = new HashSet<String>();
+	private Set<IOptionMenu> options = new HashSet<IOptionMenu>();
 
 	/** Status de la session */
 	private int status = ISession.CLOSED;
@@ -258,12 +259,18 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final List<String> getActiveOptions() {
-		return Collections.unmodifiableList(new ArrayList<String>(options));
+	public final List<IOptionMenu> getActiveOptions(String path) {
+		List<IOptionMenu> pathOptions = new ArrayList<IOptionMenu>();
+		for (IOptionMenu option : options) {
+			if (option.getPath().startsWith(path)) {
+				pathOptions.add(option);
+			}
+		}
+		return pathOptions;
 	}
 
 	/** {@inheritDoc} */
-	public final void setOption(String option, boolean state) {
+	public final void setOption(IOptionMenu option, boolean state) {
 		if (state) {
 			options.add(option);
 		} else {
@@ -273,20 +280,21 @@ public class Session implements ISession {
 
 	/**
 	 * @param service service à executer
+	 * @param path Chemin
 	 * @throws ApiException Si l'invocation du service a échoué
 	 */
-	public final void askForService(IService service) throws ApiException {
+	public final void askForService(IService service, String path) throws ApiException {
 		if (status != ISession.CONNECTED) {
 			LOG.warning("Invocation du service impossible, la session n'est pas connecté"); //$NON-NLS-1$
 			return;
 		}
-		LOG.fine("Invocation du service : " + service + " " + getActiveOptions()); //$NON-NLS-1$//$NON-NLS-2$
+		LOG.fine("Invocation du service : " + service + " " + getActiveOptions(path)); //$NON-NLS-1$//$NON-NLS-2$
 		IGraph emptyGraph = null;
 		if (service.getOutputFormalism() != null) {
 			IFormalism form = FormalismManager.getInstance().getFormalismByFkName(service.getOutputFormalism());
 			emptyGraph = new GraphModel(form.getName());
 		}
-		apiSession.askForService(service, getActiveOptions(), null, null, graph, emptyGraph);
+		apiSession.askForService(service, getActiveOptions(path), null, null, graph, emptyGraph);
 	}
 
 	/**

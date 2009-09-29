@@ -190,6 +190,9 @@ public class SimpleDialog extends IconAndMessageDialog implements IDialogUI {
 
 		// Le contenu de la boite de dialogue a-t-elle ete modifiee ?
 		boolean hasbeenmodified = false;
+		if (lineType == IDialog.MULTI_LINE_WITH_MULTI_SELECTION || lineType == IDialog.MULTI_LINE_WITH_SINGLE_SELECTION) {
+			hasbeenmodified = textArea.getText().size() > 0;
+		}
 		if (inputType != IDialog.INPUT_FORBIDDEN) {
 			hasbeenmodified = !textArea.getText().get(0).equals(defaultValue);
 		}
