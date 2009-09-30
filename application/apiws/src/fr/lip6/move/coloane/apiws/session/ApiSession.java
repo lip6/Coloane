@@ -27,6 +27,7 @@ import fr.lip6.move.coloane.interfaces.api.session.IApiSession;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.Collection;
@@ -336,7 +337,7 @@ public class ApiSession implements IApiSession {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void askForService(IService service, List<String> options, List<IElement> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException {
+	public final void askForService(IService service, List<IOptionMenu> options, List<IElement> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException {
 
 		// Test si la connection est fermé
 		if (!sessionController.getConnection().isConnectionOpened()) {

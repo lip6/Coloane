@@ -16,6 +16,9 @@ public abstract class ItemMenuImpl implements IItemMenu {
 
 	private String helps;
 
+	// FIXME : gestion du path pour pouvoir gérer les options
+	private String path = "";
+
 	/**
 	 * Constructeur
 	 * @param question La question réçu de la part du wrapper
@@ -44,6 +47,10 @@ public abstract class ItemMenuImpl implements IItemMenu {
 	 */
 	public final String getName() {
 		return name;
+	}
+
+	public final String getPath() {
+		return path;
 	}
 
 	/**
