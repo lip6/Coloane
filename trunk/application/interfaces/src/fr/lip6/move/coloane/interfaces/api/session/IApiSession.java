@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.api.objects.ISessionInfo;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
+import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.util.List;
@@ -77,7 +78,7 @@ public interface IApiSession { // TODO : plus de détails dans les commentaires 
 	 * @param outputModel Le modèle qu'on est susceptible de recevoir en retour
 	 * @throws ApiException si l'excution du service sur la session échoue.
 	 */
-	void askForService(IService service, List<String> options, List<IElement> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException;
+	void askForService(IService service, List<IOptionMenu> options, List<IElement> objects, List<String> texts, IGraph inputModel, IGraph outputModel) throws ApiException;
 
 	/**
 	 * Envoie la boite de dialogue reponse

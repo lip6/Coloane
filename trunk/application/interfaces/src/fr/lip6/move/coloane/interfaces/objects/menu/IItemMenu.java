@@ -11,6 +11,11 @@ public interface IItemMenu {
 	String getName();
 
 	/**
+	 * @return chemin d'accès jusqu'à l'item
+	 */
+	String getPath();
+
+	/**
      * @return la visibilite de l'item
      */
 	boolean isVisible();
