@@ -96,11 +96,11 @@
 			<artifactId>importExportCAMI</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>importExportPNML</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+<!--                <dependency>-->
+<!--                        <groupId>fr.lip6.move.coloane.features</groupId>-->
+<!--                        <artifactId>importExportPNML</artifactId>-->
+<!--                        <version>${project.version}</version>-->
+<!--                </dependency>-->
 		<dependency>
 			<groupId>fr.lip6.move.coloane.features</groupId>
 			<artifactId>modelExamples</artifactId>
