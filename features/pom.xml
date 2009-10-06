@@ -64,7 +64,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>buildFeatureXML.pl</executable>
+							<executable>$BUILDTOOLS/buildFeatureXML.pl</executable>
 							<arguments>
 								<argument>feature.xml</argument>
 								<argument>${build.finalName}</argument>
