@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PipedOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -20,30 +21,23 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-import fr.lip6.move.coloane.interfaces.model.IArc;
+import java.io.PipedInputStream;
+
 public class ProcMonitoringServer {
-	private static int produceTaskSleepTime = 100;
-	private static int consumeTaskSleepTime = 1200;
-	private static int produceTaskMaxNumber = 100;
 	private static final int CORE_POOL_SIZE = 2;
 	private static final int MAX_POOL_SIZE = 100;
-	private static final int KEEPALIVE_TIME = 3;
-	private static final int QUEUE_CAPACITY = (CORE_POOL_SIZE + MAX_POOL_SIZE) / 2;
-	private static final TimeUnit TIME_UNIT = TimeUnit.SECONDS;
-	private static final String HOST = "127.0.0.1";
-	private static final int PORT = 19528;
-	private BlockingQueue<Runnable> workQueue = new ArrayBlockingQueue<Runnable>(
-			QUEUE_CAPACITY);
 	//private ThreadPoolExecutor serverThreadPool = null;
+
+	private static final int MSG_TYPE_ERROR = -1;
+	private static final int MSG_TYPE_OUT = 1;
+	private static final int MSG_TYPE_IN = 2;
+
+	
 	
 	private ExecutorService pool = null;
-	private RejectedExecutionHandler rejectedExecutionHandler = new
-	ThreadPoolExecutor.DiscardOldestPolicy();
-	private ServerSocket serverListenSocket = null;
-	private int times = 5;
 	public void start() {
-		ServiceThread tempMonitorThread = null;	
-		
+		PipedOutputStream tempPos = null;
+		int typeMSG = -1;
 		// You can also init thread pool in this way.
 		/*serverThreadPool = new ThreadPoolExecutor(CORE_POOL_SIZE,
 				MAX_POOL_SIZE, KEEPALIVE_TIME, TIME_UNIT, workQueue,
@@ -81,20 +75,27 @@ public class ProcMonitoringServer {
                 // Maybe it is necessary to add some time of waiting (MSG time property)
                 // Because not MSGs arrive in random.
                 
+//            	SoapMSG m = new SoapMSG(procID, objectService, MSGType); 
+                
+                // Analyze the SOAP message,
+                // translate the MSG type into int.
+                typeMSG = AnalyzeSoapMSG(MSGType);
+                
                 // According to each MSG, check if it belongs to any existing monitor:
                 // if yes, then send this MSG to related monitor thread.
                 // if no, then new a new monitor thread.
-            	SoapMSG m = new SoapMSG(procID, objectService, MSGType); 
-//            	System.out.println(m.getMSGType());
                 if(tablePT.isEmpty()){
-                	//serverThreadPool.execute(new ServiceThread(socket, welcomeString));
                 	System.out.println("tablePT.isEmpty()");
-                	ServiceThread newMonitorThread = new ServiceThread(m);
-//                	System.out.println("tablePT.isEmpty()");
-                	new Thread(newMonitorThread).start();    
-//                	pool.execute(newMonitorThread);
-                	ItemProcessThread tempItem = new ItemProcessThread(Integer.parseInt(procID),newMonitorThread);
+                	PipedInputStream pis = new PipedInputStream();
+                	PipedOutputStream pos = new PipedOutputStream(pis);
+
+                	ServiceThread newMonitorThread = new ServiceThread(Integer.parseInt(procID),pis);
+                	pool.execute(newMonitorThread);
+                	ItemProcessThread tempItem = new ItemProcessThread(Integer.parseInt(procID),newMonitorThread, pos);
                 	tablePT.add(tempItem);
+                	
+                	pos.write(typeMSG);
+//                	pos.flush();
                 }
                 else
                 {
@@ -113,50 +114,50 @@ public class ProcMonitoringServer {
                 		// find out the related mapping item
                 		// and then send the MSG to the related thread NO.$indexMSG
                 		System.out.println("isExisting==true");
-                		System.out.println(tablePT.get(indexMSG).getThreadObject().toString());
-                		tempMonitorThread = tablePT.get(indexMSG).getThreadObject();
-                		
-                		tempMonitorThread.setSoapMSG(m);
-                		tempMonitorThread.notify();  //这个notify是需要怎么使用的？？？？？？？
-                		
+                		tempPos = tablePT.get(indexMSG).getpOutput();
+                		tempPos.write(typeMSG);
                 	}
                 	else{
-                		System.out.println("isExisting!!=true");
                 		// A new process is created
                 		// so it is necessary to create a new monitor thread.
-                		ServiceThread newMonitorThread = new ServiceThread(m);
-//	                	pool.execute(newMonitorThread);
-                		new Thread(newMonitorThread).start(); 
-	                	ItemProcessThread tempItem = new ItemProcessThread(Integer.parseInt(procID),newMonitorThread);
+	                	System.out.println("isExisting!!=true");
+	                	PipedInputStream pis = new PipedInputStream();
+	                	PipedOutputStream pos = new PipedOutputStream(pis);
+
+	                	ServiceThread newMonitorThread = new ServiceThread(Integer.parseInt(procID),pis);
+	                	pool.execute(newMonitorThread);
+	                	ItemProcessThread tempItem = new ItemProcessThread(Integer.parseInt(procID),newMonitorThread, pos);
 	                	tablePT.add(tempItem);
+	                	
+	                	pos.write(typeMSG);
+	                	pos.flush();
                 	}	                	
                 }
-                try {
-					wait();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
             }
             br.close();
             fr.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-		cleanup();
 	}
-	public void cleanup() {
-		if (null != serverListenSocket) {
-			try {
-				serverListenSocket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		//serverThreadPool.shutdown();
-		pool.shutdown();
+	
+	public int AnalyzeSoapMSG(String typeMSG){
+	if(typeMSG.startsWith("out")){
+		return MSG_TYPE_OUT;
 	}
+	else if(typeMSG.startsWith("in")){
+		// Right now there are two MSG types (out & in)
+		// Actually, just input or output (two directions of MSGs)
+		return MSG_TYPE_IN;
+	}
+	else{
+		// There is not such a MSG tpye.
+		System.out.println("ERROR: There is not such a MSG tpye.");
+		return MSG_TYPE_ERROR;
+	}
+	}
+	
+	
 	public static void main(String args[]) {
 		ProcMonitoringServer server = new ProcMonitoringServer();
 		server.start();
@@ -166,20 +167,28 @@ public class ProcMonitoringServer {
 
 // Monitor Thread
 class ServiceThread implements Runnable, Serializable {
-//	private static final long serialVersionUID = 0;
-//	private Socket connectedSocket = null;
-//	private String helloString = null;
-//	private static int count = 0;
-//	private static ReentrantLock lock = new ReentrantLock();
 	
 	private SoapMSG Msg = null;
 	final	static	int  MSG_SEND = 1; 		// Define send type of MSG
 	final	static	int  MSG_RECEIVE = 2;	// Define receive type of MSG
 	ProcessMonitor testCase = null;
+	PipedInputStream pInput = null;
+	int instanceID = -1;
 	
-	ServiceThread(SoapMSG m) {
-		Msg = m;
-		System.out.println("ServiceThread");
+	ServiceThread(int ID, PipedInputStream input) {
+		instanceID = ID;
+		pInput = input;
+	}
+	
+	/**
+	 * This function is used to print content (type byte[])
+	 * @param content
+	 */
+	public void print(byte[] content){
+		   for(int i=0;i<content.length;i++){
+		    System.out.print((char)content[i]);
+		   }
+		   System.out.println();
 	}
 	
 	public void setSoapMSG(SoapMSG m){
@@ -188,96 +197,23 @@ class ServiceThread implements Runnable, Serializable {
 	
 	public void run(){
 		testCase = new ProcessMonitor();
-		int msgID = 0;
-		while(true){
-//			System.out.println("In thread: " + Msg.getMSGType());
-			if(Msg.getMSGType().startsWith("out")){
-				msgID = 1;
+		int typeMsg = -1;
+		
+		try {
+			while(this.pInput.available()>0){
+//				content = new byte[this.pInput.available()];
+			typeMsg = this.pInput.read();
+			System.out.println("BPEL Process Instance " +instanceID + ": SOAP Message Type is "  + " " + typeMsg);
+			testCase.monitor(typeMsg);
 			}
-			else if(Msg.getMSGType().startsWith("in")){
-				// Right now there are two MSG types (out & in)
-				// Actually, just input or output (two directions of MSGs)
-				msgID = 2;
-			}
-			else{
-				System.out.println("MSG Type Error!!!! - " + Msg.getMSGType());
-			}
-//			System.out.println(msgID);
-			
-			testCase.monitor(msgID);
-//			testCase.monitor(msgID);
-//			testCase.monitor(msgID);
-//			testCase.monitor(1);
-			
-			try {
-				wait();
-			} catch (InterruptedException e) {
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		
-//		increaseCount();
-//		int curCount = getCount();
-//		helloString = "hello, id = " + curCount + "\r\n";
-//		ExecutorService executor = Executors.newSingleThreadExecutor();
-//		Future<String> future = executor.submit(new TimeConsumingTask());
-//		DataOutputStream dos = null;
-//		try {
-//			dos = new DataOutputStream(connectedSocket.getOutputStream());
-//			dos.write(helloString.getBytes());
-//			try {
-//				dos.write("let's do soemthing other.\r\n".getBytes());
-//				String result = future.get();
-//				dos.write(result.getBytes());
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			} catch (ExecutionException e) {
-//				e.printStackTrace();
-//			}
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} finally {
-//			if (null != connectedSocket) {
-//				try {
-//					connectedSocket.close();
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//			if (null != dos) {
-//				try {
-//					dos.close();
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			}
-//			executor.shutdown();
-//		}
-		
 	}
-//	private int getCount() {
-//		int ret = 0;
-//		try {
-//			lock.lock();
-//			ret = count;
-//		} finally {
-//			lock.unlock();
-//		}
-//		return ret;
-//	}
-//	private void increaseCount() {
-//		try {
-//			lock.lock();
-//			++count;
-//		} finally {
-//			lock.unlock();
-//		}
-//	}
 }
+	
+	
 class TimeConsumingTask implements Callable<String> {
 	public String call() throws Exception {
 		System.out
@@ -288,11 +224,13 @@ class TimeConsumingTask implements Callable<String> {
 
 class ItemProcessThread{
 	private int BPELProcessID=0;
-	private ServiceThread ThreadObject=null;
+	private ServiceThread ThreadObject = null;
+	private PipedOutputStream pOutput = null;
 	
-	public ItemProcessThread(int PID, ServiceThread threadObject){
+	public ItemProcessThread(int PID, ServiceThread threadObject, PipedOutputStream output){
 		BPELProcessID = PID;
 		ThreadObject = threadObject;
+		pOutput = output;
 	}
 	
 	public int getBPELProcessID(){
@@ -301,6 +239,14 @@ class ItemProcessThread{
 	
 	public ServiceThread getThreadObject(){
 		return ThreadObject;
+	}
+	
+	public PipedOutputStream getpOutput(){
+		return pOutput;
+	}
+	
+	public void setpOutput(PipedOutputStream output){
+		pOutput = output;
 	}
 	
 	public void setBPELProcessID(int ID){
@@ -351,7 +297,6 @@ class ProcessMonitor{
 	// It is required to define the incidence matrix 
 	// with varibles m and n to define the matrix.
 	// ## Monitor Generation ##
-//	int[][] Matrix = new int[10][15];
 	
 	// Define ProcessAnalyzer return Event type
 	final   static	int  E_Normal = -1;		// Event: Normal Execution
@@ -364,7 +309,6 @@ class ProcessMonitor{
 	final	static	int  MSG_InvokeReqRep_Res = 4;
 	
 	private int	num_P = 14;
-//	int[] stateCurrent = new int[num_P];
 	private int stateCurrent = 0;
 	
 	public void setStateCurrent(int state){
