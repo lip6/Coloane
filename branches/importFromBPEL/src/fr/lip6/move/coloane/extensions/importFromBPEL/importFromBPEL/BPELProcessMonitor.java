@@ -1,5 +1,11 @@
 package fr.lip6.move.coloane.extensions.importFromBPEL.importFromBPEL;
 
+import fr.lip6.move.coloane.extensions.importFromBPEL.importFromBPEL.SOAPMonitorApplet.SOAPMonitorData;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
 /**
  * A BPEL Process Monitor (hand-write)
  * used to make sure what kind of monitors
@@ -137,6 +143,24 @@ public class BPELProcessMonitor {
 			System.out.println("Monitor: error happens in state " + checkResult +" with received event " + msgID);
 		}
 		
+	}
+	
+	
+	// After receiving a SOAP message, this function will be called
+	// to analyze the message. And assign this message with a integer.
+	// It will be used by process monitor. (different process has different MSG type ID sets)
+	public int AnalyzeMessage(String data){
+		int msgID =0;		
+		 SAXReader xmlReader = new SAXReader();		    
+		 try {
+			Document doc = xmlReader.read(data);
+			
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}// Read XML files
+		
+		return msgID;
 	}
 	
 	public static void main(String[] args) {

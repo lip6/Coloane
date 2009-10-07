@@ -23,6 +23,7 @@ package fr.lip6.move.coloane.extensions.importFromBPEL.importFromBPEL;
 //import org.apache.axis2.soapmonitor.servlet.SOAPMonitorConstants;
 
 import javax.swing.*;
+import javax.swing.JScrollBar;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
@@ -34,6 +35,8 @@ import javax.swing.table.AbstractTableModel;
 
 
 import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -116,7 +119,8 @@ public class SOAPMonitorApplet extends JApplet {
         pages = new Vector();
         URL url;
 		try {
-			url = new URL("http://132.227.76.36:8080/ode/SOAPMonitor");
+			url = new URL("http://localhost:8080/ode/SOAPMonitor");
+			// url is ""http://132.227.76.36:8080/ode/SOAPMonitor""
 			addPage(new SOAPMonitorPage(url.getHost()));
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -351,9 +355,15 @@ public class SOAPMonitorApplet extends JApplet {
             // ADDED by ZHU Jun
             // 目前有两个问题（自动换行；和文本框最大高度）
             SOAP_analyzer_panel = new JPanel();
+            SOAP_analyzer_panel.setMaximumSize(new Dimension(0, 100));
 //            SOAP_analyzer_panel.setMinimumSize(new Dimension(32, 100));
             SOAP_analyzer_panel.setLayout(new BorderLayout());
             analyzer_output = new JTextArea();
+            analyzer_output.setLineWrap(true);
+            analyzer_output.setPreferredSize(new Dimension(0, 0));
+            analyzer_output.setForeground(Color.BLACK);
+            analyzer_output.setFocusable(true);
+            analyzer_output.setMaximumSize(new Dimension(0, 0));
             analyzer_output.setWrapStyleWord(true);
             analyzer_output.setEditable(false);
             analyzer_output.setRows(8);
@@ -437,7 +447,8 @@ public class SOAPMonitorApplet extends JApplet {
         		// * Modified by ZHU Jun
         		// * 15-05-2009
         		// ***********************************************
-				URL url = new URL("http://132.227.76.36:8080/ode/SOAPMonitor");
+				URL url = new URL("http://localhost:8080/ode/SOAPMonitor");
+				// url is "http://132.227.76.36:8080/ode/SOAPMonitor"(when in lip6)
 //				String codehost = url.getHost();
 				// *******************END*************************
 				
@@ -545,6 +556,11 @@ public class SOAPMonitorApplet extends JApplet {
             int             selected;
             int             row;
             boolean         update_needed;
+            
+            // SOAP MSG type ID and initialize to zero
+            // ADD by ZHU Jun 08-09-09
+            int msgID = 0;
+            
             while (socket != null) {
                 try {
                     // Get the data from the server
@@ -559,10 +575,14 @@ public class SOAPMonitorApplet extends JApplet {
                             // Add new request data to the table
                             data = new SOAPMonitorData(id,target,soap);
                             model.addData(data);
-                            System.out.println(data.getSOAPRequest());
+                            System.out.println("Request: " + id + " " + target);
+                            System.out.println(data.getSOAPRequest());                            
                             analyzer_output.append("Received a SOAP Message: REQUEST\n");
                             analyzer_output.append(data.getSOAPRequest()+"\n");
-//                            processMonitor.monitor(msgID);
+                            
+//                            data.
+                            msgID = processMonitor.AnalyzeMessage(data.getSOAPRequest());
+                            processMonitor.monitor(msgID);
                             
                             // If "most recent" selected then update
                             // the details area if needed
@@ -594,6 +614,7 @@ public class SOAPMonitorApplet extends JApplet {
                                 // Set the response and update table
                                 data.setSOAPResponse(soap);
                                 model.updateData(data);
+                                System.out.println("Response: "+ id);
                                 System.out.println(data.getSOAPResponse());
                                 analyzer_output.append("Received a SOAP Message: RESPONSE\n");
                                 analyzer_output.append(data.getSOAPResponse()+"\n");
@@ -723,7 +744,7 @@ public class SOAPMonitorApplet extends JApplet {
     }
 
     /**
-     * This class represend the data for a SOAP request/response pair
+     * This class represents the data for a SOAP request/response pair
      */
     class SOAPMonitorData {
 
