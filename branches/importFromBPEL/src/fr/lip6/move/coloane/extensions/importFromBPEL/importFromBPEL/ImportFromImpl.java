@@ -616,11 +616,11 @@ public class ImportFromImpl implements IImportFrom {
 		    	
 		    	IArc arc = graph.createArc("arc", P_Start, T_transition);		    	
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"Receive_In");
+//		    	attribute.setValue("Arc_"+StrPrint+"Receive_In");
 		    	
 				arc = graph.createArc("arc", T_transition, P_End);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"Receive_Out");
+//		    	attribute.setValue("Arc_"+StrPrint+"Receive_Out");
 		    	
 				INode P_Msg_Rec = graph.createNode("place");
 		    	attribute = P_Msg_Rec.getAttribute("name");
@@ -631,7 +631,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	
 				arc = graph.createArc("arc", P_Msg_Rec, T_transition);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"Receive_MSG");
+//		    	attribute.setValue("Arc_"+StrPrint+"Receive_MSG");
 		    	
 			} catch (ModelException e) {
 				// TODO Auto-generated catch block
@@ -692,12 +692,12 @@ public class ImportFromImpl implements IImportFrom {
 		    	
 		    	IArc arc = graph.createArc("arc", P_Start, T_transition);		    	
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"InvokeOneWay_In");
+//		    	attribute.setValue("Arc_"+StrPrint+"InvokeOneWay_In");
 		    	
 		    	
 				arc = graph.createArc("arc", T_transition, P_End);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"InvokeOneWay_Out");
+//		    	attribute.setValue("Arc_"+StrPrint+"InvokeOneWay_Out");
 		    	
 				INode P_Msg_Rec = graph.createNode("place");
 		    	attribute = P_Msg_Rec.getAttribute("name");
@@ -708,7 +708,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	
 				arc = graph.createArc("arc", T_transition, P_Msg_Rec);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"InvokeOneWay_MSG");
+//		    	attribute.setValue("Arc_"+StrPrint+"InvokeOneWay_MSG");
 		    	
 			} catch (ModelException e) {
 				// TODO Auto-generated catch block
@@ -761,7 +761,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// arc between P_Start and transition(req)
 		    	IArc arc = graph.createArc("arc", P_Start, T_transition);		    	
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_In");
+//		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_In");
 		    	
 		    	//Node Msg Req
 		    	INode P_Msg_Req = graph.createNode("place");
@@ -774,7 +774,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// arc between transition(req) and MSG(req)
 		    	arc = graph.createArc("arc", T_transition, P_Msg_Req);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_Req_MSG");
+//		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_Req_MSG");
 		    	
 		    	// Node middle
 		    	INode P_Middle = graph.createNode("place");
@@ -787,7 +787,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// arc between transition(req) and place P_Middle
 		    	arc = graph.createArc("arc", T_transition, P_Middle);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_P_Mid");
+//		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_P_Mid");
 		    	
 		    	// Transition (Response) between P_Middle and P_End
 		    	T_transition = graph.createNode("transition");
@@ -800,7 +800,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// Arc between P_Middle and transition (Response)
 		    	arc = graph.createArc("arc", P_Middle, T_transition);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_P_Mid");
+//		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_P_Mid");
 		    	
 		    	// Msg (Response)
 		    	INode P_Msg_Res = graph.createNode("place");
@@ -813,7 +813,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// Arc between transition (Response) and Msg (Response)
 		    	arc = graph.createArc("arc", P_Msg_Res, T_transition);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_Res_MSG");
+//		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_Res_MSG");
 		    	
 		    	// The last output place of 'Invoke' sub model
 				INode P_End = graph.createNode("place");
@@ -826,7 +826,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// Arc between transition (Response) and last place
 				arc = graph.createArc("arc", T_transition, P_End);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_Out");
+//		    	attribute.setValue("Arc_"+StrPrint+"InvokeReqRep_Out");
 		    	
 			} catch (ModelException e) {
 				// TODO Auto-generated catch block
@@ -887,11 +887,11 @@ public class ImportFromImpl implements IImportFrom {
 		    	
 		    	IArc arc = graph.createArc("arc", P_Start, T_transition);		    	
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"Reply_In");
+//		    	attribute.setValue("Arc_"+StrPrint+"Reply_In");
 		    	
 				arc = graph.createArc("arc", T_transition, P_End);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"Reply_Out");
+//		    	attribute.setValue("Arc_"+StrPrint+"Reply_Out");
 		    	
 				INode P_Msg_Rec = graph.createNode("place");
 		    	attribute = P_Msg_Rec.getAttribute("name");
@@ -902,7 +902,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	
 				arc = graph.createArc("arc", T_transition, P_Msg_Rec);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"Reply_MSG");
+//		    	attribute.setValue("Arc_"+StrPrint+"Reply_MSG");
 		    	
 		    	
 			} catch (ModelException e) {
@@ -967,12 +967,12 @@ public class ImportFromImpl implements IImportFrom {
 		    	// Arc between P_Start and T_transition
 		    	IArc arc = graph.createArc("arc", P_Start, T_transition);		    	
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"Assign_In");
+//		    	attribute.setValue("Arc_"+StrPrint+"Assign_In");
 		    	
 		    	// Arc between T_transition and P_End
 				arc = graph.createArc("arc", T_transition, P_End);
 		    	attribute = arc.getAttribute("valuation");
-		    	attribute.setValue("Arc_"+StrPrint+"Assign_Out");
+//		    	attribute.setValue("Arc_"+StrPrint+"Assign_Out");
 		    	
 			} catch (ModelException e) {
 				// TODO Auto-generated catch block
@@ -1021,7 +1021,7 @@ public class ImportFromImpl implements IImportFrom {
 			    	// Add arc between P_Start and T_Start
 			    	IArc arc = tempGraph.createArc("arc", P_Start_Flow, T_Start_Flow);		    	
 			    	attribute = arc.getAttribute("valuation");
-			    	attribute.setValue("Arc_"+StrPrint+"Flow_In");
+//			    	attribute.setValue("Arc_"+StrPrint+"Flow_In");
 			    	
 			    	
 		    		// The last place of 'flow' sub model
@@ -1037,7 +1037,7 @@ public class ImportFromImpl implements IImportFrom {
 			    	// Add arc between P_Start and T_Start
 			    	arc = tempGraph.createArc("arc", T_End_Flow, P_End_Flow);		    	
 			    	attribute = arc.getAttribute("valuation");
-			    	attribute.setValue("Arc_"+StrPrint+"Flow_Out");
+//			    	attribute.setValue("Arc_"+StrPrint+"Flow_Out");
 			    	
 			    	// Initialization
 			    	nodeStartFlow = P_Start_Flow;
@@ -1736,7 +1736,7 @@ public class ImportFromImpl implements IImportFrom {
 			    			IArc arcTemp;
 							try {
 								arcTemp = graph.createArc("arc", nodeCurrent, nodeTemp);
-								arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTemp.getAttribute("name").getValue());
+//								arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTemp.getAttribute("name").getValue());
 								LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
 							} catch (ModelException e) {
 								// TODO Auto-generated catch block
@@ -1765,7 +1765,7 @@ public class ImportFromImpl implements IImportFrom {
 			    			IArc arcTemp;
 							try {
 								arcTemp = graph.createArc("arc", nodeCurrent, nodeTempPrevious);
-								arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTempPrevious.getAttribute("name").getValue());
+//								arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTempPrevious.getAttribute("name").getValue());
 								LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
 							} catch (ModelException e) {
 								// TODO Auto-generated catch block
@@ -1896,7 +1896,7 @@ public class ImportFromImpl implements IImportFrom {
 	    			IArc arcTemp;
 					try {
 						arcTemp = graph.createArc("arc", arc.getSource(), nodeTemp);
-						arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTemp.getAttribute("name").getValue());
+//						arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTemp.getAttribute("name").getValue());
 						LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
 					} catch (ModelException e) {
 						// TODO Auto-generated catch block
@@ -1925,7 +1925,7 @@ public class ImportFromImpl implements IImportFrom {
 	    			IArc arcTemp;
 					try {
 						arcTemp = graph.createArc("arc", arc.getSource(), nodeTempPrevious);
-						arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTempPrevious.getAttribute("name").getValue());
+//						arcTemp.getAttribute("valuation").setValue("_Reduce_" + nodeCurrent.getAttribute("name").getValue()+ "_" + nodeTempPrevious.getAttribute("name").getValue());
 						LOGGER.fine("Create arc successfully: " + arcTemp.getAttribute("valuation").getValue());
 					} catch (ModelException e) {
 						// TODO Auto-generated catch block
