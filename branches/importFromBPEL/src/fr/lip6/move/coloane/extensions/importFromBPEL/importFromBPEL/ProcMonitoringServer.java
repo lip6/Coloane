@@ -24,6 +24,13 @@ public class ProcMonitoringServer {
 	private static final int MAX_POOL_SIZE = 100;
 	//private ThreadPoolExecutor serverThreadPool = null;
 	
+	
+	/*
+	 * Define the Maximum amount of MSG in
+	 * each BPEL Process.
+	 */
+	private static final int MAX_AMOUNT_MSG = 100;
+	
 	private ExecutorService pool = null;
 	public void start() {
 		PipedOutputStream tempPos = null;
@@ -83,6 +90,7 @@ public class ProcMonitoringServer {
 
                 	pos.write(typeMSG);
                 	pos.write(linkMSG);
+                	System.out.println("write write write write" + typeMSG + linkMSG);
                 	
                 	ServiceThread newMonitorThread = new ServiceThread(Integer.parseInt(procID),pis);
                 	pool.execute(newMonitorThread);
@@ -108,8 +116,25 @@ public class ProcMonitoringServer {
                 		// and then send the MSG to the related thread NO.$indexMSG
                 		System.out.println("isExisting==true");
                 		tempPos = tablePT.get(indexMSG).getpOutput();
+                		
                 		tempPos.write(typeMSG);
                 		tempPos.write(linkMSG);
+                		
+                		/*
+                		 * In order to solve the problem of EXCEPTION "WRITE END DEAD"
+                		 * it is required to close the pipe before ending the thread.
+                		 * So if I can get the end of each process, it would be much better.
+                		 * 
+                		 * Right now, by judging the MSGType == out?? and objectService == client
+                		 * it is determined whether it is the end of process.
+                		 * ACCTUALLY IT IS NOT A CORRECT WAY TO SOLVE THIS PROBLEM.
+                		 */
+                		if(MSGType.startsWith("out") && objectService.startsWith("client")){
+                			tempPos.close();
+                			System.out.println(tempPos + " end pipes.");
+                		}
+                		
+                		System.out.println("write write write write" + typeMSG + linkMSG);
                 	}
                 	else{
                 		// A new process is created
@@ -118,13 +143,16 @@ public class ProcMonitoringServer {
 	                	PipedInputStream pis = new PipedInputStream();
 	                	PipedOutputStream pos = new PipedOutputStream(pis);
 
+	                	pos.write(typeMSG);
+	                	pos.write(linkMSG);
+	                	
+	                	System.out.println("write write write write" + typeMSG + linkMSG);
+	                	
 	                	ServiceThread newMonitorThread = new ServiceThread(Integer.parseInt(procID),pis);
 	                	pool.execute(newMonitorThread);
 	                	ItemProcessThread tempItem = new ItemProcessThread(Integer.parseInt(procID),newMonitorThread, pos);
 	                	tablePT.add(tempItem);
-	                	
-	                	pos.write(typeMSG);
-	                	pos.write(linkMSG);
+
 //	                	pos.flush();
                 	}	                	
                 }
@@ -143,7 +171,7 @@ public class ProcMonitoringServer {
 }
 
 // Monitor Thread
-class ServiceThread implements Runnable, Serializable {
+class ServiceThread implements Runnable{
 	
 	private SoapMSG Msg = null;
 	final	static	int  MSG_SEND = 1; 		// Define send type of MSG
@@ -152,7 +180,6 @@ class ServiceThread implements Runnable, Serializable {
 	PipedInputStream pInput = null;
 	int instanceID = -1;
 	
-
 	ServiceThread(int ID, PipedInputStream input) {
 		instanceID = ID;
 		pInput = input;
@@ -182,13 +209,17 @@ class ServiceThread implements Runnable, Serializable {
 		
 		try {
 			System.out.println("pInput.available() = "+ pInput.available());
-			while(this.pInput.available()>0){
-//				content = new byte[this.pInput.available()];
 			typeMsg = this.pInput.read();
 			serviceMsg = this.pInput.read();
+			while(serviceMsg!=-1){
+//				content = new byte[this.pInput.available()];
 			System.out.println("BPEL Process Instance " +instanceID + ": SOAP Message Type is "  + " " + typeMsg + "****"+ serviceMsg);
+			System.out.println("*****After read, pInput.available() = " + pInput.available());
 			testCase.monitor(typeMsg,serviceMsg);
+			typeMsg = this.pInput.read();
+			serviceMsg = this.pInput.read();
 			}
+//			System.out.println("Jump out from while()");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -309,6 +340,7 @@ class ProcessMonitor{
 	private static final int MSG_PARTNER_ERROR = -1;
 	private static final int MSG_PARTNER_SERVER1 = 1;
 	private static final int MSG_PARTNER_SERVER2 = 2;
+	private static final int MSG_PARTNER_CLIENT = 3;
 	
 	
 	private int	num_P = 14;
@@ -353,6 +385,10 @@ class ProcessMonitor{
 		else if(linkMSG.startsWith("Server2")){
 			// Right now there are two Partner Links(server1 & server2)
 			return MSG_PARTNER_SERVER2;
+		}
+		else if(linkMSG.startsWith("client")){
+			// Right now there are two Partner Links(server1 & server2)
+			return MSG_PARTNER_CLIENT;
 		}
 		else{
 			// There is not such a Partner Links.
@@ -413,7 +449,7 @@ class ProcessMonitor{
 				}
 			}
 			case 3:{
-				if(msgID==1  && msgLink == 1){
+				if(msgID==1  && msgLink == 3){
 					stateCurrent = 7;
 					System.out.println("Change Current State into " + stateCurrent);
 					System.out.println("Current Process execute successfully!!!");
@@ -424,7 +460,7 @@ class ProcessMonitor{
 				}
 			}
 			case 5:{
-				if(msgID==1 && msgLink == 1){
+				if(msgID==1 && msgLink == 3){
 					stateCurrent = 7;
 					System.out.println("Change Current State into " + stateCurrent);
 					System.out.println("Current Process execute successfully!!!");
