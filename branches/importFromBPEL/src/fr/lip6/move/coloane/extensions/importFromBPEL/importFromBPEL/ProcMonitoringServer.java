@@ -6,8 +6,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PipedOutputStream;
 import java.io.Serializable;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -18,8 +16,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 import java.io.PipedInputStream;
 
@@ -28,22 +24,23 @@ public class ProcMonitoringServer {
 	private static final int MAX_POOL_SIZE = 100;
 	//private ThreadPoolExecutor serverThreadPool = null;
 
+	/*
+	 * Definition of SOAP Message Type
+	 */ 
 	private static final int MSG_TYPE_ERROR = -1;
 	private static final int MSG_TYPE_OUT = 1;
 	private static final int MSG_TYPE_IN = 2;
-
-	
 	
 	private ExecutorService pool = null;
 	public void start() {
 		PipedOutputStream tempPos = null;
 		int typeMSG = -1;
+		
 		// You can also init thread pool in this way.
 		/*serverThreadPool = new ThreadPoolExecutor(CORE_POOL_SIZE,
 				MAX_POOL_SIZE, KEEPALIVE_TIME, TIME_UNIT, workQueue,
 				rejectedExecutionHandler);*/
 		pool = Executors.newFixedThreadPool(10);
-		
 		ArrayList<ItemProcessThread> tablePT = new ArrayList<ItemProcessThread>();
 		
 		System.out.println("I'm receiving SOAP messages...");

@@ -517,24 +517,24 @@ public class ImportFromImpl implements IImportFrom {
 	    		   
 		    	   tempString = elem.getName();
 		    	   if ((tempString.equalsIgnoreCase("receive"))){
+//		    		   System.out.println("*****partnerLink:" + elem.attribute("partnerLink").getText());
 
-		    		   tempGraph = GenerateReceive(formalism, level, numArray);
-		    		   
+		    		   tempGraph = GenerateReceive(formalism, elem.attribute("partnerLink").getText(), level, numArray);
 		    	   }
 		    	   else if((tempString.equalsIgnoreCase("invoke"))){
 		    		   if(elem.attribute("outputVariable") == null){
 		    			   // One-way invoke
 		    			   System.out.println("One-Way invoke");
-		    			   tempGraph = GenerateInvokeOneway(formalism, level, numArray);
+		    			   tempGraph = GenerateInvokeOneway(formalism, elem.attribute("partnerLink").getText(), level, numArray);
 		    		   }
 		    		   else{
 		    			   // Request-Response invoke
 		    			   System.out.println("Request-Response invoke");
-		    			   tempGraph = GenerateInvokeReqrep(formalism, level, numArray);
+		    			   tempGraph = GenerateInvokeReqrep(formalism, elem.attribute("partnerLink").getText(), level, numArray);
 		    		   }
 		    	   }
 		    	   else if((tempString.equalsIgnoreCase("reply"))){
-		    		   tempGraph = GenerateReply(formalism, level, numArray);
+		    		   tempGraph = GenerateReply(formalism, elem.attribute("partnerLink").getText(), level, numArray);
 		    	   }
 		    	   else if((tempString.equalsIgnoreCase("assign"))){
 		    		   tempGraph = GenerateAssign(formalism, level, numArray);
@@ -572,7 +572,7 @@ public class ImportFromImpl implements IImportFrom {
 		   * 
 		   * @param graph the IGraph submodel 
 		   */
-	    public IGraph GenerateReceive(String formalism, int level, int [] numArray){
+	    public IGraph GenerateReceive(String formalism, String link, int level, int [] numArray){
 	    	IGraph graph = new GraphModel(formalism);
 	    	
 //	    	IAttribute attribute = new AttributeModel();
@@ -624,7 +624,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	
 				INode P_Msg_Rec = graph.createNode("place");
 		    	attribute = P_Msg_Rec.getAttribute("name");
-		    	attribute.setValue("P_"+StrPrint+"Receive_MSG");
+		    	attribute.setValue("P_"+StrPrint+"Receive_" + link +"_MSG");
 		    	nodeGraphInfo = P_Msg_Rec.getGraphicInfo();
 		    	point.setLocation(x+50, y+50);
 		    	nodeGraphInfo.setLocation(point);
@@ -648,7 +648,7 @@ public class ImportFromImpl implements IImportFrom {
 		   * 
 		   * @param graph the IGraph submodel 
 		   */
-	    public IGraph GenerateInvokeOneway(String formalism, int level, int [] numArray){
+	    public IGraph GenerateInvokeOneway(String formalism, String link, int level, int [] numArray){
 	    	IGraph graph = new GraphModel(formalism);
 	    	
 //	    	IAttribute attribute = new AttributeModel();
@@ -701,7 +701,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	
 				INode P_Msg_Rec = graph.createNode("place");
 		    	attribute = P_Msg_Rec.getAttribute("name");
-		    	attribute.setValue("P_"+StrPrint+"InvokeOneWay_MSG");
+		    	attribute.setValue("P_"+StrPrint+"InvokeOneWay_" + link +"_MSG");
 		    	nodeGraphInfo = P_Msg_Rec.getGraphicInfo();
 		    	point.setLocation(x+50, y+50);
 		    	nodeGraphInfo.setLocation(point);
@@ -725,7 +725,7 @@ public class ImportFromImpl implements IImportFrom {
 		   * 
 		   * @param graph the IGraph submodel 
 		   */
-	    public IGraph GenerateInvokeReqrep(String formalism, int level, int[] numArray){
+	    public IGraph GenerateInvokeReqrep(String formalism, String link, int level, int[] numArray){
 	    	IGraph graph = new GraphModel(formalism);
 	    	
 //	    	IAttribute attribute = new AttributeModel();
@@ -766,7 +766,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	//Node Msg Req
 		    	INode P_Msg_Req = graph.createNode("place");
 		    	attribute = P_Msg_Req.getAttribute("name");
-		    	attribute.setValue("P_"+StrPrint+"InvokeReqRep_Req_MSG");
+		    	attribute.setValue("P_"+StrPrint+"InvokeReqRep_Req_" + link +"_MSG");
 		    	nodeGraphInfo = P_Msg_Req.getGraphicInfo();
 		    	point.setLocation(x+50, y+50);
 		    	nodeGraphInfo.setLocation(point);
@@ -805,7 +805,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// Msg (Response)
 		    	INode P_Msg_Res = graph.createNode("place");
 		    	attribute = P_Msg_Res.getAttribute("name");
-		    	attribute.setValue("P_"+StrPrint+"InvokeReqRep_Res_MSG");
+		    	attribute.setValue("P_"+StrPrint+"InvokeReqRep_Res_" + link +"_MSG");
 		    	nodeGraphInfo = P_Msg_Res.getGraphicInfo();
 		    	point.setLocation(x+100, y+100);
 		    	nodeGraphInfo.setLocation(point);
@@ -843,7 +843,7 @@ public class ImportFromImpl implements IImportFrom {
 		   * 
 		   * @param graph the IGraph submodel 
 		   */
-	    public IGraph GenerateReply(String formalism, int level, int [] numArray){
+	    public IGraph GenerateReply(String formalism, String link, int level, int [] numArray){
 	    	IGraph graph = new GraphModel(formalism);
 	    	
 //	    	IAttribute attribute = new AttributeModel();
@@ -895,7 +895,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	
 				INode P_Msg_Rec = graph.createNode("place");
 		    	attribute = P_Msg_Rec.getAttribute("name");
-		    	attribute.setValue("P_"+StrPrint+"Reply_MSG");
+		    	attribute.setValue("P_"+StrPrint+"Reply_" + link +"_MSG");
 		    	nodeGraphInfo = P_Msg_Rec.getGraphicInfo();
 		    	point.setLocation(x+50, y+50);
 		    	nodeGraphInfo.setLocation(point);
@@ -1654,7 +1654,6 @@ public class ImportFromImpl implements IImportFrom {
 		    	}
 		    	System.out.println("");
 	    	}
-	    	
 	    	return MatrixPre;	
 	    }
 	    
