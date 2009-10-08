@@ -23,18 +23,12 @@ public class ProcMonitoringServer {
 	private static final int CORE_POOL_SIZE = 2;
 	private static final int MAX_POOL_SIZE = 100;
 	//private ThreadPoolExecutor serverThreadPool = null;
-
-	/*
-	 * Definition of SOAP Message Type
-	 */ 
-	private static final int MSG_TYPE_ERROR = -1;
-	private static final int MSG_TYPE_OUT = 1;
-	private static final int MSG_TYPE_IN = 2;
 	
 	private ExecutorService pool = null;
 	public void start() {
 		PipedOutputStream tempPos = null;
 		int typeMSG = -1;
+		int linkMSG = -1;
 		
 		// You can also init thread pool in this way.
 		/*serverThreadPool = new ThreadPoolExecutor(CORE_POOL_SIZE,
@@ -58,7 +52,7 @@ public class ProcMonitoringServer {
 //	                System.out.println(objectService);//out put in console
                 }
                 else{
-//                	System.out.println("ERROR in the MSG input file(MSG not in pair).");
+                	System.out.println("ERROR in the MSG input file(MSG not in pair).");
                 	break;
                 }
                 if(br.ready()) {
@@ -76,7 +70,8 @@ public class ProcMonitoringServer {
                 
                 // Analyze the SOAP message,
                 // translate the MSG type into int.
-                typeMSG = AnalyzeSoapMSG(MSGType);
+                typeMSG = ProcessMonitor.AnalyzeSoapMSGTYPE(MSGType);
+                linkMSG = ProcessMonitor.AnalyzeSoapMSGPartner(objectService);
                 
                 // According to each MSG, check if it belongs to any existing monitor:
                 // if yes, then send this MSG to related monitor thread.
@@ -86,12 +81,13 @@ public class ProcMonitoringServer {
                 	PipedInputStream pis = new PipedInputStream();
                 	PipedOutputStream pos = new PipedOutputStream(pis);
 
+                	pos.write(typeMSG);
+                	pos.write(linkMSG);
+                	
                 	ServiceThread newMonitorThread = new ServiceThread(Integer.parseInt(procID),pis);
                 	pool.execute(newMonitorThread);
                 	ItemProcessThread tempItem = new ItemProcessThread(Integer.parseInt(procID),newMonitorThread, pos);
                 	tablePT.add(tempItem);
-                	
-                	pos.write(typeMSG);
 //                	pos.flush();
                 }
                 else
@@ -113,6 +109,7 @@ public class ProcMonitoringServer {
                 		System.out.println("isExisting==true");
                 		tempPos = tablePT.get(indexMSG).getpOutput();
                 		tempPos.write(typeMSG);
+                		tempPos.write(linkMSG);
                 	}
                 	else{
                 		// A new process is created
@@ -127,7 +124,8 @@ public class ProcMonitoringServer {
 	                	tablePT.add(tempItem);
 	                	
 	                	pos.write(typeMSG);
-	                	pos.flush();
+	                	pos.write(linkMSG);
+//	                	pos.flush();
                 	}	                	
                 }
             }
@@ -138,29 +136,11 @@ public class ProcMonitoringServer {
         }
 	}
 	
-	public int AnalyzeSoapMSG(String typeMSG){
-	if(typeMSG.startsWith("out")){
-		return MSG_TYPE_OUT;
-	}
-	else if(typeMSG.startsWith("in")){
-		// Right now there are two MSG types (out & in)
-		// Actually, just input or output (two directions of MSGs)
-		return MSG_TYPE_IN;
-	}
-	else{
-		// There is not such a MSG tpye.
-		System.out.println("ERROR: There is not such a MSG tpye.");
-		return MSG_TYPE_ERROR;
-	}
-	}
-	
-	
 	public static void main(String args[]) {
 		ProcMonitoringServer server = new ProcMonitoringServer();
 		server.start();
 	}
 }
-
 
 // Monitor Thread
 class ServiceThread implements Runnable, Serializable {
@@ -172,9 +152,11 @@ class ServiceThread implements Runnable, Serializable {
 	PipedInputStream pInput = null;
 	int instanceID = -1;
 	
+
 	ServiceThread(int ID, PipedInputStream input) {
 		instanceID = ID;
 		pInput = input;
+		System.out.println("New ServiceThread");
 	}
 	
 	/**
@@ -195,13 +177,17 @@ class ServiceThread implements Runnable, Serializable {
 	public void run(){
 		testCase = new ProcessMonitor();
 		int typeMsg = -1;
+		int serviceMsg = -1;
+		System.out.println("RUN...");
 		
 		try {
+			System.out.println("pInput.available() = "+ pInput.available());
 			while(this.pInput.available()>0){
 //				content = new byte[this.pInput.available()];
 			typeMsg = this.pInput.read();
-			System.out.println("BPEL Process Instance " +instanceID + ": SOAP Message Type is "  + " " + typeMsg);
-			testCase.monitor(typeMsg);
+			serviceMsg = this.pInput.read();
+			System.out.println("BPEL Process Instance " +instanceID + ": SOAP Message Type is "  + " " + typeMsg + "****"+ serviceMsg);
+			testCase.monitor(typeMsg,serviceMsg);
 			}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -209,7 +195,6 @@ class ServiceThread implements Runnable, Serializable {
 			}
 	}
 }
-	
 	
 class TimeConsumingTask implements Callable<String> {
 	public String call() throws Exception {
@@ -253,7 +238,6 @@ class ItemProcessThread{
 	public void setThreadID(ServiceThread threadObject){
 		ThreadObject=threadObject;
 	}
-	
 }
 
 class SoapMSG{
@@ -286,8 +270,15 @@ class SoapMSG{
 	}
 }
 
-class ProcessMonitor{
-	
+/**
+ * The Class should be automatically generated from the Petri net model
+ * by coloane platform using importBPELImpl.
+ * 
+ * The Classes above can be be reused in other monitors.
+ * @author ZHU Jun
+ *
+ */
+class ProcessMonitor{	
 	// Define the Incidence Matrix of Petri Nets
 	// in a vector Matrix[][]
 	// ** Monitor Generation **
@@ -305,19 +296,79 @@ class ProcessMonitor{
 	final	static	int  MSG_InvokeReqRep_Req =3;
 	final	static	int  MSG_InvokeReqRep_Res = 4;
 	
+	/*
+	 * Definition of SOAP Message Type
+	 */ 
+	private static final int MSG_TYPE_ERROR = -1;
+	private static final int MSG_TYPE_OUT = 1;
+	private static final int MSG_TYPE_IN = 2;
+	
+	/*
+	 * Definition of Partner Link Services
+	 */
+	private static final int MSG_PARTNER_ERROR = -1;
+	private static final int MSG_PARTNER_SERVER1 = 1;
+	private static final int MSG_PARTNER_SERVER2 = 2;
+	
+	
 	private int	num_P = 14;
 	private int stateCurrent = 0;
 	
 	public void setStateCurrent(int state){
 		stateCurrent = state;
 	}
+	
+	/**
+	 * Static function AnalyzeSoapMSGTYPE
+	 * analyze the SOAP Message
+	 * @param typeMSG
+	 * @return
+	 */
+	public static int AnalyzeSoapMSGTYPE(String typeMSG){
+		if(typeMSG.startsWith("out")){
+			return MSG_TYPE_OUT;
+		}
+		else if(typeMSG.startsWith("in")){
+			// Right now there are two MSG types (out & in)
+			// Actually, just input or output (two directions of MSGs)
+			return MSG_TYPE_IN;
+		}
+		else{
+			// There is not such a MSG tpye.
+			System.out.println("ERROR: There is not such a MSG tpye.");
+			return MSG_TYPE_ERROR;
+		}
+	}
+	
+	/**
+	 * Static function AnalyzeSoapMSGPartner
+	 * Analyze the Partner Links into integers.
+	 * @param linkMSG
+	 * @return
+	 */
+	public static int AnalyzeSoapMSGPartner(String linkMSG){
+		if(linkMSG.startsWith("Server1")){
+			return MSG_PARTNER_SERVER1;
+		}
+		else if(linkMSG.startsWith("Server2")){
+			// Right now there are two Partner Links(server1 & server2)
+			return MSG_PARTNER_SERVER2;
+		}
+		else{
+			// There is not such a Partner Links.
+			System.out.println("ERROR: There is not such a Partner Links.");
+			return MSG_PARTNER_ERROR;
+		}
+	}
+	
+	
 	/**
 	 * Test the Analyzer1
 	 */
-	public int  ProcessAnalyzer1(int msgID){
+	public int  ProcessAnalyzer1(int msgID, int msgLink){
 		switch (stateCurrent) {
 			case 0:{
-				if(msgID==2){
+				if(msgID==2 && msgLink == 1){
 					stateCurrent = 1;
 					System.out.println("Change Current State into " + stateCurrent);
 					break;
@@ -327,12 +378,12 @@ class ProcessMonitor{
 				}
 			}
 			case 1:{
-				if(msgID==1){
+				if(msgID==2 && msgLink == 2){
 					stateCurrent = 4;
 					System.out.println("Change Current State into " + stateCurrent);
 					break;
 				}
-				else if(msgID==2){
+				else if(msgID==2 && msgLink == 1){
 					stateCurrent = 2;
 					System.out.println("Change Current State into " + stateCurrent);
 					break;
@@ -342,7 +393,7 @@ class ProcessMonitor{
 				}
 			}
 			case 2:{
-				if(msgID==2){
+				if(msgID==2  && msgLink == 1){
 					stateCurrent = 3;
 					System.out.println("Change Current State into " + stateCurrent);
 					break;
@@ -352,7 +403,7 @@ class ProcessMonitor{
 				}
 			}
 			case 4:{
-				if(msgID==1){
+				if(msgID==1  && msgLink == 2){
 					stateCurrent = 5;
 					System.out.println("Change Current State into " + stateCurrent);
 					break;
@@ -362,9 +413,10 @@ class ProcessMonitor{
 				}
 			}
 			case 3:{
-				if(msgID==1){
+				if(msgID==1  && msgLink == 1){
 					stateCurrent = 7;
 					System.out.println("Change Current State into " + stateCurrent);
+					System.out.println("Current Process execute successfully!!!");
 					break;
 				}
 				else{
@@ -372,16 +424,16 @@ class ProcessMonitor{
 				}
 			}
 			case 5:{
-				if(msgID==1){
+				if(msgID==1 && msgLink == 1){
 					stateCurrent = 7;
 					System.out.println("Change Current State into " + stateCurrent);
+					System.out.println("Current Process execute successfully!!!");
 					break;
 				}
 				else{
 					return stateCurrent;
 				}
 			}
-			
 		}
 		return E_Normal;
 	}
@@ -468,10 +520,10 @@ class ProcessMonitor{
 		return E_Normal;
 		}
 	
-	public void monitor(int msgID){
+	public void monitor(int msgID, int msgLink){
 		int checkResult = -1;
 		System.out.println("Current Status:" + stateCurrent);
-		checkResult = ProcessAnalyzer1(msgID);
+		checkResult = ProcessAnalyzer1(msgID, msgLink);
 		
 		if(checkResult!=E_Normal){
 			System.out.println("ALARM: Process Error!" +
