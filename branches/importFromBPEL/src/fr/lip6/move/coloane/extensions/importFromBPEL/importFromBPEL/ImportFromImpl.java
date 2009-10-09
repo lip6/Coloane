@@ -2026,6 +2026,71 @@ public class ImportFromImpl implements IImportFrom {
 //			    }
 	    }
 	    
+	    /**
+	     * The function AnalyzePartnerLinks() is used to 
+	     * ditill the name of partner link from the name of MSG Places.
+	     * The format is like: "P_0_2_InvokeReqRep_Res_employeeTravelStatus_MSG"
+	     * @param name
+	     * @return String
+	     */
+	    public String AnalyzePartnerLinks(String name){
+	    	String namePL;
+	    	int length = name.length();
+	    	int endIndex = length - 4;
+	    	int i = endIndex;
+	    	while(name.charAt(i)!='_'){
+	    		i--;
+	    	}
+	    	int beginIndex = i+1;
+	    	namePL = name.substring(beginIndex, endIndex);
+	    	System.out.println("The name of Partner Link is " + namePL);
+	    	return namePL;
+	    }
+	    
+	    /**
+	     * Generate code of the following function in Process Monitor
+	     * public static int AnalyzeSoapMSGPartner(String linkMSG)
+	     * @param output
+	     */
+	    public void GenerateFunctionAnalyzeMSGType(BufferedWriter output){
+	    	try {
+				output.write("public static int AnalyzeSoapMSGTYPE(String typeMSG){\n");
+				output.write("if(typeMSG.startsWith(\"out\")){\n");
+				output.write("return MSG_TYPE_OUT;}\n");
+				output.write("else if(typeMSG.startsWith(\"in\")){\n");
+				output.write("return MSG_TYPE_IN;}\n");
+				output.write("else{\nreturn MSG_TYPE_ERROR;\n}\n}\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	    
+	    /**
+	     * Generate code of the following function in Process Monitor
+	     * public static int AnalyzeSoapMSGPartner(String linkMSG)
+	     * 
+	     * @param list
+	     * @param output
+	     */
+	    public void GenerateFunctionAnalyzePartnerLinks(ArrayList <String> list, BufferedWriter output){
+	    	int i = 0;
+	    	try {
+				output.write("public static int AnalyzeSoapMSGPartner(String linkMSG){\n");
+				output.write("if(linkMSG.startsWith(\"" + list.get(i) +"\")){\n");
+				output.write("return MSG_PARTNER_" + list.get(i) +";}\n");
+				for(;i<list.size()-1;i++){
+					output.write("else if(linkMSG.startsWith(\"" + list.get(i) + "\")){\n");
+					output.write("return MSG_PARTNER_" + list.get(i) +";}\n");
+				}
+				output.write("else{\n");
+				output.write("System.out.println(\"ERROR: There is not such a Partner Links.\");\n");
+				output.write("return MSG_PARTNER_ERROR;}}\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
 	    
 	    /**
 	     * Generate the Process Analyzer in monitor
@@ -2044,6 +2109,8 @@ public class ImportFromImpl implements IImportFrom {
 	    	int num_Node = 0;
 	    	
 	    	String filePath ="D:/WorkSpace/Cases/BPEL2PN/Monitor.java";
+	    	String tempStr;
+	    	String namePL;
 			File Monitorfile = new File(filePath);			
 			LOGGER.fine("The generated java file of monitor is " + filePath);
 			
@@ -2068,7 +2135,16 @@ public class ImportFromImpl implements IImportFrom {
 		    	INode nodeEnd = nodeStart;
 	    		int IDMax = 0;
 	    		
+	    		/*
+	    		 * List_MSG is used to store all the SOAP Messages of BPEL Process.
+	    		 * And the monitor generation method focuses on these MSG.
+	    		 */
 	    		ArrayList <INode> List_MSG = new ArrayList<INode>();
+	    		/*
+	    		 * List_PL (Partner Link) is used to store the name of partner links.
+	    		 * It is important to judge the target of arrived messages.
+	    		 */
+	    		ArrayList <String> List_PL = new ArrayList<String>();
 		    	Iterator<INode> iterNode = graph.getNodes().iterator();
 		    	LOGGER.fine("GenerateMonitor():Entry!");
 		    	num_Node = graph.getNodes().size();
@@ -2093,12 +2169,45 @@ public class ImportFromImpl implements IImportFrom {
 		    			// do nothing;
 		    		}
 		    		if (nodeTemp.getNodeFormalism().getName().equalsIgnoreCase("place")){
-		    			if(nodeTemp.getAttribute("name").getValue().endsWith("MSG")){
+		    			tempStr = nodeTemp.getAttribute("name").getValue();
+		    			/*
+		    			 * The format of MSG Place should be like this:
+		    			 * "P_0_2_InvokeReqRep_Res_employeeTravelStatus_MSG"
+		    			 * employeeTravelStatus is the name Partner Links.
+		    			 */
+		    			if(tempStr.endsWith("MSG")){
 		    				List_MSG.add(nodeTemp);
 		    				// *******************************
 		    				// Code generation
 		    				// *******************************
 		    				output.write("int " + nodeTemp.getAttribute("name").getValue() + " = " + List_MSG.size()+ ";\n");
+		    				
+		    				/*
+		    				 * Distill the name of Partner Links from MSG Places
+		    				 * And generate the declarations of partner links in monitor code
+		    				 * 	private static final int MSG_PARTNER_ERROR = -1;
+							 *	private static final int MSG_PARTNER_SERVER1 = 1;
+		    				 */
+		    				output.write("/* Definition of Partner Link Services */\n");
+		    				output.write("private static final int MSG_PARTNER_ERROR = -1;\n");
+		    				namePL = AnalyzePartnerLinks(tempStr);
+		    				if(List_PL.isEmpty()){
+		    					List_PL.add(namePL);
+		    					output.write("private static final int MSG_PARTNER_" + namePL + " = " + List_PL.size());
+		    				}
+		    				else{
+		    					boolean isExist = false;
+		    					for(int i=0;i<List_PL.size();i++){
+		    						if(List_PL.get(i).startsWith(namePL)){
+		    							isExist = true;
+				    					break;
+		    						}
+		    					}
+		    					if(isExist==false){
+		    						List_PL.add(namePL);
+			    					output.write("private static final int MSG_PARTNER_" + namePL + " = " + List_PL.size());
+		    					}
+		    				}
 		    			}
 		    			else
 		    			{
@@ -2112,8 +2221,18 @@ public class ImportFromImpl implements IImportFrom {
 		    		}
 		    		
 		    	}
-//		    	num_T = num_Node - num_P;
 		    	
+		    	/*
+		    	 * Generate the function -
+		    	 */
+		    	GenerateFunctionAnalyzeMSGType(output);
+		    	
+		    	/*
+		    	 * Generate the function - public static int AnalyzeSoapMSGPartner(String linkMSG){}
+		    	 */
+		    	GenerateFunctionAnalyzePartnerLinks(List_PL,output);
+		    	
+//		    	num_T = num_Node - num_P;		    	
 		    	int [] mapNode = new int[IDMax];
 		    	int [] stateVector = new int[num_P];
 		    	
@@ -2229,6 +2348,9 @@ public class ImportFromImpl implements IImportFrom {
 			    		output.write("stateCurrent = " + p_Succeeding.getId() + ";\n");
 			    		output.write("System.out.println(\"Change Current State into \" + stateCurrent);\n");
 			    		output.write("break;\n}");
+			    		
+			    		
+			    		
 			    		
 			    		if (p_Preceding.getOutgoingArcs().size()>1)
 			    		{
