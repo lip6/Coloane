@@ -2036,16 +2036,18 @@ public class ImportFromImpl implements IImportFrom {
 	    public String AnalyzePartnerLinks(String name){
 	    	String namePL;
 	    	int length = name.length();
-	    	int endIndex = length - 4;
+	    	System.out.println(length);
+	    	int endIndex = length - 5;
 	    	int i = endIndex;
+	    	System.out.println(i);
 	    	while(name.charAt(i)!='_'){
 	    		i--;
 	    	}
 	    	int beginIndex = i+1;
-	    	namePL = name.substring(beginIndex, endIndex);
-	    	System.out.println("The name of Partner Link is " + namePL);
+	    	namePL = name.substring(beginIndex, endIndex+1);
 	    	return namePL;
 	    }
+		
 	    
 	    /**
 	     * Generate code of the following function in Process Monitor
@@ -2054,12 +2056,12 @@ public class ImportFromImpl implements IImportFrom {
 	     */
 	    public void GenerateFunctionAnalyzeMSGType(BufferedWriter output){
 	    	try {
-				output.write("public static int AnalyzeSoapMSGTYPE(String typeMSG){\n");
+				output.write("\npublic static int AnalyzeSoapMSGTYPE(String typeMSG){\n");
 				output.write("if(typeMSG.startsWith(\"out\")){\n");
 				output.write("return MSG_TYPE_OUT;}\n");
 				output.write("else if(typeMSG.startsWith(\"in\")){\n");
 				output.write("return MSG_TYPE_IN;}\n");
-				output.write("else{\nreturn MSG_TYPE_ERROR;\n}\n}\n");
+				output.write("else{\nreturn MSG_TYPE_ERROR;\n}\n}\n\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -2076,16 +2078,16 @@ public class ImportFromImpl implements IImportFrom {
 	    public void GenerateFunctionAnalyzePartnerLinks(ArrayList <String> list, BufferedWriter output){
 	    	int i = 0;
 	    	try {
-				output.write("public static int AnalyzeSoapMSGPartner(String linkMSG){\n");
+				output.write("\npublic static int AnalyzeSoapMSGPartner(String linkMSG){\n");
 				output.write("if(linkMSG.startsWith(\"" + list.get(i) +"\")){\n");
-				output.write("return MSG_PARTNER_" + list.get(i) +";}\n");
+				output.write("return MSG_PARTNER_" + list.get(i).toUpperCase() +";}\n");
 				for(;i<list.size()-1;i++){
 					output.write("else if(linkMSG.startsWith(\"" + list.get(i) + "\")){\n");
-					output.write("return MSG_PARTNER_" + list.get(i) +";}\n");
+					output.write("return MSG_PARTNER_" + list.get(i).toUpperCase() +";}\n");
 				}
 				output.write("else{\n");
 				output.write("System.out.println(\"ERROR: There is not such a Partner Links.\");\n");
-				output.write("return MSG_PARTNER_ERROR;}}\n");
+				output.write("return MSG_PARTNER_ERROR;}}\n\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -2182,18 +2184,11 @@ public class ImportFromImpl implements IImportFrom {
 		    				// *******************************
 		    				output.write("int " + nodeTemp.getAttribute("name").getValue() + " = " + List_MSG.size()+ ";\n");
 		    				
-		    				/*
-		    				 * Distill the name of Partner Links from MSG Places
-		    				 * And generate the declarations of partner links in monitor code
-		    				 * 	private static final int MSG_PARTNER_ERROR = -1;
-							 *	private static final int MSG_PARTNER_SERVER1 = 1;
-		    				 */
-		    				output.write("/* Definition of Partner Link Services */\n");
-		    				output.write("private static final int MSG_PARTNER_ERROR = -1;\n");
+
 		    				namePL = AnalyzePartnerLinks(tempStr);
 		    				if(List_PL.isEmpty()){
 		    					List_PL.add(namePL);
-		    					output.write("private static final int MSG_PARTNER_" + namePL + " = " + List_PL.size());
+//		    					output.write("private static final int MSG_PARTNER_" + namePL + " = " + List_PL.size());
 		    				}
 		    				else{
 		    					boolean isExist = false;
@@ -2205,7 +2200,7 @@ public class ImportFromImpl implements IImportFrom {
 		    					}
 		    					if(isExist==false){
 		    						List_PL.add(namePL);
-			    					output.write("private static final int MSG_PARTNER_" + namePL + " = " + List_PL.size());
+//			    					output.write("private static final int MSG_PARTNER_" + namePL + " = " + List_PL.size());
 		    					}
 		    				}
 		    			}
@@ -2222,8 +2217,31 @@ public class ImportFromImpl implements IImportFrom {
 		    		
 		    	}
 		    	
+		    	/* 
+		    	 * Generate MSG Type Declarations
+		    	 */
+		    	output.write("/* Definition of SOAP Message Type */\n");
+				output.write("private static final int MSG_TYPE_ERROR = -1;\n");
+				output.write("private static final int MSG_TYPE_OUT = 1;\n");
+				output.write("private static final int MSG_TYPE_IN = 2;\n\n");
+		    	
+		    	
 		    	/*
-		    	 * Generate the function -
+		    	 * Generate MSG Partner Links Declaration
+		    	 *
+				 * Distill the name of Partner Links from MSG Places
+				 * And generate the declarations of partner links in monitor code
+				 * 	private static final int MSG_PARTNER_ERROR = -1;
+				 *	private static final int MSG_PARTNER_SERVER1 = 1;
+				 */
+				output.write("/* Definition of Partner Link Services */\n");
+				output.write("private static final int MSG_PARTNER_ERROR = -1;\n");
+		    	for(int i=0;i<List_PL.size();i++){
+		    		output.write("private static final int MSG_PARTNER_" + List_PL.get(i).toUpperCase() + " = " + i + "\n");
+		    	}
+		    	
+		    	/*
+		    	 * Generate the function - GenerateFunctionAnalyzeMSGType(output);
 		    	 */
 		    	GenerateFunctionAnalyzeMSGType(output);
 		    	

@@ -24,7 +24,6 @@ public class BPELProcessMonitor {
 	// It is required to define the incidence matrix 
 	// with varibles m and n to define the matrix.
 	// ## Monitor Generation ##
-//	int[][] Matrix = new int[10][15];
 	
 	// Define ProcessAnalyzer return Event type
 	final   static	int  E_Normal = -1;		// Event: Normal Execution

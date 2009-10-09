@@ -19,6 +19,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 
 import java.io.PipedInputStream;
 
+/**
+ * BPEL Process Monitor Sever Class
+ * Receive SOAP Messages, analyze these messages,
+ * dispatch messages to related monitor thread by its process(target service and message type).
+ * @author ZHU Jun
+ *
+ */
 public class ProcMonitoringServer {
 	private static final int CORE_POOL_SIZE = 2;
 	private static final int MAX_POOL_SIZE = 100;
@@ -32,6 +39,7 @@ public class ProcMonitoringServer {
 	private static final int MAX_AMOUNT_MSG = 100;
 	
 	private ExecutorService pool = null;
+	
 	public void start() {
 		PipedOutputStream tempPos = null;
 		int typeMSG = -1;
@@ -84,13 +92,13 @@ public class ProcMonitoringServer {
                 // if yes, then send this MSG to related monitor thread.
                 // if no, then new a new monitor thread.
                 if(tablePT.isEmpty()){
-                	System.out.println("tablePT.isEmpty()");
+//                	System.out.println("tablePT.isEmpty()");
                 	PipedInputStream pis = new PipedInputStream();
                 	PipedOutputStream pos = new PipedOutputStream(pis);
 
                 	pos.write(typeMSG);
                 	pos.write(linkMSG);
-                	System.out.println("write write write write" + typeMSG + linkMSG);
+//                	System.out.println("write write write write" + typeMSG + linkMSG);
                 	
                 	ServiceThread newMonitorThread = new ServiceThread(Integer.parseInt(procID),pis);
                 	pool.execute(newMonitorThread);
@@ -114,7 +122,7 @@ public class ProcMonitoringServer {
                 	if(isExisting==true){
                 		// find out the related mapping item
                 		// and then send the MSG to the related thread NO.$indexMSG
-                		System.out.println("isExisting==true");
+//                		System.out.println("isExisting==true");
                 		tempPos = tablePT.get(indexMSG).getpOutput();
                 		
                 		tempPos.write(typeMSG);
@@ -131,22 +139,23 @@ public class ProcMonitoringServer {
                 		 */
                 		if(MSGType.startsWith("out") && objectService.startsWith("client")){
                 			tempPos.close();
-                			System.out.println(tempPos + " end pipes.");
+                			// Display the pipe has been closed.
+//                			System.out.println(tempPos + " end pipes.");
                 		}
                 		
-                		System.out.println("write write write write" + typeMSG + linkMSG);
+//                		System.out.println("write write write write" + typeMSG + linkMSG);
                 	}
                 	else{
                 		// A new process is created
                 		// so it is necessary to create a new monitor thread.
-	                	System.out.println("isExisting!!=true");
+//	                	System.out.println("isExisting!!=true");
 	                	PipedInputStream pis = new PipedInputStream();
 	                	PipedOutputStream pos = new PipedOutputStream(pis);
 
 	                	pos.write(typeMSG);
 	                	pos.write(linkMSG);
 	                	
-	                	System.out.println("write write write write" + typeMSG + linkMSG);
+//	                	System.out.println("write write write write" + typeMSG + linkMSG);
 	                	
 	                	ServiceThread newMonitorThread = new ServiceThread(Integer.parseInt(procID),pis);
 	                	pool.execute(newMonitorThread);
@@ -183,7 +192,7 @@ class ServiceThread implements Runnable{
 	ServiceThread(int ID, PipedInputStream input) {
 		instanceID = ID;
 		pInput = input;
-		System.out.println("New ServiceThread");
+//		System.out.println("New ServiceThread");
 	}
 	
 	/**
@@ -202,19 +211,19 @@ class ServiceThread implements Runnable{
 	}
 	
 	public void run(){
-		testCase = new ProcessMonitor();
+		testCase = new ProcessMonitor(instanceID);
 		int typeMsg = -1;
 		int serviceMsg = -1;
-		System.out.println("RUN...");
+//		System.out.println("RUN...");
 		
 		try {
-			System.out.println("pInput.available() = "+ pInput.available());
+//			System.out.println("pInput.available() = "+ pInput.available());
 			typeMsg = this.pInput.read();
 			serviceMsg = this.pInput.read();
 			while(serviceMsg!=-1){
 //				content = new byte[this.pInput.available()];
-			System.out.println("BPEL Process Instance " +instanceID + ": SOAP Message Type is "  + " " + typeMsg + "****"+ serviceMsg);
-			System.out.println("*****After read, pInput.available() = " + pInput.available());
+//			System.out.println("BPEL Process Instance " +instanceID + ": SOAP Message Type is "  + " " + typeMsg + "****"+ serviceMsg);
+//			System.out.println("*****After read, pInput.available() = " + pInput.available());
 			testCase.monitor(typeMsg,serviceMsg);
 			typeMsg = this.pInput.read();
 			serviceMsg = this.pInput.read();
@@ -342,9 +351,13 @@ class ProcessMonitor{
 	private static final int MSG_PARTNER_SERVER2 = 2;
 	private static final int MSG_PARTNER_CLIENT = 3;
 	
-	
+	private int instanceID = -1;
 	private int	num_P = 14;
 	private int stateCurrent = 0;
+	
+	public ProcessMonitor(int ID){
+		instanceID = ID;
+	}
 	
 	public void setStateCurrent(int state){
 		stateCurrent = state;
@@ -406,7 +419,7 @@ class ProcessMonitor{
 			case 0:{
 				if(msgID==2 && msgLink == 1){
 					stateCurrent = 1;
-					System.out.println("Change Current State into " + stateCurrent);
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
 					break;
 				}
 				else{
@@ -416,12 +429,12 @@ class ProcessMonitor{
 			case 1:{
 				if(msgID==2 && msgLink == 2){
 					stateCurrent = 4;
-					System.out.println("Change Current State into " + stateCurrent);
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
 					break;
 				}
 				else if(msgID==2 && msgLink == 1){
 					stateCurrent = 2;
-					System.out.println("Change Current State into " + stateCurrent);
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
 					break;
 				}
 				else{
@@ -431,7 +444,7 @@ class ProcessMonitor{
 			case 2:{
 				if(msgID==2  && msgLink == 1){
 					stateCurrent = 3;
-					System.out.println("Change Current State into " + stateCurrent);
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
 					break;
 				}
 				else{
@@ -441,7 +454,7 @@ class ProcessMonitor{
 			case 4:{
 				if(msgID==1  && msgLink == 2){
 					stateCurrent = 5;
-					System.out.println("Change Current State into " + stateCurrent);
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
 					break;
 				}
 				else{
@@ -451,8 +464,8 @@ class ProcessMonitor{
 			case 3:{
 				if(msgID==1  && msgLink == 3){
 					stateCurrent = 7;
-					System.out.println("Change Current State into " + stateCurrent);
-					System.out.println("Current Process execute successfully!!!");
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					System.out.println("Process Instance "+ instanceID +": Current Process execute successfully!!!");
 					break;
 				}
 				else{
@@ -462,8 +475,8 @@ class ProcessMonitor{
 			case 5:{
 				if(msgID==1 && msgLink == 3){
 					stateCurrent = 7;
-					System.out.println("Change Current State into " + stateCurrent);
-					System.out.println("Current Process execute successfully!!!");
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					System.out.println("Process Instance "+ instanceID +": Current Process execute successfully!!!");
 					break;
 				}
 				else{
@@ -558,12 +571,12 @@ class ProcessMonitor{
 	
 	public void monitor(int msgID, int msgLink){
 		int checkResult = -1;
-		System.out.println("Current Status:" + stateCurrent);
+		System.out.println("Process Instance "+ instanceID +": Current Status:" + stateCurrent);
 		checkResult = ProcessAnalyzer1(msgID, msgLink);
 		
 		if(checkResult!=E_Normal){
 			System.out.println("ALARM: Process Error!" +
-			"Monitor: error happens in state " + checkResult +" with received event " + msgID);
+			"Process Instance "+ instanceID +": error happens in state " + checkResult +" with received event " + msgID);
 		}
 	}
 }
