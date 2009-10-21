@@ -22,22 +22,8 @@ are made available under the terms of the Eclipse Public License
 v1.0 which accompanies this distribution, and is available at
 http://www.eclipse.org/legal/epl-v10.html
 Project Manager : Jean-Baptiste Voron
-Trunk Contributors:
-- Clement Demoulins
-- Alban Linard
-- Monir Chaouki
-- Alexandre Hamez
-- Alexandre Ortiz
-Contributors:
-- Bassem Barbouche
-- Clarence-Dimitri Charles
-- David Cheng
-- Eric Masliah
-- Racim Yasri
-Many thanks for their help :
-- Leonardo Bautista Gomez - Spanish Translation
-- Fabrice Kordon - Lab&apos;s team head
-- Chen Zang - Chinese Translation
+Technical Leader : Clement Demoulins
+Contributors list : https://coloane.lip6.fr/developers
    </copyright>
 
    <license url="http://www.eclipse.org/legal/epl-v10.html">
