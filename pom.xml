@@ -281,18 +281,18 @@
 
 	<distributionManagement> 
 		<repository> 
-			<id>coloane.releases</id> 
+			<id>forge.releases</id> 
 			<name>Internal Release Repository for Coloane</name> 
-			<url>http://coloane.lip6.fr:8081/archiva/repository/coloane.releases/</url> 
+			<url>http://izanami.rsr.lip6.fr:8081/nexus/content/repositories/releases</url> 
 		</repository> 
 		<snapshotRepository> 
-			<id>coloane.snapshots</id> 
+			<id>forge.snapshots</id> 
 			<name>Internal Snapshot Repository for Coloane</name> 
-			<url>http://coloane.lip6.fr:8081/archiva/repository/coloane.snapshots</url> 
+			<url>http://izanami.rsr.lip6.fr:8081/nexus/content/repositories/snapshots</url> 
 		</snapshotRepository> 
 		<site> 
 			<id>Coloane-Reports</id> 
-			<url>file:///data/coloane_deposit/reports</url> 
+			<url>file:///data/coloane/reports</url> 
 		</site> 
 	</distributionManagement>
 	
