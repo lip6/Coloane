@@ -35,7 +35,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<!-- Pour le déploiement (uniquement sur la machine coloane.lip6.fr) -->
-		<project.deployPath>/home/coloane/build_tmp</project.deployPath>
+		<project.deployPath>/data/coloane</project.deployPath>
 	</properties>
 
 	<!-- L'équipe de développement (actifs)--> 
