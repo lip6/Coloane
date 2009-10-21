@@ -21,7 +21,9 @@ fi
 # For updates...
 update=$source"/updates"
 targetupdate=$dest"/updates"
-if [ -d $update ]; then
+# Check wether there are some files to sync
+status=`ls -l $update | head -n 1 | cut -d " " -f 2`
+if [ -d $update -a  $status -ne 0 ]; then
 	rsync -avz -r -C -S -e ssh $update/* coloane@coloane.lip6.fr:$targetupdate
 #	rsync -avz -r -C -S $update/* $targetupdate
 fi
@@ -29,7 +31,8 @@ fi
 # For reports...
 reports=$source"/reports"
 targetreports=$dest"/reports"
-if [ -d $reports ]; then
+status=`ls -l $reports | head -n 1 | cut -d " " -f 2`
+if [ -d $reports -a  $status -ne 0 ]; then
 	rsync -avz -r -C -S -e ssh $reports/* coloane@coloane.lip6.fr:$targetreports
 #	rsync -avz -r -C -S $reports/* $targetreports
 fi
