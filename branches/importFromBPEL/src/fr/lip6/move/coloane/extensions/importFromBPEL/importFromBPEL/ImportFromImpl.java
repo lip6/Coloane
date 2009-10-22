@@ -2055,13 +2055,20 @@ public class ImportFromImpl implements IImportFrom {
 	     * @param output
 	     */
 	    public void GenerateFunctionAnalyzeMSGType(BufferedWriter output){
-	    	try {
-				output.write("\npublic static int AnalyzeSoapMSGTYPE(String typeMSG){\n");
-				output.write("if(typeMSG.startsWith(\"out\")){\n");
-				output.write("return MSG_TYPE_OUT;}\n");
-				output.write("else if(typeMSG.startsWith(\"in\")){\n");
-				output.write("return MSG_TYPE_IN;}\n");
-				output.write("else{\nreturn MSG_TYPE_ERROR;\n}\n}\n\n");
+	    	try {	    		
+	    		output.write("\n/**\n");
+	    		output.write(" * Static function AnalyzeSoapMSGTYPE\n");
+	    		output.write(" * analyze the SOAP Message\n");
+	    		output.write(" * @param typeMSG\n");
+	    		output.write(" * @return\n");
+	    		output.write(" */\n");
+	    		
+				output.write("public static int AnalyzeSoapMSGTYPE(String typeMSG){\n");
+				output.write("\tif(typeMSG.startsWith(\"out\")){\n");
+				output.write("\t\treturn MSG_TYPE_OUT;}\n");
+				output.write("\telse if(typeMSG.startsWith(\"in\")){\n");
+				output.write("\t\treturn MSG_TYPE_IN;}\n");
+				output.write("\telse{\n\t\treturn MSG_TYPE_ERROR;\n\t}\n}\n\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -2078,16 +2085,23 @@ public class ImportFromImpl implements IImportFrom {
 	    public void GenerateFunctionAnalyzePartnerLinks(ArrayList <String> list, BufferedWriter output){
 	    	int i = 0;
 	    	try {
-				output.write("\npublic static int AnalyzeSoapMSGPartner(String linkMSG){\n");
-				output.write("if(linkMSG.startsWith(\"" + list.get(i) +"\")){\n");
-				output.write("return MSG_PARTNER_" + list.get(i).toUpperCase() +";}\n");
+	    		output.write("\n/**\n");
+	    		output.write(" * Static function AnalyzeSoapMSGPartner\n");
+	    		output.write(" * Analyze the Partner Links into integers.\n");
+	    		output.write(" * @param linkMSG\n");
+	    		output.write(" * @return\n");
+	    		output.write(" */\n");
+				
+	    		output.write("public static int AnalyzeSoapMSGPartner(String linkMSG){\n");
+				output.write("\tif(linkMSG.startsWith(\"" + list.get(i) +"\")){\n");
+				output.write("\t\treturn MSG_PARTNER_" + list.get(i).toUpperCase() +";}\n");
 				for(;i<list.size()-1;i++){
-					output.write("else if(linkMSG.startsWith(\"" + list.get(i) + "\")){\n");
-					output.write("return MSG_PARTNER_" + list.get(i).toUpperCase() +";}\n");
+					output.write("\telse if(linkMSG.startsWith(\"" + list.get(i) + "\")){\n");
+					output.write("\t\treturn MSG_PARTNER_" + list.get(i).toUpperCase() +";}\n");
 				}
-				output.write("else{\n");
-				output.write("System.out.println(\"ERROR: There is not such a Partner Links.\");\n");
-				output.write("return MSG_PARTNER_ERROR;}}\n\n");
+				output.write("\telse{\n");
+				output.write("\t\tSystem.out.println(\"ERROR: There is not such a Partner Links.\");\n");
+				output.write("\t\treturn MSG_PARTNER_ERROR;}\n\t}\n\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -2121,15 +2135,18 @@ public class ImportFromImpl implements IImportFrom {
 				output = new BufferedWriter(new FileWriter(Monitorfile));
 				
 				// *******************************
-				// Code generation
+				// * Code generation
+				// * Begin to generate annotation and class "ProcessMonitor"
 				// *******************************
-			    output.write("public int ProcessAnalyzer(int msgID){\n");
-//			    output.write("int EventType = E_Normal;\n");
-			    output.write("System.out.println(\"Current State: \" + stateCurrent + \" and msgID:\" + msgID);\n");
-
-			    //output.write(s1);
-	    	
-	    	
+			    output.write("/**\n");
+			    output.write(" * The Class is automatically generated from the Petri net model\n");
+			    output.write("* by coloane platform using importBPELImpl.\n");
+			    output.write(" * \n");
+			    output.write(" * The Classes above can be be reused in other monitors.\n");
+			    output.write("* @author ZHU Jun\n");
+			    output.write(" */\n");
+			    output.write("class ProcessMonitor{\n");
+			    
 		    	// Find the entry of petri net.
 		    	// Usually it is the node of sequence start.
 		    	// Ex. P_0_sequence_Start
@@ -2225,7 +2242,6 @@ public class ImportFromImpl implements IImportFrom {
 				output.write("private static final int MSG_TYPE_OUT = 1;\n");
 				output.write("private static final int MSG_TYPE_IN = 2;\n\n");
 		    	
-		    	
 		    	/*
 		    	 * Generate MSG Partner Links Declaration
 		    	 *
@@ -2250,7 +2266,9 @@ public class ImportFromImpl implements IImportFrom {
 		    	 */
 		    	GenerateFunctionAnalyzePartnerLinks(List_PL,output);
 		    	
-//		    	num_T = num_Node - num_P;		    	
+			    output.write("\t public ProcessMonitor(int ID){\n");
+			    output.write("\t\t instanceID = ID;\n\t}\n");
+		    	
 		    	int [] mapNode = new int[IDMax];
 		    	int [] stateVector = new int[num_P];
 		    	
@@ -2260,9 +2278,11 @@ public class ImportFromImpl implements IImportFrom {
 		    	}
 		    	
 				// *******************************
-				// Code generation
+				// * Code generation
+		    	// * Begin to generate FUNC "ProcessAnalyzer"
 				// *******************************
-			    output.write("switch (stateCurrent) {");
+		    	output.write("public int  ProcessAnalyzer(int msgID, int msgLink){\n");
+			    output.write("switch (stateCurrent) {\n");
 		    	
 		    	INode t_MSG = nodeStart;
 		    	INode p_Succeeding = nodeStart;
@@ -2361,14 +2381,24 @@ public class ImportFromImpl implements IImportFrom {
 			    		// *******************************
 						// Code generation
 						// *******************************
+			    		/*
+			    		 * Generate part of code (SWITCH structure) as folows:
+			    		 * Part 1
+			    		 * *******************************
+			    		 * case 0:{
+						 * if(msgID==2 && msgLink == 1){
+						 * stateCurrent = 1;
+						 * System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+						 * break;
+					     * }
+					     * *******************************
+			    		 */
 			    		output.write("case " + p_Preceding.getId() + ":\n");
 			    		output.write("{ if(msgID == " + p_MSG.getAttribute("name").getValue()+ "){\n");
 			    		output.write("stateCurrent = " + p_Succeeding.getId() + ";\n");
 			    		output.write("System.out.println(\"Change Current State into \" + stateCurrent);\n");
 			    		output.write("break;\n}");
-			    		
-			    		
-			    		
+
 			    		
 			    		if (p_Preceding.getOutgoingArcs().size()>1)
 			    		{
@@ -2405,6 +2435,20 @@ public class ImportFromImpl implements IImportFrom {
 			    							}
 			    						}
 			    					}
+						    		// *******************************
+									// Code generation
+									// *******************************
+			    					/*
+			    					 * Generate part of code  (SWITCH structure) as folows:
+			    					 * Part 2
+			    					 * *******************************
+			    					 * else if(msgID==2 && msgLink == 1){
+									 * stateCurrent = 2;
+								     * 	System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+								     * 	break;
+								     * }
+								     * *******************************
+			    					 */
 			    					output.write("else if(msgID == " + nameMSG+ "){\n");
 			    					output.write("stateCurrent = " + IDtemp + ";\n");
 			    		    		output.write("System.out.println(\"Change Current State into \" + stateCurrent);\n");
@@ -2419,6 +2463,16 @@ public class ImportFromImpl implements IImportFrom {
 				    		// *******************************
 							// Code generation
 							// *******************************
+			    			/*
+			    			 * Generate part of code (SWITCH structure) as folows:
+			    			 * Part 3
+			    			 * *******************************
+			    			 * else{
+						     * 	return stateCurrent;
+						     * }
+						     * }
+						     * *******************************
+			    			 */
 				    		output.write("\nelse\n{\n");
 				    		output.write("return stateCurrent;\n}\n}\n");
 			    		}
