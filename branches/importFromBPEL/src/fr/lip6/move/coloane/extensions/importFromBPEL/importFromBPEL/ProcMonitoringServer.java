@@ -40,6 +40,21 @@ public class ProcMonitoringServer {
 	
 	private ExecutorService pool = null;
 	
+	/**
+	 * The principal function of class ProcMonitoringServer
+	 * It is used to receive messages, analyze messages,
+	 * and then dispatch these messages to specific monitor thread.
+	 * By using pipes, the communications between server thread and monitor
+	 * thread are implemented.
+	 * 
+	 * IN ORDER TO INCREASE THE PERFORMANCE OF MONITOR, THE FOLLOWING IMPROVEMENTS
+	 * CAN BE DONE:
+	 * 1). IMPROVE THE PIPE MECHANISM. USE OTHER EFFECTIVE WAYS;
+	 * 2). MAPPING TABLE SHOULD BE KEEP SMALL, SO AS TO REDUCE THE SEARCH TIME.
+	 * (RIGHT NOW, ALL THE MAPPING ITEMS ARE RECORDED IN THE LIST, WITHOUT ANY REMOVE
+	 * AFTER PROCESS ENDS.)
+	 * OR USE OTHER EFFECTIVE DATA STRUCTURE TO HANDLE THE MAPPING TALBE.
+	 */
 	public void start() {
 		PipedOutputStream tempPos = null;
 		int typeMSG = -1;
@@ -52,7 +67,7 @@ public class ProcMonitoringServer {
 		pool = Executors.newFixedThreadPool(10);
 		ArrayList<ItemProcessThread> tablePT = new ArrayList<ItemProcessThread>();
 		
-		System.out.println("I'm receiving SOAP messages...");
+		System.out.println("BPEL Process Monitor: I'm receiving SOAP messages...");
         try {
             FileReader fr = new FileReader("e:/SOAPMSGQueueFile.txt");//创建FileReader对象，用来读取字符流
             BufferedReader br = new BufferedReader(fr);    //缓冲指定文件的输入
