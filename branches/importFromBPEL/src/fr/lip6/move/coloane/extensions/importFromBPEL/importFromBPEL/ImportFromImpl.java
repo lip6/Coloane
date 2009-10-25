@@ -5,9 +5,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
+import java.util.*;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -1181,11 +1184,20 @@ public class ImportFromImpl implements IImportFrom {
 				    	// Create Branch up transition and related arc
 				    	INode T_Pick_Up = tempGraph.createNode("transition");
 				    	
+				    	// Create Branch "onMessage"
 				    	if (elemTemp.getName().equalsIgnoreCase("onmessage")){
-				    		T_Pick_Up.getAttribute("name").setValue("onMessage: " + elemTemp.attributeValue("variable"));
+				    		/**
+				    		 * Here, the following should be check out,
+				    		 * whether it is right or not.
+				    		 */
+				    		// By judging whether the node has attribute "partnerLink",
+				    		// generate corresponding patterns. With this attribute, patterns with
+				    		// SOAP message, or without messages.
+				    		
+				    		T_Pick_Up.getAttribute("name").setValue("T_" + StrPrint + "onMessage_" + elemTemp.attributeValue("variable"));
 				    		INode P_Pick_onMessage = tempGraph.createNode("place");
 				    		IAttribute tempAttr = P_Pick_onMessage.getAttribute("name");
-				    		tempAttr.setValue("P_" + StrPrint + elemTemp.attributeValue("variable") + "_MSG");
+				    		tempAttr.setValue("P_" + StrPrint + "onMessage_" + elemTemp.attributeValue("partnerLink") + "_MSG");
 				    		//		    	attribute.setValue("P_"+StrPrint+"Reply_" + link +"_MSG");
 				    		tempGraph.createArc("arc", P_Pick_onMessage, T_Pick_Up);
 				    	}
@@ -1193,19 +1205,30 @@ public class ImportFromImpl implements IImportFrom {
 				    	{
 				    		if(elemTemp.attributeValue("for") != null)
 				    		{
-				    			T_Pick_Up.getAttribute("name").setValue("onAlarm: " + elemTemp.attributeValue("for"));
-					    		INode P_Pick_onAlarm = tempGraph.createNode("place");
-					    		IAttribute tempAttr = P_Pick_onAlarm.getAttribute("name");
-					    		tempAttr.setValue("P_" + StrPrint + elemTemp.attributeValue("for") + "_MSG");
-					    		tempGraph.createArc("arc", P_Pick_onAlarm, T_Pick_Up);
+				    			T_Pick_Up.getAttribute("name").setValue("T_" + StrPrint + "_onAlarm_for" + elemTemp.attributeValue("for"));
+				    			
+				    			/*
+				    			 * In actual, there is no SOAP message in "onAlarm", which is different from activity "onMessage"
+				    			 */ 
+//					    		INode P_Pick_onAlarm = tempGraph.createNode("place");
+//					    		IAttribute tempAttr = P_Pick_onAlarm.getAttribute("name");
+//					    		tempAttr.setValue("P_" + StrPrint + "onAlarm_for_" + elemTemp.attributeValue("for"));
+//					    		tempGraph.createArc("arc", P_Pick_onAlarm, T_Pick_Up);
+				    		}
+				    		else if(elemTemp.attributeValue("until") != null)
+				    		{
+				    			T_Pick_Up.getAttribute("name").setValue("T_" + StrPrint + "_onAlarm_until" + elemTemp.attributeValue("until"));
+					    						    			/*
+				    			 * In actual, there is no SOAP message in "onAlarm", which is different from activity "onMessage"
+				    			 */ 
+//				    			INode P_Pick_onAlarm = tempGraph.createNode("place");
+//					    		IAttribute tempAttr = P_Pick_onAlarm.getAttribute("name");
+//					    		tempAttr.setValue("P_" + StrPrint + "onAlarm_until_"+ elemTemp.attributeValue("until"));
+//					    		tempGraph.createArc("arc", P_Pick_onAlarm, T_Pick_Up);
 				    		}
 				    		else
 				    		{
-				    			T_Pick_Up.getAttribute("name").setValue("onAlarm: " + elemTemp.attributeValue("until"));
-					    		INode P_Pick_onAlarm = tempGraph.createNode("place");
-					    		IAttribute tempAttr = P_Pick_onAlarm.getAttribute("name");
-					    		tempAttr.setValue("P_" + StrPrint + elemTemp.attributeValue("until") + "_MSG");
-					    		tempGraph.createArc("arc", P_Pick_onAlarm, T_Pick_Up);
+				    			T_Pick_Up.getAttribute("name").setValue("T_" + StrPrint + "_onAlarm");
 				    		}
 				    	}
 				    	tempGraph.createArc("arc", P_Start_Pick, T_Pick_Up);
@@ -2066,9 +2089,9 @@ public class ImportFromImpl implements IImportFrom {
 	    		
 				output.write("\tpublic static int AnalyzeSoapMSGTYPE(String typeMSG){\n");
 				output.write("\t\tif(typeMSG.startsWith(\"out\")){\n");
-				output.write("\t\t\treturn MSG_TYPE_OUT;}\n");
+				output.write("\t\t\treturn MSG_TYPE_OUT;\n\t\t}\n");
 				output.write("\t\telse if(typeMSG.startsWith(\"in\")){\n");
-				output.write("\t\t\treturn MSG_TYPE_IN;}\n");
+				output.write("\t\t\treturn MSG_TYPE_IN;\n\t\t}\n");
 				output.write("\t\telse{\n\t\t\treturn MSG_TYPE_ERROR;\n\t\t}\n\t}\n\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -2095,14 +2118,15 @@ public class ImportFromImpl implements IImportFrom {
 				
 	    		output.write("\tpublic static int AnalyzeSoapMSGPartner(String linkMSG){\n");
 				output.write("\t\tif(linkMSG.startsWith(\"" + list.get(i) +"\")){\n");
-				output.write("\t\t\treturn MSG_PARTNER_" + list.get(i).toUpperCase() +";}\n");
-				for(;i<list.size()-1;i++){
+				output.write("\t\t\treturn MSG_PARTNER_" + list.get(i).toUpperCase() +";\n\t\t}\n");
+				i++;
+				for(;i<list.size();i++){
 					output.write("\t\telse if(linkMSG.startsWith(\"" + list.get(i) + "\")){\n");
-					output.write("\t\t\treturn MSG_PARTNER_" + list.get(i).toUpperCase() +";}\n");
+					output.write("\t\t\treturn MSG_PARTNER_" + list.get(i).toUpperCase() +";\n\t\t}\n");
 				}
 				output.write("\t\telse{\n");
 				output.write("\t\t\tSystem.out.println(\"ERROR: There is not such a Partner Links.\");\n");
-				output.write("\t\t\treturn MSG_PARTNER_ERROR;}\n\t}\n\n");
+				output.write("\t\t\treturn MSG_PARTNER_ERROR;\n\t\t}\n\t}\n\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -2141,7 +2165,10 @@ public class ImportFromImpl implements IImportFrom {
 				// *******************************
 			    output.write("/**\n");
 			    output.write(" * The Class is automatically generated from the Petri net model\n");
-			    output.write(" * by coloane platform using importBPELImpl.\n");
+			    output.write(" * by coloane platform using importBPELImpl.\n *\n");
+			    DateFormat mediumDateFormat = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);  
+			    Date date = new Date();
+			    output.write(" * Code Generation Date Time: " + mediumDateFormat.format(date) + "\n");
 			    output.write(" * \n");
 			    output.write(" * The Classes above can be be reused in other monitors.\n");
 			    output.write(" * @author ZHU Jun\n");
@@ -2157,9 +2184,9 @@ public class ImportFromImpl implements IImportFrom {
 				 *		final   static	int  E_Normal = -1;		// Event: Normal Execution
 				 *		final 	int  E_Exception = 1;	// Event: Exception happens
 			     */
-			    output.write("\t/*\n\t* Define ProcessAnalyzer return Event type\n\t*/\n");
+			    output.write("\t/**\n\t * Define ProcessAnalyzer return Event type\n\t */\n");
 			    output.write("\tfinal   static	int  E_Normal = -1;		// Event: Normal Execution\n");
-			    output.write("\tfinal 	int  E_Exception = 1;	// Event: Exception happens\n");
+			    output.write("\tfinal 	int  E_Exception = 1;	// Event: Exception happens\n\n");
 			    
 			    
 		    	// Find the entry of petri net.
@@ -2214,7 +2241,8 @@ public class ImportFromImpl implements IImportFrom {
 		    				// *******************************
 		    				// Code generation
 		    				// *******************************
-		    				output.write("int " + nodeTemp.getAttribute("name").getValue() + " = " + List_MSG.size()+ ";\n");
+		    				// According to the new version of monitor, this part of code generation is no need any more.
+		    				//output.write("int " + nodeTemp.getAttribute("name").getValue() + " = " + List_MSG.size()+ ";\n");
 		    				
 
 		    				namePL = AnalyzePartnerLinks(tempStr);
@@ -2225,7 +2253,7 @@ public class ImportFromImpl implements IImportFrom {
 		    				else{
 		    					boolean isExist = false;
 		    					for(int i=0;i<List_PL.size();i++){
-		    						if(List_PL.get(i).startsWith(namePL)){
+		    						if(List_PL.get(i).equalsIgnoreCase(namePL)){
 		    							isExist = true;
 				    					break;
 		    						}
@@ -2252,7 +2280,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	/* 
 		    	 * Generate MSG Type Declarations
 		    	 */
-		    	output.write("\t/* Definition of SOAP Message Type */\n");
+		    	output.write("\t/**\n\t * Definition of SOAP Message Type \n\t */\n");
 				output.write("\tprivate static final int MSG_TYPE_ERROR = -1;\n");
 				output.write("\tprivate static final int MSG_TYPE_OUT = 1;\n");
 				output.write("\tprivate static final int MSG_TYPE_IN = 2;\n\n");
@@ -2265,7 +2293,7 @@ public class ImportFromImpl implements IImportFrom {
 				 * 	private static final int MSG_PARTNER_ERROR = -1;
 				 *	private static final int MSG_PARTNER_SERVER1 = 1;
 				 */
-				output.write("\t/* Definition of Partner Link Services */\n");
+				output.write("\t/**\n\t * Definition of Partner Link Services \n\t */\n");
 				output.write("\tprivate static final int MSG_PARTNER_ERROR = -1;\n");
 		    	for(int i=0;i<List_PL.size();i++){
 		    		output.write("\tprivate static final int MSG_PARTNER_" + List_PL.get(i).toUpperCase() + " = " + i + "\n");
@@ -2281,6 +2309,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	 */
 		    	GenerateFunctionAnalyzePartnerLinks(List_PL,output);
 		    	
+			    output.write("\t/**\n\t * Definition of Class Constructor\n\t */\n");
 			    output.write("\tpublic ProcessMonitor(int ID){\n");
 			    output.write("\t\t instanceID = ID;\n\t}\n\n");
 		    	
@@ -2296,8 +2325,21 @@ public class ImportFromImpl implements IImportFrom {
 				// * Code generation
 		    	// * Begin to generate FUNC "ProcessAnalyzer"
 				// *******************************
+		    	output.write("\t/**\n");
+		    	output.write("\t * Function ProcessAnalyzer is the core function of \n");
+		    	output.write("\t * this class, which stores all the information of transitions\n");
+		    	output.write("\t * in the Petri Net models. And it uses a kind of \"switch\" structure\n");
+		    	output.write("\t * to implement all the functionality.\n");
+		    	output.write("\t * If the state goes wrong, some warnings will give out.\n");
+		    	output.write("\t * msgID refers to the transmit direction of SOAP messages (in or out of BPEL service)\n");
+		    	output.write("\t * msgLink refers to the partner link of the current SOAP message. \n");
+		    	output.write("\t * @param msgID\n");
+		    	output.write("\t * @param msgLink\n");
+		    	output.write("\t * @return stateCurrent\n");
+		    	output.write("\t */\n");
+		    	
 		    	output.write("\tpublic int  ProcessAnalyzer(int msgID, int msgLink){\n");
-			    output.write("\t\tswitch(stateCurrent) {\n");
+			    output.write("\t\tswitch(stateCurrent){\n");
 		    	
 			    // Passby all the MSG node
 			    // to be MSG-Centered
@@ -2491,10 +2533,10 @@ public class ImportFromImpl implements IImportFrom {
 			    					
 			    					/*
 			    					 * 				else if(msgID==2 && msgLink == 1){
-					stateCurrent = 2;
-					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
-					break;
-				}
+									 *					stateCurrent = 2;
+									 *					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+									 *					break;
+									 *				}
 			    					 */
 			    					
 						    		name_PL_MSG = AnalyzePartnerLinks(tempMSGNode.getAttribute("name").getValue()); 
@@ -2537,6 +2579,11 @@ public class ImportFromImpl implements IImportFrom {
 				// *******************************
 		    	output.write("\t\t\tdefault:\n\t\t\t{\n\t\t\t\treturn stateCurrent;\n\t\t\t}\n\t\t}\n\t\treturn E_Normal;\n\t}");
 		    	
+		    	// *******************************
+				// Code generation
+				// *******************************
+		    	// This is the end of the CLASS 'ProcessMonitor'
+		    	output.write("}");
 			    output.close();
 				
 			} catch (IOException e) {

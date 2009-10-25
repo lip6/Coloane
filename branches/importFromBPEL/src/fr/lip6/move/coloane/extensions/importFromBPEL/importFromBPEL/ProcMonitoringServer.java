@@ -16,6 +16,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.*;
+//import javax.realtime.HighResolutionTime;
+
 
 import java.io.PipedInputStream;
 
@@ -59,6 +62,8 @@ public class ProcMonitoringServer {
 		PipedOutputStream tempPos = null;
 		int typeMSG = -1;
 		int linkMSG = -1;
+
+		long timeBegin =0;
 		
 		// You can also init thread pool in this way.
 		/*serverThreadPool = new ThreadPoolExecutor(CORE_POOL_SIZE,
@@ -93,10 +98,18 @@ public class ProcMonitoringServer {
                 	System.out.println("ERROR in the MSG input file(MSG not in pair).");
                 	break;
                 }
+
                 // Maybe it is necessary to add some time of waiting (MSG time property)
                 // Because not MSGs arrive in random.
                 
 //            	SoapMSG m = new SoapMSG(procID, objectService, MSGType); 
+                
+                /*
+                 * Time Measurements for Monitor Performance
+                 * Record the beginning time  (BEGIN From receiving the SOAP message)
+                 */
+//                timeBegin = date.getTime();
+                System.out.println("Begin:" + System.nanoTime());
                 
                 // Analyze the SOAP message,
                 // translate the MSG type into int.
@@ -229,6 +242,7 @@ class ServiceThread implements Runnable{
 		testCase = new ProcessMonitor(instanceID);
 		int typeMsg = -1;
 		int serviceMsg = -1;
+
 //		System.out.println("RUN...");
 		
 		try {
@@ -240,6 +254,8 @@ class ServiceThread implements Runnable{
 //			System.out.println("BPEL Process Instance " +instanceID + ": SOAP Message Type is "  + " " + typeMsg + "****"+ serviceMsg);
 //			System.out.println("*****After read, pInput.available() = " + pInput.available());
 			testCase.monitor(typeMsg,serviceMsg);
+			
+			System.out.println("End:" + System.nanoTime());
 			typeMsg = this.pInput.read();
 			serviceMsg = this.pInput.read();
 			}
@@ -351,14 +367,14 @@ class ProcessMonitor{
 	final	static	int  MSG_InvokeReqRep_Req =3;
 	final	static	int  MSG_InvokeReqRep_Res = 4;
 	
-	/*
+	/**
 	 * Definition of SOAP Message Type
 	 */ 
 	private static final int MSG_TYPE_ERROR = -1;
 	private static final int MSG_TYPE_OUT = 1;
 	private static final int MSG_TYPE_IN = 2;
 	
-	/*
+	/**
 	 * Definition of Partner Link Services
 	 */
 	private static final int MSG_PARTNER_ERROR = -1;
@@ -370,6 +386,9 @@ class ProcessMonitor{
 	private int	num_P = 14;
 	private int stateCurrent = 0;
 	
+	/**
+	 * Definition of Class Constructor 
+	 */
 	public ProcessMonitor(int ID){
 		instanceID = ID;
 	}
@@ -427,7 +446,16 @@ class ProcessMonitor{
 	
 	
 	/**
-	 * Test the Analyzer1
+	 * Function ProcessAnalyzer is the core function of 
+	 * this class, which stores all the information of transitions
+	 * in the Petri Net models. And it uses a kind of "switch" structure
+	 * to implement all the functionality.
+	 * If the state goes wrong, some warnings will give out.
+	 * msgID refers to the transmit direction of SOAP messages (in or out of BPEL service)
+	 * msgLink refers to the partner link of the current SOAP message. 
+	 * @param msgID
+	 * @param msgLink
+	 * @return stateCurrent
 	 */
 	public int  ProcessAnalyzer1(int msgID, int msgLink){
 		switch (stateCurrent) {
