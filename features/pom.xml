@@ -21,7 +21,7 @@
 		<module>exportToDOT</module>
 		<module>exportToPGF</module>
 		<module>importExportCAMI</module>
-<!--                <module>importExportPNML</module>-->
+                <module>importExportPNML</module>
 		<!-- EXAMPLES -->
 		<module>modelExamples</module>
 		<!-- FRAGMENTS -->
