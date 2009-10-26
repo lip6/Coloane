@@ -2121,7 +2121,7 @@ public class ImportFromImpl implements IImportFrom {
 	    		output.write("\t\t\tcase MSG_TYPE_IN:\n\t\t\t{\n");
 	    		output.write("\t\t\t\treturn \"in\";\n\t\t\t}\n");
 	    		output.write("\t\t\tdefault:\n\t\t\t{\n");
-	    		output.write("\t\t\t\treturn \"ERROR\";\n\t\t\t}\n\t\t}\n\t}\n");
+	    		output.write("\t\t\t\treturn \"ERROR\";\n\t\t\t}\n\t\t}\n\t}\n\n");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -2414,12 +2414,13 @@ public class ImportFromImpl implements IImportFrom {
 		    	output.write("\tprivate int stateCurrent = 0;\n\n");
 		    	
 		    	/*
-		    	 * Generate the function - GenerateFunctionAnalyzeMSGType(output);
+		    	 * Generate the function - GenerateFunctionAnalyzeMSGType
 		    	 */
 		    	GenerateFunctionAnalyzeMSGType(output);
 		    	
 		    	/*
-		    	 * 
+		    	 * Generate the function - SoapMSGTYPEID2String
+		    	 * Translate the MSG Type ID into Type name in string.
 		    	 */
 		    	GenerateFunctionSoapMSGTYPEID2String(output);
 		    	
@@ -2430,7 +2431,8 @@ public class ImportFromImpl implements IImportFrom {
 		    	GenerateFunctionAnalyzePartnerLinks(List_PL,output);
 		    	
 		    	/*
-		    	 * 
+		    	 * Generate the function - SoapMSGPartner2String
+		    	 * Translate Soap MSG Partner Link ID into its name (String)
 		    	 */
 		    	GenerateFunctionSoapMSGPartner2String(List_PL,output);
 		    	
@@ -2742,7 +2744,9 @@ public class ImportFromImpl implements IImportFrom {
 		    	output.write("\t\tcheckResult = ProcessAnalyzer1(msgID, msgLink);\n");
 		    	output.write("\t\tif(checkResult!=E_Normal){\n");
 		    	output.write("\t\t\tSystem.out.println(\"ALARM: Process Error!\" +\n");
-		    	output.write("\t\t\t\t\"Process Instance \"+ instanceID +\": error happens in state \" + checkResult +\" with received event \" + msgID);\n");
+		    	output.write("\t\t\t\t\"Process Instance \"+ instanceID +\": error happens in state \" \n");
+		    	output.write("\t\t\t\t\t+ checkResult +\" with received MSG type \\\"\" + SoapMSGTYPEID2String(msgID) \n");
+		    	output.write("\t\t\t\t\t+ \"\\\" and partner link \\\"\" + SoapMSGPartner2String(msgLink)+\"\\\"\");\n");
 		    	output.write("\t\t}\n");
 		    	output.write("\t}\n");
 		    	

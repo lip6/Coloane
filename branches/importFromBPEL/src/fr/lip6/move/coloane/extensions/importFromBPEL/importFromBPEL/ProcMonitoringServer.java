@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.extensions.importFromBPEL.importFromBPEL;
 
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -59,7 +60,7 @@ public class ProcMonitoringServer {
 	 * OR USE OTHER EFFECTIVE DATA STRUCTURE TO HANDLE THE MAPPING TALBE.
 	 */
 	public void start() {
-		PipedOutputStream tempPos = null;
+		DataOutputStream tempPos = null;
 		int typeMSG = -1;
 		int linkMSG = -1;
 
@@ -108,29 +109,36 @@ public class ProcMonitoringServer {
                  * Time Measurements for Monitor Performance
                  * Record the beginning time  (BEGIN From receiving the SOAP message)
                  */
-//                timeBegin = date.getTime();
-                System.out.println("Begin:" + System.nanoTime());
+                timeBegin = System.nanoTime();
+//                System.out.println("Begin:" + timeBegin);
                 
                 // Analyze the SOAP message,
                 // translate the MSG type into int.
-                typeMSG = ProcessMonitor2.AnalyzeSoapMSGTYPE(MSGType);
-                linkMSG = ProcessMonitor2.AnalyzeSoapMSGPartner(objectService);
+                typeMSG = ProcessMonitorForTest.AnalyzeSoapMSGTYPE(MSGType);
+                linkMSG = ProcessMonitorForTest.AnalyzeSoapMSGPartner(objectService);
                 
                 // According to each MSG, check if it belongs to any existing monitor:
                 // if yes, then send this MSG to related monitor thread.
                 // if no, then new a new monitor thread.
                 if(tablePT.isEmpty()){
 //                	System.out.println("tablePT.isEmpty()");
+                	/*
+                	 * Use Class DataOutputStream to encapsulate the Pipe Class
+                	 * PipedOutputStream, so that many flexible function, such as
+                	 * writeInt(),writeLong(), can be used.
+                	 */
                 	PipedInputStream pis = new PipedInputStream();
                 	PipedOutputStream pos = new PipedOutputStream(pis);
-
-                	pos.write(typeMSG);
-                	pos.write(linkMSG);
+                	DataOutputStream in = new DataOutputStream(pos);
+                	
+                	in.writeInt(typeMSG);
+                	in.writeInt(linkMSG);
+                	in.writeLong(timeBegin);
 //                	System.out.println("write write write write" + typeMSG + linkMSG);
                 	
                 	ServiceThread newMonitorThread = new ServiceThread(Integer.parseInt(procID),pis);
                 	pool.execute(newMonitorThread);
-                	ItemProcessThread tempItem = new ItemProcessThread(Integer.parseInt(procID),newMonitorThread, pos);
+                	ItemProcessThread tempItem = new ItemProcessThread(Integer.parseInt(procID),newMonitorThread, in);
                 	tablePT.add(tempItem);
 //                	pos.flush();
                 }
@@ -153,9 +161,10 @@ public class ProcMonitoringServer {
 //                		System.out.println("isExisting==true");
                 		tempPos = tablePT.get(indexMSG).getpOutput();
                 		
-                		tempPos.write(typeMSG);
-                		tempPos.write(linkMSG);
-                		
+                		tempPos.writeInt(typeMSG);
+                		tempPos.writeInt(linkMSG);
+                		tempPos.writeLong(timeBegin);
+//                		System.out.println("timeBegin: "+timeBegin);
                 		/*
                 		 * In order to solve the problem of EXCEPTION "WRITE END DEAD"
                 		 * it is required to close the pipe before ending the thread.
@@ -165,11 +174,15 @@ public class ProcMonitoringServer {
                 		 * it is determined whether it is the end of process.
                 		 * ACCTUALLY IT IS NOT A CORRECT WAY TO SOLVE THIS PROBLEM.
                 		 */
-                		if(MSGType.startsWith("out") && objectService.startsWith("client")){
-                			tempPos.close();
-                			// Display the pipe has been closed.
-//                			System.out.println(tempPos + " end pipes.");
-                		}
+                		/*
+                		 * Temprally for test
+                		 */
+                		
+//                		if(MSGType.startsWith("out") && objectService.startsWith("client")){
+//                			tempPos.close();
+//                			// Display the pipe has been closed.
+////                			System.out.println(tempPos + " end pipes.");
+//                		}
                 		
 //                		System.out.println("write write write write" + typeMSG + linkMSG);
                 	}
@@ -179,18 +192,17 @@ public class ProcMonitoringServer {
 //	                	System.out.println("isExisting!!=true");
 	                	PipedInputStream pis = new PipedInputStream();
 	                	PipedOutputStream pos = new PipedOutputStream(pis);
+	                	DataOutputStream in = new DataOutputStream(pos);
 
-	                	pos.write(typeMSG);
-	                	pos.write(linkMSG);
-	                	
-//	                	System.out.println("write write write write" + typeMSG + linkMSG);
+	                	in.writeInt(typeMSG);
+	                	in.writeInt(linkMSG);
+	                	in.writeLong(timeBegin);
 	                	
 	                	ServiceThread newMonitorThread = new ServiceThread(Integer.parseInt(procID),pis);
 	                	pool.execute(newMonitorThread);
-	                	ItemProcessThread tempItem = new ItemProcessThread(Integer.parseInt(procID),newMonitorThread, pos);
+	                	ItemProcessThread tempItem = new ItemProcessThread(Integer.parseInt(procID),newMonitorThread, in);
 	                	tablePT.add(tempItem);
 
-//	                	pos.flush();
                 	}	                	
                 }
             }
@@ -213,13 +225,13 @@ class ServiceThread implements Runnable{
 	private SoapMSG Msg = null;
 	final	static	int  MSG_SEND = 1; 		// Define send type of MSG
 	final	static	int  MSG_RECEIVE = 2;	// Define receive type of MSG
-	ProcessMonitor2 testCase = null;
-	PipedInputStream pInput = null;
+	ProcessMonitorForTest testCase = null;
+	DataInputStream pInput = null;
 	int instanceID = -1;
 	
 	ServiceThread(int ID, PipedInputStream input) {
 		instanceID = ID;
-		pInput = input;
+		pInput = new DataInputStream(input);
 //		System.out.println("New ServiceThread");
 	}
 	
@@ -239,31 +251,30 @@ class ServiceThread implements Runnable{
 	}
 	
 	public void run(){
-		testCase = new ProcessMonitor2(instanceID);
+		testCase = new ProcessMonitorForTest(instanceID);
 		int typeMsg = -1;
 		int serviceMsg = -1;
+		long timeBegin = 0;
 
-//		System.out.println("RUN...");
-		
 		try {
 //			System.out.println("pInput.available() = "+ pInput.available());
-			typeMsg = this.pInput.read();
-			serviceMsg = this.pInput.read();
-			while(serviceMsg!=-1){
-//				content = new byte[this.pInput.available()];
-//			System.out.println("BPEL Process Instance " +instanceID + ": SOAP Message Type is "  + " " + typeMsg + "****"+ serviceMsg);
-//			System.out.println("*****After read, pInput.available() = " + pInput.available());
-			testCase.monitor(typeMsg,serviceMsg);
+			typeMsg = this.pInput.readInt();
+			serviceMsg = this.pInput.readInt();
+			timeBegin = this.pInput.readLong();
+//			System.out.println("RECEIVE:" + typeMsg + "  "+ serviceMsg + "  " + timeBegin);
 			
-			System.out.println("End:" + System.nanoTime());
-			typeMsg = this.pInput.read();
-			serviceMsg = this.pInput.read();
+			while(serviceMsg!=-1){
+				testCase.monitor(typeMsg,serviceMsg);
+				
+				System.out.println(timeBegin + "  " + System.nanoTime());
+				typeMsg = this.pInput.readInt();
+				serviceMsg = this.pInput.readInt();
+				timeBegin = this.pInput.readLong();
 			}
-//			System.out.println("Jump out from while()");
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 	
@@ -278,9 +289,9 @@ class TimeConsumingTask implements Callable<String> {
 class ItemProcessThread{
 	private int BPELProcessID=0;
 	private ServiceThread ThreadObject = null;
-	private PipedOutputStream pOutput = null;
+	private DataOutputStream pOutput = null;
 	
-	public ItemProcessThread(int PID, ServiceThread threadObject, PipedOutputStream output){
+	public ItemProcessThread(int PID, ServiceThread threadObject, DataOutputStream output){
 		BPELProcessID = PID;
 		ThreadObject = threadObject;
 		pOutput = output;
@@ -294,11 +305,11 @@ class ItemProcessThread{
 		return ThreadObject;
 	}
 	
-	public PipedOutputStream getpOutput(){
+	public DataOutputStream getpOutput(){
 		return pOutput;
 	}
 	
-	public void setpOutput(PipedOutputStream output){
+	public void setpOutput(DataOutputStream output){
 		pOutput = output;
 	}
 	
@@ -754,6 +765,30 @@ class ProcessMonitor2{
 		}
 	}
 
+	
+	/**
+	 * Static function SoapMSGTYPEID2String
+	 * analyze the SOAP Message Type ID.
+	 * Translate it into corresponding String.
+	 * @param typeMSG
+	 * @return MSGTYPE String
+	 */
+	public static String SoapMSGTYPEID2String(int typeMSG){
+		switch(typeMSG){
+			case MSG_TYPE_OUT:
+			{
+				return "out";
+			}
+			case MSG_TYPE_IN:
+			{
+				return "in";
+			}
+			default:
+			{
+				return "ERROR";
+			}
+		}
+	}
 
 	/**
 	 * Static function AnalyzeSoapMSGPartner
@@ -780,6 +815,38 @@ class ProcessMonitor2{
 		}
 	}
 
+	/**
+	 * Static function AnalyzeSoapMSGPartner
+	 * Analyze the Partner Links into integers.
+	 * @param linkMSG
+	 * @return
+	 */
+	public static String SoapMSGPartner2String(int plinkMSG){
+		switch(plinkMSG){
+			case MSG_PARTNER_CLIENT:
+			{
+				return "client";
+			}
+			case MSG_PARTNER_EMPLOYEETRAVELSTATUS:
+			{
+				return "employeeTravelStatus";
+			}
+			case MSG_PARTNER_AMERICANAIRLINES:
+			{
+				return "AmericanAirlines";
+			}
+			case MSG_PARTNER_DELTAAIRLINES:
+			{
+				return "DeltaAirlines";
+			}
+			default:
+			{
+					return "ERROR";
+			}
+		}
+	}
+	
+	
 	/**
 	 * Definition of Class Constructor
 	 */
@@ -844,6 +911,12 @@ class ProcessMonitor2{
 			}
 			
 			// handle the fork problem of "FLOW" activity.
+			/*
+			 * ************************************************
+			 * The following part of code is very IMPORTANT for
+			 * implementing the function of FORK (flow in BPEL)
+			 * ************************************************
+			 */
 			case 30:
 			{
 				boolean isException1 = true;
@@ -927,8 +1000,353 @@ class ProcessMonitor2{
 		
 		if(checkResult!=E_Normal){
 			System.out.println("ALARM: Process Error!" +
-			"Process Instance "+ instanceID +": error happens in state " + checkResult +" with received event " + msgID + " and partner link " + msgLink);
+			"Process Instance "+ instanceID +": error happens in state " 
+			+ checkResult +" with received MSG type \"" + SoapMSGTYPEID2String(msgID) 
+			+ "\" and partner link \"" + SoapMSGPartner2String(msgLink)+"\"");
 		}
+		
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+/**
+ * This ProcessMonitorForTest focuses on the BPEL example
+ * "Travel".
+ * It is generated from the specific BPEL specification.
+ * 
+ * *****************************************************
+ * 1. It is specially used for TEST the overhead of monitor
+ * And the BPEL Process is a circle.
+ * It means that the final BPEL state will jump to the 
+ * beginning state.
+ * 
+ * 2. All the print codes, except time, are illuminated, in order to 
+ * increase the performance of monitor
+ * *****************************************************
+ * 
+ * @author Jones
+ *
+ */
+class ProcessMonitorForTest{
+	/**
+	 * Define ProcessAnalyzer return Event type
+	 */
+	final   static	int  E_Normal = -1;		// Event: Normal Execution
+	final 	int  E_Exception = 1;	// Event: Exception happens
+
+	/**
+	 * Definition of SOAP Message Type 
+	 */
+	private static final int MSG_TYPE_ERROR = -1;
+	private static final int MSG_TYPE_OUT = 1;
+	private static final int MSG_TYPE_IN = 2;
+
+	/**
+	 * Definition of Partner Link Services 
+	 */
+	private static final int MSG_PARTNER_ERROR = -1;
+	private static final int MSG_PARTNER_CLIENT = 0;
+	private static final int MSG_PARTNER_EMPLOYEETRAVELSTATUS = 1;
+	private static final int MSG_PARTNER_AMERICANAIRLINES = 2;
+	private static final int MSG_PARTNER_DELTAAIRLINES = 3;
+
+	/**
+	 * Important Variables
+	 * instanceID: (BPEL instance ID);
+	 * stateCurrent: (current state of corresponding BPEL instance)
+	 */
+	private int instanceID = -1;
+	private int stateCurrent = 3;
+	
+	// stateFLOW1
+	int[] stateFlow1 = new int[2];
+
+
+
+	/**
+	 * Static function AnalyzeSoapMSGTYPE
+	 * analyze the SOAP Message
+	 * @param typeMSG
+	 * @return
+	 */
+	public static int AnalyzeSoapMSGTYPE(String typeMSG){
+		if(typeMSG.startsWith("out")){
+			return MSG_TYPE_OUT;
+		}
+		else if(typeMSG.startsWith("in")){
+			return MSG_TYPE_IN;
+		}
+		else{
+			return MSG_TYPE_ERROR;
+		}
+	}
+
+	
+	/**
+	 * Static function SoapMSGTYPEID2String
+	 * analyze the SOAP Message Type ID.
+	 * Translate it into corresponding String.
+	 * @param typeMSG
+	 * @return MSGTYPE String
+	 */
+	public static String SoapMSGTYPEID2String(int typeMSG){
+		switch(typeMSG){
+			case MSG_TYPE_OUT:
+			{
+				return "out";
+			}
+			case MSG_TYPE_IN:
+			{
+				return "in";
+			}
+			default:
+			{
+				return "ERROR";
+			}
+		}
+	}
+
+	/**
+	 * Static function AnalyzeSoapMSGPartner
+	 * Analyze the Partner Links into integers.
+	 * @param linkMSG
+	 * @return
+	 */
+	public static int AnalyzeSoapMSGPartner(String linkMSG){
+		if(linkMSG.startsWith("client")){
+			return MSG_PARTNER_CLIENT;
+		}
+		else if(linkMSG.startsWith("employeeTravelStatus")){
+			return MSG_PARTNER_EMPLOYEETRAVELSTATUS;
+		}
+		else if(linkMSG.startsWith("AmericanAirlines")){
+			return MSG_PARTNER_AMERICANAIRLINES;
+		}
+		else if(linkMSG.startsWith("DeltaAirlines")){
+			return MSG_PARTNER_DELTAAIRLINES;
+		}
+		else{
+			System.out.println("ERROR: There is not such a Partner Links.");
+			return MSG_PARTNER_ERROR;
+		}
+	}
+
+	/**
+	 * Static function AnalyzeSoapMSGPartner
+	 * Analyze the Partner Links into integers.
+	 * @param linkMSG
+	 * @return
+	 */
+	public static String SoapMSGPartner2String(int plinkMSG){
+		switch(plinkMSG){
+			case MSG_PARTNER_CLIENT:
+			{
+				return "client";
+			}
+			case MSG_PARTNER_EMPLOYEETRAVELSTATUS:
+			{
+				return "employeeTravelStatus";
+			}
+			case MSG_PARTNER_AMERICANAIRLINES:
+			{
+				return "AmericanAirlines";
+			}
+			case MSG_PARTNER_DELTAAIRLINES:
+			{
+				return "DeltaAirlines";
+			}
+			default:
+			{
+					return "ERROR";
+			}
+		}
+	}
+	
+	
+	/**
+	 * Definition of Class Constructor
+	 */
+	public ProcessMonitorForTest(int ID){
+		 instanceID = ID;
+		 
+		// init stateFLOW1
+		stateFlow1[0]=32;
+		stateFlow1[1]=35;
+	}
+
+	/**
+	 * Function ProcessAnalyzer is the core function of 
+	 * this class, which stores all the information of transitions
+	 * in the Petri Net models. And it uses a kind of "switch" structure
+	 * to implement all the functionality.
+	 * If the state goes wrong, some warnings will give out.
+	 * msgID refers to the transmit direction of SOAP messages (in or out of BPEL service)
+	 * msgLink refers to the partner link of the current SOAP message. 
+	 * @param msgID
+	 * @param msgLink
+	 * @return stateCurrent
+	 */
+	public int  ProcessAnalyzer(int msgID, int msgLink){
+		
+		switch(stateCurrent){
+			case 3:
+			{
+				if(msgID == MSG_TYPE_IN && msgLink == MSG_PARTNER_CLIENT){
+					stateCurrent = 12;
+//					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					break;
+				}
+				else
+				{
+					return stateCurrent;
+				}
+			}
+			case 12:
+			{
+				if(msgID == MSG_TYPE_OUT && msgLink == MSG_PARTNER_EMPLOYEETRAVELSTATUS){
+					stateCurrent = 19;
+//					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					break;
+				}
+				else
+				{
+					return stateCurrent;
+				}
+			}
+			case 19:
+			{
+				if(msgID == MSG_TYPE_IN && msgLink == MSG_PARTNER_EMPLOYEETRAVELSTATUS){
+					stateCurrent = 30;
+//					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					break;
+				}
+				else
+				{
+					return stateCurrent;
+				}
+			}
+			
+			// handle the fork problem of "FLOW" activity.
+			/*
+			 * ************************************************
+			 * The following part of code is very IMPORTANT for
+			 * implementing the function of FORK (flow in BPEL)
+			 * ************************************************
+			 */
+			case 30:
+			{
+				boolean isException1 = true;
+				switch(stateFlow1[0]){
+					case 32:
+					{
+						if(msgID == MSG_TYPE_OUT && msgLink == MSG_PARTNER_AMERICANAIRLINES){
+							stateFlow1[0] = 39;
+//							System.out.println("Process Instance "+ instanceID +": Change Current State into FLOW state " + stateFlow1[0]);
+							isException1 = false;
+						}
+						break;
+					}
+					case 39:
+					{
+						if(msgID == MSG_TYPE_IN && msgLink == MSG_PARTNER_AMERICANAIRLINES){
+							stateFlow1[0] = 60;
+//							System.out.println("Process Instance "+ instanceID +": Change Current State into FLOW state " + stateFlow1[0]);
+							isException1 = false;
+						}
+						break;
+					}
+				}
+				switch(stateFlow1[1]){
+					case 35:
+					{
+						if(msgID == MSG_TYPE_OUT && msgLink == MSG_PARTNER_DELTAAIRLINES){
+							stateFlow1[1] = 45;
+//							System.out.println("Process Instance "+ instanceID +": Change Current State into FLOW state " + stateFlow1[1]);
+							isException1 = false;
+						}
+						break;
+					}
+					case 45:
+					{
+						if(msgID == MSG_TYPE_IN && msgLink == MSG_PARTNER_DELTAAIRLINES){
+							stateFlow1[1] = 60;
+//							System.out.println("Process Instance "+ instanceID +": Change Current State into FLOW state " + stateFlow1[1]);
+							isException1 = false;
+						}
+						break;
+					}
+				}
+				if(isException1 == false){
+					if(stateFlow1[0] == 60 && stateFlow1[1]==60){
+						stateCurrent = 80;
+//						System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					}
+					break;
+				}
+				else
+				{
+					return stateCurrent;
+				}
+			}
+			case 80:
+			{
+				if(msgID == MSG_TYPE_OUT && msgLink == MSG_PARTNER_CLIENT){
+					/*
+					 * Actually, it should be "stateCurrent = 95;"
+					 * means the end of this BPEL process.
+					 * 
+					 * In order to used for test,
+					 * jump the final state to the beginning state.
+					 * 
+					 */
+//					stateCurrent = 95;
+					stateCurrent = 3;
+					
+					/*
+					 * Recover FLOW sub-states.
+					 * For TEST
+					 */
+					// Re-init stateFLOW1
+					stateFlow1[0]=32;
+					stateFlow1[1]=35;
+					
+//					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+//					System.out.println("Process Instance "+ instanceID +": Current Process execute successfully!!!");
+					break;
+				}
+				else
+				{
+					return stateCurrent;
+				}
+			}
+			default:
+			{
+				return stateCurrent;
+			}
+		}
+		return E_Normal;
+	}
+
+	public void monitor(int msgID, int msgLink){
+		int checkResult = -1;
+//		System.out.println("Process Instance "+ instanceID +": Current Status:" + stateCurrent);
+		checkResult = ProcessAnalyzer(msgID, msgLink);
+		
+//		if(checkResult!=E_Normal){
+//			System.out.println("ALARM: Process Error!" +
+//			"Process Instance "+ instanceID +": error happens in state " 
+//			+ checkResult +" with received MSG type \"" + SoapMSGTYPEID2String(msgID) 
+//			+ "\" and partner link \"" + SoapMSGPartner2String(msgLink)+"\"");
+//		}
+		
 	}
 	
 }
