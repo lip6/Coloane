@@ -6,11 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
-import java.util.*;
+import java.util.Date;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -2171,8 +2170,9 @@ public class ImportFromImpl implements IImportFrom {
 			    output.write(" * Code Generation Date Time: " + mediumDateFormat.format(date) + "\n");
 			    output.write(" * \n");
 			    output.write(" * The Classes above can be be reused in other monitors.\n");
-			    output.write(" * @author ZHU Jun\n");
-			    output.write(" */\n");
+			    output.write(" * @author ZHU Jun (LIP6,UPMC, France & School of Computer Science, NUDT, China)\n");
+			    output.write(" * E-mail: mail.zhujun@gmail.com\n");
+			    output.write(" */\n\n");
 			    output.write("class ProcessMonitor{\n");
 			    
 			    /*
@@ -2296,8 +2296,26 @@ public class ImportFromImpl implements IImportFrom {
 				output.write("\t/**\n\t * Definition of Partner Link Services \n\t */\n");
 				output.write("\tprivate static final int MSG_PARTNER_ERROR = -1;\n");
 		    	for(int i=0;i<List_PL.size();i++){
-		    		output.write("\tprivate static final int MSG_PARTNER_" + List_PL.get(i).toUpperCase() + " = " + i + "\n");
+		    		output.write("\tprivate static final int MSG_PARTNER_" + List_PL.get(i).toUpperCase() + " = " + i + ";\n");
 		    	}
+		    	
+			    /*
+				 *******************************
+				 * Code generation
+				 * Begin to generate following code
+				 * IMPORTANT Variables: instanceID (BPEL instance ID);
+				 * stateCurrent (current state of corresponding BPEL instance)
+				 *******************************
+		    	 * 	private int instanceID = -1;
+				 *	private int stateCurrent = 0;
+		    	 */
+		    	output.write("\n\t/**\n");
+		    	output.write("\t * Important Variables\n");
+		    	output.write("\t * instanceID: (BPEL instance ID);\n");
+		    	output.write("\t * stateCurrent: (current state of corresponding BPEL instance)\n");
+		    	output.write("\t */\n");
+		    	output.write("\tprivate int instanceID = -1;\n");
+		    	output.write("\tprivate int stateCurrent = 0;\n\n");
 		    	
 		    	/*
 		    	 * Generate the function - GenerateFunctionAnalyzeMSGType(output);
@@ -2577,7 +2595,50 @@ public class ImportFromImpl implements IImportFrom {
 		    	// *******************************
 				// Code generation
 				// *******************************
-		    	output.write("\t\t\tdefault:\n\t\t\t{\n\t\t\t\treturn stateCurrent;\n\t\t\t}\n\t\t}\n\t\treturn E_Normal;\n\t}");
+		    	output.write("\t\t\tdefault:\n\t\t\t{\n\t\t\t\treturn stateCurrent;\n\t\t\t}\n\t\t}\n\t\treturn E_Normal;\n\t}\n");
+		    	
+		    	
+		    	
+			    /*
+				 *******************************
+				 * Code generation
+				 * Begin to generate following code
+				 * IMPORTANT Variables: instanceID (BPEL instance ID);
+				 * stateCurrent (current state of corresponding BPEL instance)
+				 *******************************
+		    	 * /
+		    	 * Function "monitor" is used to call the function "ProcessAnalyzer".
+		    	 * According to the check results, output related information.
+		    	 * @param msgID
+		    	 * @param msgLink
+		    	 *
+		    	 * public void monitor(int msgID, int msgLink){
+		    	 *	int checkResult = -1;
+		    	 *	System.out.println("Process Instance "+ instanceID +": Current Status:" + stateCurrent);
+		    	 *	checkResult = ProcessAnalyzer1(msgID, msgLink);
+		    	 *	
+		    	 *	if(checkResult!=E_Normal){
+		    	 *		System.out.println("ALARM: Process Error!" +
+		    	 *		"Process Instance "+ instanceID +": error happens in state " + checkResult +" with received event " + msgID);
+		    	 *	}
+		    	 * }
+		    	 */
+		    	output.write("\t/**\n");
+		    	output.write("\t * Function \"monitor\" is used to call the function \"ProcessAnalyzer\".\n");
+		    	output.write("\t * According to the check results, output related information.\n");
+		    	output.write("\t * @param msgID\n");
+		    	output.write("\t * @param msgLink\n");
+		    	output.write("\t */\n");
+		    	output.write("\tpublic void monitor(int msgID, int msgLink){\n");
+		    	output.write("\t\tint checkResult = -1;\n");
+		    	output.write("\t\tSystem.out.println(\"Process Instance \"+ instanceID +\": Current Status:\" + stateCurrent);\n");
+		    	output.write("\t\tcheckResult = ProcessAnalyzer1(msgID, msgLink);\n");
+		    	output.write("\t\tif(checkResult!=E_Normal){\n");
+		    	output.write("\t\t\tSystem.out.println(\"ALARM: Process Error!\" +\n");
+		    	output.write("\t\t\t\t\"Process Instance \"+ instanceID +\": error happens in state \" + checkResult +\" with received event \" + msgID);\n");
+		    	output.write("\t\t}\n");
+		    	output.write("\t}\n");
+		    	
 		    	
 		    	// *******************************
 				// Code generation

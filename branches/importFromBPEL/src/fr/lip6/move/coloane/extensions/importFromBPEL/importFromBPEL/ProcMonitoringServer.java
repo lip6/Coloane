@@ -74,7 +74,7 @@ public class ProcMonitoringServer {
 		
 		System.out.println("BPEL Process Monitor: I'm receiving SOAP messages...");
         try {
-            FileReader fr = new FileReader("e:/SOAPMSGQueueFile.txt");//创建FileReader对象，用来读取字符流
+            FileReader fr = new FileReader("e:/SOAPMSGQueueFile(travel).txt");//创建FileReader对象，用来读取字符流
             BufferedReader br = new BufferedReader(fr);    //缓冲指定文件的输入
             String procID;    //the Process ID of MSG
             String objectService;	//where the MSG come from or go to
@@ -113,8 +113,8 @@ public class ProcMonitoringServer {
                 
                 // Analyze the SOAP message,
                 // translate the MSG type into int.
-                typeMSG = ProcessMonitor.AnalyzeSoapMSGTYPE(MSGType);
-                linkMSG = ProcessMonitor.AnalyzeSoapMSGPartner(objectService);
+                typeMSG = ProcessMonitor2.AnalyzeSoapMSGTYPE(MSGType);
+                linkMSG = ProcessMonitor2.AnalyzeSoapMSGPartner(objectService);
                 
                 // According to each MSG, check if it belongs to any existing monitor:
                 // if yes, then send this MSG to related monitor thread.
@@ -213,7 +213,7 @@ class ServiceThread implements Runnable{
 	private SoapMSG Msg = null;
 	final	static	int  MSG_SEND = 1; 		// Define send type of MSG
 	final	static	int  MSG_RECEIVE = 2;	// Define receive type of MSG
-	ProcessMonitor testCase = null;
+	ProcessMonitor2 testCase = null;
 	PipedInputStream pInput = null;
 	int instanceID = -1;
 	
@@ -239,7 +239,7 @@ class ServiceThread implements Runnable{
 	}
 	
 	public void run(){
-		testCase = new ProcessMonitor(instanceID);
+		testCase = new ProcessMonitor2(instanceID);
 		int typeMsg = -1;
 		int serviceMsg = -1;
 
@@ -382,8 +382,12 @@ class ProcessMonitor{
 	private static final int MSG_PARTNER_SERVER2 = 2;
 	private static final int MSG_PARTNER_CLIENT = 3;
 	
+	/**
+	 * Important Variables
+	 * instanceID: (BPEL instance ID);
+	 * stateCurrent: (current state of corresponding BPEL instance)
+	 */
 	private int instanceID = -1;
-	private int	num_P = 14;
 	private int stateCurrent = 0;
 	
 	/**
@@ -612,6 +616,12 @@ class ProcessMonitor{
 		return E_Normal;
 		}
 	
+	/**
+	 * Function "monitor" is used to call the function "ProcessAnalyzer".
+	 * According to the check results, output related information.
+	 * @param msgID
+	 * @param msgLink
+	 */
 	public void monitor(int msgID, int msgLink){
 		int checkResult = -1;
 		System.out.println("Process Instance "+ instanceID +": Current Status:" + stateCurrent);
@@ -622,4 +632,247 @@ class ProcessMonitor{
 			"Process Instance "+ instanceID +": error happens in state " + checkResult +" with received event " + msgID);
 		}
 	}
+}
+
+
+
+/**
+ * This ProcessMonitor2 focuses on the BPEL example
+ * "Travel".
+ * It is generated from the specific BPEL specification.
+ * 
+ * @author Jones
+ *
+ */
+class ProcessMonitor2{
+	/**
+	 * Define ProcessAnalyzer return Event type
+	 */
+	final   static	int  E_Normal = -1;		// Event: Normal Execution
+	final 	int  E_Exception = 1;	// Event: Exception happens
+
+	/**
+	 * Definition of SOAP Message Type 
+	 */
+	private static final int MSG_TYPE_ERROR = -1;
+	private static final int MSG_TYPE_OUT = 1;
+	private static final int MSG_TYPE_IN = 2;
+
+	/**
+	 * Definition of Partner Link Services 
+	 */
+	private static final int MSG_PARTNER_ERROR = -1;
+	private static final int MSG_PARTNER_CLIENT = 0;
+	private static final int MSG_PARTNER_EMPLOYEETRAVELSTATUS = 1;
+	private static final int MSG_PARTNER_AMERICANAIRLINES = 2;
+	private static final int MSG_PARTNER_DELTAAIRLINES = 3;
+
+	/**
+	 * Important Variables
+	 * instanceID: (BPEL instance ID);
+	 * stateCurrent: (current state of corresponding BPEL instance)
+	 */
+	private int instanceID = -1;
+	private int stateCurrent = 3;
+	
+	// stateFLOW1
+	int[] stateFlow1 = new int[2];
+
+
+
+	/**
+	 * Static function AnalyzeSoapMSGTYPE
+	 * analyze the SOAP Message
+	 * @param typeMSG
+	 * @return
+	 */
+	public static int AnalyzeSoapMSGTYPE(String typeMSG){
+		if(typeMSG.startsWith("out")){
+			return MSG_TYPE_OUT;
+		}
+		else if(typeMSG.startsWith("in")){
+			return MSG_TYPE_IN;
+		}
+		else{
+			return MSG_TYPE_ERROR;
+		}
+	}
+
+
+	/**
+	 * Static function AnalyzeSoapMSGPartner
+	 * Analyze the Partner Links into integers.
+	 * @param linkMSG
+	 * @return
+	 */
+	public static int AnalyzeSoapMSGPartner(String linkMSG){
+		if(linkMSG.startsWith("client")){
+			return MSG_PARTNER_CLIENT;
+		}
+		else if(linkMSG.startsWith("employeeTravelStatus")){
+			return MSG_PARTNER_EMPLOYEETRAVELSTATUS;
+		}
+		else if(linkMSG.startsWith("AmericanAirlines")){
+			return MSG_PARTNER_AMERICANAIRLINES;
+		}
+		else if(linkMSG.startsWith("DeltaAirlines")){
+			return MSG_PARTNER_DELTAAIRLINES;
+		}
+		else{
+			System.out.println("ERROR: There is not such a Partner Links.");
+			return MSG_PARTNER_ERROR;
+		}
+	}
+
+	/**
+	 * Definition of Class Constructor
+	 */
+	public ProcessMonitor2(int ID){
+		 instanceID = ID;
+		 
+		// init stateFLOW1
+		stateFlow1[0]=32;
+		stateFlow1[1]=35;
+	}
+
+	/**
+	 * Function ProcessAnalyzer is the core function of 
+	 * this class, which stores all the information of transitions
+	 * in the Petri Net models. And it uses a kind of "switch" structure
+	 * to implement all the functionality.
+	 * If the state goes wrong, some warnings will give out.
+	 * msgID refers to the transmit direction of SOAP messages (in or out of BPEL service)
+	 * msgLink refers to the partner link of the current SOAP message. 
+	 * @param msgID
+	 * @param msgLink
+	 * @return stateCurrent
+	 */
+	public int  ProcessAnalyzer(int msgID, int msgLink){
+		
+		switch(stateCurrent){
+			case 3:
+			{
+				if(msgID == MSG_TYPE_IN && msgLink == MSG_PARTNER_CLIENT){
+					stateCurrent = 12;
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					break;
+				}
+				else
+				{
+					return stateCurrent;
+				}
+			}
+			case 12:
+			{
+				if(msgID == MSG_TYPE_OUT && msgLink == MSG_PARTNER_EMPLOYEETRAVELSTATUS){
+					stateCurrent = 19;
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					break;
+				}
+				else
+				{
+					return stateCurrent;
+				}
+			}
+			case 19:
+			{
+				if(msgID == MSG_TYPE_IN && msgLink == MSG_PARTNER_EMPLOYEETRAVELSTATUS){
+					stateCurrent = 30;
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					break;
+				}
+				else
+				{
+					return stateCurrent;
+				}
+			}
+			
+			// handle the fork problem of "FLOW" activity.
+			case 30:
+			{
+				boolean isException1 = true;
+				switch(stateFlow1[0]){
+					case 32:
+					{
+						if(msgID == MSG_TYPE_OUT && msgLink == MSG_PARTNER_AMERICANAIRLINES){
+							stateFlow1[0] = 39;
+							System.out.println("Process Instance "+ instanceID +": Change Current State into FLOW state " + stateFlow1[0]);
+							isException1 = false;
+						}
+						break;
+					}
+					case 39:
+					{
+						if(msgID == MSG_TYPE_IN && msgLink == MSG_PARTNER_AMERICANAIRLINES){
+							stateFlow1[0] = 60;
+							System.out.println("Process Instance "+ instanceID +": Change Current State into FLOW state " + stateFlow1[0]);
+							isException1 = false;
+						}
+						break;
+					}
+				}
+				switch(stateFlow1[1]){
+					case 35:
+					{
+						if(msgID == MSG_TYPE_OUT && msgLink == MSG_PARTNER_DELTAAIRLINES){
+							stateFlow1[1] = 45;
+							System.out.println("Process Instance "+ instanceID +": Change Current State into FLOW state " + stateFlow1[1]);
+							isException1 = false;
+						}
+						break;
+					}
+					case 45:
+					{
+						if(msgID == MSG_TYPE_IN && msgLink == MSG_PARTNER_DELTAAIRLINES){
+							stateFlow1[1] = 60;
+							System.out.println("Process Instance "+ instanceID +": Change Current State into FLOW state " + stateFlow1[1]);
+							isException1 = false;
+						}
+						break;
+					}
+				}
+				if(isException1 == false){
+					if(stateFlow1[0] == 60 && stateFlow1[1]==60){
+						stateCurrent = 80;
+						System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					}
+					break;
+				}
+				else
+				{
+					return stateCurrent;
+				}
+			}
+			case 80:
+			{
+				if(msgID == MSG_TYPE_OUT && msgLink == MSG_PARTNER_CLIENT){
+					stateCurrent = 95;
+					System.out.println("Process Instance "+ instanceID +": Change Current State into " + stateCurrent);
+					System.out.println("Process Instance "+ instanceID +": Current Process execute successfully!!!");
+					break;
+				}
+				else
+				{
+					return stateCurrent;
+				}
+			}
+			default:
+			{
+				return stateCurrent;
+			}
+		}
+		return E_Normal;
+	}
+
+	public void monitor(int msgID, int msgLink){
+		int checkResult = -1;
+		System.out.println("Process Instance "+ instanceID +": Current Status:" + stateCurrent);
+		checkResult = ProcessAnalyzer(msgID, msgLink);
+		
+		if(checkResult!=E_Normal){
+			System.out.println("ALARM: Process Error!" +
+			"Process Instance "+ instanceID +": error happens in state " + checkResult +" with received event " + msgID + " and partner link " + msgLink);
+		}
+	}
+	
 }
