@@ -2098,6 +2098,38 @@ public class ImportFromImpl implements IImportFrom {
 			}
 	    }
 	    
+	    
+	    /**
+	     * Generate code of the following function in Process Monitor
+	     * public static int SoapMSGTYPEID2String(int typeMSG)
+	     * @param output
+	     */
+	    public void GenerateFunctionSoapMSGTYPEID2String(BufferedWriter output){
+	    	try {	   
+	    		output.write("\t/**\n");
+	    		output.write("\t * Static function SoapMSGTYPEID2String\n");
+	    		output.write("\t * analyze the SOAP Message Type ID.\n");
+	    		output.write("\t * Translate it into corresponding String.\n");
+	    		output.write("\t * @param typeMSG\n");
+	    		output.write("\t * @return MSGTYPE String\n");
+	    		output.write("\t */\n");
+	    		
+	    		output.write("\tpublic static String SoapMSGTYPEID2String(int typeMSG){\n");
+	    		output.write("\t\tswitch(typeMSG){\n");
+	    		output.write("\t\t\tcase MSG_TYPE_OUT:\n\t\t\t{\n");
+	    		output.write("\t\t\t\treturn \"out\";\n\t\t\t}\n");
+	    		output.write("\t\t\tcase MSG_TYPE_IN:\n\t\t\t{\n");
+	    		output.write("\t\t\t\treturn \"in\";\n\t\t\t}\n");
+	    		output.write("\t\t\tdefault:\n\t\t\t{\n");
+	    		output.write("\t\t\t\treturn \"ERROR\";\n\t\t\t}\n\t\t}\n\t}\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	    
+	    
+	    
 	    /**
 	     * Generate code of the following function in Process Monitor
 	     * public static int AnalyzeSoapMSGPartner(String linkMSG)
@@ -2131,6 +2163,70 @@ public class ImportFromImpl implements IImportFrom {
 				e.printStackTrace();
 			}
 	    }
+	    
+	    
+	    /**
+	     * Generate code of the following function in Process Monitor
+	     * SoapMSGPartner2String(int plinkMSG)
+	     * Translate the Soap MSG Partner ID into partner link name string
+	     * 
+	     * @param list
+	     * @param output
+	     */
+	    public void GenerateFunctionSoapMSGPartner2String(ArrayList <String> list, BufferedWriter output){
+	    	try {
+	    		output.write("\n\t/**\n");
+	    		output.write("\t * Static function SoapMSGPartner2String\n");
+	    		output.write("\t * analyze the SOAP Message Partner Link ID.\n");
+	    		output.write("\t * Translate it into corresponding String (name of partner link).\n");
+	    		output.write("\t * @param linkMSG\n");
+	    		output.write("\t * @return String Partner Link Name\n");
+	    		output.write("\t */\n");
+				
+	    		output.write("\tpublic static String SoapMSGPartner2String(int plinkMSG){\n");
+	    		output.write("\t\tswitch(plinkMSG){\n");
+	    		for(int i=0;i<list.size();i++){
+	    			output.write("\t\t\tcase MSG_PARTNER_" + list.get(i).toUpperCase()+ ":\n\t\t\t{\n");
+	    			output.write("\t\t\t\treturn \"" + list.get(i) +"\";\n\t\t\t}\n");
+				}
+	    		output.write("\t\t\tdefault:\n\t\t\t{\n");
+	    		output.write("\t\t\t\t\treturn \"ERROR\";\n\t\t\t}\n\t\t}\n\t}\n\n");
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	    }
+	    
+	    
+		/**
+		 * Static function AnalyzeSoapMSGPartner
+		 * Analyze the Partner Links into integers.
+		 * @param linkMSG
+		 * @return
+		
+		public static String SoapMSGPartner2String(int plinkMSG){
+			switch(plinkMSG){
+				case MSG_PARTNER_SERVER1:
+				{
+					return "Server1";
+				}
+				case MSG_PARTNER_SERVER2:
+				{
+					return "Server2";
+				}
+				case MSG_PARTNER_CLIENT:
+				{
+					return "client";
+				}
+				default:
+				{
+					return "ERROR";
+				}
+			}
+		} */
+	    
+	    
+	    
 	    
 	    /**
 	     * Generate the Process Analyzer in monitor
@@ -2323,9 +2419,20 @@ public class ImportFromImpl implements IImportFrom {
 		    	GenerateFunctionAnalyzeMSGType(output);
 		    	
 		    	/*
+		    	 * 
+		    	 */
+		    	GenerateFunctionSoapMSGTYPEID2String(output);
+		    	
+		    	
+		    	/*
 		    	 * Generate the function - public static int AnalyzeSoapMSGPartner(String linkMSG){}
 		    	 */
 		    	GenerateFunctionAnalyzePartnerLinks(List_PL,output);
+		    	
+		    	/*
+		    	 * 
+		    	 */
+		    	GenerateFunctionSoapMSGPartner2String(List_PL,output);
 		    	
 			    output.write("\t/**\n\t * Definition of Class Constructor\n\t */\n");
 			    output.write("\tpublic ProcessMonitor(int ID){\n");
@@ -2595,7 +2702,7 @@ public class ImportFromImpl implements IImportFrom {
 		    	// *******************************
 				// Code generation
 				// *******************************
-		    	output.write("\t\t\tdefault:\n\t\t\t{\n\t\t\t\treturn stateCurrent;\n\t\t\t}\n\t\t}\n\t\treturn E_Normal;\n\t}\n");
+		    	output.write("\t\t\tdefault:\n\t\t\t{\n\t\t\t\treturn stateCurrent;\n\t\t\t}\n\t\t}\n\t\treturn E_Normal;\n\t}\n\n");
 		    	
 		    	
 		    	

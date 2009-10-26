@@ -423,6 +423,32 @@ class ProcessMonitor{
 		}
 	}
 	
+	
+	/**
+	 * Static function SoapMSGTYPEID2String
+	 * analyze the SOAP Message Type ID.
+	 * Translate it into corresponding String.
+	 * @param typeMSG
+	 * @return MSGTYPE String
+	 */
+	public static String SoapMSGTYPEID2String(int typeMSG){
+		switch(typeMSG){
+			case MSG_TYPE_OUT:
+			{
+				return "out";
+			}
+			case MSG_TYPE_IN:
+			{
+				return "in";
+			}	
+			default:
+			{
+				return "ERROR";
+			}
+		}
+	}
+	
+	
 	/**
 	 * Static function AnalyzeSoapMSGPartner
 	 * Analyze the Partner Links into integers.
@@ -447,6 +473,36 @@ class ProcessMonitor{
 			return MSG_PARTNER_ERROR;
 		}
 	}
+	
+	
+	/**
+	 * Static function AnalyzeSoapMSGPartner
+	 * Analyze the Partner Links into integers.
+	 * @param linkMSG
+	 * @return
+	 */
+	public static String SoapMSGPartner2String(int plinkMSG){
+		switch(plinkMSG){
+			case MSG_PARTNER_SERVER1:
+			{
+				return "Server1";
+			}
+			case MSG_PARTNER_SERVER2:
+			{
+				return "Server2";
+			}
+			case MSG_PARTNER_CLIENT:
+			{
+				return "client";
+			}
+			default:
+			{
+				return "ERROR";
+			}
+		}
+	}
+	
+	
 	
 	
 	/**
