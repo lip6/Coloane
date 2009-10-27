@@ -598,7 +598,7 @@
 					</execution>
 					<execution>
 						<id>SignSource</id>
-						<phase>source</phase>
+						<phase>sattach-source</phase>
 						<goals>
 							<goal>sign</goal>
 						</goals>
