@@ -592,6 +592,8 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<executions>
 					<execution>
+						<phase>jar:jar</phase>
+						<phase>source:jar</phase>
 						<goals>
 							<goal>sign</goal>
 						</goals>
