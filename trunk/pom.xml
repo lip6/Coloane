@@ -592,7 +592,24 @@
 				<artifactId>maven-jar-plugin</artifactId>
 				<executions>
 					<execution>
-						<phase>jar:jar</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<keystore>$BUILDTOOLS/coloane.keystore</keystore>
+					<alias>coloane</alias>
+					<storepass>odui2aiF</storepass>
+					<keypass>gu2Ieg2v</keypass>
+					<verify>true</verify>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
 						<phase>source:jar</phase>
 						<goals>
 							<goal>sign</goal>
