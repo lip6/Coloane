@@ -597,6 +597,7 @@
 						</goals>
 					</execution>
 					<execution>
+						<id>SignSource</id>
 						<phase>source</phase>
 						<goals>
 							<goal>sign</goal>
