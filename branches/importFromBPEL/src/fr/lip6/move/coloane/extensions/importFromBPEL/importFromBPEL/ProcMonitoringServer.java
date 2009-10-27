@@ -70,12 +70,12 @@ public class ProcMonitoringServer {
 		/*serverThreadPool = new ThreadPoolExecutor(CORE_POOL_SIZE,
 				MAX_POOL_SIZE, KEEPALIVE_TIME, TIME_UNIT, workQueue,
 				rejectedExecutionHandler);*/
-		pool = Executors.newFixedThreadPool(10);
+		pool = Executors.newFixedThreadPool(120);
 		ArrayList<ItemProcessThread> tablePT = new ArrayList<ItemProcessThread>();
 		
-		System.out.println("BPEL Process Monitor: I'm receiving SOAP messages...");
+//		System.out.println("BPEL Process Monitor: I'm receiving SOAP messages...");
         try {
-            FileReader fr = new FileReader("e:/SOAPMSGQueueFile(travel).txt");//创建FileReader对象，用来读取字符流
+            FileReader fr = new FileReader("e:/SOAPMSGQueueFile(travel)T100.txt");//创建FileReader对象，用来读取字符流
             BufferedReader br = new BufferedReader(fr);    //缓冲指定文件的输入
             String procID;    //the Process ID of MSG
             String objectService;	//where the MSG come from or go to
@@ -99,7 +99,8 @@ public class ProcMonitoringServer {
                 	System.out.println("ERROR in the MSG input file(MSG not in pair).");
                 	break;
                 }
-
+//                System.out.println("Read "+procID + " " + objectService  + " " +MSGType);
+//                System.out.println("tablePT size "+ tablePT.size());
                 // Maybe it is necessary to add some time of waiting (MSG time property)
                 // Because not MSGs arrive in random.
                 
@@ -149,7 +150,7 @@ public class ProcMonitoringServer {
                 	// find the item with processID in tablePT
                 	for(int i=0;i<tablePT.size();i++){
                 		ItemProcessThread tempItem = tablePT.get(i);
-                		if(procID.startsWith(Integer.toString(tempItem.getBPELProcessID()))){
+                		if(procID.equalsIgnoreCase(Integer.toString(tempItem.getBPELProcessID()))){
                 			isExisting=true;
                 			indexMSG=i;
                 			break;
@@ -232,7 +233,7 @@ class ServiceThread implements Runnable{
 	ServiceThread(int ID, PipedInputStream input) {
 		instanceID = ID;
 		pInput = new DataInputStream(input);
-//		System.out.println("New ServiceThread");
+//		System.out.println("New ServiceThread" + instanceID);
 	}
 	
 	/**
@@ -261,7 +262,7 @@ class ServiceThread implements Runnable{
 			typeMsg = this.pInput.readInt();
 			serviceMsg = this.pInput.readInt();
 			timeBegin = this.pInput.readLong();
-//			System.out.println("RECEIVE:" + typeMsg + "  "+ serviceMsg + "  " + timeBegin);
+//			System.out.println(instanceID +" RECEIVE:" + typeMsg + "  "+ serviceMsg + "  " + timeBegin);
 			
 			while(serviceMsg!=-1){
 				testCase.monitor(typeMsg,serviceMsg);
