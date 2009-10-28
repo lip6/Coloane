@@ -119,26 +119,6 @@
 
 	<!-- ============================================ -->
 
-	<!-- Definition d'un noeud -->
-	<xs:element name="node" type="tnode"/>
-
-	<!-- Definition d'un arc -->
-	<xs:element name="arc" type="tarc"/>
-	
-	<!-- Definition d'une note -->
-	<xs:element name="sticky" type="tsticky"/>
-	
-	<!-- ============================================ -->
-
-	<!-- Definition des groupes de noeuds-->
-	<xs:element name="nodes" type="tnodes"/>
-
-	<!-- Definition d'un groupe d'arcs -->
-	<xs:element name="arcs" type="tarc"/>
-	
-	<!-- Definition des groupes de noeuds-->
-	<xs:element name="stickys" type="tstickys"/>
-
 	<!-- Definition d'un modele -->
 	<xs:element name="model" type="tmodel"/>
 </xs:schema>
