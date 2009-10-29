@@ -12,12 +12,14 @@ import org.eclipse.jface.action.IAction;
  * Action permettant d'ajouter une option au menu.<br>
  * La liste et l'état des options est maintenu dans la session courrante.
  */
-public class OptionAction extends Action {
+public class OptionAction extends Action implements IStatedElement {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private ISession session;
 	private IOptionMenu option;
+
+	private boolean state = false;
 
 	/**
 	 * @param option Objet décrivant l'option
@@ -30,6 +32,7 @@ public class OptionAction extends Action {
 		session.setOption(option, option.isValidated());
 		this.option = option;
 		this.session = session;
+		this.state = option.isVisible();
 	}
 
 	/**
@@ -52,6 +55,16 @@ public class OptionAction extends Action {
 	public final void run() {
 		LOGGER.fine("Changement d'une option : " + getId() + " = " + isChecked()); //$NON-NLS-1$ //$NON-NLS-2$
 		session.setOption(option, isChecked());
+	}
+
+	/** {@inheritDoc} */
+	public boolean getState() {
+		return state;
+	}
+
+	/** {@inheritDoc} */
+	public void setState(boolean state) {
+		this.state = state;
 	}
 
 }
