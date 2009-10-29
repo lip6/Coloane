@@ -15,13 +15,15 @@ import org.eclipse.jface.action.IAction;
  * Action permettant d'ajouter un service au menu.<br>
  * Utilise le ServiceManager pour executer le service attaché.
  */
-public class ServiceAction extends Action {
+public class ServiceAction extends Action implements IStatedElement {
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private IServiceMenu serviceMenu;
 
 	private ISession session;
+
+	private boolean state = false;
 
 	/**
 	 * @param service Objet décrivant un service
@@ -33,6 +35,7 @@ public class ServiceAction extends Action {
 //		setToolTipText(service.getHelps());
 		this.serviceMenu = service;
 		this.session = session;
+		this.state = service.isVisible();
 	}
 
 	/** {@inheritDoc} */
@@ -46,4 +49,15 @@ public class ServiceAction extends Action {
 			Motor.getInstance().askForService(service, serviceMenu.getPath());
 		}
 	}
+
+	/** {@inheritDoc} */
+	public boolean getState() {
+		return state;
+	}
+
+	/** {@inheritDoc} */
+	public void setState(boolean state) {
+		this.state = state;
+	}
+
 }

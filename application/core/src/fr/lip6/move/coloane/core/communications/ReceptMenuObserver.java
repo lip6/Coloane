@@ -29,21 +29,28 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 	public final void update(IReceptMenu menu) {
 		if (menu.getMenus() != null) {
 			LOGGER.finer("Réception d'une nouvelle liste de menu : " + menu.getMenus()); //$NON-NLS-1$
+			// Affichage du menu dans la console pour le debug
+			for (ISubMenu subMenu : menu.getMenus()) {
+				LOGGER.finest(subMenu.getName() + "\n" + menuToString(subMenu, menu.getUpdateMenus(), "")); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+
 			UserInterface.getInstance().drawMenus(menu.getMenus());
 		}
 		if (menu.getUpdateMenus() != null) {
 			LOGGER.finer("Réception d'une mise à jour de menu : " + menu.getUpdateMenus()); //$NON-NLS-1$
 			UserInterface.getInstance().updateMenu(menu.getUpdateMenus());
+			
+			// Affichage d'une mise à jour
+			if (menu.getMenus() == null) {
+				for (String s : menu.getUpdateMenus().keySet()) {
+					LOGGER.finest("Menu update - " + s + " = " + menu.getUpdateMenus().get(s).getState()); //$NON-NLS-1$ //$NON-NLS-2$
+				}
+			}
 		}
 		if (menu.getServices() != null && SessionManager.getInstance().getCurrentSession() != null) {
 			ISession session = SessionManager.getInstance().getCurrentSession();
 			session.addAllServices(menu.getServices());
 		}
-
-		// Affichage du menu dans la console pour le debug
-//		for (ISubMenu subMenu : menu.getMenus()) {
-//			LOGGER.finest(subMenu.getName() + "\n" + menuToString(subMenu, menu.getUpdateMenus(), "")); //$NON-NLS-1$ //$NON-NLS-2$
-//		}
 
 		for (Job job : Job.getJobManager().find(null)) {
 			if (job.getName().equals(Motor.OPEN_SESSION_JOB)) {
@@ -80,7 +87,6 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 	 * @param dec décalage correspondant à la profondeur actuelle
 	 * @return String représentant le menu
 	 */
-	@SuppressWarnings("unused")
 	private String menuToString(ISubMenu menu, Map<String, IUpdateMenu> mapUpdateMenu, String dec) {
 		StringBuilder sb = new StringBuilder();
 

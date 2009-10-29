@@ -73,8 +73,8 @@ public final class MenuManipulation {
 	 * @param session session attaché à ce menu
 	 * @return MenuManager correpondant au menu passé en parametre
 	 */
-	private static MenuManager build(ISubMenu apiMenu, boolean active, ISession session) {
-		MenuManager item = new MenuManager(apiMenu.getName(), apiMenu.getName());
+	private static ColoaneMenuManager build(ISubMenu apiMenu, boolean active, ISession session) {
+		ColoaneMenuManager item = new ColoaneMenuManager(apiMenu.getName(), apiMenu.getName(), apiMenu.isVisible());
 		for (IServiceMenu service : apiMenu.getServiceMenus()) {
 			item.add(buildServiceMenu(service, active && apiMenu.isVisible(), session));
 		}
@@ -141,7 +141,7 @@ public final class MenuManipulation {
 	 * @param mapUpdateMenu Map contenant les élements à mettre à jour.
 	 */
 	public static void update(MenuManager menuManager, Map<String, IUpdateMenu> mapUpdateMenu) {
-		update(menuManager, mapUpdateMenu, null);
+		update(menuManager, mapUpdateMenu, true);
 	}
 
 	/**
@@ -151,21 +151,27 @@ public final class MenuManipulation {
 	 */
 	private static void update(IContributionItem item, Map<String, IUpdateMenu> mapUpdateMenu, Boolean parent) {
 		IUpdateMenu update = mapUpdateMenu.get(item.getId());
-		Boolean active = null;
-		if (update != null) {
-			active = update.getState();
-		} else if (parent != null) {
-			active = parent;
-		}
 
-		if (item instanceof ActionContributionItem && active != null && item.isEnabled() != active) {
+		// Mise à jour d'un service ou d'une option
+		if (item instanceof ActionContributionItem) {
 			IAction action = ((ActionContributionItem) item).getAction();
-			action.setEnabled(active);
+			IStatedElement statedElement = (IStatedElement) action;
+
+			if (update != null) {
+				statedElement.setState(update.getState());
+			}
+			action.setEnabled(parent && statedElement.getState());
 		}
 
-		if (item instanceof MenuManager) {
-			for (IContributionItem subItem : ((MenuManager) item).getItems()) {
-				update(subItem, mapUpdateMenu, active);
+		// Mise à jour d'un sous-menu
+		if (item instanceof ColoaneMenuManager) {
+			ColoaneMenuManager coloaneMenuManager = (ColoaneMenuManager) item;
+
+			if (update != null) {
+				coloaneMenuManager.setState(update.getState());
+			}
+			for (IContributionItem subItem : coloaneMenuManager.getItems()) {
+				update(subItem, mapUpdateMenu, parent && coloaneMenuManager.getState());
 			}
 		}
 	}
