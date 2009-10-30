@@ -7,27 +7,27 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * Commande de changement de position d'un noeud
- *
+ * Change the position of an object
  * @author Jean-Baptiste Voron
  */
 public class ObjectPositionCommand implements ICommand {
-	/** L'identifiant de l'objet à déplacer */
+	/** Id of the object to move */
 	private int id;
-	/** La position en X */
+	/** X coordinate */
 	private int x;
-	/** La position en Y */
+	/** Y coordinate */
 	private int y;
 
+	/** Backup */
 	private INode node;
 	private int oldX;
 	private int oldY;
 
 	/**
-	 * Constructeur
-	 * @param id L'identifiant du noeud ou de l'arc concerné par le placement
-	 * @param x La position en x
-	 * @param y La position en y
+	 * Constructor
+	 * @param id Node ID to move
+	 * @param x X coordinate
+	 * @param y Y coordinate
 	 */
 	public ObjectPositionCommand(int id, int x, int y) {
 		this.id = id;
@@ -39,6 +39,10 @@ public class ObjectPositionCommand implements ICommand {
 	 * {@inheritDoc}
 	 */
 	public final void execute(IGraph graph) throws ModelException {
+		// If the designated node is the root node... Position command is not allowed
+		if (this.id == 1) { return; }
+		
+		// Fetch the current note and change its position
 		node = graph.getNode(id);
 		if (node != null) {
 			this.oldX = node.getGraphicInfo().getLocation().x;
