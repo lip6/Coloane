@@ -10,9 +10,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.BendpointConnectionRouter;
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.ConnectionRouter;
+import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PolylineConnection;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 
@@ -170,7 +172,16 @@ public class ExportToSVG implements IExportTo {
 		List<IFigure> list = new ArrayList<IFigure>();
 		for (IAttribute attr : attributes) {
 			if (attr.getAttributeFormalism().isDrawable() && !attr.getValue().equals(attr.getAttributeFormalism().getDefaultValue())) {
-				Label label = new Label();
+				final Point location = attr.getGraphicInfo().getLocation();
+				Label label = new Label() {
+					@Override
+					public void paint(Graphics graphics) {
+						graphics.setFont(getFont());
+						graphics.setForegroundColor(getForegroundColor());
+						graphics.setBackgroundColor(getBackgroundColor());
+						graphics.fillText(getText(), location);
+					}
+				};
 				label.setOpaque(true);
 				label.setText(attr.getValue());
 				label.setLocation(attr.getGraphicInfo().getLocation());

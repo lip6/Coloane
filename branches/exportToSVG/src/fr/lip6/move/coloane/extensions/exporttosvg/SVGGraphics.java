@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.extensions.exporttosvg;
 
 import java.awt.Polygon;
+import java.awt.font.TextLayout;
 import java.awt.geom.QuadCurve2D;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,16 +11,13 @@ import java.util.logging.Logger;
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
 import org.eclipse.draw2d.ColorConstants;
-import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.LineAttributes;
@@ -38,8 +36,8 @@ public class SVGGraphics extends Graphics {
 
 	private SVGGraphics2D svgGenerator;
 
-	public SVGGraphics() {
-        // Get a DOMImplementation.
+	public SVGGraphics() throws IOException {
+		// Get a DOMImplementation.
         DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
 
         // Create an instance of org.w3c.dom.Document.
@@ -240,13 +238,13 @@ public class SVGGraphics extends Graphics {
 	@Override
 	public void drawText(String s, int x, int y) {
 		LOGGER.finer("drawText(" + s + "," + x + "," + y + ")");
-		Font font = JFaceResources.getDefaultFont();
-		Dimension d = FigureUtilities.getTextExtents(s, font);
-		// le -4 permet de corriger un décalage du texte par rapport
-		// au rectangle dessiner pour gérer le surlignage des attributs
-//		svgGenerator.setFont();
-		svgGenerator.drawString(s, x, y + d.height - 4);
-//		svgGenerator.drawString(iterator, x, y);
+		float fx = x, fy = y;
+		for (String line : s.split("\n")) {
+			TextLayout text = new TextLayout(line, svgGenerator.getFont(), svgGenerator.getFontRenderContext());
+			fy += text.getAscent();
+			text.draw(svgGenerator, fx, fy);
+			fy += text.getDescent() + text.getLeading();
+		}
 	}
 
 	@Override
@@ -313,10 +311,24 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void fillText(String s, int x, int y) {
-		LOGGER.finer("fillText");
-		// le -4 permet de corriger un décalage du texte par rapport
-		// au rectangle dessiner pour gérer le surlignage des attributs
-		svgGenerator.drawString(s, x, y - 4);
+		LOGGER.finer("fillText(\"" + s + "\", " + x + ", " + y + ")");
+		float fx = x, fy = y;
+		float width = 0, height = 0;
+		for (String line : s.split("\n")) {
+			TextLayout text = new TextLayout(line, svgGenerator.getFont(), svgGenerator.getFontRenderContext());
+			fy += text.getAscent() + text.getDescent() + text.getLeading();
+			width = Math.max(width, (float) text.getBounds().getWidth());
+		}
+		height = fy - y;
+		fillRectangle(x, y, (int) width, (int) height);
+		fy = y;
+		for (String line : s.split("\n")) {
+			TextLayout text = new TextLayout(line, svgGenerator.getFont(), svgGenerator.getFontRenderContext());
+			fy += text.getAscent();
+			svgGenerator.drawString(line, fx, fy);
+//			text.draw(svgGenerator, fx, fy);
+			fy += text.getDescent() + text.getLeading();
+		}
 	}
 
 	@Override
@@ -376,14 +388,17 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void popState() {
+		LOGGER.warning("popState()");
 	}
 
 	@Override
 	public void pushState() {
+		LOGGER.warning("pushState()");
 	}
 
 	@Override
 	public void restoreState() {
+		LOGGER.warning("restoreState()");
 	}
 
 	@Override
@@ -408,11 +423,7 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void setFont(Font f) {
-		LOGGER.warning("setFont(" + f + ")");
-		for (FontData fd : f.getFontData()) {
-			System.err.println("\tName: " + fd.getName());
-			System.err.println("\tHeight: " + fd.getHeight());
-		}
+		LOGGER.finer("setFont(" + f.getFontData()[0].getStyle() + ", " + f.getFontData()[0].getHeight() + ")");
 		java.awt.Font awtFont = svgGenerator.getFont();
 		svgGenerator.setFont(awtFont.deriveFont(f.getFontData()[0].getStyle(), f.getFontData()[0].getHeight()));
 	}
@@ -458,7 +469,7 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void setLineAttributes(LineAttributes attributes) {
-		LOGGER.warning("setLineAttributes(" + attributes + ")");
+		System.err.println("setLineAttributes(" + attributes + ")");
 	}
 
 }
