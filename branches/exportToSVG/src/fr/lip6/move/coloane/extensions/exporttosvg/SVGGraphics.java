@@ -5,6 +5,7 @@ import java.awt.geom.QuadCurve2D;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.apache.batik.dom.GenericDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
@@ -18,6 +19,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.LineAttributes;
@@ -25,6 +27,9 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
 public class SVGGraphics extends Graphics {
+	/** Le logger pour la classe */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	private boolean curve = false;
 	private final Map<java.awt.Color, Color> colors = new HashMap<java.awt.Color, Color>();
 
@@ -65,7 +70,7 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void clipRect(Rectangle r) {
-		System.err.println("clipRect(" + r + ")");
+		LOGGER.warning("clipRect(" + r + ")");
 	}
 
 	@Override
@@ -75,48 +80,49 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void drawArc(int x, int y, int w, int h, int offset, int length) {
-		System.err.println("drawArc");
+		LOGGER.finer("drawArc");
 		svgGenerator.drawArc(x, y, w, h, offset, length);
 	}
 
 	@Override
 	public void drawFocus(int x, int y, int w, int h) {
-		System.err.println("drawFocus");
+		LOGGER.warning("drawFocus");
 	}
 
 	@Override
 	public void drawImage(Image srcImage, int x, int y) {
-		System.err.println("drawImage");
+		LOGGER.warning("drawImage");
 	}
 
 	@Override
 	public void drawImage(Image srcImage, int x1, int y1, int w1, int h1,
 			int x2, int y2, int w2, int h2) {
-		System.err.println("drawImage");
+		LOGGER.warning("drawImage");
 	}
 
 	@Override
 	public void drawLine(int x1, int y1, int x2, int y2) {
-		System.err.println("drawLine");
+		LOGGER.finer("drawLine");
 		svgGenerator.drawLine(x1, y1, x2, y2);
 	}
 
 	@Override
 	public void drawOval(int x, int y, int w, int h) {
-		System.err.println("drawOval(" + x + ", " + y + ", " + w + ", " + h + ")");
+		LOGGER.finer("drawOval(" + x + ", " + y + ", " + w + ", " + h + ")");
 		svgGenerator.drawOval(x, y, w, h);
 	}
 
 	@Override
 	public void drawPolygon(PointList points) {
-		System.err.print("drawPolygon(");
+		StringBuilder sb = new StringBuilder("drawPolygon(");
 		Polygon poly = new Polygon();
 		for (int i = 0; i < points.size(); i++) {
 			Point p = points.getPoint(i);
-			System.err.print(" [" + p.x + "," + p.y + "]");
+			sb.append(" [" + p.x + "," + p.y + "]");
 			poly.addPoint(p.x, p.y);
 		}
-		System.err.println(")");
+		sb.append(")");
+		LOGGER.finer(sb.toString());
 		svgGenerator.drawPolygon(poly);
 	}
 
@@ -142,12 +148,13 @@ public class SVGGraphics extends Graphics {
 	 * @param points list of points
 	 */
 	private void drawCurvePolyline(PointList points) {
-		System.err.print("drawCurvePolyline( ");
+		StringBuilder sb = new StringBuilder("drawCurvePolyline(");
 		for (int i = 0; i < points.size(); i++) {
 			Point p = points.getPoint(i);
-			System.err.print(" [" + p.x + "," + p.y + "]");
+			sb.append(" [" + p.x + "," + p.y + "]");
 		}
-		System.err.println(")");
+		sb.append(")");
+		LOGGER.finer(sb.toString());
 
 		if (points.size() <= 2) {
 			svgGenerator.drawLine(points.getFirstPoint().x, points.getFirstPoint().y, points.getLastPoint().x, points.getLastPoint().y);
@@ -197,57 +204,64 @@ public class SVGGraphics extends Graphics {
 		if (curve) {
 			drawCurvePolyline(points);
 		} else {
-			System.err.print("drawPolyline( ");
+			StringBuilder sb = new StringBuilder("drawPolyline(");
 			Polygon poly = new Polygon();
 			for (int i = 0; i < points.size(); i++) {
 				Point p = points.getPoint(i);
-				System.err.print(" [" + p.x + "," + p.y + "]");
+				sb.append(" [" + p.x + "," + p.y + "]");
 				poly.addPoint(p.x, p.y);
 			}
-			System.err.println(")");
+			sb.append(")");
+			LOGGER.finer(sb.toString());
 			svgGenerator.drawPolyline(poly.xpoints, poly.ypoints, poly.npoints);
 		}
 	}
 
 	@Override
 	public void drawRectangle(int x, int y, int width, int height) {
-		System.err.println("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
+		LOGGER.finer("drawRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
 		svgGenerator.drawRect(x, y, width, height);
 	}
 
 	@Override
 	public void drawRoundRectangle(Rectangle r, int arcWidth, int arcHeight) {
-		System.err.println("drawRoundRectangle");
+		LOGGER.finer("drawRoundRectangle");
 		svgGenerator.drawRoundRect(r.x, r.y, r.width, r.height, arcWidth, arcHeight);
 	}
 
 	@Override
 	public void drawString(String s, int x, int y) {
-		System.err.println("drawString");
-		svgGenerator.drawString(s, x, y);
+		LOGGER.finer("drawString");
+		// le -4 permet de corriger un décalage du texte par rapport
+		// au rectangle dessiner pour gérer le surlignage des attributs
+		svgGenerator.drawString(s, x, y - 4);
 	}
 
 	@Override
 	public void drawText(String s, int x, int y) {
-		System.err.println("drawText(" + s + "," + x + "," + y + ")");
+		LOGGER.finer("drawText(" + s + "," + x + "," + y + ")");
 		Font font = JFaceResources.getDefaultFont();
 		Dimension d = FigureUtilities.getTextExtents(s, font);
-		svgGenerator.drawString(s, x, y + d.height);
+		// le -4 permet de corriger un décalage du texte par rapport
+		// au rectangle dessiner pour gérer le surlignage des attributs
+//		svgGenerator.setFont();
+		svgGenerator.drawString(s, x, y + d.height - 4);
+//		svgGenerator.drawString(iterator, x, y);
 	}
 
 	@Override
 	public void fillArc(int x, int y, int w, int h, int offset, int length) {
-		System.err.println("fillArc");
+		LOGGER.warning("fillArc");
 	}
 
 	@Override
 	public void fillGradient(int x, int y, int w, int h, boolean vertical) {
-		System.err.println("fillGradient");
+		LOGGER.warning("fillGradient");
 	}
 
 	@Override
 	public void fillOval(int x, int y, int w, int h) {
-		System.err.println("fillOval(" + x + ", " + y + ", " + w + ", " + h + ")");
+		LOGGER.finer("fillOval(" + x + ", " + y + ", " + w + ", " + h + ")");
 		java.awt.Color oldColor = svgGenerator.getColor();
 		svgGenerator.setColor(svgGenerator.getBackground());
 		svgGenerator.fillOval(x, y, w, h);
@@ -256,14 +270,15 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void fillPolygon(PointList points) {
-		System.err.print("fillPolygon(");
+		StringBuilder sb = new StringBuilder("fillPolygon(");
 		Polygon poly = new Polygon();
 		for (int i = 0; i < points.size(); i++) {
 			Point p = points.getPoint(i);
-			System.err.print(" [" + p.x + "," + p.y + "]");
+			sb.append(" [" + p.x + "," + p.y + "]");
 			poly.addPoint(p.x, p.y);
 		}
-		System.err.println(")");
+		sb.append(")");
+		LOGGER.finer(sb.toString());
 		java.awt.Color oldColor = svgGenerator.getColor();
 		svgGenerator.setColor(svgGenerator.getBackground());
 		svgGenerator.fillPolygon(poly);
@@ -272,7 +287,7 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void fillRectangle(int x, int y, int width, int height) {
-		System.err.println("fillRectangle");
+		LOGGER.finer("fillRectangle(" + x + ", " + y + ", " + width + ", " + height + ")");
 		java.awt.Color oldColor = svgGenerator.getColor();
 		svgGenerator.setColor(svgGenerator.getBackground());
 		svgGenerator.fillRect(x, y, width, height);
@@ -281,7 +296,7 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void fillRoundRectangle(Rectangle r, int arcWidth, int arcHeight) {
-		System.err.println("fillRoundRectangle");
+		LOGGER.finer("fillRoundRectangle");
 		java.awt.Color oldColor = svgGenerator.getColor();
 		svgGenerator.setColor(svgGenerator.getBackground());
 		svgGenerator.fillRoundRect(r.x, r.y, r.width, r.height, arcWidth, arcHeight);
@@ -290,14 +305,18 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void fillString(String s, int x, int y) {
-		System.err.println("fillString");
-		svgGenerator.drawString(s, x, y);
+		LOGGER.finer("fillString");
+		// le -4 permet de corriger un décalage du texte par rapport
+		// au rectangle dessiner pour gérer le surlignage des attributs
+		svgGenerator.drawString(s, x, y - 4);
 	}
 
 	@Override
 	public void fillText(String s, int x, int y) {
-		System.err.println("fillText");
-		svgGenerator.drawString(s, x, y);
+		LOGGER.finer("fillText");
+		// le -4 permet de corriger un décalage du texte par rapport
+		// au rectangle dessiner pour gérer le surlignage des attributs
+		svgGenerator.drawString(s, x, y - 4);
 	}
 
 	@Override
@@ -311,7 +330,7 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public Rectangle getClip(Rectangle r) {
-		System.err.println("getClip(" + r.getResized(1, 1) + ")");
+		LOGGER.finer("getClip(" + r.getResized(1, 1) + ")");
 		return r.getResized(1, 1);
 	}
 
@@ -341,7 +360,7 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public int getLineWidth() {
-		System.err.println("getLineWidth()");
+		LOGGER.finer("getLineWidth()");
 		return 0;
 	}
 
@@ -369,13 +388,13 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void scale(double amount) {
-		System.err.println("\tscale(" + amount + ")");
+		LOGGER.finer("\tscale(" + amount + ")");
 		svgGenerator.scale(amount, amount);
 	}
 
 	@Override
 	public void setBackgroundColor(Color rgb) {
-		System.err.println("setBackgroundColor(" + rgb + ")");
+		LOGGER.finer("setBackgroundColor(" + rgb + ")");
 		java.awt.Color awtColor = new java.awt.Color(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
 		colors.put(awtColor, rgb);
 		svgGenerator.setBackground(awtColor);
@@ -383,17 +402,24 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void setClip(Rectangle r) {
-		System.err.println("setClip(" + r + ")");
+		LOGGER.finer("setClip(" + r + ")");
 		svgGenerator.clip(new java.awt.Rectangle(r.x, r.y, r.width, r.height));
 	}
 
 	@Override
 	public void setFont(Font f) {
+		LOGGER.warning("setFont(" + f + ")");
+		for (FontData fd : f.getFontData()) {
+			System.err.println("\tName: " + fd.getName());
+			System.err.println("\tHeight: " + fd.getHeight());
+		}
+		java.awt.Font awtFont = svgGenerator.getFont();
+		svgGenerator.setFont(awtFont.deriveFont(f.getFontData()[0].getStyle(), f.getFontData()[0].getHeight()));
 	}
 
 	@Override
 	public void setForegroundColor(Color rgb) {
-		System.err.println("setForegroundColor(" + rgb + ")");
+		LOGGER.finer("setForegroundColor(" + rgb + ")");
 		java.awt.Color awtColor = new java.awt.Color(rgb.getRed(), rgb.getGreen(), rgb.getBlue());
 		colors.put(awtColor, rgb);
 		svgGenerator.setColor(awtColor);
@@ -417,12 +443,12 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void setXORMode(boolean b) {
-		System.err.println("setXORMode");
+		LOGGER.warning("setXORMode");
 	}
 
 	@Override
 	public void translate(int dx, int dy) {
-		System.err.println("\ttranslate(" + dx + "," + dy + ")");
+		LOGGER.finer("\ttranslate(" + dx + "," + dy + ")");
 		svgGenerator.translate(dx, dy);
 	}
 
@@ -432,7 +458,7 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public void setLineAttributes(LineAttributes attributes) {
-		System.err.println("setLineAttributes(" + attributes + ")");
+		LOGGER.warning("setLineAttributes(" + attributes + ")");
 	}
 
 }
