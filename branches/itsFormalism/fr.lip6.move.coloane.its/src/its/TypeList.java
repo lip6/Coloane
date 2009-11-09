@@ -3,7 +3,7 @@ package its;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class TypeList implements ITypeList,Iterable<TypeDeclaration>{
+public class TypeList extends SimpleObservable implements ITypeList,Iterable<TypeDeclaration>, ISimpleObserver{
 
 	ArrayList<TypeDeclaration> table;
 	
@@ -14,11 +14,15 @@ public class TypeList implements ITypeList,Iterable<TypeDeclaration>{
 	@Override
 	public void addTypeDeclaration(TypeDeclaration t) {
 		table.add(t);
+		t.addObserver(this);
+		notifyObservers();
 	}
 
 	@Override
 	public void removeTypeDeclaration(TypeDeclaration t) {
 		table.remove(t);
+		t.deleteObserver(this);
+		notifyObservers();
 	}
 
 	@Override
@@ -39,11 +43,19 @@ public class TypeList implements ITypeList,Iterable<TypeDeclaration>{
 
 	public void clear() {
 		table.clear();
-		
+		notifyObservers();
 	}
 
 	public int size() {
 		return table.size();
+	}
+
+	/**
+	 * invoked when a nested object changes
+	 */
+	@Override
+	public void update() {
+		notifyObservers();
 	}
 
 }
