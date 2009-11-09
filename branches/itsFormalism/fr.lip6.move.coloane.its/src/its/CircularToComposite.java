@@ -97,7 +97,7 @@ public class CircularToComposite {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		CompositeTypeDeclaration newCtd= new CompositeTypeDeclaration("ITSCircularComposite",null,resultGraph);
+		CompositeTypeDeclaration newCtd= new CompositeTypeDeclaration("ITSCircularComposite",null,resultGraph,ctd.getTypeList());
 		return newCtd;
 	}
 }

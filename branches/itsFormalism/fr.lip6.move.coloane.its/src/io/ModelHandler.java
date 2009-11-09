@@ -138,7 +138,7 @@ public class ModelHandler extends DefaultHandler {
 		}
 		TypeDeclaration type;
 		try {
-			type = TypeDeclaration.create(name,file);
+			type = TypeDeclaration.create(name,file,types);
 		} catch (IOException e) {			
 			throw new SAXException("Could not open referenced file "+filePath,null);
 		}
