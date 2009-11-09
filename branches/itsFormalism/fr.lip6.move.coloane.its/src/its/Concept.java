@@ -3,17 +3,19 @@ package its;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Concept {
+public class Concept extends SimpleObservable {
 	String name;
 	/** The list of labels required in this composite for a given type name */
 	private List<String> labels;
 	/** The resolved map from Type name in the composite, to effective Type in the Model*/
 	private TypeDeclaration effective;
+	private CompositeTypeDeclaration parent;
 
-	public Concept(String name) {
+	public Concept(String name, CompositeTypeDeclaration parent) {
 		this.name = name;
 		labels = new ArrayList<String>();
 		effective = null;
+		this.parent = parent;
 	}
 
 	public String getName() {
@@ -28,5 +30,10 @@ public class Concept {
 	}
 	public void setEffective(TypeDeclaration effective) {
 		this.effective = effective;
+		notifyObservers();
+	}
+
+	public CompositeTypeDeclaration getParent() {
+		return parent;
 	}
 }
