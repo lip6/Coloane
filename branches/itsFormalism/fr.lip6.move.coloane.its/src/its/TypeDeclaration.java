@@ -12,22 +12,30 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-public class TypeDeclaration {
+public class TypeDeclaration extends SimpleObservable {
 	private String typeName;
 	private IFile typeFile;
 	/** The underlying coloane Graph */
 	private IGraph graph;
 	private Set<String> labels=null;
+	private TypeList typeList;
 
-	protected TypeDeclaration (String typeName, IFile modelFile, IGraph graph) {
+	protected TypeDeclaration (String typeName, IFile modelFile, IGraph graph, TypeList types) {
 		this.typeName = typeName;
 		typeFile = modelFile ;
 		this.graph = graph;
+		typeList = types;
 	}
 
 	public String getTypeName() {
 		return typeName;
 	}
+	
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+		notifyObservers();
+	}
+	
 	public String getTypePath() {
 		return typeFile.getFullPath().toString();
 	}
@@ -57,12 +65,12 @@ public class TypeDeclaration {
 	}
 
 	/** Factory operation to build concrete TypeDescriptions */
-	public static TypeDeclaration create(String name, IFile file) throws IOException {
+	public static TypeDeclaration create(String name, IFile file, TypeList types) throws IOException {
 		IGraph graph = loadGraph(file);
 		if ( graph.getFormalism().getName().equals("ITSComposite") ) {
-			return new CompositeTypeDeclaration(name,file,graph);
+			return new CompositeTypeDeclaration(name,file,graph,types);
 		} else {
-			return new TypeDeclaration(name,file, graph);
+			return new TypeDeclaration(name, file, graph, types);
 		}
 	}
 
@@ -101,4 +109,9 @@ public class TypeDeclaration {
 	public boolean isSatisfied () {
 		return true;
 	}
+
+	public TypeList getTypeList() {
+		return typeList;
+	}
+
 }
