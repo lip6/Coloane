@@ -7,16 +7,21 @@ import fr.lip6.move.coloane.tools.layout.GraphLayout;
 import io.ITSModelWriter;
 import its.CompositeTypeDeclaration;
 import its.Concept;
+import its.ISimpleObserver;
 import its.ModelFlattener;
 import its.TypeDeclaration;
 import its.TypeList;
+import its.actions.AddTypeAction;
 import its.conceptsui.ConceptsTable;
 import its.labelsui.LabelsTable;
 import its.tpnui.NodesTable;
 import its.typesui.TypesTable;
+import its.ui.forms.MasterDetailsPage;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -54,6 +59,7 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
+import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.MultiPageEditorPart;
@@ -67,7 +73,7 @@ import org.eclipse.ui.part.MultiPageEditorPart;
  * <li>page 2 shows the words in page 0 in sorted order
  * </ul>
  */
-public class MultiPageEditor extends MultiPageEditorPart implements IResourceChangeListener{
+public class MultiPageEditor extends FormEditor implements IResourceChangeListener, ISimpleObserver{
 
 	/** The text editor used in page 0. */
 	private TextEditor editor;
@@ -75,7 +81,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	/** The text widget used in page 2. */
 	private TypesTable table;
 
-	private TypeList types;
+	private TypeList types = null;
 
 	private Text newTypeTextfield;
 
@@ -97,16 +103,25 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 
 	protected TypeDeclaration currentSelectedTypeDecl;
 
-	private Button layoutTypeButton;
-
 	private boolean isDirty = false;
+
+	private AddTypeAction addAction;
+
+	private MasterDetailsPage treePage;
 	/**
 	 * Creates a multi-page editor example.
 	 */
 	public MultiPageEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-		types = new TypeList();
+		setTypes(new TypeList());
+	}
+	
+	public void setTypes(TypeList types) {
+		if (types != null)
+			types.deleteObserver(this);
+		this.types = types;
+		types.addObserver(this);
 	}
 	/**
 	 * Creates page 0 of the multi-page editor,
@@ -130,10 +145,6 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	 * which allows you to change the font used in page 2.
 	 */
 	void createPage1() {
-		types = io.ModelLoader.loadFromXML(((FileEditorInput)getEditorInput()).getFile());
-		if (types == null) {
-			types = new TypeList();
-		}
 
 		typePage = new Composite(getContainer(), SWT.NONE);
 		FillLayout layout = new FillLayout();
@@ -168,10 +179,10 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		Button addTypeButton = new Button(buttonZone, SWT.NONE);
 		addTypeButton.setText("Add a type");
 		addTypeButton.setToolTipText("Select a model file to load as an ITS type declaration.");
-
-		newTypeTextfield = new Text(buttonZone,SWT.BORDER); 
-		newTypeTextfield.setText("Type"+types.size());
-		newTypeTextfield.setToolTipText("Enter the name under which to import your new type");
+//
+//		newTypeTextfield = new Text(buttonZone,SWT.BORDER); 
+//		newTypeTextfield.setText("Type"+types.size());
+//		newTypeTextfield.setToolTipText("Enter the name under which to import your new type");
 
 
 		flatTypeButton = new Button(buttonZone, SWT.PUSH);
@@ -179,9 +190,9 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		flatTypeButton.setToolTipText("Flatten the selected type to a model bearing the current Type declaration name.");
 
 
-		layoutTypeButton = new Button(buttonZone, SWT.PUSH);
-		layoutTypeButton.setText("Layout a coloane graph");
-		layoutTypeButton.setToolTipText("Use ATT graphviz to layout the graph.");
+//		layoutTypeButton = new Button(buttonZone, SWT.PUSH);
+//		layoutTypeButton.setText("Layout a coloane graph");
+//		layoutTypeButton.setToolTipText("Use ATT graphviz to layout the graph.");
 
 		exportTypeButton = new Button(buttonZone, SWT.PUSH);
 		exportTypeButton.setText("Export to SDD-ITS");
@@ -208,13 +219,13 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 			}
 		});
 
-		layoutTypeButton.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				GraphLayout.layout(currentSelectedTypeDecl.getGraph());
-				
-			}
-		});
+//		layoutTypeButton.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent event) {
+//				GraphLayout.layout(currentSelectedTypeDecl.getGraph());
+//				
+//			}
+//		});
 
 		flatTypeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -273,10 +284,11 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 			}
 		});
 		
+		addAction = new AddTypeAction(this);
 		addTypeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				addNewTypeWizard();
+				addAction.run();
 			}
 		});				
 
@@ -284,7 +296,9 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		setPageText(index, "new table");
 	}
 
-
+	public AddTypeAction getAddAction() {
+		return addAction;
+	}
 	// open or focus the editor on the file proposed
 	protected void openEditor(TypeDeclaration currentSelectedTypeDecl2) {
 		if (currentSelectedTypeDecl != null) {
@@ -362,45 +376,7 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 		concepts.getViewer().refresh();		
 
 	}
-	protected void addNewTypeWizard() {
-		FileDialog fileDialog = new FileDialog(getSite().getShell(),SWT.OPEN);
-		// fontDialog.setFontList(text.getFont().getFontData());
-		//		String[] exts = {"*.tpn","*.itsc"};
-		//		fileDialog.setFilterExtensions( exts );
-		String filePath = fileDialog.open();
-		if (filePath == null) {
-			ErrorDialog.openError(
-					getSite().getShell(),
-					"Cancelled by user",
-					"Add new type operation cancelled by user",
-					new Status(1,"fr.lip6.move.coloane.its","Cancel Dialog"));
-		}
-		IPath path = new Path(filePath);
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
 
-		try {
-			TypeDeclaration td = TypeDeclaration.create(newTypeTextfield.getText(),file);
-			types.addTypeDeclaration(td);
-			newTypeTextfield.setText("Type"+types.size());
-			table.getViewer().refresh();
-			firePropertyChange(IEditorPart.PROP_DIRTY);
-		} catch (Exception e) {
-			ErrorDialog.openError(
-					getSite().getShell(),
-					"Error loading model file",
-					"Your file does not seem to contain a recognized Coloane model. Details:\n"+e.getMessage(),
-					new Status(4,"fr.lip6.move.coloane.its","Bad file"));
-		}
-	}
-
-	/**
-	 * Creates the pages of the multi-page editor.
-	 */
-	@Override
-	protected void createPages() {
-		createPage1();
-		createPage0();
-	}
 	/**
 	 * The <code>MultiPageEditorPart</code> implementation of this 
 	 * <code>IWorkbenchPart</code> method disposes all nested editors.
@@ -509,5 +485,35 @@ public class MultiPageEditor extends MultiPageEditorPart implements IResourceCha
 	public void setDirty(boolean isDirty) {
 		this.isDirty = isDirty;
 		firePropertyChange(PROP_DIRTY);
+		refresh();
+	}
+	@Override
+	public void update() {
+		setDirty(true);
+	}
+	
+	public void refresh() {
+		table.getViewer().refresh();
+		requiredLabels.getViewer().refresh();
+		typePage.redraw();
+		treePage.getPartControl().redraw();
+		treePage.refresh();
+	}
+	@Override
+	protected void addPages() {
+		TypeList tmptypes = io.ModelLoader.loadFromXML(((FileEditorInput)getEditorInput()).getFile());
+		if (tmptypes == null) {
+			tmptypes = new TypeList();
+		}
+		setTypes(tmptypes);
+
+		createPage1();
+		createPage0();
+		try {
+			treePage = new MasterDetailsPage(this);
+			addPage(treePage);
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
 	}
 }
