@@ -112,7 +112,7 @@ public class AddTypeDialog extends TitleAreaDialog {
 			}
 		}
 		try {
-			type = TypeDeclaration.create(typeName,file);
+			type = TypeDeclaration.create(typeName,file,types);
 		} catch (Exception ex) {
 			setErrorMessage("Error loading model file: "+
 					"Your file does not seem to contain a recognized Coloane model. Details:\n"+ex.getMessage());
