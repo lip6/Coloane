@@ -92,7 +92,7 @@ public class CompositeTypeDeclEditingSupport extends EditingSupport {
 		for (TypeDeclaration type : tl) {
 			if (type.getTypeName().equals(suggs[n])) {
 				concept.setEffective(type);
-				return;
+				break;
 			}
 		}
 		getViewer().update(element, null);
