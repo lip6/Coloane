@@ -26,9 +26,6 @@ public class AddTypeAction extends Action {
 		atd.open();
 		if (atd.getType() != null) {
 			types.addTypeDeclaration(atd.getType());
-			// update display
-			editor.setDirty(true);
-			editor.getTableviewer().refresh();
 		}
 	}
 }
