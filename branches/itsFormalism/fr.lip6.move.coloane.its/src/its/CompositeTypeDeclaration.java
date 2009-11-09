@@ -14,15 +14,15 @@ import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
 
-public class CompositeTypeDeclaration extends TypeDeclaration {
+public class CompositeTypeDeclaration extends TypeDeclaration implements ISimpleObserver {
 
 	/** The list of Type names used in this composite */
 	private List<Concept> concepts;
 	
 	
-	public CompositeTypeDeclaration(String typeName, IFile typePath, IGraph graph) {
+	public CompositeTypeDeclaration(String typeName, IFile typePath, IGraph graph, TypeList types) {
 		// loads the graph object
-		super(typeName, typePath,graph);
+		super(typeName, typePath,graph,types);
 		concepts= new ArrayList<Concept>();
 		
 		loadConcepts();
@@ -43,8 +43,8 @@ public class CompositeTypeDeclaration extends TypeDeclaration {
 				Concept concept= getConcept(typeID);
 				
 				if (concept==null){
-					concept = new Concept(typeID);
-					concepts.add(concept);
+					concept = new Concept(typeID,this);
+					addConcept(concept);
 				}
 				List<String> requiredLabs = concept.getLabels();
 				// Scan arcs and add any labels encountered to this concept definition				
@@ -57,6 +57,13 @@ public class CompositeTypeDeclaration extends TypeDeclaration {
 				
 			}
 		}
+		notifyObservers();
+	}
+
+	
+	private void addConcept(Concept concept) {
+		concepts.add(concept);
+		concept.addObserver(this);
 	}
 
 	private void handleArc(IArc arc, List<String> requiredLabs) {
@@ -94,6 +101,11 @@ public class CompositeTypeDeclaration extends TypeDeclaration {
 			if (concept.getEffective() == null)
 				return false;
 		return true;
+	}
+
+	@Override
+	public void update() {
+		notifyObservers();
 	}
 
 }
