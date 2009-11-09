@@ -20,7 +20,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-public class ParametricTimePetriNet implements EvaluationContext {
+public class ParametricTimePetriNet extends SimpleObservable implements EvaluationContext {
 
 	private IGraph  graph;
 	private Set<IVariable> variables=null;
@@ -70,6 +70,7 @@ public class ParametricTimePetriNet implements EvaluationContext {
 	@Override
 	public void setVariableValue(IVariable var, int value) {
 		values.put(var,value);
+		notifyObservers();
 	}
 	
 }
