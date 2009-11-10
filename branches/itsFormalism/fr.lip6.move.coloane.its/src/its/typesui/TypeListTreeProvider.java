@@ -7,10 +7,7 @@ import its.Concept;
 import its.TypeDeclaration;
 import its.TypeList;
 
-import org.eclipse.jface.viewers.ILazyTreeContentProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
-import org.eclipse.jface.viewers.TreeNode;
-import org.eclipse.jface.viewers.TreeNodeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 public class TypeListTreeProvider implements ITreeContentProvider {
@@ -22,12 +19,12 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 		ArrayList<Object> al = new ArrayList<Object>();
 		for (TypeDeclaration td : tl) {
 			al.add(td);
-			if (td instanceof CompositeTypeDeclaration) {
-				CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) td;
-				//				for (Concept concept : ctd.listConcepts()) {
-				//					al.add(concept);
-				//				}
-			}
+//			if (td instanceof CompositeTypeDeclaration) {
+//				CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) td;
+//				//				for (Concept concept : ctd.listConcepts()) {
+//				//					al.add(concept);
+//				//				}
+//			}
 
 		}
 		return al.toArray();
