@@ -13,7 +13,6 @@ package its.ui.forms;
 import its.CompositeTypeDeclaration;
 
 import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
 import org.eclipse.ui.forms.*;
