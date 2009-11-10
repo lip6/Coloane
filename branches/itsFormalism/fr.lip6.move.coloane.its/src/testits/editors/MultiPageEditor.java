@@ -20,9 +20,6 @@ import its.ui.forms.MasterDetailsPage;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Observable;
-import java.util.Observer;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -62,7 +59,6 @@ import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.part.FileEditorInput;
-import org.eclipse.ui.part.MultiPageEditorPart;
 
 /**
  * An example showing how to create a multi-page editor.
@@ -300,7 +296,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		return addAction;
 	}
 	// open or focus the editor on the file proposed
-	protected void openEditor(TypeDeclaration currentSelectedTypeDecl2) {
+	public void openEditor(TypeDeclaration currentSelectedTypeDecl2) {
 		if (currentSelectedTypeDecl != null) {
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();					
 			try {
@@ -507,13 +503,14 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		}
 		setTypes(tmptypes);
 
-		createPage1();
-		createPage0();
 		try {
 			treePage = new MasterDetailsPage(this);
 			addPage(treePage);
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
+		createPage1();
+		createPage0();
+
 	}
 }
