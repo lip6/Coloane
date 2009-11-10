@@ -10,11 +10,10 @@
  *******************************************************************************/
 package its.ui.forms;
 
-import its.CompositeTypeDeclaration;
-import its.TypeDeclaration;
+import java.util.Arrays;
 
+import its.TypeDeclaration;
 import org.eclipse.jface.viewers.*;
-import org.eclipse.jface.viewers.TreeNode;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
@@ -34,12 +33,17 @@ public class TypeDeclarationDetailsPage implements IDetailsPage {
 	private Button [] choices;
 	private Button flag;
 	private Text typeNametf;
+	private Text typeFormalismtf;
+	private Text typeFiletf;
+	private TableViewer lviewer;
+	private ScrolledPropertiesBlock master;
 	private static final String RTEXT_DATA =
 			"<form><p>An example of a free-form text that should be "+ //$NON-NLS-1$
 			"wrapped below the section with widgets.</p>"+ //$NON-NLS-1$
 			"<p>It can contain simple tags like <a>links</a> and <b>bold text</b>.</p></form>"; //$NON-NLS-1$
 	
-	public TypeDeclarationDetailsPage() {
+	public TypeDeclarationDetailsPage(ScrolledPropertiesBlock master) {
+		this.master = master;
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#initialize(org.eclipse.ui.forms.IManagedForm)
@@ -59,7 +63,7 @@ public class TypeDeclarationDetailsPage implements IDetailsPage {
 		parent.setLayout(layout);
 
 		FormToolkit toolkit = mform.getToolkit();
-		Section s1 = toolkit.createSection(parent, Section.DESCRIPTION|Section.TITLE_BAR);
+		Section s1 = toolkit.createSection(parent, Section.DESCRIPTION|ExpandableComposite.TITLE_BAR);
 		s1.marginWidth = 10;
 		s1.setText("Type Definition"); //$NON-NLS-1$
 //		s1.setDescription(Messages.getString("TypeOneDetailsPage.name")); //$NON-NLS-1$
@@ -106,18 +110,77 @@ public class TypeDeclarationDetailsPage implements IDetailsPage {
 		gd = new GridData(GridData.FILL_HORIZONTAL|GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.widthHint = 10;
 		typeNametf.setLayoutData(gd);
+
+		toolkit.createLabel(client, "Model File"); //$NON-NLS-1$
+		typeFiletf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
+		typeFiletf.setEditable(false);
+		gd = new GridData(GridData.FILL_HORIZONTAL|GridData.VERTICAL_ALIGN_BEGINNING);
+		gd.widthHint = 10;
+		typeFiletf.setLayoutData(gd);
+				
+		toolkit.createLabel(client, "Formalism"); //$NON-NLS-1$
+		typeFormalismtf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
+		typeFormalismtf.setEditable(false);
+		gd = new GridData(GridData.FILL_HORIZONTAL|GridData.VERTICAL_ALIGN_BEGINNING);
+		gd.widthHint = 10;
+		typeFormalismtf.setLayoutData(gd);
+
 		
 		createSpacer(toolkit, client, 2);
 		
-		FormText rtext = toolkit.createFormText(parent, true);
-		rtext.setText(RTEXT_DATA, true, false);
-		td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
-		td.grabHorizontal = true;
-		rtext.setLayoutData(td);
+		
+		toolkit.createLabel(client, "Interface"); //$NON-NLS-1$
+		Table requiredTable = toolkit.createTable(client, SWT.SINGLE);
+		gd = new GridData(GridData.FILL_BOTH);
+		requiredTable.setLayoutData(gd);
+		lviewer = new TableViewer(requiredTable);
+		lviewer.setContentProvider(new OfferedConceptsProvider());
+//		viewer.setLabelProvider(new RequiredConceptsLabelProvider());
+		lviewer.setInput(input);
+
+		Button oeb = toolkit.createButton(client, "Open Editor", SWT.PUSH);
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		oeb.setLayoutData(gd);
+		oeb.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				master.getPage().getMpe().openEditor(input);
+			}
+		});				
+
+//		FormText rtext = toolkit.createFormText(parent, true);
+//		rtext.setText(RTEXT_DATA, true, false);
+//		td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
+//		td.grabHorizontal = true;
+//		rtext.setLayoutData(td);
 		
 		toolkit.paintBordersFor(s1);
 		s1.setClient(client);
 	}
+	
+	class OfferedConceptsProvider implements IStructuredContentProvider {
+
+		@Override
+		public Object[] getElements(Object inputElement) {
+			if (inputElement instanceof TypeDeclaration) {
+				TypeDeclaration td = (TypeDeclaration) inputElement;
+				String[] items = td.getLabels().toArray(new String[td.getLabels().size()]);
+				Arrays.sort(items);
+				return items;
+			};
+			return new String[0];
+		}
+
+		@Override
+		public void dispose() {
+		}
+
+		@Override
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		}
+		
+	}
+
 	private void createSpacer(FormToolkit toolkit, Composite parent, int span) {
 		Label spacer = toolkit.createLabel(parent, ""); //$NON-NLS-1$
 		GridData gd = new GridData();
@@ -130,6 +193,9 @@ public class TypeDeclarationDetailsPage implements IDetailsPage {
 //		}
 //		flag.setSelection(input!=null && input.getFlag());
 		typeNametf.setText(input!=null && input.getTypeName()!=null?input.getTypeName():""); //$NON-NLS-1$
+		typeFormalismtf.setText(input!=null && input.getTypeType()!=null?input.getTypeType():"");
+		typeFiletf.setText(input!=null && input.getTypePath()!=null?input.getTypePath():"");
+		lviewer.setInput(input);
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#inputChanged(org.eclipse.jface.viewers.IStructuredSelection)
