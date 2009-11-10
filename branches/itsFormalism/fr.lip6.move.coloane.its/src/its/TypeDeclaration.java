@@ -30,12 +30,14 @@ public class TypeDeclaration extends SimpleObservable {
 	public String getTypeName() {
 		return typeName;
 	}
-	
+
 	public void setTypeName(String typeName) {
-		this.typeName = typeName;
-		notifyObservers();
+		if (! this.typeName.equals(typeName)) {
+			this.typeName = typeName;
+			notifyObservers();
+		}
 	}
-	
+
 	public String getTypePath() {
 		return typeFile.getFullPath().toString();
 	}
@@ -112,6 +114,10 @@ public class TypeDeclaration extends SimpleObservable {
 
 	public TypeList getTypeList() {
 		return typeList;
+	}
+
+	public void unsetTypeDeclaration(TypeDeclaration t) {
+		// NOP
 	}
 
 }
