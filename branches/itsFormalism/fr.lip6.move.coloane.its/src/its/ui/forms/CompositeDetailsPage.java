@@ -13,7 +13,6 @@ package its.ui.forms;
 import its.CompositeTypeDeclaration;
 
 import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.*;
 import org.eclipse.swt.layout.*;
 import org.eclipse.swt.widgets.*;
@@ -57,7 +56,7 @@ public class CompositeDetailsPage implements IDetailsPage {
 		parent.setLayout(layout);
 
 		FormToolkit toolkit = mform.getToolkit();
-		Section s1 = toolkit.createSection(parent, Section.DESCRIPTION|Section.TITLE_BAR);
+		Section s1 = toolkit.createSection(parent, Section.DESCRIPTION|ExpandableComposite.TITLE_BAR);
 		s1.marginWidth = 10;
 		s1.setText("Type One Details"); //$NON-NLS-1$
 //		s1.setDescription(Messages.getString("TypeOneDetailsPage.name")); //$NON-NLS-1$
@@ -70,14 +69,15 @@ public class CompositeDetailsPage implements IDetailsPage {
 		glayout.numColumns = 2;
 		client.setLayout(glayout);
 		
-		SelectionListener choiceListener = new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				Integer value = (Integer)e.widget.getData();
-				if (input!=null) {
-//					input.setChoice(value.intValue());
-				}
-			}
-		};
+//		SelectionListener choiceListener = new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent e) {
+//				Integer value = (Integer)e.widget.getData();
+//				if (input!=null) {
+////					input.setChoice(value.intValue());
+//				}
+//			}
+//		};
 //		GridData gd;
 //		choices = new Button[TypeOne.CHOICES.length];
 //		for (int i=0; i<TypeOne.CHOICES.length; i++) {
