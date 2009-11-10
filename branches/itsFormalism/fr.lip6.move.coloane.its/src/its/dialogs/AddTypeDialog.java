@@ -1,8 +1,9 @@
 package its.dialogs;
 
-import fr.lip6.move.coloane.tools.layout.FileBrowserField;
+import its.ISimpleObserver;
 import its.TypeDeclaration;
 import its.TypeList;
+import its.actions.FileBrowserField;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -10,13 +11,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
-import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -58,7 +55,8 @@ public class AddTypeDialog extends TitleAreaDialog {
 
 		fileField = new FileBrowserField(fileComposite);
 		fileField.setToolTipText("Select model file to import");
-
+		fileField.setLayoutData(data);
+		
 		Group nameComposite = new Group(parent, SWT.LEFT);
 		GridLayout layout2 = new GridLayout();
 		nameComposite.setLayout(layout2);
@@ -69,10 +67,31 @@ public class AddTypeDialog extends TitleAreaDialog {
 		newTypeTextfield = new Text(nameComposite,SWT.BORDER); 
 		newTypeTextfield.setText("Type "+types.size());
 		newTypeTextfield.setToolTipText("Enter the name under which to import your new type");
+		newTypeTextfield.setLayoutData(data);
+		
+		fileField.addObserver(new ISimpleObserver() {
+			public void update() {
+				Path path = new Path(fileField.getText());
+				path.removeFileExtension();
+				String name = path.lastSegment();
+				name = generateValidName(name);
+				newTypeTextfield.setText(name);
+			}
+		});
 
+		
 		return parent;
 	}
 	
+	protected String generateValidName(String name) {
+		for (TypeDeclaration td : types) {
+			if (td.getTypeName().equals(name)) {
+				return generateValidName(name+"1");
+			}
+		}
+		return name;
+	}
+
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		((GridLayout) parent.getLayout()).numColumns++;
@@ -123,5 +142,9 @@ public class AddTypeDialog extends TitleAreaDialog {
 	
 	public TypeDeclaration getType() {
 		return type;
+	}
+	
+	public void setFileField(String fileField) {
+		this.fileField.setText(fileField);
 	}
 }
