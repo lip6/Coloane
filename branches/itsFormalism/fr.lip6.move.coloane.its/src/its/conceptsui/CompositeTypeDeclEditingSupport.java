@@ -58,7 +58,7 @@ public class CompositeTypeDeclEditingSupport extends EditingSupport {
 				suggestions.add(type.getTypeName());
 			}
 		}
-		return (String[]) suggestions.toArray(new String[suggestions.size()]);
+		return suggestions.toArray(new String[suggestions.size()]);
 	}
 
 	@Override
