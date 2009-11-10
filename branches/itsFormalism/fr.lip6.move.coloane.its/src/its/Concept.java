@@ -29,8 +29,10 @@ public class Concept extends SimpleObservable {
 		return effective;
 	}
 	public void setEffective(TypeDeclaration effective) {
-		this.effective = effective;
-		notifyObservers();
+		if (this.effective != effective) {
+			this.effective = effective;
+			notifyObservers();
+		}
 	}
 
 	public CompositeTypeDeclaration getParent() {
