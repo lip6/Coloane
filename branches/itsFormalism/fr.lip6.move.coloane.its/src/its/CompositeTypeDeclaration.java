@@ -108,4 +108,13 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 		notifyObservers();
 	}
 
+	@Override
+	public void unsetTypeDeclaration(TypeDeclaration t) {
+		super.unsetTypeDeclaration(t);
+		for (Concept concept : concepts) {
+			if (concept.getEffective().equals(t)) {
+				concept.setEffective(null);
+			}
+		}
+	}
 }
