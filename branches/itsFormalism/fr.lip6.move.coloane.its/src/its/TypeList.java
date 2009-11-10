@@ -21,6 +21,9 @@ public class TypeList extends SimpleObservable implements ITypeList,Iterable<Typ
 	@Override
 	public void removeTypeDeclaration(TypeDeclaration t) {
 		table.remove(t);
+		for (TypeDeclaration td : this) {
+			td.unsetTypeDeclaration(t);
+		}
 		t.deleteObserver(this);
 		notifyObservers();
 	}
