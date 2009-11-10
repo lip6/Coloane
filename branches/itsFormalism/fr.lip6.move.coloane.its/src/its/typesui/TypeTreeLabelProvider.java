@@ -20,10 +20,17 @@ ILabelProvider {
 	public String getText(Object element) {
 		if (element instanceof TypeDeclaration) {
 			TypeDeclaration type = (TypeDeclaration) element;
-			return type.getTypeName();
+			String ret = "";
+			if (!type.isSatisfied())
+				ret += "!!!  ";
+			ret += type.getTypeName()+": "+type.getTypeType();
+			return ret;
 		} else if (element instanceof Concept) {
 			Concept concept = (Concept) element;
-			return concept.getName();
+			if (concept.getEffective()!=null) 
+				return concept.getName()+": "+concept.getEffective().getTypeName();
+			else
+				return "!!!  " + concept.getName()+": ? ";
 		}
 		return "Unrecognized type in TypeLabelProvider";
 	}
@@ -37,6 +44,10 @@ ILabelProvider {
 		if (element instanceof TypeDeclaration) {
 			IFormalism f = FormalismManager.getInstance().getFormalismById("Time Petri Net");
 			return ImageDescriptor.createFromFile(Coloane.class, f.getImageName()).createImage();
+		} else if (element instanceof Concept) {
+			IFormalism f = FormalismManager.getInstance().getFormalismById("ITS Composite");
+			String img = f.getMasterGraph().getElementFormalism("instance").getGraphicalDescription().getIcon24px();
+			return ImageDescriptor.createFromFile(Coloane.class, img).createImage();
 		}
 		return null;
 	}
