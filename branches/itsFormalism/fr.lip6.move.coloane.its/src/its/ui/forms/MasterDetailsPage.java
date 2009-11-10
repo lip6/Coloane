@@ -28,6 +28,7 @@ public class MasterDetailsPage extends FormPage {
 		block = new ScrolledPropertiesBlock(this);
 		this.mpe = editor;
 	}
+	@Override
 	protected void createFormContent(final IManagedForm managedForm) {
 		final ScrolledForm form = managedForm.getForm();
 		//FormToolkit toolkit = managedForm.getToolkit();
