@@ -45,6 +45,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.part.ResourceTransfer;
 /**
  *
  */
@@ -107,6 +108,21 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 			}
 		});				
 
+		Button b3 = toolkit.createButton(client, "Export to SDD ITS", SWT.PUSH); //$NON-NLS-1$
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		b3.setLayoutData(gd);
+		b3.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				try {
+					TypeDeclaration td = (TypeDeclaration) ((TreeSelection)viewer.getSelection()).getFirstElement();
+					page.getMpe().exportToSDD(td);
+				} catch (Exception e) {
+					System.err.println("Select a type");
+				}
+			}
+		});				
+
 		viewer = new TreeViewer(tree);
 		viewer.setContentProvider(new TypeListTreeProvider());
 		viewer.setLabelProvider(new TypeTreeLabelProvider());
@@ -136,9 +152,9 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 			}
 		});
 		
-		int ops = DND.DROP_COPY | DND.DROP_DEFAULT;
-		Transfer[] transfers = new Transfer[] { LocalSelectionTransfer.getTransfer(),FileTransfer.getInstance() };
-		TypesViewDropAdapter adapter = new TypesViewDropAdapter(this);
+		int ops = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK | DND.DROP_DEFAULT;
+		Transfer[] transfers = new Transfer[] { ResourceTransfer.getInstance(),LocalSelectionTransfer.getTransfer(),FileTransfer.getInstance() };
+		TypesViewDropAdapter adapter = new TypesViewDropAdapter(viewer,this);
 		viewer.addDropSupport(ops, transfers, adapter);
 
 	}
