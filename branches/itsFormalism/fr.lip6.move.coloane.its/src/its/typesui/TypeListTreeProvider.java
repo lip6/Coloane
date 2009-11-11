@@ -38,6 +38,11 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 				al.add(concept);
 			}
 			return al.toArray();
+		} else if (element instanceof Concept) {
+			Concept concept = (Concept) element;
+			if (concept.getEffective()!=null) {
+				return new Object [] { concept.getEffective() };
+			}
 		}
 
 		return new Object[0];
