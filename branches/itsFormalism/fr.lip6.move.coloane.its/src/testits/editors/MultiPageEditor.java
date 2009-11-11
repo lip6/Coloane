@@ -267,16 +267,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		exportTypeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				ITSModelWriter mw = new ITSModelWriter();
-				try {
-					DirectoryDialog dialog = new DirectoryDialog(getSite().getShell());
-				    String directory = dialog.open();
-					mw.exportITSModel(types, currentSelectedTypeDecl, directory);
-					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				
+				exportToSDD(currentSelectedTypeDecl);
 			}
 		});
 		
@@ -292,16 +283,29 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		setPageText(index, "new table");
 	}
 
+	public void exportToSDD(TypeDeclaration td) {
+		ITSModelWriter mw = new ITSModelWriter();
+		try {
+			DirectoryDialog dialog = new DirectoryDialog(getSite().getShell());
+		    String directory = dialog.open();
+			mw.exportITSModel(types, td, directory);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}				
+	}
+
 	public AddTypeAction getAddAction() {
 		return addAction;
 	}
 	// open or focus the editor on the file proposed
-	public void openEditor(TypeDeclaration currentSelectedTypeDecl2) {
-		if (currentSelectedTypeDecl != null) {
+	public void openEditor(TypeDeclaration td) {
+		if (td != null) {
 			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();					
 			try {
-				if (currentSelectedTypeDecl != null )
-					IDE.openEditor(page, currentSelectedTypeDecl.getTypeFile() );
+				if (td != null )
+					IDE.openEditor(page, td.getTypeFile() );
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}
