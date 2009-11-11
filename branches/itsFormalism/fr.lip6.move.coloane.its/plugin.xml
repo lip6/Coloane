@@ -8,7 +8,6 @@
             name="ITS Editor"
             extensions="xmlits"
             icon="icons/models_navigator.gif"
-            contributorClass="testits.editors.MultiPageEditorContributor"
             class="testits.editors.MultiPageEditor"
             id="testits.editors.ITSEditor">
       </editor>
