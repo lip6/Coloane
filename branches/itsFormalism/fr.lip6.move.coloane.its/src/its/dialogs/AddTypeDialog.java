@@ -26,6 +26,7 @@ public class AddTypeDialog extends TitleAreaDialog {
 	private FileBrowserField fileField;
 	private Text newTypeTextfield;
 	private TypeList types;
+	private String hint;
 
 	public TypeDeclaration getDeclaration() {
 		return type;
@@ -56,6 +57,9 @@ public class AddTypeDialog extends TitleAreaDialog {
 		fileField = new FileBrowserField(fileComposite);
 		fileField.setToolTipText("Select model file to import");
 		fileField.setLayoutData(data);
+		if (hint != null) {
+			fileField.setText(hint);
+		}
 		
 		Group nameComposite = new Group(parent, SWT.LEFT);
 		GridLayout layout2 = new GridLayout();
@@ -71,18 +75,25 @@ public class AddTypeDialog extends TitleAreaDialog {
 		
 		fileField.addObserver(new ISimpleObserver() {
 			public void update() {
-				Path path = new Path(fileField.getText());
-				path.removeFileExtension();
-				String name = path.lastSegment();
-				name = generateValidName(name);
-				newTypeTextfield.setText(name);
+				suggestName();
 			}
 		});
 
+		if (hint != null)
+			suggestName();
 		
 		return parent;
 	}
 	
+	
+	protected void suggestName() {
+		Path path = new Path(fileField.getText());
+		path.removeFileExtension();
+		String name = path.lastSegment();
+		name = generateValidName(name);
+		newTypeTextfield.setText(name);
+	}
+
 	protected String generateValidName(String name) {
 		for (TypeDeclaration td : types) {
 			if (td.getTypeName().equals(name)) {
@@ -106,11 +117,13 @@ public class AddTypeDialog extends TitleAreaDialog {
 	@Override
 	protected void cancelPressed() {
 		type = null;
+		hint = null;
 		super.cancelPressed();
 	}
 	
 	@Override
 	protected void okPressed() {
+		hint = null;
 		String filePath = fileField.getText();
 		if (filePath == null || "".equals(filePath)) {
 			setErrorMessage("Please Specify a model file using the \"Browse\" button");
@@ -145,6 +158,6 @@ public class AddTypeDialog extends TitleAreaDialog {
 	}
 	
 	public void setFileField(String fileField) {
-		this.fileField.setText(fileField);
+		this.hint = fileField;
 	}
 }
