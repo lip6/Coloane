@@ -10,8 +10,17 @@
  *******************************************************************************/
 package its.ui.forms;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
+import its.CompositeTypeDeclaration;
 import its.TypeDeclaration;
 import org.eclipse.jface.viewers.*;
 import org.eclipse.swt.SWT;
@@ -37,10 +46,6 @@ public class TypeDeclarationDetailsPage implements IDetailsPage {
 	private Text typeFiletf;
 	private TableViewer lviewer;
 	private ScrolledPropertiesBlock master;
-	private static final String RTEXT_DATA =
-			"<form><p>An example of a free-form text that should be "+ //$NON-NLS-1$
-			"wrapped below the section with widgets.</p>"+ //$NON-NLS-1$
-			"<p>It can contain simple tags like <a>links</a> and <b>bold text</b>.</p></form>"; //$NON-NLS-1$
 	
 	public TypeDeclarationDetailsPage(ScrolledPropertiesBlock master) {
 		this.master = master;
@@ -162,9 +167,30 @@ public class TypeDeclarationDetailsPage implements IDetailsPage {
 
 		@Override
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof TypeDeclaration) {
+			if (inputElement instanceof CompositeTypeDeclaration) {
 				TypeDeclaration td = (TypeDeclaration) inputElement;
 				String[] items = td.getLabels().toArray(new String[td.getLabels().size()]);
+				Arrays.sort(items);
+				return items;
+			} else if (inputElement instanceof TypeDeclaration) {
+				TypeDeclaration td = (TypeDeclaration) inputElement;
+				IGraph graph = td.getGraph();
+				IGraphFormalism formalism = graph.getFormalism().getMasterGraph();
+				IElementFormalism trans = formalism.getElementFormalism("transition"); 
+				Collection<INode> nodes = graph.getNodes();
+				
+				List<String> toret = new ArrayList<String>();
+				for (Iterator<INode> iterator = nodes.iterator(); iterator.hasNext();) {
+					INode node = iterator.next();
+					if ( node.getNodeFormalism().equals(trans) ) {
+						if (node.getAttribute("visibility").getValue().equals("public")) {
+							toret.add(node.getAttribute("label").getValue()+" [ "
+									+ node.getAttribute("earliestFiringTime").getValue() + ", "
+									+ node.getAttribute("latestFiringTime").getValue() + " ]");
+						}
+					}
+				}
+				String[] items = toret.toArray(new String[toret.size()]);
 				Arrays.sort(items);
 				return items;
 			};
