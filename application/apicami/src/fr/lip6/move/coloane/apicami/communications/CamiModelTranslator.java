@@ -18,7 +18,7 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public final class CamiModelTranslator {
 
-	private static final int MAXLENGHT = 255;
+	private static final int MAXLENGHT = 254;
 
 	/**
 	 * Constructeur
