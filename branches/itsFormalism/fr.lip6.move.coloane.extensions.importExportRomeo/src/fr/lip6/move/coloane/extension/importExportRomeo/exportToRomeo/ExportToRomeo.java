@@ -146,9 +146,9 @@ public class ExportToRomeo implements IExportTo {
 		sb.append("id=\"" + node.getId() + "\" ");
 		sb.append("label=\"" + node.getAttribute("label").getValue() + "\"");
 		if ("public".equals(node.getAttribute("visibility").getValue())) {
-			sb.append(" public=\"0\" ");
-		} else {
 			sb.append(" public=\"1\" ");
+		} else {
+			sb.append(" public=\"0\" ");
 		}
 		sb.append("eft=\"" + node.getAttribute("earliestFiringTime").getValue() + "\" ");
 		String lft = node.getAttribute("latestFiringTime").getValue();
