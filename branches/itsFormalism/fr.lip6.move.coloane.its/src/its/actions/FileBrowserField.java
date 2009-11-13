@@ -1,8 +1,8 @@
 package its.actions;
 
-import its.ISimpleObservable;
-import its.ISimpleObserver;
-import its.SimpleObservable;
+import its.obs.ISimpleObservable;
+import its.obs.ISimpleObserver;
+import its.obs.SimpleObservable;
 
 import java.io.File;
 
