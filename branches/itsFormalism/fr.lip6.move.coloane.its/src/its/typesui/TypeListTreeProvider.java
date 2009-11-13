@@ -6,6 +6,7 @@ import its.CompositeTypeDeclaration;
 import its.Concept;
 import its.TypeDeclaration;
 import its.TypeList;
+import its.expression.IEvaluationContext;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -19,33 +20,30 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 		ArrayList<Object> al = new ArrayList<Object>();
 		for (TypeDeclaration td : tl) {
 			al.add(td);
-//			if (td instanceof CompositeTypeDeclaration) {
-//				CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) td;
-//				//				for (Concept concept : ctd.listConcepts()) {
-//				//					al.add(concept);
-//				//				}
-//			}
-
 		}
 		return al.toArray();
 	}
 
 	public Object[] getChildren(Object element) {
+		ArrayList<Object> children = new ArrayList<Object>();
 		if (element instanceof CompositeTypeDeclaration) {
 			CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) element;
-			ArrayList<Concept> al = new ArrayList<Concept>();
 			for (Concept concept : ctd.listConcepts()) {
-				al.add(concept);
+				children.add(concept);
 			}
-			return al.toArray();
 		} else if (element instanceof Concept) {
 			Concept concept = (Concept) element;
 			if (concept.getEffective()!=null) {
-				return new Object [] { concept.getEffective() };
+				children.add( concept.getEffective() );
 			}
 		}
+		if (element instanceof TypeDeclaration) {
+			TypeDeclaration td = (TypeDeclaration) element;
+			IEvaluationContext params = td.getParameters();
+			children.addAll(params.getBindings());
+		}
 
-		return new Object[0];
+		return children.toArray();
 	}
 
 	@Override
