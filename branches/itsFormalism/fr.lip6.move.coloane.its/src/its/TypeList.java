@@ -1,5 +1,8 @@
 package its;
 
+import its.obs.ISimpleObserver;
+import its.obs.SimpleObservable;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
