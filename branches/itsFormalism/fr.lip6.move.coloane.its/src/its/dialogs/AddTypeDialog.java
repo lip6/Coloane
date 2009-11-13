@@ -1,9 +1,9 @@
 package its.dialogs;
 
-import its.ISimpleObserver;
 import its.TypeDeclaration;
 import its.TypeList;
 import its.actions.FileBrowserField;
+import its.obs.ISimpleObserver;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
