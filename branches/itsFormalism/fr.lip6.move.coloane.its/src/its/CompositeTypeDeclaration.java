@@ -1,15 +1,22 @@
 package its;
 
+import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import its.expression.EvaluationContext;
+import its.obs.ISimpleObserver;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import org.eclipse.core.resources.IFile;
@@ -28,6 +35,28 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 		loadConcepts();
 	}
 
+	protected EvaluationContext computeParameters() throws ColoaneException {
+		return new EvaluationContext();
+	}
+	
+	@Override
+	protected Set<String> computeLabels() {
+		Set<String> labels = new HashSet<String>();
+		Collection<INode> nodes = getGraph().getNodes();
+		// Composite case
+		for (INode node : nodes) {
+			if ("synchronization".equals(node.getNodeFormalism().getName())
+					|| "delegate".equals(node.getNodeFormalism().getName())) {						
+				IAttribute atts = node.getAttribute("label");
+				if (atts != null && (! "".equals(atts.getValue()))) {
+					if ("public".equals(node.getAttribute("visibility").getValue()))
+							labels.add(atts.getValue());					
+				}
+			}
+		}
+		return labels;
+	}
+	
 	private void loadConcepts() {		
 		IGraphFormalism formalism = getGraph().getFormalism().getMasterGraph();
 		IElementFormalism inst = formalism.getElementFormalism("instance"); 
@@ -49,10 +78,10 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 				List<String> requiredLabs = concept.getLabels();
 				// Scan arcs and add any labels encountered to this concept definition				
 				for (IArc arc : node.getIncomingArcs()) {
-					handleArc(arc, requiredLabs);	
+					handleArc(arc, arc.getSource(), requiredLabs);	
 				}
 				for (IArc arc : node.getOutgoingArcs()) {
-					handleArc(arc, requiredLabs);	
+					handleArc(arc, arc.getTarget(), requiredLabs);	
 				}
 				
 			}
@@ -62,11 +91,13 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 
 	
 	private void addConcept(Concept concept) {
+		if (concept != null)
+			concept.deleteObserver(this);
 		concepts.add(concept);
 		concept.addObserver(this);
 	}
 
-	private void handleArc(IArc arc, List<String> requiredLabs) {
+	private void handleArc(IArc arc, INode sync, List<String> requiredLabs) {
 		String labels = arc.getAttribute("labels").getValue();
 		labels = labels.replace(" ","");
 		labels = labels.replace("\t","");
@@ -97,6 +128,8 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 	 */
 	//@override
 	public boolean isSatisfied () {
+		if (!super.isSatisfied())
+			return false;
 		for (Concept concept : concepts) 
 			if (concept.getEffective() == null)
 				return false;
