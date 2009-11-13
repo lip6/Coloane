@@ -14,6 +14,7 @@ import its.CompositeTypeDeclaration;
 import its.Concept;
 import its.TypeDeclaration;
 import its.actions.RemoveTypeAction;
+import its.expression.VariableBinding;
 import its.typesui.TypeListTreeProvider;
 import its.typesui.TypeTreeLabelProvider;
 
@@ -192,6 +193,7 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 		detailsPart.registerPage(CompositeTypeDeclaration.class, new TypeDeclarationDetailsPage(this));
 		detailsPart.registerPage(TypeDeclaration.class, new TypeDeclarationDetailsPage(this));
 		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(page.getMpe().getTypes()));
+		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
 	}
 	public void refresh() {
 		viewer.refresh();
