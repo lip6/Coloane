@@ -43,6 +43,14 @@ public class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_HELP_TOPIC = "help_topic"; //$NON-NLS-1$
 	public static final String IMG_CLOSE = "close"; //$NON-NLS-1$
 
+	private static String ID = ITSEditorPlugin.class.getPackage().getName();
+	/**
+	 * @return the ID
+	 */
+	public static String getID() {
+		return ID;
+	}
+
 	/**
 	 * The constructor.
 	 */
