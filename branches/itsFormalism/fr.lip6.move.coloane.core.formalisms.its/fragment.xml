@@ -84,6 +84,21 @@
                         multiline="true"
                         name="label">
                   </Attribute>
+                  <Attribute
+                        bold="false"
+                        default="private"
+                        drawable="true"
+                        enumerated="true"
+                        italic="true"
+                        multiline="false"
+                        name="visibility">
+                     <EnumerationValue
+                           name="private">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="public">
+                     </EnumerationValue>
+                  </Attribute>
                </Node>
                <Arc
                      name="arc">
@@ -107,13 +122,13 @@
       </Formalism>
       <Formalism
             extension="model"
-            fkname="CircularComposite"
-            id="CircularComposite"
+            fkname="Circular Composite"
+            id="Circular Composite"
             image="resources/itsc_circ_icon.PNG"
             name="CircularComposite">
          <XmlDescription>
             <Graph
-                  name="ITSComposite">
+                  name="ITSCircularComposite">
                <Attribute
                      bold="true"
                      drawable="true"
@@ -207,6 +222,128 @@
             </Graph>
          </XmlDescription>
 
+      </Formalism>
+      <Formalism
+            extension="itsc"
+            fkname="Scalar Set Composite"
+            id="Scalar Set Composite"
+            image="resources/itsc_icon.PNG"
+            name="Scalar Set Composite">
+         <XmlDescription>
+            <Graph
+                  name="ITSScalarComposite">
+               <Attribute
+                     bold="true"
+                     drawable="true"
+                     multiline="false"
+                     name="title">
+               </Attribute>
+               <Attribute
+                     drawable="true"
+                     multiline="true"
+                     name="authors">
+               </Attribute>
+               <Attribute
+                     drawable="true"
+                     multiline="true"
+                     name="comments">
+               </Attribute>
+               <Node
+                     container="false"
+                     name="instance">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                        description="Create a type instance"
+                        drawable="true"
+                        fill="false"
+                        height="30"
+                        icon16px="resources/itsc_icon.PNG"
+                        icon24px="resources/itsc_icon.PNG"
+                        palettable="true"
+                        paletteName="Instance"
+                        width="50">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        default="i"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="name">
+                  </Attribute>
+                  <Attribute
+                        bold="true"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="type">
+                  </Attribute>
+               </Node>
+               <Node
+                     container="false"
+                     name="delegator">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                        description="Create a Synchronization"
+                        drawable="true"
+                        fill="true"
+                        height="4"
+                        icon16px="resources/formalisms/transition_16.png"
+                        icon24px="resources/formalisms/transition_24.png"
+                        palettable="true"
+                        paletteName="Synchronization"
+                        width="20">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="label">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        default="private"
+                        drawable="true"
+                        enumerated="true"
+                        italic="true"
+                        multiline="false"
+                        name="visibility">
+                     <EnumerationValue
+                           name="private">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="public">
+                     </EnumerationValue>
+                  </Attribute>
+                  <Attribute
+                        bold="true"
+                        default="ANY"
+                        drawable="true"
+                        enumerated="true"
+                        multiline="false"
+                        name="kind"
+                        size="12">
+                     <EnumerationValue
+                           name="ANY">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="ALL">
+                     </EnumerationValue>
+                  </Attribute>
+               </Node>
+               <Arc
+                     name="arc">
+                  <GraphicInfo
+                        associatedFigure="UndirectedArc"
+                        description="Create a Synchronization part"
+                        drawable="true"
+                        icon16px="resources/formalisms/link_16.png"
+                        icon24px="resources/formalisms/link_24.png"
+                        palettable="true"
+                        paletteName="Synch. Part">
+                  </GraphicInfo>
+               </Arc>
+            </Graph>
+         </XmlDescription>
       </Formalism>
    </extension>
    <extension
