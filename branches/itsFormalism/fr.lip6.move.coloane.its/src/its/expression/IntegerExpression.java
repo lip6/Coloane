@@ -7,7 +7,7 @@ public interface IntegerExpression {
 
 	List<IntegerExpression> getChildren();
 	
-	int evaluate (EvaluationContext context);
+	int evaluate (IEvaluationContext context);
 	
 	Set<IVariable> supportingVariables ();
 }

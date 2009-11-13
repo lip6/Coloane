@@ -13,7 +13,7 @@ public class Constant implements IntegerExpression {
 		this.value = value;
 	}
 	@Override
-	public int evaluate(EvaluationContext context) {
+	public int evaluate(IEvaluationContext context) {
 		return value;
 	}
 	@Override

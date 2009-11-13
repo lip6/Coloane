@@ -3,7 +3,7 @@ package its.expression;
 public class Mult extends NaryExpression {
 
 	@Override
-	public int evaluate(EvaluationContext context) {
+	public int evaluate(IEvaluationContext context) {
 		int total = 0;
 		for (IntegerExpression expr : getChildren()) {
 			total *= expr.evaluate(context);

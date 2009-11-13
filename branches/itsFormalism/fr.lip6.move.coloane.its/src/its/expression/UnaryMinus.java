@@ -7,7 +7,7 @@ public class UnaryMinus extends NaryExpression {
 	}
 	
 	@Override
-	public int evaluate(EvaluationContext context) {
+	public int evaluate(IEvaluationContext context) {
 		assert getChildren().size() == 1;
 		return - getChildren().iterator().next().evaluate(context);
 	}

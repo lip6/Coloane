@@ -3,7 +3,7 @@ package its.expression;
 public class Div extends NaryExpression implements IntegerExpression {
 
 	@Override
-	public int evaluate(EvaluationContext context) {
+	public int evaluate(IEvaluationContext context) {
 		int total = 0;
 		boolean first = true;
 		for (IntegerExpression expr : getChildren()) {

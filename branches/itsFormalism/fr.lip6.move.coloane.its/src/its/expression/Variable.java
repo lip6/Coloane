@@ -14,7 +14,7 @@ public class Variable implements IntegerExpression, IVariable {
 	}
 	
 	@Override
-	public int evaluate(EvaluationContext context) {
+	public int evaluate(IEvaluationContext context) {
 		return context.getVariableValue(this);
 	}
 
