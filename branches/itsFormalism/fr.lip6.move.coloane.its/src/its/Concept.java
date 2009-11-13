@@ -1,5 +1,7 @@
 package its;
 
+import its.obs.SimpleObservable;
+
 import java.util.ArrayList;
 import java.util.List;
 
