@@ -1,24 +1,44 @@
 package its;
 
+import io.LogUtils;
+import its.expression.Constant;
+import its.expression.EvaluationContext;
+import its.expression.IEvaluationContext;
+import its.expression.IVariable;
+import its.expression.IntegerExpression;
+import its.expression.parser.IntegerExpressionParserLexer;
+import its.expression.parser.IntegerExpressionParserParser;
+import its.obs.ISimpleObserver;
+import its.obs.SimpleObservable;
+import its.ui.forms.ITSEditorPlugin;
+
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
+import org.antlr.runtime.ANTLRStringStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
 import org.eclipse.core.resources.IFile;
 
+import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-public class TypeDeclaration extends SimpleObservable {
+public class TypeDeclaration extends SimpleObservable implements ISimpleObserver{
 	private String typeName;
 	private IFile typeFile;
 	/** The underlying coloane Graph */
 	private IGraph graph;
 	private Set<String> labels=null;
 	private TypeList typeList;
+	private EvaluationContext context;
 
 	protected TypeDeclaration (String typeName, IFile modelFile, IGraph graph, TypeList types) {
 		this.typeName = typeName;
@@ -76,31 +96,26 @@ public class TypeDeclaration extends SimpleObservable {
 		}
 	}
 
-	public Collection<String> getLabels() {
-		if (labels == null) {
-			labels = new HashSet<String>();
-			Collection<INode> nodes = graph.getNodes();
-			if (graph.getFormalism().getName().equals("Time Petri Net")) {
-				for (INode node : nodes) {
-					if ("transition".equals(node.getNodeFormalism().getName())) {
-						IAttribute visibility = node.getAttribute("visibility");
-						if ("public".equals(visibility.getValue())) {
-							IAttribute atts = node.getAttribute("label");
-							labels.add(atts.getValue());					
-						}
+	protected Set<String> computeLabels() {
+		Set<String> labels = new HashSet<String>();
+		Collection<INode> nodes = graph.getNodes();
+		if (graph.getFormalism().getName().equals("Time Petri Net")) {
+			for (INode node : nodes) {
+				if ("transition".equals(node.getNodeFormalism().getName())) {
+					IAttribute visibility = node.getAttribute("visibility");
+					if ("public".equals(visibility.getValue())) {
+						IAttribute atts = node.getAttribute("label");
+						labels.add(atts.getValue());					
 					}
 				}
-			} else {
-				// Composite case
-				for (INode node : nodes) {
-					if ("synchronization".equals(node.getNodeFormalism().getName())) {						
-						IAttribute atts = node.getAttribute("label");
-						if (atts != null && (! "".equals(atts.getValue()))) {
-							labels.add(atts.getValue());					
-						}
-					}
-				}				
 			}
+		}
+		return labels;
+	}
+
+	public Collection<String> getLabels() {
+		if (labels == null) {
+			labels = computeLabels();
 		}
 		return labels;
 	}
@@ -118,6 +133,69 @@ public class TypeDeclaration extends SimpleObservable {
 
 	public void unsetTypeDeclaration(TypeDeclaration t) {
 		// NOP
+	}
+
+
+	public IEvaluationContext getParameters() {
+		if (context == null)
+			try {
+				context = computeParameters();
+				context.addObserver(this);
+			} catch (ColoaneException e) {
+				LogUtils.logError(ITSEditorPlugin.getID(), "Model contains syntax errors. Please validate it through syntax check before import. Some model elements were not fully parsed.", e);
+			}
+		return context;
+	}
+
+
+	protected EvaluationContext computeParameters () throws ColoaneException {
+		EvaluationContext context = new EvaluationContext();
+		for (INode node : graph.getNodes()) {
+			if ("place".equals(node.getNodeFormalism().getName())) {
+				IAttribute attrib = node.getAttribute("marking");
+				parseIntExpression(attrib,context);
+			}
+		}
+		for (IArc arc : graph.getArcs()) {
+			// supports null attribute passing: some arcs have no valuation
+			parseIntExpression(arc.getAttribute("valuation"),context);
+		}
+		return context;
+	}
+
+	private Map<IAttribute,IntegerExpression> attribs = new HashMap<IAttribute, IntegerExpression>();
+
+	private void parseIntExpression(IAttribute attrib, IEvaluationContext context) throws ColoaneException {
+		if (attrib == null)
+			return;
+		String mark = attrib.getValue();
+		if (mark != null && ! "".equals(mark)) {
+
+			IntegerExpressionParserLexer lexer;
+			lexer = new IntegerExpressionParserLexer (new ANTLRStringStream(mark));
+
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+			IntegerExpressionParserParser parser = new IntegerExpressionParserParser(tokens);
+			IntegerExpression expr;
+			try {
+				expr = parser.prog();
+			} catch (RecognitionException e) {
+				throw new ColoaneException("Error parsing Marking "+e.getMessage());
+			}
+			if (! (expr instanceof Constant) && expr != null) {
+				// dont store the mapping for trivial integers
+				attribs.put(attrib,expr);
+				// could be empty for simple expressions, eg 3+2
+				for (IVariable var : expr.supportingVariables())
+					context.declareVariable(var);
+			}
+		}
+	}
+
+	@Override
+	public void update() {
+		notifyObservers();
 	}
 
 }
