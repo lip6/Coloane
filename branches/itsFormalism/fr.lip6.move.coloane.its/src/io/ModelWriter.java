@@ -4,11 +4,13 @@ import its.CompositeTypeDeclaration;
 import its.Concept;
 import its.TypeDeclaration;
 import its.TypeList;
+import its.expression.IEvaluationContext;
+import its.expression.IVariableBinding;
 
 import java.util.HashMap;
 
 /**
- * Classe regroupant les outils pour ecrire un modele sous forme XML
+ * A class to save .xmlits format files.
  */
 public final class ModelWriter {
 	private static HashMap<Object, Integer> ids=null;
@@ -21,7 +23,7 @@ public final class ModelWriter {
 		// Initialize ids for this file
 		ids = new HashMap<Object,Integer>();
 		nextID = 7000;
-		// L'entete XML
+		// XML header
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
 
 		// Ecriture des attributs relatifs au formalisme et positions
@@ -37,10 +39,15 @@ public final class ModelWriter {
 		line.append(translateTypesToXML(types));
 		line.append("</types>\n"); //$NON-NLS-1$
 
-		// Creation des cocepts
+		// Creation des concepts
 		line.append("<concepts>\n"); //$NON-NLS-1$
 		line.append(translateConceptsToXML(types));
 		line.append("</concepts>\n"); //$NON-NLS-1$
+
+		// Creation of parameters
+		line.append("<parameters>\n"); //$NON-NLS-1$
+		line.append(translateParametersToXML(types));
+		line.append("</parameters>\n"); //$NON-NLS-1$
 
 		line.append("</model>"); //$NON-NLS-1$
 
@@ -101,4 +108,32 @@ public final class ModelWriter {
 		}
 		return sb.toString();
 	}
+	/**
+	 * Traduction des noeuds du modele en format XML
+	 * @param types Le modele
+	 * @return Une chaine de caracteres decrivant en XML les noeuds du modele
+	 */
+	private static String translateParametersToXML(TypeList types) {
+		StringBuilder sb = new StringBuilder();
+		// Pour chaque noeud...
+		for (TypeDeclaration type : types) {
+			IEvaluationContext params = type.getParameters(); 
+			if (! params.getVariables().isEmpty()) {
+				for (IVariableBinding vb : params.getBindings()) {
+					if (vb.getVariableValue() != null) {
+						int myID = nextID++;
+						// Debut du noeud
+						sb.append("<parameter name='").append(vb.getVariableName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+						sb.append(" id='").append(Integer.toString(myID)).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+						sb.append(" parent='").append(ids.get(type)).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+						sb.append(" value='").append(vb.getVariableValue()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+						// Fin du noeud
+						sb.append("/>\n");						
+					}
+				}
+			}
+		}
+		return sb.toString();
+	}
+
 }
