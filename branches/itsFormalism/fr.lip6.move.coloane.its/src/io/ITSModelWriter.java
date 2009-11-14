@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.model.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -57,11 +56,16 @@ public class ITSModelWriter {
 			sb.append("<types>\n");
 
 			for (TypeDeclaration td : toProcess) {
+				assert td.isSatisfied();
+
+				// handle parameter instantiation
+				IGraph satGraph = td.getInstantiatedGraph(); 				
+				
+				
 				// composite case
 				if (td instanceof CompositeTypeDeclaration) {
 					CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) td;
 					assert ctd.isSatisfied();
-					IGraph satGraph = new GraphModelFactory().copyGraph(ctd.getGraph()); 
 
 					// replace the instance types by their corresponding concept name
 					for (INode node : satGraph.getNodes()) { 
@@ -78,7 +82,7 @@ public class ITSModelWriter {
 					// currently no parameters to instantiate
 
 					// export the TPN to Romeo xml format.
-					new ExportToRomeo().export(td.getGraph(), directory+ "/" + td.getTypeName() + ".xml", new NullProgressMonitor());
+					new ExportToRomeo().export(satGraph, directory+ "/" + td.getTypeName() + ".xml", new NullProgressMonitor());
 					sb.append("<type name='"+td.getTypeName()+"' formalism='Time Petri Net' format='Romeo' path='./"+td.getTypeName() + ".xml' />\n");
 				}
 			}
