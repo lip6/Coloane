@@ -1,6 +1,5 @@
 package its;
 
-import io.LogUtils;
 import its.expression.Constant;
 import its.expression.EvaluationContext;
 import its.expression.IEvaluationContext;
@@ -10,7 +9,6 @@ import its.expression.parser.IntegerExpressionParserLexer;
 import its.expression.parser.IntegerExpressionParserParser;
 import its.obs.ISimpleObserver;
 import its.obs.SimpleObservable;
-import its.ui.forms.ITSEditorPlugin;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -18,6 +16,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -25,6 +25,7 @@ import org.antlr.runtime.RecognitionException;
 import org.eclipse.core.resources.IFile;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.model.GraphModelFactory;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -89,7 +90,8 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	/** Factory operation to build concrete TypeDescriptions */
 	public static TypeDeclaration create(String name, IFile file, TypeList types) throws IOException {
 		IGraph graph = loadGraph(file);
-		if ( graph.getFormalism().getName().equals("ITSComposite") ) {
+		String form = graph.getFormalism().getName(); 
+		if ( form.equals("ITSComposite") || form.equals("Scalar Set Composite")) {
 			return new CompositeTypeDeclaration(name,file,graph,types);
 		} else {
 			return new TypeDeclaration(name, file, graph, types);
@@ -142,7 +144,8 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 				context = computeParameters();
 				context.addObserver(this);
 			} catch (ColoaneException e) {
-				LogUtils.logError(ITSEditorPlugin.getID(), "Model contains syntax errors. Please validate it through syntax check before import. Some model elements were not fully parsed.", e);
+				final Logger logger = Logger.getLogger("fr.lip6.move.coloane.its"); //$NON-NLS-1$
+				logger.warning("Model contains syntax errors. Please validate it through syntax check before import. Some model elements were not fully parsed."+e);
 			}
 		return context;
 	}
@@ -196,6 +199,24 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	@Override
 	public void update() {
 		notifyObservers();
+	}
+
+	public IGraph getInstantiatedGraph() {
+		// first build a copy of the graph in its original state
+		IGraph copy = new GraphModelFactory().copyGraph(graph);
+		getParameters();
+		// now edit the graph = update all attributes hit by int expressions
+		for (Entry<IAttribute, IntegerExpression> it: attribs.entrySet()) {
+			it.getKey().setValue(Integer.toString(it.getValue().evaluate(context)));
+		}
+		IGraph tmp = graph;
+		graph = copy;
+		// clear attribs
+		attribs = new HashMap<IAttribute, IntegerExpression>(); 
+		// clear context
+		context.deleteObserver(this);
+		context = null;
+		return tmp;
 	}
 
 }
