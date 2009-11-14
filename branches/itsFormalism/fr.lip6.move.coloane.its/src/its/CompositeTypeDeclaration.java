@@ -9,6 +9,8 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import its.expression.EvaluationContext;
+import its.expression.IVariable;
+import its.expression.Variable;
 import its.obs.ISimpleObserver;
 
 import java.util.ArrayList;
@@ -25,20 +27,27 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 
 	/** The list of Type names used in this composite */
 	private List<Concept> concepts;
-	
-	
+
+
 	public CompositeTypeDeclaration(String typeName, IFile typePath, IGraph graph, TypeList types) {
 		// loads the graph object
 		super(typeName, typePath,graph,types);
 		concepts= new ArrayList<Concept>();
-		
+
 		loadConcepts();
 	}
 
 	protected EvaluationContext computeParameters() throws ColoaneException {
-		return new EvaluationContext();
+		if (getTypeType().equals("ITSComposite"))
+			return new EvaluationContext();
+		else {
+			EvaluationContext ec = new EvaluationContext();
+			IVariable size = new Variable("$SIZE");
+			ec.declareVariable(size);
+			return ec;
+		}
 	}
-	
+
 	@Override
 	protected Set<String> computeLabels() {
 		Set<String> labels = new HashSet<String>();
@@ -46,22 +55,21 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 		// Composite case
 		for (INode node : nodes) {
 			if ("synchronization".equals(node.getNodeFormalism().getName())
-					|| "delegate".equals(node.getNodeFormalism().getName())) {						
+					|| "delegator".equals(node.getNodeFormalism().getName())) {						
 				IAttribute atts = node.getAttribute("label");
 				if (atts != null && (! "".equals(atts.getValue()))) {
-					if ("public".equals(node.getAttribute("visibility").getValue()))
-							labels.add(atts.getValue());					
+					labels.add(atts.getValue());					
 				}
 			}
 		}
 		return labels;
 	}
-	
+
 	private void loadConcepts() {		
 		IGraphFormalism formalism = getGraph().getFormalism().getMasterGraph();
 		IElementFormalism inst = formalism.getElementFormalism("instance"); 
 		Collection<INode> nodes = getGraph().getNodes();
-		
+
 		/** Scan through the Nodes to find all relevant concepts */
 		for (Iterator<INode> iterator = nodes.iterator(); iterator.hasNext();) {
 			INode node = iterator.next();
@@ -70,7 +78,7 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 				String typeID = node.getAttribute("type").getValue();
 				// Add this concept if it does not exist
 				Concept concept= getConcept(typeID);
-				
+
 				if (concept==null){
 					concept = new Concept(typeID,this);
 					addConcept(concept);
@@ -83,13 +91,13 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 				for (IArc arc : node.getOutgoingArcs()) {
 					handleArc(arc, arc.getTarget(), requiredLabs);	
 				}
-				
+
 			}
 		}
 		notifyObservers();
 	}
 
-	
+
 	private void addConcept(Concept concept) {
 		if (concept != null)
 			concept.deleteObserver(this);
@@ -98,16 +106,22 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 	}
 
 	private void handleArc(IArc arc, INode sync, List<String> requiredLabs) {
-		String labels = arc.getAttribute("labels").getValue();
-		labels = labels.replace(" ","");
-		labels = labels.replace("\t","");
-		labels = labels.replace("\n","");
-		StringTokenizer st = new StringTokenizer(labels,";");
-		while (st.hasMoreTokens()) {
-			String lab = st.nextToken();
-			if (! requiredLabs.contains(lab))
-				requiredLabs.add(lab);
-		}									
+		IAttribute labatt = arc.getAttribute("labels");
+		if (labatt != null) {
+			String labels = labatt.getValue();
+			labels = labels.replace(" ","");
+			labels = labels.replace("\t","");
+			labels = labels.replace("\n","");
+			StringTokenizer st = new StringTokenizer(labels,";");
+			while (st.hasMoreTokens()) {
+				String lab = st.nextToken();
+				if (! requiredLabs.contains(lab))
+					requiredLabs.add(lab);
+			}
+		} else {
+			// Scalar set case
+			requiredLabs.add(sync.getAttribute("label").getValue());
+		}
 	}
 
 	public List<Concept> listConcepts () {
