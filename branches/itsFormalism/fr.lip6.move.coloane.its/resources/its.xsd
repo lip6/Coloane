@@ -15,6 +15,7 @@
 		<xs:all>
 			<xs:element minOccurs="1" name="types" type="ttypes"/>
 			<xs:element minOccurs="1" name="concepts" type="tconcepts"/>
+			<xs:element minOccurs="0" name="parameters" type="tparameters"/>
 		</xs:all>
 	</xs:complexType>
 	<!-- Declaration  -->	
@@ -61,22 +62,24 @@
  	</xs:annotation>
 
 	<!-- Definition of a  list of details -->
-    <xs:complexType name="tdetails">
+    <xs:complexType name="tparameters">
 		<xs:sequence> 
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="detail" type="tdetail"/>
+			<xs:element maxOccurs="unbounded" minOccurs="0" name="parameter" type="tparameter"/>
 		</xs:sequence>
 	</xs:complexType>
 	<!-- Declaration  -->	
-	<xs:element name="details" type="tdetails"/>
+	<xs:element name="parameters" type="tparameters"/>
 
     
 	<!-- Definition of a generic type details field -->
-	<xs:complexType name="tdetail">
+	<xs:complexType name="tparameter">
+		<xs:attribute name="id" type="xs:string" use="required"/>
 		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="parent" type="xs:string" use="required"/>
 		<xs:attribute name="value" type="xs:string" use="required"/>
 	</xs:complexType>
 	<!-- Declaration  -->	
-	<xs:element name="detail" type="tdetail"/>
+	<xs:element name="parameter" type="tparameter"/>
 	
 
 	<!-- =========================================== = -->
