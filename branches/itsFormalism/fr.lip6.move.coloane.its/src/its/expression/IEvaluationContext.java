@@ -1,7 +1,5 @@
 package its.expression;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-
 import java.util.Collection;
 import java.util.Set;
 
@@ -11,9 +9,11 @@ public interface IEvaluationContext {
 	
 	Integer getVariableValue (IVariable var);
 	
-	Set<IVariable> getVariables () throws ColoaneException;
+	Set<IVariable> getVariables ();
 
 	void declareVariable(IVariable var);
 	
-	Collection<IVariableBinding> getBindings(); 
+	Collection<IVariableBinding> getBindings();
+
+	boolean containsVariable(IVariable var); 
 }
