@@ -84,21 +84,6 @@
                         multiline="true"
                         name="label">
                   </Attribute>
-                  <Attribute
-                        bold="false"
-                        default="private"
-                        drawable="true"
-                        enumerated="true"
-                        italic="true"
-                        multiline="false"
-                        name="visibility">
-                     <EnumerationValue
-                           name="private">
-                     </EnumerationValue>
-                     <EnumerationValue
-                           name="public">
-                     </EnumerationValue>
-                  </Attribute>
                </Node>
                <Arc
                      name="arc">
