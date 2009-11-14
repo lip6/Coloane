@@ -55,5 +55,9 @@ public class EvaluationContext extends SimpleObservable implements IEvaluationCo
 		}
 		return vbs;
 	}
+	@Override
+	public boolean containsVariable(IVariable var) {
+		return variables.contains(var);
+	}
 
 }
