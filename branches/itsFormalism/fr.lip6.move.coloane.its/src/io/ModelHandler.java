@@ -4,6 +4,9 @@ import its.CompositeTypeDeclaration;
 import its.Concept;
 import its.TypeDeclaration;
 import its.TypeList;
+import its.expression.IEvaluationContext;
+import its.expression.IVariable;
+import its.expression.Variable;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -51,6 +54,10 @@ public class ModelHandler extends DefaultHandler {
 			handleConcept(attributes);
 		} else if ("concepts".equals(baliseName)) { //$NON-NLS-1$
 			// NOP
+		} else if ("parameter".equals(baliseName)) { //$NON-NLS-1$
+			handleParameter(attributes);
+		} else if ("parameters".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
 		} else {
 			logger.warning("Unknown XML tag in source file: "+ baliseName); //$NON-NLS-1$
 		}
@@ -71,6 +78,10 @@ public class ModelHandler extends DefaultHandler {
 		}else if ("concept".equals(baliseName)) { //$NON-NLS-1$
 			// NOP
 		}else if ("concepts".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		}else if ("parameter".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		}else if ("parameters".equals(baliseName)) { //$NON-NLS-1$
 			// NOP
 		} else {
 			logger.warning("Unknown XML tag in source file: "+ baliseName); //$NON-NLS-1$
@@ -116,6 +127,32 @@ public class ModelHandler extends DefaultHandler {
 		}
 	}
 
+	private void handleParameter(Attributes attributes) throws SAXException {
+		String name = attributes.getValue("name"); //$NON-NLS-1$
+		int value = Integer.parseInt(attributes.getValue("value")); //$NON-NLS-1$		
+		int idParent =Integer.parseInt( attributes.getValue("parent")); //$NON-NLS-1$		
+
+		
+		// Get parent with maximum safeguards
+		TypeDeclaration parent;
+		try {
+			parent = (TypeDeclaration) ids.get(idParent);
+		} catch (ClassCastException e) {
+			throw new SAXException("Corrupted XML file, id "+idParent+" should refer to a type declaration");
+		} 
+		if (parent == null) {
+			throw new SAXException("Corrupted XML file, Dangling parent type id "+idParent+ " in parameter "+name);			
+		}
+		// get the evaluation context
+		IEvaluationContext params = parent.getParameters();
+		IVariable var = new Variable(name);
+		if (params.containsVariable(var) == false) {
+			logger.warning("Concept effective definition which should belong to CompositeType " +parent+
+					" does not exist in the actual model file. Ignoring Concept setting.");
+		} else {
+			params.setVariableValue(var, value);
+		}
+	}
 
 	/**
 	 * Analyze a type declaration
