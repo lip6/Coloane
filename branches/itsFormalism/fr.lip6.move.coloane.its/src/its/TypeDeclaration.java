@@ -214,8 +214,6 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		// clear attribs
 		attribs = new HashMap<IAttribute, IntegerExpression>(); 
 		// clear context
-		context.deleteObserver(this);
-		context = null;
 		return tmp;
 	}
 
