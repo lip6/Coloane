@@ -259,6 +259,11 @@
          </documentation>
       </annotation>
       <complexType>
+         <sequence>
+            <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="Node" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="Arc" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
