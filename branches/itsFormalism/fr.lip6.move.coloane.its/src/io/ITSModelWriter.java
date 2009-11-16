@@ -76,7 +76,7 @@ public class ITSModelWriter {
 					}
 					// export the composite ITS to simple xml format.
 					new ExportToCompositeITS().export(satGraph, directory + "/"+ ctd.getTypeName() + ".xml", new NullProgressMonitor());
-					sb.append("<type name='"+ctd.getTypeName()+"' formalism='ITSComposite' format='Composite' path='./"+ctd.getTypeName() + ".xml' />\n");
+					sb.append("<type name='"+ctd.getTypeName()+"' formalism='"+ctd.getTypeType()+"' format='Composite' path='./"+ctd.getTypeName() + ".xml' />\n");
 				} else {
 					// Basic case
 					// currently no parameters to instantiate
