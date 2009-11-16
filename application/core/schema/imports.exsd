@@ -2,9 +2,9 @@
 <!-- Schema file written by PDE -->
 <schema targetNamespace="fr.lip6.move.coloane.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appinfo>
+      <appInfo>
          <meta.schema plugin="fr.lip6.move.coloane.core" id="imports" name="Imports"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          This extension point allows new import feature contributions.
       </documentation>
@@ -12,9 +12,9 @@
 
    <element name="extension">
       <annotation>
-         <appinfo>
+         <appInfo>
             <meta.element />
-         </appinfo>
+         </appInfo>
       </annotation>
       <complexType>
          <sequence>
@@ -39,9 +39,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute translatable="true"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -64,9 +64,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.interfaces.IImportFrom"/>
-               </appinfo>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.extensions.IImportFrom"/>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="reference" type="string" use="required">
@@ -92,9 +92,9 @@
    </element>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="since"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          0.11.1
       </documentation>
