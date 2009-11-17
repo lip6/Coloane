@@ -453,6 +453,9 @@
 				<!-- Calcule la revision courante du dépôt de sources -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
+				<configuration>
+					<useLastCommitedRevision>true</useLastCommitedRevision>
+				</configuration>
 				<executions>
 					<execution>
 						<id>BuildNumber</id>
