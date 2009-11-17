@@ -68,8 +68,8 @@
 		<developer>
 			<id>cdemoulins</id>
 			<name>Clément Demoulins</name>
-			<email>Clement.Demoulins@systeme.lip6.fr</email>
-			<organization>UPMC/LIP6</organization>
+			<email>Clement.Demoulins@lip6.fr</email>
+			<organization>LIP6</organization>
 			<organizationUrl>http://www.lip6.fr</organizationUrl>
 			<roles>
 				<role>architect</role>
