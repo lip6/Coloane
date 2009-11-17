@@ -108,6 +108,11 @@ factor_exp returns [IntegerExpression expr] :
   {
     expr = new Variable($var.getText());
   }
+  |
+  inf=INFINITY
+  {
+    expr = new Infinity();
+  }  
   | 
   exp=par_exp 
   {
@@ -155,6 +160,10 @@ WS  : ( ' ' | '\t' | '\n' | '\r') { $channel = HIDDEN; }
   ;
 NUMBER : DIGIT (DIGIT)*
   ;
+  
+INFINITY : 'inf'
+  ;
+
 VARIABLE  : DOLLAR ( STRING | (LETTER (LETTER | DIGIT)*) )
   ;
   
