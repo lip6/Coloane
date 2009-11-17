@@ -43,7 +43,7 @@ public class ExportToImpl implements IExportTo {
 		output += "/*****\n";
 		output += " *\n";
 		output += " *  This file has been exported from Coloane";
-		output += " at date " + now.toString() + "\n";
+		output += " at date: " + now.toString() + "\n";
 		if(title != null)
 			output += " *  Title  : " + title.getValue() + "\n";
 		if(version != null)
