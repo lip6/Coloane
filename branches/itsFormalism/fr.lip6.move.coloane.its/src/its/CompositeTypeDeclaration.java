@@ -9,8 +9,6 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import its.expression.EvaluationContext;
-import its.expression.IVariable;
-import its.expression.Variable;
 import its.obs.ISimpleObserver;
 
 import java.util.ArrayList;
@@ -41,10 +39,7 @@ public class CompositeTypeDeclaration extends TypeDeclaration implements ISimple
 		if (getTypeType().equals("ITSComposite"))
 			return new EvaluationContext();
 		else {
-			EvaluationContext ec = new EvaluationContext();
-			IVariable size = new Variable("$SIZE");
-			ec.declareVariable(size);
-			return ec;
+			return super.computeParameters();
 		}
 	}
 
