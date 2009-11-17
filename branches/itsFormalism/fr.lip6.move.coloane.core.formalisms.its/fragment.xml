@@ -224,6 +224,13 @@
                      name="title">
                </Attribute>
                <Attribute
+                     bold="true"
+                     default="$SIZE"
+                     drawable="true"
+                     multiline="false"
+                     name="size">
+               </Attribute>
+               <Attribute
                      drawable="true"
                      multiline="true"
                      name="authors">
