@@ -29,6 +29,7 @@ import fr.lip6.move.coloane.core.model.GraphModelFactory;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -157,11 +158,21 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			if ("place".equals(node.getNodeFormalism().getName())) {
 				IAttribute attrib = node.getAttribute("marking");
 				parseIntExpression(attrib,context);
+			} else if ("transition".equals(node.getNodeFormalism().getName())) {
+				IAttribute eft = node.getAttribute("earliestFiringTime");
+				parseIntExpression(eft, context);
+				IAttribute lft = node.getAttribute("latestFiringTime");
+				parseIntExpression(lft, context);				
 			}
 		}
 		for (IArc arc : graph.getArcs()) {
 			// supports null attribute passing: some arcs have no valuation
 			parseIntExpression(arc.getAttribute("valuation"),context);
+		}
+		for (IAttribute att : graph.getAttributes()) {
+			if (att.getName().equals("size")) {
+				parseIntExpression(att, context);
+			}
 		}
 		return context;
 	}
@@ -204,17 +215,24 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	public IGraph getInstantiatedGraph() {
 		// first build a copy of the graph in its original state
 		IGraph copy = new GraphModelFactory().copyGraph(graph);
+		// ensure attribs and context is up to date
 		getParameters();
 		// now edit the graph = update all attributes hit by int expressions
 		for (Entry<IAttribute, IntegerExpression> it: attribs.entrySet()) {
-			it.getKey().setValue(Integer.toString(it.getValue().evaluate(context)));
+			IAttribute att = it.getKey();
+			IElement parent = att.getReference();
+			IAttribute toupd;
+			if (graph.getId() == parent.getId()) {
+				toupd = copy.getAttribute(att.getName());
+			} else {
+				toupd = copy.getObject(parent.getId()).getAttribute(att.getName());
+			}
+			String newval = Integer.toString(it.getValue().evaluate(context)); 
+			toupd.setValue(newval);
 		}
-		IGraph tmp = graph;
-		graph = copy;
-		// clear attribs
-		attribs = new HashMap<IAttribute, IntegerExpression>(); 
-		// clear context
-		return tmp;
+		return copy;
 	}
 
 }
+
+
