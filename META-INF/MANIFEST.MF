@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ExportToHelena Plug-in
+Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exportToHelena;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: fr.lip6.move.coloane.extensions.exportToHelena.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ fr.lip6.move.coloane.core;bundle-version="0.16.2",
+ fr.lip6.move.coloane.interfaces;bundle-version="1.3.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: LIPN
