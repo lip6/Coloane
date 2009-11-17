@@ -74,7 +74,7 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 		layout.marginWidth = 2;
 		layout.marginHeight = 2;
 		client.setLayout(layout);
-		GridData gd = new GridData(GridData.FILL_BOTH);
+		GridData gd = new GridData(GridData.FILL_BOTH|GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.heightHint = 20;
 		gd.widthHint = 30;
 
@@ -83,8 +83,16 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 		tree.setLayoutData(gd);
 
 		toolkit.paintBordersFor(client);
-		Button b = toolkit.createButton(client, "Add a type", SWT.PUSH); //$NON-NLS-1$
-		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		Composite buttonZone = toolkit.createComposite(client);
+		layout = new GridLayout();
+		layout.numColumns = 1;
+		layout.marginWidth = 2;
+		layout.marginHeight = 2;
+		layout.verticalSpacing= 3;
+		buttonZone.setLayout(layout);
+		
+		Button b = toolkit.createButton(buttonZone, "Add a type", SWT.PUSH); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL);
 		b.setLayoutData(gd);
 		b.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -93,9 +101,8 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 			}
 		});				
 
-		toolkit.paintBordersFor(client);
-		Button b2 = toolkit.createButton(client, "Remove a type", SWT.PUSH); //$NON-NLS-1$
-		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		Button b2 = toolkit.createButton(buttonZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
+//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		b2.setLayoutData(gd);
 		b2.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -109,8 +116,10 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 			}
 		});				
 
-		Button b3 = toolkit.createButton(client, "Export to SDD ITS", SWT.PUSH); //$NON-NLS-1$
-		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		toolkit.paintBordersFor(client);
+		
+		Button b3 = toolkit.createButton(buttonZone, "Export to SDD", SWT.PUSH); //$NON-NLS-1$
+//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		b3.setLayoutData(gd);
 		b3.addSelectionListener(new SelectionAdapter() {
 			@Override
