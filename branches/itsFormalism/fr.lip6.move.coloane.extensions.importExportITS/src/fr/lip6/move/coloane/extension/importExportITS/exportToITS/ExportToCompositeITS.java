@@ -95,6 +95,15 @@ public class ExportToCompositeITS implements IExportTo {
 				sb.append("/>\n");
 
 			}
+			// Now export the size if it exists (scalar and circular set)
+			IAttribute sizeatt = model.getAttribute("size");
+			if (sizeatt != null && sizeatt.getValue() != null) {
+				sb.append("<size size='");
+				sb.append(sizeatt.getValue());
+				sb.append("' ");
+				sb.append("/>\n");
+			}
+			
 			sb.append("</model>\n");
 			sb.newLine();
 			// End of writing : clean & close
