@@ -15,10 +15,23 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-public final class TypeTreeLabelProvider extends LabelProvider implements
-ILabelProvider {
+/**
+ * A nice tree label provider for the Types tree view.
+ * Handles type declarations, concepts, variable bindings
+ * @author Yann
+ *
+ */
+public final class TypeTreeLabelProvider
+			extends LabelProvider
+			implements ILabelProvider {
 
 
+	/**
+	 * Return a nice formatted text for this element.
+	 * The text includes some markers of being unsatisfied (per the model)
+	 * @param element to display (TypeDeclaration, concept or VariableBinding)
+	 * @return a nice formatted string
+	 */
 	@Override
 	public String getText(Object element) {
 		if (element instanceof TypeDeclaration) {
@@ -48,6 +61,11 @@ ILabelProvider {
 		return "Unrecognized type in TypeLabelProvider";
 	}
 
+	/**
+	 * Return a nice graphic fro the item.
+	 * @param element to get an icon from
+	 * @return an image (uniquely) loaded from the Resources
+	 */
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof CompositeTypeDeclaration) {
@@ -62,7 +80,7 @@ ILabelProvider {
 			String img = f.getMasterGraph().getElementFormalism("instance").getGraphicalDescription().getIcon24px();
 			return ImageDescriptor.createFromFile(Coloane.class, img).createImage();
 		} else if (element instanceof IVariableBinding) {
-			IVariableBinding vb = (IVariableBinding) element;
+//			IVariableBinding vb = (IVariableBinding) element;
 			// TODO : discriminate icon depending on variable set or not
 			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif").createImage(); //$NON-NLS-1$ //$NON-NLS-2$
 		}
