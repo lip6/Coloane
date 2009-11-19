@@ -1,25 +1,40 @@
 package its.obs;
 
 import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * A basic implementation of an observer.
+ * @author Yann
+ *
+ */
 public class SimpleObservable implements ISimpleObservable {
-	private ArrayList<ISimpleObserver> obs = new ArrayList<ISimpleObserver>(); 
+	private List<ISimpleObserver> obs = new ArrayList<ISimpleObserver>();
 
-	/* (non-Javadoc)
+	/**
+	 * {@inheritDoc}
+	 *  (non-Javadoc)
 	 * @see its.ISimpleObservable#addObserver(its.ISimpleObserver)
 	 */
-	public void addObserver (ISimpleObserver o) {
-		obs.add(o);
+	public final void addObserver(ISimpleObserver o) {
+		if (!obs.contains(o)) {
+				obs.add(o);
+		}
 	}
-	
-	/* (non-Javadoc)
+
+	/**
+	 * {@inheritDoc}
+	 *  (non-Javadoc)
 	 * @see its.ISimpleObservable#deleteObserver(its.ISimpleObserver)
 	 */
-	public void deleteObserver(ISimpleObserver o) {
+	public final void deleteObserver(ISimpleObserver o) {
 		obs.remove(o);
 	}
-	
-	public void notifyObservers() {
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void notifyObservers() {
 		for (ISimpleObserver o : obs) {
 			o.update();
 		}

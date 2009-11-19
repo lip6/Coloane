@@ -10,51 +10,78 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class EvaluationContext extends SimpleObservable implements IEvaluationContext {
+/**
+ * A basic implem of an {@link IEvaluationContext}. Also implements {@link SimpleObservable}.
+ * @author Yann
+ *
+ */
+public final class EvaluationContext extends SimpleObservable implements IEvaluationContext {
 
-	private Map<IVariable,Integer> values;
+	private Map<IVariable, Integer> values;
 	private Set<IVariable> variables;
-	List<IVariableBinding> vbs;
+	private List<IVariableBinding> vbs;
 
+	/**
+	 * Ctor.
+	 */
 	public EvaluationContext() {
 		variables = new HashSet<IVariable>();
 		values = new HashMap<IVariable, Integer>();
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Integer getVariableValue(IVariable var) {
 		return values.get(var);
 	}
-
+	
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setVariableValue(IVariable var, Integer value) {
 		if (!variables.contains(var)) {
 			declareVariable(var);
 		}
 		if (values.get(var) != value) {
-			values.put(var,value);
+			values.put(var, value);
 			notifyObservers();
 		}
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void declareVariable(IVariable var) {
 		variables.add(var);
 		vbs = null;
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Set<IVariable> getVariables() {
 		return variables;
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Collection<IVariableBinding> getBindings() {
 		if (vbs == null) {
 			vbs = new ArrayList<IVariableBinding>();
-		
+
 			for (IVariable var : getVariables()) {
-				vbs.add(new VariableBinding(var,this));
+				vbs.add(new VariableBinding(var, this));
 			}
 		}
 		return vbs;
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean containsVariable(IVariable var) {
 		return variables.contains(var);

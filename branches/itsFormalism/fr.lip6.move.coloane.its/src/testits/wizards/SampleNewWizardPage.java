@@ -27,8 +27,7 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
  * as the file name. The page will only accept file name without the extension
  * OR with the extension that matches the expected one (its).
  */
-
-public class SampleNewWizardPage extends WizardPage {
+public final class SampleNewWizardPage extends WizardPage {
 	private Text containerText;
 
 	private Text fileText;
@@ -38,7 +37,7 @@ public class SampleNewWizardPage extends WizardPage {
 	/**
 	 * Constructor for SampleNewWizardPage.
 	 * 
-	 * @param pageName
+	 * @param selection the workspace item currently selected (should be a folder)
 	 */
 	public SampleNewWizardPage(ISelection selection) {
 		super("wizardPage");
@@ -48,6 +47,7 @@ public class SampleNewWizardPage extends WizardPage {
 	}
 
 	/**
+	 * {@inheritDoc}
 	 * @see IDialogPage#createControl(Composite)
 	 */
 	public void createControl(Composite parent) {
@@ -97,18 +97,20 @@ public class SampleNewWizardPage extends WizardPage {
 	 */
 
 	private void initialize() {
-		if (selection != null && selection.isEmpty() == false
+		if (selection != null && !selection.isEmpty()
 				&& selection instanceof IStructuredSelection) {
 			IStructuredSelection ssel = (IStructuredSelection) selection;
-			if (ssel.size() > 1)
+			if (ssel.size() > 1) {
 				return;
+			}
 			Object obj = ssel.getFirstElement();
 			if (obj instanceof IResource) {
 				IContainer container;
-				if (obj instanceof IContainer)
+				if (obj instanceof IContainer) {
 					container = (IContainer) obj;
-				else
+				} else {
 					container = ((IResource) obj).getParent();
+				}
 				containerText.setText(container.getFullPath().toString());
 			}
 		}
@@ -121,9 +123,8 @@ public class SampleNewWizardPage extends WizardPage {
 	 */
 
 	private void handleBrowse() {
-		ContainerSelectionDialog dialog = new ContainerSelectionDialog(
-				getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
-				"Select new file container");
+		ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
+		"Select new file container");
 		if (dialog.open() == Window.OK) {
 			Object[] result = dialog.getResult();
 			if (result.length == 1) {
@@ -138,7 +139,7 @@ public class SampleNewWizardPage extends WizardPage {
 
 	private void dialogChanged() {
 		IResource container = ResourcesPlugin.getWorkspace().getRoot()
-				.findMember(new Path(getContainerName()));
+		.findMember(new Path(getContainerName()));
 		String fileName = getFileName();
 
 		if (getContainerName().length() == 0) {
@@ -165,7 +166,7 @@ public class SampleNewWizardPage extends WizardPage {
 		int dotLoc = fileName.lastIndexOf('.');
 		if (dotLoc != -1) {
 			String ext = fileName.substring(dotLoc + 1);
-			if (ext.equalsIgnoreCase("xmlits") == false) {
+			if (!ext.equalsIgnoreCase("xmlits")) {
 				updateStatus("File extension must be \"xmlits\"");
 				return;
 			}
@@ -173,16 +174,27 @@ public class SampleNewWizardPage extends WizardPage {
 		updateStatus(null);
 	}
 
+	/**
+	 * Set the current status + error message
+	 * @param message the message to display or null for ok status
+	 */
 	private void updateStatus(String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
-
+	/**
+	 * Obtain the folder to create the file in
+	 * @return the container path
+	 */
 	public String getContainerName() {
 		return containerText.getText();
 	}
-
+	/**
+	 * Obtain the name chosen for the new file
+	 * @return the file name without path
+	 */
 	public String getFileName() {
 		return fileText.getText();
 	}
 }
+

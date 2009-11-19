@@ -5,8 +5,16 @@ import java.util.List;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-public class LabelsProvider implements IStructuredContentProvider {
+/**
+ * a very basic provider hiding a list of strings
+ * @author Yann
+ *
+ */
+public final class LabelsProvider implements IStructuredContentProvider {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object[] getElements(Object inputElement) {
@@ -14,16 +22,18 @@ public class LabelsProvider implements IStructuredContentProvider {
 		return list.toArray();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

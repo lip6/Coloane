@@ -1,7 +1,15 @@
 package its.expression;
 
-public class Div extends NaryExpression implements IntegerExpression {
+/**
+ * A division.
+ * @author Yann
+ *
+ */
+public final class Div extends NaryExpression implements IntegerExpression {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int evaluate(IEvaluationContext context) {
 		int total = 0;

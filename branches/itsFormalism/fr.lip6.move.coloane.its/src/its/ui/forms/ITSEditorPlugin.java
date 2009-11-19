@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2000, 2004 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/cpl-v10.html
@@ -27,12 +27,7 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class ITSEditorPlugin extends AbstractUIPlugin {
-	//The shared instance.
-	private static ITSEditorPlugin plugin;
-	//Resource bundle.
-	private ResourceBundle resourceBundle;
-	private FormColors formColors;
+public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_FORM_BG = "formBg"; //$NON-NLS-1$
 	public static final String IMG_LARGE = "large"; //$NON-NLS-1$
 	public static final String IMG_HORIZONTAL = "horizontal"; //$NON-NLS-1$
@@ -44,12 +39,12 @@ public class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_CLOSE = "close"; //$NON-NLS-1$
 
 	private static String ID = ITSEditorPlugin.class.getPackage().getName();
-	/**
-	 * @return the ID
-	 */
-	public static String getID() {
-		return ID;
-	}
+
+	//The shared instance.
+	private static ITSEditorPlugin plugin;
+	//Resource bundle.
+	private ResourceBundle resourceBundle;
+	private FormColors formColors;
 
 	/**
 	 * The constructor.
@@ -58,12 +53,23 @@ public class ITSEditorPlugin extends AbstractUIPlugin {
 		plugin = this;
 		try {
 			resourceBundle = ResourceBundle
-					.getBundle("org.eclipse.ui.forms.examples.internal.ExamplesPluginResources"); //$NON-NLS-1$
+			.getBundle("org.eclipse.ui.forms.examples.internal.ExamplesPluginResources"); //$NON-NLS-1$
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
 	}
+	
+	/**
+	 * @return the ID
+	 */
+	public static String getID() {
+		return ID;
+	}
 
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void initializeImageRegistry(ImageRegistry registry) {
 		registerImage(registry, IMG_FORM_BG, "form_banner.gif"); //$NON-NLS-1$
@@ -77,12 +83,18 @@ public class ITSEditorPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_CLOSE, "close_view.gif"); //$NON-NLS-1$
 	}
 
+	/**
+	 * Add an image to registry
+	 * @param registry the referential
+	 * @param key the image id
+	 * @param fileName the image file path
+	 */
 	private void registerImage(ImageRegistry registry, String key,
 			String fileName) {
 		try {
 			IPath path = new Path("icons/" + fileName); //$NON-NLS-1$
 			URL url = find(path);
-			if (url!=null) {
+			if (url != null) {
 				ImageDescriptor desc = ImageDescriptor.createFromURL(url);
 				registry.put(key, desc);
 			}
@@ -90,6 +102,11 @@ public class ITSEditorPlugin extends AbstractUIPlugin {
 		}
 	}
 
+	/**
+	 * returns form colors of a display (singleton factory)
+	 * @param display the display
+	 * @return the new formcolors or existing one
+	 */
 	public FormColors getFormColors(Display display) {
 		if (formColors == null) {
 			formColors = new FormColors(display);
@@ -99,12 +116,14 @@ public class ITSEditorPlugin extends AbstractUIPlugin {
 	}
 	/**
 	 * Returns the shared instance.
+	 * @return sole instance
 	 */
 	public static ITSEditorPlugin getDefault() {
 		return plugin;
 	}
 	/**
 	 * Returns the workspace instance.
+	 * @return sole instance
 	 */
 	public static IWorkspace getWorkspace() {
 		return ResourcesPlugin.getWorkspace();
@@ -112,6 +131,8 @@ public class ITSEditorPlugin extends AbstractUIPlugin {
 	/**
 	 * Returns the string from the plugin's resource bundle, or 'key' if not
 	 * found.
+	 * @param key to the bundle
+	 * @return the id of a bundle
 	 */
 	public static String getResourceString(String key) {
 		ResourceBundle bundle = ITSEditorPlugin.getDefault().getResourceBundle();
@@ -122,11 +143,15 @@ public class ITSEditorPlugin extends AbstractUIPlugin {
 		}
 	}
 	/**
-	 * Returns the plugin's resource bundle,
+	 * Returns the plugin's resource bundle
+	 * @return my own resource bundle
 	 */
 	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		try {
@@ -138,9 +163,20 @@ public class ITSEditorPlugin extends AbstractUIPlugin {
 			super.stop(context);
 		}
 	}
+	/**
+	 * Great user API to get icons
+	 * @param key uri of the image
+	 * @return an image
+	 */
 	public Image getImage(String key) {
 		return getImageRegistry().get(key);
 	}
+	
+	/**
+	 * Great user API to get icons
+	 * @param key uri of the image
+	 * @return an image
+	 */
 	public ImageDescriptor getImageDescriptor(String key) {
 		return getImageRegistry().getDescriptor(key);
 	}

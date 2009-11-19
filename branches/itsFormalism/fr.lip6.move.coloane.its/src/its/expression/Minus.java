@@ -1,7 +1,15 @@
 package its.expression;
 
-public class Minus extends NaryExpression implements IntegerExpression {
+/**
+ * A substraction.
+ * @author Yann
+ *
+ */
+public final class Minus extends NaryExpression implements IntegerExpression {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int evaluate(IEvaluationContext context) {
 		int total = 0;

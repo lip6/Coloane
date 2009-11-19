@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2000, 2004 IBM Corporation and others.
- * All rights reserved. This program and the accompanying materials 
+ * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Common Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/cpl-v10.html
@@ -48,21 +48,28 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ResourceTransfer;
 /**
- *
+ * A page to hold a type list in a tree view + hookup to details pages.
  */
-public class ScrolledPropertiesBlock extends MasterDetailsBlock {
+public final class ScrolledPropertiesBlock extends MasterDetailsBlock {
 	private MasterDetailsPage page;
 	private TreeViewer viewer;
+	/**
+	 * Ctor.
+	 * @param page parent page
+	 */
 	public ScrolledPropertiesBlock(MasterDetailsPage page) {
 		this.page = page;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void createMasterPart(final IManagedForm managedForm,
 			Composite parent) {
 		//final ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION|ExpandableComposite.TITLE_BAR);
+		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setText("Type Declarations"); //$NON-NLS-1$
 		section
 		.setDescription("Models imported into the ITS referential."); //$NON-NLS-1$
@@ -74,7 +81,7 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 		layout.marginWidth = 2;
 		layout.marginHeight = 2;
 		client.setLayout(layout);
-		GridData gd = new GridData(GridData.FILL_BOTH|GridData.VERTICAL_ALIGN_BEGINNING);
+		GridData gd = new GridData(GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.heightHint = 20;
 		gd.widthHint = 30;
 
@@ -88,9 +95,9 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 		layout.numColumns = 1;
 		layout.marginWidth = 2;
 		layout.marginHeight = 2;
-		layout.verticalSpacing= 3;
+		layout.verticalSpacing = 3;
 		buttonZone.setLayout(layout);
-		
+
 		Button b = toolkit.createButton(buttonZone, "Add a type", SWT.PUSH); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		b.setLayoutData(gd);
@@ -99,39 +106,39 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 			public void widgetSelected(SelectionEvent event) {
 				page.getMpe().getAddAction().run();
 			}
-		});				
+		});
 
 		Button b2 = toolkit.createButton(buttonZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
-//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		b2.setLayoutData(gd);
 		b2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				try {
-					TypeDeclaration td = (TypeDeclaration) ((TreeSelection)viewer.getSelection()).getFirstElement();
+					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
 					new RemoveTypeAction(page.getMpe().getTypes(), td).run();
-				} catch (Exception e) {
+				} catch (ClassCastException e) {
 					System.err.println("Select a type");
 				}
 			}
-		});				
+		});
 
 		toolkit.paintBordersFor(client);
-		
+
 		Button b3 = toolkit.createButton(buttonZone, "Export to SDD", SWT.PUSH); //$NON-NLS-1$
-//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		b3.setLayoutData(gd);
 		b3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				try {
-					TypeDeclaration td = (TypeDeclaration) ((TreeSelection)viewer.getSelection()).getFirstElement();
+					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
 					page.getMpe().exportToSDD(td);
-				} catch (Exception e) {
+				} catch (ClassCastException e) {
 					System.err.println("Select a type");
 				}
 			}
-		});				
+		});
 
 		viewer = new TreeViewer(tree);
 		viewer.setContentProvider(new TypeListTreeProvider());
@@ -154,20 +161,24 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 			public void doubleClick(DoubleClickEvent event) {
 				try {
 					TreeSelection o = (TreeSelection) event.getSelection();
-					TypeDeclaration td = (TypeDeclaration)o.getFirstElement();
-					page.getMpe().openEditor(td );
-				} catch (Exception e) {
+					TypeDeclaration td = (TypeDeclaration) o.getFirstElement();
+					page.getMpe().openEditor(td);
+				} catch (ClassCastException e) {
 					// a concept was double clicked
+					return;
 				}
 			}
 		});
-		
+
 		int ops = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK | DND.DROP_DEFAULT;
-		Transfer[] transfers = new Transfer[] { ResourceTransfer.getInstance(),LocalSelectionTransfer.getTransfer(),FileTransfer.getInstance() };
-		TypesViewDropAdapter adapter = new TypesViewDropAdapter(viewer,this);
+		Transfer[] transfers = new Transfer[] {ResourceTransfer.getInstance(), LocalSelectionTransfer.getTransfer(), FileTransfer.getInstance() };
+		TypesViewDropAdapter adapter = new TypesViewDropAdapter(viewer, this);
 		viewer.addDropSupport(ops, transfers, adapter);
 
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void createToolBarActions(IManagedForm managedForm) {
 		final ScrolledForm form = managedForm.getForm();
@@ -197,6 +208,9 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 		form.getToolBarManager().add(haction);
 		form.getToolBarManager().add(vaction);
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
 		detailsPart.registerPage(CompositeTypeDeclaration.class, new TypeDeclarationDetailsPage(this));
@@ -204,9 +218,16 @@ public class ScrolledPropertiesBlock extends MasterDetailsBlock {
 		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(page.getMpe().getTypes()));
 		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
 	}
+	/**
+	 * refresh the view
+	 */
 	public void refresh() {
 		viewer.refresh();
 	}
+	/**
+	 * accessor to get the master page.
+	 * @return parent page
+	 */
 	public MasterDetailsPage getPage() {
 		return page;
 	}

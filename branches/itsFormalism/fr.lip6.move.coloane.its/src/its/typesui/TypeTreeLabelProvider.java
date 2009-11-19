@@ -3,6 +3,7 @@ package its.typesui;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+
 import its.CompositeTypeDeclaration;
 import its.Concept;
 import its.TypeDeclaration;
@@ -14,7 +15,7 @@ import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-public class TypeTreeLabelProvider extends LabelProvider implements
+public final class TypeTreeLabelProvider extends LabelProvider implements
 ILabelProvider {
 
 
@@ -23,23 +24,26 @@ ILabelProvider {
 		if (element instanceof TypeDeclaration) {
 			TypeDeclaration type = (TypeDeclaration) element;
 			String ret = "";
-			if (!type.isSatisfied())
+			if (!type.isSatisfied()) {
 				ret += "!!!  ";
-			ret += type.getTypeName()+": "+type.getTypeType();
+			}
+			ret += type.getTypeName() + ": " + type.getTypeType();
 			return ret;
 		} else if (element instanceof Concept) {
 			Concept concept = (Concept) element;
-			if (concept.getEffective()!=null) 
-				return concept.getName()+": "+concept.getEffective().getTypeName();
-			else
-				return "!!!  " + concept.getName()+": ? ";
+			if (concept.getEffective() != null) {
+				return concept.getName() + ": " + concept.getEffective().getTypeName();
+			} else {
+				return "!!!  " + concept.getName() + ": ? ";
+			}
 		} else if (element instanceof IVariableBinding) {
 			IVariableBinding vb = (IVariableBinding) element;
 			Integer val = vb.getVariableValue();
-			if (val != null) 
-				return vb.getVariableName()+":= "+val;
-			else
-				return "!!!  " + vb.getVariableName()+":= ?";				
+			if (val != null) {
+				return vb.getVariableName() + ":= " + val;
+			} else {
+				return "!!!  " + vb.getVariableName() + ":= ?";
+			}
 		}
 		return "Unrecognized type in TypeLabelProvider";
 	}

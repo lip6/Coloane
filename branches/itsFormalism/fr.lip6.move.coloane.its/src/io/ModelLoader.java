@@ -22,19 +22,19 @@ import org.xml.sax.SAXException;
 import testits.editors.MultiPageEditor;
 
 /**
- * Classe regroupant les outils utiles au chargement d'un modèle à partir d'un fichier xml
+ * Class to load an XML its file, starts parse of files pointed to.
  */
 public final class ModelLoader {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
-	 * Classe ne contenant que des méthode statique.
+	 * No instance of utility class.
 	 */
-	private ModelLoader() {	}
-
+	private ModelLoader() {
+	}
 	/**
-	 * Charge le schema WML de haut niveau pour vérifier que le modèle est un modèle de graphe supporté
-	 * @return Le schéma ou <code>null</code> si le XSD n'a pas été trouvé
+	 * Load schema of the file.
+	 * @return schema or null if no xsd found
 	 */
 	private static Schema loadSchema() {
 		Schema schema = null;
@@ -52,16 +52,16 @@ public final class ModelLoader {
 	}
 
 	/**
-	 * @param xmlFile fichier xml représentant le modèle
-	 * @return IGraph construit à partir du fichier XML
+	 * @param xmlFile File of the input XML file .xmlits
+	 * @return type list read from file
 	 */
 	public static TypeList loadFromXML(IFile xmlFile) {
 		return loadFromXML(xmlFile.getLocationURI());
 	}
 
 	/**
-	 * @param xmlURI URI du fichier XML contenant le modèle à charger
-	 * @return IGraph construit à partir du fichier XML
+	 * @param xmlURI URI of the input XML file .xmlits
+	 * @return type list read from file
 	 */
 	public static TypeList loadFromXML(URI xmlURI) {
 		ModelHandler modelHandler = new ModelHandler();
@@ -78,7 +78,7 @@ public final class ModelLoader {
 			saxParser.parse(xmlURI.toString(), modelHandler);
 			LOGGER.info("Temps de chargement : " + (System.currentTimeMillis() - debut) + " ms"); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (SAXException e) {
-			LOGGER.warning("Parse error while analyzing file "+xmlURI +".\n details:"+ e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Parse error while analyzing file " + xmlURI + ".\n details:" + e.getMessage()); //$NON-NLS-1$
 			e.printStackTrace();
 		} catch (IOException e) {
 			LOGGER.warning("IO exception : " + e.getMessage()); //$NON-NLS-1$
@@ -90,3 +90,4 @@ public final class ModelLoader {
 	}
 
 }
+

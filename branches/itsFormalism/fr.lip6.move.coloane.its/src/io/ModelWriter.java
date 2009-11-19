@@ -8,20 +8,27 @@ import its.expression.IEvaluationContext;
 import its.expression.IVariableBinding;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A class to save .xmlits format files.
  */
 public final class ModelWriter {
-	private static HashMap<Object, Integer> ids=null;
+	private static Map<Object, Integer> ids = null;
 	private static int nextID;
 
-
+	/**
+	 * No instance of utility class.
+	 */
+	private ModelWriter() { }
+	
 	/** Compute an xml string representing the TypeList for serialization purposes.
+	 * @param types the types to export
+	 * @return a string containing the file
 	 */
 	public static String translateToXML(TypeList types) {
 		// Initialize ids for this file
-		ids = new HashMap<Object,Integer>();
+		ids = new HashMap<Object, Integer>();
 		nextID = 7000;
 		// XML header
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
@@ -69,7 +76,7 @@ public final class ModelWriter {
 		// Pour chaque noeud...
 		for (TypeDeclaration type : types) {
 			int myID = nextID++;
-			ids.put(type,myID);
+			ids.put(type, myID);
 			// Debut du noeud
 			sb.append("<type name='").append(type.getTypeName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" id='").append(Integer.toString(myID)).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -101,7 +108,7 @@ public final class ModelWriter {
 						sb.append(" parent='").append(ids.get(ctd)).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 						// Fin du noeud
 						sb.append("/>\n");
-						
+
 					}
 				}
 			}
@@ -117,8 +124,8 @@ public final class ModelWriter {
 		StringBuilder sb = new StringBuilder();
 		// Pour chaque noeud...
 		for (TypeDeclaration type : types) {
-			IEvaluationContext params = type.getParameters(); 
-			if (! params.getVariables().isEmpty()) {
+			IEvaluationContext params = type.getParameters();
+			if (!params.getVariables().isEmpty()) {
 				for (IVariableBinding vb : params.getBindings()) {
 					if (vb.getVariableValue() != null) {
 						int myID = nextID++;
@@ -128,7 +135,7 @@ public final class ModelWriter {
 						sb.append(" parent='").append(ids.get(type)).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 						sb.append(" value='").append(vb.getVariableValue()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 						// Fin du noeud
-						sb.append("/>\n");						
+						sb.append("/>\n");
 					}
 				}
 			}
@@ -137,3 +144,5 @@ public final class ModelWriter {
 	}
 
 }
+
+

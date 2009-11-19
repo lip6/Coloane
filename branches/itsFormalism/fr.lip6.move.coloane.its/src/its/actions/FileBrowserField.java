@@ -29,21 +29,13 @@ import org.eclipse.swt.widgets.Text;
  * <br>
  * Cribbed from StringButtonFieldEditor and friends.
  * 
- * @author Bronson
+ * @author Bronson, Yann
  */
 
-public class FileBrowserField extends Composite implements ISimpleObservable {
+public final class FileBrowserField extends Composite implements ISimpleObservable {
 	private Text text;
 	private Button button;
-	SimpleObservable notifier = new SimpleObservable();
-
-	public void addObserver(ISimpleObserver o) {
-		notifier.addObserver(o);
-	}
-
-	public void deleteObserver(ISimpleObserver o) {
-		notifier.deleteObserver(o);
-	}
+	private SimpleObservable notifier = new SimpleObservable();
 
 	/**
 	 * Constructor.
@@ -96,6 +88,25 @@ public class FileBrowserField extends Composite implements ISimpleObservable {
 	}
 
 	/**
+	 * Delegate
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void addObserver(ISimpleObserver o) {
+		notifier.addObserver(o);
+	}
+
+	/**
+	 * Delegate
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void deleteObserver(ISimpleObserver o) {
+		notifier.deleteObserver(o);
+	}
+
+
+	/**
 	 * invoke a file chooser and return selected path.
 	 * @return the path
 	 */
@@ -136,7 +147,7 @@ public class FileBrowserField extends Composite implements ISimpleObservable {
 	 * return the user provided path to dot
 	 * @return the path or "" if not set
 	 */
-	public final String getText() {
+	public String getText() {
 		if (text != null) {
 			return text.getText();
 		} else {
@@ -149,7 +160,7 @@ public class FileBrowserField extends Composite implements ISimpleObservable {
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
 	@Override
-	public final void setEnabled(boolean enabled) {
+	public void setEnabled(boolean enabled) {
 		text.setEnabled(enabled);
 		button.setEnabled(enabled);
 		super.setEnabled(enabled);
@@ -161,7 +172,7 @@ public class FileBrowserField extends Composite implements ISimpleObservable {
 	 * @param vvalue
 	 *            the new value, or <code>null</code> meaning the empty string
 	 */
-	public final void setText(String vvalue) {
+	public void setText(String vvalue) {
 		String value = vvalue;
 		if (value == null) {
 			value = "";

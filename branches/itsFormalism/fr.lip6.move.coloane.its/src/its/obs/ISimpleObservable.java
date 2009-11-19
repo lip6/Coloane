@@ -1,9 +1,24 @@
 package its.obs;
 
+/**
+ * An observable object, or Subject per the Observer DP.
+ * @author Yann
+ *
+ */
 public interface ISimpleObservable {
 
-	public abstract void addObserver(ISimpleObserver o);
+	/**
+	 * Add an observer to this subject.
+	 * Double insertion is ignored: the subject uses a SET of observers.
+	 * @param o the observer to add
+	 */
+	void addObserver(ISimpleObserver o);
 
-	public abstract void deleteObserver(ISimpleObserver o);
+	/**
+	 * Remove an observer from the set.
+	 * @param o observer to remove.
+	 */
+	void deleteObserver(ISimpleObserver o);
 
 }
+

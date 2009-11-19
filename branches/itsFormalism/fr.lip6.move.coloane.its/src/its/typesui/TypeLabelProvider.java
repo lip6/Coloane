@@ -3,21 +3,28 @@ package its.typesui;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+
 import its.CompositeTypeDeclaration;
 import its.Concept;
 import its.TypeDeclaration;
 
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-public class TypeLabelProvider extends LabelProvider implements
-		ITableLabelProvider {
+/**
+ * Provides labels ofr objects in the tree view (type declarations, concepts, parameters)
+ * @author Yann
+ *
+ */
+public final class TypeLabelProvider extends LabelProvider implements
+ITableLabelProvider {
 
-	
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Image getColumnImage(Object obj, int index) {
 		if (index == 0) {
@@ -33,6 +40,9 @@ public class TypeLabelProvider extends LabelProvider implements
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String getColumnText(Object element, int columnIndex) {
 		if (element instanceof TypeDeclaration) {
@@ -57,27 +67,5 @@ public class TypeLabelProvider extends LabelProvider implements
 		}
 	}
 
-	@Override
-	public void addListener(ILabelProviderListener listener) {
-		
-	}
-
-	@Override
-	public void dispose() {
-		// nothing to do
-
-	}
-
-	@Override
-	public boolean isLabelProperty(Object element, String property) {
-		// default to true to ensure update on any change 
-		return true;
-	}
-
-	@Override
-	public void removeListener(ILabelProviderListener listener) {
-		// TODO Auto-generated method stub
-
-	}
 
 }

@@ -1,7 +1,15 @@
 package its.expression;
 
-public class Mult extends NaryExpression {
+/**
+ * A multiplication
+ * @author Yann
+ *
+ */
+public final class Mult extends NaryExpression {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int evaluate(IEvaluationContext context) {
 		int total = 0;

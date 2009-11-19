@@ -20,7 +20,13 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-public class AddTypeDialog extends TitleAreaDialog {
+
+/**
+ * A nice dialog to import a coloane model into an its type list.
+ * @author Yann
+ *
+ */
+public final class AddTypeDialog extends TitleAreaDialog {
 
 	private TypeDeclaration type;
 	private FileBrowserField fileField;
@@ -28,15 +34,27 @@ public class AddTypeDialog extends TitleAreaDialog {
 	private TypeList types;
 	private String hint;
 
-	public TypeDeclaration getDeclaration() {
-		return type;
-	}
-
+	/**
+	 * Constructor.
+	 * @param parentShell the parent
+	 * @param types the types
+	 */
 	public AddTypeDialog(Shell parentShell, TypeList types) {
 		super(parentShell);
 		this.types = types;
 	}
 
+	/**
+	 * Getter for the type declaration.
+	 * @return null if not set correctly.
+	 */
+	public TypeDeclaration getDeclaration() {
+		return type;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected Control createContents(Composite parent) {
 		Control contents = super.createContents(parent);
@@ -45,6 +63,10 @@ public class AddTypeDialog extends TitleAreaDialog {
 		return contents;
 	}
 
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected Control createDialogArea(Composite parent) {
 		Group fileComposite = new Group(parent, SWT.LEFT);
@@ -60,7 +82,7 @@ public class AddTypeDialog extends TitleAreaDialog {
 		if (hint != null) {
 			fileField.setText(hint);
 		}
-		
+
 		Group nameComposite = new Group(parent, SWT.LEFT);
 		GridLayout layout2 = new GridLayout();
 		nameComposite.setLayout(layout2);
@@ -68,24 +90,26 @@ public class AddTypeDialog extends TitleAreaDialog {
 		nameComposite.setLayoutData(data2);
 		nameComposite.setText("Select name of type after import");
 
-		newTypeTextfield = new Text(nameComposite,SWT.BORDER); 
-		newTypeTextfield.setText("Type "+types.size());
+		newTypeTextfield = new Text(nameComposite, SWT.BORDER);
+		newTypeTextfield.setText("Type " + types.size());
 		newTypeTextfield.setToolTipText("Enter the name under which to import your new type");
 		newTypeTextfield.setLayoutData(data);
-		
+
 		fileField.addObserver(new ISimpleObserver() {
 			public void update() {
 				suggestName();
 			}
 		});
 
-		if (hint != null)
+		if (hint != null) {
 			suggestName();
-		
+		}
 		return parent;
 	}
-	
-	
+
+	/**
+	 * Suggest a valid name based on current file name.
+	 */
 	protected void suggestName() {
 		Path path = new Path(fileField.getText());
 		path.removeFileExtension();
@@ -95,33 +119,45 @@ public class AddTypeDialog extends TitleAreaDialog {
 		newTypeTextfield.setText(name);
 	}
 
+	/**
+	 * Build a valid name using the provided string as base.
+	 * @param name a candidate name
+	 * @return a valid name
+	 */
 	protected String generateValidName(String name) {
 		for (TypeDeclaration td : types) {
 			if (td.getTypeName().equals(name)) {
-				return generateValidName(name+"1");
+				return generateValidName(name + "1");
 			}
 		}
 		return name;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		((GridLayout) parent.getLayout()).numColumns++;
 		((GridLayout) parent.getLayout()).numColumns++;
 
 		createButton(parent, IDialogConstants.CANCEL_ID, IDialogConstants.CANCEL_LABEL, true);
-		
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
-		
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void cancelPressed() {
 		type = null;
 		hint = null;
 		super.cancelPressed();
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void okPressed() {
 		hint = null;
@@ -145,19 +181,27 @@ public class AddTypeDialog extends TitleAreaDialog {
 			}
 		}
 		try {
-			type = TypeDeclaration.create(typeName,file,types);
+			type = TypeDeclaration.create(typeName, file, types);
 		} catch (Exception ex) {
-			setErrorMessage("Error loading model file: "+
-					"Your file does not seem to contain a recognized Coloane model. Details:\n"+ex.getMessage());
+			setErrorMessage("Error loading model file: "
+					+ "Your file does not seem to contain a recognized Coloane model. Details:\n" + ex.getMessage());
 			return;
 		}
 		super.okPressed();
 	}
-	
+
+	/**
+	 * getter for type declaration.
+	 * @return null if not set.
+	 */
 	public TypeDeclaration getType() {
 		return type;
 	}
-	
+
+	/**
+	 * Set the candidate file.
+	 * @param fileField the full absolute path to file to import.
+	 */
 	public void setFileField(String fileField) {
 		this.hint = fileField;
 	}

@@ -1,7 +1,15 @@
 package its.expression;
 
-public class Add extends NaryExpression implements IntegerExpression {
+/**
+ * An addition.
+ * @author Yann
+ *
+ */
+public final class Add extends NaryExpression implements IntegerExpression {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int evaluate(IEvaluationContext context) {
 		int total = 0;

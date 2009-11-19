@@ -5,23 +5,32 @@ import its.obs.SimpleObservable;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
-public class TypeList extends SimpleObservable implements ITypeList,Iterable<TypeDeclaration>, ISimpleObserver{
+/**
+ * A model class to represent a type list.
+ * Is iterable like a TypeDeclaration container
+ * provides update notifications to registered observers.
+ * @author Yann
+ *
+ */
+public final class TypeList extends SimpleObservable implements ITypeList, Iterable<TypeDeclaration>, ISimpleObserver {
 
-	ArrayList<TypeDeclaration> table;
-	
-	public TypeList() {
-		table = new ArrayList<TypeDeclaration>();
-	}
-	
-	@Override
+	private List<TypeDeclaration> table = new ArrayList<TypeDeclaration>();
+
+	/**
+	 * Add a type declaration to the set.
+	 * @param t the type to add
+	 */
 	public void addTypeDeclaration(TypeDeclaration t) {
 		table.add(t);
 		t.addObserver(this);
 		notifyObservers();
 	}
 
-	@Override
+	/**
+	 * {@inheritDoc}
+	 */
 	public void removeTypeDeclaration(TypeDeclaration t) {
 		table.remove(t);
 		for (TypeDeclaration td : this) {
@@ -31,27 +40,36 @@ public class TypeList extends SimpleObservable implements ITypeList,Iterable<Typ
 		notifyObservers();
 	}
 
-	@Override
-	public void updateTypeDeclaration(TypeDeclaration t) {
-		// TODO Auto-generated method stub
-		
-	}
 
+	/**
+	 * iterable behavior of the type list
+	 * @return free foreach statements
+	 */
 	@Override
 	public Iterator<TypeDeclaration> iterator() {
 		return table.iterator();
 	}
 
+	/**
+	 * Used in table provider
+	 * @return table.toArray().
+	 */
 	@Override
 	public Object[] toArray() {
 		return table.toArray();
 	}
 
+	/**
+	 * Clear all type declarations
+	 */
 	public void clear() {
 		table.clear();
 		notifyObservers();
 	}
 
+	/**
+	 * @return number of type declarations contained
+	 */
 	public int size() {
 		return table.size();
 	}

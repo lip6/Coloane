@@ -4,6 +4,7 @@ package testits.editors;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.tools.layout.GraphLayout;
+
 import io.ITSModelWriter;
 import its.CompositeTypeDeclaration;
 import its.Concept;
@@ -20,6 +21,7 @@ import its.ui.forms.MasterDetailsPage;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -69,7 +71,9 @@ import org.eclipse.ui.part.FileEditorInput;
  * <li>page 2 shows the words in page 0 in sorted order
  * </ul>
  */
-public class MultiPageEditor extends FormEditor implements IResourceChangeListener, ISimpleObserver{
+public final class MultiPageEditor
+	extends FormEditor
+	implements IResourceChangeListener, ISimpleObserver {
 
 	/** The text editor used in page 0. */
 	private TextEditor editor;
@@ -78,8 +82,6 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	private TypesTable table;
 
 	private TypeList types = null;
-
-	private Text newTypeTextfield;
 
 	private Composite detailITSCZone;
 
@@ -94,10 +96,10 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	private NodesTable tpnTable;
 
 	private Button flatTypeButton;
-	
+
 	private Button exportTypeButton;
 
-	protected TypeDeclaration currentSelectedTypeDecl;
+	private TypeDeclaration currentSelectedTypeDecl;
 
 	private boolean isDirty = false;
 
@@ -112,10 +114,15 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 		setTypes(new TypeList());
 	}
-	
+
+	/** 
+	 * Handle setting of types + registering of observer.
+	 * @param types the types to set as input.
+	 */
 	public void setTypes(TypeList types) {
-		if (types != null)
+		if (types != null) {
 			types.deleteObserver(this);
+		}
 		this.types = types;
 		types.addObserver(this);
 	}
@@ -129,8 +136,7 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 			int index = addPage(editor, getEditorInput());
 			setPageText(index, editor.getTitle());
 		} catch (PartInitException e) {
-			ErrorDialog.openError(
-					getSite().getShell(),
+			ErrorDialog.openError(getSite().getShell(),
 					"Error creating nested text editor",
 					null,
 					e.getStatus());
@@ -158,27 +164,27 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 
 
 
-		detailITSCZone = new Composite(typePage,SWT.NONE);
+		detailITSCZone = new Composite(typePage, SWT.NONE);
 		detailITSCZone.setLayout(new FillLayout());
 		createITSCDetails(detailITSCZone);
 
-		detailTPNZone = new Composite(typePage,SWT.NONE);
+		detailTPNZone = new Composite(typePage, SWT.NONE);
 		detailTPNZone.setLayout(new FillLayout());
 		createTPNDetails(detailTPNZone);
 
 
 		// Create Buttons
-		Composite buttonZone = new Composite(typePage,SWT.NONE);
+		Composite buttonZone = new Composite(typePage, SWT.NONE);
 		RowLayout gl = new RowLayout();
 		buttonZone.setLayout(gl);
 
 		Button addTypeButton = new Button(buttonZone, SWT.NONE);
 		addTypeButton.setText("Add a type");
 		addTypeButton.setToolTipText("Select a model file to load as an ITS type declaration.");
-//
-//		newTypeTextfield = new Text(buttonZone,SWT.BORDER); 
-//		newTypeTextfield.setText("Type"+types.size());
-//		newTypeTextfield.setToolTipText("Enter the name under which to import your new type");
+		//
+		//		newTypeTextfield = new Text(buttonZone, WT.BORDER);
+		//		newTypeTextfield.setText("Type"+ types.size());
+		//		newTypeTextfield.setToolTipText("Enter the name under which to import your new type");
 
 
 		flatTypeButton = new Button(buttonZone, SWT.PUSH);
@@ -186,14 +192,14 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		flatTypeButton.setToolTipText("Flatten the selected type to a model bearing the current Type declaration name.");
 
 
-//		layoutTypeButton = new Button(buttonZone, SWT.PUSH);
-//		layoutTypeButton.setText("Layout a coloane graph");
-//		layoutTypeButton.setToolTipText("Use ATT graphviz to layout the graph.");
+		//		layoutTypeButton = new Button(buttonZone, SWT.PUSH);
+		//		layoutTypeButton.setText("Layout a coloane graph");
+		//		layoutTypeButton.setToolTipText("Use ATT graphviz to layout the graph.");
 
 		exportTypeButton = new Button(buttonZone, SWT.PUSH);
 		exportTypeButton.setText("Export to SDD-ITS");
 		exportTypeButton.setToolTipText("Export the instance Romeo-SDD format.");
-		
+
 		/** add listener to connect the two tables */
 		table.getViewer().getTable().addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event event) {
@@ -202,9 +208,9 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 				displayDetails(currentSelectedTypeDecl);
 				typePage.redraw();
 				if (currentSelectedTypeDecl.isSatisfied()) {
-					flatTypeButton.setEnabled(true) ;
+					flatTypeButton.setEnabled(true);
 				} else {
-					flatTypeButton.setEnabled(false) ;	    	
+					flatTypeButton.setEnabled(false);
 				}
 			}
 		});
@@ -215,13 +221,13 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 			}
 		});
 
-//		layoutTypeButton.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent event) {
-//				GraphLayout.layout(currentSelectedTypeDecl.getGraph());
-//				
-//			}
-//		});
+		//		layoutTypeButton.addSelectionListener(new SelectionAdapter() {
+		//			@Override
+		//			public void widgetSelected(SelectionEvent event) {
+		//				GraphLayout.layout(currentSelectedTypeDecl.getGraph());
+		//
+		//			}
+		//		});
 
 		flatTypeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -234,25 +240,25 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 					e.printStackTrace();
 				}
 				try {
-					FileDialog fileDialog = new FileDialog(getSite().getShell(),SWT.SAVE);
+					FileDialog fileDialog = new FileDialog(getSite().getShell(), SWT.SAVE);
 					// fontDialog.setFontList(text.getFont().getFontData());
 					String filePath = fileDialog.open();
 					if (filePath == null) {
-						ErrorDialog.openError(
-								getSite().getShell(),
+						ErrorDialog.openError(getSite().getShell(),
 								"Cancelled by user",
 								"Add new type operation cancelled by user",
-								new Status(1,"fr.lip6.move.coloane.its","Cancel Dialog"));
+								new Status(1, "fr.lip6.move.coloane.its", "Cancel Dialog"));
 					}
 					IPath path = new Path(filePath);
 					IFile outputff = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
-					IGraph flatModel=mf.getFlatModel();
+					IGraph flatModel = mf.getFlatModel();
 					GraphLayout.layout(flatModel);
 					outputff.create(new ByteArrayInputStream(ModelWriter.translateToXML(flatModel).getBytes()), 0, null);
-					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();					
+					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 					try {
-						if (outputff.exists())
-							IDE.openEditor(page, outputff );
+						if (outputff.exists()) {
+							IDE.openEditor(page, outputff);
+						}
 					} catch (PartInitException e) {
 						e.printStackTrace();
 					}
@@ -261,69 +267,82 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 					e.printStackTrace();
 				}
 			}
-		});	
+		});
 
-		
+
 		exportTypeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				exportToSDD(currentSelectedTypeDecl);
 			}
 		});
-		
+
 		addAction = new AddTypeAction(this);
 		addTypeButton.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				addAction.run();
 			}
-		});				
+		});
 
 		int index = addPage(typePage);
 		setPageText(index, "new table");
 	}
 
+	/**
+	 * Export a given type to SDD XML format : starts a small directory chooser dialog.
+	 * @param td the type to export.
+	 */
 	public void exportToSDD(TypeDeclaration td) {
 		ITSModelWriter mw = new ITSModelWriter();
 		try {
 			DirectoryDialog dialog = new DirectoryDialog(getSite().getShell());
-		    String directory = dialog.open();
+			String directory = dialog.open();
 			mw.exportITSModel(types, td, directory);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}				
+		}
 	}
 
+	/**
+	 * Return the unique add action associated to this editor.
+	 * {@link AddTypeAction}
+	 * @return the add action.
+	 */
 	public AddTypeAction getAddAction() {
 		return addAction;
 	}
-	// open or focus the editor on the file proposed
+	/**
+	 * open or focus the editor on the file proposed
+	 * @param td current slected type
+	 */
 	public void openEditor(TypeDeclaration td) {
 		if (td != null) {
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();					
+			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 			try {
-				if (td != null )
-					IDE.openEditor(page, td.getTypeFile() );
+				if (td != null) {
+					IDE.openEditor(page, td.getTypeFile());
+				}
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	private void createITSCDetails(Composite parent) {
-		Text title = new Text(parent,SWT.BORDER);
+		Text title = new Text(parent, SWT.BORDER);
 		title.setEditable(false);
 		title.setText("Composite Type Details");
 
 		/** Build two tables: Table 1 has available Concept names
 		 *  Table 2 has the required labels for this concept.
 		 */
-		concepts = new ConceptsTable(null,types);
+		concepts = new ConceptsTable(null, types);
 		concepts.createWidgets(parent);
 
-		requiredLabels = new LabelsTable(null,"Required labels");
+		requiredLabels = new LabelsTable(null, "Required labels");
 		requiredLabels.createWidgets(parent);
 
 		/** synchronize display of the two tables */
@@ -338,47 +357,59 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 
 	}
 
-
+	/**
+	 * Table view oriented : build the interface of a TPN.
+	 * @param parent the parent
+	 */
 	private void createTPNDetails(Composite parent) {
-		Text title = new Text(parent,SWT.BORDER);
+		Text title = new Text(parent, SWT.BORDER);
 		title.setEditable(false);
 		title.setText("TPN Type Details");
 
-		tpnTable= new NodesTable(null);
+		tpnTable = new NodesTable(null);
 		tpnTable.createWidgets(parent);
 	}
 
-
+	/**
+	 * Shows the composite holding the details zone.
+	 * @param typeDecl the currently focused typedecl
+	 */
 	protected void displayDetails(TypeDeclaration typeDecl) {
 		detailITSCZone.setVisible(false);
 		detailTPNZone.setVisible(false);
 		if (typeDecl.getTypeType().equals("Time Petri Net")) {
 			displayTPNdetails(typeDecl);
 			detailTPNZone.setVisible(true);
-		} else if (typeDecl.getTypeType().equals("ITSComposite")) {			
-			displayITSCdetails((CompositeTypeDeclaration)typeDecl);		
+		} else if (typeDecl.getTypeType().equals("ITSComposite")) {
+			displayITSCdetails((CompositeTypeDeclaration) typeDecl);
 			detailITSCZone.setVisible(true);
-		} else {
-
 		}
+		// Scalar / circular not supported
 	}
 
-
+	/**
+	 * called to update tpn details
+	 * @param typeDecl the selected tpn
+	 */
 	private void displayTPNdetails(TypeDeclaration typeDecl) {
 		tpnTable.getViewer().setInput(typeDecl.getGraph());
 	}
+	/**
+	 * called to update the composite details view
+	 * @param ctd the current selected ctd
+	 */
 	private void displayITSCdetails(CompositeTypeDeclaration ctd) {
 
 		/** Build two tables: Table 1 has available Concept names
 		 *  Table 2 has the required labels for this concept.
 		 */
-		concepts.getViewer().setInput(ctd);		
-		concepts.getViewer().refresh();		
+		concepts.getViewer().setInput(ctd);
+		concepts.getViewer().refresh();
 
 	}
 
 	/**
-	 * The <code>MultiPageEditorPart</code> implementation of this 
+	 * The <code>MultiPageEditorPart</code> implementation of this
 	 * <code>IWorkbenchPart</code> method disposes all nested editors.
 	 * Subclasses may extend.
 	 */
@@ -389,17 +420,18 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	}
 	/**
 	 * Saves the multi-page editor's document.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		String xmlStr = io.ModelWriter.translateToXML(types);
-		InputStream is = new ByteArrayInputStream(xmlStr.getBytes()); 
+		InputStream is = new ByteArrayInputStream(xmlStr.getBytes());
 		try {
-			((FileEditorInput)getEditorInput()).getFile().setContents(is, false, false, null);
+			((FileEditorInput) getEditorInput()).getFile().setContents(is, false, false, null);
 		} catch (CoreException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
+		}
 		setDirty(false);
 	}
 	/**
@@ -415,7 +447,9 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		setInput(editor.getEditorInput());
 		setDirty(false);
 	}
-	/* (non-Javadoc)
+	/**
+	 * {@inheritDoc}
+	 *  (non-Javadoc)
 	 * Method declared on IEditorPart
 	 */
 	public void gotoMarker(IMarker marker) {
@@ -425,15 +459,19 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 	/**
 	 * The <code>MultiPageEditorExample</code> implementation of this method
 	 * checks that the input is an instance of <code>IFileEditorInput</code>.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public void init(IEditorSite site, IEditorInput editorInput)
 	throws PartInitException {
-		if (!(editorInput instanceof IFileEditorInput))
+		if (!(editorInput instanceof IFileEditorInput)) {
 			throw new PartInitException("Invalid Input: Must be IFileEditorInput");
+		}
 		super.init(site, editorInput);
 	}
-	/* (non-Javadoc)
+	/**
+	 * {@inheritDoc}
+	 *  (non-Javadoc)
 	 * Method declared on IEditorPart.
 	 */
 	@Override
@@ -441,6 +479,8 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		return true;
 	}
 	/**
+	 * {@inheritDoc}
+	 *  (non-Javadoc)
 	 * Calculates the contents of page 2 when the it is activated.
 	 */
 	@Override
@@ -452,46 +492,71 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 
 	}
 	/**
+	 * {@inheritDoc}
+	 *  (non-Javadoc)
 	 * Closes all project files on project close.
 	 */
-	public void resourceChanged(final IResourceChangeEvent event){
-		if(event.getType() == IResourceChangeEvent.PRE_CLOSE){
-			Display.getDefault().asyncExec(new Runnable(){
-				public void run(){
+	@Override
+	public void resourceChanged(final IResourceChangeEvent event) {
+		if (event.getType() == IResourceChangeEvent.PRE_CLOSE) {
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
 					IWorkbenchPage[] pages = getSite().getWorkbenchWindow().getPages();
-					for (int i = 0; i<pages.length; i++){
-						if(((FileEditorInput)editor.getEditorInput()).getFile().getProject().equals(event.getResource())){
-							IEditorPart editorPart = pages[i].findEditor(editor.getEditorInput());
-							pages[i].closeEditor(editorPart,true);
+					for (IWorkbenchPage page : pages) {
+						if (((FileEditorInput) editor.getEditorInput()).getFile().getProject().equals(event.getResource()))
+						{
+							IEditorPart editorPart = page.findEditor(editor.getEditorInput());
+							page.closeEditor(editorPart, true);
 						}
 					}
-				}            
+				}
 			});
 		}
 	}
+	/**
+	 * Returns the types that is central model of this editor.
+	 * @return the current type list
+	 */
 	public TypeList getTypes() {
 		return types;
 	}
 
+	/**
+	 * The table viewer.
+	 * @return the table viewer
+	 */
 	public TableViewer getTableviewer() {
 		return table.getViewer();
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean isDirty() {
-		return editor.isDirty() || isDirty ;
+		return editor.isDirty() || isDirty;
 	}
-	
+
+	/**
+	 * set state to dirty (should save)
+	 * @param isDirty the state
+	 */
 	public void setDirty(boolean isDirty) {
 		this.isDirty = isDirty;
 		firePropertyChange(PROP_DIRTY);
 		refresh();
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void update() {
 		setDirty(true);
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	public void refresh() {
 		table.getViewer().refresh();
 		requiredLabels.getViewer().refresh();
@@ -499,9 +564,12 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 		treePage.getPartControl().redraw();
 		treePage.refresh();
 	}
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void addPages() {
-		TypeList tmptypes = io.ModelLoader.loadFromXML(((FileEditorInput)getEditorInput()).getFile());
+		TypeList tmptypes = io.ModelLoader.loadFromXML(((FileEditorInput) getEditorInput()).getFile());
 		if (tmptypes == null) {
 			tmptypes = new TypeList();
 		}
@@ -518,3 +586,4 @@ public class MultiPageEditor extends FormEditor implements IResourceChangeListen
 
 	}
 }
+
