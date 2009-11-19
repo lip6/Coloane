@@ -330,7 +330,10 @@ public final class MultiPageEditor
 			}
 		}
 	}
-
+	/**
+	 * Build the composite details section
+	 * @param parent the parent composite
+	 */
 	private void createITSCDetails(Composite parent) {
 		Text title = new Text(parent, SWT.BORDER);
 		title.setEditable(false);
