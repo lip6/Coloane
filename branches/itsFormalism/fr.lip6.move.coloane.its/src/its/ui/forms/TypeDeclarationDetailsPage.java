@@ -230,9 +230,11 @@ public final class TypeDeclarationDetailsPage implements IDetailsPage {
 	 * Update the state of the viewers
 	 */
 	private void update() {
+		// CHECKSTYLE OFF
 		typeNametf.setText(input != null && input.getTypeName() != null ? input.getTypeName() : ""); //$NON-NLS-1$
 		typeFormalismtf.setText(input != null && input.getTypeType() != null ? input.getTypeType() : "");
 		typeFiletf.setText(input != null && input.getTypePath() != null ? input.getTypePath() : "");
+		// CHECKSTYLE ON
 		lviewer.setInput(input);
 	}
 	/**

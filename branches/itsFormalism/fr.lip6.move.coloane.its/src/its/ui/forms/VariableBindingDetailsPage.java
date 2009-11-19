@@ -116,9 +116,11 @@ public final class VariableBindingDetailsPage implements IDetailsPage {
 	 * refresh the state
 	 */
 	private void update() {
+		// CHECKSTYLE OFF
 		varNametf.setText(input != null && input.getVariableName() != null ? input.getVariableName() : "");
 		Integer n = input != null ? input.getVariableValue() : null;
 		varValuetf.setText(n != null ?  n.toString() : ""); //$NON-NLS-1$
+		// CHECKSTYLE ON
 	}
 	/**
 	 * {@inheritDoc}
