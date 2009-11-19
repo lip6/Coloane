@@ -46,7 +46,7 @@ public final class ModelLoader {
 			saxParser.parse(xmlURI.toString(), modelHandler);
 			LOGGER.info("Temps de chargement : " + (System.currentTimeMillis() - debut) + " ms"); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (SAXException e) {
-			LOGGER.warning("Parse error while analyzing file "+xmlURI +".\n details:"+ e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Parse error while analyzing file "+ xmlURI + ".\n details:"+ e.getMessage()); //$NON-NLS-1$
 			e.printStackTrace();
 		} catch (IOException e) {
 			LOGGER.warning("IO exception : " + e.getMessage()); //$NON-NLS-1$

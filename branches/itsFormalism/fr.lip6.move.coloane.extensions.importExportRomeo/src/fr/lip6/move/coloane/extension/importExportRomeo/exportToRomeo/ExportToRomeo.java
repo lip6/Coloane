@@ -114,10 +114,10 @@ public class ExportToRomeo implements IExportTo {
 		sb.append("<arc ");
 		sb.append("place=\"" + place.getId() + "\" ");
 		sb.append("transition=\"" + trans.getId() + "\" ");
-		sb.append("type=\""+type+"\" ");
+		sb.append("type=\""+ type+ "\" ");
 		IAttribute val = arc.getAttribute("valuation");
 		if (val != null) {
-			sb.append("weight=\""+ val.getValue()+"\" ");
+			sb.append("weight=\""+ val.getValue()+ "\" ");
 		} else {
 			sb.append("weight=\"1\" ");			
 		}

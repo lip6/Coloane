@@ -57,7 +57,7 @@ public class ModelHandler extends DefaultHandler {
 //			arcColors = new HashMap<String, List<IArc>>();
 			// 6 colors only.
 			for (int i = 0; i < 6; i++) {
-				String lab = "c"+i;
+				String lab = "c"+ i;
 				transColors.put(lab, new ArrayList<INode>());
 				placeColors.put(lab, new ArrayList<INode>());
 //				arcColors.put(lab, new ArrayList<IArc>());
@@ -109,16 +109,16 @@ public class ModelHandler extends DefaultHandler {
 		if (obj instanceof INode) {
 			INode node = (INode) obj;
 			if (node.getNodeFormalism().getName().equals("transition")) {		
-				transColors.get("c"+colorLab).add(node);
+				transColors.get("c"+ colorLab).add(node);
 			} else {
-				placeColors.get("c"+colorLab).add(node);
+				placeColors.get("c"+ colorLab).add(node);
 			}
 		}
 		// IGNORE ARC COLORS
 //		} else {
 //			if (obj instanceof IArc) {
 //				IArc arc = (IArc) obj;
-//				arcColors.get("c"+colorLab).add(arc);
+//				arcColors.get("c"+ colorLab).add(arc);
 //			}
 //		}
 
@@ -309,7 +309,7 @@ public class ModelHandler extends DefaultHandler {
 	 */
 	private void handlePlaceColors(Attributes attributes) {
 		for (int i = 0; i < 6; i++) {
-			String colorIndex = "c"+i;
+			String colorIndex = "c"+ i;
 			String color = attributes.getValue(colorIndex);
 			
 			Color bgColor = getColor (color);
@@ -328,7 +328,7 @@ public class ModelHandler extends DefaultHandler {
 	 */
 	private void handleTransitionColors(Attributes attributes) {
 		for (int i = 0; i < 6; i++) {
-			String colorIndex = "c"+i;
+			String colorIndex = "c"+ i;
 			String color = attributes.getValue(colorIndex);
 			
 			Color bgColor = getColor (color);
