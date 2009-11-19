@@ -8,7 +8,7 @@
             name="ITS Editor"
             extensions="xmlits"
             icon="icons/models_navigator.gif"
-            class="testits.editors.MultiPageEditor"
+            class="fr.lip6.move.coloane.its.plugin.editors.MultiPageEditor"
             id="testits.editors.ITSEditor">
       </editor>
    </extension>
@@ -23,7 +23,7 @@
             name="ITS Composition Model"
             icon="icons/models_navigator.gif"
             category="ITSComposition"
-            class="testits.wizards.ITSNewModelWizard"
+            class="fr.lip6.move.coloane.its.plugin.wizards.ITSNewModelWizard"
             id="testits.wizards.SampleNewWizard">
       </wizard>
    </extension>

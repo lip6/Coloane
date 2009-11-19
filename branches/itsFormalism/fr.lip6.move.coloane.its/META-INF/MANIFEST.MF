@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: TestITS Plug-in
 Bundle-SymbolicName: fr.lip6.move.coloane.its;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: its.ui.forms.ITSEditorPlugin
+Bundle-Activator: fr.lip6.move.coloane.its.ui.forms.ITSEditorPlugin
 Bundle-Vendor: Yann
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
