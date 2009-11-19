@@ -2,7 +2,6 @@ package fr.lip6.move.coloane.its.syntax;
 
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.model.IElement;
-import fr.lip6.move.coloane.its.syntax.tpn.Result;
 
 
 /**
