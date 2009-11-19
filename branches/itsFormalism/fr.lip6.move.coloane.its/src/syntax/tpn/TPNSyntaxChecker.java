@@ -90,7 +90,7 @@ public final class TPNSyntaxChecker implements ISyntaxChecker {
 	 */
 	@Override
 	public String getFormalism() {
-		return "Time Petri Nets";
+		return "Time Petri Net";
 	}
 
 }
