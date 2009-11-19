@@ -6,7 +6,7 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public final class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "fr.lip6.move.coloane.extension.importSGRomeo";
@@ -21,12 +21,14 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
@@ -42,3 +44,4 @@ public class Activator extends AbstractUIPlugin {
 	}
 
 }
+
