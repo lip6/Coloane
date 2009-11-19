@@ -58,7 +58,7 @@ public class LabelTextFactory {
 	 * @param label le nom de l'attribut
 	 * @param value sa valeur initiale
 	 * @param enumeration les valeurs possibles (a priori spécifiées via le formalisme)
-	 * @return
+	 * @return an attribute label
 	 */
 	public IAttributeLabel create(String label, String value,
 			List<String> enumeration) {
@@ -72,3 +72,4 @@ public class LabelTextFactory {
 		return lt;
 	}
 }
+

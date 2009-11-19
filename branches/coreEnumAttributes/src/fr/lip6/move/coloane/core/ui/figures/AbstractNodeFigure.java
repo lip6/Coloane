@@ -17,3 +17,4 @@ public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
 	}
 
 }
+
