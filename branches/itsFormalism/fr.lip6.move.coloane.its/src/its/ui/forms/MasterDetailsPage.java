@@ -47,3 +47,4 @@ public final class MasterDetailsPage extends FormPage {
 		block.refresh();
 	}
 }
+
