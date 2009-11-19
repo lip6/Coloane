@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.its.syntax.ISyntaxChecker;
 import fr.lip6.move.coloane.its.syntax.ISyntaxRule;
+import fr.lip6.move.coloane.its.syntax.Result;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,13 +73,13 @@ public final class TPNSyntaxChecker implements ISyntaxChecker {
 		for (INode node : graph.getNodes()) {
 			INodeFormalism ief = node.getNodeFormalism();
 			for (ISyntaxRule rule : getRulesPerElt(ief)) {
-				rule.check(graph, result);
+				rule.check(node, result);
 			}
 		}
 		for (IArc arc : graph.getArcs()) {
 			IArcFormalism iaf = arc.getArcFormalism();
 			for (ISyntaxRule rule : getRulesPerElt(iaf)) {
-				rule.check(graph, result);
+				rule.check(arc, result);
 			}
 		}
 
