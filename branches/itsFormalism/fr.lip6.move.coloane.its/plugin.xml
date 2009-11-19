@@ -23,7 +23,7 @@
             name="ITS Composition Model"
             icon="icons/models_navigator.gif"
             category="ITSComposition"
-            class="testits.wizards.SampleNewWizard"
+            class="testits.wizards.ITSNewModelWizard"
             id="testits.wizards.SampleNewWizard">
       </wizard>
    </extension>
