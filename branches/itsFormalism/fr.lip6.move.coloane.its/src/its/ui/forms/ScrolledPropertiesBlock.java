@@ -232,3 +232,4 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock {
 		return page;
 	}
 }
+
