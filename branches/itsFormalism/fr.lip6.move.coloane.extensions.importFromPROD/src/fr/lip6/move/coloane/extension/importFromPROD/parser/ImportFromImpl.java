@@ -41,7 +41,7 @@ public class ImportFromImpl implements IImportFrom {
 		try {
 			graph = parser.prodModel();
 		} catch (RecognitionException e) {
-			throw new ColoaneException("Error parsing prod file "+e.getMessage());
+			throw new ColoaneException("Error parsing prod file " + e.getMessage());
 		}
 		return graph;
 
