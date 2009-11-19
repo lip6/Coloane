@@ -15,8 +15,6 @@ import fr.lip6.move.coloane.its.Concept;
 import fr.lip6.move.coloane.its.TypeDeclaration;
 import fr.lip6.move.coloane.its.actions.RemoveTypeAction;
 import fr.lip6.move.coloane.its.expression.VariableBinding;
-import fr.lip6.move.coloane.its.typesui.TypeListTreeProvider;
-import fr.lip6.move.coloane.its.typesui.TypeTreeLabelProvider;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;

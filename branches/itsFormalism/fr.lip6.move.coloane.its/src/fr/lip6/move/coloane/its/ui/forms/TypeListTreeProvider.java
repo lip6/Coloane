@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.its.typesui;
+package fr.lip6.move.coloane.its.ui.forms;
 
 import fr.lip6.move.coloane.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.its.Concept;
