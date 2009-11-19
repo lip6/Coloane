@@ -28,6 +28,16 @@ import fr.lip6.move.coloane.its.expression.*;
 
 }
 
+@members {
+    private IErrorReporter errorReporter = null;
+    public void setErrorReporter(IErrorReporter errorReporter) {
+        this.errorReporter = errorReporter;
+    }
+    public void emitErrorMessage(String msg) {
+        errorReporter.reportError(msg);
+    }
+}
+
 prog returns [IntegerExpression expr] : exp=expression { expr = exp;};
 
 expression returns [IntegerExpression expr] : 
