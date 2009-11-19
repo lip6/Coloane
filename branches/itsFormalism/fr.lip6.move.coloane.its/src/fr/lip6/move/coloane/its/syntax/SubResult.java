@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.its.syntax.tpn;
+package fr.lip6.move.coloane.its.syntax;
 
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 
@@ -86,6 +86,7 @@ public final class SubResult implements ISubResult {
 	public void addAttributeOutline(int id, String string) {
 		if (!attributesOutline.containsKey(id)) {
 			attributesOutline.put(id, new ArrayList<String>());
+			objectsDesignation.add(id);
 		}
 		attributesOutline.get(id).add(string);
 	}

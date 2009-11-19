@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.its.syntax.tpn;
+package fr.lip6.move.coloane.its.syntax;
 
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
