@@ -5,6 +5,8 @@ import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.its.syntax.ISyntaxRule;
+import fr.lip6.move.coloane.its.syntax.Result;
+import fr.lip6.move.coloane.its.syntax.SubResult;
 
 import java.util.ArrayList;
 import java.util.List;
