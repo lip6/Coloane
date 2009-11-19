@@ -153,6 +153,46 @@ public final class TypeDeclarationDetailsPage implements IDetailsPage {
 			}
 		});
 
+		//		flatTypeButton.addSelectionListener(new SelectionAdapter() {
+		//			@Override
+		//			public void widgetSelected(SelectionEvent event) {
+		//				ModelFlattener mf = new ModelFlattener();
+		//				try {
+		//					mf.doFlatten((CompositeTypeDeclaration) currentSelectedTypeDecl);
+		//				} catch (Exception e) {
+		//					e.printStackTrace();
+		//				}
+		//				try {
+		//					FileDialog fileDialog = new FileDialog(getSite().getShell(), SWT.SAVE);
+		//					// fontDialog.setFontList(text.getFont().getFontData());
+		//					String filePath = fileDialog.open();
+		//					if (filePath == null) {
+		//						ErrorDialog.openError(getSite().getShell(),
+		//								"Cancelled by user",
+		//								"Add new type operation cancelled by user",
+		//								new Status(1, "fr.lip6.move.coloane.its", "Cancel Dialog"));
+		//					}
+		//					IPath path = new Path(filePath);
+		//					IFile outputff = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
+		//					IGraph flatModel = mf.getFlatModel();
+		//					GraphLayout.layout(flatModel);
+		//					outputff.create(new ByteArrayInputStream(ModelWriter.translateToXML(flatModel).getBytes()), 0, null);
+		//					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		//					try {
+		//						if (outputff.exists()) {
+		//							IDE.openEditor(page, outputff);
+		//						}
+		//					} catch (PartInitException e) {
+		//						e.printStackTrace();
+		//					}
+		//				} catch (Exception e) {
+		//					e.printStackTrace();
+		//				}
+		//			}
+		//		});
+
+		
+		
 		toolkit.paintBordersFor(s1);
 		s1.setClient(client);
 	}
