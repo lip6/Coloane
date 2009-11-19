@@ -29,9 +29,9 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
 /**
- * This is a sample new wizard. Its role is to create a new file 
+ * This is a sample new wizard. Its role is to create a new file
  * resource in the provided container. If the container resource
- * (a folder or a project) is selected in the workspace 
+ * (a folder or a project) is selected in the workspace
  * when the wizard is opened, it will accept it as the target
  * container. The wizard creates one file with the extension
  * "xmlits". If a sample multi-page editor (also available
@@ -39,22 +39,21 @@ import org.eclipse.ui.ide.IDE;
  * be able to open it.
  */
 
-public class SampleNewWizard extends Wizard implements INewWizard {
+public final class ITSNewModelWizard extends Wizard implements INewWizard {
 	private SampleNewWizardPage page;
 	private ISelection selection;
 
 	/**
 	 * Constructor for SampleNewWizard.
 	 */
-	public SampleNewWizard() {
+	public ITSNewModelWizard() {
 		super();
 		setNeedsProgressMonitor(true);
 	}
-	
+
 	/**
 	 * Adding the page to the wizard.
 	 */
-
 	@Override
 	public void addPages() {
 		page = new SampleNewWizardPage(selection);
@@ -65,6 +64,7 @@ public class SampleNewWizard extends Wizard implements INewWizard {
 	 * This method is called when 'Finish' button is pressed in
 	 * the wizard. We will create an operation and run it
 	 * using wizard as execution context.
+	 * @return true if it closed ok
 	 */
 	@Override
 	public boolean performFinish() {
@@ -92,18 +92,20 @@ public class SampleNewWizard extends Wizard implements INewWizard {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * The worker method. It will find the container, create the
 	 * file if missing or just replace its contents, and open
 	 * the editor on the newly created file.
+	 * @param containerName container
+	 * @param fileName file
+	 * @param monitor progress monitor
+	 * @throws CoreException if any problems
 	 */
-
-	private void doFinish(
-		String containerName,
-		String fileName,
-		IProgressMonitor monitor)
-		throws CoreException {
+	private void doFinish(String containerName,
+			String fileName,
+			IProgressMonitor monitor)
+	throws CoreException {
 		// create a sample file
 		monitor.beginTask("Creating " + fileName, 2);
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
@@ -137,11 +139,11 @@ public class SampleNewWizard extends Wizard implements INewWizard {
 		});
 		monitor.worked(1);
 	}
-	
-	/**
-	 * We will initialize file contents with a sample text.
-	 */
 
+	/**
+	 * We will initialize file contents with XML header.
+	 * @return open strem with header added
+	 */
 	private InputStream openContentStream() {
 		String contents =
 			"<?xml version='1.0' encoding='UTF-8'?>\n"
@@ -154,6 +156,11 @@ public class SampleNewWizard extends Wizard implements INewWizard {
 		return new ByteArrayInputStream(contents.getBytes());
 	}
 
+	/**
+	 * utility to raise exceptions with a status object
+	 * @param message the message to show
+	 * @throws CoreException the new excception
+	 */
 	private void throwCoreException(String message) throws CoreException {
 		IStatus status =
 			new Status(IStatus.ERROR, "TestITS", IStatus.OK, message, null);
@@ -161,10 +168,12 @@ public class SampleNewWizard extends Wizard implements INewWizard {
 	}
 
 	/**
+	 * {@inheritDoc}
 	 * We will accept the selection in the workbench to see if
 	 * we can initialize from it.
 	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
 	 */
+	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}
