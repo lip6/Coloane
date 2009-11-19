@@ -27,5 +27,14 @@
             id="testits.wizards.SampleNewWizard">
       </wizard>
    </extension>
+   <extension
+         point="fr.lip6.move.coloane.core.tools">
+      <Tool
+            action="fr.lip6.move.coloane.its.syntax.tool.SyntaxCheckAction"
+            description="Syntax Check"
+            icon="icons/spellcheck.png"
+            name="fr.lip6.move.coloane.its.syntax">
+      </Tool>
+   </extension>
 
 </plugin>
