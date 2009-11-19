@@ -8,6 +8,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 
+/**
+ * A table view of a graph model.
+ * @author Yann
+ *
+ */
 public final class NodesTable {
 
 	private static String [] columnTitles = {"Visibility", "Label", "eft", "lft"};
@@ -16,21 +21,27 @@ public final class NodesTable {
 	private TableViewer viewer;
 
 
-	//	public TypesTable(Composite parent, int style, TypeList types) {
-	//		super(parent, tyle);
-	//		createViewer(this);
-	//		this.types = types ;
-	//		viewer.setInput(types);
-	//	}
+	/**
+	 * Ctor
+	 * @param model to be loaded
+	 */
 	public NodesTable(IGraph model) {
 		this.model = model;
 	}
 
+	/**
+	 * Create the widgets
+	 * @param parent in this composite
+	 */
 	public void createWidgets(Composite parent) {
 		createViewer(parent);
 		viewer.setInput(model);
 	}
 
+	/**
+	 * Create the table
+	 * @param parent in this composite
+	 */
 	private void createViewer(Composite parent) {
 		viewer = new TableViewer(parent, SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
 		createColumns(viewer);
@@ -39,7 +50,11 @@ public final class NodesTable {
 	}
 
 
-	private void createColumns(TableViewer viewer2) {
+	/**
+	 * build the columns.
+	 * @param viewer the table
+	 */
+	private void createColumns(TableViewer viewer) {
 		for (int i = 0; i < columnSizes.length; ++i) {
 			TableViewerColumn column = new TableViewerColumn(viewer, SWT.NONE);
 			column.getColumn().setText(columnTitles[i]);
@@ -52,11 +67,17 @@ public final class NodesTable {
 		table.setLinesVisible(true);
 	}
 
+	/**
+	 * update the table view using the model.
+	 */
 	public void refresh() {
 		viewer.refresh();
 
 	}
 
+	/**
+	 * @return the viewer for this table
+	 */
 	public TableViewer getViewer() {
 		return viewer;
 	}

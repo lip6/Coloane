@@ -12,8 +12,16 @@ import java.util.List;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-public class TransitionTableProvider implements IStructuredContentProvider {
+/**
+ * A class providing a view of thhe transitions of a TPN in a table
+ * @author Yann
+ *
+ */
+public final class TransitionTableProvider implements IStructuredContentProvider {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Object[] getElements(Object inputElement) {
 		IGraph graph = (IGraph) inputElement;
@@ -36,16 +44,18 @@ public class TransitionTableProvider implements IStructuredContentProvider {
 		return toret.toArray();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
-
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// TODO Auto-generated method stub
-
 	}
 
 }
