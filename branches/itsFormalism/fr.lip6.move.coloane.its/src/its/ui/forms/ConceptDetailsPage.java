@@ -252,7 +252,9 @@ public final class ConceptDetailsPage implements IDetailsPage {
 	 * Refresh everybody.
 	 */
 	private void update() {
+		// CHECKSTYLE OFF
 		conceptNametf.setText(input != null && input.getName() != null ? input.getName() : ""); //$NON-NLS-1$
+		// CHECKSTYLE ON
 		String[] items = getSuggestions(input);
 		effectiveEditor.setItems(items);
 		for (int i = 0; i < items.length; i++) {
