@@ -103,7 +103,7 @@ public class ExportToCompositeITS implements IExportTo {
 				sb.append("' ");
 				sb.append("/>\n");
 			}
-			
+
 			sb.append("</model>\n");
 			sb.newLine();
 			// End of writing : clean & close
