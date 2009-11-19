@@ -53,7 +53,9 @@ public final class Variable implements IntegerExpression, IVariable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		// CHECKSTYLE OFF
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		// CHECKSTYLE ON
 		return result;
 	}
 
