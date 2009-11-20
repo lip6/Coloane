@@ -50,8 +50,8 @@ implements IResourceChangeListener, ISimpleObserver {
 	private boolean isDirty = false;
 
 	/** singleton for add type wizard */
-	private AddTypeAction addAction;
-
+	private AddTypeAction addAction = null;
+	
 	/** The main view */
 	private MasterDetailsPage treePage;
 
@@ -118,6 +118,8 @@ implements IResourceChangeListener, ISimpleObserver {
 	 * @return the add action.
 	 */
 	public AddTypeAction getAddAction() {
+		if (addAction == null)
+			addAction = new AddTypeAction(this);
 		return addAction;
 	}
 	/**
