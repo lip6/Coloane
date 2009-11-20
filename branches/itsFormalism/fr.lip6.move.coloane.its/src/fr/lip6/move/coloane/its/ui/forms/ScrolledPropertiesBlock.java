@@ -96,6 +96,16 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock {
 		layout.verticalSpacing = 3;
 		buttonZone.setLayout(layout);
 
+		Button breload = toolkit.createButton(buttonZone, "Refresh", SWT.PUSH); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		breload.setLayoutData(gd);
+		breload.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				page.getMpe().getTypes().reload();
+			}
+		});
+
 		Button b = toolkit.createButton(buttonZone, "Add a type", SWT.PUSH); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		b.setLayoutData(gd);
