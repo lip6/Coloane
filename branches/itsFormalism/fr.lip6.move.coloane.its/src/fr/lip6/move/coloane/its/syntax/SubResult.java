@@ -45,7 +45,14 @@ public final class SubResult implements ISubResult {
 	public String getName() {
 		return name;
 	}
-
+	
+	/**
+	 * Setter for name
+	 * @param name the new name
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 	/**
 	 * {@inheritDoc}
 	 */
