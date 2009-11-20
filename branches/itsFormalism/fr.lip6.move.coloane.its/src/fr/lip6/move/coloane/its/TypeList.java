@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.its;
 import fr.lip6.move.coloane.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.its.obs.SimpleObservable;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -82,4 +83,15 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 		notifyObservers();
 	}
 
+	public void reload() {
+		for (TypeDeclaration td : this) {
+			try {
+				td.reload();
+			} catch (IOException e) {
+				removeTypeDeclaration(td);
+			}
+		}
+		notifyObservers();
+	}
+	
 }
