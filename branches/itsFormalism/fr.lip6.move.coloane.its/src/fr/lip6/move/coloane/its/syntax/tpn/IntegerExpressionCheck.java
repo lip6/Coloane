@@ -61,7 +61,7 @@ public final class IntegerExpressionCheck implements ISyntaxRule {
 			if (att.getValue() != null && att.getValue() != "") {
 				String name = att.getName();
 				if (name.equals("marking")
-						|| name.equals("earlisetFiringTime")
+						|| name.equals("earliestFiringTime")
 						|| name.equals("latestFiringTime")
 						|| name.equals("valuation")
 						|| name.equals("size")) {
@@ -92,10 +92,10 @@ public final class IntegerExpressionCheck implements ISyntaxRule {
 
 	void addCheckFail (IElement elt, IAttribute att, String msg, Result result) {
 		SubResult sr = new SubResult();
+		sr.setName(getName());
 		sr.addAttributeOutline(elt.getId(), att.getName());
 		sr.addObjectOutline(elt.getId());
-		sr.addTextualResults("Syntax error parsing integer expression for \""+att.getName()+"\". Use $ to prefix variables, and arithmetic operations only.");
-		sr.addTextualResults(msg);
+		sr.addTextualResults("Syntax error parsing integer expression for \""+att.getName()+"\". Use $ to prefix variables, and arithmetic operations only.\n" + msg);
 		result.addChild(sr);
 	}
 	
