@@ -16,7 +16,7 @@ public class SyntaxCheckReport implements IReport {
 
 	@Override
 	public ResultTreeImpl build(IResult res) {
-		// 1. Build the root of the resultat tree
+		// 1. Build the root of the result tree
 		ResultTreeImpl root = new ResultTreeImpl("Syntax Check");
 		// 2. Attach the session Manager to the root
 		root.setSessionManager(SessionManager.getInstance());			
@@ -33,7 +33,15 @@ public class SyntaxCheckReport implements IReport {
 			ResultTreeImpl node;
 			if ((element != null) && (element instanceof INode)) {
 				INode inode = (INode) element;
-				node = new ResultTreeImpl(sub.getObjectsOutline(), inode.getNodeFormalism().getName(), element.getAttribute("name").getValue());
+				String name;
+				if (element.getAttribute("name") != null) {
+					name = element.getAttribute("name").getValue();
+				} else if (element.getAttribute("label") != null) {
+					name = element.getAttribute("label").getValue();
+				} else {
+					name = "";
+				}
+				node = new ResultTreeImpl(sub.getObjectsOutline(), inode.getNodeFormalism().getName(), name);
 			} else if ((element != null) && (element instanceof IArc)) {
 				IArc ia = (IArc) element;
 				node = new ResultTreeImpl(sub.getObjectsOutline(),
