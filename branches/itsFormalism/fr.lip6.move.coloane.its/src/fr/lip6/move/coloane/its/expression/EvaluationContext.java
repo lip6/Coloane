@@ -87,4 +87,10 @@ public final class EvaluationContext extends SimpleObservable implements IEvalua
 		return variables.contains(var);
 	}
 
+	public void clear() {
+		values.clear();
+		vbs.clear();
+		variables.clear();
+	}
+
 }
