@@ -38,7 +38,7 @@ import fr.lip6.move.coloane.its.expression.*;
     }
 }
 
-prog returns [IntegerExpression expr] : exp=expression { expr = exp;};
+prog returns [IntegerExpression expr] : exp=expression EOF { expr = exp;};
 
 expression returns [IntegerExpression expr] : 
   exp1=mult_exp 
