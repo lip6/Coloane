@@ -13,11 +13,32 @@
 	<name>Fragments :: Formalisms :: Time Petri Nets</name>
 	<description>Time Petri Net Formalism</description>
 	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>fr.lip6.move.coloane.application</groupId>
+				<artifactId>core</artifactId>
+				<version>[0.16,)</version>
+			</dependency>
+			<dependency>
+				<groupId>fr.lip6.move.coloane.application</groupId>
+				<artifactId>interfaces</artifactId>
+				<version>[0.16,)</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
 	<dependencies>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.application</groupId>
 			<artifactId>core</artifactId>
-			<version>${project.version}</version>
+			<version>[0.16,)</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.application</groupId>
+			<artifactId>interfaces</artifactId>
+			<version>[0.16,)</version>
 		</dependency>
 	</dependencies>
+	
 </project>
