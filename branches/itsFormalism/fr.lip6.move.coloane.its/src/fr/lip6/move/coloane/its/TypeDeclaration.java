@@ -12,7 +12,10 @@ import fr.lip6.move.coloane.its.expression.Constant;
 import fr.lip6.move.coloane.its.expression.EvaluationContext;
 import fr.lip6.move.coloane.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.its.expression.IVariable;
+import fr.lip6.move.coloane.its.expression.IVariableBinding;
 import fr.lip6.move.coloane.its.expression.IntegerExpression;
+import fr.lip6.move.coloane.its.expression.Variable;
+import fr.lip6.move.coloane.its.expression.parser.ErrorReporter;
 import fr.lip6.move.coloane.its.expression.parser.IntegerExpressionParserLexer;
 import fr.lip6.move.coloane.its.expression.parser.IntegerExpressionParserParser;
 import fr.lip6.move.coloane.its.obs.ISimpleObserver;
@@ -217,6 +220,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			} catch (ColoaneException e) {
 				final Logger logger = Logger.getLogger("fr.lip6.move.coloane.its"); //$NON-NLS-1$
 				logger.warning("Model contains syntax errors. Please validate it through syntax check before import. Some model elements were not fully parsed." + e);
+				
 			}
 		}
 		return context;
@@ -272,10 +276,16 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 			IntegerExpressionParserParser parser = new IntegerExpressionParserParser(tokens);
 			IntegerExpression expr;
+			ErrorReporter report = new ErrorReporter();
+			parser.setErrorReporter(report);
 			try {
 				expr = parser.prog();
+				for (String error: report) {
+					throw new RecognitionException();
+				}
 			} catch (RecognitionException e) {
-				throw new ColoaneException("Error parsing Marking " + e.getMessage());
+				context.declareVariable(new Variable("SYNTAX ERRORS IN MODEL, PLEASE RUN SYNTAX CHECK"));
+				return;
 			}
 			if (!(expr instanceof Constant) && expr != null) {
 				// dont store the mapping for trivial integers
@@ -322,6 +332,25 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		return copy;
 	}
 
+	
+	public void reload() throws IOException {
+		// free the current data
+		attribs.clear();
+		// force cache clear
+		EvaluationContext oldcontext = context;
+		context = null;		
+		labels = null;
+		graph = loadGraph(typeFile);
+		// refresh the caches
+		getLabels();
+		getParameters();
+		// copy old valuations back in
+		for (IVariableBinding vb : oldcontext.getBindings()) {
+			if (context.containsVariable(vb.getVariable())) {
+				context.setVariableValue(vb.getVariable(), vb.getVariableValue());
+			}
+		}
+	}
 }
 
 
