@@ -47,5 +47,11 @@ public final class VariableBinding implements IVariableBinding {
 		context.setVariableValue(var, value);
 	}
 
-
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public IVariable getVariable() {
+		return var;
+	}
 }
