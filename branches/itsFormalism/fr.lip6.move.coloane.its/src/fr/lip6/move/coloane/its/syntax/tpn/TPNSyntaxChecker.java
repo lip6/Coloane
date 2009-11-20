@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.its.syntax.ISyntaxChecker;
 import fr.lip6.move.coloane.its.syntax.ISyntaxRule;
 import fr.lip6.move.coloane.its.syntax.Result;
+import fr.lip6.move.coloane.its.syntax.SubResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +83,11 @@ public final class TPNSyntaxChecker implements ISyntaxChecker {
 				rule.check(arc, result);
 			}
 		}
-
+		if (result.getSubResults().isEmpty()) {
+			SubResult sr = new SubResult();
+			sr.setName("Syntax check success!");
+			result.addChild(sr);
+		}
 		return result;
 	}
 
