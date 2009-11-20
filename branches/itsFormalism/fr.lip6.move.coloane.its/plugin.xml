@@ -36,5 +36,12 @@
             name="fr.lip6.move.coloane.its.syntax">
       </Tool>
    </extension>
+   <extension
+         point="fr.lip6.move.coloane.core.reports">
+      <report
+            class="fr.lip6.move.coloane.its.syntax.tool.SyntaxCheckReport"
+            service_name="tpn.syntax">
+      </report>
+   </extension>
 
 </plugin>
