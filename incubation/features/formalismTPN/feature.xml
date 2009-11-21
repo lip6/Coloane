@@ -7,7 +7,7 @@
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This Eclipse features brings the support of DD formalisms into Coloane
+      This Eclipse features brings the support of TPN formalisms into Coloane
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -26,6 +26,7 @@
 
    <requires>
       <import plugin="fr.lip6.move.coloane.core" version="0.16.2" match="greaterOrEqual"/>
+      <import plugin="fr.lip6.move.coloane.interfaces"/>
    </requires>
 
    <plugin
