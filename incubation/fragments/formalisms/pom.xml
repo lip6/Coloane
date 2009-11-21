@@ -5,7 +5,7 @@
 	<parent> 
 		<groupId>fr.lip6.move.coloane.incubation.fragments</groupId> 
 		<artifactId>fragments-parent</artifactId> 
-		<version>1.0</version> 
+		<version>1.0-INCUBATION</version>
 	</parent>
 
 	<groupId>fr.lip6.move.coloane.incubation.fragments.formalisms</groupId>

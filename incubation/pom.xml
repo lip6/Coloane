@@ -5,7 +5,7 @@
 	<groupId>fr.lip6.move.coloane.incubation</groupId>
 	<artifactId>coloane-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0</version>
+	<version>1.0-INCUBATION</version>
 	<name>Coloane Incubation</name>
 	<description>Incubation Set of Features for Coloane</description>
 	<url>http://coloane.lip6.fr</url>
@@ -29,6 +29,19 @@
 		<!-- Pour le déploiement des artefacts -->
 		<project.deployPath>/data/coloane</project.deployPath>
 	</properties>
+	
+	<distributionManagement> 
+		<repository> 
+			<id>forge.releases</id> 
+			<name>Internal Release Repository for Coloane</name> 
+			<url>http://izanami.rsr.lip6.fr:8081/nexus/content/repositories/incubations</url> 
+		</repository> 
+		<snapshotRepository> 
+			<id>forge.snapshots</id> 
+			<name>Internal Snapshot Repository for Coloane</name> 
+			<url>http://izanami.rsr.lip6.fr:8081/nexus/content/repositories/incubations</url> 
+		</snapshotRepository> 
+	</distributionManagement>
 
 	<dependencyManagement>
 		<dependencies>

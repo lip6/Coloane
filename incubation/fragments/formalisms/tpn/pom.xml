@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	
 	<parent>
-		<groupId>fr.lip6.move.coloane.fragments.formalisms</groupId>
+		<groupId>fr.lip6.move.coloane.incubation.fragments.formalisms</groupId>
 		<artifactId>formalisms-parent</artifactId>
-		<version>0.16.2-SNAPSHOT</version>
+		<version>1.0-INCUBATION</version>
 	</parent>
 	
 	<artifactId>tpn</artifactId>
