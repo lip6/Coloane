@@ -21,7 +21,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * @author Yann
  *
  */
-public final class TypeTreeLabelProvider
+public class TypeTreeLabelProvider
 			extends LabelProvider
 			implements ILabelProvider {
 
