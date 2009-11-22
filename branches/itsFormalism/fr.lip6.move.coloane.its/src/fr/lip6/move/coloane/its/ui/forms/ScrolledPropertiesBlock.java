@@ -12,7 +12,9 @@ package fr.lip6.move.coloane.its.ui.forms;
 
 import fr.lip6.move.coloane.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.its.Concept;
+import fr.lip6.move.coloane.its.ITypeListProvider;
 import fr.lip6.move.coloane.its.TypeDeclaration;
+import fr.lip6.move.coloane.its.TypeList;
 import fr.lip6.move.coloane.its.actions.RemoveTypeAction;
 import fr.lip6.move.coloane.its.expression.VariableBinding;
 
@@ -48,7 +50,7 @@ import org.eclipse.ui.part.ResourceTransfer;
 /**
  * A page to hold a type list in a tree view + hookup to details pages.
  */
-public final class ScrolledPropertiesBlock extends MasterDetailsBlock {
+public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements ITypeListProvider {
 	private MasterDetailsPage page;
 	private TreeViewer viewer;
 	/**
@@ -148,6 +150,22 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock {
 			}
 		});
 
+		Button b4 = toolkit.createButton(buttonZone, "Check Model", SWT.PUSH); //$NON-NLS-1$
+		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		b4.setLayoutData(gd);
+		b4.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				try {
+					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
+					page.getMpe().createCheckPage(td);
+				} catch (ClassCastException e) {
+					System.err.println("Select a type");
+				}
+			}
+		});
+
+		
 		viewer = new TreeViewer(tree);
 		viewer.setContentProvider(new TypeListTreeProvider());
 		viewer.setLabelProvider(new TypeTreeLabelProvider());
@@ -221,9 +239,9 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock {
 	 */
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(CompositeTypeDeclaration.class, new TypeDeclarationDetailsPage(this));
-		detailsPart.registerPage(TypeDeclaration.class, new TypeDeclarationDetailsPage(this));
-		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(page.getMpe().getTypes()));
+		detailsPart.registerPage(CompositeTypeDeclaration.class, new TypeDeclarationDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(TypeDeclaration.class, new TypeDeclarationDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(this));
 		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
 	}
 	/**
@@ -238,6 +256,11 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock {
 	 */
 	public MasterDetailsPage getPage() {
 		return page;
+	}
+
+	@Override
+	public TypeList getTypes() {
+		return page.getTypes();
 	}
 }
 
