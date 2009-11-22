@@ -17,7 +17,7 @@ import org.eclipse.jface.viewers.Viewer;
  * @author Yann
  *
  */
-public final class TypeListTreeProvider implements ITreeContentProvider {
+public class TypeListTreeProvider implements ITreeContentProvider {
 
 	/**
 	 * Root elements are the type declarations.
@@ -44,6 +44,11 @@ public final class TypeListTreeProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(Object element) {
 		List<Object> children = new ArrayList<Object>();
+		addChildren(element,children);
+		return children.toArray();
+	}
+
+	protected void addChildren(Object element, List<Object> children) {
 		if (element instanceof CompositeTypeDeclaration) {
 			CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) element;
 			for (Concept concept : ctd.listConcepts()) {
@@ -60,8 +65,6 @@ public final class TypeListTreeProvider implements ITreeContentProvider {
 			IEvaluationContext params = td.getParameters();
 			children.addAll(params.getBindings());
 		}
-
-		return children.toArray();
 	}
 
 	/**
