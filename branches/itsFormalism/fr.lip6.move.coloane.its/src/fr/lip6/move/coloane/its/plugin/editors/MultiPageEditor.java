@@ -1,9 +1,12 @@
 package fr.lip6.move.coloane.its.plugin.editors;
 
 
+import fr.lip6.move.coloane.its.ITypeListProvider;
 import fr.lip6.move.coloane.its.TypeDeclaration;
 import fr.lip6.move.coloane.its.TypeList;
 import fr.lip6.move.coloane.its.actions.AddTypeAction;
+import fr.lip6.move.coloane.its.checks.CheckList;
+import fr.lip6.move.coloane.its.checks.ui.ChecksMasterDetailsPage;
 import fr.lip6.move.coloane.its.io.ITSModelWriter;
 import fr.lip6.move.coloane.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.its.ui.forms.MasterDetailsPage;
@@ -11,6 +14,8 @@ import fr.lip6.move.coloane.its.ui.forms.MasterDetailsPage;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -39,7 +44,7 @@ import org.eclipse.ui.part.FileEditorInput;
  */
 public final class MultiPageEditor
 extends FormEditor
-implements IResourceChangeListener, ISimpleObserver {
+implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 
 	/** The text editor used for control/debug. */
 	private TextEditor editor;
@@ -55,6 +60,9 @@ implements IResourceChangeListener, ISimpleObserver {
 	/** The main view */
 	private MasterDetailsPage treePage;
 
+	/** The checks pages */
+	private List<ChecksMasterDetailsPage> checkPages = new LinkedList<ChecksMasterDetailsPage>();
+	
 	/**
 	 * Creates the editor.
 	 */
@@ -270,6 +278,9 @@ implements IResourceChangeListener, ISimpleObserver {
 	public void refresh() {
 		treePage.getPartControl().redraw();
 		treePage.refresh();
+		for (ChecksMasterDetailsPage p : checkPages) {
+			p.refresh();
+		}
 	}
 	/**
 	 * {@inheritDoc}
@@ -288,8 +299,21 @@ implements IResourceChangeListener, ISimpleObserver {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		createPageTextEditor();
-
+		createPageTextEditor();		
 	}
+	
+	public void createCheckPage (TypeDeclaration td) {
+		try {
+			CheckList cl = new CheckList(td);
+			ChecksMasterDetailsPage newPage = new ChecksMasterDetailsPage(this,cl);
+			addPage(newPage);
+			cl.addObserver(this);
+			this.checkPages.add(newPage);	
+		} catch (PartInitException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 }
 
