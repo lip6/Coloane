@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.its.ui.forms;
 
+import fr.lip6.move.coloane.its.ITypeListProvider;
+import fr.lip6.move.coloane.its.TypeList;
 import fr.lip6.move.coloane.its.plugin.editors.MultiPageEditor;
 
 import org.eclipse.ui.forms.IManagedForm;
@@ -12,7 +14,7 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * Master is a TypeList tree view, details show all relevant data.
  * @author Yann
  */
-public final class MasterDetailsPage extends FormPage {
+public final class MasterDetailsPage extends FormPage implements ITypeListProvider {
 	private ScrolledPropertiesBlock block;
 	private MultiPageEditor mpe;
 	/**
@@ -46,6 +48,10 @@ public final class MasterDetailsPage extends FormPage {
 	 */
 	public void refresh() {
 		block.refresh();
+	}
+	@Override
+	public TypeList getTypes() {
+		return mpe.getTypes();
 	}
 }
 
