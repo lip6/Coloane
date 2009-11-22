@@ -16,7 +16,7 @@ projectversion=$1
 buildnumber=$2
 
 # Check the type of production
-echo "Project Version: $projectversion" | grep "SNAPSHOT"
+echo "Project Version: $projectversion" | egrep 'SNAPSHOT|INCUBATION'
 if [ $? -ne 0 ]; then
 	echo "This project is a release version. No MANIFEST rewriting"
 	echo "Checking that there is no build revision number"

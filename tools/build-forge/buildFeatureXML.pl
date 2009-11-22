@@ -75,6 +75,7 @@ if (!(-e $featurefile)) {
 }
 
 my $release = 1;
+my $incubation = 0;
 my $featuredir = $deploypath."/updates/features";
 my $plugindir = $deploypath."/updates/plugins";
 
@@ -84,6 +85,12 @@ if ($buildname =~ /SNAPSHOT/) {
 	$featuredir = $deploypath."/night-updates/features";
 	$plugindir  = $deploypath."/night-updates/plugins";
 	print "Building a Snapshot feature \n" if $debug;
+} elsif ($buildname =~ /INCUBATION/) {
+	$release = 0;
+	$incubation = 1;
+	$featuredir = $deploypath."/incubation/features";
+	$plugindir  = $deploypath."/incubation/plugins";
+	print "Building a Incubation feature \n" if $debug;
 } else {
 	print "Building a Release feature \n" if $debug;
 }
@@ -140,8 +147,16 @@ foreach my $plugin (@plugins) {
 my $url = $root->first_child('url');
 my $updatesite = $url->first_child('update');
 if (!$release) {
-	$updatesite->set_att('label' => "Coloane Night-Updates");
-	$updatesite->set_att('url' => "http://coloane.lip6.fr/night-updates/");
+	# Snapshot
+	if (!$incubation) {
+		$updatesite->set_att('label' => "Coloane Night-Updates");
+		$updatesite->set_att('url' => "http://coloane.lip6.fr/night-updates/");
+	# Incubation
+	} else {
+		$updatesite->set_att('label' => "Coloane Incubation Updates");
+		$updatesite->set_att('url' => "http://coloane.lip6.fr/incubation-updates/");
+	}
+# Release
 } else {
 	$updatesite->set_att('label' => "Coloane Updates");
 	$updatesite->set_att('url' => "http://coloane.lip6.fr/updates/");

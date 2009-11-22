@@ -92,7 +92,7 @@ if (!$release) {
 	$descurl->set_att('url' => "http://coloane.lip6.fr/night-updates/");
 	$descurl->set_text("Coloane night-updates site");
 } else {
-	$descurl->set_att('url' => "http://coloane.lip6.fr/night-updates/");
+	$descurl->set_att('url' => "http://coloane.lip6.fr/updates/");
 	$descurl->set_text("Coloane updates site");
 }
 
