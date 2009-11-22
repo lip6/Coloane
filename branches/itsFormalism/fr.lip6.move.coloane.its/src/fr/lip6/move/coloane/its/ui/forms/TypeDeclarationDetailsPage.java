@@ -16,6 +16,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.its.TypeDeclaration;
+import fr.lip6.move.coloane.its.plugin.editors.MultiPageEditor;
 
 
 import java.util.ArrayList;
@@ -23,9 +24,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -40,9 +39,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.IDetailsPage;
-import org.eclipse.ui.forms.IFormPart;
-import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -53,29 +49,19 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
  * A type declaration detail page.
  * @author Yann
  */
-public final class TypeDeclarationDetailsPage implements IDetailsPage {
-	private IManagedForm mform;
-	private TypeDeclaration input;
+public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclaration> {
 	private Text typeNametf;
 	private Text typeFormalismtf;
 	private Text typeFiletf;
 	private TableViewer lviewer;
-	private ScrolledPropertiesBlock master;
+	private MultiPageEditor mpe;
 
 	/**
 	 * Ctor. pass master for openEditor button action.
 	 * @param master the master page
 	 */
-	public TypeDeclarationDetailsPage(ScrolledPropertiesBlock master) {
-		this.master = master;
-	}
-	/**
-	 * {@inheritDoc}
-	 * @see org.eclipse.ui.forms.IDetailsPage#initialize(org.eclipse.ui.forms.IManagedForm)
-	 */
-	@Override
-	public void initialize(IManagedForm mform) {
-		this.mform = mform;
+	public TypeDeclarationDetailsPage(MultiPageEditor master) {
+		this.mpe = master;
 	}
 	/**
 	 * {@inheritDoc}
@@ -89,7 +75,7 @@ public final class TypeDeclarationDetailsPage implements IDetailsPage {
 		layout.bottomMargin = 2;
 		parent.setLayout(layout);
 
-		FormToolkit toolkit = mform.getToolkit();
+		FormToolkit toolkit = getToolkit();
 		Section s1 = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		s1.marginWidth = 10;
 		s1.setText("Type Definition"); //$NON-NLS-1$
@@ -109,8 +95,8 @@ public final class TypeDeclarationDetailsPage implements IDetailsPage {
 		typeNametf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
 		typeNametf.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
-				if (input != null) {
-					input.setTypeName(typeNametf.getText());
+				if (getInput() != null) {
+					getInput().setTypeName(typeNametf.getText());
 				}
 			}
 		});
@@ -141,7 +127,7 @@ public final class TypeDeclarationDetailsPage implements IDetailsPage {
 		requiredTable.setLayoutData(gd);
 		lviewer = new TableViewer(requiredTable);
 		lviewer.setContentProvider(new OfferedConceptsProvider());
-		lviewer.setInput(input);
+		lviewer.setInput(getInput());
 
 		Button oeb = toolkit.createButton(client, "Open Editor", SWT.PUSH);
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
@@ -149,7 +135,7 @@ public final class TypeDeclarationDetailsPage implements IDetailsPage {
 		oeb.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				master.getPage().getMpe().openEditor(input);
+				mpe.openEditor(getInput());
 			}
 		});
 
@@ -269,76 +255,14 @@ public final class TypeDeclarationDetailsPage implements IDetailsPage {
 	/**
 	 * Update the state of the viewers
 	 */
-	private void update() {
+	protected void update() {
+		TypeDeclaration input = getInput();
+
 		// CHECKSTYLE OFF
 		typeNametf.setText(input != null && input.getTypeName() != null ? input.getTypeName() : ""); //$NON-NLS-1$
 		typeFormalismtf.setText(input != null && input.getTypeType() != null ? input.getTypeType() : "");
 		typeFiletf.setText(input != null && input.getTypePath() != null ? input.getTypePath() : "");
 		// CHECKSTYLE ON
 		lviewer.setInput(input);
-	}
-	/**
-	 * {@inheritDoc} (non-Javadoc)
-	 * @see org.eclipse.ui.forms.IDetailsPage#inputChanged(org.eclipse.jface.viewers.IStructuredSelection)
-	 */
-	@Override
-	public void selectionChanged(IFormPart part, ISelection selection) {
-		IStructuredSelection ssel = (IStructuredSelection) selection;
-		if (ssel.size() == 1) {
-			input = (TypeDeclaration)  ssel.getFirstElement();
-		} else {
-			input = null;
-		}
-		update();
-	}
-	/**
-	 * {@inheritDoc} (non-Javadoc)
-	 * @see org.eclipse.ui.forms.IDetailsPage#commit()
-	 */
-	@Override
-	public void commit(boolean onSave) {
-	}
-	/**
-	 * {@inheritDoc} (non-Javadoc)
-	 * @see org.eclipse.ui.forms.IDetailsPage#dispose()
-	 */
-	@Override
-	public void dispose() {
-	}
-	/**
-	 * {@inheritDoc} (non-Javadoc)
-	 * @see org.eclipse.ui.forms.IDetailsPage#isDirty()
-	 */
-	@Override
-	public boolean isDirty() {
-		return false;
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isStale() {
-		return false;
-	}
-	/**
-	 * {@inheritDoc} (non-Javadoc)
-	 * @see org.eclipse.ui.forms.IDetailsPage#refresh()
-	 */
-	@Override
-	public void refresh() {
-		update();
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean setFormInput(Object input) {
-		return false;
-	}
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void setFocus() {
 	}
 }
