@@ -83,11 +83,6 @@ public final class TPNSyntaxChecker implements ISyntaxChecker {
 				rule.check(arc, result);
 			}
 		}
-		if (result.getSubResults().isEmpty()) {
-			SubResult sr = new SubResult();
-			sr.setName("Syntax check success!");
-			result.addChild(sr);
-		}
 		return result;
 	}
 
