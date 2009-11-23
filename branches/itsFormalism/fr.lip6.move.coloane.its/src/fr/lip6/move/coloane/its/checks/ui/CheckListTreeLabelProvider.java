@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.its.checks.ui;
 
 import fr.lip6.move.coloane.its.checks.CheckService;
+import fr.lip6.move.coloane.its.checks.ServiceResult;
 import fr.lip6.move.coloane.its.ui.forms.TypeTreeLabelProvider;
 
 import org.eclipse.jface.viewers.IBaseLabelProvider;
@@ -21,6 +22,9 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 		if (element instanceof CheckService) {
 			CheckService cs = (CheckService) element;
 			return cs.getName();
+		} else if (element instanceof ServiceResult) {
+			ServiceResult sr = (ServiceResult) element;
+			return sr.toString();
 		}
 		return super.getText(element);
 	}
@@ -36,6 +40,9 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 			CheckService cs = (CheckService) element;
 			// TODO : an icon per service
 			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif").createImage(); //$NON-NLS-1$ //$NON-NLS-2$
+		} else if (element instanceof ServiceResult) {
+			// TODO : discriminate OK/NOK
+			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif").createImage(); //$NON-NLS-1$ //$NON-NLS-2$			
 		}
 		return super.getImage(element);
 	}
