@@ -43,5 +43,14 @@
             service_name="tpn.syntax">
       </report>
    </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="fr.lip6.move.coloane.ui.prefs.main"
+            class="fr.lip6.move.coloane.its.plugin.ITSPreferencePage"
+            id="fr.lip6.move.coloane.its.pathprefs"
+            name="ITS Path Setup">
+      </page>
+   </extension>
 
 </plugin>
