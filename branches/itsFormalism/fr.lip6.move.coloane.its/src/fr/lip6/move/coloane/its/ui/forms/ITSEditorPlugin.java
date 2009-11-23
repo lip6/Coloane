@@ -9,15 +9,23 @@
  *     IBM Corporation - initial API and implementation
  *******************************************************************************/
 package fr.lip6.move.coloane.its.ui.forms;
+
+import java.io.File;
 import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 
+import org.eclipse.core.filesystem.EFS;
+import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IEclipsePreferences;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
@@ -25,6 +33,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.forms.FormColors;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.service.prefs.BackingStoreException;
+import org.osgi.service.prefs.Preferences;
 /**
  * The main plugin class to be used in the desktop.
  */
@@ -38,6 +48,7 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_LINKTO_HELP = "linkto_help"; //$NON-NLS-1$
 	public static final String IMG_HELP_TOPIC = "help_topic"; //$NON-NLS-1$
 	public static final String IMG_CLOSE = "close"; //$NON-NLS-1$
+	public static final String ITS_REACH_NAME = "its-reach";
 
 	private static String ID = ITSEditorPlugin.class.getPackage().getName();
 
@@ -183,4 +194,70 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public ImageDescriptor getImageDescriptor(String key) {
 		return getImageRegistry().getDescriptor(key);
 	}
+	
+	/**
+	 * Returns whether the given file is executable. Depending on the platform
+	 * we might not get this right.
+	 * @param file the file to test
+	 * @return true if executable is detected with certitude
+	 */
+	public static boolean isExecutable(File file) {
+		if (!file.isFile()) {
+			return false;
+		}
+		if (Platform.getOS().equals(Platform.OS_WIN32)) {
+			// executable attribute is a *ix thing, on Windows all files are
+			// executable
+			return true;
+		}
+		IFileStore store = EFS.getLocalFileSystem().fromLocalFile(file);
+		if (store == null) {
+			return false;
+		}
+		return store.fetchInfo().getAttribute(EFS.ATTRIBUTE_EXECUTABLE);
+	}
+
+	public void setITSReachPath(String text) {
+		setPreference(ITS_REACH_NAME,text);
+	}
+
+	/** Grab the its-reach path from prefs.
+	 * 
+	 * @return the path
+	 */
+	public final IPath getITSReachPath() {
+		return new Path(getPreference(ITS_REACH_NAME));
+	}
+
+	/** Returns the preference with the given name
+	 * @param preferenceName the pref
+	 * @return the value */
+	public final String getPreference(String preferenceName) {
+		Preferences node =
+						Platform.getPreferencesService().getRootNode().node(InstanceScope.SCOPE).node(
+										ITSEditorPlugin.ID);
+		return node.get(preferenceName, null);
+	}
+
+	
+	/**
+	 * Sets the given preference to the given value.
+	 * @param preferenceName the preference
+	 * @param value the value to set
+	 */
+	private void setPreference(String preferenceName, String value) {
+		IEclipsePreferences root = Platform.getPreferencesService().getRootNode();
+		Preferences node = root.node(InstanceScope.SCOPE).node(ID);
+		node.put(preferenceName, value);
+		try {
+			node.flush();
+		} catch (BackingStoreException e) {
+			warning("Error updating preferences."+e);
+		}
+	}
+
+	public static void warning(String e) {
+		Logger.getLogger(ID).warning(e);		
+	}
+
 }
