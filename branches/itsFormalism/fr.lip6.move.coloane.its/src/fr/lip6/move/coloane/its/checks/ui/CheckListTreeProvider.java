@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.its.checks.ui;
 
 import fr.lip6.move.coloane.its.checks.CheckList;
 import fr.lip6.move.coloane.its.checks.CheckService;
+import fr.lip6.move.coloane.its.checks.ServiceResult;
 import fr.lip6.move.coloane.its.ui.forms.TypeListTreeProvider;
 
 import java.util.ArrayList;
@@ -31,6 +32,12 @@ public class CheckListTreeProvider extends TypeListTreeProvider implements
 	}
 
 	protected void addChildren(Object element, List<Object> children) {
+		if (element instanceof CheckService) {
+			CheckService cs = (CheckService) element;
+			for (ServiceResult sr : cs) {
+				children.add(sr);
+			}
+		}
 		// TODO
 		super.addChildren(element, children);
 	}
@@ -41,14 +48,10 @@ public class CheckListTreeProvider extends TypeListTreeProvider implements
 	 */
 	@Override
 	public Object getParent(Object element) {
-		// TODO
-//		if (element instanceof Concept) {
-//			Concept concept = (Concept) element;
-//			return concept.getParent();
-//		} else if (element instanceof TypeDeclaration) {
-//			TypeDeclaration td = (TypeDeclaration) element;
-//			return td.getTypeList();
-//		}
+		if (element instanceof ServiceResult) {
+			ServiceResult sr = (ServiceResult) element;
+			return sr.getParent();
+		}
 		return super.getParent(element);
 	}
 	
