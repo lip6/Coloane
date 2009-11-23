@@ -114,42 +114,44 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		b.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				page.getCheckList().addCheck(new CheckService());
+				CheckService cs = new CheckService(page.getCheckList());
+				cs.setWorkdir("");
+				page.getCheckList().addCheck(cs);
 			}
 		});
 
-		Button b2 = toolkit.createButton(buttonZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
-		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-		b2.setLayoutData(gd);
-		b2.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				try {
-					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
-					new RemoveTypeAction(page.getMpe().getTypes(), td).run();
-				} catch (ClassCastException e) {
-					System.err.println("Select a type");
-				}
-			}
-		});
+//		Button b2 = toolkit.createButton(buttonZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
+//		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+//		b2.setLayoutData(gd);
+//		b2.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent event) {
+//				try {
+//					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
+//					new RemoveTypeAction(page.getMpe().getTypes(), td).run();
+//				} catch (ClassCastException e) {
+//					System.err.println("Select a type");
+//				}
+//			}
+//		});
+//
+//
+//		Button b3 = toolkit.createButton(buttonZone, "Export to SDD", SWT.PUSH); //$NON-NLS-1$
+//		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+//		b3.setLayoutData(gd);
+//		b3.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent event) {
+//				try {
+//					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
+//					page.getMpe().exportToSDD(td);
+//				} catch (ClassCastException e) {
+//					System.err.println("Select a type");
+//				}
+//			}
+//		});
 
 		toolkit.paintBordersFor(client);
-
-		Button b3 = toolkit.createButton(buttonZone, "Export to SDD", SWT.PUSH); //$NON-NLS-1$
-		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-		b3.setLayoutData(gd);
-		b3.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				try {
-					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
-					page.getMpe().exportToSDD(td);
-				} catch (ClassCastException e) {
-					System.err.println("Select a type");
-				}
-			}
-		});
-
 		
 		viewer = new TreeViewer(tree);
 		viewer.setContentProvider(new CheckListTreeProvider());
@@ -224,7 +226,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(this));
 		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
 		//checks
-		detailsPart.registerPage(CheckService.class, new CheckServiceDetailsPage());
+		detailsPart.registerPage(CheckService.class, new CheckServiceDetailsPage(getPage().getMpe()));
 	}
 	/**
 	 * refresh the view
