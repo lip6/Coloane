@@ -24,6 +24,7 @@ Import-Package: fr.lip6.move.coloane.core.ui.files,
  fr.lip6.move.coloane.interfaces.formalism,
  fr.lip6.move.coloane.interfaces.model,
  fr.lip6.move.coloane.tools.layout,
+ org.eclipse.core.filesystem,
  org.eclipse.gef,
  org.eclipse.jface.databinding.viewers,
  org.eclipse.ui.forms
