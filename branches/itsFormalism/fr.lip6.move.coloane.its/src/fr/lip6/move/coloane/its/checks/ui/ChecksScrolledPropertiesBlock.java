@@ -17,6 +17,7 @@ import fr.lip6.move.coloane.its.TypeDeclaration;
 import fr.lip6.move.coloane.its.TypeList;
 import fr.lip6.move.coloane.its.actions.RemoveTypeAction;
 import fr.lip6.move.coloane.its.checks.CheckService;
+import fr.lip6.move.coloane.its.checks.ServiceResult;
 import fr.lip6.move.coloane.its.expression.VariableBinding;
 import fr.lip6.move.coloane.its.ui.forms.ConceptDetailsPage;
 import fr.lip6.move.coloane.its.ui.forms.ITSEditorPlugin;
@@ -227,6 +228,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
 		//checks
 		detailsPart.registerPage(CheckService.class, new CheckServiceDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage(getPage().getMpe()));
 	}
 	/**
 	 * refresh the view
