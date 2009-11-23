@@ -304,7 +304,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	
 	public void createCheckPage (TypeDeclaration td) {
 		try {
-			CheckList cl = new CheckList(td);
+			CheckList cl = new CheckList(td, this);
 			ChecksMasterDetailsPage newPage = new ChecksMasterDetailsPage(this,cl);
 			addPage(newPage);
 			cl.addObserver(this);
