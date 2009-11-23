@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.its.expression.EvaluationContext;
 import fr.lip6.move.coloane.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.its.expression.IVariable;
 import fr.lip6.move.coloane.its.expression.IVariableBinding;
+import fr.lip6.move.coloane.its.expression.Infinity;
 import fr.lip6.move.coloane.its.expression.IntegerExpression;
 import fr.lip6.move.coloane.its.expression.Variable;
 import fr.lip6.move.coloane.its.expression.parser.ErrorReporter;
@@ -287,7 +288,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 				context.declareVariable(new Variable("SYNTAX ERRORS IN MODEL, PLEASE RUN SYNTAX CHECK"));
 				return;
 			}
-			if (!(expr instanceof Constant) && expr != null) {
+			if (!(expr instanceof Constant) && expr != null && !(expr instanceof Infinity)) {
 				// dont store the mapping for trivial integers
 				attribs.put(attrib, expr);
 				// could be empty for simple expressions, eg 3+ 2
