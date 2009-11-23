@@ -26,6 +26,7 @@ public class SyntaxCheckReport implements IReport {
 		Map<Integer,ResultTreeImpl> resPerObject = new HashMap<Integer, ResultTreeImpl>();
 		if (res instanceof Result) {
 			if (res.getSubResults().isEmpty()) {
+				root.addChild(new ResultTreeImpl("Syntax check success!"));
 				return root;
 			}
 			for (ISubResult sub : res.getSubResults()) {
