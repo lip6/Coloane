@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.its.checks;
 
+import fr.lip6.move.coloane.its.ITypeListProvider;
 import fr.lip6.move.coloane.its.TypeDeclaration;
+import fr.lip6.move.coloane.its.TypeList;
 import fr.lip6.move.coloane.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.its.obs.SimpleObservable;
 
@@ -8,12 +10,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CheckList extends SimpleObservable implements Iterable<CheckService>, ISimpleObserver {
+public class CheckList extends SimpleObservable implements Iterable<CheckService>, ISimpleObserver, ITypeListProvider {
 
 	private TypeDeclaration type;
 	private List<CheckService> services;
+	private ITypeListProvider typeP;
 
-	public CheckList(TypeDeclaration td) {
+	public CheckList(TypeDeclaration td, ITypeListProvider typeP) {
+		this.typeP = typeP;
 		type = td;
 		services = new ArrayList<CheckService>();
 	}
@@ -36,6 +40,11 @@ public class CheckList extends SimpleObservable implements Iterable<CheckService
 	@Override
 	public void update() {
 		notifyObservers();
+	}
+
+	@Override
+	public TypeList getTypes() {
+		return typeP.getTypes();
 	}
 
 }
