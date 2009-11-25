@@ -12,6 +12,8 @@
 
 	<modules>
 		<module>fragments</module>
+		<module>features</module>
+		<module>update-site</module>
 	</modules>
 
 	<scm>
@@ -26,6 +28,9 @@
 	</organization>
 	
 	<properties>
+		<!-- A changer lors du passage à Maven 2.1 -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		
 		<!-- Pour le déploiement des artefacts -->
 		<project.deployPath>~/Projets/coloane_data</project.deployPath>
 	</properties>
