@@ -3,9 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent> 
-		<groupId>fr.lip6.move.coloane</groupId> 
+		<groupId>fr.lip6.move.coloane.incubation</groupId> 
 		<artifactId>coloane-parent</artifactId> 
-		<version>0.16.2-SNAPSHOT</version> 
+		<version>1.0-INCUBATION</version> 
 	</parent>
 
 	<artifactId>update-site</artifactId>
@@ -69,47 +69,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<dependencies>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>coloaneMain</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>coloaneMainSources</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>exportToDOT</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>exportToPGF</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>importExportCAMI</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>importExportPNML</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>modelExamples</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.features</groupId>
-			<artifactId>languagePack</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
 </project>
