@@ -32,7 +32,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<!-- Pour le déploiement des artefacts -->
-		<project.deployPath>~/Projets/coloane_data</project.deployPath>
+		<project.deployPath>/data/coloane</project.deployPath>
 	</properties>
 	
 	<distributionManagement> 
