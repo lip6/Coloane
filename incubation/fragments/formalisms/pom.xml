@@ -25,7 +25,7 @@
 				<includes>
 					<include>build.properties</include>
 					<include>fragment.xml</include>
-					<!-- <include>resources/**</include> -->
+					<include>resources/**</include>
 				</includes>
 			</resource>
 			<resource>
