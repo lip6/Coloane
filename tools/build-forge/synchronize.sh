@@ -18,6 +18,15 @@ if [ -d $source ]; then
 #	rsync -avz -r -C -S $night/* $targetnight
 fi
 
+# For incubation-updates...
+incubation=$source"/incubation-updates"
+targetincubation=$dest"/incubation-updates"
+if [ -d $source ]; then
+	rsync -avz -r -C -S -e ssh $incubation/* coloane@coloane.lip6.fr:$targetincubation
+#	rsync -avz -r -C -S $night/* $targetnight
+fi
+
+
 # For updates...
 update=$source"/updates"
 targetupdate=$dest"/updates"
