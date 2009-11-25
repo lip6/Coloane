@@ -88,8 +88,8 @@ if ($buildname =~ /SNAPSHOT/) {
 } elsif ($buildname =~ /INCUBATION/) {
 	$release = 0;
 	$incubation = 1;
-	$featuredir = $deploypath."/incubation/features";
-	$plugindir  = $deploypath."/incubation/plugins";
+	$featuredir = $deploypath."/incubation-updates/features";
+	$plugindir  = $deploypath."/incubation-updates/plugins";
 	print "Building a Incubation feature \n" if $debug;
 } else {
 	print "Building a Release feature \n" if $debug;
@@ -99,7 +99,7 @@ if ($buildname =~ /SNAPSHOT/) {
 my $xml = XML::Twig->new(); 
 $xml->parsefile($featurefile);
                 
-# Find the root and the "version" element
+# Find the root and the "version" element of the feature
 my $root = $xml->root;
 my $version = $root->att('version');
 my $nameid = $root->att('id');

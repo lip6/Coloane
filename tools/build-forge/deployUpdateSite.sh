@@ -16,6 +16,8 @@ fi
 # Calcul des chemins en fonction SNAPSHOT / RELEASE
 if [ `echo $version | grep "SNAPSHOT"` ]; then
 	branch=`echo night-updates`
+elif [ `echo $version | grep "INCUBATION"` ]; then
+	branch=`echo incubation-updates`
 else
 	branch=`echo updates`
 fi

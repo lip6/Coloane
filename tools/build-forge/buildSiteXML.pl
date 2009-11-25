@@ -70,6 +70,7 @@ if (!(-e $sitefile)) {
 }
 
 my $release = 1;
+my $incubation = 0;
 my $featuredir = $deploypath."/updates/features";
 
 # Determine whether it's a release or a snapshost
@@ -77,6 +78,11 @@ if ($buildname =~ /SNAPSHOT/) {
 	$release = 0;
 	print "Deploying a 'night-update' site\n" if $debug;
 	$featuredir = $deploypath."/night-updates/features";
+} elsif ($buildname =~ /INCUBATION/) {
+	$release = 0;
+	$incubation = 1;
+	$featuredir = $deploypath."/incubation-updates/features";
+	print "Deploying a 'incubation-update' site \n" if $debug;
 } else {
 	print "Deploying an 'update' site\n" if $debug;
 }
@@ -89,8 +95,16 @@ $xml->parsefile($sitefile);
 my $root = $xml->root;
 my $descurl = $root->first_child('description');
 if (!$release) {
-	$descurl->set_att('url' => "http://coloane.lip6.fr/night-updates/");
-	$descurl->set_text("Coloane night-updates site");
+	# Night-Update
+	if (!$incubation) {
+		$descurl->set_att('url' => "http://coloane.lip6.fr/night-updates/");
+		$descurl->set_text("Coloane night-updates site");
+	# Incubation
+	} else {
+		$descurl->set_att('url' => "http://coloane.lip6.fr/incubation-updates/");
+		$descurl->set_text("Coloane incubation-updates site");
+	}
+# Release
 } else {
 	$descurl->set_att('url' => "http://coloane.lip6.fr/updates/");
 	$descurl->set_text("Coloane updates site");
