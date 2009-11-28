@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.its.checks;
 
 import fr.lip6.move.coloane.its.obs.SimpleObservable;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -27,8 +28,9 @@ public class ServiceResult extends SimpleObservable {
 		return success;
 	}
 
-	public Calendar getDate() {
-		return date;
+	public String getDate() {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd MMM yy HH:mm:ss");
+		return formatter.format(date.getTime());
 	}
 
 	public CheckService getParent() {
@@ -44,7 +46,7 @@ public class ServiceResult extends SimpleObservable {
 		} else {
 			ret = "KO ";
 		}
-		ret += date.toString();
+		ret += getDate();
 		return ret;
 	}
 
