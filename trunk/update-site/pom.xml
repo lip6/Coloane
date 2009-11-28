@@ -11,7 +11,7 @@
 	<artifactId>update-site</artifactId>
 	<packaging>pom</packaging>
 	<name>Update Site</name>
-	<description>Eclipse Update Site or Coloane Project</description>
+	<description>Eclipse Update Site for Coloane Project</description>
 	
 	<build>
 		<plugins>
