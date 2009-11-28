@@ -48,8 +48,15 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_LINKTO_HELP = "linkto_help"; //$NON-NLS-1$
 	public static final String IMG_HELP_TOPIC = "help_topic"; //$NON-NLS-1$
 	public static final String IMG_CLOSE = "close"; //$NON-NLS-1$
+	public static final String IMG_VARIABLE = "variable";
+	public static final String IMG_REFRESH = "refresh";
+	public static final String IMG_USETVAR = "variable_unset";
+	public static final String IMG_SETVAR = "variable_set";
+
+	
 	public static final String ITS_REACH_NAME = "its-reach";
 
+	
 	private static String ID = ITSEditorPlugin.class.getPackage().getName();
 
 	//The shared instance.
@@ -93,6 +100,10 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_LINKTO_HELP, "linkto_help.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_HELP_TOPIC, "help_topic.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_CLOSE, "close_view.gif"); //$NON-NLS-1$
+		registerImage(registry, IMG_VARIABLE, "variable_tab.gif"); //$NON-NLS-1$
+		registerImage(registry, IMG_REFRESH, "refresh.gif"); //$NON-NLS-1$
+		registerImage(registry, IMG_SETVAR, "set_variable.gif"); //$NON-NLS-1$
+		registerImage(registry, IMG_USETVAR, "unset_variable.gif"); //$NON-NLS-1$
 	}
 
 	/**
