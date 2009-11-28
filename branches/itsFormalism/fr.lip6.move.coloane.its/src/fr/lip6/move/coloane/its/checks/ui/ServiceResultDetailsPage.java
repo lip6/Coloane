@@ -90,9 +90,9 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 		createSpacer(toolkit, client, 2);
 
 		toolkit.createLabel(client, "Raw Output"); //$NON-NLS-1$
-		reporttf = toolkit.createText(client, "", SWT.MULTI); //$NON-NLS-1$
+		reporttf = toolkit.createText(client, "", SWT.MULTI | SWT.WRAP | SWT.V_SCROLL); //$NON-NLS-1$
 		reporttf.setEditable(false);
-		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_VERTICAL);
+		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING | GridData.FILL_VERTICAL);
 		gd.widthHint = 10;
 		reporttf.setLayoutData(gd);
 		
@@ -106,7 +106,7 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 		ServiceResult input = getInput();
 		// CHECKSTYLE OFF
 		isOktf.setText(input != null ? (input.isSuccess() ? "PASS" : "FAIL") : "");
-		datetf.setText(input != null && input.getDate() != null ? input.getDate().toString() : "");
+		datetf.setText(input != null && input.getDate() != null ? input.getDate() : "");
 		reporttf.setText(input != null && input.getReport() != null ? input.getReport() : "");
 		// CHECKSTYLE ON
 	}
