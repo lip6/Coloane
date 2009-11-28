@@ -14,6 +14,9 @@ import fr.lip6.move.coloane.its.checks.CheckService;
 import fr.lip6.move.coloane.its.plugin.editors.MultiPageEditor;
 import fr.lip6.move.coloane.its.ui.forms.ITSDetailsPage;
 
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -30,6 +33,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
+import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * A details page for a variable binding.
@@ -94,8 +98,8 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		folderzone.setLayoutData(gd);
 		
-		foldertf = toolkit.createText(folderzone, "", SWT.SINGLE); //$NON-NLS-1$
-		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+		foldertf = toolkit.createText(folderzone, "", SWT.SINGLE | SWT.H_SCROLL); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		foldertf.setLayoutData(gd);
 		foldertf.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -143,7 +147,19 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		CheckService input = getInput();
 		// CHECKSTYLE OFF
 		serviceNametf.setText(input != null && input.getName() != null ? input.getName() : "");
-		foldertf.setText(input != null && input.getWorkDir() != null ? input.getWorkDir() : "");
+		foldertf.setText(input != null && input.getWorkDir() != null && !input.getWorkDir().equals("") ? input.getWorkDir() : getDefaultWorkDir());
 		// CHECKSTYLE ON
+	}
+	
+	public String getDefaultWorkDir () {
+		IProject proj = (((FileEditorInput) mpe.getEditorInput()).getFile().getProject());
+		IFolder folder = proj.getFolder(getInput().getParent().getType().getTypeName() + "_" + getInput().getName());
+		try {
+			folder.create(true, true, null);
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return folder.getLocation().toOSString();
 	}
 }
