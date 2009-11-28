@@ -48,7 +48,6 @@ public class ProcessController {
 
 	private boolean finished;
 	private OutputStream forwardStdErr;
-	private InputStream forwardStdIn;
 	private OutputStream forwardStdOut;
 	private boolean killed;
 	private String[] params;
@@ -75,27 +74,6 @@ public class ProcessController {
 	}
 
 	/**
-	 * Run a process in a thread.
-	 */
-	private void controlProcess() {
-		new Thread("Process controller") {
-			@Override
-			public void run() {
-				while (!isFinished() && !timedOut()) {
-					synchronized (this) {
-						try {
-							wait(100);
-						} catch (InterruptedException e) {
-							break;
-						}
-					}
-				}
-				kill();
-			}
-		} .start();
-	}
-
-	/**
 	 * Causes the process to start executing. This call will block until the
 	 * process has completed. If <code>timeout</code> is specified, the
 	 * process will be interrupted if it takes more than the specified amount of
@@ -108,29 +86,61 @@ public class ProcessController {
 	 * @throws IOException if file problems
 	 * @throws TimeOutException If the process did not complete in time
 	 */
-	public final int execute() throws InterruptedException, IOException, TimeOutException {
+	public final int execute() throws IOException, TimeOutException {
 		startupTime = System.currentTimeMillis();
-		process = Runtime.getRuntime().exec(params, env, baseDir);
+		Thread waiter = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					process = Runtime.getRuntime().exec(params, env, baseDir);
+					process.waitFor();
+				} catch (InterruptedException e) {
+					// timeout !!
+				} catch (IOException e2) {
+					System.err.println(e2);
+				}
+			}
+		});
+		waiter.start();
+
+		long waittime = 100;
+		long waitperiods = timeLimit / waittime;
+		if (timeLimit == 0) {
+			waittime = 0;
+			waitperiods = 1;
+		}
+		try {
+			for (int i=0; i < waitperiods ; ++i) {
+				// join 0 waits indefinitely
+				waiter.join(waittime);
+				forwardStreams();
+			}
+		} catch (InterruptedException e) {
+			finish();
+			return process.exitValue();
+		}
+		if (waiter.isAlive()) {
+			waiter.interrupt();
+			kill();
+		}
+		if (wasKilled()) {
+			throw new TimeOutException();
+		}
+		return process.exitValue();
+	}
+
+	private void finish() {
+		markFinished();
+		forwardStreams();
+	}
+
+	private void forwardStreams() {
 		if (forwardStdErr != null) {
 			forwardStream("stderr", process.getErrorStream(), forwardStdErr);
 		}
 		if (forwardStdOut != null) {
 			forwardStream("stdout", process.getInputStream(), forwardStdOut);
-		}
-		if (forwardStdIn != null) {
-			forwardStream("stdin", forwardStdIn, process.getOutputStream());
-		}
-		if (timeLimit > 0) {
-			// ensures process execution time does not exceed the time limit
-			controlProcess();
-		}
-		try {
-			return process.waitFor();
-		} finally {
-			markFinished();
-			if (wasKilled()) {
-				throw new TimeOutException();
-			}
 		}
 	}
 
@@ -143,15 +153,6 @@ public class ProcessController {
 		forwardStdErr = err;
 	}
 
-	/**
-	 * Forwards the given input stream to the process standard input. Must be
-	 * called before execution has started.
-	 * 
-	 * @param in An input stream where the process standard input will be forwarded to
-	 */
-	public final void forwardInput(InputStream in) {
-		forwardStdIn = in;
-	}
 
 	/**
 	 * Forwards the process standard output to the given output stream. Must be
@@ -170,35 +171,14 @@ public class ProcessController {
 	 * @param out output
 	 */
 	private void forwardStream(final String name, final InputStream in, final OutputStream out) {
-		new Thread("Stream forwarder [" + name + "]") {
-			@Override
-			public void run() {
-				try {
-					while (!isFinished()) {
-						while (safeIsAvailable(in) > 0) {
-							out.write(in.read());
-						}
-						synchronized (this) {
-							this.wait(100);
-						}
-					}
-					out.flush();
-				} catch (IOException e) {
-					ITSEditorPlugin.warning(e.getMessage());
-				} catch (InterruptedException e) {
-					ITSEditorPlugin.warning(e.getMessage());
-				}
+		try {
+			while (in.available() > 0) {
+				out.write(in.read());
 			}
-
-			private int safeIsAvailable(InputStream in) {
-				try {
-					return in.available();
-				} catch (IOException e) {
-					// stream has been closed
-					return 0;
-				}
-			}
-		} .start();
+			out.flush();
+		} catch (IOException e) {
+			ITSEditorPlugin.warning(e.getMessage());
+		}
 	}
 
 	/**
@@ -222,21 +202,18 @@ public class ProcessController {
 	 * Kills the process. Does nothing if it has been finished already.
 	 */
 	public final void kill() {
-		synchronized (this) {
-			if (isFinished()) {
-				return;
-			}
-			killed = true;
+		if (isFinished()) {
+			return;
 		}
+		killed = true;
 		process.destroy();
 	}
 
 	/** mark finished state.
 	 * 
 	 */
-	private synchronized void markFinished() {
+	private void markFinished() {
 		finished = true;
-		notifyAll();
 	}
 
 	/** test if timeout has occurred.
