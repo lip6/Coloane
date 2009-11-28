@@ -107,6 +107,7 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 				page.getMpe().getTypes().reload();
 			}
 		});
+		breload.setImage(ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_REFRESH));
 
 		Button b = toolkit.createButton(buttonZone, "Add a type", SWT.PUSH); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
