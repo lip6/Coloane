@@ -306,9 +306,10 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		try {
 			CheckList cl = new CheckList(td, this);
 			ChecksMasterDetailsPage newPage = new ChecksMasterDetailsPage(this,cl);
-			addPage(newPage);
+			int pageIndex = addPage(newPage);
 			cl.addObserver(this);
-			this.checkPages.add(newPage);	
+			this.checkPages.add(newPage);
+			setActivePage(pageIndex);
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
