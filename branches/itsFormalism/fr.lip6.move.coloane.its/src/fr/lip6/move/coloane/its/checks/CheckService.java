@@ -34,7 +34,7 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setWorkdir(String workdir) {
 		this.workdir = workdir;
 		notifyObservers();
@@ -113,7 +113,6 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 				new ProcessController(60000, cmd.toArray(new String[cmd.size()]), null, workdir.toFile());
 			controller.forwardErrorOutput(errorOutput);
 			controller.forwardOutput(stdOutput);
-			controller.forwardInput(System.in);
 			int exitCode = controller.execute();
 			if (exitCode != 0) {
 				return new Status(IStatus.WARNING, ITSEditorPlugin.getID(), "ITS exit code: " + exitCode + "."
@@ -127,9 +126,9 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 		} catch (TimeOutException e) {
 			return new Status(IStatus.ERROR, ITSEditorPlugin.getID(), "Check Service process did not finish in a timely way."
 					+ createContentMessage(errorOutput));
-		} catch (InterruptedException e) {
-			return new Status(IStatus.ERROR, ITSEditorPlugin.getID(), "Unexpected exception executing service."
-					+ createContentMessage(errorOutput), e);
+//		} catch (InterruptedException e) {
+//			return new Status(IStatus.ERROR, ITSEditorPlugin.getID(), "Unexpected exception executing service."
+//					+ createContentMessage(errorOutput), e);
 		} catch (IOException e) {
 			return new Status(IStatus.ERROR, ITSEditorPlugin.getID(), "Unexpected exception executing service."
 					+ createContentMessage(errorOutput), e);
@@ -156,6 +155,10 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 	@Override
 	public Iterator<ServiceResult> iterator() {
 		return results.iterator();
+	}
+	
+	public CheckList getParent() {
+		return parent;
 	}
 
 }
