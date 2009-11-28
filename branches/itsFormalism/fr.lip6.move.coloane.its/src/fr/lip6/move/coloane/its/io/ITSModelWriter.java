@@ -53,6 +53,8 @@ public final class ITSModelWriter {
 		getDependentTypes(types, type, toProcess);
 
 		try {
+			// test folder existence, create if it does not exist
+			
 			// File creation
 			FileOutputStream writer = new FileOutputStream(new File(directory + "/modelMain.xml")); //$NON-NLS-1$
 			BufferedWriter sb = new BufferedWriter(new OutputStreamWriter(writer));
@@ -103,10 +105,10 @@ public final class ITSModelWriter {
 			sb.close();
 			writer.close();
 		} catch (FileNotFoundException fe) {
-			Logger.getLogger("fr.lip6.move.coloane.core").warning("Echec lors de la création du fichier : Nom de fichier invalide");
-			throw new ColoaneException("Invalid filename !");
+			Logger.getLogger("fr.lip6.move.coloane.core").warning("Error when creating file : bad file name."+fe);
+			throw new ColoaneException("Invalid filename !" +fe);
 		} catch (IOException ioe) {
-			Logger.getLogger("fr.lip6.move.coloane.core").warning("Erreur lors de l'écriture dans le fichier");
+			Logger.getLogger("fr.lip6.move.coloane.core").warning("Erreur writing in file " + ioe);
 			throw new ColoaneException("Write error :" + ioe.getMessage());
 		}
 	}
