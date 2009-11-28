@@ -80,9 +80,11 @@ public class TypeTreeLabelProvider
 			String img = f.getMasterGraph().getElementFormalism("instance").getGraphicalDescription().getIcon24px();
 			return ImageDescriptor.createFromFile(Coloane.class, img).createImage();
 		} else if (element instanceof IVariableBinding) {
-//			IVariableBinding vb = (IVariableBinding) element;
-			// TODO : discriminate icon depending on variable set or not
-			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif").createImage(); //$NON-NLS-1$ //$NON-NLS-2$
+			IVariableBinding vb = (IVariableBinding) element;
+			if (vb.getVariableValue() != null)
+				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_SETVAR);
+			else
+				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_USETVAR);				
 		}
 		return null;
 	}
