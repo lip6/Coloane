@@ -15,7 +15,7 @@ import fr.lip6.move.coloane.its.Concept;
 import fr.lip6.move.coloane.its.ITypeListProvider;
 import fr.lip6.move.coloane.its.TypeDeclaration;
 import fr.lip6.move.coloane.its.TypeList;
-import fr.lip6.move.coloane.its.actions.RemoveTypeAction;
+import fr.lip6.move.coloane.its.checks.CTLCheckService;
 import fr.lip6.move.coloane.its.checks.CheckService;
 import fr.lip6.move.coloane.its.checks.ServiceResult;
 import fr.lip6.move.coloane.its.expression.VariableBinding;
@@ -121,6 +121,19 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 			}
 		});
 
+		Button b2 = toolkit.createButton(buttonZone, "Add CTL Check", SWT.PUSH); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		b2.setLayoutData(gd);
+		b2.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				CheckService cs = new CTLCheckService(page.getCheckList());
+				cs.setWorkdir("");
+				page.getCheckList().addCheck(cs);
+			}
+		});
+
+		
 //		Button b2 = toolkit.createButton(buttonZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
 //		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 //		b2.setLayoutData(gd);
@@ -227,7 +240,8 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(this));
 		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
 		//checks
-		detailsPart.registerPage(CheckService.class, new CheckServiceDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(CheckService.class, new CheckServiceDetailsPage(getPage().getMpe(), new CheckService(page.getCheckList())));
+		detailsPart.registerPage(CTLCheckService.class, new CheckServiceDetailsPage(getPage().getMpe(), new CTLCheckService(page.getCheckList())));
 		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage(getPage().getMpe()));
 	}
 	/**
