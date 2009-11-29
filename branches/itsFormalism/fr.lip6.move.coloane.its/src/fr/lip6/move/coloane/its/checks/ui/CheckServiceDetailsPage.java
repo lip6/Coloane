@@ -14,6 +14,10 @@ import fr.lip6.move.coloane.its.checks.CheckService;
 import fr.lip6.move.coloane.its.plugin.editors.MultiPageEditor;
 import fr.lip6.move.coloane.its.ui.forms.ITSDetailsPage;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -43,14 +47,16 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 	private Text serviceNametf;
 	private Text foldertf;
 	private MultiPageEditor mpe;
-
+	private Map<Text, String> params = new HashMap<Text, String>();
+	private CheckService template;
 	
 	/**
 	 * Ctor. pass master for openDirectory button action.
 	 * @param master the master page
 	 */
-	public CheckServiceDetailsPage(MultiPageEditor master) {
+	public CheckServiceDetailsPage(MultiPageEditor master, CheckService template) {
 		this.mpe = master;
+		this.template = template;
 	}
 	/**
 	 * {@inheritDoc}
@@ -123,6 +129,19 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 				foldertf.setText(directory);
 			}
 		});
+
+		for (String param : template.getParameters()) {
+			toolkit.createLabel(client, param); //$NON-NLS-1$
+			Text tf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
+			tf.setEditable(true);
+			gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+			gd.widthHint = 10;
+			tf.setLayoutData(gd);
+			// store this param
+			params.put(tf, param);
+			tf.addModifyListener(new ParamListener(param));
+		}
+
 		
 		createSpacer(toolkit, client, 2);
 
@@ -140,6 +159,29 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		toolkit.paintBordersFor(s1);
 		s1.setClient(client);
 	}
+
+	private class ParamListener implements ModifyListener {
+
+		private String param;
+
+		public ParamListener(String param) {
+			this.param = param;
+		}
+
+		@Override
+		public void modifyText(ModifyEvent e) {
+			if (getInput() != null) {
+				for (Entry<Text, String> entry : params.entrySet()) {
+					if (entry.getValue().equals(param)) {
+						String s = entry.getKey().getText();
+						getInput().setParameterValue(param, s);
+						break;
+					}
+				}
+			}
+		}
+	}
+	
 	/**
 	 * refresh the state
 	 */
@@ -148,6 +190,11 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		// CHECKSTYLE OFF
 		serviceNametf.setText(input != null && input.getName() != null ? input.getName() : "");
 		foldertf.setText(input != null && input.getWorkDir() != null && !input.getWorkDir().equals("") ? input.getWorkDir() : getDefaultWorkDir());
+		for (Entry<Text, String> entry : params.entrySet()) {
+			String s = (input != null && input.getParameterValue(entry.getValue()) != null) ?
+					getInput().getParameterValue(entry.getValue()) : "";
+			entry.getKey().setText(s);
+		}
 		// CHECKSTYLE ON
 	}
 	
@@ -157,8 +204,7 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		try {
 			folder.create(true, true, null);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// folder exists, it's OK.
 		}
 		return folder.getLocation().toOSString();
 	}
