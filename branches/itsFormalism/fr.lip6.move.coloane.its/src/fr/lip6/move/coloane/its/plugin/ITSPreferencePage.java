@@ -36,7 +36,8 @@ public final class ITSPreferencePage
 extends PreferencePage
 implements IWorkbenchPreferencePage {
 
-	private FileBrowserField fileField;
+	private FileBrowserField reachField;
+	private FileBrowserField ctlField;
 
 	/**
 	 * Creates the composite which will contain all the preference controls for this page.
@@ -77,25 +78,40 @@ implements IWorkbenchPreferencePage {
 		buttonComposite.setLayout(layout);
 		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		buttonComposite.setLayoutData(data);
-		buttonComposite.setText("Dot executable to use");
-		fileField = new FileBrowserField(composite);
-		fileField.setToolTipText("Select its-reach executable.");
-		fileField.setLayoutData(data);
+		buttonComposite.setText("Executable to use");
+		reachField = new FileBrowserField(buttonComposite);
+		reachField.setToolTipText("Select its-reach executable.");
+		reachField.setLayoutData(data);
 
-		fileField.addObserver(new ISimpleObserver() {
+		reachField.addObserver(new ISimpleObserver() {
 
 			@Override
 			public void update() {
-				browserChanged(fileField.getText());
+				browserChanged(reachField.getText(), ITSEditorPlugin.ITS_REACH_NAME);
 			}
 		});
+
+		ctlField = new FileBrowserField(buttonComposite);
+		ctlField.setToolTipText("Select its-reach executable.");
+		ctlField.setLayoutData(data);
+
+		ctlField.addObserver(new ISimpleObserver() {
+
+			@Override
+			public void update() {
+				browserChanged(ctlField.getText(), ITSEditorPlugin.ITS_CTL_NAME);
+			}
+		});
+		
+		
 	}
 
 	/**
 	 * Called when user has done something. Grab the path text.
+	 * @param exeName 
 	 * @param txt the new text
 	 */
-	public final void browserChanged(String newText) {
+	public final void browserChanged(String newText, String exeName) {
 		setErrorMessage(null);
 		setMessage(null);
 		if (newText.length() == 0) {
@@ -118,8 +134,8 @@ implements IWorkbenchPreferencePage {
 		} else if (!ITSEditorPlugin.isExecutable(exeFile)) {
 			setMessage(newText + " is not executable!", IMessageProvider.WARNING);
 			setValid(false);
-		} else if (!ITSEditorPlugin.ITS_REACH_NAME.equalsIgnoreCase(fileName)) {
-			setMessage("The file name should be " + ITSEditorPlugin.ITS_REACH_NAME , IMessageProvider.WARNING);
+		} else if (!exeName.equalsIgnoreCase(fileName)) {
+			setMessage("The file name should be " + fileName , IMessageProvider.WARNING);
 			setValid(false);
 		} else {
 			setValid(true);
@@ -141,7 +157,8 @@ implements IWorkbenchPreferencePage {
 	@Override
 	public final boolean performOk() {
 		ITSEditorPlugin itsplugin = ITSEditorPlugin.getDefault();
-		itsplugin.setITSReachPath(fileField.getText());
+		itsplugin.setITSReachPath(reachField.getText());
+		itsplugin.setITSCTLPath(ctlField.getText());
 		return true;
 	}
 
