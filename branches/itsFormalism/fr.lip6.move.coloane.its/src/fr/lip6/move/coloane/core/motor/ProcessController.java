@@ -52,7 +52,6 @@ public class ProcessController {
 	private boolean killed;
 	private String[] params;
 	private Process process;
-	private long startupTime;
 	private long timeLimit;
 	private String[] env;
 	private File baseDir;
@@ -87,7 +86,6 @@ public class ProcessController {
 	 * @throws TimeOutException If the process did not complete in time
 	 */
 	public final int execute() throws IOException, TimeOutException {
-		startupTime = System.currentTimeMillis();
 		Thread waiter = new Thread(new Runnable() {
 
 			@Override
@@ -214,14 +212,6 @@ public class ProcessController {
 	 */
 	private void markFinished() {
 		finished = true;
-	}
-
-	/** test if timeout has occurred.
-	 * 
-	 * @return true if time exceeded
-	 */
-	protected final synchronized boolean timedOut() {
-		return System.currentTimeMillis() - startupTime > timeLimit;
 	}
 
 	/**
