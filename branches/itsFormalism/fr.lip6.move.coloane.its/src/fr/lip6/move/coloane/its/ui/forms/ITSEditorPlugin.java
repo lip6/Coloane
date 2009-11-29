@@ -52,9 +52,12 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_REFRESH = "refresh";
 	public static final String IMG_USETVAR = "variable_unset";
 	public static final String IMG_SETVAR = "variable_set";
+	public static final String IMG_RESULTOK = "result_ok";
+	public static final String IMG_RESULTNOK = "result_nok";
 
 	
 	public static final String ITS_REACH_NAME = "its-reach";
+	public static final String ITS_CTL_NAME = "its-ctl";
 
 	
 	private static String ID = ITSEditorPlugin.class.getPackage().getName();
@@ -104,6 +107,8 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_REFRESH, "refresh.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_SETVAR, "set_variable.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_USETVAR, "unset_variable.gif"); //$NON-NLS-1$
+		registerImage(registry, IMG_RESULTOK, "success_check.gif"); //$NON-NLS-1$
+		registerImage(registry, IMG_RESULTNOK, "error_check.gif"); //$NON-NLS-1$
 	}
 
 	/**
@@ -231,7 +236,11 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public void setITSReachPath(String text) {
 		setPreference(ITS_REACH_NAME,text);
 	}
+	public void setITSCTLPath(String text) {
+		setPreference(ITS_CTL_NAME,text);		
+	}
 
+	
 	/** Grab the its-reach path from prefs.
 	 * 
 	 * @return the path
@@ -240,6 +249,11 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		return new Path(getPreference(ITS_REACH_NAME));
 	}
 
+	public IPath getITSCTLPath() {
+		return new Path(getPreference(ITS_CTL_NAME));
+	}
+
+	
 	/** Returns the preference with the given name
 	 * @param preferenceName the pref
 	 * @return the value */
@@ -270,5 +284,7 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static void warning(String e) {
 		Logger.getLogger(ID).warning(e);		
 	}
+
+
 
 }
