@@ -9,10 +9,12 @@ import fr.lip6.move.coloane.its.ui.forms.ITSEditorPlugin;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -26,24 +28,53 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 	private CheckList parent;
 	private List<ServiceResult> results = new LinkedList<ServiceResult>();
 	private String reportText;
+	private Map<String, String> parameters = new HashMap<String, String>();
 
 	public CheckService(CheckList parent) {
 		this.parent = parent;
 	}
 
+	protected CheckService(CheckList parent, String serviceName) {
+		this(parent);
+		name = serviceName;
+	}
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setWorkdir(String workdir) {
 		this.workdir = workdir;
 		notifyObservers();
 	}
 
+	protected void addParameter (String paramName) {
+		parameters.put(paramName, "");
+	}
+
+	public Set<String> getParameters () {
+		return parameters.keySet();
+	}
+
+	public boolean setParameterValue (String param, String value) {
+		if (parameters.containsKey(param)) {
+			if (!parameters.get(param).equals(value)) {
+				parameters.put(param,value);
+				notifyObservers();
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public String getParameterValue (String param) {
+		return parameters.get(param);
+	}
+
 	public String getWorkDir() {
 		return workdir;
 	}
-	
+
 	public IPath getWorkDirPath () {
 		return new Path(workdir);
 	}
@@ -56,19 +87,12 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 			mw.exportITSModel(parent.getTypes(), parent.getType(), workdir);
 			report = "Run successful in folder "+workdir;
 		} catch (Exception e) {
-			success = false;
+			success  = false;
 			report = "An error occurred during service invocation :" + e + e.getMessage();
 		}
 
-			// RUN THE SERVICE
-		List<String> cmd = new ArrayList<String>();
-//		cmd.add("--quiet");
-//		cmd.add("-T" + format);
-		////			DotAlgo algo = ITSEditorPlugin.getInstance().getDotAlgo();
-		//			cmd.add("-K" + algo);
-		cmd.add("-xml");
-		cmd.add("modelMain.xml");
-		IStatus status = runTool(getWorkDirPath(), cmd.toArray(new String[cmd.size()]));
+		// RUN THE SERVICE
+		IStatus status = runTool(getWorkDirPath());
 		if (! status.isOK()) {
 			success  = false;
 			report = "An error occurred during service invocation :" + status.getMessage();
@@ -78,6 +102,8 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 		addResult (new ServiceResult(success,report,this));
 		return report;
 	}
+
+
 
 
 	/**
@@ -90,24 +116,22 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 	 * @return a non-zero integer if errors happened
 	 * @throws IOException
 	 */
-	public IStatus runTool(IPath workdir, String... options) {
-		IPath toolFullPath = ITSEditorPlugin.getDefault().getITSReachPath();
+	public IStatus runTool(IPath workdir) {
+		IPath toolFullPath = getToolPath();
 		if (toolFullPath == null || toolFullPath.isEmpty()) {
 			return new Status(
 					IStatus.ERROR,
 					ITSEditorPlugin.getID(),
-					"Please specify the absolute path to the tool in the preferences page Coloane->ITS Path.");
+			"Please specify the absolute path to the tool in the preferences page Coloane->ITS Path.");
 		}
 		if (!toolFullPath.toFile().isFile()) {
 			return new Status(IStatus.ERROR, ITSEditorPlugin.getID(), "Could not find ITS tool at \"" + toolFullPath
 					+ "\"");
 		}
-		List<String> cmd = new ArrayList<String>();
-		cmd.add(toolFullPath.toOSString());
-		cmd.addAll(Arrays.asList(options));
+		List<String> cmd = buildCommandArguments();
 		ByteArrayOutputStream errorOutput = new ByteArrayOutputStream();
 		ByteArrayOutputStream stdOutput = new ByteArrayOutputStream();
-		
+
 		try {
 			final ProcessController controller =
 				new ProcessController(60000, cmd.toArray(new String[cmd.size()]), null, workdir.toFile());
@@ -115,24 +139,36 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 			controller.forwardOutput(stdOutput);
 			int exitCode = controller.execute();
 			if (exitCode != 0) {
-				return new Status(IStatus.WARNING, ITSEditorPlugin.getID(), "ITS exit code: " + exitCode + "."
-						+ createContentMessage(errorOutput));
-			}
-			if (errorOutput.size() > 0) {
-				return new Status(IStatus.WARNING, ITSEditorPlugin.getID(), createContentMessage(errorOutput));
+				//				return new Status(IStatus.WARNING, ITSEditorPlugin.getID(), "ITS exit code: " + exitCode + "."
+				//						+ createContentMessage(errorOutput));
+				//			}
+				if (errorOutput.size() > 0) {
+					return new Status(IStatus.WARNING, ITSEditorPlugin.getID(), createContentMessage(errorOutput));
+				}
 			}
 			reportText = stdOutput.toString();
 			return Status.OK_STATUS;
 		} catch (TimeOutException e) {
 			return new Status(IStatus.ERROR, ITSEditorPlugin.getID(), "Check Service process did not finish in a timely way."
 					+ createContentMessage(errorOutput));
-//		} catch (InterruptedException e) {
-//			return new Status(IStatus.ERROR, ITSEditorPlugin.getID(), "Unexpected exception executing service."
-//					+ createContentMessage(errorOutput), e);
 		} catch (IOException e) {
 			return new Status(IStatus.ERROR, ITSEditorPlugin.getID(), "Unexpected exception executing service."
 					+ createContentMessage(errorOutput), e);
 		}
+	}
+
+	protected List<String> buildCommandArguments() {
+		ArrayList<String> cmd = new ArrayList<String>();
+		cmd.add(getToolPath().toOSString());
+		//		cmd.add("--quiet");
+		//		cmd.add("-T" + format);
+		cmd.add("-xml");
+		cmd.add("modelMain.xml");
+		return cmd;
+	}
+
+	protected IPath getToolPath() {
+		return ITSEditorPlugin.getDefault().getITSReachPath();
 	}
 
 	/**
@@ -144,10 +180,10 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 		if (errorOutput.size() == 0) {
 			return "";
 		}
-		return " dot produced the following error output: \n" + errorOutput;
+		return " Process produced the following error output: \n" + errorOutput;
 	}
 
-	private void addResult(ServiceResult serviceResult) {
+	protected void addResult(ServiceResult serviceResult) {
 		results.add(serviceResult);
 		notifyObservers();
 	}
@@ -156,9 +192,13 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 	public Iterator<ServiceResult> iterator() {
 		return results.iterator();
 	}
-	
+
 	public CheckList getParent() {
 		return parent;
+	}
+
+	protected void setReport(String report) {
+		this.reportText = report;
 	}
 
 }
