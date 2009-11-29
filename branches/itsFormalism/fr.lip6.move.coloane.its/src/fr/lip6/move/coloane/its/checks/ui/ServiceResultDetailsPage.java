@@ -92,8 +92,9 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 		toolkit.createLabel(client, "Raw Output"); //$NON-NLS-1$
 		reporttf = toolkit.createText(client, "", SWT.MULTI | SWT.WRAP | SWT.V_SCROLL); //$NON-NLS-1$
 		reporttf.setEditable(false);
-		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING | GridData.FILL_VERTICAL);
+		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.widthHint = 10;
+		gd.heightHint = 250;
 		reporttf.setLayoutData(gd);
 		
 		toolkit.paintBordersFor(s1);
