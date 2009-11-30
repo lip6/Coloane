@@ -78,7 +78,7 @@ implements IWorkbenchPreferencePage {
 		buttonComposite.setLayout(layout);
 		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		buttonComposite.setLayoutData(data);
-		buttonComposite.setText("Executable to use");
+		buttonComposite.setText("its-reach executable to use");
 		reachField = new FileBrowserField(buttonComposite);
 		reachField.setToolTipText("Select its-reach executable.");
 		reachField.setLayoutData(data);
@@ -91,7 +91,16 @@ implements IWorkbenchPreferencePage {
 			}
 		});
 
-		ctlField = new FileBrowserField(buttonComposite);
+		Group buttonComposite2 = new Group(composite, SWT.LEFT);
+		layout = new GridLayout();
+		buttonComposite2.setLayout(layout);
+		data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+		buttonComposite.setLayoutData(data);
+		data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+		buttonComposite2.setLayoutData(data);
+		buttonComposite2.setText("its-ctl executable to use");
+		
+		ctlField = new FileBrowserField(buttonComposite2);
 		ctlField.setToolTipText("Select its-reach executable.");
 		ctlField.setLayoutData(data);
 
@@ -135,7 +144,7 @@ implements IWorkbenchPreferencePage {
 			setMessage(newText + " is not executable!", IMessageProvider.WARNING);
 			setValid(false);
 		} else if (!exeName.equalsIgnoreCase(fileName)) {
-			setMessage("The file name should be " + fileName , IMessageProvider.WARNING);
+			setMessage("The file name should be " +  exeName, IMessageProvider.WARNING);
 			setValid(false);
 		} else {
 			setValid(true);
