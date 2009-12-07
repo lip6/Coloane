@@ -30,7 +30,7 @@ public interface ISession {
 	/**
 	 * @return nom de la session
 	 */
-	String getName();
+	String getSessionId();
 
 	/**
 	 * Retoune le modele
