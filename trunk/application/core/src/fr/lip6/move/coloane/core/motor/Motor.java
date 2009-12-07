@@ -197,7 +197,7 @@ public final class Motor {
 			protected IStatus run(IProgressMonitor monitor) {
 				monitor.beginTask(Messages.Motor_18, 3);
 				try {
-					((Session) session).disconnect(monitor);
+					((Session) session).disconnect(true, monitor);
 				} catch (ApiException e) {
 					return new Status(IStatus.ERROR, "coloane", "Close session failed", e); //$NON-NLS-1$ //$NON-NLS-2$
 				}
@@ -373,12 +373,8 @@ public final class Motor {
 		Job job = new InterruptedJob("Close connection") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				try {
-					Com.getInstance().breakConnection(safeMode);
-					((SessionManager) sessionManager).disconnectAllSessions();
-				} catch (ApiException e) {
-					Com.getInstance().breakConnection(false);
-				}
+				Com.getInstance().breakConnection(safeMode);
+				((SessionManager) sessionManager).disconnectAllSessions();
 				sessionManager.setAuthenticated(false);
 				UserInterface.getInstance().redrawMenus();
 				return Status.OK_STATUS;

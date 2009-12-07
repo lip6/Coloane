@@ -143,12 +143,16 @@ public final class SessionManager implements ISessionManager {
 
 	/**
 	 * Deconnexion brutale de tous les modeles
-	 * @throws ApiException En cas d'erreur lors de la fermeture de la session
 	 */
-	public void disconnectAllSessions() throws ApiException {
+	public void disconnectAllSessions() {
 		LOG.fine("Déconnexion de toutes les sessions"); //$NON-NLS-1$
 		for (ISession session : sessions.values()) {
-			((Session) session).disconnect();
+			try {
+				((Session) session).disconnect(false);
+			} catch (ApiException e) {
+				// With safeMode == false, should not raise an exception
+				throw new AssertionError();
+			}
 		}
 	}
 
