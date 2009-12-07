@@ -284,7 +284,7 @@ public final class Motor {
 
 				ISession currentSession = sessionManager.getCurrentSession();
 				if (currentSession != null) {
-					LOGGER.finer("Session courante : " + currentSession.getName()); //$NON-NLS-1$
+					LOGGER.finer("Session courante : " + currentSession.getSessionId()); //$NON-NLS-1$
 				} else {
 					LOGGER.fine("Pas de session courante"); //$NON-NLS-1$
 				}
@@ -321,19 +321,19 @@ public final class Motor {
 
 	/**
 	 * Suspend la session désignée
-	 * @param name Le nom de la session a suspendre
+	 * @param sessionId Le nom de la session a suspendre
 	 */
-	public void resumeSession(final String name) {
+	public void resumeSession(final String sessionId) {
 		Job job = new InterruptedJob("Resume session") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-				if (((SessionManager) sessionManager).resumeSession(name)) {
-					LOGGER.finer("OK pour la reprise de session " + name); //$NON-NLS-1$
+				if (((SessionManager) sessionManager).resumeSession(sessionId)) {
+					LOGGER.finer("OK pour la reprise de session " + sessionId); //$NON-NLS-1$
 					UserInterface.getInstance().redrawMenus();
 
 					ISession currentSession = sessionManager.getCurrentSession();
 					if (currentSession != null) {
-						LOGGER.finer("Session courante : " + currentSession.getName()); //$NON-NLS-1$
+						LOGGER.finer("Session courante : " + currentSession.getSessionId()); //$NON-NLS-1$
 					} else {
 						LOGGER.fine("Pas de session courante"); //$NON-NLS-1$
 					}

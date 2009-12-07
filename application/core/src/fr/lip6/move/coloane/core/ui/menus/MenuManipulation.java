@@ -8,6 +8,7 @@ import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
@@ -28,6 +29,9 @@ import org.eclipse.ui.PlatformUI;
  * </ul>
  */
 public final class MenuManipulation {
+	/** Le logger pour la classe */
+	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	/** Sauvegarde du menu de coloane, il faut absolument passé par getColoaneMenu() pour récupérer le menu */
 	private static Menu coloaneMenu = null;
 
@@ -64,6 +68,7 @@ public final class MenuManipulation {
 	 * @return MenuManager correpondant au menu passé en parametre
 	 */
 	public static MenuManager build(ISubMenu rootApiMenu, ISession session) {
+		LOG.finer("Build menu for session : " + session.getSessionId()); //$NON-NLS-1$
 		return build(rootApiMenu, rootApiMenu.isVisible(), session);
 	}
 
@@ -119,6 +124,7 @@ public final class MenuManipulation {
 		if (getColoaneMenu() == null) {
 			throw new IllegalStateException("Le menu de Coloane n'existe pas"); //$NON-NLS-1$
 		}
+		LOG.finer("Add Coloane menu"); //$NON-NLS-1$
 		menu.fill(getColoaneMenu(), -1);
 	}
 
@@ -128,6 +134,7 @@ public final class MenuManipulation {
 	public static void clean() {
 		// On ne fait pas de clean si le menu n'existe pas
 		if (getColoaneMenu() != null && !getColoaneMenu().isDisposed()) {
+			LOG.finer("Clean menus"); //$NON-NLS-1$
 			for (MenuItem item : getColoaneMenu().getItems()) {
 				if (!item.getText().equals(Coloane.getParam("PLATFORM_MENU")) && !item.getText().equals(Coloane.getParam("LOCAL_MENU"))) { //$NON-NLS-1$ //$NON-NLS-2$
 					item.dispose();
@@ -141,6 +148,7 @@ public final class MenuManipulation {
 	 * @param mapUpdateMenu Map contenant les élements à mettre à jour.
 	 */
 	public static void update(MenuManager menuManager, Map<String, IUpdateMenu> mapUpdateMenu) {
+		LOG.finer("Update menus"); //$NON-NLS-1$
 		update(menuManager, mapUpdateMenu, true);
 	}
 

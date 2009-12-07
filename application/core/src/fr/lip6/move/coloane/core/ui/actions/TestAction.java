@@ -133,7 +133,7 @@ public class TestAction implements IWorkbenchWindowActionDelegate {
 		ISessionManager sm = SessionManager.getInstance();
 		System.err.println();
 		for (ISession session : sm.getSessions()) {
-			System.err.println(session.getName() + " : " + session.getStatus()); //$NON-NLS-1$
+			System.err.println(session.getSessionId() + " : " + session.getStatus()); //$NON-NLS-1$
 		}
 	}
 

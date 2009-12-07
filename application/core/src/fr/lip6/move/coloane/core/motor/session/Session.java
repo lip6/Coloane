@@ -46,8 +46,8 @@ public class Session implements ISession {
 
 	private static final List<ICoreTip> EMPTY_TIP_LIST = Collections.unmodifiableList(new ArrayList<ICoreTip>(0));
 
-	/** Nom de la session */
-	private String name;
+	/** Identifiant de la session */
+	private String sessionId;
 
 	/** Le graph associe */
 	private IGraph graph;
@@ -84,26 +84,26 @@ public class Session implements ISession {
 	 * Constructeur<br>
 	 * Tous les champs sont initialisés.<br>
 	 * Le nom ne doit pas être nul.
-	 * @param name Nom de la session
+	 * @param sessionId Nom de la session
 	 */
-	public Session(String name) {
-		if (name == null) {
+	public Session(String sessionId) {
+		if (sessionId == null) {
 			throw new NullPointerException("name cannot be null"); //$NON-NLS-1$
 		}
-		this.name = name;
+		this.sessionId = sessionId;
 	}
 
 	/**
 	 * Reprise de la session
 	 */
 	public final void resume() {
-		LOG.finer("Reprise de la session " + name); //$NON-NLS-1$
+		LOG.finer("Reprise de la session " + sessionId); //$NON-NLS-1$
 		if (status == ISession.CONNECTED) {
 			try {
 				apiSession.resume();
 			} catch (ApiException e) {
 				e.printStackTrace();
-				LOG.finer("Impossible de reprendre la session " + name); //$NON-NLS-1$
+				LOG.finer("Impossible de reprendre la session " + sessionId); //$NON-NLS-1$
 				// TODO : désactiver les services du menu
 			}
 		}
@@ -129,8 +129,8 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final String getName() {
-		return name;
+	public final String getSessionId() {
+		return sessionId;
 	}
 
 	/** {@inheritDoc} */
@@ -191,10 +191,10 @@ public class Session implements ISession {
 		apiSession = Com.getInstance().createApiSession();
 		monitor.worked(1);
 		monitor.subTask(Messages.Session_1);
-		ISessionInfo info = apiSession.open(graph.getDate(), graph.getFormalism().getFKName(), name);
+		ISessionInfo info = apiSession.open(graph.getDate(), graph.getFormalism().getFKName(), sessionId);
 		monitor.worked(1);
 		setStatus(ISession.CONNECTED);
-		LOG.finer("Connexion de la session " + name); //$NON-NLS-1$
+		LOG.finer("Connexion de la session " + sessionId); //$NON-NLS-1$
 		return info;
 	}
 
@@ -221,7 +221,7 @@ public class Session implements ISession {
 	 * @throws ApiException En cas d'erreur de l'api
 	 */
 	public final void disconnect(IProgressMonitor monitor) throws ApiException {
-		LOG.finest("Demande de déconnexion de " + name); //$NON-NLS-1$
+		LOG.finest("Demande de déconnexion de " + sessionId); //$NON-NLS-1$
 		monitor.subTask(Messages.Session_2);
 		menus.clear();
 		monitor.worked(1);
@@ -232,13 +232,13 @@ public class Session implements ISession {
 		}
 		monitor.worked(1);
 		setStatus(ISession.CLOSED);
-		LOG.finer("Déconnexion de la session " + name); //$NON-NLS-1$
+		LOG.finer("Déconnexion de la session " + sessionId); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
-		return name;
+		return sessionId;
 	}
 
 	/** {@inheritDoc} */
@@ -424,7 +424,7 @@ public class Session implements ISession {
 	 */
 	private MessageConsole getConsole() {
 		if (console == null) {
-			console = new MessageConsole(name, null); // TODO : ajouter une icône
+			console = new MessageConsole(sessionId, null); // TODO : ajouter une icône
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[] {console});
 		}
 		return console;
