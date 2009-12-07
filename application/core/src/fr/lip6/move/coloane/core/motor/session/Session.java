@@ -124,7 +124,7 @@ public class Session implements ISession {
 			ConsolePlugin.getDefault().getConsoleManager().removeConsoles(new IConsole[] {console});
 		}
 		if (apiSession != null) {
-			disconnect();
+			disconnect(true);
 		}
 	}
 
@@ -202,8 +202,8 @@ public class Session implements ISession {
 	 * Déconnecte la session de framekit.
 	 * @throws ApiException En cas d'erreur de l'api
 	 */
-	public final void disconnect() throws ApiException {
-		disconnect(new IProgressMonitor() {
+	public final void disconnect(boolean safeMode) throws ApiException {
+		disconnect(safeMode, new IProgressMonitor() {
 			public void beginTask(String name, int totalWork) { }
 			public void done() { }
 			public void internalWorked(double work) { }
@@ -220,14 +220,16 @@ public class Session implements ISession {
 	 * @param monitor moniteur pour la boite de progression
 	 * @throws ApiException En cas d'erreur de l'api
 	 */
-	public final void disconnect(IProgressMonitor monitor) throws ApiException {
+	public final void disconnect(boolean safeMode, IProgressMonitor monitor) throws ApiException {
 		LOG.finest("Demande de déconnexion de " + sessionId); //$NON-NLS-1$
 		monitor.subTask(Messages.Session_2);
 		menus.clear();
 		monitor.worked(1);
 		monitor.subTask(Messages.Session_3);
 		if (apiSession != null) {
-			apiSession.close();
+			if (safeMode) {
+				apiSession.close();
+			}
 			apiSession = null;
 		}
 		monitor.worked(1);
