@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileset-config file-format-version="1.2.0" simple-config="true">
+    <fileset name="tous" enabled="true" check-config-name="coloane" local="false">
+        <file-match-pattern match-pattern="." include-pattern="true"/>
+        <file-match-pattern match-pattern="Lexer.java" include-pattern="false"/>        
+        <file-match-pattern match-pattern="Parser.java" include-pattern="false"/>        
+    </fileset>
+</fileset-config>
