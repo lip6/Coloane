@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.importFromPROD.parser;
+package fr.lip6.move.coloane.extensions.importFromPROD.parser;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
