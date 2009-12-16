@@ -13,21 +13,6 @@
 	<name>Extensions :: Import Export ROMEO</name>
 	<description>Coloane's extension that provides ROMEO import/export features</description>
 	
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>fr.lip6.move.coloane.application</groupId>
-				<artifactId>core</artifactId>
-				<version>[0.16,)</version>
-			</dependency>
-			<dependency>
-				<groupId>fr.lip6.move.coloane.application</groupId>
-				<artifactId>interfaces</artifactId>
-				<version>[0.16,)</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-	
 	<dependencies>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.application</groupId>
