@@ -1,12 +1,12 @@
 grammar Prod;
 
 @lexer::header {
-package fr.lip6.move.coloane.extension.importFromPROD.parser;
+package fr.lip6.move.coloane.extensions.importFromPROD.parser;
 
 }
 
 @parser::header {
-package fr.lip6.move.coloane.extension.importFromPROD.parser;
+package fr.lip6.move.coloane.extensions.importFromPROD.parser;
 
 import fr.lip6.move.coloane.core.model.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
