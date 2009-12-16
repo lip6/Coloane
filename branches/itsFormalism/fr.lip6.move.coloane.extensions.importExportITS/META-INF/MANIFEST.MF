@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ImportExportITS Plug-in
 Bundle-SymbolicName: fr.lip6.move.coloane.extensions.importExportITS;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: fr.lip6.move.coloane.extension.importExportITS.Activator
+Bundle-Activator: fr.lip6.move.coloane.extensions.importExportITS.Activator
 Require-Bundle: fr.lip6.move.coloane.core,
  fr.lip6.move.coloane.interfaces,
  org.eclipse.ui,
@@ -14,4 +14,4 @@ Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: fr.lip6.move.coloane.extension.importExportITS.exportToITS
+Export-Package: fr.lip6.move.coloane.extensions.importExportITS.exportToITS
