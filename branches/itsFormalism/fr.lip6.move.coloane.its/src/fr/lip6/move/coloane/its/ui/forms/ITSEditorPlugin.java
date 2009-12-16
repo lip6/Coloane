@@ -10,6 +10,10 @@
  *******************************************************************************/
 package fr.lip6.move.coloane.its.ui.forms;
 
+import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+
 import java.io.File;
 import java.net.URL;
 import java.util.MissingResourceException;
@@ -54,6 +58,10 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_SETVAR = "variable_set";
 	public static final String IMG_RESULTOK = "result_ok";
 	public static final String IMG_RESULTNOK = "result_nok";
+	public static final String IMG_REACH_SERVICE = "reach_service";
+	public static final String IMG_COMPOSITE = "composite_formalism";
+	public static final String IMG_TPNFORM = "tpn_formalism";
+	public static final String IMG_INSTANCE = "instance";
 
 	
 	public static final String ITS_REACH_NAME = "its-reach";
@@ -109,6 +117,21 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_USETVAR, "unset_variable.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_RESULTOK, "success_check.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_RESULTNOK, "error_check.gif"); //$NON-NLS-1$
+		
+		// images stolen from other plugins
+		registry.put(IMG_REACH_SERVICE, AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif")); //$NON-NLS-1$ //$NON-NLS-2$
+
+		// images grabbed from coloane formalisms
+		IFormalism f = FormalismManager.getInstance().getFormalismById("ITS Composite");
+		registry.put(IMG_COMPOSITE, ImageDescriptor.createFromFile(Coloane.class, f.getImageName()));
+
+		String img = f.getMasterGraph().getElementFormalism("instance").getGraphicalDescription().getIcon24px();
+		registry.put(IMG_INSTANCE, ImageDescriptor.createFromFile(Coloane.class, img));
+		
+		f = FormalismManager.getInstance().getFormalismById("Time Petri Net");
+		registry.put(IMG_TPNFORM, ImageDescriptor.createFromFile(Coloane.class, f.getImageName()));
+	
+	
 	}
 
 	/**
