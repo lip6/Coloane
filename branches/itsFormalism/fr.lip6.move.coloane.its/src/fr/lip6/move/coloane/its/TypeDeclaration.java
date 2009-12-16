@@ -352,6 +352,39 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			}
 		}
 	}
+	
+//	protected List<INode> computeStateVariables () {
+//		List<INode> vars;
+//		EvaluationContext context = new EvaluationContext();
+//		for (INode node : graph.getNodes()) {
+//			if ("place".equals(node.getNodeFormalism().getName())) {
+//				IAttribute attrib = node.getAttribute("marking");
+//				parseIntExpression(attrib, context);
+//			} else if ("transition".equals(node.getNodeFormalism().getName())) {
+//				IAttribute eft = node.getAttribute("earliestFiringTime");
+//				parseIntExpression(eft, context);
+//				IAttribute lft = node.getAttribute("latestFiringTime");
+//				parseIntExpression(lft, context);
+//			}
+//		}
+//		for (IArc arc : graph.getArcs()) {
+//			// supports null attribute passing: some arcs have no valuation
+//			parseIntExpression(arc.getAttribute("valuation"), context);
+//		}
+//		for (IAttribute att : graph.getAttributes()) {
+//			if (att.getName().equals("size")) {
+//				parseIntExpression(att, context);
+//			}
+//		}
+//		return context;		
+//	}
+//	
+//	public List<INode> getStateVariables () {
+//		if (stateVariables == null) {
+//			
+//		}
+//		return stateVariables;
+//	}
 }
 
 
