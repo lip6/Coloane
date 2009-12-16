@@ -1,12 +1,12 @@
 grammar SGRomeo;
 
 @lexer::header {
-package fr.lip6.move.coloane.extension.importFromSGRomeo.parser;
+package fr.lip6.move.coloane.extensions.importFromSGRomeo.parser;
 
 }
 
 @parser::header {
-package fr.lip6.move.coloane.extension.importFromSGRomeo.parser;
+package fr.lip6.move.coloane.extensions.importFromSGRomeo.parser;
 
 import fr.lip6.move.coloane.core.model.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
