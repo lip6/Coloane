@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.its.io;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.extension.importExportITS.exportToITS.ExportToCompositeITS;
 import fr.lip6.move.coloane.extension.importExportRomeo.exportToRomeo.ExportToRomeo;
+import fr.lip6.move.coloane.extensions.importExportITS.exportToITS.ExportToCompositeITS;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
