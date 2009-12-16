@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.importFromSGRomeo;
+package fr.lip6.move.coloane.extensions.importFromSGRomeo;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
