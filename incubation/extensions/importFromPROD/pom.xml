@@ -19,9 +19,6 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>antlr3-maven-plugin</artifactId>
 				<version>1.0</version>
-				<configuration>
-					<sourceDirectory>${basedir}/src/fr/lip6/move/coloane/extensions/importfromprod</sourceDirectory>
-				</configuration>
 				<executions>
 					<execution>
 						<goals>
