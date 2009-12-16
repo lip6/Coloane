@@ -14,12 +14,12 @@ Require-Bundle: org.eclipse.ui,
  fr.lip6.move.coloane.core,
  fr.lip6.move.coloane.interfaces,
  fr.lip6.move.coloane.extensions.importExportITS;bundle-version="1.0.0",
- fr.lip6.move.coloane.extensions.importExportRomeo;bundle-version="1.2.1",
- org.eclipse.ui.forms
+ org.eclipse.ui.forms,
+ fr.lip6.move.coloane.extensions.importExportROMEO;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: fr.lip6.move.coloane.core.ui.files,
- fr.lip6.move.coloane.extension.importExportITS.exportToITS,
+ fr.lip6.move.coloane.extensions.importExportITS.exportToITS,
  fr.lip6.move.coloane.interfaces.formalism,
  fr.lip6.move.coloane.interfaces.model,
  org.eclipse.core.filesystem,
