@@ -7,7 +7,6 @@ import fr.lip6.move.coloane.its.ui.forms.TypeTreeLabelProvider;
 
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 		IBaseLabelProvider {
@@ -38,9 +37,9 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof CheckService) {
-			CheckService cs = (CheckService) element;
+			// CheckService cs = (CheckService) element;
 			// TODO : an icon per service
-			return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif").createImage(); //$NON-NLS-1$ //$NON-NLS-2$
+			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_REACH_SERVICE);
 		} else if (element instanceof ServiceResult) {
 			ServiceResult sr = (ServiceResult) element;
 			if (sr.isSuccess())
