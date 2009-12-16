@@ -12,6 +12,9 @@
    <feature url="features/fr.lip6.move.coloane.feature.formalisms.tpn_0.9.0.jar" id="fr.lip6.move.coloane.feature.importFromPROD" version="0.9.0">
       <category name="ITS"/>
    </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.formalisms.tpn_0.9.0.jar" id="fr.lip6.move.coloane.feature.importFromSGROMEO" version="0.9.0">
+      <category name="ITS"/>
+   </feature>
    <category-def name="ITS" label="ITS Package (Incubation)">
       <description>
          This category groups all plugins and features dedicated to ITS construction

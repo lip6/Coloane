@@ -18,6 +18,7 @@
 		<module>formalismTPN</module>
 		<module>importExportROMEO</module>
 		<module>importFromPROD</module>
+		<module>importFromSGROMEO</module>
 	</modules>
 
 	<build>
