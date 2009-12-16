@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.importExportCAMI"
-      label="Coloane - Import/Export to CAMI"
-      version="1.2.1"
+      id="fr.lip6.move.coloane.feature.importFromPROD"
+      label="Coloane - Import From PROD"
+      version="1.0.0"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This feature brings CAMI import/export to Coloane.
+      This feature brings PROD import to Coloane.
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -34,7 +34,7 @@
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.extensions.importExportCAMI"
+         id="fr.lip6.move.coloane.extensions.importFromPROD"
          download-size="0"
          install-size="0"
          version="0.0.0"

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.importExportCAMI"
-      label="Coloane - Import/Export to CAMI"
-      version="1.2.1"
+      id="fr.lip6.move.coloane.feature.importExportROMEO"
+      label="Coloane - Import/Export to ROMEO"
+      version="1.0.0"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This feature brings CAMI import/export to Coloane.
+      This feature brings ROMEO import/export to Coloane.
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -30,11 +30,10 @@
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.gef"/>
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.extensions.importExportCAMI"
+         id="fr.lip6.move.coloane.extensions.importExportROMEO"
          download-size="0"
          install-size="0"
          version="0.0.0"
