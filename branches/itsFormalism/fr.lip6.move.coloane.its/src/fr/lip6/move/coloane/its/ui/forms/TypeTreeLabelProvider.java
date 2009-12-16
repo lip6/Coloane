@@ -1,19 +1,14 @@
 package fr.lip6.move.coloane.its.ui.forms;
 
-import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
-import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.its.Concept;
 import fr.lip6.move.coloane.its.TypeDeclaration;
 import fr.lip6.move.coloane.its.expression.IVariableBinding;
 
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * A nice tree label provider for the Types tree view.
@@ -69,16 +64,12 @@ public class TypeTreeLabelProvider
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof CompositeTypeDeclaration) {
-			IFormalism f = FormalismManager.getInstance().getFormalismById("ITS Composite");
-			return ImageDescriptor.createFromFile(Coloane.class, f.getImageName()).createImage();
+			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_COMPOSITE);
 		}
 		if (element instanceof TypeDeclaration) {
-			IFormalism f = FormalismManager.getInstance().getFormalismById("Time Petri Net");
-			return ImageDescriptor.createFromFile(Coloane.class, f.getImageName()).createImage();
+			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_TPNFORM);			
 		} else if (element instanceof Concept) {
-			IFormalism f = FormalismManager.getInstance().getFormalismById("ITS Composite");
-			String img = f.getMasterGraph().getElementFormalism("instance").getGraphicalDescription().getIcon24px();
-			return ImageDescriptor.createFromFile(Coloane.class, img).createImage();
+			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_INSTANCE);
 		} else if (element instanceof IVariableBinding) {
 			IVariableBinding vb = (IVariableBinding) element;
 			if (vb.getVariableValue() != null)
