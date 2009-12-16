@@ -156,8 +156,8 @@
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.TestArc"
                         description="Create a test arc (a.k.a read arc)"
                         drawable="true"
-                        icon16px="resources/formalisms/test_16.png"
-                        icon24px="resources/formalisms/test_24.png"
+                        icon16px="resources/formalisms/tpn/test_16.png"
+                        icon24px="resources/formalisms/tpn/test_24.png"
                         palettable="true"
                         paletteName="Test Arc">
                   </GraphicInfo>
@@ -174,8 +174,8 @@
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.ResetArc"
                         description="Create a reset arc"
                         drawable="true"
-                        icon16px="resources/formalisms/reset_16.png"
-                        icon24px="resources/formalisms/reset_24.png"
+                        icon16px="resources/formalisms/tpn/reset_16.png"
+                        icon24px="resources/formalisms/tpn/reset_24.png"
                         palettable="true"
                         paletteName="Reset Arc">
                   </GraphicInfo>
