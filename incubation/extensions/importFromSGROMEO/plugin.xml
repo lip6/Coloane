@@ -4,7 +4,7 @@
    <extension
          point="fr.lip6.move.coloane.core.imports">
       <Import
-            class="fr.lip6.move.coloane.extension.importFromSGRomeo.parser.ImportFromImpl"
+            class="fr.lip6.move.coloane.extensions.importFromSGRomeo.parser.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importsgromeo"
             reference="fr.lip6.move.coloane.wizard.import.sgromeo">
          <AcceptedFormalism
