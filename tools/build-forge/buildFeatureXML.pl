@@ -31,8 +31,10 @@ sub compute_version {
 	my @files; # All JAR files that match the ID
 
 	# Open the directory and look for matching file's name
+	print "Processing directory $dir \n" if ($debug);
 	opendir(DIR,$dir) or die "The directory $dir cannot be browsed --> FAILURE !";
 	while (my $file=readdir(DIR)) {
+		print "Found : $file \n" if ($debug);
 		push(@files,$file) if ($file =~ /^$id\_/);
 	}
 	closedir(DIR);
