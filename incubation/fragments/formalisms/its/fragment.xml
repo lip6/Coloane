@@ -7,7 +7,7 @@
             extension="itsc"
             fkname="AMI-Net"
             id="ITS Composite"
-            image="resources/itsc_icon.PNG"
+            image="resources/itsc_icon.png"
             name="ITSComposite">
          <XmlDescription>
             <Graph
@@ -68,8 +68,8 @@
                         drawable="true"
                         fill="true"
                         height="4"
-                        icon16px="resources/formalisms/transition_16.png"
-                        icon24px="resources/formalisms/transition_24.png"
+                        icon16px="resources/formalisms/its/transition_16.png"
+                        icon24px="resources/formalisms/its/transition_24.png"
                         palettable="true"
                         paletteName="Synchronization"
                         width="20">
@@ -91,8 +91,8 @@
                         associatedFigure="UndirectedArc"
                         description="Create a Synchronization part"
                         drawable="true"
-                        icon16px="resources/formalisms/link_16.png"
-                        icon24px="resources/formalisms/link_24.png"
+                        icon16px="resources/formalisms/its/link_16.png"
+                        icon24px="resources/formalisms/its/link_24.png"
                         palettable="true"
                         paletteName="Synch. Part">
                   </GraphicInfo>
@@ -109,7 +109,7 @@
             extension="model"
             fkname="Circular Composite"
             id="Circular Composite"
-            image="resources/itsc_circ_icon.PNG"
+            image="resources/itsc_circ_icon.png"
             name="CircularComposite">
          <XmlDescription>
             <Graph
@@ -139,8 +139,8 @@
                         drawable="true"
                         fill="false"
                         height="30"
-                        icon16px="resources/itsc_icon.PNG"
-                        icon24px="resources/itsc_icon.PNG"
+                        icon16px="resources/itsc_icon.png"
+                        icon24px="resources/itsc_icon.png"
                         palettable="true"
                         paletteName="Instance"
                         width="50">
@@ -170,8 +170,8 @@
                         drawable="true"
                         fill="true"
                         height="4"
-                        icon16px="resources/formalisms/transition_16.png"
-                        icon24px="resources/formalisms/transition_24.png"
+                        icon16px="resources/formalisms/its/transition_16.png"
+                        icon24px="resources/formalisms/its/transition_24.png"
                         palettable="true"
                         paletteName="Synchronization"
                         width="20">
@@ -193,8 +193,8 @@
                         associatedFigure="UndirectedArc"
                         description="Create a Synchronization part"
                         drawable="true"
-                        icon16px="resources/formalisms/link_16.png"
-                        icon24px="resources/formalisms/link_24.png"
+                        icon16px="resources/formalisms/its/link_16.png"
+                        icon24px="resources/formalisms/its/link_24.png"
                         palettable="true"
                         paletteName="Synch. Part">
                   </GraphicInfo>
@@ -212,7 +212,7 @@
             extension="itsc"
             fkname="Scalar Set Composite"
             id="Scalar Set Composite"
-            image="resources/itsc_icon.PNG"
+            image="resources/itsc_icon.png"
             name="Scalar Set Composite">
          <XmlDescription>
             <Graph
@@ -249,8 +249,8 @@
                         drawable="true"
                         fill="false"
                         height="30"
-                        icon16px="resources/itsc_icon.PNG"
-                        icon24px="resources/itsc_icon.PNG"
+                        icon16px="resources/itsc_icon.png"
+                        icon24px="resources/itsc_icon.png"
                         palettable="true"
                         paletteName="Instance"
                         width="50">
@@ -280,8 +280,8 @@
                         drawable="true"
                         fill="true"
                         height="4"
-                        icon16px="resources/formalisms/transition_16.png"
-                        icon24px="resources/formalisms/transition_24.png"
+                        icon16px="resources/formalisms/its/transition_16.png"
+                        icon24px="resources/formalisms/its/transition_24.png"
                         palettable="true"
                         paletteName="Synchronization"
                         width="20">
@@ -328,8 +328,8 @@
                         associatedFigure="UndirectedArc"
                         description="Create a Synchronization part"
                         drawable="true"
-                        icon16px="resources/formalisms/link_16.png"
-                        icon24px="resources/formalisms/link_24.png"
+                        icon16px="resources/formalisms/its/link_16.png"
+                        icon24px="resources/formalisms/its/link_24.png"
                         palettable="true"
                         paletteName="Synch. Part">
                   </GraphicInfo>
