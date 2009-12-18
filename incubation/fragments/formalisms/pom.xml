@@ -16,6 +16,7 @@
 
 	<modules>
 		<module>tpn</module>
+		<module>its</module>
 	</modules>
 	
 	<build>
