@@ -37,8 +37,8 @@
                         drawable="true"
                         fill="false"
                         height="30"
-                        icon16px="resources/Artifact.gif"
-                        icon24px="resources/Artifact.gif"
+                        icon16px="resources/artifact.gif"
+                        icon24px="resources/artifact.gif"
                         palettable="true"
                         paletteName="Instance"
                         width="50">
