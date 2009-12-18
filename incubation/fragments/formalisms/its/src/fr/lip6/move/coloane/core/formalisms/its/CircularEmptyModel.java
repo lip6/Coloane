@@ -8,7 +8,6 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 public class CircularEmptyModel implements IExample {
 
-	@Override
 	public IGraph buildModel() {
 		IGraph graph = new GraphModelFactory().createGraph("CircularComposite");
 		try {
