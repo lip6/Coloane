@@ -29,7 +29,7 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.export.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
-            icon="resources/camifile.png"
+            icon="resources/romeo.png"
             id="fr.lip6.move.coloane.wizard.export.romeo"
             name="Romeo File">
 		 <description>
@@ -42,7 +42,7 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.import.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.importmodel.ImportWizard"
-            icon="resources/camifile.png"
+            icon="resources/romeo.png"
             id="fr.lip6.move.coloane.wizard.import.romeo"
             name="Romeo File">
          <description>
