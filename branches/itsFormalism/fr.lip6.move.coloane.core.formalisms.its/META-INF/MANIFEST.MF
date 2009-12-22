@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: ITS Composite formalism
-Bundle-SymbolicName: fr.lip6.move.coloane.core.itscomposite;singleton:=true
-Bundle-Version: 1.0.0
-Bundle-Vendor: LIP6 / MOVE
-Fragment-Host: fr.lip6.move.coloane.core;bundle-version="0.16.2"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
