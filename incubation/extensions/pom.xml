@@ -18,6 +18,7 @@
 		<module>importExportROMEO</module>
 		<module>importFromPROD</module>
 		<module>importFromSGROMEO</module>
+		<module>importExportITS</module>
 	</modules>
 	
 	<build>
