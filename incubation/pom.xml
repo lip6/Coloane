@@ -12,9 +12,10 @@
 
 	<modules>
 		<module>fragments</module>
+		<module>extensions</module>
+		<module>projects</module>
 		<module>features</module>
 		<module>update-site</module>
-		<module>extensions</module>
 	</modules>
 
 	<scm>
@@ -137,9 +138,19 @@
 				<version>3.3.0-v20070606-0010</version>
 			</dependency>
 			<dependency>
+			    <groupId>org.eclipse.ui</groupId>
+			    <artifactId>editors</artifactId>
+			    <version>3.3.0-v20070606-0010</version>
+			</dependency>
+			<dependency>
 				<groupId>org.eclipse.core</groupId>
 				<artifactId>filesystem</artifactId>
 				<version>1.1.0-v20070606</version>
+			</dependency>
+			<dependency>
+			    <groupId>org.eclipse.core</groupId>
+			    <artifactId>filebuffers</artifactId>
+			    <version>3.3.0-v20070606-0010</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.core</groupId>
