@@ -12,4 +12,15 @@
 	<packaging>jar</packaging>
 	<name>Extensions :: Import Export ITS</name>
 	<description>Coloane's extension that provides ITS import/export feature</description>
+	
+	<dependencies>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.application</groupId>
+			<artifactId>core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.application</groupId>
+			<artifactId>interfaces</artifactId>
+		</dependency>
+	</dependencies>
 </project>
