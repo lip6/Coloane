@@ -7,7 +7,7 @@
       <editor
             name="ITS Editor"
             extensions="xmlits"
-            icon="icons/models_navigator.gif"
+            icon="resources/icons/models_navigator.gif"
             class="fr.lip6.move.coloane.its.plugin.editors.MultiPageEditor"
             id="testits.editors.ITSEditor">
       </editor>
@@ -21,7 +21,7 @@
       </category>
       <wizard
             name="ITS Composition Model"
-            icon="icons/models_navigator.gif"
+            icon="resources/icons/models_navigator.gif"
             category="ITSComposition"
             class="fr.lip6.move.coloane.its.plugin.wizards.ITSNewModelWizard"
             id="testits.wizards.SampleNewWizard">
@@ -32,7 +32,7 @@
       <Tool
             action="fr.lip6.move.coloane.its.syntax.tool.SyntaxCheckAction"
             description="Syntax Check"
-            icon="icons/spellcheck.png"
+            icon="resources/icons/spellcheck.png"
             name="fr.lip6.move.coloane.its.syntax">
       </Tool>
    </extension>
