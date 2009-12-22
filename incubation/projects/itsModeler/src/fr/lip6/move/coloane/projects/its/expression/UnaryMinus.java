@@ -18,7 +18,6 @@ public final class UnaryMinus extends NaryExpression {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public int evaluate(IEvaluationContext context) {
 		assert getChildren().size() == 1;
 		return -getChildren().iterator().next().evaluate(context);

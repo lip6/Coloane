@@ -25,7 +25,6 @@ public final class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Map<Integer, List<String>> getAttributesOutline() {
 		return attributesOutline;
 	}
@@ -33,7 +32,6 @@ public final class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<ISubResult> getChildren() {
 		return children;
 	}
@@ -41,7 +39,6 @@ public final class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -56,7 +53,6 @@ public final class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<Integer> getObjectsDesignation() {
 		return objectsDesignation;
 	}
@@ -64,7 +60,6 @@ public final class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<Integer> getObjectsOutline() {
 		return objectsOutline;
 	}
@@ -72,7 +67,6 @@ public final class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<String> getTextualResults() {
 		return textualResults;
 	}
@@ -80,7 +74,6 @@ public final class SubResult implements ISubResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public int getType() {
 		return type;
 	}

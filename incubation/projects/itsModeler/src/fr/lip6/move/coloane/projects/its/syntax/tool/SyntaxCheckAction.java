@@ -19,7 +19,6 @@ public class SyntaxCheckAction implements IColoaneAction {
 		tpncheck.addRule(new IntegerExpressionCheck());
 	}
 	
-	@Override
 	public List<IResult> run(IGraph model) {
 		List<IResult> res=new ArrayList<IResult>();
 		res.add(tpncheck.check(model));

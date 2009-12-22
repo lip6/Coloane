@@ -188,7 +188,6 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 		notifyObservers();
 	}
 
-	@Override
 	public Iterator<ServiceResult> iterator() {
 		return results.iterator();
 	}

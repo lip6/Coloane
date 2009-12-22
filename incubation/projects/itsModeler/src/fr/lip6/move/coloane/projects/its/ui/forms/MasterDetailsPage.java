@@ -49,7 +49,6 @@ public final class MasterDetailsPage extends FormPage implements ITypeListProvid
 	public void refresh() {
 		block.refresh();
 	}
-	@Override
 	public TypeList getTypes() {
 		return mpe.getTypes();
 	}

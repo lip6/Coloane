@@ -10,7 +10,6 @@ public final class Add extends NaryExpression implements IntegerExpression {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public int evaluate(IEvaluationContext context) {
 		int total = 0;
 		for (IntegerExpression expr : getChildren()) {

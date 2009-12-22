@@ -184,7 +184,6 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				try {
 					TreeSelection o = (TreeSelection) event.getSelection();
@@ -259,7 +258,6 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 		return page;
 	}
 
-	@Override
 	public TypeList getTypes() {
 		return page.getTypes();
 	}

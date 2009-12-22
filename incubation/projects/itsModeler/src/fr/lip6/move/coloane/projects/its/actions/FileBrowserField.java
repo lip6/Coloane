@@ -91,7 +91,6 @@ public final class FileBrowserField extends Composite implements ISimpleObservab
 	 * Delegate
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void addObserver(ISimpleObserver o) {
 		notifier.addObserver(o);
 	}
@@ -100,7 +99,6 @@ public final class FileBrowserField extends Composite implements ISimpleObservab
 	 * Delegate
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void deleteObserver(ISimpleObserver o) {
 		notifier.deleteObserver(o);
 	}

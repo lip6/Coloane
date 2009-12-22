@@ -24,14 +24,12 @@ public final class Constant implements IntegerExpression {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public int evaluate(IEvaluationContext context) {
 		return value;
 	}
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<IntegerExpression> getChildren() {
 		return new ArrayList<IntegerExpression>();
 	}
@@ -39,7 +37,6 @@ public final class Constant implements IntegerExpression {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Set<IVariable> supportingVariables() {
 		return new HashSet<IVariable>();
 	}

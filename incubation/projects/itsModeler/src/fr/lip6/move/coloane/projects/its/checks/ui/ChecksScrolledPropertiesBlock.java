@@ -184,7 +184,6 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 
 		viewer.addDoubleClickListener(new IDoubleClickListener() {
 
-			@Override
 			public void doubleClick(DoubleClickEvent event) {
 				try {
 					TreeSelection o = (TreeSelection) event.getSelection();

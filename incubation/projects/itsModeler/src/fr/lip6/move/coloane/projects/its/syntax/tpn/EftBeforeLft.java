@@ -33,7 +33,6 @@ public final class EftBeforeLft implements ISyntaxRule {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public boolean check(IElement elt, Result result) {
 		String eft = elt.getAttribute("eft").getValue();
 		String lft = elt.getAttribute("lft").getValue();
@@ -78,7 +77,6 @@ public final class EftBeforeLft implements ISyntaxRule {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public String getName() {
 		return "Earliest firing time before Latest firing time.";
 	}
@@ -86,7 +84,6 @@ public final class EftBeforeLft implements ISyntaxRule {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Iterable<IElementFormalism> getRuleTypes() {
 		return ruleTypes;
 	}

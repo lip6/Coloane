@@ -15,14 +15,12 @@ public final class Infinity implements IntegerExpression {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public int evaluate(IEvaluationContext context) {
 		return Integer.MAX_VALUE;
 	}
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<IntegerExpression> getChildren() {
 		return new ArrayList<IntegerExpression>();
 	}
@@ -30,7 +28,6 @@ public final class Infinity implements IntegerExpression {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Set<IVariable> supportingVariables() {
 		return new HashSet<IVariable>();
 	}

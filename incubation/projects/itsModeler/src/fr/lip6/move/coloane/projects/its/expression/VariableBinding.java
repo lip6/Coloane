@@ -25,7 +25,6 @@ public final class VariableBinding implements IVariableBinding {
 	/**
 	 * @return the variable name
 	 */
-	@Override
 	public String getVariableName() {
 		return var.getName();
 	}
@@ -33,7 +32,6 @@ public final class VariableBinding implements IVariableBinding {
 	/**
 	 * @return the variable value or null if not set
 	 */
-	@Override
 	public Integer getVariableValue() {
 		return context.getVariableValue(var);
 	}
@@ -42,7 +40,6 @@ public final class VariableBinding implements IVariableBinding {
 	 * Update the context with new value
 	 * @param value the new value or null to unset
 	 */
-	@Override
 	public void setVariableValue(Integer value) {
 		context.setVariableValue(var, value);
 	}
@@ -50,7 +47,6 @@ public final class VariableBinding implements IVariableBinding {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public IVariable getVariable() {
 		return var;
 	}

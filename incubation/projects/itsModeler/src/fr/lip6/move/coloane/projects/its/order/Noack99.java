@@ -27,7 +27,6 @@ public final class Noack99 implements IOrderingHeuristic {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<Integer> computeOrder(IGraph graph) {
 		List<Integer> order = new ArrayList<Integer>();
 

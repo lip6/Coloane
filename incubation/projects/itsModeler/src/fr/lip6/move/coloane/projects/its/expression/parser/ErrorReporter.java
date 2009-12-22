@@ -8,12 +8,10 @@ public class ErrorReporter implements IErrorReporter, Iterable<String> {
 
 	List<String> errors = new LinkedList<String>();
 	
-	@Override
 	public void reportError(String msg) {
 		errors.add(msg);
 	}
 
-	@Override
 	public Iterator<String> iterator() {
 		return errors.iterator();
 	}

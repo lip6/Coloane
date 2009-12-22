@@ -31,7 +31,6 @@ public final class EvaluationContext extends SimpleObservable implements IEvalua
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Integer getVariableValue(IVariable var) {
 		return values.get(var);
 	}
@@ -40,7 +39,6 @@ public final class EvaluationContext extends SimpleObservable implements IEvalua
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void setVariableValue(IVariable var, Integer value) {
 		if (!variables.contains(var)) {
 			declareVariable(var);
@@ -53,7 +51,6 @@ public final class EvaluationContext extends SimpleObservable implements IEvalua
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void declareVariable(IVariable var) {
 		variables.add(var);
 		vbs = null;
@@ -61,14 +58,12 @@ public final class EvaluationContext extends SimpleObservable implements IEvalua
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Set<IVariable> getVariables() {
 		return variables;
 	}
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Collection<IVariableBinding> getBindings() {
 		if (vbs == null) {
 			vbs = new ArrayList<IVariableBinding>();
@@ -82,7 +77,6 @@ public final class EvaluationContext extends SimpleObservable implements IEvalua
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public boolean containsVariable(IVariable var) {
 		return variables.contains(var);
 	}

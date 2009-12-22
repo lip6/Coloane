@@ -26,7 +26,6 @@ public class CheckList extends SimpleObservable implements Iterable<CheckService
 		return type;
 	}
 
-	@Override
 	public Iterator<CheckService> iterator() {
 		return services.iterator();
 	}
@@ -37,14 +36,11 @@ public class CheckList extends SimpleObservable implements Iterable<CheckService
 		notifyObservers();
 	}
 
-	@Override
 	public void update() {
 		notifyObservers();
 	}
 
-	@Override
 	public TypeList getTypes() {
 		return typeP.getTypes();
 	}
-
 }

@@ -63,7 +63,6 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 	 *  (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();
 		layout.topMargin = 5;
@@ -168,7 +167,6 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 			this.param = param;
 		}
 
-		@Override
 		public void modifyText(ModifyEvent e) {
 			if (getInput() != null) {
 				for (Entry<Text, String> entry : params.entrySet()) {

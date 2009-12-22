@@ -46,7 +46,6 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 	 * iterable behavior of the type list
 	 * @return free foreach statements
 	 */
-	@Override
 	public Iterator<TypeDeclaration> iterator() {
 		return table.iterator();
 	}
@@ -55,7 +54,6 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 	 * Used in table provider
 	 * @return table.toArray().
 	 */
-	@Override
 	public Object[] toArray() {
 		return table.toArray();
 	}
@@ -78,7 +76,6 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 	/**
 	 * invoked when a nested object changes
 	 */
-	@Override
 	public void update() {
 		notifyObservers();
 	}

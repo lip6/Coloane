@@ -84,8 +84,6 @@ implements IWorkbenchPreferencePage {
 		reachField.setLayoutData(data);
 
 		reachField.addObserver(new ISimpleObserver() {
-
-			@Override
 			public void update() {
 				browserChanged(reachField.getText(), ITSEditorPlugin.ITS_REACH_NAME);
 			}
@@ -105,8 +103,6 @@ implements IWorkbenchPreferencePage {
 		ctlField.setLayoutData(data);
 
 		ctlField.addObserver(new ISimpleObserver() {
-
-			@Override
 			public void update() {
 				browserChanged(ctlField.getText(), ITSEditorPlugin.ITS_CTL_NAME);
 			}

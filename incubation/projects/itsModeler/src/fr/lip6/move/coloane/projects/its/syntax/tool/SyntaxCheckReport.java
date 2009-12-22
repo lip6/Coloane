@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class SyntaxCheckReport implements IReport {
 
-	@Override
 	public ResultTreeImpl build(IResult res) {
 		// 1. Build the root of the result tree
 		ResultTreeImpl root = new ResultTreeImpl("Syntax Check");

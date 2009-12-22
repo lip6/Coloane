@@ -54,7 +54,6 @@ public final class IntegerExpressionCheck implements ISyntaxRule {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public boolean check(IElement elt, Result result) {
 		boolean testok = true;
 		for (IAttribute att : elt.getAttributes()) {
@@ -102,7 +101,6 @@ public final class IntegerExpressionCheck implements ISyntaxRule {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public String getName() {
 		return "Integer expressions syntax check.";
 	}
@@ -110,7 +108,6 @@ public final class IntegerExpressionCheck implements ISyntaxRule {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Iterable<IElementFormalism> getRuleTypes() {
 		return ruleTypes;
 	}

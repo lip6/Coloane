@@ -17,7 +17,6 @@ public abstract class NaryExpression implements IntegerExpression {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public final List<IntegerExpression> getChildren() {
 		return children;
 	}
@@ -25,7 +24,6 @@ public abstract class NaryExpression implements IntegerExpression {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public final Set<IVariable> supportingVariables() {
 		Set<IVariable> set = new HashSet<IVariable>();
 		for (IntegerExpression expr : getChildren()) {

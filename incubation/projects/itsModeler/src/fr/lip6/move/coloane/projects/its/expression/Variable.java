@@ -25,7 +25,6 @@ public final class Variable implements IntegerExpression, IVariable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public int evaluate(IEvaluationContext context) {
 		return context.getVariableValue(this);
 	}
@@ -33,7 +32,6 @@ public final class Variable implements IntegerExpression, IVariable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<IntegerExpression> getChildren() {
 		return new ArrayList<IntegerExpression>();
 	}
@@ -41,7 +39,6 @@ public final class Variable implements IntegerExpression, IVariable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public String getName() {
 		return name;
 	}
@@ -49,7 +46,6 @@ public final class Variable implements IntegerExpression, IVariable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -62,7 +58,6 @@ public final class Variable implements IntegerExpression, IVariable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -87,7 +82,6 @@ public final class Variable implements IntegerExpression, IVariable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Set<IVariable> supportingVariables() {
 		Set<IVariable> set = new HashSet<IVariable>();
 		set.add(this);

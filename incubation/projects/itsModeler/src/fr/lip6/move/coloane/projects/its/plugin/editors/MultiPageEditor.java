@@ -222,7 +222,6 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	 *  (non-Javadoc)
 	 * Closes all project files on project close.
 	 */
-	@Override
 	public void resourceChanged(final IResourceChangeEvent event) {
 		if (event.getType() == IResourceChangeEvent.PRE_CLOSE) {
 			Display.getDefault().asyncExec(new Runnable() {
@@ -267,7 +266,6 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void update() {
 		setDirty(true);
 	}

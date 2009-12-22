@@ -21,7 +21,6 @@ public final class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<ICommand> getModificationsOnCurrentGraph() {
 		return new ArrayList<ICommand>();
 	}
@@ -29,7 +28,6 @@ public final class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public IGraph getNewGraph() {
 		return null;
 	}
@@ -37,7 +35,6 @@ public final class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public String getRootName() {
 		return "tpn";
 	}
@@ -45,7 +42,6 @@ public final class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public String getServiceName() {
 		return "tpn.syntax";
 	}
@@ -53,7 +49,6 @@ public final class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<ISubResult> getSubResults() {
 		return subResults;
 	}
@@ -61,7 +56,6 @@ public final class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public List<ITip> getTipsList() {
 		return new ArrayList<ITip>();
 	}

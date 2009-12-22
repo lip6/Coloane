@@ -88,7 +88,6 @@ public class ProcessController {
 	public final int execute() throws IOException, TimeOutException {
 		Thread waiter = new Thread(new Runnable() {
 
-			@Override
 			public void run() {
 				try {
 					process = Runtime.getRuntime().exec(params, env, baseDir);

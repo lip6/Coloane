@@ -24,7 +24,6 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 	 * @param inputElement a type list
 	 * @return the types in the list
 	 */
-	@Override
 	public Object[] getElements(Object inputElement) {
 		TypeList tl = (TypeList) inputElement;
 		List<Object> al = new ArrayList<Object>();
@@ -41,7 +40,6 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 	 * @param element a type declaration or other tree view object
 	 * @return children of this tree node
 	 */
-	@Override
 	public Object[] getChildren(Object element) {
 		List<Object> children = new ArrayList<Object>();
 		addChildren(element,children);
@@ -71,7 +69,6 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 	 * Implemented where possible per the contract of TreeProvider
 	 * {@inheritDoc}
 	 */
-	@Override
 	public Object getParent(Object element) {
 		if (element instanceof Concept) {
 			Concept concept = (Concept) element;
@@ -86,7 +83,6 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public boolean hasChildren(Object element) {
 		return getChildren(element).length > 0;
 	}
@@ -94,7 +90,6 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void dispose() {
 		// NOP
 	}
@@ -102,7 +97,6 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 
 	}

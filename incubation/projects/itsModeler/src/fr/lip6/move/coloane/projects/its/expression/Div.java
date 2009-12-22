@@ -10,7 +10,6 @@ public final class Div extends NaryExpression implements IntegerExpression {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public int evaluate(IEvaluationContext context) {
 		int total = 0;
 		boolean first = true;

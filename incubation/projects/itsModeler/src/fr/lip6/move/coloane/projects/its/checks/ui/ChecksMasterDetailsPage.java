@@ -54,7 +54,6 @@ public final class ChecksMasterDetailsPage extends FormPage implements ITypeList
 	public void refresh() {
 		block.refresh();
 	}
-	@Override
 	public TypeList getTypes() {
 		return mpe.getTypes();
 	}

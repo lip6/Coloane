@@ -91,7 +91,6 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 		effectiveEditor = new Combo(client, SWT.DROP_DOWN);
 		effectiveEditor.setLayoutData(gd);
 		effectiveEditor.addModifyListener(new ModifyListener() {
-			@Override
 			public void modifyText(ModifyEvent e) {
 				Concept concept = getInput();
 				int n = effectiveEditor.getSelectionIndex();
@@ -139,7 +138,6 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 		/**
 		 * {@inheritDoc}
 		 */
-		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof Concept) {
 				Concept concept = (Concept) inputElement;
@@ -153,14 +151,12 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 		/**
 		 * {@inheritDoc}
 		 */
-		@Override
 		public void dispose() {
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 	}

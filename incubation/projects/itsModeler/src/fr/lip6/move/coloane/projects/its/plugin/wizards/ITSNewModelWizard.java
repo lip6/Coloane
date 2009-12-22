@@ -53,7 +53,6 @@ public final class ITSNewModelWizard extends Wizard implements INewWizard {
 	/**
 	 * Adding the page to the wizard.
 	 */
-	@Override
 	public void addPages() {
 		page = new SampleNewWizardPage(selection);
 		addPage(page);
@@ -172,7 +171,6 @@ public final class ITSNewModelWizard extends Wizard implements INewWizard {
 	 * we can initialize from it.
 	 * @see IWorkbenchWizard#init(IWorkbench, IStructuredSelection)
 	 */
-	@Override
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}

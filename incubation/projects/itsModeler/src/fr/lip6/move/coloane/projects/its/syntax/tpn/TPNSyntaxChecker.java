@@ -11,7 +11,6 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.projects.its.syntax.ISyntaxChecker;
 import fr.lip6.move.coloane.projects.its.syntax.ISyntaxRule;
 import fr.lip6.move.coloane.projects.its.syntax.Result;
-import fr.lip6.move.coloane.projects.its.syntax.SubResult;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +31,6 @@ public final class TPNSyntaxChecker implements ISyntaxChecker {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void addRule(ISyntaxRule rule) {
 		rules.add(rule);
 		for (IElementFormalism ief : rule.getRuleTypes()) {
@@ -59,7 +57,6 @@ public final class TPNSyntaxChecker implements ISyntaxChecker {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public IResult check(IGraph graph) {
 		Result result = new Result();
 
@@ -89,7 +86,6 @@ public final class TPNSyntaxChecker implements ISyntaxChecker {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public String getFormalism() {
 		return "Time Petri Net";
 	}

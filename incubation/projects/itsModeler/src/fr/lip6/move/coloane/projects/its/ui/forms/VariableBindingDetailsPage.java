@@ -38,7 +38,6 @@ public final class VariableBindingDetailsPage extends ITSDetailsPage<IVariableBi
 	 *  (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
-	@Override
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();
 		layout.topMargin = 5;

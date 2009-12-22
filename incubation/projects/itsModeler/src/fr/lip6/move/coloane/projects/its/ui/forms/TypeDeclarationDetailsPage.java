@@ -192,7 +192,6 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		/**
 		 * {@inheritDoc}
 		 */
-		@Override
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof CompositeTypeDeclaration) {
 				TypeDeclaration td = (TypeDeclaration) inputElement;
@@ -226,14 +225,12 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		/**
 		 * {@inheritDoc}
 		 */
-		@Override
 		public void dispose() {
 		}
 
 		/**
 		 * {@inheritDoc}
 		 */
-		@Override
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		}
 
