@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.lip6.move.coloane.incubation.projects</groupId>
+		<artifactId>projects-parent</artifactId>
+		<version>0.16.2-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>itsModeler</artifactId>
+	<packaging>jar</packaging>
+	<name>Projects :: ITS Modeler</name>
+	<description>ITS Modeler extension for Coloane</description>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>antlr3-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr-runtime</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.application</groupId>
+			<artifactId>core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.application</groupId>
+			<artifactId>interfaces</artifactId>
+		</dependency>
+	</dependencies>
+</project>
