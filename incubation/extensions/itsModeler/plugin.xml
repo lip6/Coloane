@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            name="ITS Editor"
+            extensions="xmlits"
+            icon="icons/models_navigator.gif"
+            class="fr.lip6.move.coloane.its.plugin.editors.MultiPageEditor"
+            id="testits.editors.ITSEditor">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="ITSComposition"
+            name="ITS Composition Model"
+            parentCategory="fr.lip6.move.coloane">
+      </category>
+      <wizard
+            name="ITS Composition Model"
+            icon="icons/models_navigator.gif"
+            category="ITSComposition"
+            class="fr.lip6.move.coloane.its.plugin.wizards.ITSNewModelWizard"
+            id="testits.wizards.SampleNewWizard">
+      </wizard>
+   </extension>
+   <extension
+         point="fr.lip6.move.coloane.core.tools">
+      <Tool
+            action="fr.lip6.move.coloane.its.syntax.tool.SyntaxCheckAction"
+            description="Syntax Check"
+            icon="icons/spellcheck.png"
+            name="fr.lip6.move.coloane.its.syntax">
+      </Tool>
+   </extension>
+   <extension
+         point="fr.lip6.move.coloane.core.reports">
+      <report
+            class="fr.lip6.move.coloane.its.syntax.tool.SyntaxCheckReport"
+            service_name="tpn.syntax">
+      </report>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            category="fr.lip6.move.coloane.ui.prefs.main"
+            class="fr.lip6.move.coloane.its.plugin.ITSPreferencePage"
+            id="fr.lip6.move.coloane.its.pathprefs"
+            name="ITS Path Setup">
+      </page>
+   </extension>
+
+</plugin>
