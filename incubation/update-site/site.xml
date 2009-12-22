@@ -18,6 +18,9 @@
    <feature url="" id="fr.lip6.move.coloane.feature.importFromSGROMEO" version="0.0.0">
       <category name="ITS"/>
    </feature>
+   <feature url="" id="fr.lip6.move.coloane.feature.importExportITS" version="0.0.0">
+      <category name="ITS"/>
+   </feature>
    <category-def name="ITS" label="ITS Package (Incubation)">
       <description>
          This category groups all plugins and features dedicated to ITS construction
