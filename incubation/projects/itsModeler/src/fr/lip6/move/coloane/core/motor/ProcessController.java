@@ -10,7 +10,7 @@
  *******************************************************************************/
 package fr.lip6.move.coloane.core.motor;
 
-import fr.lip6.move.coloane.its.ui.forms.ITSEditorPlugin;
+import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
 import java.io.File;
 import java.io.IOException;

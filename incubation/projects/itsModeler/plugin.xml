@@ -8,7 +8,7 @@
             name="ITS Editor"
             extensions="xmlits"
             icon="resources/icons/models_navigator.gif"
-            class="fr.lip6.move.coloane.its.plugin.editors.MultiPageEditor"
+            class="fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor"
             id="testits.editors.ITSEditor">
       </editor>
    </extension>
@@ -23,14 +23,14 @@
             name="ITS Composition Model"
             icon="resources/icons/models_navigator.gif"
             category="ITSComposition"
-            class="fr.lip6.move.coloane.its.plugin.wizards.ITSNewModelWizard"
+            class="fr.lip6.move.coloane.projects.its.plugin.wizards.ITSNewModelWizard"
             id="testits.wizards.SampleNewWizard">
       </wizard>
    </extension>
    <extension
          point="fr.lip6.move.coloane.core.tools">
       <Tool
-            action="fr.lip6.move.coloane.its.syntax.tool.SyntaxCheckAction"
+            action="fr.lip6.move.coloane.projects.its.syntax.tool.SyntaxCheckAction"
             description="Syntax Check"
             icon="resources/icons/spellcheck.png"
             name="fr.lip6.move.coloane.its.syntax">
@@ -39,7 +39,7 @@
    <extension
          point="fr.lip6.move.coloane.core.reports">
       <report
-            class="fr.lip6.move.coloane.its.syntax.tool.SyntaxCheckReport"
+            class="fr.lip6.move.coloane.projects.its.syntax.tool.SyntaxCheckReport"
             service_name="tpn.syntax">
       </report>
    </extension>
@@ -47,7 +47,7 @@
          point="org.eclipse.ui.preferencePages">
       <page
             category="fr.lip6.move.coloane.ui.prefs.main"
-            class="fr.lip6.move.coloane.its.plugin.ITSPreferencePage"
+            class="fr.lip6.move.coloane.projects.its.plugin.ITSPreferencePage"
             id="fr.lip6.move.coloane.its.pathprefs"
             name="ITS Path Setup">
       </page>
