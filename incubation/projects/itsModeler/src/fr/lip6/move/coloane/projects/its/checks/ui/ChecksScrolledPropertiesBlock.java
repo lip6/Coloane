@@ -257,7 +257,6 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		return page;
 	}
 
-	@Override
 	public TypeList getTypes() {
 		return page.getTypes();
 	}
