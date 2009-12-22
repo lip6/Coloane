@@ -16,15 +16,15 @@ tokens {
 
 @lexer::header {
 
-package fr.lip6.move.coloane.its.expression.parser;
+package fr.lip6.move.coloane.projects.its.expression.parser;
 
 }
 
 @parser::header {
 
-package fr.lip6.move.coloane.its.expression.parser;
+package fr.lip6.move.coloane.projects.its.expression.parser;
 
-import fr.lip6.move.coloane.its.expression.*;
+import fr.lip6.move.coloane.projects.its.expression.*;
 
 }
 
