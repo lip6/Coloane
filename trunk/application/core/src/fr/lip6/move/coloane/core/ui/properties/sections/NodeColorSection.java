@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeBackgroundCmd;
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangeForegroundCmd;
-import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.core.ui.properties.IAttributeLabel;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.commands.CompoundCommand;
@@ -84,7 +84,7 @@ public class NodeColorSection extends AbstractSection<INode> {
 		Control fgControl = fg.getColorSelector().getButton().getParent();
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
-		data.left = new FormAttachment(0, LabelText.LABEL_WIDTH);
+		data.left = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH);
 		data.right = new FormAttachment(100, -5);
 		fgControl.setLayoutData(data);
 
@@ -93,7 +93,7 @@ public class NodeColorSection extends AbstractSection<INode> {
 		data = new FormData();
 		data.bottom = new FormAttachment(fgControl, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
-		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
+		data.right = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH);
 		label.setLayoutData(data);
 
 		// Editeur pour la couleur du fond du noeud
@@ -102,7 +102,7 @@ public class NodeColorSection extends AbstractSection<INode> {
 		Control bgControl = bg.getColorSelector().getButton().getParent();
 		data = new FormData();
 		data.top = new FormAttachment(fgControl, 0);
-		data.left = new FormAttachment(0, LabelText.LABEL_WIDTH);
+		data.left = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH);
 		data.right = new FormAttachment(100, -5);
 		bgControl.setLayoutData(data);
 
@@ -111,7 +111,7 @@ public class NodeColorSection extends AbstractSection<INode> {
 		data = new FormData();
 		data.bottom = new FormAttachment(bgControl, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
-		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
+		data.right = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH);
 		label.setLayoutData(data);
 	}
 

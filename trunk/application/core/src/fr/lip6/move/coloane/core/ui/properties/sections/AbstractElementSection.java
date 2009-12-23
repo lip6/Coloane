@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
-import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.core.ui.properties.IAttributeLabel;
 import fr.lip6.move.coloane.core.ui.properties.LabelTextFactory;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -18,7 +18,7 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 
 /**
@@ -30,7 +30,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	private Composite composite;
 
 	/** Structure sauvegardant les listes de propriétés. */
-	private Map<String, List<LabelText>> map = new HashMap<String, List<LabelText>>();
+	private Map<String, List<IAttributeLabel>> map = new HashMap<String, List<IAttributeLabel>>();
 
 	/** Nom de la propriété courrante. */
 	private String currentType;
@@ -39,11 +39,11 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	private ModifyListener listener = new ModifyListener() {
 		/** {@inheritDoc} */
 		public void modifyText(ModifyEvent e) {
-			Text text = (Text) e.widget;
+			Control text = (Control) e.widget;
 
 			// Recherche du LabelText modifié
-			for (LabelText lt : getMap().get(getCurrentType())) {
-				if (lt.getTextWidget() == text) {
+			for (IAttributeLabel lt : getMap().get(getCurrentType())) {
+				if (lt.getControl() == text) {
 
 					// Recherche de l'attribut modifié
 					IAttribute attr = getElements().get(0).getAttribute(lt.getLabel());
@@ -66,7 +66,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 * @param nodeType type de noeud concerné par le changement d'état
 	 */
 	private void setVisible(boolean visible, String nodeType) {
-		for (LabelText lt : map.get(nodeType)) {
+		for (IAttributeLabel lt : map.get(nodeType)) {
 			lt.setVisible(visible);
 		}
 	}
@@ -119,7 +119,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 * @param attributes attributs pour ce type de noeud
 	 */
 	protected final void refreshControls(String nodeType, List<IAttributeFormalism> attributes) {
-		List<LabelText> list = map.get(nodeType);
+		List<IAttributeLabel> list = map.get(nodeType);
 
 		if (currentType != null && !currentType.equals(nodeType)) {
 			setVisible(false, currentType);
@@ -130,16 +130,24 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			redraw();
 		}
 		if (list == null) {
-			list = new ArrayList<LabelText>();
+			list = new ArrayList<IAttributeLabel>();
 			LabelTextFactory factory = new LabelTextFactory(composite, getWidgetFactory());
 
 			for (IAttributeFormalism attr : attributes) {
-				LabelText lt = factory.create(
+				IAttributeLabel lt;
+				if (attr.isEnumerated()) {
+					lt = factory.create(
+							attr.getName(),
+							attr.getDefaultValue(),
+							attr.getEnumeration());
+				} else {
+					lt = factory.create(
 						attr.getName(),
 						attr.getDefaultValue(),
 						getSWTStyle(attr.isMultiLine()));
+				}
 				lt.getParent().redraw();
-				lt.getTextWidget().addModifyListener(listener);
+				lt.addModifyListener(listener);
 				list.add(lt);
 			}
 			map.put(nodeType, list);
@@ -152,7 +160,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 * Actualise la valeur des propriétés
 	 */
 	protected final void refreshContent() {
-		for (LabelText lt : getMap().get(getCurrentType())) {
+		for (IAttributeLabel lt : getMap().get(getCurrentType())) {
 			String newValue = getElements().get(0).getAttribute(lt.getLabel()).getValue();
 			if (!lt.getText().equals(newValue)) {
 				lt.setText(newValue);
@@ -164,7 +172,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	/**
 	 * @return map associant le nom d'une propriété avec un LabelText
 	 */
-	public final Map<String, List<LabelText>> getMap() {
+	public final Map<String, List<IAttributeLabel>> getMap() {
 		return map;
 	}
 

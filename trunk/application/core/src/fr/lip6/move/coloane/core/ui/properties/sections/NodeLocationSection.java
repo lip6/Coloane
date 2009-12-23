@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.commands.LocatedElementSetConstraintCmd;
-import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.core.ui.properties.IAttributeLabel;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
@@ -86,7 +86,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 		x = new Spinner(composite, SWT.BORDER);
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
-		data.left = new FormAttachment(0, LabelText.LABEL_WIDTH + 7);
+		data.left = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH + 7);
 		x.setLayoutData(data);
 		x.setMinimum(0);
 		x.setMaximum(Integer.MAX_VALUE);
@@ -107,7 +107,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 		data = new FormData();
 		data.bottom = new FormAttachment(x, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
-		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
+		data.right = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH);
 		label.setLayoutData(data);
 	}
 

@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.ArcChangeColorCmd;
-import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.core.ui.properties.IAttributeLabel;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
 import org.eclipse.gef.commands.CompoundCommand;
@@ -57,7 +57,7 @@ public class ArcColorSection extends AbstractSection<IArc> {
 		Control fgControl = color.getColorSelector().getButton().getParent();
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
-		data.left = new FormAttachment(0, LabelText.LABEL_WIDTH);
+		data.left = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH);
 		data.right = new FormAttachment(100, -5);
 		fgControl.setLayoutData(data);
 
@@ -66,7 +66,7 @@ public class ArcColorSection extends AbstractSection<IArc> {
 		data = new FormData();
 		data.bottom = new FormAttachment(fgControl, 0, SWT.BOTTOM);
 		data.left = new FormAttachment(0, 5);
-		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
+		data.right = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH);
 		label.setLayoutData(data);
 	}
 
