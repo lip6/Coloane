@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.formalism;
 
+import java.util.List;
+
 /**
  * Cette classe représente les caracteristiques d'un attribut d'un élément de formalisme.<br>
  * Un attribut est une caractéristique d'un élément de base.<br>
@@ -22,6 +24,19 @@ public interface IAttributeFormalism {
 	 */
 	boolean isMultiLine();
 
+	/**
+	 * @return L'indicateur qui dit si un attribut est limité à un jeu de valeurs énummérées.
+	 * @see getEnumeration()
+	 */
+	boolean isEnumerated();
+	
+	/**
+	 * 
+	 * @return La liste des valeurs possibles de cet attribut s'il est énuméré, ou <code>null</code> sinon.
+	 */
+	List<String> getEnumeration(); 
+	
+	
 	/**
 	 * @return La valeur par défaut de l'attribut
 	 */
