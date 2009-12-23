@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.core.ui.commands.properties.NodeChangePublicCmd;
-import fr.lip6.move.coloane.core.ui.properties.LabelText;
+import fr.lip6.move.coloane.core.ui.properties.IAttributeLabel;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.gef.commands.CompoundCommand;
@@ -47,7 +47,7 @@ public class NodeInterfaceSection extends AbstractSection<INode> {
 		checkBox = getWidgetFactory().createButton(composite, null, SWT.CHECK);
 		data = new FormData();
 		data.top = new FormAttachment(0, 5);
-		data.left = new FormAttachment(0, LabelText.LABEL_WIDTH + 7);
+		data.left = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH + 7);
 		checkBox.setLayoutData(data);
 		checkBox.addListener(SWT.Selection, listener);
 
@@ -56,7 +56,7 @@ public class NodeInterfaceSection extends AbstractSection<INode> {
 		data = new FormData();
 		data.top = new FormAttachment(checkBox, 0, SWT.TOP);
 		data.left = new FormAttachment(0, 5);
-		data.right = new FormAttachment(0, LabelText.LABEL_WIDTH);
+		data.right = new FormAttachment(0, IAttributeLabel.LABEL_WIDTH);
 		label.setLayoutData(data);
 	}
 

@@ -9,6 +9,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
@@ -17,10 +18,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
  * (agrandissement automatique).<br>
  * Pour rafraichir un LabelText, il y a la méthode redraw().
  */
-public class LabelText {
-	/** Largeur du label */
-	public static final int LABEL_WIDTH = 100;
-
+public class LabelText implements IAttributeLabel {
 	/** Nombre de ligne à afficher pour les Text multi-lignes */
 	public static final int MAX_TEXT_HEIGHT = 4;
 
@@ -93,13 +91,11 @@ public class LabelText {
 	 * @param style style SWT
 	 * @param top indicateur de positionnement utilisé par le FormLayout
 	 */
-	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, LabelText top) {
-		this(parent, factory, label, value, style, new FormAttachment(top.text, 0));
+	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, IAttributeLabel top) {
+		this(parent, factory, label, value, style, new FormAttachment(top.getControl(), 0));
 	}
 
-	/**
-	 * Redessine le LabelText.
-	 */
+	/** {@inheritDoc} */
 	public final void redraw() {
 		// En cas de texte multiligne, on limite l'agrandissement
 		int newNbDelimiters = text.getText().split(Text.DELIMITER, -1).length;
@@ -135,18 +131,13 @@ public class LabelText {
 		}
 	}
 
-	/**
-	 * @return <code>true</code> si le LabelText est visible
-	 */
+	/** {@inheritDoc} */
 	public final boolean isVisible() {
 		Assert.isTrue(text.isVisible() == label.isVisible());
 		return text.isVisible();
 	}
 
-	/**
-	 * Change la visibilité du LabelText
-	 * @param visible nouvelle état
-	 */
+	/** {@inheritDoc} */
 	public final void setVisible(boolean visible) {
 		text.setVisible(visible);
 		label.setVisible(visible);
@@ -154,38 +145,40 @@ public class LabelText {
 		label.redraw();
 	}
 
-	/**
-	 * @return la valeur du LabelText
-	 */
+	/** {@inheritDoc} */
 	public final String getText() {
 		return text.getText();
 	}
 
-	/**
-	 * @param string nouvelle valeur du LabelText
-	 */
+	/** {@inheritDoc} */
 	public final void setText(String string) {
 		text.setText(string);
 	}
 
 	/**
-	 * @return le nom du label
+	 * {@inheritDoc}
 	 */
 	public final String getLabel() {
 		return label.getText();
 	}
 
-	/**
-	 * @return le parent de ce pseudo-widget
-	 */
+	/** {@inheritDoc} */
 	public final Composite getParent() {
 		return parent;
 	}
 
 	/**
-	 * @return le widget Text contenu dans ce LabelText
+	 * {@inheritDoc}
 	 */
-	public final Text getTextWidget() {
+	public final Control getControl() {
 		return text;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void addModifyListener(ModifyListener listener) {
+		text.addModifyListener(listener);
+	}
+	
 }
