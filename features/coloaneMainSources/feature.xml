@@ -4,7 +4,9 @@
       label="Coloane - Core Sources"
       version="0.16.2"
       provider-name="LIP6 / MoVe"
-      plugin="fr.lip6.move.coloane.core">
+      plugin="fr.lip6.move.coloane.core"
+      os="linux,macosx,win32"
+      ws="carbon,cocoa,gtk,win32">
 
    <description url="http://coloane.lip6.fr/">
       Coloane is a tool designed to model complex systems using various formalisms. 

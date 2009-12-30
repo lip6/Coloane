@@ -32,8 +32,8 @@ Contributors list : https://coloane.lip6.fr/developers
 
    <url>
       <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
-      <discovery label="Eclipse 3.2 updates" url="http://update.eclipse.org/updates/3.2/"/>
-      <discovery label="Eclipse 3.3 updates" url="http://update.eclipse.org/updates/3.3/"/>
+      <discovery label="Eclipse GANYMEDE updates" url="http://download.eclipse.org/releases/ganymede/"/>
+      <discovery label="Eclipse GALILEO updates" url="http://download.eclipse.org/releases/galileo/"/>
    </url>
 
    <requires>
