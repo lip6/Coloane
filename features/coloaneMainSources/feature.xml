@@ -45,8 +45,8 @@ Many thanks for their help :
 
    <url>
       <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
-      <discovery label="Eclipse 3.2 updates" url="http://update.eclipse.org/updates/3.2/"/>
-      <discovery label="Eclipse 3.3 updates" url="http://update.eclipse.org/updates/3.3/"/>
+      <discovery label="Eclipse GANYMEDE updates" url="http://download.eclipse.org/releases/ganymede/"/>
+      <discovery label="Eclipse GALILEO updates" url="http://download.eclipse.org/releases/galileo/"/>
    </url>
 
    <requires>
@@ -62,7 +62,7 @@ Many thanks for their help :
       <import plugin="org.eclipse.ui.views.properties.tabbed"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.ui.console"/>
-      <import feature="fr.lip6.move.coloane.feature.main"/>
+      <import feature="fr.lip6.move.coloane.feature.main" version="0.16.2"/>
    </requires>
 
    <plugin
