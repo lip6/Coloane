@@ -88,7 +88,7 @@
                <Arc
                      name="arc">
                   <GraphicInfo
-                        associatedFigure="UndirectedArc"
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.UndirectedArc"
                         description="Create a Synchronization part"
                         drawable="true"
                         icon16px="resources/formalisms/its/link_16.png"
@@ -190,7 +190,7 @@
                <Arc
                      name="arc">
                   <GraphicInfo
-                        associatedFigure="UndirectedArc"
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.UndirectedArc"
                         description="Create a Synchronization part"
                         drawable="true"
                         icon16px="resources/formalisms/its/link_16.png"
@@ -325,7 +325,7 @@
                <Arc
                      name="arc">
                   <GraphicInfo
-                        associatedFigure="UndirectedArc"
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.UndirectedArc"
                         description="Create a Synchronization part"
                         drawable="true"
                         icon16px="resources/formalisms/its/link_16.png"
