@@ -21,6 +21,7 @@
 		<module>importFromPROD</module>
 		<module>importFromSGROMEO</module>
 		<module>importExportITS</module>
+		<module>projectITSModeler</module>
 	</modules>
 
 	<build>
