@@ -25,12 +25,18 @@
    </url>
 
    <requires>
-      <import plugin="fr.lip6.move.coloane.core"/>
-      <import plugin="fr.lip6.move.coloane.interfaces"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.gef"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.core.resources"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.ui.forms"/>
+      <import plugin="fr.lip6.move.coloane.core"/>
+      <import plugin="fr.lip6.move.coloane.interfaces"/>
+      <import plugin="fr.lip6.move.coloane.extensions.importExportITS" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.lip6.move.coloane.extensions.importExportROMEO" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.core.filesystem" version="1.2.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
