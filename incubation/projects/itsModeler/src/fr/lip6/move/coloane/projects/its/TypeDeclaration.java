@@ -303,7 +303,6 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	 * Notify a model change has occurred.
 	 * {@inheritDoc}
 	 */
-	@Override
 	public final void update() {
 		notifyObservers();
 	}
