@@ -7,7 +7,6 @@ Bundle-Activator: fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin
 Bundle-Vendor: LIP6 / MoVe
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- org.eclipse.jface.text,
  org.eclipse.core.resources,
  org.eclipse.ui.editors,
  org.eclipse.ui.ide,
