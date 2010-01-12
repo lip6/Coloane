@@ -24,7 +24,13 @@
 				<directory>.</directory>
 				<includes>
 					<include>build.properties</include>
+					<include>plugin.xml</include>
+					<include>plugin.properties</include>
+					<include>about.ini</include>
+					<include>about.html</include>
+					<include>about.properties</include>
 					<include>resources/**</include>
+					<include>schema/**</include>
 					<include>lib/**</include>
 				</includes>
 			</resource>
