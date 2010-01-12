@@ -20,11 +20,14 @@
             parentCategory="fr.lip6.move.coloane">
       </category>
       <wizard
-            name="ITS Composition Model"
-            icon="resources/icons/models_navigator.gif"
-            category="ITSComposition"
+            category="fr.lip6.move.coloane/"
             class="fr.lip6.move.coloane.projects.its.plugin.wizards.ITSNewModelWizard"
-            id="testits.wizards.SampleNewWizard">
+            finalPerspective="fr.lip6.move.coloane.perspective"
+            icon="resources/icons/models_navigator.gif"
+            id="testits.wizards.SampleNewWizard"
+            name="ITS Composition Model"
+            preferredPerspectives="fr.lip6.move.coloane.perspective"
+            project="false">
       </wizard>
    </extension>
    <extension

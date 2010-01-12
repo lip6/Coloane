@@ -81,6 +81,7 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	 */
 	public ITSEditorPlugin() {
 		plugin = this;
+		System.out.println("<<<< ITS >>>>");
 		try {
 			resourceBundle = ResourceBundle
 			.getBundle("org.eclipse.ui.forms.examples.internal.ExamplesPluginResources"); //$NON-NLS-1$
