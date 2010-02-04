@@ -2,44 +2,51 @@ package fr.lip6.move.coloane.extension.importExportTINA.importFromTINA;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
+import fr.lip6.move.coloane.extension.importExportTINA.importFromTINA.parser.TinaLexer;
+import fr.lip6.move.coloane.extension.importExportTINA.importFromTINA.parser.TinaParser;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
-import org.eclipse.core.runtime.IPath;
+import org.antlr.runtime.ANTLRFileStream;
+import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.RecognitionException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 
 
-/**
- * Import a TINA model into a graph model.
- *
- * @author Yann TM
- */
 public class ImportFromImpl implements IImportFrom {
-	/** The logger */
+	/** Le logger pour la classe */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+
 	/**
-	 * Import a TINA State class graph or Zone based graph file into a Graph object
-	 * @param filePath The location of the file to be imported
-	 * @param formalism The formalism (since CAMI file does not define the model formalism)
-	 * @param monitor A monitor to follow the operation progress
-	 * @return The resulting model {@link IGraph}
-	 * @throws ColoaneException Something went wrong
+	 * Import a PROD format model
+	 * @param filePath nom de fchier a importer
+	 * @return le model adapte correspondant
+	 * @throws ColoaneException si le fichier n'est pas valide
 	 */
 	public final IGraph importFrom(String filePath, String formalism, IProgressMonitor monitor) throws ColoaneException {
-		IGraph model = null;
-
 		LOGGER.finer("Creation du fichier..."); ////$NON-NLS-1$
-		IPath path = new Path(filePath);
-		IFileStore file = EFS.getLocalFileSystem().getStore(path);
-		model = ModelLoader.loadFromXML(file.toURI());
 
-		return model;
+		TinaLexer lexer;
+		try {
+			lexer = new TinaLexer (new ANTLRFileStream(filePath));
+		} catch (IOException e) {
+			throw new ColoaneException("Problem opening file "+ e.getMessage());
+		}
+
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+		TinaParser parser = new TinaParser(tokens);
+		IGraph graph;
+		try {
+			graph = parser.tinaModel();
+		} catch (RecognitionException e) {
+			throw new ColoaneException("Error parsing prod file " + e.getMessage());
+		}
+		return graph;
+
 	}
-
 
 }
