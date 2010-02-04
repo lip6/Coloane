@@ -10,10 +10,37 @@
 	
 	<artifactId>importExportTINA</artifactId>
 	<packaging>jar</packaging>
-	<name>Extensions :: Import Export TINA</name>
+	<name>Extensions :: ImportExport TINA</name>
 	<description>Coloane's extension that provides TINA import/export features</description>
-	
+		
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>antlr3-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr-runtime</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>3.0.1</version>
+		</dependency>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.application</groupId>
 			<artifactId>core</artifactId>
@@ -23,4 +50,5 @@
 			<artifactId>interfaces</artifactId>
 		</dependency>
 	</dependencies>
+	
 </project>
