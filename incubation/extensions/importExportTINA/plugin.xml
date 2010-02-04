@@ -4,10 +4,10 @@
    <extension
          point="fr.lip6.move.coloane.core.exports">
       <Export
-            class="fr.lip6.move.coloane.extension.importExportRomeo.exportToRomeo.ExportToRomeo"
+            class="fr.lip6.move.coloane.extension.importExportTINA.exportToTINA.ExportToTINA"
             extension="xml"
-            id="fr.lip6.move.coloane.extensions.exportromeo"
-            reference="fr.lip6.move.coloane.wizard.export.romeo">
+            id="fr.lip6.move.coloane.extensions.exportTINA"
+            reference="fr.lip6.move.coloane.wizard.export.TINA">
          <AcceptedFormalism
                id="Time Petri Net">
          </AcceptedFormalism>
@@ -16,9 +16,9 @@
    <extension
          point="fr.lip6.move.coloane.core.imports">
       <Import
-            class="fr.lip6.move.coloane.extension.importExportRomeo.importFromRomeo.ImportFromImpl"
-            id="fr.lip6.move.coloane.extensions.importromeo"
-            reference="fr.lip6.move.coloane.wizard.import.romeo">
+            class="fr.lip6.move.coloane.extension.importExportTINA.importFromTINA.ImportFromImpl"
+            id="fr.lip6.move.coloane.extensions.importTINA"
+            reference="fr.lip6.move.coloane.wizard.import.TINA">
          <AcceptedFormalism
                id="Time Petri Net">
          </AcceptedFormalism>
@@ -29,11 +29,11 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.export.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
-            icon="resources/romeo.png"
-            id="fr.lip6.move.coloane.wizard.export.romeo"
-            name="Romeo File">
+            icon="resources/tina.png"
+            id="fr.lip6.move.coloane.wizard.export.TINA"
+            name="TINA File">
 		 <description>
-            Export local timed Petri net model  to your file system using Romeo syntax.
+            Export local timed Petri net model  to your file system using TINA .net syntax.
          </description>
       </wizard>
    </extension>
@@ -42,11 +42,11 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.import.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.importmodel.ImportWizard"
-            icon="resources/romeo.png"
-            id="fr.lip6.move.coloane.wizard.import.romeo"
-            name="Romeo File">
+            icon="resources/tina.png"
+            id="fr.lip6.move.coloane.wizard.import.TINA"
+            name="TINA File">
          <description>
-            Import models written in Romeo from the local file system.
+            Import models written in TINA format .net from the local file system.
          </description>
       </wizard>
    </extension>

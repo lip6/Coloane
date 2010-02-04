@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.importExportRomeo.importFromRomeo;
+package fr.lip6.move.coloane.extension.importExportTINA.importFromTINA;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.Path;
 
 
 /**
- * Import a Romeo model into a graph model.
+ * Import a TINA model into a graph model.
  *
  * @author Yann TM
  */
@@ -23,7 +23,7 @@ public class ImportFromImpl implements IImportFrom {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
-	 * Import a Romeo State class graph or Zone based graph file into a Graph object
+	 * Import a TINA State class graph or Zone based graph file into a Graph object
 	 * @param filePath The location of the file to be imported
 	 * @param formalism The formalism (since CAMI file does not define the model formalism)
 	 * @param monitor A monitor to follow the operation progress

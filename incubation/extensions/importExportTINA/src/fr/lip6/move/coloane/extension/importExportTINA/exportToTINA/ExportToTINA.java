@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.importExportRomeo.exportToRomeo;
+package fr.lip6.move.coloane.extension.importExportTINA.exportToTINA;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
@@ -20,16 +20,16 @@ import org.eclipse.draw2d.geometry.Point;
 
 
 /**
- * Export models to Romeo format
+ * Export models to TINA format
  *
  * @author Yann Thierry-Mieg
  */
-public class ExportToRomeo implements IExportTo {
+public class ExportToTINA implements IExportTo {
 	
 	// the indent level for pretty printing
 	private int indent = 0;
 	/**
-	 * Export a model to Romeo formatted file
+	 * Export a model to TINA formatted file
 	 * @param model The model to export
 	 * @param filePath The path of the destination file
 	 * @param monitor A monitor to follow the export progression
@@ -44,7 +44,7 @@ public class ExportToRomeo implements IExportTo {
 		}
 
 		int totalWork = model.getNodes().size() + model.getArcs().size();
-		monitor.beginTask("Export to Romeo", totalWork);
+		monitor.beginTask("Export to TINA", totalWork);
 
 		try {
 			// File creation
@@ -126,7 +126,7 @@ public class ExportToRomeo implements IExportTo {
 		indent++;
 		indent(sb);
 		if (!arc.getInflexPoints().isEmpty()) {
-			// Romeo only supports a single nail per arc.
+			// TINA only supports a single nail per arc.
 			Point loc = arc.getGraphicInfo().findMiddlePoint();
 			sb.append("<nail xnail=\"" + loc.x + "\" ynail=\"" + loc.y + "\"/>\n");
 		} else {

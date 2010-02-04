@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.importExportRomeo.importFromRomeo;
+package fr.lip6.move.coloane.extension.importExportTINA.importFromTINA;
 
 import fr.lip6.move.coloane.core.model.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
@@ -22,7 +22,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * A class to parse a Romeo model from an XML file.
+ * A class to parse a TINA model from an XML file.
  * @author Yann TM 
  */
 public class ModelHandler extends DefaultHandler {
@@ -31,7 +31,7 @@ public class ModelHandler extends DefaultHandler {
 	// context stack
 	private Stack<Object> stack = new Stack<Object>();
 
-	// to reconstruct Romeo IDS when parsing arcs.
+	// to reconstruct TINA IDS when parsing arcs.
 	private Map<String, INode> placeIds = null;
 	private Map<String, INode> transIds = null;
 
@@ -91,7 +91,7 @@ public class ModelHandler extends DefaultHandler {
 		} else if ("colorTransition".equals(baliseName)) { //$NON-NLS-1$
 			handleTransitionColors(attributes);
 		} else if ("colorArc".equals(baliseName)) { //$NON-NLS-1$
-			// Happily ignore arc colors, feature unimplemented in Romeo GUI anyway.
+			// Happily ignore arc colors, feature unimplemented in TINA GUI anyway.
 			//			handleArcColors(attributes);
 		} else {
 			logger.warning("Unknown XML tag in source file: "+ baliseName); //$NON-NLS-1$
@@ -342,8 +342,8 @@ public class ModelHandler extends DefaultHandler {
 	}
 
 	/**
-	 * Attempt to produce an approaching color based on the color name in Romeo.
-	 * @param color the color name in romeo
+	 * Attempt to produce an approaching color based on the color name in TINA.
+	 * @param color the color name in TINA
 	 * @return an appropriate color constant or null if no match found.
 	 */
 	private Color getColor(String color) {

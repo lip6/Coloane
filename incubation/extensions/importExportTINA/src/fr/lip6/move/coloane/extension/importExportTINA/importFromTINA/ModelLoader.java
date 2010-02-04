@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.importExportRomeo.importFromRomeo;
+package fr.lip6.move.coloane.extension.importExportTINA.importFromTINA;
 
 import java.io.IOException;
 import java.net.URI;
