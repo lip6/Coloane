@@ -14,6 +14,8 @@ import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,8 @@ import java.util.Map;
 @parser::members {
        private IGraph graph = new GraphModelFactory().createGraph("Time Petri Net");
        private Map<String,INode> nodes = new HashMap<String, INode>();
+       private INode source;
+       private INode destination;
 }
 
 
@@ -35,54 +39,172 @@ netdesc : 'net' NAME
 };
 
 prdesc  : 'pr' 
-  (tname=NAME 
+  (node=tname 
   {}
   )+ ('<'|'>') 
-  (tname=NAME
+  (node=tname
   {}
   )+ ;
 
 
 trdesc  
 scope { INode idTrans; } 
-: 'tr' tname=NAME (':' label=NAME)? (interval)? (tinput '->' toutput)?
+: 'tr' node=tname 
 {
+  $trdesc::idTrans = node;
 }
+(':' label=NAME
+{
+  $trdesc::idTrans.getAttribute("label").setValue($label.getText());
+}
+)? (interval)? (tinput '->' toutput)?
 ;
 
 pldesc 
 scope { INode idPlace; } 
-: 'pl' pname=NAME (':' <label>)? ('(' mk=integer ')')?  (pinput '->' poutput)?
+: 'pl' node=pname 
 {
+       $pldesc::idPlace = node;
 }
+(':' <label>)? 
+{
+  // labels on places not supported currently.
+}
+('(' mk=integer ')'
+{  
+  // marking
+  if (mk != 0)
+         $pldesc::idPlace.getAttribute("marking").setValue(Integer.toString(mk));
+  
+}
+)?
+(pinput '->' poutput)?
+{
+  // place based arc description not supported yet.
+}                
 ;
 
 
-interval  : isOpen=('['|']') ENTIER ',' ( (ENTIER ('['|']')) | 'w[' ) ;
+interval  : isOpen=('['|']') 
+{
+  // TODO : complain if open interval
+}
+eft=ENTIER 
+{
+  $trdesc::idTrans.getAttribute("earliestFiringTime").setValue($eft.getText());
+}
+',' 
+( (lft=ENTIER 
+{
+  $trdesc::idTrans.getAttribute("latestFiringTime").setValue($lft.getText());
+}
+('['|']')
+{
+  // TODO : complain if open interval
+}
+)| 'w[' 
+{
+  $trdesc::idTrans.getAttribute("latestFiringTime").setValue("inf");
+}
+) ;
 
 lbdesc    : 'lb' nodeName=NAME label=NAME
 {
+  INode node = nodes.get(nodeName.getText());
+  if (node != null) {
+    IAttribute lab = node.getAttribute("label");
+    if (lab != null) {
+      lab.setValue(label.getText());
+    }
+  }
 };
 
-tinput : (pname=NAME (arc)?)*;
+pname returns [INode node] : name=NAME
+{
+    node = nodes.get($name.getText());
+    if (node == null) {
+        try {
+                node = graph.createNode("place");
+                node.getAttribute("name").setValue(name.getText());
+                // add for later reference by name
+                nodes.put(name.getText(), node);                
+       }catch (ModelException e) {                
+                e.printStackTrace();
+       }        
+    }
+};
 
-toutput : (pname=NAME (normalArc)?)*;
+tname returns [INode node] : name=NAME
+{
+    node = nodes.get($name.getText());
+    if (node == null) {
+        try {
+                node = graph.createNode("transition");
+                node.getAttribute("label").setValue(name.getText());
+                // add for later reference by name
+                nodes.put(name.getText(), node);                
+       }catch (ModelException e) {                
+                e.printStackTrace();
+       }        
+    }
+};
 
-poutput: (tname=NAME (arc)?)*;
 
-pinput: (tname=NAME (normalArc)?)*;
+tinput : (node=pname 
+  {
+    this.destination = $trdesc::idTrans;
+    this.source = node;    
+  }
+  arc)*;
 
-arc : normalArc | testArc | inhibitorArc | stopwatchArc | stopwatchInhibitorArc ;
+toutput : (node=pname 
+  {
+    this.destination = node;
+    this.source = $trdesc::idTrans;
+  }
+  arc)*;
 
-normalArc : '*' integer ;
+poutput: (node=tname arc)*;
 
-testArc : '?' integer ;
+pinput: (node=tname arc)*;
 
-inhibitorArc : '?-' integer ;
-
-stopwatchArc : '!' integer ;
-
-stopwatchInhibitorArc : '!-' integer ;
+arc : type=('*'|'?'|'?-'|'!'|'!-') value=integer  
+{
+  IArc a = null;
+  try {
+  if ("*".equals(type.getText())) {
+      // normal arc
+      a = graph.createArc("arc",source,destination);
+  } else if ("?".equals(type.getText())) {
+      // test arc
+     a = graph.createArc("read",source,destination);
+  } else if ("?-".equals(type.getText())) {
+      // inhibitor arc
+     a = graph.createArc("inhibitor",source,destination);  
+  } else if ("!".equals(type.getText())) {
+      // stopwatch arc
+    // TODO !!
+  } else if ("!-".equals(type.getText())) {
+      // stopwatch inhibitor arc
+    // TODO !!
+  }
+  }catch (ModelException e) {                
+                e.printStackTrace();
+  }  
+  if (a != null) {
+    a.getAttribute("valuation").setValue(Integer.toString(value));
+  }
+}
+| 
+{
+ try {
+  IArc a = graph.createArc("arc",source,destination);
+  a.getAttribute("valuation").setValue("1");
+  }catch (ModelException e) {                
+                e.printStackTrace();
+  }  
+}
+;
 
 integer  returns [int value]:  
     n=ENTIER 
@@ -94,141 +216,6 @@ integer  returns [int value]:
     )?
     ;
 
-node : place|transition;
-
-
-place : lvl=placeLevel pname=VARIABLE mk=initMarquage 
-      {
-             try {
-                INode node = graph.createNode("place");
-                node.getAttribute("name").setValue($pname.getText());
-                // add for later reference by name
-                nodes.put($pname.getText(), node);
-                if (mk != 0)
-                  node.getAttribute("marking").setValue(Integer.toString(mk));
-                // TODO : handle the place level
-              } catch (ModelException e) {                
-                e.printStackTrace();
-              }       
-       }
-      ;
-
-placeLevel returns [int lvl]: 
-  PLACE '(' level=ENTIER ')' 
-  { lvl = Integer.parseInt($level.text); }
-  | PLACE 
-  { lvl= 0; };
-
-nomtransition  returns [String name] : TRANS n=VARIABLE { name = $n.getText() ;};
-
-transition 
-scope { INode idTrans; } 
-: tname=nomtransition 
-{
-       try {
-           INode node = graph.createNode("transition");
-           node.getAttribute("name").setValue(tname);
-           $transition::idTrans = node ;
-       } catch (ModelException e) {                
-                e.printStackTrace();
-       }         
-} 
-entree sortie ENDTR
-
-;
-
-entree    : UGLYPREFIX_IN '{' arcin* '}'
-    |
-    ;
-
-sortie    : UGLYPREFIX_OUT '{' arcout* '}'
-  |
-  ;
-
-arcin :  
-pname=VARIABLE ':' ntok=marquage ';'
-{
-  // A simple input arc
-  INode place = nodes.get($pname.getText());
-  INode tr = $transition::idTrans;
-  try {
-            IArc a = graph.createArc("arc",place,tr);
-            a.getAttribute("valuation").setValue(Integer.toString(ntok));
-  } catch (ModelException e) {
-            e.printStackTrace();
-  }
-
-}
-| pname=VARIABLE ':' UGLYPREFIX_RESET ';'
-{
-  // A reset arc
-    
-  INode place = nodes.get($pname.getText());
-  INode tr = $transition::idTrans;
-  try {
-            IArc a = graph.createArc("reset",place,tr);
-  } catch (ModelException e) {
-            e.printStackTrace();
-  }
-
-}
-    | pname=VARIABLE UGLYPREFIX_INHIBITOR ntok2=ENTIER ';'
-{
- // A inhibitor arc
-  INode place = nodes.get($pname.getText());
-  INode tr = $transition::idTrans;
-  try {
-            IArc a = graph.createArc("inhibitor",place,tr);
-            a.getAttribute("valuation").setValue($ntok2.getText());
-  } catch (ModelException e) {
-            e.printStackTrace();
-  }
-
-
-};
-
-arcout : 
-pname=VARIABLE ':' ntok=marquage ';'
-{
-  // A simple input arc
-  INode place = nodes.get($pname.getText());
-  INode tr = $transition::idTrans;
-  try {
-            IArc a = graph.createArc("arc",tr,place);
-            a.getAttribute("valuation").setValue(Integer.toString(ntok));
-  } catch (ModelException e) {
-            e.printStackTrace();
-  }
-
-};
-
-initMarquage returns [int mark]:
-  MK '(' n=marquage ')'
-  {
-    mark = n;
-  }
-  |
-  {
-    mark = 0;
-  };
-
-marquage  returns [int mark]: 
-     TOKEN  
-    { mark = 1; }    
-    | n=ENTIER TOKEN 
-    { mark = Integer.parseInt($n.getText()); }    
-    ;
-
-TOKEN : '<..>'  ;
-
-UGLYPREFIX_INHIBITOR : '<'  ;
-TRANS : '#trans';
-PLACE : '#place';
-ENDTR : '#endtr';
-UGLYPREFIX_RESET : 'RESET';
-UGLYPREFIX_IN : 'in';
-UGLYPREFIX_OUT: 'out';
-MK:'mk';
 /****** Basics */
 fragment LETTER : 'a'..'z' | 'A'..'Z' | '_' | '\''
   ;
