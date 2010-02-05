@@ -40,15 +40,12 @@ public final class VariableBindingDetailsPage extends ITSDetailsPage<IVariableBi
 	 */
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();
-		layout.topMargin = 5;
-		layout.leftMargin = 5;
-		layout.rightMargin = 2;
-		layout.bottomMargin = 2;
 		parent.setLayout(layout);
 
 		FormToolkit toolkit = getToolkit();
-		Section s1 = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
-		s1.marginWidth = 10;
+		Section s1 = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
+		s1.marginWidth = 4;
+		s1.marginHeight = 4;
 		s1.setText("Parameter Binding"); //$NON-NLS-1$
 		//		s1.setDescription(Messages.getString("TypeOneDetailsPage.name")); //$NON-NLS-1$
 		TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
@@ -56,8 +53,8 @@ public final class VariableBindingDetailsPage extends ITSDetailsPage<IVariableBi
 		s1.setLayoutData(td);
 		Composite client = toolkit.createComposite(s1);
 		GridLayout glayout = new GridLayout();
-		glayout.marginWidth = 0;
-		glayout.marginHeight = 0;
+		glayout.marginWidth = 10;
+		glayout.marginHeight = 4;
 		glayout.numColumns = 2;
 		client.setLayout(glayout);
 
@@ -71,7 +68,7 @@ public final class VariableBindingDetailsPage extends ITSDetailsPage<IVariableBi
 		varNametf.setLayoutData(gd);
 
 		toolkit.createLabel(client, "Parameter Value"); //$NON-NLS-1$
-		varValuetf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
+		varValuetf = toolkit.createText(client, "", SWT.SINGLE | SWT.BORDER); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		varValuetf.setLayoutData(gd);
 		varValuetf.addModifyListener(new ModifyListener() {
@@ -93,6 +90,7 @@ public final class VariableBindingDetailsPage extends ITSDetailsPage<IVariableBi
 		});
 
 		toolkit.paintBordersFor(s1);
+		toolkit.paintBordersFor(client);
 		s1.setClient(client);
 	}
 	/**

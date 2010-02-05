@@ -68,30 +68,33 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 	 */
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();
-		layout.topMargin = 5;
-		layout.leftMargin = 5;
-		layout.rightMargin = 2;
-		layout.bottomMargin = 2;
+		GridData gd;
+//		layout.topMargin = 5;
+//		layout.leftMargin = 5;
+//		layout.rightMargin = 2;
+//		layout.bottomMargin = 2;
 		parent.setLayout(layout);
 
 		FormToolkit toolkit = getToolkit();
-		Section s1 = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
-		s1.marginWidth = 10;
-		s1.setText("Type Definition"); //$NON-NLS-1$
+		Section s1 = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
+		s1.marginWidth = 4;
+		s1.marginHeight = 4;
+		s1.setText("Type Definition Details"); //$NON-NLS-1$
+		// s1.setDescription("Details .");
 		//		s1.setDescription(Messages.getString("TypeOneDetailsPage.name")); //$NON-NLS-1$
 		TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
 		td.grabHorizontal = true;
 		s1.setLayoutData(td);
-		Composite client = toolkit.createComposite(s1);
+		Composite client = toolkit.createComposite(s1, SWT.WRAP);
 		GridLayout glayout = new GridLayout();
-		glayout.marginWidth = 0;
-		glayout.marginHeight = 0;
+		glayout.marginWidth = 10;
+		glayout.marginHeight = 5;
 		glayout.numColumns = 2;
 		client.setLayout(glayout);
 
-		GridData gd;
+		
 		toolkit.createLabel(client, "Type Name"); //$NON-NLS-1$
-		typeNametf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
+		typeNametf = toolkit.createText(client, "", SWT.SINGLE | SWT.BORDER); //$NON-NLS-1$
 		typeNametf.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				if (getInput() != null) {
@@ -104,7 +107,7 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		typeNametf.setLayoutData(gd);
 
 		toolkit.createLabel(client, "Model File"); //$NON-NLS-1$
-		typeFiletf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
+		typeFiletf = toolkit.createText(client, "", SWT.SINGLE ); //$NON-NLS-1$
 		typeFiletf.setEditable(false);
 		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.widthHint = 10;
@@ -179,6 +182,7 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		
 		
 		toolkit.paintBordersFor(s1);
+		toolkit.paintBordersFor(client);
 		s1.setClient(client);
 	}
 	
