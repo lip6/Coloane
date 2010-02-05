@@ -16,9 +16,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
+				<groupId>org.antlr</groupId>
 				<artifactId>antlr3-maven-plugin</artifactId>
-				<version>1.0</version>
+				<version>3.2</version>
 				<executions>
 					<execution>
 						<goals>
@@ -42,12 +42,12 @@
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr-runtime</artifactId>
-			<version>3.1.3</version>
+			<version>3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr</artifactId>
-			<version>3.1.3</version>
+			<version>3.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ui</groupId>
