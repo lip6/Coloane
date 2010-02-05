@@ -28,6 +28,14 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<excludes>
+					<exclude>lib/**</exclude>
+				</excludes>
+			</resource>
+		</resources>
 	</build>
 
 	<dependencies>
