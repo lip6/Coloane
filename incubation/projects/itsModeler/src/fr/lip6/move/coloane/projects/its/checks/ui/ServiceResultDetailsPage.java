@@ -10,6 +10,7 @@
  *******************************************************************************/
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
+import fr.lip6.move.coloane.projects.its.checks.CheckService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
 import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
@@ -34,13 +35,13 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 	private Text datetf;
 	private Text reporttf;
 	private MultiPageEditor mpe;
+	private ParameterSection params;
 
-	
 	/**
 	 * Ctor. pass master for openDirectory button action.
 	 * @param master the master page
 	 */
-	public ServiceResultDetailsPage(MultiPageEditor master) {
+	public ServiceResultDetailsPage(MultiPageEditor master, CheckService template) {
 		this.mpe = master;
 	}
 	/**
@@ -50,15 +51,15 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 	 */
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();
-		layout.topMargin = 5;
-		layout.leftMargin = 5;
-		layout.rightMargin = 2;
-		layout.bottomMargin = 2;
 		parent.setLayout(layout);
 
+		params = new ParameterSection(getToolkit(), parent, false);
+
+		
 		FormToolkit toolkit = getToolkit();
-		Section s1 = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
-		s1.marginWidth = 10;
+		Section s1 = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR);
+		s1.marginWidth = 4;
+		s1.marginHeight = 4;
 		s1.setText("Check Result Description"); //$NON-NLS-1$
 		//		s1.setDescription(Messages.getString("TypeOneDetailsPage.name")); //$NON-NLS-1$
 		TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
@@ -66,8 +67,8 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 		s1.setLayoutData(td);
 		Composite client = toolkit.createComposite(s1);
 		GridLayout glayout = new GridLayout();
-		glayout.marginWidth = 0;
-		glayout.marginHeight = 0;
+		glayout.marginWidth = 10;
+		glayout.marginHeight = 5;
 		glayout.numColumns = 2;
 		client.setLayout(glayout);
 
@@ -85,8 +86,11 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		datetf.setLayoutData(gd);
 		datetf.setEditable(false);
-		
+
+			
 		createSpacer(toolkit, client, 2);
+
+		
 
 		toolkit.createLabel(client, "Raw Output"); //$NON-NLS-1$
 		reporttf = toolkit.createText(client, "", SWT.MULTI | SWT.WRAP | SWT.V_SCROLL); //$NON-NLS-1$
@@ -95,8 +99,9 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 		gd.widthHint = 10;
 		gd.heightHint = 250;
 		reporttf.setLayoutData(gd);
-		
+
 		toolkit.paintBordersFor(s1);
+		toolkit.paintBordersFor(client);
 		s1.setClient(client);
 	}
 	/**
@@ -104,6 +109,7 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 	 */
 	protected void update() {
 		ServiceResult input = getInput();
+		params.setInput(input.getParameters());
 		// CHECKSTYLE OFF
 		isOktf.setText(input != null ? (input.isSuccess() ? "PASS" : "FAIL") : "");
 		datetf.setText(input != null && input.getDate() != null ? input.getDate() : "");

@@ -14,10 +14,6 @@ import fr.lip6.move.coloane.projects.its.checks.CheckService;
 import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
@@ -47,8 +43,8 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 	private Text serviceNametf;
 	private Text foldertf;
 	private MultiPageEditor mpe;
-	private Map<Text, String> params = new HashMap<Text, String>();
-	private CheckService template;
+	private ParameterSection params;
+	
 	
 	/**
 	 * Ctor. pass master for openDirectory button action.
@@ -56,7 +52,6 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 	 */
 	public CheckServiceDetailsPage(MultiPageEditor master, CheckService template) {
 		this.mpe = master;
-		this.template = template;
 	}
 	/**
 	 * {@inheritDoc}
@@ -65,15 +60,12 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 	 */
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();
-		layout.topMargin = 5;
-		layout.leftMargin = 5;
-		layout.rightMargin = 2;
-		layout.bottomMargin = 2;
 		parent.setLayout(layout);
-
+		
 		FormToolkit toolkit = getToolkit();
-		Section s1 = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
-		s1.marginWidth = 10;
+		Section s1 = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED );
+		s1.marginWidth = 4;
+		s1.marginHeight = 4;
 		s1.setText("Check Service Description"); //$NON-NLS-1$
 		//		s1.setDescription(Messages.getString("TypeOneDetailsPage.name")); //$NON-NLS-1$
 		TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
@@ -81,8 +73,8 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		s1.setLayoutData(td);
 		Composite client = toolkit.createComposite(s1);
 		GridLayout glayout = new GridLayout();
-		glayout.marginWidth = 0;
-		glayout.marginHeight = 0;
+		glayout.marginWidth = 10;
+		glayout.marginHeight = 5;
 		glayout.numColumns = 2;
 		client.setLayout(glayout);
 
@@ -95,7 +87,7 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		serviceNametf.setLayoutData(gd);
 
 		toolkit.createLabel(client, "Work folder"); //$NON-NLS-1$
-		Composite folderzone = toolkit.createComposite(client);
+		Composite folderzone = toolkit.createComposite(client, SWT.BORDER);
 
 		glayout = new GridLayout();
 		glayout.numColumns = 2;
@@ -129,21 +121,9 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 			}
 		});
 
-		for (String param : template.getParameters()) {
-			toolkit.createLabel(client, param); //$NON-NLS-1$
-			Text tf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
-			tf.setEditable(true);
-			gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
-			gd.widthHint = 10;
-			tf.setLayoutData(gd);
-			// store this param
-			params.put(tf, param);
-			tf.addModifyListener(new ParamListener(param));
-		}
-
 		
 		createSpacer(toolkit, client, 2);
-
+		
 		Button runb = toolkit.createButton(client, "Run service", SWT.PUSH);
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END);
 		runb.setLayoutData(gd);
@@ -156,43 +136,24 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		
 		
 		toolkit.paintBordersFor(s1);
+		toolkit.paintBordersFor(client);
 		s1.setClient(client);
+		
+		///// ADD THE PARAMS HERE
+		params = new ParameterSection(getToolkit(), parent, true);
 	}
 
-	private class ParamListener implements ModifyListener {
 
-		private String param;
-
-		public ParamListener(String param) {
-			this.param = param;
-		}
-
-		public void modifyText(ModifyEvent e) {
-			if (getInput() != null) {
-				for (Entry<Text, String> entry : params.entrySet()) {
-					if (entry.getValue().equals(param)) {
-						String s = entry.getKey().getText();
-						getInput().setParameterValue(param, s);
-						break;
-					}
-				}
-			}
-		}
-	}
 	
 	/**
 	 * refresh the state
 	 */
 	protected void update() {
 		CheckService input = getInput();
+		params.setInput(input.getParameters());
 		// CHECKSTYLE OFF
 		serviceNametf.setText(input != null && input.getName() != null ? input.getName() : "");
-		foldertf.setText(input != null && input.getWorkDir() != null && !input.getWorkDir().equals("") ? input.getWorkDir() : getDefaultWorkDir());
-		for (Entry<Text, String> entry : params.entrySet()) {
-			String s = (input != null && input.getParameterValue(entry.getValue()) != null) ?
-					getInput().getParameterValue(entry.getValue()) : "";
-			entry.getKey().setText(s);
-		}
+		foldertf.setText(input != null && input.getWorkDir() != null && !input.getWorkDir().equals("") ? input.getWorkDir() : getDefaultWorkDir());		
 		// CHECKSTYLE ON
 	}
 	

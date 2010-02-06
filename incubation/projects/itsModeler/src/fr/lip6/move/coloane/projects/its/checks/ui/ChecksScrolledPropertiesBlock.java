@@ -109,7 +109,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 			}
 		});
 
-		Button b = toolkit.createButton(buttonZone, "Add a Check", SWT.PUSH); //$NON-NLS-1$
+		Button b = toolkit.createButton(buttonZone, "Reachability", SWT.PUSH); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		b.setLayoutData(gd);
 		b.addSelectionListener(new SelectionAdapter() {
@@ -121,7 +121,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 			}
 		});
 
-		Button b2 = toolkit.createButton(buttonZone, "Add CTL Check", SWT.PUSH); //$NON-NLS-1$
+		Button b2 = toolkit.createButton(buttonZone, "CTL Properties", SWT.PUSH); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		b2.setLayoutData(gd);
 		b2.addSelectionListener(new SelectionAdapter() {
@@ -241,7 +241,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		//checks
 		detailsPart.registerPage(CheckService.class, new CheckServiceDetailsPage(getPage().getMpe(), new CheckService(page.getCheckList())));
 		detailsPart.registerPage(CTLCheckService.class, new CheckServiceDetailsPage(getPage().getMpe(), new CTLCheckService(page.getCheckList())));
-		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage(getPage().getMpe(), new CTLCheckService(page.getCheckList())));
 	}
 	/**
 	 * refresh the view
