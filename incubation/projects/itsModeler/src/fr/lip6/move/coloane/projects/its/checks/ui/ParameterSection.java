@@ -65,7 +65,7 @@ public class ParameterSection {
 			section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 			section.marginWidth = 4;
 			section.marginHeight = 4;
-			section.setText("Check Service Parameters"); //$NON-NLS-1$
+			section.setText("Tool Settings"); //$NON-NLS-1$
 			TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
 			td.grabHorizontal = true;
 			section.setLayoutData(td);
@@ -90,6 +90,7 @@ public class ParameterSection {
 			toolkit.paintBordersFor(section);
 			toolkit.paintBordersFor(client);
 			section.setClient(client);
+			parent.pack();
 		}
 	}
 
