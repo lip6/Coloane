@@ -144,7 +144,7 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	private void registerImage(ImageRegistry registry, String key,
 			String fileName) {
 		try {
-			IPath path = new Path("icons/" + fileName); //$NON-NLS-1$
+			IPath path = new Path("resources/icons/" + fileName); //$NON-NLS-1$
 			URL url = FileLocator.find(getBundle(), path, null);
 			if (url != null) {
 				ImageDescriptor desc = ImageDescriptor.createFromURL(url);
