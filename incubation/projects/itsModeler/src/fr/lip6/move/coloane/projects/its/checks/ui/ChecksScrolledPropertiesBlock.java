@@ -239,9 +239,9 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(this));
 		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
 		//checks
-		detailsPart.registerPage(CheckService.class, new CheckServiceDetailsPage(getPage().getMpe(), new CheckService(page.getCheckList())));
-		detailsPart.registerPage(CTLCheckService.class, new CheckServiceDetailsPage(getPage().getMpe(), new CTLCheckService(page.getCheckList())));
-		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage(getPage().getMpe(), new CTLCheckService(page.getCheckList())));
+		detailsPart.registerPage(CheckService.class, new CheckServiceDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(CTLCheckService.class, new CheckServiceDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage());
 	}
 	/**
 	 * refresh the view

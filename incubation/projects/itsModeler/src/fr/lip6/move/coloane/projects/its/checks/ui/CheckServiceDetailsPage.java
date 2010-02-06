@@ -50,7 +50,7 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 	 * Ctor. pass master for openDirectory button action.
 	 * @param master the master page
 	 */
-	public CheckServiceDetailsPage(MultiPageEditor master, CheckService template) {
+	public CheckServiceDetailsPage(MultiPageEditor master) {
 		this.mpe = master;
 	}
 	/**

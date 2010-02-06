@@ -10,9 +10,7 @@
  *******************************************************************************/
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
-import fr.lip6.move.coloane.projects.its.checks.CheckService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
-import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
 
 import org.eclipse.swt.SWT;
@@ -34,16 +32,8 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 	private Text isOktf;
 	private Text datetf;
 	private Text reporttf;
-	private MultiPageEditor mpe;
 	private ParameterSection params;
 
-	/**
-	 * Ctor. pass master for openDirectory button action.
-	 * @param master the master page
-	 */
-	public ServiceResultDetailsPage(MultiPageEditor master, CheckService template) {
-		this.mpe = master;
-	}
 	/**
 	 * {@inheritDoc}
 	 *  (non-Javadoc)
@@ -114,6 +104,6 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 		isOktf.setText(input != null ? (input.isSuccess() ? "PASS" : "FAIL") : "");
 		datetf.setText(input != null && input.getDate() != null ? input.getDate() : "");
 		reporttf.setText(input != null && input.getReport() != null ? input.getReport() : "");
-		// CHECKSTYLE ON
+		// CHECKSTYLE ON		
 	}
 }
