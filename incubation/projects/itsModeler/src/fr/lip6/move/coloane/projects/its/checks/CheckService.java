@@ -9,12 +9,9 @@ import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
@@ -28,7 +25,7 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 	private CheckList parent;
 	private List<ServiceResult> results = new LinkedList<ServiceResult>();
 	private String reportText;
-	private Map<String, String> parameters = new HashMap<String, String>();
+	private ParameterList parameters = new ParameterList();
 
 	public CheckService(CheckList parent) {
 		this.parent = parent;
@@ -48,27 +45,8 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 		notifyObservers();
 	}
 
-	protected void addParameter (String paramName) {
-		parameters.put(paramName, "");
-	}
-
-	public Set<String> getParameters () {
-		return parameters.keySet();
-	}
-
-	public boolean setParameterValue (String param, String value) {
-		if (parameters.containsKey(param)) {
-			if (!parameters.get(param).equals(value)) {
-				parameters.put(param,value);
-				notifyObservers();
-			}
-			return true;
-		}
-		return false;
-	}
-
-	public String getParameterValue (String param) {
-		return parameters.get(param);
+	public ParameterList getParameters () {
+		return parameters;
 	}
 
 	public String getWorkDir() {

@@ -12,14 +12,21 @@ public class ServiceResult extends SimpleObservable {
 	private String report;
 	private Calendar date;
 	private CheckService cs;
-
+	private ParameterList parameters ;
+	
 	public ServiceResult(boolean success, String report, CheckService cs) {
 		this.success = success;
 		this.report = report;
 		this.date = new GregorianCalendar();
 		this.cs = cs;
+		this.parameters = new ParameterList(cs.getParameters());
 	}
 
+	
+	public ParameterList getParameters () {
+		return parameters;
+	}
+		
 	public String getReport() {
 		return report;
 	}

@@ -19,7 +19,7 @@ public class CTLCheckService extends CheckService {
 
 	public CTLCheckService(CheckList parent) {
 		super(parent, CTL_NAME);
-		addParameter(CTL_FORMULA_PARAM);
+		getParameters().addParameter(CTL_FORMULA_PARAM);
 	}
 
 	protected List<String> buildCommandArguments() {
@@ -40,7 +40,7 @@ public class CTLCheckService extends CheckService {
 			FileOutputStream writer = new FileOutputStream(file); //$NON-NLS-1$
 			BufferedWriter sb = new BufferedWriter(new OutputStreamWriter(writer));
 			file.createNewFile();
-			sb.append(getParameterValue(CTL_FORMULA_PARAM));
+			sb.append(getParameters().getParameterValue(CTL_FORMULA_PARAM));
 			sb.newLine();
 			sb.close();
 		} catch (Exception e) {
