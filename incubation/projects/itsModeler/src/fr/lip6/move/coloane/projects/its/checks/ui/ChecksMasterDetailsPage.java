@@ -26,7 +26,7 @@ public final class ChecksMasterDetailsPage extends FormPage implements ITypeList
 	 * @param cl 
 	 */
 	public ChecksMasterDetailsPage(MultiPageEditor editor, CheckList cl) {
-		super(editor, "treeview", "Checks Editor"); //$NON-NLS-1$ //$NON-NLS-2$
+		super(editor, "treeview", cl.getType().getTypeName()+ " analysis"); //$NON-NLS-1$ //$NON-NLS-2$
 		block = new ChecksScrolledPropertiesBlock(this);
 		this.mpe = editor;
 		this.checkList = cl;
