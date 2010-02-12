@@ -50,26 +50,26 @@
    <element name="Export">
       <complexType>
          <sequence>
-            <element ref="AcceptedFormalism" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="AcceptedFormalism" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Unique ID used to identify the extension. This ID should use the prefix fr.lip6.move.coloane.extensions.xxxxx where xxxx is the name of your extension.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="reference" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  This attribute is used to specify the wizard that will be used in order to choose the destination of the exported file. We recommend you to use the prefix fr.lip6.move.coloane.wizard.xxx where xxx is the filename extensions you will use for your exported files.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  This is the class where the work is done. We recommend you to choose / create a class inside your extension.
                </documentation>
                <appInfo>
                   <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.extensions.IExportTo"/>
@@ -79,7 +79,7 @@
          <attribute name="extension" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  This is the filename extension used to build the exported file. To be as compatible as possible, try to define an filename extension limited to 3 characters.
                </documentation>
             </annotation>
          </attribute>
@@ -87,11 +87,16 @@
    </element>
 
    <element name="AcceptedFormalism">
+      <annotation>
+         <documentation>
+            You must define the set of formalisms that can be hendled by your extension. If you can handle all formalisms, you can leave this branch empty.
+         </documentation>
+      </annotation>
       <complexType>
          <attribute name="id" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  Use this exact (case sensitive) id of the formalism you are able to handle.
                </documentation>
             </annotation>
          </attribute>
