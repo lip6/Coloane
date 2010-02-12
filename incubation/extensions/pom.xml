@@ -27,6 +27,7 @@
 				<directory>.</directory>
 				<includes>
 					<include>build.properties</include>
+					<include>plugin.xml</include>
 				</includes>
 			</resource>
 			<resource>
