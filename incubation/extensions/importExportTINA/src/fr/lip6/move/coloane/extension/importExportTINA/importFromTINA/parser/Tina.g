@@ -152,21 +152,31 @@ tname returns [INode node] : name=NAME
 
 tinput : (node=pname 
   {
-    this.destination = $trdesc::idTrans;
-    this.source = node;    
-  }
-  arc)*;
-
-toutput : (node=pname 
-  {
     this.destination = node;
     this.source = $trdesc::idTrans;
   }
   arc)*;
 
-poutput: (node=tname arc)*;
+toutput : (node=pname 
+  {
+    this.destination = $trdesc::idTrans;
+    this.source = node;    
+  }
+  arc)*;
 
-pinput: (node=tname arc)*;
+poutput: (node=tname 
+  {
+    this.destination = $pldesc::idPlace;
+    this.source = node;
+  }
+  arc)*;
+
+pinput: (node=tname 
+  {
+    this.destination = node;
+    this.source = $pldesc::idPlace;
+  }
+  arc)*;
 
 arc : type=('*'|'?'|'?-'|'!'|'!-') value=integer  
 {
