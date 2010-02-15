@@ -7,14 +7,11 @@ Bundle-Activator: fr.lip6.move.coloane.extension.importExportTINA.Activator
 Require-Bundle: fr.lip6.move.coloane.core,
  fr.lip6.move.coloane.interfaces,
  org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.ui.views
+ org.eclipse.core.runtime
 Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: fr.lip6.move.coloane.extension.importExportTINA.exportToTINA
-Import-Package: org.eclipse.core.filesystem,
- org.eclipse.core.resources
 Bundle-ClassPath: lib/antlr-runtime-3.1.3.jar,
  .
