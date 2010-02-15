@@ -42,7 +42,8 @@ public class ModelHandler extends DefaultHandler {
 
 	private Map<String, List<INode>> placeColors;
 
-//	private Map<String, List<IArc>> arcColors;
+	// true if we have encountered some colors somewhere
+	private boolean hasColors=false;
 
 	/** {@inheritDoc} */
 	@Override
@@ -54,6 +55,7 @@ public class ModelHandler extends DefaultHandler {
 			transIds = new HashMap<String, INode>();
 			transColors = new HashMap<String, List<INode>>();
 			placeColors = new HashMap<String, List<INode>>();
+			hasColors = false;
 //			arcColors = new HashMap<String, List<IArc>>();
 			// 6 colors only.
 			for (int i = 0; i < 6; i++) {
@@ -68,7 +70,7 @@ public class ModelHandler extends DefaultHandler {
 		} else if ("graphics".equals(baliseName)) { //$NON-NLS-1$
 			String colorLab = attributes.getValue("color");
 			if (colorLab != null) {
-				storeObjectColor(colorLab);
+				storeObjectColor(colorLab);				
 			}
 		} else if ("position".equals(baliseName)) { //$NON-NLS-1$
 			handleNodePosition((INode) stack.peek(),attributes);
@@ -87,8 +89,10 @@ public class ModelHandler extends DefaultHandler {
 		} else if ("preferences".equals(baliseName)) { //$NON-NLS-1$
 			// NOP
 		} else if ("colorPlace".equals(baliseName)) { //$NON-NLS-1$
+			hasColors = true;
 			handlePlaceColors(attributes);
 		} else if ("colorTransition".equals(baliseName)) { //$NON-NLS-1$
+			hasColors = true;
 			handleTransitionColors(attributes);
 		} else if ("colorArc".equals(baliseName)) { //$NON-NLS-1$
 			// Happily ignore arc colors, feature unimplemented in Romeo GUI anyway.
@@ -130,12 +134,22 @@ public class ModelHandler extends DefaultHandler {
 	public final void endElement(String uri, String localName, String baliseName) throws SAXException {
 		// Balise MODEL
 		if ("TPN".equals(baliseName)) { //$NON-NLS-1$
+			if (! hasColors) {
+				// means the romeo model has default appearance = skyBlue places and yellow transitions.
+				for (INode node : graph.getNodes()) 
+					if ("place".equals(node.getNodeFormalism().getName())) {
+						node.getGraphicInfo().setBackground(ColorConstants.lightBlue);						
+					} else {
+						node.getGraphicInfo().setBackground(ColorConstants.yellow);												
+					}
+			}
 			// cleanup
 			placeIds = null;
 			transIds = null;
 			transColors = null;
 //			arcColors = null;
 			placeColors = null;
+			hasColors = false;
 		} else if ("place".equals(baliseName)) { //$NON-NLS-1$
 			// pop place from context stack
 			stack.pop();
