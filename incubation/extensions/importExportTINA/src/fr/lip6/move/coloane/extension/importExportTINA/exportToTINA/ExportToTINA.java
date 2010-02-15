@@ -2,8 +2,8 @@ package fr.lip6.move.coloane.extension.importExportTINA.exportToTINA;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
+import fr.lip6.move.coloane.extension.importExportTINA.Activator;
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -16,7 +16,6 @@ import java.io.OutputStreamWriter;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.draw2d.geometry.Point;
 
 
 /**
@@ -26,8 +25,6 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public class ExportToTINA implements IExportTo {
 	
-	// the indent level for pretty printing
-	private int indent = 0;
 	/**
 	 * Export a model to TINA formatted file
 	 * @param model The model to export
@@ -52,8 +49,9 @@ public class ExportToTINA implements IExportTo {
 			BufferedWriter sb = new BufferedWriter(new OutputStreamWriter(writer));
 
 			// header
-			sb.append("<TPN name=\"" + filePath + "\">\n");
-			indent++;
+			sb.append("# Tina .net format TPN built from Coloane model \"" + filePath + "\"\n");
+			
+			sb.append("net fromColoane\n");
 			// nodes
 			for (INode node : model.getNodes()) {
 				if ("place".equals(node.getNodeFormalism().getName())) {
@@ -62,28 +60,9 @@ public class ExportToTINA implements IExportTo {
 					exportTransition(node, sb);
 				}
 			}
-			// arcs
-			for (IArc arc : model.getArcs()) {
-				String arcType = arc.getArcFormalism().getName(); 
-				if ("arc".equals(arcType)) {
-					if (arc.getSource().getNodeFormalism().getName().equals("place")) {
-						exportArc(arc, "PlaceTransition", sb);
-					} else {
-						exportArc(arc, "TransitionPlace", sb);						
-					}
-				} else if ("inhibitor".equals(arcType)){
-					exportArc(arc, "logicalInhibitor", sb);											
-				} else if ("reset".equals(arcType)){
-					exportArc(arc, "flush", sb);
-				} else if ("test".equals(arcType)){
-					exportArc(arc, "read", sb);
-				} else {
-					throw new UnsupportedOperationException("unknown arc type!!");
-				}
-			}
 
 			// trailer
-			sb.append("</TPN>\n");
+			sb.append("\n");
 
 
 			// End of writing : clean & close
@@ -101,132 +80,68 @@ public class ExportToTINA implements IExportTo {
 		monitor.done();
 	}
 
-	private void exportArc(IArc arc, String type, BufferedWriter sb) throws IOException {
-		INode place, trans;
-		if ("place".equals(arc.getSource().getNodeFormalism().getName())) {
-			place = arc.getSource();
-			trans = arc.getTarget();
-		} else {
-			place = arc.getTarget();
-			trans = arc.getSource();
-		}
-		indent(sb);
-		sb.append("<arc ");
-		sb.append("place=\"" + place.getId() + "\" ");
-		sb.append("transition=\"" + trans.getId() + "\" ");
-		sb.append("type=\""+ type+ "\" ");
-		IAttribute val = arc.getAttribute("valuation");
-		if (val != null) {
-			sb.append("weight=\""+ val.getValue()+ "\" ");
-		} else {
-			sb.append("weight=\"1\" ");			
-		}
-		sb.append(">\n");
-		//inflex points
-		indent++;
-		indent(sb);
-		if (!arc.getInflexPoints().isEmpty()) {
-			// TINA only supports a single nail per arc.
-			Point loc = arc.getGraphicInfo().findMiddlePoint();
-			sb.append("<nail xnail=\"" + loc.x + "\" ynail=\"" + loc.y + "\"/>\n");
-		} else {
-			// no inflex point
-			sb.append("<nail xnail=\"0\" ynail=\"0\"/>\n");			
-		}
-		indent--;
-		indent(sb);
-		// close arc
-		sb.append("</arc>\n");
-		
-	}
-
 	private void exportTransition(INode node, BufferedWriter sb) throws IOException {
-		indent(sb);
-		sb.append("<transition ");
-		sb.append("id=\"" + node.getId() + "\" ");
-		sb.append("label=\"" + node.getAttribute("label").getValue() + "\"");
+		sb.append("tr ");
+		sb.append("T" + node.getId() + "");
+		// label
 		if ("public".equals(node.getAttribute("visibility").getValue())) {
-			sb.append(" public=\"1\" ");
-		} else {
-			sb.append(" public=\"0\" ");
-		}
-		sb.append("eft=\"" + node.getAttribute("earliestFiringTime").getValue() + "\" ");
+			sb.append(": {" + node.getAttribute("label").getValue() + "} ");
+		} 
+		// eft/lft
+		sb.append("[" + node.getAttribute("earliestFiringTime").getValue() + ",");
 		String lft = node.getAttribute("latestFiringTime").getValue();
 		try {
-			sb.append("lft=\"" + Integer.parseInt(lft) + "\" ");
+			sb.append(Integer.parseInt(lft) +"] ");
 		} catch (NumberFormatException e) {
-			sb.append("lft=\"infini\" ");
+			sb.append("w[ ");
 		}
-		sb.append(">\n");
+		for (IArc arc : node.getIncomingArcs()) {
+			exportArc(arc,sb);
+		}
+		sb.append(" -> ");
+		for (IArc arc : node.getOutgoingArcs()) {
+			exportArc(arc,sb);
+		}
+		sb.append("\n");
+	}
+	
+	private void exportArc(IArc arc, BufferedWriter sb) throws IOException {
+		if (arc.getSource().getNodeFormalism().getName().equals("place")) {
+			sb.append(placeId(arc.getSource()));
+		} else {
+			sb.append(placeId(arc.getTarget()));					
+		}
+		String arcType = arc.getArcFormalism().getName(); 
+		if ("arc".equals(arcType)) {
+			sb.append("*");
+		} else if ("inhibitor".equals(arcType)){
+			sb.append("?-");						
+		} else if ("reset".equals(arcType)){
+			Logger.getLogger(Activator.PLUGIN_ID).warning("Warning : reset (flush) arcs are not supported by Tina. Reset arc exported as plain arc.");
+			sb.append("*1");
+			return;
+		} else if ("test".equals(arcType)){
+			sb.append("?");
+		} else {
+			throw new UnsupportedOperationException("unknown arc type!!");
+		}
+		sb.append(arc.getAttribute("valuation").getValue()+" ");
+	}
 
-		indent++;
-		exportNodeGraphics(node, sb);
-
-		indent--;
-		indent(sb);
-		sb.append("</transition>\n");
+	private String placeId (INode node) {
+		return "{" + node.getId() + node.getAttribute("name").getValue()+"}" ;
 	}
 
 	private void exportPlace(INode node, BufferedWriter sb) throws IOException {
-		indent(sb);
-		sb.append("<place ");
-		sb.append("id=\"" + node.getId() + "\" ");
-		sb.append("label=\"" + node.getAttribute("name").getValue() + "\" ");
-		sb.append("initialMarking=\"" + node.getAttribute("marking").getValue() + "\" ");
-		sb.append(">\n");
-		indent++;
-		exportNodeGraphics(node, sb);
-
-		indent(sb);
-		// not really sure what this reflects ?
-		sb.append("<scheduling gamma=\"0\" omega=\"0\"/>\n");
-
-		indent--;
-		indent(sb);
-		sb.append("</place>\n");
-	}
-
-	/** 
-	 * Export the graphical position of a node and its name tag.
-	 * @param node the node (place or transition)
-	 * @param sb the output
-	 * @throws IOException if write problems
-	 */
-	private void exportNodeGraphics(INode node, BufferedWriter sb) throws IOException {
-		indent(sb);
-		sb.append("<graphics>\n");
-		indent++;
-		// node position
-		Point loc = node.getGraphicInfo().getLocation();
-		indent(sb);
-		sb.append("<position x=\"" + loc.x + "\" y=\"" + loc.y + "\"/>\n");
-
-		// label position (delta)
-		IAttribute lab;
-		if (node.getNodeFormalism().getName().equals("transition")) {
-			lab = node.getAttribute("label");
-		} else {
-			// place 
-			lab = node.getAttribute("name");			
+		sb.append("pl ");
+		sb.append(placeId(node));
+		String mark = node.getAttribute("marking").getValue();
+		if (Integer.parseInt(mark) != 0) {
+			sb.append(" ("+mark+") ");
 		}
-		Point loctag = lab.getGraphicInfo().getLocation();
-		indent(sb);
-		sb.append("<deltaLabel deltax=\"" + (loctag.x - loc.x) + "\" deltay=\"" + (loctag.y - loc.y) + "\"/>\n");
-		indent--;
+		sb.append("\n");
+	}
 
-		indent(sb);
-		sb.append("</graphics>\n");
-	}
-	/**
-	 * Adds 2 whitespace per indent level.
-	 * @param sb to add to
-	 * @throws IOException if write problems
-	 */
-	private void indent(BufferedWriter sb) throws IOException {
-		for (int i = 0; i < indent; i++) {
-			sb.append("  ");
-		}
-	}
 
 
 }
