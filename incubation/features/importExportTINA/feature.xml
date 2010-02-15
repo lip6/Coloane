@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.importFromPROD"
-      label="Coloane - Import From PROD"
+      id="fr.lip6.move.coloane.feature.importExportTINA"
+      label="Coloane - Import From TINA"
       version="1.0.0"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This feature brings PROD import to Coloane.
+      This feature brings TINA interchange for Time Petri nets in the .net format used by the tool TINA (LAAS)
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -29,12 +29,10 @@
       <import plugin="fr.lip6.move.coloane.interfaces"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.gef"/>
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.extensions.importFromPROD"
+         id="fr.lip6.move.coloane.extensions.importExportTINA"
          download-size="0"
          install-size="0"
          version="0.0.0"
