@@ -7,9 +7,7 @@ Bundle-Activator: fr.lip6.move.coloane.extensions.importFromPROD.Activator
 Require-Bundle: fr.lip6.move.coloane.core,
  fr.lip6.move.coloane.interfaces,
  org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.ui.views,
- org.eclipse.gef
+ org.eclipse.core.runtime
 Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
