@@ -11,13 +11,13 @@
 	<groupId>fr.lip6.move.coloane.incubation.features</groupId>
 	<artifactId>importFromPROD</artifactId>
 	<packaging>jar</packaging>
-	<name>Features :: Import From PROD</name>
-	<description>Import Coloane feature that allow to import PROD models</description>
+	<name>Features :: Import Export TINA</name>
+	<description>Import/Export Coloane feature that allows to interact with the tool TINA (LAAS) using its native .net format for Time Petri Nets.</description>
 
 	<dependencies>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.incubation.extensions</groupId>
-			<artifactId>importFromPROD</artifactId>
+			<artifactId>importExportTINA</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
