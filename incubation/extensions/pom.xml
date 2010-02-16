@@ -19,6 +19,7 @@
 		<module>importFromPROD</module>
 		<module>importFromSGROMEO</module>
 		<module>importExportITS</module>
+		<module>importExportTINA</module>
 	</modules>
 	
 	<build>
