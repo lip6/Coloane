@@ -16,6 +16,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
+import org.eclipse.draw2d.geometry.Point;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,13 +31,13 @@ import java.util.Map;
 
 
 
-tinaGraphicalModel returns [IGraph graph] : (trdesc|pldesc)* (edgedesc|prdesc)* netdesc
+tinaGraphicalModel returns [IGraph graph] : ((trdesc|pldesc)+ (edgedesc|prdesc)* netdesc)|'\n'
 {
   graph = this.graph;
 };
 
 
-netdesc : 'h' NAME (nodesize (bgcolor)?)? ;
+netdesc : 'h' NAME (nodesize (bgcolor)?)? '\n';
 
 nodesize :  'small' | 'normal' | 'large' ;
 
@@ -56,43 +57,90 @@ prdesc  : 'pr'
 
 trdesc  
 scope { INode idTrans; } 
-: 't' xpos=FLOAT ypos=FLOAT node=tname 
+: 't' xpos=afloat ypos=afloat name=NAME 
 {
+   INode node = null;
+   try {
+            node = graph.createNode("transition");
+            node.getAttribute("label").setValue(name.getText());
+            // add for later reference by name
+            nodes.put(name.getText(), node);  
+            
+            // handle pos
+            node.getGraphicInfo().setLocation(new Point(xpos,ypos));
+  
+  }catch (ModelException e) {                
+            e.printStackTrace();
+  }
   $trdesc::idTrans = node;
 }
-( eft lft anchor )
-|
-( anchor eft lft anchor label=NAME anchor )
+(namePos=anchor 
+  { node.getAttribute("label").getGraphicInfo().setLocation(namePos.translate($trdesc::idTrans.getGraphicInfo().getLocation())) ; }
+)?
+ eft lft anchor
+( label=NAME anchor 
 {
-  $trdesc::idTrans.getAttribute("label").setValue($label.getText());
+  IAttribute  a = node.getAttribute("label");
+  a.setValue($label.getText());
 }
+)?
+ '\n'
 ;
 
 eft : ('-'
 {
   // TODO : complain if open interval
 }
-)? ENTIER
+)? ft=ENTIER
 {
- $trdesc::idTrans.getAttribute("earliestFiringTime").setValue($eft.getText());
+ $trdesc::idTrans.getAttribute("earliestFiringTime").setValue($ft.getText());
 };
 lft : ('-'
 {
   // TODO : complain if open interval
 }
-)? (ENTIER|'w')
+)? (ft=ENTIER
 {
-  $trdesc::idTrans.getAttribute("latestFiringTime").setValue($lft.getText());
+  $trdesc::idTrans.getAttribute("latestFiringTime").setValue($ft.getText());
+}
+|'w'
+{
   $trdesc::idTrans.getAttribute("latestFiringTime").setValue("inf");
-};
-anchor : 'n' | 'nw' | 'w' | 'sw' | 's' | 'se' | 'e' | 'ne' | 'c' ;
+}
+)
+;
+
+anchor returns [Point pos]: 
+'n'  { pos = new Point(0,-30); } 
+| 'nw' { pos = new Point(30,-30); } 
+| 'w' { pos = new Point(30,0); } 
+| 'sw' { pos = new Point(30,30); } 
+| 's' { pos = new Point(0,30); } 
+| 'se' { pos = new Point(-30,30); } 
+| 'e' { pos = new Point(-30,0); } 
+| 'ne' { pos = new Point(-30,-30); } 
+| 'c' { pos = new Point(0,0); } 
+;
 
 
 pldesc 
 scope { INode idPlace; } 
-: 'p' xpos=FLOAT ypos=FLOAT node=pname 
+: 'p' xpos=afloat ypos=afloat name=NAME 
 {
-       $pldesc::idPlace = node;
+   INode node = null;
+   try {
+            node = graph.createNode("place");
+            node.getAttribute("name").setValue(name.getText());
+            // add for later reference by name
+            nodes.put(name.getText(), node);  
+            
+            // handle pos
+            node.getGraphicInfo().setLocation(new Point(xpos,ypos));
+  
+  }catch (ModelException e) {                
+            e.printStackTrace();
+  }
+  $pldesc::idPlace = node;
 }
 mk=integer anchor
 {  
@@ -104,11 +152,22 @@ mk=integer anchor
 (label=NAME anchor)? 
 {
   // labels on places not supported currently.
-}                
+}
+ '\n'                
 ;
 
-edgedesc : 'e' srcname=NAME target=NAME arc anchor
-          | 'e' srcname=NAME ang=FLOAT rad=FLOAT target=NAME angt=FLOAT radt=FLOAT arc anchor ;
+edgedesc : 'e' srcname=NAME 
+ {
+    this.source = nodes.get($srcname.getText());
+ }
+(ang=afloat rad=afloat)? 
+target=NAME
+ {
+    this.destination = nodes.get($target.getText());
+ }
+(angt=afloat radt=afloat)? 
+arc 
+anchor '\n';
 
 
 
@@ -182,11 +241,11 @@ pinput: (node=tname
   }
   arc)*;
 
-arc : type=('*'|'?'|'?-'|'!'|'!-') value=integer  
+arc : type=('?'|'?-'|'!'|'!-'|) value=integer  
 {
   IArc a = null;
   try {
-  if ("*".equals(type.getText())) {
+  if (type==null) {
       // normal arc
       a = graph.createArc("arc",source,destination);
   } else if ("?".equals(type.getText())) {
@@ -229,6 +288,11 @@ integer  returns [int value]:
     { value = 1000000 * value; }
     )?
     ;
+    
+afloat returns [float value]:
+  n=(FLOAT|ENTIER)
+  { value = Float.parseFloat($n.getText()); }
+;
 
 /****** Basics */
 fragment LETTER : 'a'..'z' | 'A'..'Z' | '_' | '\''
@@ -243,7 +307,7 @@ fragment DIGIT  : '0'..'9'
   ;
 ENTIER : DIGIT (DIGIT)*
   ;
-FLOAT : DIGIT (DIGIT)* ('.' DIGIT (DIGIT)*)? ;
+FLOAT : ENTIER ('.' ENTIER)? ;
 fragment STRING : '{'.*'}'
   ;
 NAME  : STRING | (LETTER (LETTER | DIGIT)*)
