@@ -1,12 +1,12 @@
 grammar Tina;
 
 @lexer::header {
-package fr.lip6.move.coloane.extension.importExportTINA.importFromTINA.parser;
+package fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser;
 
 }
 
 @parser::header {
-package fr.lip6.move.coloane.extension.importExportTINA.importFromTINA.parser;
+package fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser;
 
 
 import fr.lip6.move.coloane.core.model.GraphModelFactory;

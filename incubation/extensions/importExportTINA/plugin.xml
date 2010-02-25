@@ -4,7 +4,7 @@
    <extension
          point="fr.lip6.move.coloane.core.exports">
       <Export
-            class="fr.lip6.move.coloane.extension.importExportTINA.exportToTINA.ExportToTINA"
+            class="fr.lip6.move.coloane.extensions.importExportTINA.exportToTINA.ExportToTINA"
             extension="net"
             id="fr.lip6.move.coloane.extensions.exportTINA"
             reference="fr.lip6.move.coloane.wizard.export.TINA">
@@ -16,7 +16,7 @@
    <extension
          point="fr.lip6.move.coloane.core.imports">
       <Import
-            class="fr.lip6.move.coloane.extension.importExportTINA.importFromTINA.ImportFromImpl"
+            class="fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importTINA"
             reference="fr.lip6.move.coloane.wizard.import.TINA">
          <AcceptedFormalism
@@ -53,7 +53,7 @@
    <extension
          point="fr.lip6.move.coloane.core.imports">
       <Import
-            class="fr.lip6.move.coloane.extension.importExportTINA.importFromTINA.ImportFromImplNDR"
+            class="fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.ImportFromImplNDR"
             id="fr.lip6.move.coloane.extensions.importTINANDR"
             reference="fr.lip6.move.coloane.wizard.import.TINANDR">
          <AcceptedFormalism
