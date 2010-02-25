@@ -30,6 +30,7 @@
 					<include>build.properties</include>
 					<include>plugin.xml</include>
 					<include>resources/**</include>
+					<include>lib/**</include>
 				</includes>
 			</resource>
 			<resource>
