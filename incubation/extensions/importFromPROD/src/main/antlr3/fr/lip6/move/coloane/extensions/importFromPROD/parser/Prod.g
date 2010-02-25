@@ -62,7 +62,7 @@ scope { INode idTrans; }
 {
        try {
            INode node = graph.createNode("transition");
-           node.getAttribute("name").setValue(tname);
+           node.getAttribute("label").setValue(tname);
            $transition::idTrans = node ;
        } catch (ModelException e) {                
                 e.printStackTrace();
