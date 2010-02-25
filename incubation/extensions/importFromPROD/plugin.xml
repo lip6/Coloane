@@ -8,7 +8,7 @@
             id="fr.lip6.move.coloane.extensions.importprod"
             reference="fr.lip6.move.coloane.wizard.import.prod">
          <AcceptedFormalism
-               id="PT-Net">
+               id="Time Petri Net">
          </AcceptedFormalism>
       </Import>
    </extension>
