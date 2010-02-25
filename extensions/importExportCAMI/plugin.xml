@@ -14,8 +14,11 @@
          <AcceptedFormalism
                id="CPN">
          </AcceptedFormalism>
-          <AcceptedFormalism
+         <AcceptedFormalism
                id="RG">
+         </AcceptedFormalism>
+         <AcceptedFormalism
+         	   id="Time Petri Net">
          </AcceptedFormalism>
       </Export>
    </extension>
