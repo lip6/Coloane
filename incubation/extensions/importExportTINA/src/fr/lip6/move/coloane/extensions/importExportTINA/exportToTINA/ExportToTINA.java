@@ -1,8 +1,8 @@
-package fr.lip6.move.coloane.extension.importExportTINA.exportToTINA;
+package fr.lip6.move.coloane.extensions.importExportTINA.exportToTINA;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IExportTo;
-import fr.lip6.move.coloane.extension.importExportTINA.Activator;
+import fr.lip6.move.coloane.extensions.importExportTINA.Activator;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;

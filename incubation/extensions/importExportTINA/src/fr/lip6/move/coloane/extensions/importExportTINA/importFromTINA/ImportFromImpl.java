@@ -1,9 +1,9 @@
-package fr.lip6.move.coloane.extension.importExportTINA.importFromTINA;
+package fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.IImportFrom;
-import fr.lip6.move.coloane.extension.importExportTINA.importFromTINA.parser.TinaLexer;
-import fr.lip6.move.coloane.extension.importExportTINA.importFromTINA.parser.TinaParser;
+import fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaLexer;
+import fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaParser;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.IOException;
