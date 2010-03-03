@@ -37,17 +37,17 @@
 		<project.deployPath>/data/coloane</project.deployPath>
 	</properties>
 	
-	<distributionManagement> 
-		<repository> 
-			<id>forge.releases</id> 
-			<name>Internal Release Repository for Coloane</name> 
-			<url>http://izanami.rsr.lip6.fr:8081/nexus/content/repositories/incubations</url> 
-		</repository> 
-		<snapshotRepository> 
-			<id>forge.snapshots</id> 
-			<name>Internal Snapshot Repository for Coloane</name> 
-			<url>http://izanami.rsr.lip6.fr:8081/nexus/content/repositories/incubations</url> 
-		</snapshotRepository> 
+	<distributionManagement>
+		<repository>
+			<id>forge.releases</id>
+			<name>Internal Release Repository for Coloane</name>
+			<url>http://132.227.64.155:8081/nexus/content/repositories/incubations</url>
+		</repository>
+		<snapshotRepository>
+			<id>forge.snapshots</id>
+			<name>Internal Snapshot Repository for Coloane</name>
+			<url>http://132.227.64.155:8081/nexus/content/repositories/incubations</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<dependencyManagement>
@@ -218,7 +218,7 @@
 				<executions>
 					<execution>
 						<id>Checkstyle</id>
-						<phase>validate</phase>        
+						<phase>validate</phase>
 						<goals>
 							<goal>check</goal>
 						</goals>
@@ -237,7 +237,7 @@
 				<executions>
 					<execution>
 						<id>BuildNumber</id>
-						<phase>validate</phase>        
+						<phase>validate</phase>
 						<goals>
 							<goal>create</goal>
 						</goals>
