@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.interfaces.formalism;
 
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
+
 /**
  * This class represents all the formalism attribute characteristics.<br>
  * An attribute is like a property of a base element.<br>
@@ -55,4 +57,10 @@ public interface IAttributeFormalism {
 	 * @return <code>true</code> if the attribute has to be displayed even if its valued is the default one
 	 */
 	boolean isDefaultValueDrawable();
+	
+	/** 
+	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
+	 * @return the delta location
+	 */
+	Point getDeltaLocation();
 }
