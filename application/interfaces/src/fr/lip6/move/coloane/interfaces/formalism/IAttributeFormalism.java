@@ -3,57 +3,56 @@ package fr.lip6.move.coloane.interfaces.formalism;
 import java.util.List;
 
 /**
- * Cette classe représente les caracteristiques d'un attribut d'un élément de formalisme.<br>
- * Un attribut est une caractéristique d'un élément de base.<br>
- * Chaque élément du formalisme maintient une liste de ses attributs.
+ * This class represents all the formalism attribute characteristics.<br>
+ * An attribute is like a property of a base element.<br>
+ * Each base element has to maintain its own list of attributes.
+ * 
+ * @author Jean-Baptiste Voron
  */
 public interface IAttributeFormalism {
 
-	/**
-	 * @return Le nom de l'attribut
-	 */
+	/** @return Attribute name */
 	String getName();
 
-	/**
-	 * @return L'indicateur qui permet de savoir si un attribut est affichable dans l'éditeur grapique
-	 */
+	/** @return Drawable status (should the attribute be displayed ?) */
 	boolean isDrawable();
 
-	/**
-	 * @return L'indicateur qui permet de savoir si un attribut peut être réparti sur plusieurs lignes
-	 */
+	/** @return Multiline status */
 	boolean isMultiLine();
 
 	/**
-	 * @return L'indicateur qui dit si un attribut est limité à un jeu de valeurs énummérées.
-	 * @see getEnumeration()
+	 * @return Is the attribute enumerated ?
+	 * @see getEnumeration() for fetching authorized values
 	 */
 	boolean isEnumerated();
 	
 	/**
-	 * 
-	 * @return La liste des valeurs possibles de cet attribut s'il est énuméré, ou <code>null</code> sinon.
+	 * @return the list of authorized values for the given attribute
 	 */
 	List<String> getEnumeration(); 
 	
-	
 	/**
-	 * @return La valeur par défaut de l'attribut
+	 * @return the default value
 	 */
 	String getDefaultValue();
 
 	/**
-	 * @return <code>true</code> si l'attribut doit etre affiché en gras. <code>false</code> sinon.
+	 * @return <code>true</code> if the attribute has to be displayed with a bold font
 	 */
 	boolean isBold();
 
 	/**
-	 * @return <code>true</code> si l'attribut doit etre affiché en gras. <code>false</code> sinon.
+	 * @return <code>true</code> if the attribute has to be displayed with an italic font 
 	 */
 	boolean isItalic();
 
 	/**
-	 * @return la taille de la police utilisée pour l'affichage de l'attribut
+	 * @return the font size
 	 */
-	Integer getSize();
+	Integer getFontSize();
+	
+	/**
+	 * @return <code>true</code> if the attribute has to be displayed even if its valued is the default one
+	 */
+	boolean isDefaultValueDrawable();
 }
