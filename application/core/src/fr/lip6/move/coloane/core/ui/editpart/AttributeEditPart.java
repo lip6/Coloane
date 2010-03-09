@@ -9,7 +9,6 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
@@ -29,11 +28,13 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 
 /**
- * Cet EditPart est responsable de la gestion des attributs.
+ * This EditPart is in charge of managing attributes.<br>
+ * All attributes are attached to the Graph EditPart because they have to be displayed in the graph drawing space.
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
-	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
+	// Default spacing between attributes when displayed
 	private static final int GAP = 20;
 	private static final int MINGAP = 20;
 
@@ -44,9 +45,10 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	private Font font;
 
 	/**
-	 * Permet d'écouter les changements de sélection de ses "parents"
+	 * Listening state modification from the attribute's parent. 
 	 */
 	private EditPartListener editPartListener = new EditPartListener.Stub() {
+		// When the state of current attribute's parent has changed...
 		@Override
 		public void selectedStateChanged(EditPart part) {
 			switch(part.getSelected()) {
@@ -66,134 +68,146 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			default:
 				break;
 			}
+			// Need to refresh visuals (perhaps some graphical attributes has been changed) !
 			refreshVisuals();
 		}
 	};
 
 	/**
-	 * Creation de la figure associee<br>
-	 * Pour les attribut, on considere que la vue doit affiche un Label
+	 * Creates the associated figure</br>
+	 * For the attributes, the figure is, in fact, a <b>label</b>.
 	 * @return IFigure
 	 */
 	@Override
 	protected final IFigure createFigure() {
 		Label figure = new Label();
-		figure.setOpaque(true);
+		figure.setOpaque(true); // Opacity (!)
 
-		// Localisation
-		IAttribute attribut = (IAttribute) getModel();
+		// Fetch the associated attribute model object
+		IAttribute attribute = (IAttribute) getModel();
 
-		// On cache la figure si l'attribut est à la valeur par défaut
-		if (attribut.getAttributeFormalism().getDefaultValue().equals(attribut.getValue())) {
-			figure.setVisible(false);
+		// If the attribute value matches its default value, the attribute should not be displayed (hidden)
+		// But, the formalism can specify exceptions ! So, the defaultValueDrawable status has to be checked too.
+		if (attribute.getAttributeFormalism().getDefaultValue().equals(attribute.getValue())) {
+			if (!attribute.getAttributeFormalism().isDefaultValueDrawable()) {
+				figure.setVisible(false);
+				attribute.getGraphicInfo().setLocation(new Point(0,0));
+				figure.setLocation(new Point(0, 0));
+				return figure;
+			}
 		}
 
-		if (!attribut.getValue().equals(attribut.getAttributeFormalism().getDefaultValue())) {
-			Point attributeLocation = calculLocation();
+		// Compute the location of the label (try to avoid overlaps)
+		Point attributeLocation = computeLocation();
 
-			// Stocke les information de positionnement
-			attribut.getGraphicInfo().setLocation(attributeLocation);
-
-			// Positionnement graphique
-			figure.setLocation(attributeLocation);
-		}
-
+		// Store graphical location and set the figure position into the editor
+		attribute.getGraphicInfo().setLocation(attributeLocation);
+		figure.setLocation(attributeLocation);
 		return figure;
 	}
 
 	/**
-	 * Calcul la position d'un attribut suivant qu'il est attaché à un noeud, un arc
-	 * ou un graphe et si il avait déjà une position.
-	 * @return La position calculé de l'attribut
+	 * Compute the location of an attribute considering its parent type (arc, node or graph...).<br>
+	 * If the attribute has already some location information, they have to be used instead !
+	 * @return the better location (try to avoid overlaps between attributes)
 	 */
-	private Point calculLocation() {
+	private Point computeLocation() {
+		// Fetch the attribute model object
 		IAttribute attribut = (IAttribute) getModel();
 		Point attributePosition;
 
-		// Si le referent est un noeud, on agit sur la position de l'attribut
+		// If the attribute parent is a node, the attribute if moved
 		if (attribut.getReference() instanceof INode) {
 
-			// Deux possibilités :
-			// Pas d'information de positionnement -> on utilise les indication du noeud
-			// Information de positionnement -> on les utilise
-
-			// Cas 1
+			// If the attribute has no location information yet
 			if ((attribut.getGraphicInfo().getLocation().x == 0) && (attribut.getGraphicInfo().getLocation().y == 0)) {
 				Point refLocation = ((INode) attribut.getReference()).getGraphicInfo().getLocation();
+				// Compute a new location given the default GAP according to the node position  
 				attributePosition = new Point(refLocation.x + GAP, refLocation.y - GAP);
 
-				// Cas 2
+			// If the attribute has some location information
 			} else {
+				// Just put the attribute where it must be
 				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
 			}
 
-			// Si le referent est un arc
+		// It the attribute parent is an arc
 		} else if (attribut.getReference() instanceof IArc) {
+			// If the attribute has no location information yet
 			if ((attribut.getGraphicInfo().getLocation().x == 0) && (attribut.getGraphicInfo().getLocation().y == 0)) {
 				attributePosition = ((IArc) attribut.getReference()).getGraphicInfo().findMiddlePoint();
-				// Cas 2
+
+			//If the attribute has already some location information 
 			} else {
 				attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
 			}
 
-			// Si le referent est le modèle lui-même
+		// If the attribute parent is the graph itself
 		} else if (attribut.getReference() instanceof IGraph) {
 			attributePosition = new Point(attribut.getGraphicInfo().getLocation().x, attribut.getGraphicInfo().getLocation().y);
 
-			// Dans tous les autres cas... On reset
+		// In any other cases, the attribute position is set to (0,0)
+		// It means that the attribute is attached to something strange... (TODO: Is the situation really possible ?)
 		} else {
 			attributePosition = new Point(0, 0);
 		}
 
-		// Recupere la figure du graphe
-		GraphEditPart graphEditPart = (GraphEditPart) getParent();
+		// After this basic computation step, we want to check that the attribute is not overlapping another attribute.
+		
+		// Fetch the parent EditPart
+		//GraphEditPart graphEditPart = (GraphEditPart) getParent();
 
-		// On doit maintenant verifier qu'aucune autre figure ne se trouve a proximité
+		// We check that the attribute origin (x,y) is not overlapping with another object.
+		// The label is not filled yet, thus we are checking that the point (x+5,y+5) is not overlapping another object too.
+		//Point attributePositionZone = new Point(attributePosition.x + MINGAP, attributePosition.y + MINGAP);
 
-		// Comme aucun texte n'est ajoute dans la figure pour le moment... vérifié que le point x+5 et y+5 est libre aussi
-		Point attributePositionZone = new Point(attributePosition.x + MINGAP, attributePosition.y + MINGAP);
-
-		while ((graphEditPart.getFigure().findFigureAt(attributePosition) != null) || (graphEditPart.getFigure().findFigureAt(attributePositionZone) != null)) {
-			attributePosition.y = attributePosition.y + MINGAP; // Déplacement de 5 vers le bas si une figure est deja disposee
-			attributePositionZone.y = attributePositionZone.y + MINGAP;
-		}
+		// While there is an object under the attribute, the attributed is moved (x+5,y+5)
+		//while ((graphEditPart.getFigure().findFigureAt(attributePosition) != null) || (graphEditPart.getFigure().findFigureAt(attributePositionZone) != null)) {
+		//	attributePosition.y = attributePosition.y + MINGAP;
+		//	attributePositionZone.y = attributePositionZone.y + MINGAP;
+		//}
 		return attributePosition;
 	}
 
 	/**
-	 * Mise a jour de la vue a partir des informations du modele<br>
-	 * La mise a jour utilise des methodes de parcours du modele et de moficiation de la vue
+	 * Refresh view side according model information.
 	 */
 	@Override
 	protected final void refreshVisuals() {
 		IAttribute attribut = (IAttribute) getModel();
 		Label attributeFigure = (Label) getFigure();
 
-		// Mise à jour de l'etat de l'attribut
+		// Update graphical representation
 		getFigure().setForegroundColor(attribut.getGraphicInfo().getForeground());
 		getFigure().setBackgroundColor(attribut.getGraphicInfo().getBackground());
-		if (select || elementSelect) {
+		
+		// Select state (attribute only or parent ?)
+		// TODO: Should be set in a property page
+		if (this.select || this.elementSelect) {
 			getFigure().setForegroundColor(ColorConstants.blue);
 		}
-		if (highlight) {
+		// Highlight state (mouseover event)
+		// TODO: Should be set in a property page
+		if (this.highlight) {
 			getFigure().setBackgroundColor(ColorConstants.lightGray);
 		}
 
-		// Mise à jour de la police
-		if (font == null || font.isDisposed()) {
-			font = JFaceResources.getDefaultFont();
+		// Font update
+		if (this.font == null || this.font.isDisposed()) {
+			this.font = JFaceResources.getDefaultFont();
 			if (attribut.getAttributeFormalism().isBold()) {
-				font = JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
+				this.font = JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
 			}
 			if (attribut.getAttributeFormalism().isItalic()) {
-				font = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
+				this.font = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
 			}
-			attributeFigure.setFont(font);
+			attributeFigure.setFont(this.font);
 		}
 
+		// The label is filled with the attribute value !
 		attributeFigure.setText(attribut.getValue());
 
-		// On doit creer l'espace pour l'attribut
+		// Graphical space (i.e. bounds) for the attribute is set here.  
 		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(), new Dimension(attributeFigure.getTextBounds().width, attributeFigure.getTextBounds().height));
 		if (getParent() != null) {
 			((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
@@ -201,14 +215,14 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	}
 
 	/**
-	 * Regles de gestion de l'objet
+	 * Some policies (behaviors) applying to the object
 	 */
 	@Override
 	protected final void createEditPolicies() {
+		// Allow the edition of the attribute value directly on the editor
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new AttributeDirectEditPolicy());
 
-
-		/* Ensemble de regles concernant la selection/deselection de l'objet */
+		// All rules about select state
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
 			@Override
 			protected void hideSelection() {
@@ -222,12 +236,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				refreshVisuals();
 			}
 		});
-
 	}
 
-	/**
-	 * Installation des ecouteurs de l'objet
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void activate() {
 		if (!isActive()) {
@@ -263,7 +274,8 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	}
 
 	/**
-	 * Affiche une zone d'édition de l'attribut.
+	 * Draw a rectangle useful to edit the attribute value
+	 * @see #createEditPolicies()
 	 */
 	private void performDirectEdit() {
 		Label label = (Label) getFigure();
@@ -280,26 +292,30 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	}
 
 	/** {@inheritDoc} */
-	public final void propertyChange(PropertyChangeEvent evt) {
-		String prop = evt.getPropertyName();
+	public final void propertyChange(PropertyChangeEvent event) {
+		String prop = event.getPropertyName();
 
-		// Modification d'un attribut.
+		// When the value of the attribute is modified somewhere
 		if (IAttribute.VALUE_PROP.equals(prop)) {
-			IAttribute model = (IAttribute) getModel();
-			String oldValue = (String) evt.getOldValue();
-			String newValue = (String) evt.getNewValue();
-			if (oldValue.equals(model.getAttributeFormalism().getDefaultValue())) {
-				LOGGER.finer("attribut de nouveau visible"); //$NON-NLS-1$
-				model.getGraphicInfo().setLocation(calculLocation());
-				getFigure().setVisible(true);
-			} else if (newValue.equals(model.getAttributeFormalism().getDefaultValue())) {
-				LOGGER.finer("attribut caché"); //$NON-NLS-1$
-				model.getGraphicInfo().setLocation(new Point(0, 0));
-				getFigure().setVisible(false);
+			IAttribute attribute = (IAttribute) getModel();
+			String newValue = (String) event.getNewValue();
+			
+			// If the attribute new value matches its default value, the attribute should not be displayed (hidden)
+			// But, the formalism can specify exceptions ! So, the defaultValueDrawable status has to be checked too.
+			if (attribute.getAttributeFormalism().getDefaultValue().equals(newValue)) {
+				if (!attribute.getAttributeFormalism().isDefaultValueDrawable()) {
+					figure.setVisible(false);
+					attribute.getGraphicInfo().setLocation(new Point(0, 0));
+					refreshVisuals();
+					return;
+				}
 			}
+			
+			attribute.getGraphicInfo().setLocation(computeLocation());
+			getFigure().setVisible(true);
 			refreshVisuals();
 
-			// Deplacement d'un attribut.
+			// When the attribute is moved
 		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
 			refreshVisuals();
 		}

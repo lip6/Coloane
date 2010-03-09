@@ -2,19 +2,19 @@
 <!-- Schema file written by PDE -->
 <schema targetNamespace="fr.lip6.move.coloane.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appinfo>
+      <appInfo>
          <meta.schema plugin="fr.lip6.move.coloane.core" id="formalisms" name="Formalisms"/>
-      </appinfo>
+      </appInfo>
       <documentation>
-         Describe a formalism that could be handle by Coloane
+         Describe a formalism that could be handled by Coloane
       </documentation>
    </annotation>
 
    <element name="extension">
       <annotation>
-         <appinfo>
+         <appInfo>
             <meta.element />
-         </appinfo>
+         </appInfo>
       </annotation>
       <complexType>
          <sequence>
@@ -39,9 +39,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute translatable="true"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -84,9 +84,9 @@
                <documentation>
                   Image that will be displayed near each instance of formalism.
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="extension" type="string" use="required">
@@ -106,9 +106,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="java"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="Graphical" type="string">
@@ -116,9 +116,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="java"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -190,9 +190,9 @@
          </documentation>
       </annotation>
       <complexType>
-               <sequence minOccurs="0" maxOccurs="unbounded">
+         <sequence minOccurs="0" maxOccurs="unbounded">
             <element ref="EnumerationValue"/>
-         </sequence> 
+         </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
@@ -210,7 +210,7 @@
          <attribute name="drawable" type="boolean" use="required">
             <annotation>
                <documentation>
-                  Is the attribute&apos;s value drawable (on the editor) ?
+                  Is the attribute&apos;s value drawable (on the graphical editor) ?
                </documentation>
             </annotation>
          </attribute>
@@ -218,6 +218,13 @@
             <annotation>
                <documentation>
                   Default value for the attribute
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayed_default" type="boolean">
+            <annotation>
+               <documentation>
+                  Is the attribute&apos;s default value drawable (on the graphical editor) ?
                </documentation>
             </annotation>
          </attribute>
@@ -235,7 +242,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="size" type="string">
+         <attribute name="fontsize" type="string">
             <annotation>
                <documentation>
                   Font size for the attribute representation
@@ -247,7 +254,7 @@
                <documentation>
                   Defines if the values of the attribute are limited to an enumeration.
                </documentation>
-            </annotation>           
+            </annotation>
          </attribute>
       </complexType>
    </element>
@@ -314,9 +321,9 @@
                <documentation>
                   A class that describes the figure associated with the element
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.ui.figures.IElementFigure"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="icon16px" type="string">
@@ -324,9 +331,9 @@
                <documentation>
                   16px icon associated with the element which will be displayed in the tools palette
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="icon24px" type="string">
@@ -334,9 +341,9 @@
                <documentation>
                   24px icon associated with the element which will be displayed in the tools palette
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="height" type="string">
@@ -378,9 +385,9 @@
                <documentation>
                   A class that describes the constraint
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.motor.formalisms.constraints.IConstraint"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="name" type="string">
@@ -442,9 +449,9 @@
    </element>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="since"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          Coloane 0.12
       </documentation>
