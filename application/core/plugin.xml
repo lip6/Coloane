@@ -505,6 +505,8 @@
                 </GraphicInfo>
                 <Attribute
                       bold="true"
+                      delta_x="20"
+                      delta_y="-5"
                       drawable="true"
                       italic="false"
                       multiline="false"
@@ -513,6 +515,8 @@
                 <Attribute
                       bold="false"
                       default="0"
+                      delta_x="20"
+                      delta_y="10"
                       drawable="true"
                       italic="true"
                       multiline="true"
@@ -536,6 +540,8 @@
                 </GraphicInfo>
                 <Attribute
                       bold="true"
+                      delta_x="20"
+                      delta_y="-5"
                       drawable="true"
                       italic="false"
                       multiline="false"
@@ -656,16 +662,22 @@
                       width="15">
                 </GraphicInfo>
                 <Attribute
+                      delta_x="20"
+                      delta_y="-5"
                       drawable="true"
                       multiline="false"
                       name="name">
                 </Attribute>
                 <Attribute
+                      delta_x="20"
+                      delta_y="10"
                       drawable="true"
                       multiline="true"
                       name="domain">
                 </Attribute>
                 <Attribute
+                      delta_x="20"
+                      delta_y="25"
                       drawable="true"
                       multiline="true"
                       name="marking">
@@ -687,11 +699,15 @@
                       width="25">
                 </GraphicInfo>
                 <Attribute
+                      delta_x="20"
+                      delta_y="-5"
                       drawable="true"
                       multiline="false"
                       name="name">
                 </Attribute>
                 <Attribute
+                      delta_x="20"
+                      delta_y="10"
                       drawable="true"
                       multiline="true"
                       name="guard">
@@ -721,16 +737,22 @@
                       width="25">
                 </GraphicInfo>
                 <Attribute
+                      delta_x="20"
+                      delta_y="-5"
                       drawable="true"
                       multiline="false"
                       name="name">
                 </Attribute>
                 <Attribute
+                      delta_x="20"
+                      delta_y="10"
                       drawable="true"
                       multiline="true"
                       name="domain">
                 </Attribute>
                 <Attribute
+                      delta_x="20"
+                      delta_y="25"
                       drawable="true"
                       multiline="true"
                       name="marking">
@@ -825,6 +847,8 @@
                       width="15">
                 </GraphicInfo>
                 <Attribute
+                      delta_x="20"
+                      delta_y="-5"
                       drawable="true"
                       multiline="true"
                       name="value">
@@ -846,6 +870,8 @@
                       width="15">
                 </GraphicInfo>
                 <Attribute
+                      delta_x="20"
+                      delta_y="-5"
                       drawable="true"
                       multiline="true"
                       name="value">
@@ -867,6 +893,8 @@
                       width="15">
                 </GraphicInfo>
                 <Attribute
+                      delta_x="20"
+                      delta_y="-5"
                       drawable="true"
                       multiline="true"
                       name="value">
