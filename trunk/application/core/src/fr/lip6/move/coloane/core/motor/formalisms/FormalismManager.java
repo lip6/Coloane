@@ -151,7 +151,7 @@ public final class FormalismManager {
 					enumValues.add(enumVal.getAttribute("name")); //$NON-NLS-1$
 				}
 			}
-			// now either ! isEnum, or enumValues is not null.
+			// Now either !isEnum, or enumValues is not null.
 
 			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), Boolean.parseBoolean(attribute.getAttribute("drawable")), Boolean.parseBoolean(attribute.getAttribute("multiline")), isEnum, enumValues);  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
 			LOGGER.finer("Construction de l'attribut " + a.getName() + " pour l'element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
@@ -159,7 +159,10 @@ public final class FormalismManager {
 			// Parse the default value
 			if (attribute.getAttribute("default") != null) { //$NON-NLS-1$
 				a.setDefaultValue(attribute.getAttribute("default")); //$NON-NLS-1$
-				LOGGER.finer("Ajout de la valeur par default " + a.getDefaultValue() + " pour l'attribut : " + a.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+				LOGGER.finer("Ajout de la valeur par defaut " + a.getDefaultValue() + " pour l'attribut : " + a.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+				if (attribute.getAttribute("displayed_default") != null) { //$NON-NLS-1$
+					a.setDefaultValueDrawable(Boolean.parseBoolean(attribute.getAttribute("displayed_default"))); //$NON-NLS-1$
+				}
 			}
 
 			// Parse graphical considerations

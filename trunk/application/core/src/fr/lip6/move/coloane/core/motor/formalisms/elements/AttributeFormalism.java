@@ -5,30 +5,35 @@ import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import java.util.List;
 
 /**
- * Cette classe représente les caracteristiques d'un attribut d'un élément de formalisme.<br>
- * Un attribut est une caractéristique d'un élément de base.<br>
- * Chaque élément du formalisme maintient une liste de ses attributs.
+ * This class represents all the formalism attribute characteristics.<br>
+ * An attribute is like a property of a base element.<br>
+ * Each base element has to maintain its own list of attributes.
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class AttributeFormalism implements IAttributeFormalism {
-	/** Nom de l'attribut. */
+	/** Name */
 	private String name;
 
-	/** Attribut est-il multilignes. */
-	private boolean multiline;
+	/** Is the attribute multiline? */
+	private boolean isMultiline;
 
-	/** L'attribut est-il affichable. */
-	private boolean drawable;
+	/** Is the attribute drawable? */
+	private boolean isDrawable;
 
-	/** Valeur par défaut de l'attribut. */
+	/** The default value */
 	private String defaultValue = null;
 
-	/** Style d'affichage : Gras ? */
+	/** Should the attribute be displayed even if its value matches the default one? */
+	private boolean isDefaultValueDrawable = false;
+
+	/** Bold? */
 	private boolean bold = false;
 
-	/** Style d'affichage : Italique ? */
+	/** Italic? */
 	private boolean italic = false;
 
-	/** Style d'affichage : Taille de la police ? */
+	/** Font size? */
 	private int size = 10;
 
 	/** Defines if this attribute is enumerated, and then enumeration is non null. */
@@ -38,46 +43,45 @@ public class AttributeFormalism implements IAttributeFormalism {
 	private List<String> enumeration;
 
 	/**
-	 * Construit un nouvel attribut
-	 * @param name Le nom de l'attribut.
-	 * @param drawable L'information est elle affichable a l'ecran ?
-	 * @param multiline L'attribut est il multi-lignes ?
-	 * @param enumerated L'attribut est-il énuméré ?
-	 * @param enumeration Les valeurs possible de l'attribut, ou null si enumerated = false.
+	 * Build an attribute
+	 * @param name Name
+	 * @param isDrawable Drawable status
+	 * @param isMultiline Multiline status
+	 * @param isEnumerated Enumerated status
+	 * @param enumValue Authorized values for the enumeration (or <code>null</code> if isEnumerated is <code>false</code>)
 	 */
-	public AttributeFormalism(String name, boolean drawable,
-			boolean multiline,
-			boolean enumerated, List<String> enumeration) {
+	public AttributeFormalism(String name, boolean isDrawable, boolean isMultiline, boolean isEnumerated, List<String> enumValue) {
 		this.name = name;
-		this.drawable = drawable;
-		this.multiline = multiline;
-		this.enumerated = enumerated;
-		this.enumeration = enumeration;
+		this.isDrawable = isDrawable;
+		this.isMultiline = isMultiline;
+		this.enumerated = isEnumerated;
+		this.enumeration = enumValue;
 	}
 
 	/**
-	 * Construit un nouvel attribut (avec une valeur par defaut)
-	 * @param name Le nom de l'attribut.
-	 * @param drawable L'information est elle affichable a l'ecran ?
-	 * @param multiline L'attribut est il multi-lignes ?
-	 * @param defaultValue La valeur par defaut de l'attribut.
+	 * Build an attribute
+	 * @param name Name
+	 * @param isDrawable Drawable status
+	 * @param isMultiline Multiline status
+	 * @param isEnumerated Enumerated status
+	 * @param enumValue Authorized values for the enumeration (or <code>null</code> if isEnumerated is <code>false</code>)
+	 * @param defaultValue Default value
+	 * @param isDefaultValueDrawable Drawable status for the default value
 	 */
-	public AttributeFormalism(String name, boolean drawable, boolean multiline,
-			boolean enumerated, List<String> enumeration,
-			String defaultValue) {
-		this(name, drawable, multiline, enumerated, enumeration);
+	public AttributeFormalism(String name, boolean isDrawable, boolean isMultiline, boolean isEnumerated, List<String> enumValues, String defaultValue, boolean isDefaultValueDrawable) {
+		this(name, isDrawable, isMultiline, isEnumerated, enumValues);
 		this.defaultValue = defaultValue;
+		this.isDefaultValueDrawable = isDefaultValueDrawable;
 	}
-
 
 	/** {@inheritDoc} */
 	public final String getName() { return this.name; }
 
 	/** {@inheritDoc} */
-	public final boolean isDrawable() { return drawable; }
+	public final boolean isDrawable() { return isDrawable; }
 
 	/** {@inheritDoc} */
-	public final boolean isMultiLine() { return multiline; }
+	public final boolean isMultiLine() { return isMultiline; }
 
 	/** {@inheritDoc} */
 	public final String getDefaultValue() {
@@ -86,8 +90,8 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 	/**
-	 * Positionne la valeur par defaut de l'attribut
-	 * @param defaultValue La valeur par défaut de l'attribut
+	 * Set the default value.<br>
+	 * @param defaultValue the new default value
 	 */
 	public final void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
@@ -99,8 +103,8 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 	/**
-	 * Indique si l'attribut doit être affiché en gras
-	 * @param bold <code>true</code> si l'attribut doit être affiché en gras. <code>false</code> sinon.
+	 * Set the bold status of the attribute
+	 * @param bold <code>true</code> if the attribute has to be displayed in bold
 	 */
 	public final void setBold(boolean bold) {
 		this.bold = bold;
@@ -112,38 +116,46 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 	/**
-	 * Indique si l'attribut doit être affiché en italique
-	 * @param italic <code>true</code> si l'attribut doit être affiché en italique. <code>false</code> sinon.
+	 * Set the italic status of the attribute
+	 * @param italic <code>true</code> if the attribute has to be displayed in italic
 	 */
 	public final void setItalic(boolean italic) {
 		this.italic = italic;
 	}
 
 	/** {@inheritDoc} */
-	public final Integer getSize() {
-		// TODO : Sortir la valeur dans un préférence : Taille par défaut des attributs
+	public final Integer getFontSize() {
 		return this.size;
 	}
 
 	/**
-	 * Indique la taille de la police utilisée pour afficher l'attribut
-	 * @param size La taille souhaitée de la police
+	 * Set the default font size of the attribute
+	 * @param size font-size
 	 */
 	public final void setSize(String size) {
 		this.size = Integer.valueOf(size);
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public final List<String> getEnumeration() {
-		return enumeration;
+		return this.enumeration;
+	}
+	
+	/** {@inheritDoc} */
+	public final boolean isEnumerated() {
+		return this.enumerated;
+	}
+	
+	/** {@inheritDoc} */
+	public final boolean isDefaultValueDrawable() {
+		return this.isDefaultValueDrawable;
 	}
 	
 	/**
-	 * {@inheritDoc}
+	 * Should the attribute be displayed even if its value matches the default one?
+	 * @param isDefaultValueDrawable
 	 */
-	public final boolean isEnumerated() {
-		return enumerated;
+	public final void setDefaultValueDrawable(boolean isDefaultValueDrawable) {
+		this.isDefaultValueDrawable = isDefaultValueDrawable;
 	}
 }
