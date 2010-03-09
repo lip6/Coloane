@@ -4,6 +4,8 @@ import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 
 import java.util.List;
 
+import org.eclipse.draw2d.geometry.Point;
+
 /**
  * This class represents all the formalism attribute characteristics.<br>
  * An attribute is like a property of a base element.<br>
@@ -35,6 +37,9 @@ public class AttributeFormalism implements IAttributeFormalism {
 
 	/** Font size? */
 	private int size = 10;
+	
+	/** Delta Location */
+	private Point delta = new Point(0,0);
 
 	/** Defines if this attribute is enumerated, and then enumeration is non null. */
 	private boolean enumerated;
@@ -157,5 +162,26 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 */
 	public final void setDefaultValueDrawable(boolean isDefaultValueDrawable) {
 		this.isDefaultValueDrawable = isDefaultValueDrawable;
+	}
+
+	/**
+	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
+	 * @param x X coordinate of the Delta Location.
+	 */
+	public final void setXDelta(int x) {
+		this.delta.x = x;
+	}
+	
+	/**
+	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
+	 * @param y Y coordinate of the Delta Location.
+	 */
+	public final void setYDelta(int y) {
+		this.delta.y = y;
+	}
+	
+	/** {@inheritDoc} */
+	public final Point getDeltaLocation() {
+		return this.delta;
 	}
 }

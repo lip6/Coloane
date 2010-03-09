@@ -164,6 +164,17 @@ public final class FormalismManager {
 					a.setDefaultValueDrawable(Boolean.parseBoolean(attribute.getAttribute("displayed_default"))); //$NON-NLS-1$
 				}
 			}
+			
+			// Set default location (delta_x and delta_y)
+			if (attribute.getAttribute("delta_x") != null) { //$NON-NLS-1$
+				a.setXDelta(Integer.parseInt(attribute.getAttribute("delta_x"))); //$NON-NLS-1$
+				LOGGER.finer("Ajout de la position relative (X) pour l'attribut : " + a.getName()); //$NON-NLS-1$
+			}
+			
+			if (attribute.getAttribute("delta_y") != null) { //$NON-NLS-1$
+				a.setYDelta(Integer.parseInt(attribute.getAttribute("delta_y"))); //$NON-NLS-1$
+				LOGGER.finer("Ajout de la position relative (Y) pour l'attribut : " + a.getName()); //$NON-NLS-1$
+			}
 
 			// Parse graphical considerations
 			if (attribute.getAttribute("bold") != null) { //$NON-NLS-1$
