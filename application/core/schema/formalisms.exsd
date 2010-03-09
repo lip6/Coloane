@@ -259,14 +259,14 @@
          <attribute name="delta_x" type="string">
             <annotation>
                <documentation>
-                  Specify the default location (x coordinate) of the attribute according to the parent location (x coordinate). Please choose a value between -200px and 200px.
+                  Specify the default location (x coordinate) of the attribute according to the parent location (x coordinate). Please choose a value between -200px and 200px. This attribute is valid only for node attribute.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="delta_y" type="string">
             <annotation>
                <documentation>
-                  Specify the default location (y coordinate) of the attribute according to the parent location (y coordinate). Please choose a value between -200px and 200px.
+                  Specify the default location (y coordinate) of the attribute according to the parent location (y coordinate). Please choose a value between -200px and 200px. This attribute is valid only for node attribute.
                </documentation>
             </annotation>
          </attribute>
