@@ -4,11 +4,8 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 /**
- * Handler permettant d'afficher les log sur la sortie standard.<br>
- * Voici la description d'une ligne de log : <br>
- * [NIVEAU] MESSAGE_DE_LOG (PACKAGE.CLASSE.METHODE)<br>
- * <br>
- * Ce Handler n'utilise pas de Formatter.
+ * Basic log handler that print all log messages on the standard output.<br> 
+ * A log message is displayed as follow : [LEVEL] MESSAGE ... (PACKAGE.CLASS.METHOD)<br>
  */
 public class ConsoleHandler extends Handler {
 	/** {@inheritDoc} */
