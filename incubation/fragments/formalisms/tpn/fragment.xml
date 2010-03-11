@@ -36,15 +36,17 @@
                         description="Create a place"
                         drawable="true"
                         fill="false"
-                        height="15"
+                        height="18"
                         icon16px="resources/formalisms/tpn/place_16.png"
                         icon24px="resources/formalisms/tpn/place_24.png"
                         palettable="true"
                         paletteName="Place"
-                        width="15">
+                        width="18">
                   </GraphicInfo>
                   <Attribute
                         bold="true"
+                        delta_x="20"
+                        delta_y="0"
                         drawable="true"
                         italic="false"
                         multiline="false"
@@ -53,6 +55,8 @@
                   <Attribute
                         bold="true"
                         default="0"
+                        delta_x="0"
+                        delta_y="0"
                         drawable="true"
                         italic="false"
                         multiline="false"
@@ -76,6 +80,8 @@
                   </GraphicInfo>
                   <Attribute
                         bold="true"
+                        delta_x="20"
+                        delta_y="0"
                         drawable="true"
                         italic="false"
                         multiline="false"
@@ -84,6 +90,8 @@
                   <Attribute
                         bold="false"
                         default="private"
+                        delta_x="-50"
+                        delta_y="0"
                         drawable="true"
                         enumerated="true"
                         italic="true"
@@ -99,6 +107,9 @@
                   <Attribute
                         bold="true"
                         default="0"
+                        delta_x="20"
+                        delta_y="20"
+                        displayed_default="true"
                         drawable="true"
                         multiline="false"
                         name="earliestFiringTime">
@@ -106,6 +117,8 @@
                   <Attribute
                         bold="true"
                         default="inf"
+                        delta_x="30"
+                        delta_y="20"
                         drawable="true"
                         italic="true"
                         multiline="false"
