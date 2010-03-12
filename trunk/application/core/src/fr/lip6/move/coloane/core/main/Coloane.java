@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 import fr.lip6.move.coloane.interfaces.utils.ConsoleHandler;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
@@ -90,7 +91,8 @@ public class Coloane extends AbstractUIPlugin {
 		String requestUrl = "http://coloane.lip6.fr/track.php" + querystring.toString(); //$NON-NLS-1$
 		try {
 	        URL url = new URL(requestUrl.toString());
-	        url.openConnection();
+	        InputStream is = url.openConnection().getInputStream();
+	        is.close();
 	        LOGGER.info("Information about your configuration has been sent to the coloane developper center !"); //$NON-NLS-1$
 		} catch (MalformedURLException e) {
 			LOGGER.warning("Track information are invalid : " + querystring); //$NON-NLS-1$
