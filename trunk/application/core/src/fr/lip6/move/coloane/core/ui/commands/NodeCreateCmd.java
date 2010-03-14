@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -11,34 +12,35 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande pour ajouter un nouveau noeud
+ * Actions needed to create a new node<br>
+ * This command describes also how to undo/redo this set of actions
  */
 public class NodeCreateCmd extends Command {
 	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Nouveau noeud */
+	/** The new node */
 	private INode node;
 
-	/** Graphe */
+	/** The current graph */
 	private final IGraph graph;
 
-	/** Limite */
+	/** The location of the new node */
 	private Point location;
 
-	/** Nom du formalisme pour ce noeud. */
+	/** The node formalism name */
 	private String nodeFormalismName;
 
 	/**
-	 * Creer une commande qui ajoutera le noeud au graphe
-	 * @param graph graphe sur lequel doit être créé le noeud
-	 * @param nodeFormalismName nom du formalisme du noeud
-	 * @param b Rectangle
+	 * Create a command that will create a node of a given formalism
+	 * @param graph the parent graph
+	 * @param nodeFormalismName the node formalism 
+	 * @param location the location where the node will be displayed for the first time
 	 */
-	public NodeCreateCmd(IGraph graph, String nodeFormalismName, Rectangle b) {
+	public NodeCreateCmd(IGraph graph, String nodeFormalismName, Rectangle location) {
 		super(Messages.NodeCreateCmd_0);
 		this.graph = graph;
 		this.nodeFormalismName = nodeFormalismName;
-		this.location = b.getLocation();
+		this.location = location.getLocation();
 	}
 
 	/** {@inheritDoc} */
@@ -53,6 +55,10 @@ public class NodeCreateCmd extends Command {
 		try {
 			node = graph.createNode(nodeFormalismName);
 			node.getGraphicInfo().setLocation(location);
+			// Reset location of all attached attributes 
+			for (IAttribute attribute : node.getAttributes()) {
+				attribute.getGraphicInfo().resetLocation();
+			}
 		} catch (ModelException e) {
 			logger.warning(e.toString());
 			e.printStackTrace();

@@ -90,4 +90,11 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 		location = newLocation;
 		firePropertyChange(LOCATION_PROP, oldLocation, location);
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public void resetLocation() {
+		setLocation(new Point(0,0));
+	}
 }

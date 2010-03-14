@@ -23,41 +23,40 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 
 /**
- * Cette Factory construit les EditParts pour chacun des elements du modele.
+ * Factory that creates all EditParts according model element
  */
 public class PartFactory implements EditPartFactory {
-	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
-	 * Creation effective de l'EditPart
-	 * @param context contexte
-	 * @param modelElement l'element du modele pour lequel on doit construire un EditPart
-	 * @return nouvelle EditPart
+	 * {@inheritDoc}
 	 */
 	public final EditPart createEditPart(EditPart context, Object modelElement) {
 		EditPart part = null;
 
-		// Si l'element est nul... Probleme
+		// If the model element is null, it could be problematic...
 		if (modelElement == null) {
-			LOGGER.warning("L'element est nul : La factory ne peut rien produire"); //$NON-NLS-1$
-		} else {
-			// Selon l'element on construit un EditPart different
-			part = getPartForElement(modelElement);
-			if (part != null) {
-				part.setModel(modelElement);
-			} else {
-				LOGGER.warning("L'element n'est pas supporte par la factory"); //$NON-NLS-1$
-			}
+			LOGGER.warning("L'element de modele est null. Creation de l'edit part associe impossible"); //$NON-NLS-1$
+			return null;
 		}
-		LOGGER.fine("Création d'un " + part.getClass().getSimpleName()); //$NON-NLS-1$
+		
+		// The EditPart has to be built according to the model element
+		part = getPartForElement(modelElement);
+		if (part == null) {
+			LOGGER.warning("L'element de modele est invalide. Creation de l'edit part associe impossible"); //$NON-NLS-1$
+			return null;
+		}
+
+		// Associate the model element to the EditPart
+		part.setModel(modelElement);
+		LOGGER.fine("Creation d'un " + part.getClass().getSimpleName()); //$NON-NLS-1$
 		return part;
 	}
 
 	/**
-	 * Selon le type de l'element... on choisit sont EditPart
-	 * @param modelElement l'element du modèle pour lequel on doit construire l'EditPart
-	 * @return nouvelle EditPart
+	 * Fetch the appropriate EditPart and create an instance of it.
+	 * @param modelElement the model element for which an EditPart has to be created
+	 * @return a new EditPart
 	 */
 	private EditPart getPartForElement(Object modelElement) {
 		if (modelElement instanceof INode) {

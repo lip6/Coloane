@@ -76,6 +76,8 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 			}
 		};
 	}
+	
+	
 
 	/**
 	 * Traitement d'une demande d'ajout de noeud

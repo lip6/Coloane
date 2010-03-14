@@ -127,7 +127,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		if (attribute.getReference() instanceof INode) {
 
 			// If the attribute has no location information yet
-			if ((attribute.getGraphicInfo().getLocation().x == 0) && (attribute.getGraphicInfo().getLocation().y == 0)) {
+			if ((attribute.getGraphicInfo().getLocation().x <= 0) && (attribute.getGraphicInfo().getLocation().y <= 0)) {
 				Point refLocation = ((INode) attribute.getReference()).getGraphicInfo().getLocation();
 
 				// Check if a deltaLocation is specified
@@ -304,12 +304,21 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			// Compute the visibility of the attribute
 			getFigure().setVisible(computeVisibility(attribute));
 			// Compute new location
-			attribute.getGraphicInfo().setLocation(computeLocation(attribute));
+			// attribute.getGraphicInfo().setLocation(computeLocation(attribute));
 
 			refreshVisuals();
 
 		// When the attribute is moved
 		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
+			
+			// Deal with the special case where the location of the attribute has been reseted (-1,-1).
+			// In that case a new location has to be computed again.
+			Point newLocation = (Point) event.getNewValue(); 
+			if (newLocation.equals(Point.SINGLETON.setLocation(-1, -1))) {
+				IAttribute attribute = (IAttribute) getModel();
+				attribute.getGraphicInfo().setLocation(computeLocation(attribute));
+			}		
+			// In all cases, the view must be refreshed
 			refreshVisuals();
 		}
 	}
