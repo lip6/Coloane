@@ -150,7 +150,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		// It the attribute parent is an arc
 		} else if (attribute.getReference() instanceof IArc) {
 			// If the attribute has no location information yet
-			if ((attribute.getGraphicInfo().getLocation().x == 0) && (attribute.getGraphicInfo().getLocation().y == 0)) {
+			if ((attribute.getGraphicInfo().getLocation().x <= 0) && (attribute.getGraphicInfo().getLocation().y <= 0)) {
 				attributePosition = ((IArc) attribute.getReference()).getGraphicInfo().findMiddlePoint();
 
 			//If the attribute has already some location information 
