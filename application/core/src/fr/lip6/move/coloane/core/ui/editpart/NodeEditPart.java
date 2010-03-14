@@ -207,7 +207,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * @param property The event that has been caught
 	 */
 	public final void propertyChange(PropertyChangeEvent property) {
-		LOGGER.finest("Event: " + property.getPropertyName());  //$NON-NLS-1$
+		LOGGER.finest("Evénement pour un noeud: " + property.getPropertyName());  //$NON-NLS-1$
 		String prop = property.getPropertyName();
 
 		// Event that announce a link change

@@ -3,22 +3,29 @@ package fr.lip6.move.coloane.interfaces.model;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * Définition des propriétés et comportements des objets postionnables sur un éditeur
+ * Define properties and behaviors of objects that can be moved and located on an editor.
  */
 public interface ILocationInfo {
 
-	/** ID pour la propriete lorsqu'un changement de la position */
+	/** The property ID */
 	String LOCATION_PROP = "Location.info"; //$NON-NLS-1$
 
 	/**
-	 * @return Les informations concernant le positionnement de l'objet
+	 * @return location information of the current object 
 	 * @see ILocationInfo
 	 */
 	Point getLocation();
 
 	/**
-	 * Indique la nouvelle position de l'objet
-	 * @param newLocation Un point indiquant la nouvelle position
+	 * Set a new position for this object
+	 * @param newLocation a single point that designates the new location
 	 */
 	void setLocation(Point newLocation);
+	
+	/**
+	 * Reset the location of the current element.<br>
+	 * In fact, the location is set to (-1, -1). <br>
+	 * The element EditPart is in charge of the new location computation.
+	 */
+	void resetLocation();
 }

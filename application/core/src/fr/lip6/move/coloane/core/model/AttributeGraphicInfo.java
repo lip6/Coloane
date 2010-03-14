@@ -59,6 +59,10 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		if (location == null) { return; }
 		setLocation(location.x, location.y);
 	}
+	
+	public final void resetLocation() {
+		setLocation(-1, -1);
+	}
 
 	/** {@inheritDoc} */
 	public final Color getBackground() {
