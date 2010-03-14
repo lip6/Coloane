@@ -10,6 +10,7 @@ import fr.lip6.move.coloane.core.ui.actions.AlternateAction;
 import fr.lip6.move.coloane.core.ui.actions.CurveAction;
 import fr.lip6.move.coloane.core.ui.actions.NodeMoveAction;
 import fr.lip6.move.coloane.core.ui.actions.RemoveInflexAction;
+import fr.lip6.move.coloane.core.ui.actions.ResetAttributesLocationAction;
 import fr.lip6.move.coloane.core.ui.files.ModelHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
@@ -692,8 +693,11 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
 
-        // Création de l'action pour le changement de figure (alternate style)
         action = new RemoveInflexAction((IWorkbenchPart) this);
+        registry.registerAction(action);
+        getSelectionActions().add(action.getId());
+
+        action = new ResetAttributesLocationAction((IWorkbenchPart) this);
         registry.registerAction(action);
         getSelectionActions().add(action.getId());
 

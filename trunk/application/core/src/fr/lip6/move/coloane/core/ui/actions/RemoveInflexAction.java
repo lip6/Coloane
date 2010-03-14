@@ -14,7 +14,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action that change the curvature statuc of an arc.<br>
+ * Action that remove all bendpoints from an arc.<br>
  * The arc must be selected.
  *
  * @author Jean-Baptiste Voron
