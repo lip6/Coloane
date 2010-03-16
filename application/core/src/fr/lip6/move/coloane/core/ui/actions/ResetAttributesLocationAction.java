@@ -47,7 +47,7 @@ public class ResetAttributesLocationAction extends SelectionAction {
 		setToolTipText("Reset all the attributes location"); //$NON-NLS-1$
 
 		// Image associated to the action
-        ImageDescriptor icon = ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/curve.png"); //$NON-NLS-1$
+        ImageDescriptor icon = ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/reset_position.png"); //$NON-NLS-1$
         if (icon != null) { setImageDescriptor(icon); }
 		setEnabled(false);
 	}
