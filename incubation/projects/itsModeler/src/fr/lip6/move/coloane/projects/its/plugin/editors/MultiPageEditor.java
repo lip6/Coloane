@@ -14,8 +14,10 @@ import fr.lip6.move.coloane.projects.its.ui.forms.MasterDetailsPage;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -62,6 +64,8 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 
 	/** The checks pages */
 	private List<ChecksMasterDetailsPage> checkPages = new LinkedList<ChecksMasterDetailsPage>();
+
+	private Map<TypeDeclaration,Integer> checkPagesIndex = new HashMap<TypeDeclaration, Integer>();
 	
 	/**
 	 * Creates the editor.
@@ -302,11 +306,17 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	
 	public void createCheckPage (TypeDeclaration td) {
 		try {
-			CheckList cl = new CheckList(td, this);
-			ChecksMasterDetailsPage newPage = new ChecksMasterDetailsPage(this,cl);
-			int pageIndex = addPage(newPage);
-			cl.addObserver(this);
-			this.checkPages.add(newPage);
+			int pageIndex ;
+			if (! checkPagesIndex .containsKey(td)) {
+				CheckList cl = new CheckList(td, this);
+				ChecksMasterDetailsPage newPage = new ChecksMasterDetailsPage(this,cl);
+				pageIndex = addPage(newPage);
+				cl.addObserver(this);
+				this.checkPages.add(newPage);
+				checkPagesIndex.put(td,pageIndex);
+			} else {
+				pageIndex = checkPagesIndex.get(td);
+			}
 			setActivePage(pageIndex);
 		} catch (PartInitException e) {
 			e.printStackTrace();
