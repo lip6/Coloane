@@ -23,7 +23,7 @@ import java.util.StringTokenizer;
 
 import org.eclipse.draw2d.ColorConstants;
 
-/** A class to flatten an ITS model once fr.lip6.move.coloane.its links are resolved.
+/** A class to flatten an ITS model once its links are resolved.
  * Produces a new model instance.
  * @author Yann
  *
@@ -370,6 +370,10 @@ public final class ModelFlattener {
 						INode newSource = ids.get(a.getSource());
 						IArc arc;
 						arc = flatModel.createArc(a.getArcFormalism().getName(), newSource, newt);
+						// copy arc properties
+						for (IAttribute att : a.getAttributes()) {
+							arc.getAttribute(att.getName()).setValue(att.getValue());
+						}
 						flatModel.addArc(arc);
 					}
 					for (IArc a : node.getOutgoingArcs()) {
@@ -377,6 +381,10 @@ public final class ModelFlattener {
 						INode newSource = ids.get(a.getTarget());
 						IArc arc;
 						arc = flatModel.createArc(a.getArcFormalism().getName(), newt, newSource);
+						// copy arc properties
+						for (IAttribute att : a.getAttributes()) {
+							arc.getAttribute(att.getName()).setValue(att.getValue());
+						}
 						flatModel.addArc(arc);
 					}
 
