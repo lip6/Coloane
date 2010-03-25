@@ -91,11 +91,12 @@ public final class ModelFlattener {
 
 				Concept concept = ctd.getConcept(instConcept);
 				TypeDeclaration t = concept.getEffective();
+
 				if (t instanceof CompositeTypeDeclaration) {
 					CompositeTypeDeclaration ctd2 = (CompositeTypeDeclaration) t;
-					flatten(ctd2, prefix + "." + instName);
+					flatten(ctd2, newPrefix(prefix,instName));
 				} else {
-					flatten(t, prefix + "." + instName);
+					flatten(t, newPrefix(prefix,instName));
 				}
 			}
 		}
@@ -107,6 +108,13 @@ public final class ModelFlattener {
 		buildTransitions(tset, "");
 
 
+	}
+
+	private String newPrefix(String prefix, String instName) {
+		if (prefix.equals(""))
+			return instName;
+		else
+			return prefix + "." + instName;
 	}
 
 	/** instantiate a transition for each set in tset
@@ -212,7 +220,7 @@ public final class ModelFlattener {
 				while (st.hasMoreTokens()) {
 					// foreach label
 					String curLabel = st.nextToken();
-					effectSet = cumulateLabelEffect(instType, instance, curLabel, prefix + "." + instName, effectSet);
+					effectSet = cumulateLabelEffect(instType, instance, curLabel, newPrefix(prefix,instName), effectSet);
 				}
 			}
 			// repeat for outgoing arcs, since they are undirected
@@ -228,7 +236,7 @@ public final class ModelFlattener {
 				while (st.hasMoreTokens()) {
 					// foreach label
 					String curLabel = st.nextToken();
-					effectSet = cumulateLabelEffect(instType, instance, curLabel, prefix + "." + instName, effectSet);
+					effectSet = cumulateLabelEffect(instType, instance, curLabel, newPrefix(prefix,instName), effectSet);
 				}
 			}
 
