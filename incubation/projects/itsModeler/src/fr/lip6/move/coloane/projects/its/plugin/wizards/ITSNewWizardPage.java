@@ -26,7 +26,7 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
  * as the file name. The page will only accept file name without the extension
  * OR with the extension that matches the expected one (fr.lip6.move.coloane.its).
  */
-public final class SampleNewWizardPage extends WizardPage {
+public final class ITSNewWizardPage extends WizardPage {
 	private Text containerText;
 
 	private Text fileText;
@@ -34,11 +34,11 @@ public final class SampleNewWizardPage extends WizardPage {
 	private ISelection selection;
 
 	/**
-	 * Constructor for SampleNewWizardPage.
+	 * Constructor for ITSNewWizardPage.
 	 * 
 	 * @param selection the workspace item currently selected (should be a folder)
 	 */
-	public SampleNewWizardPage(ISelection selection) {
+	public ITSNewWizardPage(ISelection selection) {
 		super("wizardPage");
 		setTitle("ITS Composition Model");
 		setDescription("This wizard creates a new file with *.xmlits extension that can be opened by ITS Composition editor.");
