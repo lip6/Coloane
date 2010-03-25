@@ -136,22 +136,22 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 
 		toolkit.paintBordersFor(client);
 
-//		Button b3 = toolkit.createButton(buttonZone, "Export to SDD", SWT.PUSH); //$NON-NLS-1$
-//		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-//		b3.setLayoutData(gd);
-//		b3.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent event) {
-//				try {
-//					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
-//					page.getMpe().exportToSDD(td);
-//				} catch (ClassCastException e) {
-//					System.err.println("Select a type");
-//				}
-//			}
-//		});
+		Button b3 = toolkit.createButton(buttonZone, "Flatten Model", SWT.PUSH); //$NON-NLS-1$
+		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		b3.setLayoutData(gd);
+		b3.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				try {
+					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
+					page.getMpe().flatten(td);
+				} catch (ClassCastException e) {
+					System.err.println("Select a type");
+				}
+			}
+		});
 
-		Button b4 = toolkit.createButton(buttonZone, "Check Model", SWT.PUSH); //$NON-NLS-1$
+		Button b4 = toolkit.createButton(buttonZone, "Analysis", SWT.PUSH); //$NON-NLS-1$
 		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		b4.setLayoutData(gd);
 		b4.addSelectionListener(new SelectionAdapter() {
