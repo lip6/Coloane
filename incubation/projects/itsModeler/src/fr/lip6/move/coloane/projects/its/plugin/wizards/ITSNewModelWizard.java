@@ -39,7 +39,7 @@ import org.eclipse.ui.ide.IDE;
  */
 
 public final class ITSNewModelWizard extends Wizard implements INewWizard {
-	private SampleNewWizardPage page;
+	private ITSNewWizardPage page;
 	private ISelection selection;
 
 	/**
@@ -54,7 +54,7 @@ public final class ITSNewModelWizard extends Wizard implements INewWizard {
 	 * Adding the page to the wizard.
 	 */
 	public void addPages() {
-		page = new SampleNewWizardPage(selection);
+		page = new ITSNewWizardPage(selection);
 		addPage(page);
 	}
 
