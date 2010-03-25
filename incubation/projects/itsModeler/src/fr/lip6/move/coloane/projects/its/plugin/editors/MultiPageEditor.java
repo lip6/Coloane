@@ -5,6 +5,7 @@ import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.actions.AddTypeAction;
+import fr.lip6.move.coloane.projects.its.actions.FlattenModelAction;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.checks.ui.ChecksMasterDetailsPage;
 import fr.lip6.move.coloane.projects.its.io.ITSModelWriter;
@@ -66,6 +67,8 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	private List<ChecksMasterDetailsPage> checkPages = new LinkedList<ChecksMasterDetailsPage>();
 
 	private Map<TypeDeclaration,Integer> checkPagesIndex = new HashMap<TypeDeclaration, Integer>();
+
+	private FlattenModelAction flattenAction;
 	
 	/**
 	 * Creates the editor.
@@ -134,6 +137,18 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 			addAction = new AddTypeAction(this);
 		return addAction;
 	}
+	
+	/**
+	 * Return the unique flatten action associated to this editor.
+	 * {@link AddTypeAction}
+	 * @return the add action.
+	 */
+	public FlattenModelAction getFlattenAction() {
+		if (flattenAction == null)
+			flattenAction = new FlattenModelAction(this);
+		return flattenAction;
+	}
+	
 	/**
 	 * open or focus the editor on the file proposed
 	 * @param td current slected type
@@ -321,6 +336,12 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void flatten(TypeDeclaration td) {
+		FlattenModelAction action = getFlattenAction();
+		action.setTypeDeclaration(td);
+		action.run();
 	}
 	
 	
