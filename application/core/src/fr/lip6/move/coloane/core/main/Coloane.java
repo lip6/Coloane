@@ -81,6 +81,7 @@ public class Coloane extends AbstractUIPlugin {
 	    Pattern p = Pattern.compile(pattern);
 		Matcher m = p.matcher(aboutText);
 		if (m.find()) { eclipseVersion = m.group(1); }
+		if (eclipseVersion == null) { LOGGER.warning("Your eclipse version cannot be computed... Perhaps an installation problem ?"); }  //$NON-NLS-1$
 
 		// Build the QueryString
 		StringBuilder querystring = new StringBuilder();
