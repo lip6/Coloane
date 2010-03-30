@@ -17,6 +17,7 @@ import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.checks.CTLCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CheckService;
+import fr.lip6.move.coloane.projects.its.checks.OrderingService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
 import fr.lip6.move.coloane.projects.its.expression.VariableBinding;
 import fr.lip6.move.coloane.projects.its.ui.forms.ConceptDetailsPage;
@@ -133,6 +134,17 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 			}
 		});
 
+		Button b3 = toolkit.createButton(buttonZone, "Variable Ordering", SWT.PUSH); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL);
+		b3.setLayoutData(gd);
+		b3.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				CheckService cs = new OrderingService(page.getCheckList());
+				cs.setWorkdir("");
+				page.getCheckList().addCheck(cs);
+			}
+		});
 		
 //		Button b2 = toolkit.createButton(buttonZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
 //		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
@@ -242,6 +254,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		detailsPart.registerPage(CheckService.class, new CheckServiceDetailsPage(getPage().getMpe()));
 		detailsPart.registerPage(CTLCheckService.class, new CheckServiceDetailsPage(getPage().getMpe()));
 		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage());
+		detailsPart.registerPage(OrderingService.class, new CheckServiceDetailsPage(getPage().getMpe()));
 	}
 	/**
 	 * refresh the view
