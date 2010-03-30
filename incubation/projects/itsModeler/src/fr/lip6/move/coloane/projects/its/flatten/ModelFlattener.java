@@ -33,6 +33,7 @@ public final class ModelFlattener {
 	private IGraph flatModel;
 	private Map<String, Map<INode, INode>> idsPerInstance;
 	private List<List<ResolvedTrans>> emptyEffect;
+	private boolean shouldInstantiate = false;
 
 	/**
 	 * Constructor.
@@ -339,7 +340,11 @@ public final class ModelFlattener {
 		idsPerInstance.put(prefix, ids);
 
 		/** Scan through the Nodes to find all places and flatten them */
-		Collection<INode> nodes = t.getGraph().getNodes();
+		Collection<INode> nodes ;
+		if (shouldInstantiate)
+			nodes = t.getInstantiatedGraph().getNodes();
+		else
+			nodes = t.getGraph().getNodes();
 		for (INode node : nodes) {
 			// A place
 			if (node.getNodeFormalism().equals(place)) {
@@ -408,5 +413,9 @@ public final class ModelFlattener {
 	 */
 	public IGraph getFlatModel() {
 		return flatModel;
+	}
+
+	public void setInstantiateOption(boolean b) {
+		shouldInstantiate  = true;
 	}
 }
