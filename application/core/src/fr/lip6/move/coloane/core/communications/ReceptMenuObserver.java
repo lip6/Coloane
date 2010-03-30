@@ -39,7 +39,7 @@ public class ReceptMenuObserver implements IReceptMenuObserver {
 		if (menu.getUpdateMenus() != null) {
 			LOGGER.finer("Réception d'une mise à jour de menu : " + menu.getUpdateMenus()); //$NON-NLS-1$
 			UserInterface.getInstance().updateMenu(menu.getUpdateMenus());
-			
+
 			// Affichage d'une mise à jour
 			if (menu.getMenus() == null) {
 				for (String s : menu.getUpdateMenus().keySet()) {
