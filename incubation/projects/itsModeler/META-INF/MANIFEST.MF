@@ -15,7 +15,8 @@ Require-Bundle: org.eclipse.ui,
  fr.lip6.move.coloane.interfaces,
  fr.lip6.move.coloane.extensions.importExportITS;bundle-version="1.0.0",
  fr.lip6.move.coloane.extensions.importExportROMEO;bundle-version="1.0.0",
- org.eclipse.core.filesystem;bundle-version="1.2.0"
+ org.eclipse.core.filesystem;bundle-version="1.2.0",
+ fr.lip6.move.coloane.extensions.importExportCAMI;bundle-version="1.2.1"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
