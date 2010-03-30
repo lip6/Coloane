@@ -66,6 +66,8 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	
 	public static final String ITS_REACH_NAME = "its-reach";
 	public static final String ITS_CTL_NAME = "its-ctl";
+	public static final String ORDERING_NAME = "IGenerateOrder";
+	public static final String PYTHON_PATH = "python";
 
 	
 	private static String ID = ITSEditorPlugin.class.getPackage().getName();
@@ -263,6 +265,12 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public void setITSCTLPath(String text) {
 		setPreference(ITS_CTL_NAME,text);		
 	}
+	public void setOrderingPath(String text) {
+		setPreference(ORDERING_NAME,text);		
+	}
+	public void setPythonPath(String text) {
+		setPreference(PYTHON_PATH,text);		
+	}
 
 	
 	/** Grab the its-reach path from prefs.
@@ -277,6 +285,13 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		return new Path(getPreference(ITS_CTL_NAME));
 	}
 
+	
+	public IPath getOrderingPath() {
+		return new Path(getPreference(ORDERING_NAME));
+	}
+	public IPath getPythonPath() {
+		return new Path(getPreference(PYTHON_PATH));
+	}
 	
 	/** Returns the preference with the given name
 	 * @param preferenceName the pref
@@ -308,6 +323,10 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static void warning(String e) {
 		Logger.getLogger(ID).warning(e);		
 	}
+
+
+
+
 
 
 
