@@ -177,5 +177,9 @@ public class CheckService extends SimpleObservable implements Iterable<ServiceRe
 	protected void setReport(String report) {
 		this.reportText = report;
 	}
+	
+	public String getReportText() {
+		return reportText;
+	}
 
 }
