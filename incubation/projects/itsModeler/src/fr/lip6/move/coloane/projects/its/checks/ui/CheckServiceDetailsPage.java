@@ -90,7 +90,7 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		Composite folderzone = toolkit.createComposite(client, SWT.BORDER);
 
 		glayout = new GridLayout();
-		glayout.numColumns = 2;
+		glayout.numColumns = 1;
 		folderzone.setLayout(glayout);
 		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		folderzone.setLayoutData(gd);
@@ -108,7 +108,7 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		});
 
 		Button browseb = toolkit.createButton(folderzone, "Browse...", SWT.PUSH);
-		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END);
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_BEGINNING);
 		browseb.setLayoutData(gd);
 		browseb.addSelectionListener(new SelectionAdapter() {
 			DirectoryDialog dialog = new DirectoryDialog(mpe.getSite().getShell()); 
