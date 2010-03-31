@@ -57,7 +57,6 @@ public class OrderingService extends CheckService {
 		TypeDeclaration td = getParent().getType();
 		if (td instanceof CompositeTypeDeclaration) {
 			ModelFlattener mf = new ModelFlattener();
-			mf.setInstantiateOption(true);
 			try {
 				mf.doFlatten((CompositeTypeDeclaration) td);
 			} catch (ModelException e) {
