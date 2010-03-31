@@ -63,5 +63,9 @@
 			<groupId>fr.lip6.move.coloane.application</groupId>
 			<artifactId>interfaces</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.extensions</groupId>
+			<artifactId>importExportCAMI</artifactId>
+		</dependency>
 	</dependencies>
 </project>
