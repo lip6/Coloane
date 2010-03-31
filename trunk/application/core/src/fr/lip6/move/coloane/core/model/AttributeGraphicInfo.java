@@ -60,6 +60,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		setLocation(location.x, location.y);
 	}
 	
+	/** {@inheritDoc} */
 	public final void resetLocation() {
 		setLocation(-1, -1);
 	}
