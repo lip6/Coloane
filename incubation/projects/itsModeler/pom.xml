@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>fr.lip6.move.coloane.extensions</groupId>
 			<artifactId>importExportCAMI</artifactId>
-			<version>${project.version}</version>
+			<version>[0.16,)</version>
 		</dependency>
 	</dependencies>
 </project>
