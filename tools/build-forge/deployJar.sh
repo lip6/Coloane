@@ -43,7 +43,7 @@ fi
 # Recupere la version du projet dans le MANIFEST
 bundleVersion=`grep ^Bundle-Version: META-INF/MANIFEST.MF | awk -F ' ' '{ print $2}' | tr -d "\r"`
 
-if [ `echo $newjar | grep "feature"` ] ; then
+if [ `echo $bundleSymbolicName | grep "feature"` ] ; then
     # Recupere la revision max des plugins composant cette feature
     bundleRevision=$(unzip -c target/$jar feature.xml | grep "<plugin.*/>" | sed -r 's/.*version="[^r]*(r[0-9]+)".*/\1/' | sort | tail -n1)
     bundleVersion="$(echo $bundleVersion | sed -r 's/r[0-9]+//')$bundleRevision"
