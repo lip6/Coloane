@@ -8,15 +8,6 @@
             extension="svg"
             id="fr.lip6.move.coloane.extensions.exportsvg"
             reference="fr.lip6.move.coloane.wizard.export.svg">
-         <AcceptedFormalism
-               id="PT-Net">
-         </AcceptedFormalism>
-         <AcceptedFormalism
-               id="CPN">
-         </AcceptedFormalism>
-         <AcceptedFormalism
-               id="RG">
-         </AcceptedFormalism>
       </Export>
    </extension>
    <extension
