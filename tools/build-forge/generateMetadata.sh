@@ -11,7 +11,8 @@ update_site_publisher() {
     rm -f $update_site/artifacts.xml $update_site/content.xml
     (
     cd $ECLIPSE_FOLDER
-    ./eclipse -application org.eclipse.equinox.p2.publisher.UpdateSitePublisher \
+    java -jar plugins/org.eclipse.equinox.launcher_*.jar \
+        -application org.eclipse.equinox.p2.publisher.UpdateSitePublisher \
         -metadataRepository file:$update_site \
         -artifactRepository file:$update_site \
         -source $update_site \
