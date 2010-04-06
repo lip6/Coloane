@@ -52,7 +52,7 @@
 					</execution>
                                         <!-- Mise à jour de l'update site pour la compatibilité eclipse >=3.5 (p2 metadata) -->
 					<execution>
-						<id>Deploy</id>
+						<id>GenerateMetadata</id>
 						<phase>deploy</phase>        
 						<goals>
 							<goal>exec</goal>
