@@ -47,6 +47,7 @@ if [ `echo $newjar | grep "feature"` ] ; then
     # Recupere la revision max des plugins composant cette feature
     bundleRevision=$(unzip -c target/$jar feature.xml | grep "<plugin.*/>" | sed -r 's/.*version="[^r]*(r[0-9]+)".*/\1/' | sort | tail -n1)
     bundleVersion="$(echo $bundleVersion | sed -r 's/r[0-9]+//')$bundleRevision"
+    sed -i "s/Bundle-Version: .*/Bundle-Version: $bundleVersion/" META-INF/MANIFEST.MF
 fi
 
 # Calcule le nouveau nom du JAR
