@@ -107,10 +107,7 @@ my $version = $root->att('version');
 my $nameid = $root->att('id');
 
 my $newversion = $version;
-$newversion = $version.".r".$buildnumber if !$release;
-
-print "Writing the new version : $newversion (previously $version) \n" if $debug;
-$root->set_att(version => $newversion); 
+my $newbuildnumber = $buildnumber;
 
 # Find version of associated features
 my @features = $root->children('includes');
@@ -139,11 +136,20 @@ foreach my $plugin (@plugins) {
 	# Find the last version on he associated feature (identified by $id)
 	my @plugininfos = compute_version($plugindir, $pluginid);
 	(my $pluginsize, my $lastpluginversion) = @plugininfos;
+        my $lastrevision = $lastpluginversion;
+        $lastrevision =~ s/.+\.r([0-9]+)/\1/;
+        if ($lastrevision > $newbuildnumber) {
+            $newbuildnumber = $lastrevision;
+        }
 	print "Last version : $lastpluginversion (size: $pluginsize Bytes)\n" if $debug;	
 	$plugin->set_att(version => $lastpluginversion);
 	$plugin->set_att('install-size' => int($pluginsize/1000));
 	$plugin->set_att('download-size' => int($pluginsize/1000));
 }
+
+$newversion = $version.".r".$newbuildnumber if !$release;
+print "Writing the new version : $newversion (previously $version) \n" if $debug;
+$root->set_att(version => $newversion); 
 
 # Find update site address.
 my $url = $root->first_child('url');

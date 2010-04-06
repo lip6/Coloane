@@ -43,18 +43,6 @@ fi
 # Recupere la version du projet dans le MANIFEST
 bundleVersion=`grep ^Bundle-Version: META-INF/MANIFEST.MF | awk -F ' ' '{ print $2}' | tr -d "\r"`
 
-if [ `echo $bundleSymbolicName | grep "feature"` ] ; then
-    # Recupere la revision max des plugins composant cette feature
-    unzip -o target/$jar 'META-INF/MANIFEST.MF'
-    bundleRevision=$(unzip -p target/$jar feature.xml | grep "<plugin.*/>" | sed -r 's/.*version="[^r]*(r[0-9]+)".*/\1/' | sort | tail -n1)
-    bundleVersion="$(echo $bundleVersion | sed -r 's/r[0-9]+//')$bundleRevision"
-    sed -i "s/Bundle-Version: .*/Bundle-Version: $bundleVersion/" META-INF/MANIFEST.MF
-
-    # Mise à jour du manifest dans le jar
-    zip -d $jar 'META-INF/MANIFEST.MF'
-    zip $jar 'META-INF/MANIFEST.MF'
-fi
-
 # Calcule le nouveau nom du JAR
 newjar=`echo $bundleSymbolicName\_$bundleVersion.jar`
 
