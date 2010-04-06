@@ -28,20 +28,23 @@ public final class ExportToExtension {
 	/**
 	 * @param idWizard nom de l'extension d'export
 	 * @param formalism formalisme du modèle à exporter
-	 * @return <code>true</code> si export accepte ce formalisme
+	 * @return <code>true</code> si export accepte ce formalisme ou si aucun formalisme n'est spécifié
 	 */
 	public static boolean canPerform(String idWizard, IFormalism formalism) {
+		boolean canPerform = true;
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		for (IConfigurationElement contribution : contributions) {
 			if (contribution.getAttribute(WIZREF_EXTENSION).equals(idWizard)) {
 				for (IConfigurationElement child : contribution.getChildren()) {
 					if (child.getAttribute(FORMALISMS_EXTENSION).equals(formalism.getId())) {
 						return true;
+					} else {
+						canPerform = false;
 					}
 				}
 			}
 		}
-		return false;
+		return canPerform;
 	}
 
 	/**
