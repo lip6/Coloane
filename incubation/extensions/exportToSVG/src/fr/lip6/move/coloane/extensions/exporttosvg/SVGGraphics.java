@@ -376,7 +376,6 @@ public class SVGGraphics extends Graphics {
 		return 0;
 	}
 
-	@Override
 	public float getLineWidthFloat() {
 		return 0;
 	}
@@ -436,7 +435,6 @@ public class SVGGraphics extends Graphics {
 		svgGenerator.setColor(awtColor);
 	}
 
-	@Override
 	public void setLineMiterLimit(float miterLimit) {
 	}
 
@@ -448,7 +446,6 @@ public class SVGGraphics extends Graphics {
 	public void setLineWidth(int width) {
 	}
 
-	@Override
 	public void setLineWidthFloat(float width) {
 	}
 
@@ -467,7 +464,6 @@ public class SVGGraphics extends Graphics {
 	public void setAntialias(int value) {
 	}
 
-	@Override
 	public void setLineAttributes(LineAttributes attributes) {
 		System.err.println("setLineAttributes(" + attributes + ")");
 	}
