@@ -85,9 +85,9 @@ public class Coloane extends AbstractUIPlugin {
 
 		// Build the QueryString
 		StringBuilder querystring = new StringBuilder();
-		querystring.append("&platform=eclipse_" + eclipseVersion); //$NON-NLS-1$
-		querystring.append("?os=" + Platform.getOS() + "-" + Platform.getOSArch()); //$NON-NLS-1$ //$NON-NLS-2$ 
-		querystring.append("wm="+ Platform.getWS()); //$NON-NLS-1$
+		querystring.append("?platform=eclipse_" + eclipseVersion); //$NON-NLS-1$
+		querystring.append("&os=" + Platform.getOS() + "-" + Platform.getOSArch()); //$NON-NLS-1$ //$NON-NLS-2$ 
+		querystring.append("&wm="+ Platform.getWS()); //$NON-NLS-1$
 		
 		String requestUrl = "http://coloane.lip6.fr/track.php" + querystring.toString(); //$NON-NLS-1$
 		try {
