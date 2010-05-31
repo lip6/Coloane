@@ -43,7 +43,7 @@ public class ImportFromImplNDR implements IImportFrom {
 		try {
 			graph = parser.tinaGraphicalModel();
 		} catch (RecognitionException e) {
-			throw new ColoaneException("Error parsing prod file " + e.getMessage());
+			throw new ColoaneException("Error parsing Tina graphical (ndr) file " + e.getMessage());
 		}
 		return graph;
 
