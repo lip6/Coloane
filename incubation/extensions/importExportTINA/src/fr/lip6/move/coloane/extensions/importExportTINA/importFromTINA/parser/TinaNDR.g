@@ -31,7 +31,7 @@ import java.util.Map;
 
 
 
-tinaGraphicalModel returns [IGraph graph] : ((trdesc|pldesc)+ (edgedesc|prdesc)* netdesc)|'\n'
+tinaGraphicalModel returns [IGraph graph] :( ((trdesc|pldesc)+ (edgedesc|prdesc)* netdesc)|'\n' )
 {
   graph = this.graph;
 };
