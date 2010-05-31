@@ -27,6 +27,7 @@ import java.util.Map;
        private Map<String,INode> nodes = new HashMap<String, INode>();
        private INode source;
        private INode destination;
+       private List<Point> points;
 }
 
 
@@ -156,18 +157,44 @@ mk=integer anchor
  '\n'                
 ;
 
-edgedesc : 'e' srcname=NAME 
+edgedesc : 'e' 
+ {
+  points = new ArrayList<Point> ();
+ }
+  srcname=NAME 
  {
     this.source = nodes.get($srcname.getText());
  }
 (ang=afloat rad=afloat)? 
+ {
+  // Value 60 is default for Tina, not a real user setting.
+  if (rad != 60) {
+    Point p1 = source.getGraphicInfo().getLocation().getCopy();
+    p1.performTranslate( (int) Math.round(Math.cos(ang*2*Math.PI)*rad), 
+                        -(int) Math.round(Math.sin(ang*2*Math.PI)*rad) );
+    points.add(p1);
+   }
+ }
 target=NAME
  {
     this.destination = nodes.get($target.getText());
  }
 (angt=afloat radt=afloat)? 
+ {
+  // Value 60 is default for Tina, not a real user setting.
+   if (radt != 60) {
+    Point p2 = destination.getGraphicInfo().getLocation().getCopy();
+    p2.performTranslate( (int) Math.round(Math.cos(angt*2*Math.PI)*radt), 
+                        -(int) Math.round(Math.sin(angt*2*Math.PI)*radt) );
+    points.add(p2);
+   }
+ }
 arc 
-anchor '\n';
+anchor '\n'
+{
+  points = null;
+}
+;
 
 
 
@@ -266,7 +293,13 @@ arc : type=('?'|'?-'|'!'|'!-'|) value=integer
   }  
   if (a != null) {
     a.getAttribute("valuation").setValue(Integer.toString(value));
-  }
+    if (points != null && ! points.isEmpty()) {
+          for (Point p : points) {
+              a.addInflexPoint(p);
+          }
+    }
+        
+  }  
 }
 | 
 {
