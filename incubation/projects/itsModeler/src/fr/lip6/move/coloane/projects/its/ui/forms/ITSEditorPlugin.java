@@ -278,19 +278,26 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	 * @return the path
 	 */
 	public final IPath getITSReachPath() {
-		return new Path(getPreference(ITS_REACH_NAME));
+		return makePath(getPreference(ITS_REACH_NAME));
+	}
+
+	private IPath makePath(String preference) {
+		if (preference == null)
+			return null;
+		else
+			return new Path(preference);
 	}
 
 	public IPath getITSCTLPath() {
-		return new Path(getPreference(ITS_CTL_NAME));
+		return makePath(getPreference(ITS_CTL_NAME));
 	}
 
 	
 	public IPath getOrderingPath() {
-		return new Path(getPreference(ORDERING_NAME));
+		return makePath(getPreference(ORDERING_NAME));
 	}
 	public IPath getPythonPath() {
-		return new Path(getPreference(PYTHON_PATH));
+		return makePath(getPreference(PYTHON_PATH));
 	}
 	
 	/** Returns the preference with the given name

@@ -17,6 +17,7 @@ import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
 import java.io.File;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -82,7 +83,9 @@ implements IWorkbenchPreferencePage {
 			buttonComposite.setLayoutData(data);
 			buttonComposite.setText("its-reach executable to use");
 			reachField = new FileBrowserField(buttonComposite);
-			reachField.setText(ITSEditorPlugin.getDefault().getITSReachPath().toOSString());
+			IPath path = ITSEditorPlugin.getDefault().getITSReachPath();
+			if (path != null) 
+				reachField.setText(path.toOSString());
 			reachField.setToolTipText("Select its-reach executable.");
 			reachField.setLayoutData(data);
 
@@ -105,7 +108,9 @@ implements IWorkbenchPreferencePage {
 
 			ctlField = new FileBrowserField(buttonComposite);
 			ctlField.setToolTipText("Select its-reach executable.");
-			ctlField.setText(ITSEditorPlugin.getDefault().getITSCTLPath().toOSString());
+			IPath path = ITSEditorPlugin.getDefault().getITSCTLPath();
+			if (path != null) 
+				ctlField.setText(path.toOSString());
 			ctlField.setLayoutData(data);
 
 			ctlField.addObserver(new ISimpleObserver() {
@@ -126,7 +131,9 @@ implements IWorkbenchPreferencePage {
 			buttonComposite.setText("IGenerateOrder.py executable to use");
 
 			orderField = new FileBrowserField(buttonComposite);
-			orderField.setText(ITSEditorPlugin.getDefault().getOrderingPath().toOSString());
+			IPath path = ITSEditorPlugin.getDefault().getOrderingPath();
+			if (path != null) 
+				orderField.setText(path.toOSString());
 			orderField.setToolTipText("Select IGenerateOrder.py executable.");
 			orderField.setLayoutData(data);
 
@@ -147,7 +154,9 @@ implements IWorkbenchPreferencePage {
 			buttonComposite.setText("python executable to use");
 
 			pythonField = new FileBrowserField(buttonComposite);
-			pythonField.setText(ITSEditorPlugin.getDefault().getPythonPath().toOSString());			
+			IPath path = ITSEditorPlugin.getDefault().getPythonPath();
+			if (path != null) 
+				pythonField.setText(path.toOSString());			
 			pythonField.setToolTipText("Select python executable.");
 			pythonField.setLayoutData(data);
 
