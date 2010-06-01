@@ -20,6 +20,8 @@ import fr.lip6.move.coloane.projects.its.checks.CheckService;
 import fr.lip6.move.coloane.projects.its.checks.OrderingService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
 import fr.lip6.move.coloane.projects.its.expression.VariableBinding;
+import fr.lip6.move.coloane.projects.its.order.Group;
+import fr.lip6.move.coloane.projects.its.order.Variable;
 import fr.lip6.move.coloane.projects.its.ui.forms.ConceptDetailsPage;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 import fr.lip6.move.coloane.projects.its.ui.forms.TypeDeclarationDetailsPage;
@@ -255,6 +257,9 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		detailsPart.registerPage(CTLCheckService.class, new CheckServiceDetailsPage(getPage().getMpe()));
 		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage());
 		detailsPart.registerPage(OrderingService.class, new CheckServiceDetailsPage(getPage().getMpe()));
+		// orders
+		detailsPart.registerPage(Group.class, new OrderingDetailsPage());
+		detailsPart.registerPage(Variable.class, new OrderingDetailsPage());
 	}
 	/**
 	 * refresh the view
