@@ -2,6 +2,8 @@ package fr.lip6.move.coloane.projects.its.checks.ui;
 
 import fr.lip6.move.coloane.projects.its.checks.CheckService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
+import fr.lip6.move.coloane.projects.its.order.Ordering;
+import fr.lip6.move.coloane.projects.its.order.Orders;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 import fr.lip6.move.coloane.projects.its.ui.forms.TypeTreeLabelProvider;
 
@@ -25,6 +27,10 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 		} else if (element instanceof ServiceResult) {
 			ServiceResult sr = (ServiceResult) element;
 			return sr.toString();
+		} else if (element instanceof Orders) {
+			return "Variable Orders";
+		} else if (element instanceof Ordering) {
+			return ((Ordering)element).getName();
 		}
 		return super.getText(element);
 	}
@@ -46,6 +52,8 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_RESULTOK);
 			else
 				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_RESULTNOK);
+		} else if (element instanceof Orders) {
+			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_COMPOSITE);
 		}
 		return super.getImage(element);
 	}

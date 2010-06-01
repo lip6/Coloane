@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.projects.its.checks.ui;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.checks.CheckService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
+import fr.lip6.move.coloane.projects.its.order.Ordering;
+import fr.lip6.move.coloane.projects.its.order.Orders;
 import fr.lip6.move.coloane.projects.its.ui.forms.TypeListTreeProvider;
 
 import java.util.ArrayList;
@@ -25,9 +27,10 @@ public class CheckListTreeProvider extends TypeListTreeProvider implements
 		CheckList cl = (CheckList) inputElement;
 		List<Object> al = new ArrayList<Object>();
 		al.add(cl.getType());
+		al.add(cl.getOrders());
 		for (CheckService cs : cl) {
 			al.add(cs);
-		}
+		}		
 		return al.toArray();
 	}
 
@@ -36,6 +39,16 @@ public class CheckListTreeProvider extends TypeListTreeProvider implements
 			CheckService cs = (CheckService) element;
 			for (ServiceResult sr : cs) {
 				children.add(sr);
+			}
+		} else if (element instanceof Orders) {
+			Orders os = (Orders) element;
+			for (Ordering o : os) {
+				children.add(o);
+			}
+		} else if (element instanceof Ordering) {
+			Ordering o = (Ordering) element;
+			for (Ordering o2 : o) {
+				children.add(o2);
 			}
 		}
 		// TODO
