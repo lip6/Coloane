@@ -10,7 +10,7 @@
  *******************************************************************************/
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
-import fr.lip6.move.coloane.projects.its.checks.CheckService;
+import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
 
@@ -39,7 +39,7 @@ import org.eclipse.ui.part.FileEditorInput;
  * A details page for a variable binding.
  * @author Yann
  */
-public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> {
+public final class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService> {
 	private Text serviceNametf;
 	private Text foldertf;
 	private MultiPageEditor mpe;
@@ -149,7 +149,7 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 	 * refresh the state
 	 */
 	protected void update() {
-		CheckService input = getInput();
+		AbstractCheckService input = getInput();
 		params.setInput(input.getParameters());
 		// CHECKSTYLE OFF
 		serviceNametf.setText(input != null && input.getName() != null ? input.getName() : "");

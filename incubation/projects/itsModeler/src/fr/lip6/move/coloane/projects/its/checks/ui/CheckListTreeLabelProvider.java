@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
-import fr.lip6.move.coloane.projects.its.checks.CheckService;
+import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
@@ -21,8 +21,8 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 	 */
 	@Override
 	public String getText(Object element) {
-		if (element instanceof CheckService) {
-			CheckService cs = (CheckService) element;
+		if (element instanceof AbstractCheckService) {
+			AbstractCheckService cs = (AbstractCheckService) element;
 			return cs.getName();
 		} else if (element instanceof ServiceResult) {
 			ServiceResult sr = (ServiceResult) element;
@@ -42,7 +42,7 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 	 */
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof CheckService) {
+		if (element instanceof AbstractCheckService) {
 			// CheckService cs = (CheckService) element;
 			// TODO : an icon per service
 			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_REACH_SERVICE);

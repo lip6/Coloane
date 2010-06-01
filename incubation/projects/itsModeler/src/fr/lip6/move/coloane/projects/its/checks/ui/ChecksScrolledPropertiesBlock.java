@@ -15,6 +15,7 @@ import fr.lip6.move.coloane.projects.its.Concept;
 import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
+import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CheckService;
 import fr.lip6.move.coloane.projects.its.checks.OrderingService;
@@ -130,7 +131,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		b2.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				CheckService cs = new CTLCheckService(page.getCheckList());
+				AbstractCheckService cs = new CTLCheckService(page.getCheckList());
 				cs.setWorkdir("");
 				page.getCheckList().addCheck(cs);
 			}
@@ -142,7 +143,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		b3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				CheckService cs = new OrderingService(page.getCheckList());
+				AbstractCheckService cs = new OrderingService(page.getCheckList());
 				cs.setWorkdir("");
 				page.getCheckList().addCheck(cs);
 			}

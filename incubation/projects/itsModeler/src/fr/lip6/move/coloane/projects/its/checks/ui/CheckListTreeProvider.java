@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
+import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
-import fr.lip6.move.coloane.projects.its.checks.CheckService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
@@ -28,15 +28,15 @@ public class CheckListTreeProvider extends TypeListTreeProvider implements
 		List<Object> al = new ArrayList<Object>();
 		al.add(cl.getType());
 		al.add(cl.getOrders());
-		for (CheckService cs : cl) {
+		for (AbstractCheckService cs : cl) {
 			al.add(cs);
 		}		
 		return al.toArray();
 	}
 
 	protected void addChildren(Object element, List<Object> children) {
-		if (element instanceof CheckService) {
-			CheckService cs = (CheckService) element;
+		if (element instanceof AbstractCheckService) {
+			AbstractCheckService cs = (AbstractCheckService) element;
 			for (ServiceResult sr : cs) {
 				children.add(sr);
 			}

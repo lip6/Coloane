@@ -26,7 +26,7 @@ import fr.lip6.move.coloane.projects.its.order.parser.JSONOrderParserLexer;
 import fr.lip6.move.coloane.projects.its.order.parser.JSONOrderParserParser;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
-public class OrderingService extends CheckService {
+public class OrderingService extends AbstractCheckService {
 
 	private static final String ORDER_NAME = "Variable Ordering";
 	private static final String ORDER_HEURISTIC_PARAM = "Heuristic chosen";

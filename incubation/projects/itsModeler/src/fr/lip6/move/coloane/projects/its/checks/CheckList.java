@@ -11,17 +11,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class CheckList extends SimpleObservable implements Iterable<CheckService>, ISimpleObserver, ITypeListProvider {
+public class CheckList extends SimpleObservable implements Iterable<AbstractCheckService>, ISimpleObserver, ITypeListProvider {
 
 	private TypeDeclaration type;
-	private List<CheckService> services;
+	private List<AbstractCheckService> services;
 	private ITypeListProvider typeP;
 	private Orders orders;
 	
 	public CheckList(TypeDeclaration td, ITypeListProvider typeP) {
 		this.typeP = typeP;
 		type = td;
-		services = new ArrayList<CheckService>();
+		services = new ArrayList<AbstractCheckService>();
 		orders = new Orders();
 		orders.addObserver(this);
 	}
@@ -30,11 +30,11 @@ public class CheckList extends SimpleObservable implements Iterable<CheckService
 		return type;
 	}
 
-	public Iterator<CheckService> iterator() {
+	public Iterator<AbstractCheckService> iterator() {
 		return services.iterator();
 	}
 
-	public void addCheck(CheckService checkService) {
+	public void addCheck(AbstractCheckService checkService) {
 		services.add(checkService);
 		checkService.addObserver(this);
 		notifyObservers();

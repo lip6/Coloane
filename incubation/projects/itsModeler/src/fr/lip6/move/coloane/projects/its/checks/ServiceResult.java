@@ -11,10 +11,10 @@ public class ServiceResult extends SimpleObservable {
 	private boolean success;
 	private String report;
 	private Calendar date;
-	private CheckService cs;
+	private AbstractCheckService cs;
 	private ParameterList parameters ;
 	
-	public ServiceResult(boolean success, String report, CheckService cs) {
+	public ServiceResult(boolean success, String report, AbstractCheckService cs) {
 		this.success = success;
 		this.report = report;
 		this.date = new GregorianCalendar();
@@ -40,7 +40,7 @@ public class ServiceResult extends SimpleObservable {
 		return formatter.format(date.getTime());
 	}
 
-	public CheckService getParent() {
+	public AbstractCheckService getParent() {
 		return cs;
 	}
 	

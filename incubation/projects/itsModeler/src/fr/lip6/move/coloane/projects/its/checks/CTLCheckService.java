@@ -11,7 +11,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IPath;
 
 
-public class CTLCheckService extends CheckService {
+public class CTLCheckService extends ITSCheckService {
 
 	private static final String CTL_NAME = "CTL Check";
 	private static final String CTL_FORMULA_PARAM = "CTL formula";
