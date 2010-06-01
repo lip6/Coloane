@@ -7,8 +7,11 @@ import java.util.Map.Entry;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -22,16 +25,19 @@ public class ParameterSection {
 
 	ParameterList input;
 	private Map<Text, String> params = new HashMap<Text, String>();
+	private Map<Button, String> bparams = new HashMap<Button, String>();
 	private FormToolkit toolkit;
 	private Section section;
 	private Composite parent;
 	private boolean isEditable;
+	private String title;
 
 
-	public ParameterSection(final FormToolkit formToolkit, Composite parent, boolean isEditable) {
+	public ParameterSection(String title, final FormToolkit formToolkit, Composite parent, boolean isEditable) {
 		toolkit = formToolkit;
 		this.parent = parent;
 		this.isEditable= isEditable;
+		this.title = title;
 	}
 
 	public ParameterList getInput() {
@@ -53,19 +59,25 @@ public class ParameterSection {
 					getInput().getParameterValue(entry.getValue()) : "";
 					entry.getKey().setText(s);
 		}
+		for (Entry<Button, String> entry : bparams.entrySet()) {
+			Boolean val = (input != null && input.getBoolParameterValue(entry.getValue()) != null) ?
+					getInput().getBoolParameterValue(entry.getValue()) : true;
+					entry.getKey().setSelection(val);
+		}
 	}
 
 	protected void createDetails(Composite parent) {		
 		if (section != null) {
 			section.dispose();
 			params.clear();
+			bparams.clear();
 			section = null;
 		}
 		if (! input.getParameters().isEmpty()) {
 			section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 			section.marginWidth = 4;
 			section.marginHeight = 4;
-			section.setText("Tool Settings"); //$NON-NLS-1$
+			section.setText(title); //$NON-NLS-1$
 			TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
 			td.grabHorizontal = true;
 			section.setLayoutData(td);
@@ -87,6 +99,16 @@ public class ParameterSection {
 				if (isEditable)
 					tf.addModifyListener(new ParamListener(param));
 			}
+			for (String param : input.getBoolParameters()) {
+				//toolkit.createLabel(client, param); //$NON-NLS-1$
+				Button b = toolkit.createButton(client, param, SWT.CHECK);				
+				b.setEnabled(isEditable);
+				// store this param
+				bparams.put(b, param);
+				if (isEditable)
+					b.addSelectionListener(new BoolParamListener(param));
+			}
+			
 			toolkit.paintBordersFor(section);
 			toolkit.paintBordersFor(client);
 			section.setClient(client);
@@ -94,6 +116,32 @@ public class ParameterSection {
 		}
 	}
 
+	private class BoolParamListener implements SelectionListener {
+
+		private String param;
+
+		public BoolParamListener(String param) {
+			this.param = param;
+		}
+
+		public void widgetDefaultSelected(SelectionEvent e) {
+			
+		}
+
+		public void widgetSelected(SelectionEvent e) {
+			if (getInput() != null) {
+				for (Entry<Button, String> entry : bparams.entrySet()) {
+					if (entry.getValue().equals(param)) {
+						Boolean b = entry.getKey().getSelection();
+						getInput().setBoolParameterValue(param, b);
+						break;
+					}
+				}
+			}
+		}
+		
+	}
+	
 	private class ParamListener implements ModifyListener {
 
 		private String param;
