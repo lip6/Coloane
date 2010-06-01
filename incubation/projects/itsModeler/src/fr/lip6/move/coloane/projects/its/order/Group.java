@@ -30,4 +30,17 @@ public class Group implements Ordering {
 		return children.iterator();
 	}
 
+	public int getVarIndex(String value) {
+		for (int i = 0; i < children.size(); i++) {
+			if (children.get(i).getName().equals(value)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
+	public void insertVarAtIndex(String value, int index) {
+		children.add(index, new Variable(value));
+	}
+
 }

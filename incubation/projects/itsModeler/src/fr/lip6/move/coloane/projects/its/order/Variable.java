@@ -24,4 +24,12 @@ public class Variable implements Ordering {
 		return Collections.EMPTY_LIST.iterator();
 	}
 
+	public int getVarIndex(String value) {
+		return 0;
+	}
+
+	public void insertVarAtIndex(String value, int index) {
+		throw new UnsupportedOperationException();
+	}
+
 }
