@@ -140,7 +140,7 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<CheckService> 
 		s1.setClient(client);
 		
 		///// ADD THE PARAMS HERE
-		params = new ParameterSection(getToolkit(), parent, true);
+		params = new ParameterSection("Tool Settings",getToolkit(), parent, true);
 	}
 
 
