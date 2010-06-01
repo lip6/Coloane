@@ -43,7 +43,7 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 		TableWrapLayout layout = new TableWrapLayout();
 		parent.setLayout(layout);
 
-		params = new ParameterSection(getToolkit(), parent, false);
+		params = new ParameterSection("Tools settings used in this run", getToolkit(), parent, false);
 
 		
 		FormToolkit toolkit = getToolkit();
