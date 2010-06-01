@@ -25,7 +25,7 @@ package fr.lip6.move.coloane.projects.its.expression.parser;
 package fr.lip6.move.coloane.projects.its.expression.parser;
 
 import fr.lip6.move.coloane.projects.its.expression.*;
-
+import fr.lip6.move.coloane.projects.its.antlrutil.*;
 }
 
 @members {

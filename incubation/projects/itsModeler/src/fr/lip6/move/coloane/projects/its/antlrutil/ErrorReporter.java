@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.projects.its.expression.parser;
+package fr.lip6.move.coloane.projects.its.antlrutil;
 
 import java.util.Iterator;
 import java.util.LinkedList;
