@@ -18,7 +18,9 @@ import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
 public abstract class AbstractCheckService extends SimpleObservable implements Iterable<ServiceResult> {
 
-	protected String name = "ITS reachability";
+	private static final int DEFAULT_TIMEOUT = 60;
+	private static final String TIMEOUT_DURATION = "Maximum execution time";
+	protected String name ;
 
 	protected abstract IPath getToolPath();
 
@@ -34,6 +36,8 @@ public abstract class AbstractCheckService extends SimpleObservable implements I
 	public AbstractCheckService(CheckList parent, String serviceName) {
 		this.parent = parent;
 		this.name = serviceName;
+		parameters.addParameter(TIMEOUT_DURATION);
+		parameters.setParameterValue(TIMEOUT_DURATION,Integer.toString(DEFAULT_TIMEOUT));
 	}
 	
 	/**
@@ -98,9 +102,16 @@ public abstract class AbstractCheckService extends SimpleObservable implements I
 		ByteArrayOutputStream errorOutput = new ByteArrayOutputStream();
 		ByteArrayOutputStream stdOutput = new ByteArrayOutputStream();
 	
+		int timeout = DEFAULT_TIMEOUT;
+		try {
+			timeout = Integer.parseInt(parameters.getParameterValue(TIMEOUT_DURATION));
+		} catch (NumberFormatException e) {
+			// NOP, stay at 60 secs.
+		}		
+			
 		try {
 			final ProcessController controller =
-				new ProcessController(60000, cmd.toArray(new String[cmd.size()]), null, workdir.toFile());
+				new ProcessController(timeout * 1000, cmd.toArray(new String[cmd.size()]), null, workdir.toFile());
 			controller.forwardErrorOutput(errorOutput);
 			controller.forwardOutput(stdOutput);
 			int exitCode = controller.execute();
