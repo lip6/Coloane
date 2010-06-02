@@ -39,7 +39,7 @@ import org.eclipse.ui.part.FileEditorInput;
  * A details page for a variable binding.
  * @author Yann
  */
-public final class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService> {
+public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService> {
 	private Text serviceNametf;
 	private Text foldertf;
 	private MultiPageEditor mpe;
@@ -139,6 +139,7 @@ public final class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckS
 		toolkit.paintBordersFor(client);
 		s1.setClient(client);
 		
+
 		///// ADD THE PARAMS HERE
 		params = new ParameterSection("Tool Settings",getToolkit(), parent, true);
 	}
