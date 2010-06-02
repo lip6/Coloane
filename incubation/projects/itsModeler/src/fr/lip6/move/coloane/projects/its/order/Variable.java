@@ -31,5 +31,9 @@ public class Variable implements Ordering {
 	public void insertVarAtIndex(String value, int index) {
 		throw new UnsupportedOperationException();
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }

@@ -36,4 +36,6 @@ public interface Ordering extends Iterable<Ordering> {
 	 * @return the index or 0 if not found
 	 */
 	void insertVarAtIndex(String value, int index);
+
+	void setName(String string);
 }

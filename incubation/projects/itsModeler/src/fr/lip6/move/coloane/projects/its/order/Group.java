@@ -42,5 +42,9 @@ public class Group implements Ordering {
 	public void insertVarAtIndex(String value, int index) {
 		children.add(index, new Variable(value));
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }
