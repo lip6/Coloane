@@ -15,6 +15,7 @@ import fr.lip6.move.coloane.extension.importExportRomeo.exportToRomeo.ExportToRo
 import fr.lip6.move.coloane.extensions.importExportCAMI.exportToCAMI.ExportToImpl;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
@@ -146,8 +147,23 @@ public class OrderingService extends AbstractCheckService {
 				success = false;
 			}			
 			if (success) {
+				
 				order = addTransitions (order, graph);
 				getParent().getOrders().addOrder("Ordering "+getParameters().toString(), order);
+
+				// convert place names appropriately
+				for (Ordering o : order) {
+					String oldName = o.getName();
+					for (INode node : graph.getNodes()) {
+						IAttribute a = node.getAttribute("name");
+						if (a != null && a.getValue().equals(oldName)) {
+							// found
+							o.setName("P_" + node.getId() + oldName);
+							break;
+						}
+					}					
+				}
+
 			}
 		}
 		
@@ -163,7 +179,7 @@ public class OrderingService extends AbstractCheckService {
 						for (IArc a : node.getIncomingArcs()) {
 							index = Math.max(order.getVarIndex(a.getSource().getAttribute("name").getValue()),index);
 						}
-						order.insertVarAtIndex("clock_"+node.getAttribute("label").getValue(), index + 1);
+						order.insertVarAtIndex("__clock_T_"+node.getId()+node.getAttribute("label").getValue(), index + 1);
 					}
 				}
 			}
