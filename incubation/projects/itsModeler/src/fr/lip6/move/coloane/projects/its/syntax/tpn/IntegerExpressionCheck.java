@@ -56,7 +56,7 @@ public final class IntegerExpressionCheck implements ISyntaxRule {
 	public boolean check(IElement elt, Result result) {
 		boolean testok = true;
 		for (IAttribute att : elt.getAttributes()) {
-			if (att.getValue() != null && att.getValue() != "") {
+			if (att.getValue() != null && ! att.getValue().equals("")) {
 				String name = att.getName();
 				if (name.equals("marking")
 						|| name.equals("earliestFiringTime")
