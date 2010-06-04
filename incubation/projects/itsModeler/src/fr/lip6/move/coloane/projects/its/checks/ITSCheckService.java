@@ -13,18 +13,21 @@ import fr.lip6.move.coloane.projects.its.order.Ordering;
 public abstract class ITSCheckService extends AbstractCheckService {
 
 	private static final String ORDER_FILE_NAME = "model.ord";
+	private static final String QUIET_PARAMETER = "Low Verbosity";
 	private OrderParameter order;
 
 	public ITSCheckService(CheckList parent, String serviceName) {
 		super(parent,serviceName);
 		order = new OrderParameter(parent.getOrders());
+		getParameters().addBooleanParameter(QUIET_PARAMETER, false);
 	}
 
 	@Override
 	protected List<String> buildCommandArguments() {
 		ArrayList<String> cmd = new ArrayList<String>();
 		cmd.add(getToolPath().toOSString());
-		//		cmd.add("--quiet");
+		if (getParameters().getBoolParameterValue(QUIET_PARAMETER))
+			cmd.add("--quiet");
 		cmd.add("-xml");
 		cmd.add("modelMain.xml");
 		
