@@ -18,7 +18,6 @@ import fr.lip6.move.coloane.projects.its.checks.OrderParameter;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
 import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
-import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
