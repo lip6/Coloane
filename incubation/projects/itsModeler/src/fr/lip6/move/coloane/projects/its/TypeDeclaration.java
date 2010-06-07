@@ -281,9 +281,8 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			parser.setErrorReporter(report);
 			try {
 				expr = parser.prog();
-				for (String error: report) {
+				if (report.iterator().hasNext())
 					throw new RecognitionException();
-				}
 			} catch (RecognitionException e) {
 				context.declareVariable(new Variable("SYNTAX ERRORS IN MODEL, PLEASE RUN SYNTAX CHECK"));
 				return;
