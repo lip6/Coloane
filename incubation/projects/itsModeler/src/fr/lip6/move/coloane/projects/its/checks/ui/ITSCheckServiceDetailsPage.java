@@ -35,7 +35,7 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
  * A details page for a variable binding.
  * @author Yann
  */
-public final class ITSCheckServiceDetailsPage extends CheckServiceDetailsPage {
+public class ITSCheckServiceDetailsPage extends CheckServiceDetailsPage {
 
 	private Combo orderSelector;	
 	
