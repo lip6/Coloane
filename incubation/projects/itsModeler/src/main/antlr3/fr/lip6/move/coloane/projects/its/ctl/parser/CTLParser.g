@@ -18,16 +18,24 @@ package fr.lip6.move.coloane.projects.its.ctl.parser;
 
 import fr.lip6.move.coloane.projects.its.ctl.*;
 import fr.lip6.move.coloane.projects.its.antlrutil.*;
+import fr.lip6.move.coloane.projects.its.checks.ui.controls.CTLText;
+
 }
 
 @members {
-    private IErrorReporter errorReporter = null;
-    public void setErrorReporter(IErrorReporter errorReporter) {
+    private CTLText errorReporter = null;
+    public void setErrorReporter(CTLText errorReporter) {
         this.errorReporter = errorReporter;
     }
-    public void emitErrorMessage(String msg) {
-        errorReporter.reportError(msg);
+    public void emitErrorMessage(String msg,int charAt) {
+        errorReporter.reportError(msg,charAt);
     }
+    public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
+      super.displayRecognitionError(tokenNames, e);
+      errorReporter.reportError(getErrorMessage(e, tokenNames),e.charPositionInLine);
+      
+    };
+    
 }
 
 ctlformula returns [CTLFormula form] : (f=formula {form = f;} ';')* EOF ;
