@@ -1,7 +1,10 @@
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
 import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
+import fr.lip6.move.coloane.projects.its.checks.CTLCheckService;
+import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
+import fr.lip6.move.coloane.projects.its.checks.OrderingService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
@@ -27,7 +30,6 @@ public class CheckListTreeProvider extends TypeListTreeProvider implements
 		CheckList cl = (CheckList) inputElement;
 		List<Object> al = new ArrayList<Object>();
 		al.add(cl.getType());
-		al.add(cl.getOrders());
 		for (AbstractCheckService cs : cl) {
 			al.add(cs);
 		}		
@@ -35,7 +37,16 @@ public class CheckListTreeProvider extends TypeListTreeProvider implements
 	}
 
 	protected void addChildren(Object element, List<Object> children) {
-		if (element instanceof AbstractCheckService) {
+		if (element instanceof OrderingService) {
+			OrderingService ords = (OrderingService) element;
+			children.add(ords.getOrders());
+		}
+		if (element instanceof CTLCheckService) {
+			CTLCheckService ccs = (CTLCheckService) element;
+			for (CTLFormulaDescription form : ccs.getFormulae()) {
+				children.add(form);
+			}
+		} else if (element instanceof AbstractCheckService) {
 			AbstractCheckService cs = (AbstractCheckService) element;
 			for (ServiceResult sr : cs) {
 				children.add(sr);
@@ -64,6 +75,9 @@ public class CheckListTreeProvider extends TypeListTreeProvider implements
 		if (element instanceof ServiceResult) {
 			ServiceResult sr = (ServiceResult) element;
 			return sr.getParent();
+		} else if (element instanceof CTLFormulaDescription) {
+			CTLFormulaDescription form = (CTLFormulaDescription) element;
+			return form.getParent();
 		}
 		return super.getParent(element);
 	}

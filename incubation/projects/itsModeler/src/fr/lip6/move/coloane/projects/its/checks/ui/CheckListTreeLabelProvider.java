@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
 import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
+import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
@@ -31,6 +32,9 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 			return "Variable Orders";
 		} else if (element instanceof Ordering) {
 			return ((Ordering)element).getName();
+		} else if (element instanceof CTLFormulaDescription) {
+			CTLFormulaDescription ctl = (CTLFormulaDescription) element;
+			return ctl.getName();
 		}
 		return super.getText(element);
 	}
