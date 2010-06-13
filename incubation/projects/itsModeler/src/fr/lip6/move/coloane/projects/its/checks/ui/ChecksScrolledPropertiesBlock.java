@@ -17,6 +17,7 @@ import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLCheckService;
+import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
 import fr.lip6.move.coloane.projects.its.checks.CheckService;
 import fr.lip6.move.coloane.projects.its.checks.OrderingService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
@@ -255,12 +256,14 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
 		//checks
 		detailsPart.registerPage(CheckService.class, new ITSCheckServiceDetailsPage(getPage().getMpe()));
-		detailsPart.registerPage(CTLCheckService.class, new ITSCheckServiceDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(CTLCheckService.class, new CTLCheckServiceDetailsPage(getPage().getMpe()));
 		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage());
 		detailsPart.registerPage(OrderingService.class, new CheckServiceDetailsPage(getPage().getMpe()));
 		// orders
 		detailsPart.registerPage(Group.class, new OrderingDetailsPage());
 		detailsPart.registerPage(Variable.class, new OrderingDetailsPage());
+		// CTL formula
+		detailsPart.registerPage(CTLFormulaDescription.class, new CTLFormulaDescriptionDetailsPage());
 	}
 	/**
 	 * refresh the view
