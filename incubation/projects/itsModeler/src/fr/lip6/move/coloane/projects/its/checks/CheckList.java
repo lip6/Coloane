@@ -16,14 +16,11 @@ public class CheckList extends SimpleObservable implements Iterable<AbstractChec
 	private TypeDeclaration type;
 	private List<AbstractCheckService> services;
 	private ITypeListProvider typeP;
-	private Orders orders;
 	
 	public CheckList(TypeDeclaration td, ITypeListProvider typeP) {
 		this.typeP = typeP;
 		type = td;
 		services = new ArrayList<AbstractCheckService>();
-		orders = new Orders();
-		orders.addObserver(this);
 	}
 
 	public TypeDeclaration getType() {
@@ -47,8 +44,15 @@ public class CheckList extends SimpleObservable implements Iterable<AbstractChec
 	public TypeList getTypes() {
 		return typeP.getTypes();
 	}
-	
+
 	public Orders getOrders() {
-		return orders;
+		for (AbstractCheckService asc : this) {
+			if (asc instanceof OrderingService) {
+				OrderingService os = (OrderingService) asc;
+				return os.getOrders();
+			}
+		}
+		return new Orders();
 	}
+	
 }

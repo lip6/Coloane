@@ -22,12 +22,14 @@ import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
 import fr.lip6.move.coloane.projects.its.flatten.ModelFlattener;
+import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
+import fr.lip6.move.coloane.projects.its.order.Orders;
 import fr.lip6.move.coloane.projects.its.order.parser.JSONOrderParserLexer;
 import fr.lip6.move.coloane.projects.its.order.parser.JSONOrderParserParser;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
-public class OrderingService extends AbstractCheckService {
+public class OrderingService extends AbstractCheckService implements ISimpleObserver {
 
 	private static final String ORDER_NAME = "Variable Ordering";
 	private static final String ORDER_HEURISTIC_PARAM = "Heuristic chosen";
@@ -37,10 +39,16 @@ public class OrderingService extends AbstractCheckService {
 	private static final String CAMI_FILE_NAME = "model.cami";
 	private static final String ROMEO_FILE_NAME = "model.xml";
 	
+	private Orders orders;
+
+	
+	
 	public OrderingService(CheckList parent) {
 		super(parent, ORDER_NAME);
 		getParameters().addParameter(ORDER_HEURISTIC_PARAM);
 		getParameters().addBooleanParameter(FLAT_ORDER_PARAM,false);
+		orders = new Orders();
+		orders.addObserver(this);
 	}
 	
 	protected IPath getToolPath() {
@@ -149,7 +157,7 @@ public class OrderingService extends AbstractCheckService {
 			if (success) {
 				
 				order = addTransitions (order, graph);
-				getParent().getOrders().addOrder("Ordering "+getParameters().toString(), order);
+				getOrders().addOrder("Ordering "+getParameters().toString(), order);
 
 				// convert place names appropriately
 				for (Ordering o : order) {
@@ -187,7 +195,13 @@ public class OrderingService extends AbstractCheckService {
 		return order;
 	}
 
+	public void update() {
+		notifyObservers();
+	}
 
-	
+	public Orders getOrders() {
+		return orders;
+	}
+
 	
 }
