@@ -1,17 +1,19 @@
 package fr.lip6.move.coloane.projects.its.checks;
 
+import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 
 
-public class CTLCheckService extends ITSCheckService {
+public class CTLCheckService extends ITSCheckService implements ISimpleObserver {
 
 	private static final String CTL_NAME = "CTL Check";
 	private static final String CTL_FORMULA_PARAM = "CTL formula";
@@ -35,12 +37,16 @@ public class CTLCheckService extends ITSCheckService {
 
 	@Override
 	public String run() {
+		return run(getParameters().getParameterValue(CTL_FORMULA_PARAM));
+	}
+	
+	public String run(String ctlFormula) {
 		try {
 			File file = new File(getWorkDir()+"/"+CTL_FILE_NAME);
 			FileOutputStream writer = new FileOutputStream(file); //$NON-NLS-1$
 			BufferedWriter sb = new BufferedWriter(new OutputStreamWriter(writer));
 			file.createNewFile();
-			sb.append(getParameters().getParameterValue(CTL_FORMULA_PARAM));
+			sb.append(ctlFormula);
 			sb.newLine();
 			sb.close();
 		} catch (Exception e) {
@@ -52,4 +58,20 @@ public class CTLCheckService extends ITSCheckService {
 		return super.run();
 	}
 	
+	List<CTLFormulaDescription> formulae = new ArrayList<CTLFormulaDescription>();
+	
+	public void addFormula (String name, String formula, String comments) {
+		CTLFormulaDescription form = new CTLFormulaDescription(name,formula,comments,this);
+		formulae.add(form);
+		form.addObserver(this);
+		notifyObservers();
+	}
+	
+	public List<CTLFormulaDescription> getFormulae() {
+		return formulae;
+	}
+
+	public void update() {
+		notifyObservers();
+	}
 }
