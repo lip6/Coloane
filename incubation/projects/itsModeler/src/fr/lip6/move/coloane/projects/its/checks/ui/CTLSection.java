@@ -4,8 +4,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -111,8 +114,24 @@ public class CTLSection {
 
 			ctlField = new CTLText(client, SWT.SINGLE);
 			ctlField.setLayoutData(gd);
-
-			
+			ctlField.addModifyListener(new ModifyListener() {
+				
+				public void modifyText(ModifyEvent e) {
+					if (getInput() != null) {
+						getInput().setFormula(ctlField.getText());
+					}
+				}
+			});
+	
+			Button runb = toolkit.createButton(client, "Run check", SWT.PUSH);
+			gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END);
+			runb.setLayoutData(gd);
+			runb.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent event) {
+					getInput().getParent().run(ctlField.getText(), getInput());
+				}
+			});
 
 			toolkit.paintBordersFor(section);
 			toolkit.paintBordersFor(client);
@@ -149,8 +168,6 @@ public class CTLSection {
 			toolkit.paintBordersFor(client);
 			helpSection.setClient(client);
 		}
-
-
 
 		parent.pack();
 	}
