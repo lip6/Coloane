@@ -16,7 +16,7 @@ import fr.lip6.move.coloane.core.motor.ProcessController.TimeOutException;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
-public abstract class AbstractCheckService extends SimpleObservable implements Iterable<ServiceResult> {
+public abstract class AbstractCheckService extends SimpleObservable implements IServiceResultProvider {
 
 	private static final int DEFAULT_TIMEOUT = 60;
 	private static final String TIMEOUT_DURATION = "Maximum execution time";
@@ -138,7 +138,7 @@ public abstract class AbstractCheckService extends SimpleObservable implements I
 
 
 
-	protected void addResult(ServiceResult serviceResult) {
+	public void addResult(ServiceResult serviceResult) {
 		results.add(serviceResult);
 		notifyObservers();
 	}

@@ -37,10 +37,10 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 
 	@Override
 	public String run() {
-		return run(getParameters().getParameterValue(CTL_FORMULA_PARAM));
+		return run(getParameters().getParameterValue(CTL_FORMULA_PARAM), this);
 	}
 	
-	public String run(String ctlFormula) {
+	public String run(String ctlFormula, IServiceResultProvider ctlFormulaDescription) {
 		try {
 			File file = new File(getWorkDir()+"/"+CTL_FILE_NAME);
 			FileOutputStream writer = new FileOutputStream(file); //$NON-NLS-1$
@@ -54,8 +54,17 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 			addResult (new ServiceResult(false,report,this));
 			return report;
 		}
-
-		return super.run();
+		currentFormula = ctlFormulaDescription;
+		String ret = super.run();
+		currentFormula = null;
+		return ret;
+	}
+	
+	private IServiceResultProvider currentFormula;
+	
+	@Override
+	public void addResult(ServiceResult serviceResult) {
+		currentFormula.addResult(serviceResult);
 	}
 	
 	List<CTLFormulaDescription> formulae = new ArrayList<CTLFormulaDescription>();

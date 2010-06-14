@@ -1,8 +1,12 @@
 package fr.lip6.move.coloane.projects.its.checks;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 
-public class CTLFormulaDescription extends SimpleObservable {
+public class CTLFormulaDescription extends SimpleObservable implements IServiceResultProvider {
 
 	private String name="formula";
 	private String comments="New formula";
@@ -51,5 +55,18 @@ public class CTLFormulaDescription extends SimpleObservable {
 	public CTLCheckService getParent() {
 		return parent;
 	}
+
+
+	private List<ServiceResult> results = new LinkedList<ServiceResult>();
+	
+	public void addResult(ServiceResult serviceResult) {
+		results.add(serviceResult);
+		notifyObservers();
+	}
+
+	public Iterator<ServiceResult> iterator() {
+		return results.iterator();
+	}
+
 	
 }
