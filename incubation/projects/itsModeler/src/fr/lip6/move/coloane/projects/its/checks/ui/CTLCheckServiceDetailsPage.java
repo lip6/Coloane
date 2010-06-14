@@ -13,9 +13,10 @@ public class CTLCheckServiceDetailsPage extends ITSCheckServiceDetailsPage {
 
 	public CTLCheckServiceDetailsPage(MultiPageEditor master) {
 		super(master);
+		setShowRunButton(false);
 	}
 
-	
+
 	@Override
 	public CTLCheckService getInput() {
 		return (CTLCheckService) super.getInput();
