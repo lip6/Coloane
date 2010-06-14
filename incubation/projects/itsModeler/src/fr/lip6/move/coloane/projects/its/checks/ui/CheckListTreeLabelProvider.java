@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
+import fr.lip6.move.coloane.projects.its.IModelVariable;
 import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
@@ -7,6 +8,10 @@ import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 import fr.lip6.move.coloane.projects.its.ui.forms.TypeTreeLabelProvider;
+import fr.lip6.move.coloane.projects.its.variables.InstanceVariable;
+import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
+import fr.lip6.move.coloane.projects.its.variables.ScalarInstanceVariable;
+import fr.lip6.move.coloane.projects.its.variables.TransitionClockVariable;
 
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -35,6 +40,15 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 		} else if (element instanceof CTLFormulaDescription) {
 			CTLFormulaDescription ctl = (CTLFormulaDescription) element;
 			return ctl.getName();
+		} else if (element instanceof InstanceVariable) {
+			InstanceVariable var = (InstanceVariable) element;
+			return var.getInstanceName();
+		} else if (element instanceof ScalarInstanceVariable) {
+			ScalarInstanceVariable var = (ScalarInstanceVariable) element;
+			return var.getInstanceName();
+		} else if (element instanceof IModelVariable) {
+			IModelVariable var = (IModelVariable) element;
+			return var.getName();
 		}
 		return super.getText(element);
 	}
@@ -58,6 +72,12 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_RESULTNOK);
 		} else if (element instanceof Orders) {
 			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_COMPOSITE);
+		} else if (element instanceof TransitionClockVariable) {
+			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_TRANSITION);			
+		} else if (element instanceof PlaceMarkingVariable) {
+			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_PLACE);						
+		} else if (element instanceof InstanceVariable || element instanceof ScalarInstanceVariable) {
+			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_INSTANCE);						
 		}
 		return super.getImage(element);
 	}

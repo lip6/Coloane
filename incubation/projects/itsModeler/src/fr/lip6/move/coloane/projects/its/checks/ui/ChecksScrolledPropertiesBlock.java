@@ -28,6 +28,10 @@ import fr.lip6.move.coloane.projects.its.ui.forms.ConceptDetailsPage;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 import fr.lip6.move.coloane.projects.its.ui.forms.TypeDeclarationDetailsPage;
 import fr.lip6.move.coloane.projects.its.ui.forms.VariableBindingDetailsPage;
+import fr.lip6.move.coloane.projects.its.variables.InstanceVariable;
+import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
+import fr.lip6.move.coloane.projects.its.variables.ScalarInstanceVariable;
+import fr.lip6.move.coloane.projects.its.variables.TransitionClockVariable;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -83,7 +87,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		section.marginHeight = 5;
 		Composite client = toolkit.createComposite(section, SWT.WRAP);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
+		layout.numColumns = 1;
 		layout.marginWidth = 2;
 		layout.marginHeight = 2;
 		client.setLayout(layout);
@@ -113,7 +117,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 				page.getMpe().getTypes().reload();
 			}
 		});
-
+/**
 		Button b = toolkit.createButton(buttonZone, "Reachability", SWT.PUSH); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		b.setLayoutData(gd);
@@ -149,7 +153,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 				page.getCheckList().addCheck(cs);
 			}
 		});
-		
+	*/	
 //		Button b2 = toolkit.createButton(buttonZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
 //		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 //		b2.setLayoutData(gd);
@@ -264,6 +268,11 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		detailsPart.registerPage(Variable.class, new OrderingDetailsPage());
 		// CTL formula
 		detailsPart.registerPage(CTLFormulaDescription.class, new CTLFormulaDescriptionDetailsPage());
+		// Variables
+		detailsPart.registerPage(PlaceMarkingVariable.class, new VariableDetailsPage());
+		detailsPart.registerPage(TransitionClockVariable.class, new VariableDetailsPage());
+		detailsPart.registerPage(InstanceVariable.class, new VariableDetailsPage());
+		detailsPart.registerPage(ScalarInstanceVariable.class, new VariableDetailsPage());		
 	}
 	/**
 	 * refresh the view
