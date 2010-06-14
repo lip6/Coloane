@@ -62,6 +62,8 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_COMPOSITE = "composite_formalism";
 	public static final String IMG_TPNFORM = "tpn_formalism";
 	public static final String IMG_INSTANCE = "instance";
+	public static final String IMG_TRANSITION = "transition";
+	public static final String IMG_PLACE = "place";
 
 	
 	public static final String ITS_REACH_NAME = "its-reach";
@@ -134,7 +136,11 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		f = FormalismManager.getInstance().getFormalismById("Time Petri Net");
 		registry.put(IMG_TPNFORM, ImageDescriptor.createFromFile(Coloane.class, f.getImageName()));
 	
-	
+		img = f.getMasterGraph().getElementFormalism("transition").getGraphicalDescription().getIcon24px();
+		registry.put(IMG_TRANSITION, ImageDescriptor.createFromFile(Coloane.class, img));
+		
+		img = f.getMasterGraph().getElementFormalism("place").getGraphicalDescription().getIcon24px();
+		registry.put(IMG_PLACE, ImageDescriptor.createFromFile(Coloane.class, img));		
 	}
 
 	/**
