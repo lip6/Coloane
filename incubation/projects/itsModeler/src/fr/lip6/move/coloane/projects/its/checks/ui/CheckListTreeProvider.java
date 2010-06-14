@@ -74,6 +74,11 @@ public class CheckListTreeProvider implements
 			for (ServiceResult sr : cs) {
 				children.add(sr);
 			}
+		} else if (element instanceof CTLFormulaDescription) {
+			CTLFormulaDescription form = (CTLFormulaDescription) element;
+			for (ServiceResult sr : form) {
+				children.add(sr);
+			}
 		} else if (element instanceof Orders) {
 			Orders os = (Orders) element;
 			for (Ordering o : os) {
