@@ -123,18 +123,18 @@ public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService
 
 		
 		createSpacer(toolkit, client, 2);
-		
-		Button runb = toolkit.createButton(client, "Run service", SWT.PUSH);
-		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END);
-		runb.setLayoutData(gd);
-		runb.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				getInput().run();
-			}
-		});
-		
-		
+		if (showRunButton) {
+			Button runb = toolkit.createButton(client, "Run service", SWT.PUSH);
+			gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END);
+			runb.setLayoutData(gd);
+			runb.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent event) {
+					getInput().run();
+				}
+			});
+		}		
+
 		toolkit.paintBordersFor(s1);
 		toolkit.paintBordersFor(client);
 		s1.setClient(client);
@@ -145,7 +145,14 @@ public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService
 	}
 
 
-	
+
+	private boolean showRunButton=true;	
+
+	protected void setShowRunButton(boolean b) {
+		showRunButton = b;
+	}
+
+
 	/**
 	 * refresh the state
 	 */
