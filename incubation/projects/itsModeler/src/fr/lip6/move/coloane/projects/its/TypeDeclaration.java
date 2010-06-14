@@ -21,12 +21,16 @@ import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionPars
 import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
+import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
+import fr.lip6.move.coloane.projects.its.variables.TransitionClockVariable;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -52,6 +56,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	/** The underlying coloane Graph */
 	private IGraph graph;
 	private Set<String> labels = null;
+	private List<IModelVariable> variables = null;
 	private TypeList typeList;
 	private EvaluationContext context;
 	private Map<IAttribute, IntegerExpression> attribs = new HashMap<IAttribute, IntegerExpression>();
@@ -78,6 +83,19 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		return typeName;
 	}
 
+	protected int getIntegerAttributeValue (IAttribute a) {
+		IntegerExpression expr = attribs.get(a);
+		if (expr == null) {
+			try {
+				return Integer.parseInt(a.getValue());
+			} catch (NumberFormatException e) {
+				return 0;
+			}
+		} else {
+			return expr.evaluate(getParameters());
+		}
+	}
+	
 	/**
 	 * Update the type name, notify observers.
 	 * @param typeName the new name
@@ -159,8 +177,8 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	 */
 	protected Set<String> computeLabels() {
 		Set<String> labels = new HashSet<String>();
-		Collection<INode> nodes = graph.getNodes();
 		if (graph.getFormalism().getName().equals("Time Petri Net")) {
+			Collection<INode> nodes = graph.getNodes();
 			for (INode node : nodes) {
 				if ("transition".equals(node.getNodeFormalism().getName())) {
 					IAttribute visibility = node.getAttribute("visibility");
@@ -183,6 +201,47 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			labels = computeLabels();
 		}
 		return labels;
+	}
+	
+	/**
+	 * Handle caching of computeVariables.
+	 * @return the interface (ITS action alphabet) of this type
+	 */
+	public final Collection<IModelVariable> getVariables() {
+		if (variables == null) {
+			variables = computeVariables();
+		}
+		return variables;
+	}
+	
+	
+
+	protected List<IModelVariable> computeVariables() {
+		List<IModelVariable> variables = new ArrayList<IModelVariable>();
+		if (graph.getFormalism().getName().equals("Time Petri Net")) {
+			Collection<INode> nodes = graph.getNodes();
+			for (INode node : nodes) {
+				if ("transition".equals(node.getNodeFormalism().getName())) {
+					IAttribute early = node.getAttribute("earliestFiringTime");
+					try {
+						if (0 == Integer.parseInt(early.getValue())) {
+							String late = node.getAttribute("latestFiringTime").getValue();
+							if ( "inf".equalsIgnoreCase(late)
+									|| 0 == Integer.parseInt(late)) {
+								continue;
+							}
+						}
+						variables.add(new TransitionClockVariable(node));
+						
+					} catch (NumberFormatException e) {
+						continue;
+					}
+				} else if ("place".equals(node.getNodeFormalism().getName())) {
+					variables.add(new PlaceMarkingVariable(node));
+				}
+			}
+		}
+		return variables;
 	}
 
 	/** Specifies if all the concepts of this type have an effective realization.
@@ -339,10 +398,12 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		EvaluationContext oldcontext = context;
 		context = null;		
 		labels = null;
+		variables = null;
 		graph = loadGraph(typeFile);
 		// refresh the caches
 		getLabels();
 		getParameters();
+		getVariables();
 		// copy old valuations back in
 		for (IVariableBinding vb : oldcontext.getBindings()) {
 			if (context.containsVariable(vb.getVariable())) {

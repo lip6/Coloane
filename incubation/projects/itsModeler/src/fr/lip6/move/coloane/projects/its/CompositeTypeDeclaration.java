@@ -9,6 +9,9 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.expression.EvaluationContext;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
+import fr.lip6.move.coloane.projects.its.variables.CompositeModelVariable;
+import fr.lip6.move.coloane.projects.its.variables.InstanceVariable;
+import fr.lip6.move.coloane.projects.its.variables.ScalarInstanceVariable;
 
 
 import java.util.ArrayList;
@@ -112,6 +115,49 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 		notifyObservers();
 	}
 
+	@Override
+	protected List<IModelVariable> computeVariables() {
+		IGraphFormalism formalism = getGraph().getFormalism().getMasterGraph();
+		IElementFormalism inst = formalism.getElementFormalism("instance");
+		Collection<INode> nodes = getGraph().getNodes();
+
+		List<IModelVariable> vars = new ArrayList<IModelVariable>();
+
+		/** Scan through the Nodes to find all relevant instances */
+		for (INode node : nodes) {
+			// An instance
+			if (node.getNodeFormalism().equals(inst)) {
+				String typeID = node.getAttribute("type").getValue();
+				Concept concept = getConcept(typeID);
+
+				if (getTypeType().equals("Scalar Set Composite")) {
+					IAttribute sizeAtt = getGraph().getAttribute("size");
+					int size = getIntegerAttributeValue(sizeAtt);
+					for (int i = 0 ; i < size ; ++i) {
+						CompositeModelVariable var = new ScalarInstanceVariable(node,concept.getEffective().getTypeType() + " "+ concept.getEffective().getTypeName(),i);
+
+						List<IModelVariable> subvars = concept.getEffective().computeVariables();
+						for (IModelVariable v : subvars) {
+							var.addChild(v);
+						}
+						vars.add(var);
+						
+					}
+
+				} else {
+					CompositeModelVariable var = new InstanceVariable(node,concept.getEffective().getTypeType() + " "+ concept.getEffective().getTypeName());
+
+					List<IModelVariable> subvars = concept.getEffective().computeVariables();
+					for (IModelVariable v : subvars) {
+						var.addChild(v);
+					}
+					vars.add(var);
+				}
+			}
+		}
+
+		return vars;
+	}
 
 	/**
 	 * Add a concept to the list and attach as observer on the concept.
