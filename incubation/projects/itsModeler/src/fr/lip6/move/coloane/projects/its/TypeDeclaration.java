@@ -215,6 +215,26 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	}
 	
 	
+	
+	public IModelVariable findQualifiedVariable (String name) {
+		for (IModelVariable var: getVariables()) {
+			IModelVariable found = findQualifiedVariableRec(var,name);
+			if (found != null)
+				return found;
+		}
+		return null;
+	}
+
+	private IModelVariable findQualifiedVariableRec(IModelVariable var, String name) {
+		if (var.getQualifiedName().equals(name)) 
+			return var;
+		for (IModelVariable child : var) {
+			IModelVariable found = findQualifiedVariableRec(child,name);
+			if (found != null)
+				return found;
+		}
+		return null;
+	}
 
 	protected List<IModelVariable> computeVariables() {
 		List<IModelVariable> variables = new ArrayList<IModelVariable>();
@@ -403,7 +423,6 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		// refresh the caches
 		getLabels();
 		getParameters();
-		getVariables();
 		// copy old valuations back in
 		for (IVariableBinding vb : oldcontext.getBindings()) {
 			if (context.containsVariable(vb.getVariable())) {
