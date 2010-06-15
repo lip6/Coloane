@@ -66,10 +66,14 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_REACH_SERVICE);
 		} else if (element instanceof ServiceResult) {
 			ServiceResult sr = (ServiceResult) element;
-			if (sr.isSuccess())
+			switch (sr.getSuccess()) {
+			case OK :
 				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_RESULTOK);
-			else
+			case NOK :
 				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_RESULTNOK);
+			case FAIL :
+				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_RESULTFAIL);
+			}				
 		} else if (element instanceof Orders) {
 			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_COMPOSITE);
 		} else if (element instanceof TransitionClockVariable) {
@@ -78,6 +82,8 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_PLACE);						
 		} else if (element instanceof InstanceVariable || element instanceof ScalarInstanceVariable) {
 			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_INSTANCE);						
+		} else if (element instanceof CTLFormulaDescription) {
+			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_VARIABLE);
 		}
 		return super.getImage(element);
 	}
