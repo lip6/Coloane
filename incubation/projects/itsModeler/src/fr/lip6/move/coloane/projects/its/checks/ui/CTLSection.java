@@ -129,7 +129,7 @@ public class CTLSection {
 			runb.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent event) {
-					getInput().getParent().run(ctlField.getText(), getInput());
+					getInput().getParent().run(ctlField.getFormula().toString()+";", getInput());
 				}
 			});
 
@@ -179,6 +179,7 @@ public class CTLSection {
 		if (input != null) {
 			nameField.setText(input.getName());
 			ctlField.setText(input.getCtlFormula());
+			ctlField.setCheckList(input.getParent().getParent());
 			commentsField.setText(input.getComments());
 		}
 	}
