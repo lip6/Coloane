@@ -113,11 +113,13 @@ public class CTLSection {
 			toolkit.createLabel(client, "CTL formula"); //$NON-NLS-1$
 
 			ctlField = new CTLText(client, SWT.SINGLE);
+			gd.heightHint = 25;
 			ctlField.setLayoutData(gd);
 			ctlField.addModifyListener(new ModifyListener() {
 				
 				public void modifyText(ModifyEvent e) {
 					if (getInput() != null) {
+						getInput().setParsedFormula(ctlField.getFormula());
 						getInput().setFormula(ctlField.getText());
 					}
 				}
