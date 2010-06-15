@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.projects.its.checks;
 
+import fr.lip6.move.coloane.projects.its.checks.ServiceResult.Status;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
@@ -51,7 +52,7 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 			sb.close();
 		} catch (Exception e) {
 			String report = "An error occurred during service invocation :" + e + e.getMessage();
-			addResult (new ServiceResult(false,report,this));
+			addResult (new ServiceResult(Status.FAIL,report,this));
 			return report;
 		}
 		currentFormula = ctlFormulaDescription;

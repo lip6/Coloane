@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IStatus;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.projects.its.checks.ServiceResult.Status;
 import fr.lip6.move.coloane.projects.its.io.ITSModelWriter;
 import fr.lip6.move.coloane.projects.its.order.ITSOrderWriter;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
@@ -64,19 +65,19 @@ public abstract class ITSCheckService extends AbstractCheckService {
 	public String run() {
 		ITSModelWriter mw = new ITSModelWriter();
 		String report;
-		boolean success = true;
+		Status success = Status.OK;
 		try {
 			mw.exportITSModel(parent.getTypes(), parent.getType(), getWorkDir());
 			report = "Run successful in folder "+getWorkDir();
 		} catch (Exception e) {
-			success  = false;
+			success  = Status.FAIL;
 			report = "An error occurred during Export phase of service invocation :" + e + e.getMessage();
 		}
 	
 		// RUN THE SERVICE
 		IStatus status = runTool(getWorkDirPath());
 		if (! status.isOK()) {
-			success  = false;
+			success  = Status.FAIL;
 			report += "An error occurred during ITS service invocation :" + status.getMessage();
 		} else {
 			report = getReportText();

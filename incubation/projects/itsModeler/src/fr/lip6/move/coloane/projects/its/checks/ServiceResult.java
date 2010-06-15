@@ -8,13 +8,15 @@ import java.util.GregorianCalendar;
 
 public class ServiceResult extends SimpleObservable {
 
-	private boolean success;
+	public enum Status { FAIL, OK, NOK };
+	
+	private Status success;
 	private String report;
 	private Calendar date;
 	private AbstractCheckService cs;
 	private ParameterList parameters ;
 	
-	public ServiceResult(boolean success, String report, AbstractCheckService cs) {
+	public ServiceResult(Status success, String report, AbstractCheckService cs) {
 		this.success = success;
 		this.report = report;
 		this.date = new GregorianCalendar();
@@ -31,7 +33,7 @@ public class ServiceResult extends SimpleObservable {
 		return report;
 	}
 	
-	public boolean isSuccess() {
+	public Status getSuccess() {
 		return success;
 	}
 
@@ -47,12 +49,7 @@ public class ServiceResult extends SimpleObservable {
 	/** a nice short label describing this result, used in tree label provider.*/
 	@Override
 	public String toString() {
-		String ret;
-		if (success) {
-			ret = "OK ";
-		} else {
-			ret = "KO ";
-		}
+		String ret = success.toString();
 		ret += getDate();
 		return ret;
 	}
