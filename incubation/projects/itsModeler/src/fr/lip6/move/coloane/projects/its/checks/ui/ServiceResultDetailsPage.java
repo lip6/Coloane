@@ -101,7 +101,7 @@ public final class ServiceResultDetailsPage extends ITSDetailsPage<ServiceResult
 		ServiceResult input = getInput();
 		params.setInput(input.getParameters());
 		// CHECKSTYLE OFF
-		isOktf.setText(input != null ? (input.isSuccess() ? "PASS" : "FAIL") : "");
+		isOktf.setText(input != null ? input.getSuccess().toString() : "");
 		datetf.setText(input != null && input.getDate() != null ? input.getDate() : "");
 		reporttf.setText(input != null && input.getReport() != null ? input.getReport() : "");
 		// CHECKSTYLE ON		
