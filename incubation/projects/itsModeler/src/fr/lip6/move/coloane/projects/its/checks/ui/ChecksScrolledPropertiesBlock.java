@@ -117,6 +117,8 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 				page.getMpe().getTypes().reload();
 			}
 		});
+		breload.setImage(ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_REFRESH));
+
 /**
 		Button b = toolkit.createButton(buttonZone, "Reachability", SWT.PUSH); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
