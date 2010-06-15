@@ -40,7 +40,11 @@ public abstract class AbstractModelVariable implements IModelVariable {
 	}
 
 	public String getId() {
-		return id;
+		String s="";
+		if (getParent() != this) {
+			s = getParent().getId() + ".";
+		}
+		return s + id;
 	}
 
 }
