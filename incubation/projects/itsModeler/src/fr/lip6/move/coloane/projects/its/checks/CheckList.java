@@ -54,5 +54,19 @@ public class CheckList extends SimpleObservable implements Iterable<AbstractChec
 		}
 		return new Orders();
 	}
+
+	public CTLFormulaDescription findCtlFormula(String formName) {
+		for (AbstractCheckService asc : this) {
+			if (asc instanceof CTLCheckService) {
+				CTLCheckService os = (CTLCheckService) asc;
+				for (CTLFormulaDescription cfd: os.getFormulae()) {
+					if (cfd.getName().equals(formName))
+						return cfd;
+				}
+				return null;
+			}
+		}
+		return null;
+	}
 	
 }
