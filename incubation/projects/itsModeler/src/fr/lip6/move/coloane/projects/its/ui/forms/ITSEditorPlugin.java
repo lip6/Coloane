@@ -58,6 +58,7 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_SETVAR = "variable_set";
 	public static final String IMG_RESULTOK = "result_ok";
 	public static final String IMG_RESULTNOK = "result_nok";
+	public static final String IMG_RESULTFAIL = "result_fail";
 	public static final String IMG_REACH_SERVICE = "reach_service";
 	public static final String IMG_COMPOSITE = "composite_formalism";
 	public static final String IMG_TPNFORM = "tpn_formalism";
@@ -122,6 +123,7 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_USETVAR, "unset_variable.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_RESULTOK, "success_check.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_RESULTNOK, "error_check.gif"); //$NON-NLS-1$
+		registerImage(registry, IMG_RESULTFAIL, "problem_check.gif"); //$NON-NLS-1$
 		
 		// images stolen from other plugins
 		registry.put(IMG_REACH_SERVICE, AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif")); //$NON-NLS-1$ //$NON-NLS-2$
