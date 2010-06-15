@@ -11,11 +11,15 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
 
 import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
+import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.ctl.CTLFormula;
 import fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserLexer;
 import fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserParser;
 
 public class CTLText extends StyledText {
+
+	private CheckList cl;
+
 
 	public CTLText(Composite parent, int style) {
 		super(parent, style | SWT.BORDER );
@@ -24,6 +28,20 @@ public class CTLText extends StyledText {
 	
 	private CTLText getSubject() {
 		return this;
+	}
+	
+	public void setCheckList (CheckList cl) {
+		this.cl = cl;
+	}
+
+	private CTLFormula expr;
+
+	private void setExpr(CTLFormula expr) {
+		this.expr = expr;
+	}
+	
+	public CTLFormula getFormula() {
+		return expr;
 	}
 	
 	class GrammarListener implements ModifyListener {
@@ -42,11 +60,13 @@ public class CTLText extends StyledText {
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 				CTLParserParser parser = new CTLParserParser(tokens);
-				CTLFormula expr;
+				setExpr(null);
 				ErrorReporter report = new ErrorReporter();
 				parser.setErrorReporter(getSubject());
+				parser.setCheckList(cl);
 				try {
-					expr = parser.ctlformula();
+					setExpr(parser.ctlformula());
+					
 					for (String error: report) {
 						System.err.println(error);
 //						addCheckFail(elt, att, error, result);
