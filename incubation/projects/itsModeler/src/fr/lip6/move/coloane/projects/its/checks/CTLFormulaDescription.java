@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import fr.lip6.move.coloane.projects.its.ctl.CTLFormula;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 
 public class CTLFormulaDescription extends SimpleObservable implements IServiceResultProvider {
@@ -11,6 +12,7 @@ public class CTLFormulaDescription extends SimpleObservable implements IServiceR
 	private String name="formula";
 	private String comments="New formula";
 	private String ctlFormula="TRUE;";
+	private CTLFormula parsedFormula;
 	private CTLCheckService parent;
 	
 	
@@ -33,6 +35,15 @@ public class CTLFormulaDescription extends SimpleObservable implements IServiceR
 			ctlFormula = formula;
 			notifyObservers();
 		}
+	}
+	
+	public void setParsedFormula (CTLFormula f) {
+		this.parsedFormula = f;
+	}
+	
+	@Override
+	public String toString() {
+		return parsedFormula.toString();
 	}
 	
 	public void setName(String name) {
