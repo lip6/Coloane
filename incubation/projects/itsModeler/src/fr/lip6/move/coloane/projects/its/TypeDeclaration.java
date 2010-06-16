@@ -83,7 +83,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		return typeName;
 	}
 
-	protected int getIntegerAttributeValue (IAttribute a) {
+	public int getIntegerAttributeValue (IAttribute a) {
 		IntegerExpression expr = attribs.get(a);
 		if (expr == null) {
 			try {
