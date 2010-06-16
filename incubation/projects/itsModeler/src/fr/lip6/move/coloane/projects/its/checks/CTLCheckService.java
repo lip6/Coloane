@@ -42,6 +42,7 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 	}
 	
 	public String run(String ctlFormula, IServiceResultProvider ctlFormulaDescription) {
+		currentFormula = ctlFormulaDescription;
 		try {
 			File file = new File(getWorkDir()+"/"+CTL_FILE_NAME);
 			FileOutputStream writer = new FileOutputStream(file); //$NON-NLS-1$
@@ -55,7 +56,6 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 			addResult (new ServiceResult(Status.FAIL,report,this));
 			return report;
 		}
-		currentFormula = ctlFormulaDescription;
 		String ret = super.run();
 		currentFormula = null;
 		return ret;
