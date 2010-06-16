@@ -180,8 +180,8 @@ public class CTLSection {
 	public void update() {
 		if (input != null) {
 			nameField.setText(input.getName());
-			ctlField.setText(input.getCtlFormula());
 			ctlField.setCheckList(input.getParent().getParent());
+			ctlField.setText(input.getCtlFormula());
 			commentsField.setText(input.getComments());
 		}
 	}
