@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.projects.its;
 
+import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 
@@ -18,7 +19,8 @@ import java.util.List;
 public final class TypeList extends SimpleObservable implements ITypeList, Iterable<TypeDeclaration>, ISimpleObserver {
 
 	private List<TypeDeclaration> table = new ArrayList<TypeDeclaration>();
-
+	private List<CheckList> checks = new ArrayList<CheckList>();
+	
 	/**
 	 * Add a type declaration to the set.
 	 * @param t the type to add
@@ -91,4 +93,11 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 		notifyObservers();
 	}
 	
+	public List<CheckList> getChecks() {
+		return checks;
+	}
+	
+	public void addCheckList (CheckList cl) {
+		checks.add(cl);
+	}
 }
