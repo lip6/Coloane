@@ -67,7 +67,7 @@ public abstract class ITSCheckService extends AbstractCheckService {
 		String report;
 		Status success = Status.OK;
 		try {
-			mw.exportITSModel(parent.getTypes(), parent.getType(), getWorkDir());
+			mw.exportITSModel(parent.getType().getTypeList(), parent.getType(), getWorkDir());
 			report = "Run successful in folder "+getWorkDir();
 		} catch (Exception e) {
 			success  = Status.FAIL;
@@ -81,6 +81,15 @@ public abstract class ITSCheckService extends AbstractCheckService {
 			report += "An error occurred during ITS service invocation :" + status.getMessage();
 		} else {
 			report = getReportText();
+			// Now interpret the result
+			if (report.contains("Formula is TRUE !")) {
+				success = Status.OK;
+			} else if (report.contains("Formula is FALSE !")) {
+				success = Status.NOK;
+			} else {
+				success = Status.FAIL;
+			}
+			
 		}
 		addResult (new ServiceResult(success,report,this));
 		return report;
