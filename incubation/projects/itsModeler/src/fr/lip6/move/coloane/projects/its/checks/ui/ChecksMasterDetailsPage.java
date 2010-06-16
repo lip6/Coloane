@@ -2,10 +2,7 @@ package fr.lip6.move.coloane.projects.its.checks.ui;
 
 import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeList;
-import fr.lip6.move.coloane.projects.its.checks.CTLCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
-import fr.lip6.move.coloane.projects.its.checks.CheckService;
-import fr.lip6.move.coloane.projects.its.checks.OrderingService;
 import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
@@ -33,10 +30,6 @@ public final class ChecksMasterDetailsPage extends FormPage implements ITypeList
 		block = new ChecksScrolledPropertiesBlock(this);
 		this.mpe = editor;
 		this.checkList = cl;
-		
-		cl.addCheck(new OrderingService(cl));
-		cl.addCheck(new CheckService(cl));
-		cl.addCheck(new CTLCheckService(cl));
 	}
 	/**
 	 * {@inheritDoc}
