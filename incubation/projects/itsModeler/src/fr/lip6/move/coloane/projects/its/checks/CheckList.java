@@ -1,26 +1,26 @@
 package fr.lip6.move.coloane.projects.its.checks;
 
-import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
-import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 import fr.lip6.move.coloane.projects.its.order.Orders;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class CheckList extends SimpleObservable implements Iterable<AbstractCheckService>, ISimpleObserver, ITypeListProvider {
+public class CheckList extends SimpleObservable implements Iterable<AbstractCheckService>, ISimpleObserver {
 
 	private TypeDeclaration type;
 	private List<AbstractCheckService> services;
-	private ITypeListProvider typeP;
 	
-	public CheckList(TypeDeclaration td, ITypeListProvider typeP) {
-		this.typeP = typeP;
+	public CheckList(TypeDeclaration td) {
 		type = td;
 		services = new ArrayList<AbstractCheckService>();
+		addCheck(new OrderingService(this));
+		addCheck(new CheckService(this));
+		addCheck(new CTLCheckService(this));
 	}
 
 	public TypeDeclaration getType() {
@@ -41,9 +41,6 @@ public class CheckList extends SimpleObservable implements Iterable<AbstractChec
 		notifyObservers();
 	}
 
-	public TypeList getTypes() {
-		return typeP.getTypes();
-	}
 
 	public Orders getOrders() {
 		for (AbstractCheckService asc : this) {
@@ -68,5 +65,27 @@ public class CheckList extends SimpleObservable implements Iterable<AbstractChec
 		}
 		return null;
 	}
+	
+	public void addCTLFormula (String name, String formula, String comments) { 
+		for (AbstractCheckService asc : this) {
+			if (asc instanceof CTLCheckService) {
+				CTLCheckService os = (CTLCheckService) asc;
+				os.addFormula(name, formula, comments);
+				return;
+			}
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<CTLFormulaDescription> getCTLFormulas () { 
+		for (AbstractCheckService asc : this) {
+			if (asc instanceof CTLCheckService) {
+				CTLCheckService os = (CTLCheckService) asc;
+				return os.getFormulae();
+			}
+		}
+		return Collections.EMPTY_LIST;
+	}
+	
 	
 }
