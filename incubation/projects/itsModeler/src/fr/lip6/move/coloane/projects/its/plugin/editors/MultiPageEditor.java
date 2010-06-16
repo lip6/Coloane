@@ -309,10 +309,14 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 			tmptypes = new TypeList();
 		}
 		setTypes(tmptypes);
-
 		try {
 			treePage = new MasterDetailsPage(this);
 			addPage(treePage);
+			for (CheckList cl : types.getChecks()) {
+				addCheckPage(cl);
+				cl.addObserver(this);
+			}
+
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
@@ -320,17 +324,26 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	}
 	
 	public void createCheckPage (TypeDeclaration td) {
+		if (! checkPagesIndex .containsKey(td)) {
+			CheckList cl = new CheckList(td);
+			cl.addObserver(this);
+			types.addCheckList(cl);
+			addCheckPage(cl);
+		} else {
+			setActivePage(checkPagesIndex.get(td));
+		}
+	}
+	
+	public void addCheckPage (CheckList cl) {
 		try {
 			int pageIndex ;
-			if (! checkPagesIndex .containsKey(td)) {
-				CheckList cl = new CheckList(td, this);
+			if (! checkPagesIndex .containsKey(cl.getType())) {
 				ChecksMasterDetailsPage newPage = new ChecksMasterDetailsPage(this,cl);
 				pageIndex = addPage(newPage);
-				cl.addObserver(this);
 				this.checkPages.add(newPage);
-				checkPagesIndex.put(td,pageIndex);
+				checkPagesIndex.put(cl.getType(),pageIndex);
 			} else {
-				pageIndex = checkPagesIndex.get(td);
+				pageIndex = checkPagesIndex.get(cl.getType());
 			}
 			setActivePage(pageIndex);
 		} catch (PartInitException e) {
