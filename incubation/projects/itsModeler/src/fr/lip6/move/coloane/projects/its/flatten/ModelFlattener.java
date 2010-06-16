@@ -77,36 +77,71 @@ public final class ModelFlattener {
 		// obtain effects of all private ("" label) syncs
 		// scan for instances and get private events of each instance
 
+
 		// grab the appropriate formalism elements to analyze an ITS Composite
 		IGraphFormalism formalism = ctd.getGraph().getFormalism().getMasterGraph();
 		IElementFormalism inst = formalism.getElementFormalism("instance");
 
-		/** Scan through the Nodes to find all instances and recursively flatten them */
-		Collection<INode> nodes = ctd.getGraph().getNodes();
-		for (INode node : nodes) {
-			// An instance
-			if (node.getNodeFormalism().equals(inst)) {
-				String instName = node.getAttribute("name").getValue();
-				String instConcept = node.getAttribute("type").getValue();
+		if (ctd.getTypeType().equals("Scalar Set Composite")) {
 
-				Concept concept = ctd.getConcept(instConcept);
-				TypeDeclaration t = concept.getEffective();
+			IAttribute sizeAtt = ctd.getGraph().getAttribute("size");
+			int size = ctd.getIntegerAttributeValue(sizeAtt);
+			for (int i = 0 ; i < size ; ++i) {
 
-				if (t instanceof CompositeTypeDeclaration) {
-					CompositeTypeDeclaration ctd2 = (CompositeTypeDeclaration) t;
-					flatten(ctd2, newPrefix(prefix,instName));
-				} else {
-					flatten(t, newPrefix(prefix,instName));
+				/** Scan through the Nodes to find all instances and recursively flatten them */
+				Collection<INode> nodes = ctd.getGraph().getNodes();
+				for (INode node : nodes) {
+					// An instance
+					if (node.getNodeFormalism().equals(inst)) {
+						String instName = Integer.toString(i);
+						String instConcept = node.getAttribute("type").getValue();
+
+						Concept concept = ctd.getConcept(instConcept);
+						TypeDeclaration t = concept.getEffective();
+
+						if (t instanceof CompositeTypeDeclaration) {
+							CompositeTypeDeclaration ctd2 = (CompositeTypeDeclaration) t;
+							flatten(ctd2, newPrefix(prefix,instName));
+						} else {
+							flatten(t, newPrefix(prefix,instName));
+						}
+					}
+				}
+
+
+				// obtain effects of all private ("" label) syncs
+				List< List<ResolvedTrans> > tset = cumulateLabelEffect(ctd, "", prefix, emptyEffect);
+				// create corresponding effect in the resulting net
+				buildTransitions(tset, "");
+			}
+		} else if (ctd.getTypeType().equals("ITSComposite")) {
+
+			/** Scan through the Nodes to find all instances and recursively flatten them */
+			Collection<INode> nodes = ctd.getGraph().getNodes();
+			for (INode node : nodes) {
+				// An instance
+				if (node.getNodeFormalism().equals(inst)) {
+					String instName = node.getAttribute("name").getValue();
+					String instConcept = node.getAttribute("type").getValue();
+
+					Concept concept = ctd.getConcept(instConcept);
+					TypeDeclaration t = concept.getEffective();
+
+					if (t instanceof CompositeTypeDeclaration) {
+						CompositeTypeDeclaration ctd2 = (CompositeTypeDeclaration) t;
+						flatten(ctd2, newPrefix(prefix,instName));
+					} else {
+						flatten(t, newPrefix(prefix,instName));
+					}
 				}
 			}
+
+
+			// obtain effects of all private ("" label) syncs
+			List< List<ResolvedTrans> > tset = cumulateLabelEffect(ctd, "", prefix, emptyEffect);
+			// create corresponding effect in the resulting net
+			buildTransitions(tset, "");			
 		}
-
-
-		// obtain effects of all private ("" label) syncs
-		List< List<ResolvedTrans> > tset = cumulateLabelEffect(ctd, "", prefix, emptyEffect);
-		// create corresponding effect in the resulting net
-		buildTransitions(tset, "");
-
 
 	}
 
@@ -127,6 +162,29 @@ public final class ModelFlattener {
 		for (List<ResolvedTrans> effectSet : tset) {
 			INode t = flatModel.createNode("transition");
 
+			int eft = 0;
+			int lft = -1;
+			for (ResolvedTrans rt : effectSet) {
+				IAttribute efts = rt.getTransition().getAttribute("earliestFiringTime");
+				IAttribute lfts = rt.getTransition().getAttribute("latestFiringTime");
+				if (efts==null)
+					continue;
+				int teft = Integer.parseInt(efts.getValue());
+				eft = Math.max(eft,teft);
+				if (lfts.getValue().equals("inf")) {
+					continue;
+				}
+				int tlft = Integer.parseInt(lfts.getValue());
+				if (lft == -1 || tlft < lft) {
+					lft = tlft;
+				}
+			}
+			String eftl = Integer.toString(eft);
+			String lftl = lft == -1 ? "inf" : Integer.toString(lft);
+			t.getAttribute("earliestFiringTime").setValue(eftl);
+			t.getAttribute("latestFiringTime").setValue(lftl);
+			
+			
 			if ("".equals(label)) {
 				StringBuffer sb = new StringBuffer();
 				for (ResolvedTrans rt : effectSet) {
@@ -185,71 +243,164 @@ public final class ModelFlattener {
 		// grab the appropriate formalism elements to analyze an ITS Composite
 		IGraphFormalism formalism = ctd.getGraph().getFormalism().getMasterGraph();
 
-		IElementFormalism sync = formalism.getElementFormalism("synchronization");
-		/** Scan through the Nodes to find all instances and recursively flatten them */
-		Collection<INode> nodes = ctd.getGraph().getNodes();
-		// scan through the nodes looking for syncs bearing the label "lab"
-		List<INode> matchingSyncs = new ArrayList<INode>();
-		for (INode node : nodes) {
-			// A synchronization
-			if (node.getNodeFormalism().equals(sync)) {
-				String syncLabel = node.getAttribute("label").getValue();
-				if (lab.equals(syncLabel)) {
-					// A sync with the right label
-					matchingSyncs.add(node);
-				}
-			}
-		}
-		// now add effect of each sync with matching label
 		List<List<ResolvedTrans>> resultSet = new ArrayList<List<ResolvedTrans>>();
-		for (INode matchSync : matchingSyncs) {
-			// Each sync creates a new effect = a list of list of synchronized TPN transitions
-			List<List<ResolvedTrans>> effectSet = new ArrayList<List<ResolvedTrans>>();
-			// initially suppose we have no effect (i.e. 1 empty effect for cartesian product)
-			effectSet.add(new ArrayList<ResolvedTrans>());
 
-			for (IArc arc : matchSync.getIncomingArcs()) {
-				// Grab the node "instance"
-				INode instance = arc.getSource();
-				TypeDeclaration instType = ctd.getConcept(instance.getAttribute("type").getValue()).getEffective();
-				String instName = instance.getAttribute("name").getValue();
-				// Parse the labels field
-				String labels = arc.getAttribute("labels").getValue();
-				StringTokenizer st = parseLabels(labels);
+		if (ctd.getTypeType().equals("Scalar Set Composite")) {
 
-				while (st.hasMoreTokens()) {
-					// foreach label
-					String curLabel = st.nextToken();
-					effectSet = cumulateLabelEffect(instType, instance, curLabel, newPrefix(prefix,instName), effectSet);
-				}
-			}
-			// repeat for outgoing arcs, since they are undirected
-			for (IArc arc : matchSync.getOutgoingArcs()) {
-				// Grab the node "instance"
-				INode instance = arc.getTarget();
-				TypeDeclaration instType = ctd.getConcept(instance.getAttribute("type").getValue()).getEffective();
-				String instName = instance.getAttribute("name").getValue();
-				// Parse the labels field
-				String labels = arc.getAttribute("labels").getValue();
-				StringTokenizer st = parseLabels(labels);
-
-				while (st.hasMoreTokens()) {
-					// foreach label
-					String curLabel = st.nextToken();
-					effectSet = cumulateLabelEffect(instType, instance, curLabel, newPrefix(prefix,instName), effectSet);
+			IElementFormalism sync = formalism.getElementFormalism("delegator");
+			/** Scan through the Nodes to find all instances and recursively flatten them */
+			Collection<INode> nodes = ctd.getGraph().getNodes();
+			// scan through the nodes looking for delegator bearing the label "lab"
+			List<INode> matchingSyncs = new ArrayList<INode>();
+			for (INode node : nodes) {
+				// A synchronization
+				if (node.getNodeFormalism().equals(sync)) {
+					String syncLabel = node.getAttribute("label").getValue();
+					if (lab.equals(syncLabel)) {
+						// A sync with the right label
+						matchingSyncs.add(node);
+					}
 				}
 			}
 
-			// compute the product with tset and add to global effects computed
-			// creates N*M effects where N is size of effectSet and M size of tset argument to recursive call
-			for (List<ResolvedTrans> effect : effectSet) {
-				for (List<ResolvedTrans> initialEffect : tset) {
-					List<ResolvedTrans> resultEffect = new ArrayList<ResolvedTrans>(effect);
-					resultEffect.addAll(initialEffect);
-					resultSet.add(resultEffect);
+			IAttribute sizeAtt = ctd.getGraph().getAttribute("size");
+			int size = ctd.getIntegerAttributeValue(sizeAtt);
+
+			IElementFormalism inst = formalism.getElementFormalism("instance");
+			INode instance=null;
+			TypeDeclaration instType=null;
+			for (INode node : nodes) {
+				if (node.getNodeFormalism().equals(inst)) {
+					instance = node;
+					instType = ctd.getConcept(instance.getAttribute("type").getValue()).getEffective();
+					break;
 				}
 			}
+			if (instance == null) {
+				throw new RuntimeException("Scalar set has no instance ! In flatten model procedure.");
+			}
 
+			for (INode matchSync : matchingSyncs) {
+
+				String kind = matchSync.getAttribute("kind").getValue();
+				String label = matchSync.getAttribute("label").getValue();
+
+				if (kind.equals("ANY")) {
+					for (int i = 0 ; i < size ; ++i) {
+						// Each sync creates a new effect = a list of list of synchronized TPN transitions
+						List<List<ResolvedTrans>> effectSet = new ArrayList<List<ResolvedTrans>>();
+						// initially suppose we have no effect (i.e. 1 empty effect for cartesian product)
+						effectSet.add(new ArrayList<ResolvedTrans>());
+
+						String instName = Integer.toString(i);
+						effectSet = cumulateLabelEffect(instType, instance, label, newPrefix(prefix,instName), effectSet);
+						
+						// compute the product with tset and add to global effects computed
+						// creates N*M effects where N is size of effectSet and M size of tset argument to recursive call
+						for (List<ResolvedTrans> effect : effectSet) {
+							for (List<ResolvedTrans> initialEffect : tset) {
+								List<ResolvedTrans> resultEffect = new ArrayList<ResolvedTrans>(effect);
+								resultEffect.addAll(initialEffect);
+								// now add effect of each sync with matching label
+								resultSet.add(resultEffect);
+							}
+						}
+
+					}
+				} else {
+					// ALL kind
+					// Each sync creates a new effect = a list of list of synchronized TPN transitions
+					List<List<ResolvedTrans>> effectSet = new ArrayList<List<ResolvedTrans>>();
+					// initially suppose we have no effect (i.e. 1 empty effect for cartesian product)
+					effectSet.add(new ArrayList<ResolvedTrans>());
+
+					for (int i = 0 ; i < size ; ++i) {
+						String instName = Integer.toString(i);
+						effectSet = cumulateLabelEffect(instType, instance, label, newPrefix(prefix,instName), effectSet);
+					}
+					// compute the product with tset and add to global effects computed
+					// creates N*M effects where N is size of effectSet and M size of tset argument to recursive call
+					for (List<ResolvedTrans> effect : effectSet) {
+						for (List<ResolvedTrans> initialEffect : tset) {
+							List<ResolvedTrans> resultEffect = new ArrayList<ResolvedTrans>(effect);
+							resultEffect.addAll(initialEffect);
+							// now add effect of each sync with matching label
+							resultSet.add(resultEffect);
+						}
+					}
+					
+				}
+
+			}
+
+
+		} else if (ctd.getTypeType().equals("ITSComposite")) {
+
+			IElementFormalism sync = formalism.getElementFormalism("synchronization");
+			/** Scan through the Nodes to find all instances and recursively flatten them */
+			Collection<INode> nodes = ctd.getGraph().getNodes();
+			// scan through the nodes looking for syncs bearing the label "lab"
+			List<INode> matchingSyncs = new ArrayList<INode>();
+			for (INode node : nodes) {
+				// A synchronization
+				if (node.getNodeFormalism().equals(sync)) {
+					String syncLabel = node.getAttribute("label").getValue();
+					if (lab.equals(syncLabel)) {
+						// A sync with the right label
+						matchingSyncs.add(node);
+					}
+				}
+			}
+			for (INode matchSync : matchingSyncs) {
+				// Each sync creates a new effect = a list of list of synchronized TPN transitions
+				List<List<ResolvedTrans>> effectSet = new ArrayList<List<ResolvedTrans>>();
+				// initially suppose we have no effect (i.e. 1 empty effect for cartesian product)
+				effectSet.add(new ArrayList<ResolvedTrans>());
+
+				for (IArc arc : matchSync.getIncomingArcs()) {
+					// Grab the node "instance"
+					INode instance = arc.getSource();
+					TypeDeclaration instType = ctd.getConcept(instance.getAttribute("type").getValue()).getEffective();
+					String instName = instance.getAttribute("name").getValue();
+					// Parse the labels field
+					String labels = arc.getAttribute("labels").getValue();
+					StringTokenizer st = parseLabels(labels);
+
+					while (st.hasMoreTokens()) {
+						// foreach label
+						String curLabel = st.nextToken();
+						effectSet = cumulateLabelEffect(instType, instance, curLabel, newPrefix(prefix,instName), effectSet);
+					}
+				}
+				// repeat for outgoing arcs, since they are undirected
+				for (IArc arc : matchSync.getOutgoingArcs()) {
+					// Grab the node "instance"
+					INode instance = arc.getTarget();
+					TypeDeclaration instType = ctd.getConcept(instance.getAttribute("type").getValue()).getEffective();
+					String instName = instance.getAttribute("name").getValue();
+					// Parse the labels field
+					String labels = arc.getAttribute("labels").getValue();
+					StringTokenizer st = parseLabels(labels);
+
+					while (st.hasMoreTokens()) {
+						// foreach label
+						String curLabel = st.nextToken();
+						effectSet = cumulateLabelEffect(instType, instance, curLabel, newPrefix(prefix,instName), effectSet);
+					}
+				}
+
+				// compute the product with tset and add to global effects computed
+				// creates N*M effects where N is size of effectSet and M size of tset argument to recursive call
+				for (List<ResolvedTrans> effect : effectSet) {
+					for (List<ResolvedTrans> initialEffect : tset) {
+						List<ResolvedTrans> resultEffect = new ArrayList<ResolvedTrans>(effect);
+						resultEffect.addAll(initialEffect);
+						// now add effect of each sync with matching label
+						resultSet.add(resultEffect);
+					}
+				}
+
+			}
 		}
 		return resultSet;
 	}
@@ -370,8 +521,12 @@ public final class ModelFlattener {
 					INode newt = flatModel.createNode("transition");
 					newt.getGraphicInfo().setBackground(ColorConstants.lightBlue);
 
+					for (IAttribute att : node.getAttributes()) {
+						newt.getAttribute(att.getName()).setValue(att.getValue());
+					}
 					String tname = prefix + "." + transName;
 					newt.getAttribute("label").setValue(tname);
+
 					//handle arcs
 					for (IArc a : node.getIncomingArcs()) {
 						// find the source place mapped in the flat model
