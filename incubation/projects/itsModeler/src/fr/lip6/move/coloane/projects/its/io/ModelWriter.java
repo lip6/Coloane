@@ -4,6 +4,8 @@ import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.Concept;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
+import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
+import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.projects.its.expression.IVariableBinding;
 
@@ -56,6 +58,12 @@ public final class ModelWriter {
 		line.append(translateParametersToXML(types));
 		line.append("</parameters>\n"); //$NON-NLS-1$
 
+		// Creation of Checks
+		line.append("<checks>\n"); //$NON-NLS-1$
+		line.append(translateChecksToXML(types));
+		line.append("</checks>\n"); //$NON-NLS-1$
+		
+		
 		line.append("</model>"); //$NON-NLS-1$
 
 		// explicit free of memory + clear
@@ -65,6 +73,29 @@ public final class ModelWriter {
 	}
 
 
+
+	private static String translateChecksToXML(TypeList types) {
+		StringBuilder sb = new StringBuilder();
+		// foreach check list
+		for (CheckList cl : types.getChecks()) {
+			sb.append("<check>\n"); //$NON-NLS-1$
+			sb.append("<typeid>");
+			sb.append(ids.get(cl.getType()));
+			sb.append("</typeid>\n");
+			// foreach CTL formula
+			sb.append("<formulas>\n");
+			for (CTLFormulaDescription cfd : cl.getCTLFormulas()) {
+				sb.append("<formula name='").append(cfd.getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+				sb.append(" description='").append(cfd.getComments()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+				sb.append(" formula='").append(cfd.getCtlFormula()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+				// Fin du noeud
+				sb.append("/>\n"); //$NON-NLS-1$				
+			}
+			sb.append("</formulas>\n");
+			sb.append("</check>\n"); //$NON-NLS-1$
+		}
+		return sb.toString();
+	}
 
 	/**
 	 * Traduction des noeuds du modele en format XML

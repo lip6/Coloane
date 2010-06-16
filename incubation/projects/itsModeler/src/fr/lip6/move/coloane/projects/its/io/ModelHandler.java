@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.Concept;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
+import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.projects.its.expression.IVariable;
 import fr.lip6.move.coloane.projects.its.expression.Variable;
@@ -39,6 +40,8 @@ public class ModelHandler extends DefaultHandler {
 	// object constructed
 	private TypeList types;
 
+	private String readString;
+
 	/** {@inheritDoc} */
 	@Override
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
@@ -58,10 +61,20 @@ public class ModelHandler extends DefaultHandler {
 			handleParameter(attributes);
 		} else if ("parameters".equals(baliseName)) { //$NON-NLS-1$
 			// NOP
+		} else if ("checks".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		} else if ("check".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		} else if ("typeid".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		} else if ("formula".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+			handleFormula(attributes);
 		} else {
 			logger.warning("Unknown XML tag in source file: " + baliseName); //$NON-NLS-1$
 		}
 	}
+
 
 
 	/** {@inheritDoc} */
@@ -83,11 +96,54 @@ public class ModelHandler extends DefaultHandler {
 			// NOP
 		} else if ("parameters".equals(baliseName)) { //$NON-NLS-1$
 			// NOP
+		} else if ("checks".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		} else if ("check".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+			CheckList cl = (CheckList) stack.pop();
+			types.addCheckList(cl);
+		} else if ("typeid".equals(baliseName)) { //$NON-NLS-1$
+			stack.push(handleCheck(readString));
+		} else if ("formula".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
 		} else {
 			logger.warning("Unknown XML tag in source file: " + baliseName); //$NON-NLS-1$
 		}
 	}
 
+	@Override
+	public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
+		readString = new String(arg0, arg1, arg2);
+	}
+	
+	/**
+	 * Parse a concept description
+	 * @param attributes the attributes of the concept in XML
+	 * @throws SAXException any parse error
+	 */
+	private CheckList handleCheck(String typeid) throws SAXException {
+		// Get effective with maximum safeguards
+		int idEffective = Integer.parseInt(typeid); //$NON-NLS-1$
+		
+		TypeDeclaration effective;
+		try {
+			effective = (TypeDeclaration) ids.get(idEffective);
+		} catch (ClassCastException e) {
+			throw new SAXException("Corrupted XML file, effective id " + idEffective + " should refer to a type declaration");
+		}
+		return new CheckList(effective);
+	}
+
+
+	private void handleFormula(Attributes attributes) {
+		String name = attributes.getValue("name");
+		String comment = attributes.getValue("description");
+		String form = attributes.getValue("formula");
+		CheckList cl = (CheckList) stack.peek();
+		cl.addCTLFormula(name, form, comment);
+	}
+
+	
 	/**
 	 * Parse a concept description
 	 * @param attributes the attributes of the concept in XML
