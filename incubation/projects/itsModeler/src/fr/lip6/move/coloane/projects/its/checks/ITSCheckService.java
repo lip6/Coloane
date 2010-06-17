@@ -20,7 +20,7 @@ public abstract class ITSCheckService extends AbstractCheckService {
 	public ITSCheckService(CheckList parent, String serviceName) {
 		super(parent,serviceName);
 		order = new OrderParameter(parent.getOrders());
-		getParameters().addBooleanParameter(QUIET_PARAMETER, false);
+		getParameters().addBooleanParameter(QUIET_PARAMETER, true);
 	}
 
 	@Override
@@ -81,18 +81,15 @@ public abstract class ITSCheckService extends AbstractCheckService {
 			report += "An error occurred during ITS service invocation :" + status.getMessage();
 		} else {
 			report = getReportText();
-			// Now interpret the result
-			if (report.contains("Formula is TRUE !")) {
-				success = Status.OK;
-			} else if (report.contains("Formula is FALSE !")) {
-				success = Status.NOK;
-			} else {
-				success = Status.FAIL;
-			}
 			
+			success = interpretResult(report);
 		}
 		addResult (new ServiceResult(success,report,this));
 		return report;
+	}
+
+	protected Status interpretResult(String report) {
+		return Status.OK;
 	}
 
 	public OrderParameter getOrder() {
