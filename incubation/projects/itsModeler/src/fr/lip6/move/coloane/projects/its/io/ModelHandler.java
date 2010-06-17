@@ -70,6 +70,8 @@ public class ModelHandler extends DefaultHandler {
 		} else if ("formula".equals(baliseName)) { //$NON-NLS-1$
 			// NOP
 			handleFormula(attributes);
+		} else if ("formulas".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
 		} else {
 			logger.warning("Unknown XML tag in source file: " + baliseName); //$NON-NLS-1$
 		}
@@ -105,6 +107,8 @@ public class ModelHandler extends DefaultHandler {
 		} else if ("typeid".equals(baliseName)) { //$NON-NLS-1$
 			stack.push(handleCheck(readString));
 		} else if ("formula".equals(baliseName)) { //$NON-NLS-1$
+			// NOP
+		} else if ("formulas".equals(baliseName)) { //$NON-NLS-1$
 			// NOP
 		} else {
 			logger.warning("Unknown XML tag in source file: " + baliseName); //$NON-NLS-1$
