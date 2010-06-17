@@ -14,9 +14,7 @@ import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
 
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -156,23 +154,15 @@ public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService
 	/**
 	 * refresh the state
 	 */
+	 @Override
 	protected void update() {
 		AbstractCheckService input = getInput();
 		params.setInput(input.getParameters());
 		// CHECKSTYLE OFF
 		serviceNametf.setText(input != null && input.getName() != null ? input.getName() : "");
-		foldertf.setText(input != null && input.getWorkDir() != null && !input.getWorkDir().equals("") ? input.getWorkDir() : getDefaultWorkDir());		
+		IFile pos = ((FileEditorInput) mpe.getEditorInput()).getFile();
+		foldertf.setText(input != null && input.getWorkDir(pos) != null ? input.getWorkDir() : "");		
 		// CHECKSTYLE ON
 	}
 	
-	public String getDefaultWorkDir () {
-		IProject proj = (((FileEditorInput) mpe.getEditorInput()).getFile().getProject());
-		IFolder folder = proj.getFolder(getInput().getParent().getType().getTypeName() + "_" + getInput().getName());
-		try {
-			folder.create(true, true, null);
-		} catch (CoreException e) {
-			// folder exists, it's OK.
-		}
-		return folder.getLocation().toOSString();
-	}
 }
