@@ -17,18 +17,25 @@ import org.eclipse.core.runtime.IPath;
 public class CTLCheckService extends ITSCheckService implements ISimpleObserver {
 
 	private static final String CTL_NAME = "CTL Check";
-	private static final String CTL_FORMULA_PARAM = "CTL formula";
 	private static final String CTL_FILE_NAME = "formula.ctl";
+	private static final String CTL_FORWARD_PARAM = "Use Forward CTL model-checking (faster)";
 
+	
 	public CTLCheckService(CheckList parent) {
 		super(parent, CTL_NAME);
-		getParameters().addParameter(CTL_FORMULA_PARAM);
+		getParameters().addBooleanParameter(CTL_FORWARD_PARAM, true);
 	}
 
 	protected List<String> buildCommandArguments() {
 		List<String> cmd = super.buildCommandArguments();
 		cmd.add("-ctl");
 		cmd.add(CTL_FILE_NAME);
+		cmd.add("--legend");
+		if (! getParameters().getBoolParameterValue(CTL_FORWARD_PARAM)) {
+			cmd.add("--backward");
+		} else {
+			cmd.add("--forward");
+		}
 		return cmd;
 	}
 
@@ -36,10 +43,6 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 		return ITSEditorPlugin.getDefault().getITSCTLPath();
 	}
 
-	@Override
-	public String run() {
-		return run(getParameters().getParameterValue(CTL_FORMULA_PARAM), this);
-	}
 	
 	public String run(String ctlFormula, IServiceResultProvider ctlFormulaDescription) {
 		currentFormula = ctlFormulaDescription;
@@ -59,6 +62,19 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 		String ret = super.run();
 		currentFormula = null;
 		return ret;
+	}
+	
+	@Override
+	protected Status interpretResult(String report) {
+		// Now interpret the result
+		if (report.contains("Formula is TRUE !")) {
+			return Status.OK;
+		} else if (report.contains("Formula is FALSE !")) {
+			return Status.NOK;
+		} else {
+			return Status.FAIL;
+		}
+		
 	}
 	
 	private IServiceResultProvider currentFormula;
