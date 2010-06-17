@@ -6,6 +6,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -57,14 +61,23 @@ public abstract class AbstractCheckService extends SimpleObservable implements I
 	}
 
 	public void setWorkdir(String workdir) {
-		this.workdir = workdir;
-		notifyObservers();
+		if (! workdir.equals(this.workdir)) {
+			this.workdir = workdir;
+			notifyObservers();
+		}
 	}
 
 	public ParameterList getParameters() {
 		return parameters;
 	}
 
+	public String getWorkDir (IFile position) {
+		if (workdir == null) {
+			workdir = getDefaultWorkDir(position);
+		}
+		return getWorkDir();
+	}
+	
 	public String getWorkDir() {
 		return workdir;
 	}
@@ -157,6 +170,18 @@ public abstract class AbstractCheckService extends SimpleObservable implements I
 
 	public String getReportText() {
 		return reportText;
+	}
+
+	
+	public String getDefaultWorkDir (IFile file) {
+		IProject proj = file.getProject();		
+		IFolder folder = proj.getFolder(getParent().getType().getTypeName() + "_" + getName());
+		try {
+			folder.create(true, true, null);
+		} catch (CoreException e) {
+			// folder exists, it's OK.
+		}
+		return folder.getLocation().toOSString();
 	}
 
 }
