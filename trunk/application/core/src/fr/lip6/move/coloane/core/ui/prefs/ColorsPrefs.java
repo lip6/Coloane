@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.ui.prefs;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.dialogs.Messages;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
 import org.eclipse.jface.preference.PreferenceConverter;
 import org.eclipse.jface.preference.PreferencePage;
@@ -29,6 +30,7 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 
 	private ColorFieldEditor arcColorEditor;
 	private ColorFieldEditor arcColorEditor1;
+	private BooleanFieldEditor arcColorEditor2;
 
 	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench) {
@@ -73,16 +75,22 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 		arc.setText(Messages.ColorsPrefs_9);
 		arc.setLayoutData(data);
 
-		//Node color
+		//Arc line type
+		arcColorEditor2 = new BooleanFieldEditor("COLORARC_LINESTYLE", Messages.ColorsPrefs_12, BooleanFieldEditor.SEPARATE_LABEL ,arc);  //$NON-NLS-1$
+		arcColorEditor2.setPreferenceStore(getPreferenceStore());
+		arcColorEditor2.load();
+
+		//Arc color
 		arcColorEditor = new ColorFieldEditor("COLORARC", Messages.ColorsPrefs_10, arc); //$NON-NLS-1$
 		arcColorEditor.setPreferenceStore(getPreferenceStore());
 		arcColorEditor.load();
 
-		//Node highlight color
+		//Arc highlight color
 		arcColorEditor1 = new ColorFieldEditor("COLORARC_HIGHLIGHT", Messages.ColorsPrefs_11, arc); //$NON-NLS-1$
 		arcColorEditor1.setPreferenceStore(getPreferenceStore());
 		arcColorEditor1.load();
-
+		
+		
 		return composite;
 	}
 
