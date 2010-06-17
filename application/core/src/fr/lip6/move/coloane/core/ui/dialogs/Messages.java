@@ -18,11 +18,15 @@ public final class Messages extends NLS {
 	public static String AuthenticationDialog_5;
 	public static String AuthenticationDialog_8;
 	public static String AuthenticationDialog_9;
+	public static String ColoanePrefsPage_0;
+	public static String ColoanePrefsPage_12;
+	public static String ColoanePrefsPage_11;
 	public static String ColoanePrefsPage_10;
 	public static String ColoanePrefsPage_3;
 	public static String ColoanePrefsPage_4;
 	public static String ColoanePrefsPage_5;
 	public static String ColoanePrefsPage_6;
+	public static String ColorsPrefs_12;
 	public static String ColorsPrefs_10;
 	public static String ColorsPrefs_11;
 	public static String ColorsPrefs_5;

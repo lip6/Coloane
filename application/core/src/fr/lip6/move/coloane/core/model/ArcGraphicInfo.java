@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IArcGraphicInfo;
 
@@ -16,21 +17,21 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** The last middle point has te be stored */
+	/** The last middle point has to be stored */
 	private Point middlePoint = null;
 
 	/** The foreground color */
 	private Color color = ColorConstants.black;
 
 	/** Is the arc curved ? */
-	private boolean curve = false;
+	private boolean curve = Boolean.parseBoolean(Coloane.getInstance().getPreference("COLORARC_LINESTYLE")); //$NON-NLS-1$
 
 	/** The model object reference */
 	private IArc arc;
 
 	/**
 	 * Constructor
-	 * @param arc The arc model object to wich this graphical definition is associated to
+	 * @param arc The arc model object to which this graphical definition is associated to
 	 */
 	public ArcGraphicInfo(IArc arc) {
 		this.arc = arc;

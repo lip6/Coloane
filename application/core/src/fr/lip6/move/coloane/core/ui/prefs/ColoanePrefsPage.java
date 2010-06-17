@@ -8,15 +8,13 @@ import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.PreferencePage;
-
 import org.eclipse.swt.SWT;
-
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -27,7 +25,13 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
- * Définition de la page de préférence dédiée à Coloane
+ * Preferences Page for Coloane.<br>
+ * The first page presents a set of global preferences :
+ * <ul>
+ * 	<li>Authentication parameters</li>
+ * 	<li>Debug Preferences</li>
+ * 	<li>Stats Preferences</li>
+ * </ul> 
  */
 public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPreferencePage {
 	/** Limit size for text field */
@@ -36,7 +40,6 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	/** Le logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private Combo combo = null;
 	private Combo comboServer = null;
 	private Text framekitIp = null;
 	private Text framekitPort = null;
@@ -44,7 +47,6 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	private Label framekitIpLabel = null;
 	private Label framekitPortLabel = null;
 	private Label serverTypeLabel = null;
-	private Group connection = null;
 
 	private String ip;
 	private String port;
@@ -52,43 +54,98 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 
 	// Text fields for user to enter preferences
 	private Text loginField;
+	
+	// Statistics Field
+	BooleanFieldEditor statsStatus;
+	
+	// Debug Field
+	Combo debugLevelCombo;
 
 
 	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench) {
 		setPreferenceStore(Coloane.getInstance().getPreferenceStore());
 	}
+	
+	/**
+	 * Creates the composite which will contain all the preference controls for this page.
+	 * @param parent the parent composite
+	 * @return the composite for this page
+	 */
+	private Composite createComposite(Composite parent) {
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		composite.setLayout(layout);
+		composite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
+		return composite;
+	}
 
-	/** {@inheritDoc} */
+	/**
+	 * {@inheritDoc}
+	 * @see org.eclipse.jface.preference.PreferencePage
+	 */
 	@Override
 	protected final Control createContents(Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayout(new GridLayout(2, false));
-
-		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
-		data.horizontalSpan = 2;
+		Composite composite = createComposite(parent);
+		createAuthGroup(composite);
+		createStatsGroup(composite);
+		createLogGroup(composite);
+		applyDialogFont(composite);
+		return composite;
+	}
+	
+	/**
+	 * Create the group of components dedicated to statistics preferences
+	 * @param parent The main composite
+	 */
+	private void createStatsGroup(Composite parent) {
+		Group statsGroup = new Group(parent, SWT.LEFT);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
+		statsGroup.setLayout(layout);
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+		statsGroup.setLayoutData(data);
 
-		// Groupe authentification
-		connection = new Group(composite, SWT.NONE);
-		connection.setText(Messages.ColoanePrefsPage_4);
-		connection.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		connection.setLayout(layout);
+		statsGroup.setText(Messages.ColoanePrefsPage_11);
+		statsGroup.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL /*| GridData.GRAB_HORIZONTAL */));
+				
+		Label statsLabel = new Label(statsGroup, SWT.WRAP);
+		statsLabel.setText(Messages.ColoanePrefsPage_0);
+		GridData gridData = new GridData();
+		gridData.horizontalSpan = 2;
+		statsLabel.setLayoutData(gridData);
 
-		// Choix du login par defaut
-		new Label(connection, SWT.NULL).setText(Messages.AuthenticationDialog_8);
-		loginField = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
+		statsStatus = new BooleanFieldEditor("STATS_STATUS", Messages.ColoanePrefsPage_12, BooleanFieldEditor.SEPARATE_LABEL, statsGroup);  //$NON-NLS-1$
+		statsStatus.setPreferenceStore(getPreferenceStore());
+		statsStatus.load();
+	}
+
+	/**
+	 * Create the group of components dedicated to statistics preferences
+	 * @param parent The main composite
+	 */
+	private final void createAuthGroup(Composite parent) {
+		Group authGroup = new Group(parent, SWT.LEFT);
+		GridLayout layout = new GridLayout(2, false);
+		authGroup.setLayout(layout);
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+		authGroup.setLayoutData(data);
+		authGroup.setText(Messages.ColoanePrefsPage_4);
+
+		// Login box
+		new Label(authGroup, SWT.NULL).setText(Messages.AuthenticationDialog_8);
+		loginField = new Text(authGroup, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		loginField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		loginField.setTextLimit(TXT_LIMIT);
 		loginField.setText(Coloane.getInstance().getPreference("LOGIN_DEFAULT")); //$NON-NLS-1$
 
-		// Combo List pour le choix du serveur
-		new Label(connection, SWT.NULL).setText(Messages.AuthenticationDialog_10);
-		comboServer = new Combo(connection, SWT.NULL);
+		// ComboList for server choice
+		new Label(authGroup, SWT.NULL).setText(Messages.AuthenticationDialog_10);
+		comboServer = new Combo(authGroup, SWT.NULL);
 		comboServer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		//Recuperation des valeurs dans le fichier plugin.properties et les inserer dans la combo
+		// Fetch values from plugin.properties file and fill the comboList with
 		int nbservers = Integer.parseInt(Coloane.getParam("NB_SERVERS")); //$NON-NLS-1$
 		String[] serversList = new String[nbservers + 2];
 		int i = 0;
@@ -99,13 +156,13 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		serversList[i] = Messages.AuthenticationDialog_13;
 		serversList[i + 1] = Messages.AuthenticationDialog_14;
 
-		// Mise en place de la liste des serveurs recupérés
+		// Set the list
 		comboServer.setItems(serversList);
 		comboServer.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					// Dans le cas localhost
+					// if "localhost server" has been chosen
 					if (comboServer.getText().equals(Messages.AuthenticationDialog_13)) {
 						framekitIp.setEnabled(false);
 						framekitPort.setEnabled(false);
@@ -114,7 +171,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 						port = String.valueOf(Coloane.getParam("PORT_DEFAULT")); //$NON-NLS-1$
 						type = String.valueOf(Coloane.getParam("TYPE_DEFAULT")); //$NON-NLS-1$
 
-					// Dans le cas Autres...
+					// otherwise
 					} else if (comboServer.getText().equals(Messages.AuthenticationDialog_14)) { // Autre ..
 						framekitIp.setEnabled(true);
 						framekitPort.setEnabled(true);
@@ -139,22 +196,22 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 			}
 		});
 
-		// Details des parametres serveur
-		framekitIpLabel = new Label(connection, SWT.NULL);
+		// Server parameters
+		framekitIpLabel = new Label(authGroup, SWT.NULL);
 		framekitIpLabel.setText(Messages.AuthenticationDialog_26);
-		framekitIp = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
+		framekitIp = new Text(authGroup, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekitIp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		framekitIp.setTextLimit(TXT_LIMIT);
 
-		framekitPortLabel = new Label(connection, SWT.NULL);
+		framekitPortLabel = new Label(authGroup, SWT.NULL);
 		framekitPortLabel.setText(Messages.AuthenticationDialog_27);
-		framekitPort = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
+		framekitPort = new Text(authGroup, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		framekitPort.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		framekitPort.setTextLimit(TXT_LIMIT);
 
-		serverTypeLabel = new Label(connection, SWT.NULL);
+		serverTypeLabel = new Label(authGroup, SWT.NULL);
 		serverTypeLabel.setText(Messages.ColoanePrefsPage_3);
-		serverType = new Text(connection, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
+		serverType = new Text(authGroup, SWT.SINGLE | SWT.BORDER | SWT.LEFT);
 		serverType.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		serverType.setTextLimit(TXT_LIMIT);
 
@@ -167,32 +224,38 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 
 		// Enable Ip/Port/Type fields if "Other..." is selected
 		enableFields();
-
-		// Groupe pour le log
-		Group p = new Group(composite, SWT.NONE);
-		p.setText(Messages.ColoanePrefsPage_5);
-		p.setLayoutData(data);
-		p.setLayout(layout);
-
-		(new Label(p, SWT.NULL)).setText(Messages.ColoanePrefsPage_6);
-		combo = new Combo(p, SWT.NULL);
-		combo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+	}
+	
+	/**
+	 * Create the group of components dedicated to log preferences
+	 * @param parent The main composite
+	 */
+	private void createLogGroup(Composite parent) {
+		Group logGroup = new Group(parent, SWT.LEFT);
+		GridLayout layout = new GridLayout(2, false);
+		logGroup.setLayout(layout);
+		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+		logGroup .setLayoutData(data);
+		logGroup.setText(Messages.ColoanePrefsPage_5);
+		
+		new Label(logGroup, SWT.NULL).setText(Messages.ColoanePrefsPage_6);
+		debugLevelCombo = new Combo(logGroup, SWT.NULL);
+		debugLevelCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		String levelList[] = {"NORMAL", "BETA", "DEBUG"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		combo.setItems(levelList);
-		combo.setText(Messages.ColoanePrefsPage_10);
-		combo.addSelectionListener(new SelectionAdapter() {
+		debugLevelCombo.setItems(levelList);
+		debugLevelCombo.setText(Messages.ColoanePrefsPage_10);
+		debugLevelCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if (combo.getText().equals("NORMAL")) { //$NON-NLS-1$
+				if (debugLevelCombo.getText().equals("NORMAL")) { //$NON-NLS-1$
 					Coloane.setVerbosity(Level.INFO);
-				} else if (combo.getText().equals("BETA")) { //$NON-NLS-1$
+				} else if (debugLevelCombo.getText().equals("BETA")) { //$NON-NLS-1$
 					Coloane.setVerbosity(Level.FINE);
-				} else if (combo.getText().equals("DEBUG")) { //$NON-NLS-1$
+				} else if (debugLevelCombo.getText().equals("DEBUG")) { //$NON-NLS-1$
 					Coloane.setVerbosity(Level.ALL);
 				}
 			}
 		});
-		return composite;
 	}
 
 	/** {@inheritDoc} */
@@ -213,6 +276,13 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		Coloane.getInstance().setPreference("IP_DEFAULT", framekitIp.getText()); //$NON-NLS-1$
 		Coloane.getInstance().setPreference("PORT_DEFAULT", framekitPort.getText()); //$NON-NLS-1$
 		Coloane.getInstance().setPreference("TYPE_DEFAULT", serverType.getText()); //$NON-NLS-1$
+		
+		// Stats
+		Coloane.getInstance().setPreference("STATS_STATUS", String.valueOf(statsStatus.getBooleanValue())); //$NON-NLS-1$
+		
+		// DEBUG
+		Coloane.getInstance().setPreference("STATS_STATUS", String.valueOf(statsStatus.getBooleanValue())); //$NON-NLS-1$
+		
 		return super.performOk();
 	}
 

@@ -61,7 +61,9 @@ public class Coloane extends AbstractUIPlugin {
 		this.initializeLogger();
 		LOGGER.config("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
 		// Send information about the configuration
-		this.sendProperties();
+		if (Boolean.parseBoolean(getInstance().getPreference("STATS_STATUS"))) { //$NON-NLS-1$
+			this.sendProperties();
+		}
 	}
 	
 	/**
@@ -204,6 +206,9 @@ public class Coloane extends AbstractUIPlugin {
 		store.setDefault("SERVER", getParam("SERVER_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
 		store.setDefault("IP", getParam("IP_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
 		store.setDefault("PORT", getParam("PORT_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		// Statistics Status
+		store.setDefault("STATS_STATUS", true); //$NON-NLS-1$
 
 		// Node color
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
@@ -220,6 +225,9 @@ public class Coloane extends AbstractUIPlugin {
 		// Arc color
 		color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
 		PreferenceConverter.setDefault(store, "COLORARC", color.getRGB()); //$NON-NLS-1$
+
+		// Arc line style
+		store.setDefault("COLORARC_LINESTYLE", true); //$NON-NLS-1$
 
 		// Arc highlight
 		color = Display.getDefault().getSystemColor(SWT.COLOR_DARK_GREEN);
