@@ -59,7 +59,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 
 	/** singleton for add type wizard */
 	private AddTypeAction addAction = null;
-	
+
 	/** The main view */
 	private MasterDetailsPage treePage;
 
@@ -69,7 +69,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	private Map<TypeDeclaration,Integer> checkPagesIndex = new HashMap<TypeDeclaration, Integer>();
 
 	private FlattenModelAction flattenAction;
-	
+
 	/**
 	 * Creates the editor.
 	 */
@@ -137,7 +137,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 			addAction = new AddTypeAction(this);
 		return addAction;
 	}
-	
+
 	/**
 	 * Return the unique flatten action associated to this editor.
 	 * {@link AddTypeAction}
@@ -148,7 +148,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 			flattenAction = new FlattenModelAction(this);
 		return flattenAction;
 	}
-	
+
 	/**
 	 * open or focus the editor on the file proposed
 	 * @param td current slected type
@@ -293,10 +293,14 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	 * {@inheritDoc}
 	 */
 	public void refresh() {
-		treePage.getPartControl().redraw();
-		treePage.refresh();
-		for (ChecksMasterDetailsPage p : checkPages) {
-			p.refresh();
+		if (treePage != null) {
+			if (treePage.getPartControl() != null) {
+				treePage.getPartControl().redraw();
+				treePage.refresh();
+			}
+			for (ChecksMasterDetailsPage p : checkPages) {
+				p.refresh();
+			}
 		}
 	}
 	/**
@@ -322,7 +326,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		}
 		createPageTextEditor();		
 	}
-	
+
 	public void createCheckPage (TypeDeclaration td) {
 		if (! checkPagesIndex .containsKey(td)) {
 			CheckList cl = new CheckList(td);
@@ -333,7 +337,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 			setActivePage(checkPagesIndex.get(td));
 		}
 	}
-	
+
 	public void addCheckPage (CheckList cl) {
 		try {
 			int pageIndex ;
@@ -356,7 +360,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		action.setTypeDeclaration(td);
 		action.run();
 	}
-	
-	
+
+
 }
 
