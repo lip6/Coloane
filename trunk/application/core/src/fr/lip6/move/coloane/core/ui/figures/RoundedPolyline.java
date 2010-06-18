@@ -35,7 +35,7 @@ import org.eclipse.draw2d.geometry.PrecisionPoint;
 
 /**
  * Renders a line that can be curved if necessary<br>
- * The cruve is compute thanks to a bezier algorithm.
+ * The curve is computed thanks to a <i>Bezier</i> algorithm.
  *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
@@ -57,7 +57,7 @@ public class RoundedPolyline extends Polyline {
 	}
 
 	/**
-	 * Set a flag to indicate wether the arc must be curved or not
+	 * Set a flag to indicate whether the arc must be curved or not
 	 * @param flag <code>true</code> for a curved arc
 	 */
 	public final void setCurved(boolean flag) {

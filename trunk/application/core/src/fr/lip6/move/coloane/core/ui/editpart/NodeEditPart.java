@@ -6,7 +6,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-
+import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphicalDescription;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
@@ -146,6 +146,10 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			// Add the created figure to the stack container and to the list of alternative figures
 			alternativeFigures.add(nodeFigure);
 
+			// Tell the figure what is its model element
+			nodeFigure.setModelElement((INode) node);
+
+			// Some graphical considerations
 			nodeFigure.setSize(nodeGraphicalInfo.getSize());
 			nodeFigure.setForegroundColor(nodeGraphicalInfo.getForeground());
 			nodeFigure.setBackgroundColor(nodeGraphicalInfo.getBackground());

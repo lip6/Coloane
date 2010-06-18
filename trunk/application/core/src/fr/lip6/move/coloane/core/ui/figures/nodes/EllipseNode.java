@@ -8,9 +8,8 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * Description d'une figure en forme d'ellipse.<br>
- * Cette figure peut être utilisée pour représenter un noeud sur un modèle.
- *
+ * Describe an ellipse figure.<br>
+ * This can be used to draw a node in the editor
  * @author Clément Demoulins
  */
 public class EllipseNode extends AbstractNodeFigure {

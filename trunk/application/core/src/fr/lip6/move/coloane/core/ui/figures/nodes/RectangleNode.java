@@ -8,10 +8,10 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
- * Description d'une figure en forme de rectangle.<br>
- * Cette figure peut être utilisée pour représenter un noeud sur un modèle.
+ * Describe a rectangle figure.<br>
+ * This figure can be used to draw a node on the editor.
  *
- * @author Clément Demoulins
+ * @author Clément Démoulins
  */
 public class RectangleNode extends AbstractNodeFigure {
 	/**

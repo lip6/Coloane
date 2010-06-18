@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.figures.arcs;
 
+import fr.lip6.move.coloane.core.ui.figures.AbstractArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
-import fr.lip6.move.coloane.core.ui.figures.RoundedPolylineConnection;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.RotatableDecoration;
@@ -12,7 +12,7 @@ import org.eclipse.draw2d.RotatableDecoration;
  * @author Clément Demoulins
  * @author Jean-Baptiste Voron
  */
-public class InhibitorArc extends RoundedPolylineConnection implements IArcFigure {
+public class InhibitorArc extends AbstractArcFigure implements IArcFigure {
 
 	/**
 	 * Constructor

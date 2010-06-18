@@ -1,15 +1,18 @@
 package fr.lip6.move.coloane.core.ui.figures;
 
+import fr.lip6.move.coloane.interfaces.model.INode;
+
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * Interface représentant un noeuds dans coloane
+ * Interface that describes a node figure and available operations.
  */
 public interface INodeFigure extends IFigure {
-	/** Couleur du fond des noeud plein */
+
+	/** Default background color for figures */
 	Color FILLED_BACKGROUND_COLOR = ColorConstants.black;
 
 	/**
@@ -19,8 +22,20 @@ public interface INodeFigure extends IFigure {
 	void setLineWidth(int w);
 
 	/**
-	 * Creation des ancres pour attacher les connexions
+	 * Fetch all available anchors to perform connection to the figure
 	 * @return ConnectionAnchor
 	 */
 	ConnectionAnchor getConnectionAnchor();
+	
+	/**
+	 * @return the model element that corresponds to the figure
+	 */
+	INode getModel();
+	
+	/**
+	 * Set the model element associated to this figure
+	 * @param modelElement the model node element
+	 * @see INode
+	 */
+	void setModelElement(INode modelElement);
 }
