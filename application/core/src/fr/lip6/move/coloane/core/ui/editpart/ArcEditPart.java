@@ -103,6 +103,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 			LOGGER.warning("Aucune figure trouvé, utilisation de la figure par défaut"); //$NON-NLS-1$
 			arcFigure = new DirectedArc();
 		}
+		arcFigure.setModelElement(arc);
 		arcFigure.setForegroundColor(arc.getGraphicInfo().getColor());
 		arcFigure.setConnectionRouter(CONNECTION_ROUTER);
 		return arcFigure;
