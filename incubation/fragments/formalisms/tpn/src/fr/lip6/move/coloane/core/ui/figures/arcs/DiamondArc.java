@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.figures.arcs;
 
+import fr.lip6.move.coloane.core.ui.figures.AbstractArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
-import fr.lip6.move.coloane.core.ui.figures.RoundedPolylineConnection;
 
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.geometry.PointList;
@@ -13,7 +13,7 @@ import org.eclipse.swt.graphics.Color;
  *
  * @author Yann Thierry-Mieg
  */
-public class DiamondArc extends RoundedPolylineConnection implements IArcFigure {
+public class DiamondArc extends AbstractArcFigure implements IArcFigure {
 	private Color color;
 
 	/**
