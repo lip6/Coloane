@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IComputedAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 
@@ -14,6 +15,7 @@ import java.util.Map;
 
 /**
  * Manage the attributes of an IElement.
+ * 
  * @see ICoreElement
  */
 public abstract class AbstractElement extends AbstractPropertyChange implements IElement, ISpecialState, PropertyChangeListener {
@@ -23,25 +25,44 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	 */
 	private Map<String, IAttribute> attributes = new HashMap<String, IAttribute>();
 
-	/** Identifiant unique */
+	/**
+	 * Map of computed attributes, the key is the name of the attributes.
+	 */
+	private Map<String, IAttribute> computedAttributes = new HashMap<String, IAttribute>();
+
+	/** Unique identifier */
 	private int id;
 
+	/** Parent model element (often GraphModel... But could be another element in case of hierarchy)*/
 	private IElement parent;
 
 	/**
-	 * Constructeur
-	 * @param id id de cet élément
-	 * @param parent L'élément parent
-	 * @param attributes Les attribut de l'élément
+	 * Constructor<br>
+	 * </i>(Call by subclasses)</i> 
+	 * 
+	 * @param id Identifier
+	 * @param parent Parent model element 
+	 * @param attributes Element's attributes
 	 */
-	AbstractElement(int id, IElement parent, List<IAttributeFormalism> attributes) {
+	AbstractElement(int id, IElement parent, List<IAttributeFormalism> attributes, List<IComputedAttributeFormalism> computedAttributes) {
 		this.id = id;
 		this.parent = parent;
 		if (attributes != null) {
+			// Browse all attributes defined by the formalism
 			for (IAttributeFormalism attr : attributes) {
 				IAttribute attributeModel = new AttributeModel(this, attr);
 				attributeModel.addPropertyChangeListener(this);
 				this.attributes.put(attr.getName(), attributeModel);
+			}
+			
+			// TODO: Browse all computed attributes defined by the formalism
+			if (computedAttributes != null) {
+				// Browse all attributes defined by the formalism
+				for (IComputedAttributeFormalism attr : computedAttributes) {
+					IAttribute attributeModel = new ComputedAttributeModel(this, attr);
+					attributeModel.addPropertyChangeListener(this);
+					this.computedAttributes.put(attr.getName(), attributeModel);
+				}
 			}
 		}
 	}
@@ -72,10 +93,16 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	public final Collection<IAttribute> getDrawableAttributes() {
 		List<IAttribute> drawables = new ArrayList<IAttribute>();
 		for (IAttribute attr : attributes.values()) {
-			if (attr.getAttributeFormalism().isDrawable()) {
+			// All attributes coming from this list are standard ones.
+			// The cast from IGlobalAttributeFormalism to IAttributeFormalism is then possible
+			if (((IAttributeFormalism) attr.getAttributeFormalism()).isDrawable()) {
 				drawables.add(attr);
 			}
 		}
+		
+		// All computed attributes should be added to the list of drawable attributes
+		drawables.addAll(this.computedAttributes.values());
+		
 		return drawables;
 	}
 

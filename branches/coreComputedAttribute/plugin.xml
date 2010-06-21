@@ -522,6 +522,14 @@
                       multiline="true"
                       name="marking">
                 </Attribute>
+                <ComputedAttribute
+                      bold="true"
+                      default="[x]"
+                      displayed_default="true"
+                      formatter="fr.lip6.move.coloane.core.ui.figures.formatters.MarkingFormatter"
+                      italic="false"
+                      name="CMarking">
+                </ComputedAttribute>
              </Node>
              <Node
                    container="false"

@@ -109,6 +109,15 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	public final void setSize(String size) {
 		this.size = Integer.valueOf(size);
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * <b>A computed attribute should always be displayed</b>
+	 */
+	public boolean isDrawable() {
+		return true;
+	}
 		
 	/** {@inheritDoc} */
 	public final boolean isDefaultValueDrawable() {

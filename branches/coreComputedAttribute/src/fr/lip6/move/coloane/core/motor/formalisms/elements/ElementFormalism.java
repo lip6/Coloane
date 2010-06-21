@@ -79,6 +79,9 @@ public class ElementFormalism implements IElementFormalism {
 	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
 
 	/** {@inheritDoc} */
+	public final List<IComputedAttributeFormalism> getComputedAttributes() { return this.computedAttributes; }
+
+	/** {@inheritDoc} */
 	public final List<IGraphicalDescription> getAllGraphicalDescription() { return graphicalDescriptions; }
 
 	/** {@inheritDoc} */

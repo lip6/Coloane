@@ -22,7 +22,7 @@ public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
 	 * when fetching some attributes from the model... Test the value of the property
 	 * before doing any changes to the figure.  
 	 */
-	protected INode modelElement;
+	private INode modelElement;
 
 	/** {@inheritDoc} */
 	@Override

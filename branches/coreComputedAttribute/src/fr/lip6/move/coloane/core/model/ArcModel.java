@@ -20,32 +20,43 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * Description d'un arc
+ * Describe an <b>arc</b> model object
  */
 public class ArcModel extends AbstractElement implements IArc, ILinkableElement {
-	/** Le logger */
+	/** logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+	/** The arc formalism */
 	private final IArcFormalism arcFormalism;
+	/** All gaphical information about this arc */
 	private final IArcGraphicInfo graphicInfo;
 
+	/** Source */
 	private INode source;
+	/** Target */
 	private INode target;
+	
+	/** List of bend points */
 	private List<AbsoluteBendpoint> inflexPoints = new ArrayList<AbsoluteBendpoint>();
 
-	/** Liste des liens */
+	/** 
+	 * Links (used by StickyNote objects)
+	 * @see StickyNoteModel
+	 * @see LinkModel
+	 */
 	private List<ILink> links = new ArrayList<ILink>();
 
 	/**
-	 * Constructeur
-	 * @param parent L'élément qui contient l'arc
-	 * @param arcFormalism Le formalisme attaché à l'arc
-	 * @param id L'identifiant de l'arc
-	 * @param source La source de l'arc
-	 * @param target La cible de l'arc
+	 * Constructor
+	 * 
+	 * @param parent The object that owns the arc (often the graph object)
+	 * @param arcFormalism The formalism that describe the arc
+	 * @param id Arc ID
+	 * @param source Arc source
+	 * @param target Arc target
 	 */
 	ArcModel(IElement parent, IArcFormalism arcFormalism, int id, INode source, INode target) {
-		super(id, parent, arcFormalism.getAttributes());
+		super(id, parent, arcFormalism.getAttributes(), arcFormalism.getComputedAttributes());
 		LOGGER.finest("Création d'un ArcModel(" + arcFormalism.getName() + ", " + source.getId() + " -> " + target.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		if (source == null || target == null) {
 			throw new NullPointerException("Argument must be not null"); //$NON-NLS-1$
@@ -57,12 +68,14 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/**
-	 * Supprime les liens attachés à cet arc.
+	 * Delete all links attached to this arc
 	 */
 	final void delete() {
+		// Browse all links and tell the source that the link will be destroyed
 		for (ILink link : links) {
 			link.getElement().removeLink(link);
 		}
+		// Flush the list
 		links.clear();
 	}
 
@@ -159,16 +172,16 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** {@inheritDoc} */
 	public final void updateAttributesPosition() {
-		// Position actuelle
+		// Current positions
 		Point oldMiddlePoint = this.graphicInfo.getMiddlePoint();
 
-		// Calcul du nouveau point milieu
+		// New middle point computation
 		Point newMiddlePoint = this.graphicInfo.findMiddlePoint();
 
-		// Calcul du decalage
+		// Span computation
 		Dimension delta = newMiddlePoint.getDifference(oldMiddlePoint);
 
-		// Mise a jour des coordonnees des attributs
+		// Update locations
 		for (IAttribute attr : this.getDrawableAttributes()) {
 			Point newAttrLocation = attr.getGraphicInfo().getLocation().getTranslated(delta);
 			attr.getGraphicInfo().setLocation(newAttrLocation);
@@ -187,7 +200,8 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 		String prop = evt.getPropertyName();
 
 		if (IAttribute.VALUE_PROP.equals(prop)) {
-			// On propage les changements de valeur des attributs au niveau supérieur
+			// Follow Up
+			// TODO: Must be better explained 
 			firePropertyChange(prop, evt.getOldValue(), evt.getNewValue());
 		}
 	}
