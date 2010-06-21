@@ -19,8 +19,8 @@ public abstract class AbstractArcFigure extends RoundedPolylineConnection {
 	 * when fetching some attributes from the model... Test the value of the property
 	 * before doing any changes to the figure.
 	 */
-	protected IArc modelArc;
-
+	private IArc modelArc;
+	
 	/**
 	 * {@inheritDoc}
 	 */
