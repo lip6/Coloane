@@ -55,12 +55,13 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 				this.attributes.put(attr.getName(), attributeModel);
 			}
 			
-			// TODO: Browse all computed attributes defined by the formalism
 			if (computedAttributes != null) {
 				// Browse all attributes defined by the formalism
 				for (IComputedAttributeFormalism attr : computedAttributes) {
 					IAttribute attributeModel = new ComputedAttributeModel(this, attr);
-					attributeModel.addPropertyChangeListener(this);
+					// Here, we register the attribute as a listener of node changes...
+					// This way, we will be able to update computed attributes each time the value of an attribute is updated
+					this.addPropertyChangeListener((PropertyChangeListener) attributeModel);
 					this.computedAttributes.put(attr.getName(), attributeModel);
 				}
 			}
@@ -87,6 +88,10 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	/** {@inheritDoc} */
 	public final Collection<IAttribute> getAttributes() {
 		return attributes.values();
+	}
+	
+	protected final Collection<IAttribute> getComputedAttributes() {
+		return computedAttributes.values();
 	}
 
 	/** {@inheritDoc} */

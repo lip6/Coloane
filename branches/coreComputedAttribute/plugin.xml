@@ -524,8 +524,8 @@
                 </Attribute>
                 <ComputedAttribute
                       bold="true"
-                      default="[x]"
-                      displayed_default="true"
+                      default="[0]"
+                      displayed_default="false"
                       formatter="fr.lip6.move.coloane.core.ui.figures.formatters.MarkingFormatter"
                       italic="false"
                       name="CMarking">

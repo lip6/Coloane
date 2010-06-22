@@ -76,6 +76,7 @@ public class PartFactory implements EditPartFactory {
 		} else if (modelElement instanceof CoreTipModel.ArcTipModel) {
 			return new TipArcEditPart();
 		}
+		LOGGER.warning("Objet non reconnu"); //$NON-NLS-1$
 		return null;
 	}
 }
