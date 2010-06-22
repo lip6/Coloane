@@ -142,6 +142,7 @@
       <complexType>
          <sequence>
             <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="ComputedAttribute" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="Graph" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="GraphicInfo" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
@@ -171,6 +172,7 @@
       <complexType>
          <sequence>
             <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="ComputedAttribute" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="GraphicInfo"/>
          </sequence>
          <attribute name="name" type="string" use="required">
@@ -282,6 +284,7 @@
       <complexType>
          <sequence>
             <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="ComputedAttribute" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="Node" minOccurs="0" maxOccurs="unbounded"/>
             <element ref="Arc" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
@@ -457,6 +460,82 @@
                <documentation>
                   The name of this enumeration value.
                </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="ComputedAttribute">
+      <annotation>
+         <documentation>
+            Define an attribute which value is computed at runtime according to the values of one or more attributes. This is a pure graphical attribute. Its value is not stored at any time in the model. This kind of attribute should be used when attributes has to be displayed in very special manner (graphicaly speaking).
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the attribute
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="default" type="string">
+            <annotation>
+               <documentation>
+                  The default value used for this attribute. This value will be displayed unless the displayed_default is set to true.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayed_default" type="boolean">
+            <annotation>
+               <documentation>
+                  Does the default value of the attribute should be displayed ? (default : YES)
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="bold" type="boolean">
+            <annotation>
+               <documentation>
+                  Should the attribute displayed using bold font ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="italic" type="boolean">
+            <annotation>
+               <documentation>
+                  Should the attribute displayed using italic font ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="fontsize" type="string">
+            <annotation>
+               <documentation>
+                  Font size to display this attribute
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="delta_x" type="string">
+            <annotation>
+               <documentation>
+                  Specify the default location (x coordinate) of the attribute according to the parent location (x coordinate). Please choose a value between -200px and 200px. This attribute is valid only for node attribute.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="delta_y" type="string">
+            <annotation>
+               <documentation>
+                  Specify the default location (y coordinate) of the attribute according to the parent location (y coordinate). Please choose a value between -200px and 200px. This attribute is valid only for node attribute.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="formatter" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Class that will be used in order to display the attribute&apos;s value.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.model.IAttributeFormatter"/>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>

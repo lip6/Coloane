@@ -160,7 +160,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 
 	/**
 	 * Since the node figure is a container of several graphical representations, update of one figure is <i>easy</i>.<br>
-	 * This meethod returns the inside figure (which is currently visible)
+	 * This method returns the inside figure (which is currently visible)
 	 * @return The figure (inside the container) that must be updated
 	 */
 	private INodeFigure getRealFigure() {
@@ -261,6 +261,8 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 				refreshVisuals();
 				refreshVisuals();
 			}
+		} else if (INode.VALUE_PROP.equalsIgnoreCase(prop)) {
+			refreshVisuals();
 		}
 	}
 

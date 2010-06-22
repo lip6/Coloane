@@ -9,6 +9,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.IFigure;
@@ -34,6 +35,9 @@ import org.eclipse.swt.graphics.Font;
  * @author Jean-Baptiste Voron
  */
 public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
+	/** Core Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	// Default spacing between attributes and their parent when displayed
 	private static final int GAP = 20;
 	// Default extra space needed to handle correctly some italic fonts (under MacOS)
@@ -50,6 +54,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	 * Listening state modification from the attribute's parent. 
 	 */
 	private EditPartListener editPartListener = new EditPartListener.Stub() {
+		
 		// When the state of current attribute's parent has changed...
 		@Override
 		public void selectedStateChanged(EditPart part) {
@@ -121,6 +126,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	 * @return the better location (try to avoid overlaps between attributes)
 	 */
 	private Point computeLocation(IAttribute attribute) {
+
 		Point attributePosition;
 
 		// If the attribute parent is a node, the attribute if moved
@@ -295,6 +301,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent event) {
+		LOGGER.finest("Evénement pour un attribut: " + event.getPropertyName());  //$NON-NLS-1$
 		String prop = event.getPropertyName();
 
 		// When the value of the attribute is modified somewhere

@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 import org.eclipse.draw2d.Label;
@@ -25,8 +26,7 @@ import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.part.CellEditorActionHandler;
 
 /**
- * Gestionnaire pour l'édition des attributs.
- * Permet de passer dans un mode d'édition des attributs.
+ * Manager that handle attributes editing.<br>
  */
 public class AttributeEditManager extends DirectEditManager {
 
@@ -43,13 +43,13 @@ public class AttributeEditManager extends DirectEditManager {
 	private int style;
 
 	/**
-	 * @param source parent de l'attribut
-	 * @param model modèle de l'attribut
-	 * @param locator CellEditorLocator associé à ce gestionnaire.
+	 * @param source Attribute's parent (in graphical hierarchy)
+	 * @param attributeModel Model object associate to the attribute
+	 * @param locator CellEditorLocator 
 	 */
-	public AttributeEditManager(GraphicalEditPart source, IAttribute model, CellEditorLocator locator) {
+	public AttributeEditManager(GraphicalEditPart source, IAttribute attributeModel, CellEditorLocator locator) {
 		super(source, null, locator);
-		if (model.getAttributeFormalism().isMultiLine()) {
+		if (((IAttributeFormalism) attributeModel.getAttributeFormalism()).isMultiLine()) {
 			this.style = SWT.MULTI;
 		} else {
 			this.style = SWT.SINGLE;
@@ -88,7 +88,7 @@ public class AttributeEditManager extends DirectEditManager {
 	}
 
 	/**
-	 * Permet de libérer les ressources des polices.
+	 * Free fonts resources 
 	 */
 	private void disposeScaledFont() {
 		if (scaledFont != null) {

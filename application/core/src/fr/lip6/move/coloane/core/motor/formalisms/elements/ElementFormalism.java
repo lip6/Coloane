@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.motor.formalisms.elements;
 
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IComputedAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
@@ -31,6 +32,9 @@ public class ElementFormalism implements IElementFormalism {
 	/** Attributes list */
 	private List<IAttributeFormalism> attributes = new ArrayList<IAttributeFormalism>();
 
+	/** Computed Attributes list */
+	private List<IComputedAttributeFormalism> computedAttributes = new ArrayList<IComputedAttributeFormalism>();
+
 	/** Graphical description list */
 	private List<IGraphicalDescription> graphicalDescriptions = new ArrayList<IGraphicalDescription>();
 
@@ -53,11 +57,19 @@ public class ElementFormalism implements IElementFormalism {
 	}
 
 	/**
-	 * Add an new attribute to this element
+	 * Add a new attribute to this element
 	 * @param attribute The additional attribute to be considered for this element
 	 */
 	public final void addAttribute(AttributeFormalism attribute) {
 		this.attributes.add(attribute);
+	}
+	
+	/**
+	 * Add a new computed attribute to this element
+	 * @param attribute The additional attribute to be considered for this element
+	 */
+	public final void addComputedAttribute(ComputedAttributeFormalism attribute) {
+		this.computedAttributes.add(attribute);
 	}
 
 	/** {@inheritDoc} */
@@ -65,6 +77,9 @@ public class ElementFormalism implements IElementFormalism {
 
 	/** {@inheritDoc} */
 	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
+
+	/** {@inheritDoc} */
+	public final List<IComputedAttributeFormalism> getComputedAttributes() { return this.computedAttributes; }
 
 	/** {@inheritDoc} */
 	public final List<IGraphicalDescription> getAllGraphicalDescription() { return graphicalDescriptions; }

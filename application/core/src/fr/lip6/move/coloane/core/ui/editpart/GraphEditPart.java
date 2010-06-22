@@ -41,33 +41,33 @@ import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.swt.SWT;
 
 /**
- * EditPart pour le modele global
+ * EditPart dedicated to the global graph model
  */
 public class GraphEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
-	 * Permet d'écouter les changements de sélections, pour l'instant ne fait rien.
+	 * Allow to listen the modifications applied to the model object
 	 */
 	private EditPartListener editPartListener = new EditPartListener.Stub();
 
 	private ISession session;
 
 	/**
-	 * Creation des differentes regles d'edition pour le modele
+	 * Build set of editing rules for the model
 	 */
 	@Override
 	protected final void createEditPolicies() {
 		installEditPolicy(EditPolicy.NODE_ROLE, null);
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, null);
 
-		// Interdiction de suppression de l'objet modele
+		// Do not remove the model object
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new RootComponentEditPolicy());
 
-		// Indique le comportement a adopter lors d'un ajout ou d'un modification d'un objet fils
+		// What to do when an object is created or modified
 		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ColoaneEditPolicy((XYLayout) getContentPane().getLayoutManager()));
 
-		// Impossible de sélectionner le modele
+		// Cannot select the model
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, null);
 		installEditPolicy("Snap Feedback", new SnapFeedbackPolicy()); //$NON-NLS-1$
 	}
@@ -106,8 +106,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/**
-	 * Construction de la figure root du modele.
-	 * Cette figure est invisible mais sert de conteneur a tous les autres objets.
+	 * Build the root model figure
+	 * This figure is invisible but is used as a container for all other figures
 	 * @return IFigure
 	 */
 	@Override
@@ -120,34 +120,40 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/**
-	 * Retourne la liste des enfants du modèle : les attributs du graphe, les noeuds
-	 * et les attributs des noeuds.
-	 * @return List La liste des enfants dans la représentation graphique, les attributs
-	 * des noeuds ne sont pas des fils des noeuds par exemple.
+	 * Returns the list of all model children :
+	 * <ul>
+	 * 	<li>Graph attributes</li>
+	 * 	<li>Nodes and their attributes</li>
+	 * 	<li>Arcs' attributes</li>
+	 * 	<li>Tips</li>
+	 * 	<li>Sticky Notes</li>
+	 * 	<li>All computed attributes</li>
+	 * </ul>
+	 * @return List the list described above
 	 */
 	@Override
 	protected final List<Object> getModelChildren() {
 		IGraph graph = (IGraph) getModel();
 		List<Object> children = new ArrayList<Object>();
 
-		// Ajout des attributs du graphe
+		// Graph attributes (computed attributes are already included)
 		children.addAll(graph.getDrawableAttributes());
 
-		// Ajout des noeuds et de leurs attributs
+		// Nodes and their attributes (computed attributes are already included)
 		children.addAll(graph.getNodes());
 		for (INode node : graph.getNodes()) {
 			children.addAll(node.getDrawableAttributes());
 		}
 
-		// Ajout des attributs des arcs
+		// Arcs' attributes ((computed attributes are already included)
 		for (IArc arc : graph.getArcs()) {
 			children.addAll(arc.getDrawableAttributes());
 		}
 
-		// Ajout des tips
+		// Tips
 		children.addAll(SessionManager.getInstance().getCurrentSession().getTips());
 
-		// Ajout des notes
+		// Sticky Notes
 		for (IStickyNote sticky : ((GraphModel) graph).getStickyNotes()) {
 			children.add(sticky);
 		}
@@ -156,9 +162,9 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/**
-	 * Re-Tracage du modele.
-	 * Ici, seule les connexions sont concernées.
-	 * Chaque objet-enfant se redessine lui-même
+	 * Model Redrawing
+	 * Only connections are targeted by this operation.
+	 * Each child is able to redrawn itself.
 	 */
 	@Override
 	protected final void refreshVisuals() {
@@ -188,9 +194,8 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/**
-	 * Mise en ecoute du modele.
-	 * Installation des ecouteurs sur le modele.
-	 * A partir de ce moment là, il a un lien entre la vue et le modele
+	 * Listen the model by installing some listeners on the model.
+	 * Notifier link between the view and the model.
 	 */
 	@Override
 	public final void activate() {
@@ -203,8 +208,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/**
-	 * Desactive l'ecoute du modele
-	 * Le lien entre le modele et la vue est casse !
+	 * Stop the model listening
 	 */
 	@Override
 	public final void deactivate() {
@@ -216,19 +220,19 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/**
-	 * Permet de récupérer l'editPart associé (graphe, noeud ou arc) à l'attributeEditPart
+	 * Fetch the editPart (graph, node or arc) associated to the given attributeEditPart
 	 * @param attributeEditPart AttributEditPart
-	 * @return L'EditPart "parent" (dans le sens du modèle) de l'AttributeEditPart passé en paramètre.
+	 * @return the edit part of the parent object (according to the model hierarchy)
 	 */
 	public final EditPart getParentAttributeEditPart(AttributeEditPart attributeEditPart) {
 		return (EditPart) getViewer().getEditPartRegistry().get(((IAttribute) attributeEditPart.getModel()).getReference());
 	}
 
 	/**
-	 * Méthode récursive qui va afficher l'arbre d'une figure
-	 * @param s en tête de chaque ligne, une chaine convient très bien
-	 * @param fig figure qui doit être afficher
-	 * @return String de l'arbre
+	 * Recursively print the textual tree that describes a figure
+	 * @param s String to put in front of each line
+	 * @param fig figure for which the textuel description is needed
+	 * @return the textual description
 	 */
 	private static String treeToString(String s, IFigure fig) {
 		StringBuilder sb = new StringBuilder();
