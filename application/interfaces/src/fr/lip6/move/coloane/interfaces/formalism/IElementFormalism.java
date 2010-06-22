@@ -25,6 +25,11 @@ public interface IElementFormalism {
 	 * @return The list of {@link AttributeFormalism} attached to this element.
 	 */
 	List<IAttributeFormalism> getAttributes();
+	
+	/**
+	 * @return The list of {@link ComputedAttributeFormalism} attached to this element.
+	 */
+	List<IComputedAttributeFormalism> getComputedAttributes();
 
 	/**
 	 * @return The default graphical description of the element
