@@ -56,7 +56,7 @@ public class NodeCreateCmd extends Command {
 			node = graph.createNode(nodeFormalismName);
 			node.getGraphicInfo().setLocation(location);
 			// Reset location of all attached attributes 
-			for (IAttribute attribute : node.getAttributes()) {
+			for (IAttribute attribute : node.getDrawableAttributes()) {
 				attribute.getGraphicInfo().resetLocation();
 			}
 		} catch (ModelException e) {

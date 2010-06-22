@@ -27,63 +27,66 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
- * Modèle d'un graphe avec des méthodes permettant de gérer (création/suppression)
- * de noeuds et d'arcs.
+ * Graph Model Object.<br>
+ * This object is a container of all other objects (node, arcs, sticky notes...).
+ * Moreover, it also contains attributes.
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
-	/** Logger 'fr.lip6.move.coloane.core'. */
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Formalisme */
+	/** Main formalism used by this graph */
 	private IFormalism formalism;
 
-	/** Formalisme de ce graphe */
+	/** Set of properties given by the formalism for this graph */
 	private IGraphFormalism graphFormalism;
 
-	/** Liste des noeuds rangé par id */
+	/** Nodes list (ordered by ID) */
 	private Map<Integer, INode>	nodes = new HashMap<Integer, INode>();
 
-	/** Liste des arcs rangé par id */
+	/** Arcs list (ordered by ID) */
 	private Map<Integer, IArc> arcs = new HashMap<Integer, IArc>();
 
-	/** Liste des stickyNote */
+	/** Sticky Notes list */
 	private List<IStickyNote> stickys = new ArrayList<IStickyNote>();
 
-	/** Liste des liens */
+	/** Link list */
 	private List<ILink> links = new ArrayList<ILink>();
 
-	/** variable locale pour la construction des identifiants */
+	/** Local counter used to compute ID for new objects */
 	private int idCounter = 2;
 
-	/** Date de derniere modification */
+	/** Last modification */
 	private int date = (int) System.currentTimeMillis();
 
-	/** Etat du modele par rapport a FK (<code>true</code> -> pas a jour) */
+	/** FrameKit status (<code>true</code> -> dirty state... needs to be updated) */
 	private boolean dirty = false;
 
-	/** Ensemble des propriétés de l'éditeur auquel est attaché ce graphe */
+	/** Graphical properties associated to this graph */
 	private GraphEditorProperties editorProperties = null;
 
-
 	/**
-	 * Création d'un graphe à partir d'un nom de formalisme.
-	 * @param formalismName Le nom du formalisme du modèle
+	 * Build a new graph according to a formalism name 
+	 * @param formalismName Formalism name used to create the new graph model
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */
 	public GraphModel(String formalismName) throws IllegalArgumentException {
-		super(1, null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes());
+		super(1, null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes() , FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getComputedAttributes());
 		LOGGER.fine("Création d'un GraphModel(" + formalismName + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 		this.graphFormalism = formalism.getMasterGraph();
 
-		// Creation des propriétés de l'éditeur
+		// Create graphical properties
 		this.editorProperties = new GraphEditorProperties();
 
 		this.addPropertyChangeListener(this);
 	}
 
 	/**
-	 * @return un identifiant unique.
+	 * @return A new and unique identifier.
 	 */
 	private int getNewId() {
 		int proposal = idCounter + 1;
@@ -289,7 +292,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/**
-	 * Mise à jour de la date de dernière modification du modèle
+	 * Refresh the last update date
 	 */
 	final void updateDate() {
 		date = (int) System.currentTimeMillis();
@@ -318,7 +321,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/**
-	 * @return Les propriétés de l'éditeur auquel est attaché ce graphe
+	 * @return the graphical properties
 	 */
 	public final GraphEditorProperties getEditorProperties() {
 		return editorProperties;

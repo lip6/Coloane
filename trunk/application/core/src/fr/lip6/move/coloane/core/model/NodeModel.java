@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * This class defines a node according to model considerations.
+ * Describe a model node object.
  * 
  * @author Jean-Baptiste Voron
  */
@@ -33,7 +33,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** Graphical information associated to the node */
 	private final INodeGraphicInfo graphicInfos;
 
-	/** Guides where the node is stuck */
+	/** Guides where the node is stuck to */
 	private EditorGuide horizontalGuide;
 	private EditorGuide verticalGuide;
 
@@ -57,7 +57,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @see {@link GraphModel#getId()} to get a new unique ID
 	 */
 	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id) {
-		super(id, parent, nodeFormalism.getAttributes());
+		super(id, parent, nodeFormalism.getAttributes(), nodeFormalism.getComputedAttributes());
 		LOGGER.finest("Création d'un NodeModel(" + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.nodeFormalism = nodeFormalism;
 		this.graphicInfos = new NodeGraphicInfo(this);

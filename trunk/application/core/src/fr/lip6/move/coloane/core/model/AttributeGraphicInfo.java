@@ -51,7 +51,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		Point newValue = new Point(this.x, this.y);
 
 		// Throw an event ! (This event will be caught by the controller, and will eventually trigger a view update...)
-		((AttributeModel) this.attribute).firePropertyChange(ILocationInfo.LOCATION_PROP, oldValue, newValue);
+		((AbstractPropertyChange) this.attribute).firePropertyChange(ILocationInfo.LOCATION_PROP, oldValue, newValue);
 	}
 
 	/** {@inheritDoc} */

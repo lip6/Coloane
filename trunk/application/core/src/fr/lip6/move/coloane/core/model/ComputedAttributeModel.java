@@ -2,27 +2,33 @@ package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
-import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IComputedAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IAttributeFormatter;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.logging.Logger;
 
 /**
- * Describe an object model attribute
+ * Describe an object model <b>computed</b> attribute
  * 
  * @author Jean-Baptiste Voron
  */
-public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement {
+public class ComputedAttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement, PropertyChangeListener {
 	/** The main logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** The reference model element */ 
 	private IElement reference;
 
-	private IAttributeFormalism attributFormalism;
+	private IComputedAttributeFormalism computedAttributFormalism;
+	
+	/** Attribute Formatter */
+	private IAttributeFormatter formatter = null;
 
 	/** Attribute name */
 	private final String name;
@@ -40,14 +46,16 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * Constructor
 	 *
 	 * @param reference The element to which this attribute is associated
-	 * @param attributeFormalism The properties of this attribute (given by the formalism) 
+	 * @param computeAttributFormalism The properties of this attribute (given by the formalism) 
 	 */
-	AttributeModel(IElement reference, IAttributeFormalism attributeFormalism) {
-		LOGGER.finest("Création d'un AttributeModel(" + attributeFormalism.getName() + ", " + reference.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	ComputedAttributeModel(IElement reference, IComputedAttributeFormalism computedAttributFormalism) {
+		LOGGER.finest("Création d'un AttributeModel(" + computedAttributFormalism.getName() + ", " + reference.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		this.reference = reference;
-		this.attributFormalism = attributeFormalism;
-		this.name = attributeFormalism.getName();
-		this.value = attributeFormalism.getDefaultValue();
+		this.computedAttributFormalism = computedAttributFormalism;
+		this.name = computedAttributFormalism.getName();
+		// For this attribute, the default value is not automatically assigned
+		// this.value = computedAttributFormalism.getDefaultValue();
+		this.value = "";  //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
@@ -57,18 +65,22 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 
 	/** {@inheritDoc} */
 	public final String getValue() {
-		return value;
+		// Check whether the formatter has been instantiated or not
+		if (this.formatter == null) {
+			this.formatter = computedAttributFormalism.getAttributeFormatter();
+		}
+		// Apply the desired formatter
+		return this.formatter.applyFormat(this.value, this.reference);
 	}
 
-	/** {@inheritDoc} */
+	/** 
+	 * {@inheritDoc}
+	 *
+	 * Should not be used here...<br>
+	 * <b>A computed attribute is read-only</b>
+	 * */
 	public final void setValue(String value) {
-		if (value == null) { return; }
-		String oldValue = this.value;
-		this.value = value;
-		if (!oldValue.equals(value)) {
-			LOGGER.finest("setValue(" + value + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
-		}
+		return;
 	}
 
 	/** {@inheritDoc} */
@@ -82,8 +94,8 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
-	public final IAttributeFormalism getAttributeFormalism() {
-		return attributFormalism;
+	public final IComputedAttributeFormalism getAttributeFormalism() {
+		return this.computedAttributFormalism;
 	}
 
 
@@ -116,5 +128,16 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	@Override
 	public final String toString() {
 		return "Attribut(" + name + ": " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * Typically, the node has been updated (or one of its standard attributes).
+	 * Thus, computed attributes should be updated too !
+	 */
+	public final void propertyChange(PropertyChangeEvent evt) {
+		// We want to update the AttributeEditPart (the view associated to this attribute)
+		firePropertyChange(IAttribute.VALUE_PROP, evt.getOldValue(), evt.getNewValue());
 	}
 }
