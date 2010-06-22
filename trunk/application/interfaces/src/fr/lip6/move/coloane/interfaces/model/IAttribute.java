@@ -1,57 +1,62 @@
 package fr.lip6.move.coloane.interfaces.model;
 
-import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IGlobalAttributeFormalism;
 
 /**
- * Définition d'un attribut d'objet du modèle.<br>
- * Un attribut peut-être attaché à de nombreux types d'objets (arc, noeud, graphe ...)
+ * Describe an attribute object (always attached to a model object).<br>
+ * An attribute can be attached to numerous kind of model objects:
+ * <ul>
+ * 	<li>arc</li>
+ * 	<li>node</li>
+ * 	<li>graph</li>
+ * </ul>
  */
 public interface IAttribute extends IAbstractPropertyChange {
 
-	/** ID de la propriété lors d'un changement de valeur */
+	/** Value update property */
 	String VALUE_PROP = "Attribute.ValueUpdate"; //$NON-NLS-1$
 
-	/** ID de la propriété lorsque l'attribut doit être sélectionne */
+	/** The attribute must be selected */
 	String SELECT_LIGHT_PROP = "Attribute.SelectLightUpdate"; //$NON-NLS-1$
 
-	/** ID de la propriété lorsque l'attribut doit être sélectionne */
+	/** The attribute must be selected */
 	String SELECT_HEAVY_PROP = "Attribute.SelectHeavyUpdate"; //$NON-NLS-1$
 
-	/** ID de la propriété lorsque l'attribut doit être désélectionne */
+	/** The attribute must be unselected */
 	String UNSELECT_LIGHT_PROP = "Attribute.UnSelecLighttUpdate"; //$NON-NLS-1$
 
-	/** ID de la propriété lorsque l'attribut doit être désélectionne */
+	/** The attribute must be unselected */
 	String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate"; //$NON-NLS-1$
 
 	/**
-	 * @return La valeur de cette attribut.
+	 * @return the attribute value
 	 */
 	String getValue();
 
 	/**
-	 * @param value nouvelle valeur pour cette attribut.
-	 */
-	void setValue(String value);
-
-	/**
-	 * @return Le nom de cette attribut.
+	 * @return the attribute name
 	 */
 	String getName();
 
 	/**
-	 * Retourne l'objet contenant les informations graphiques concernant cet attribut
+	 * @param set a new value for this attribute
+	 */
+	void setValue(String value);
+
+	/**
+	 * Fetch the object that describe all graphical properties for this attribute
 	 * @return IAttributeGraphicInfo
 	 * @see IAttributeGraphicInfo
 	 */
 	IAttributeGraphicInfo getGraphicInfo();
 
 	/**
-	 * @return L'élément associé à cet attribut.
+	 * @return The element to which the attribute is related to 
 	 */
 	IElement getReference();
 
 	/**
-	 * @return L'ElementFormalism associé.
+	 * @return The attribute description given by the formalism
 	 */
-	IAttributeFormalism getAttributeFormalism();
+	IGlobalAttributeFormalism getAttributeFormalism();
 }

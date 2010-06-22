@@ -2,23 +2,20 @@ package fr.lip6.move.coloane.interfaces.formalism;
 
 import java.util.List;
 
-import org.eclipse.draw2d.geometry.Point;
-
 /**
- * This class represents all the formalism attribute characteristics.<br>
+ * This class represents dedicated formalism (standard) attribute characteristics.<br>
  * An attribute is like a property of a base element.<br>
- * Each base element has to maintain its own list of attributes.
+ * Each base element has to maintain its own list of attributes.<br>
+ * <br>
+ * Standard Attributes share some properties with Computed Attributes.<br>
+ * Those common properties are detailed in Global Attributes definition.
+ * 
+ * @see IComputedAttributeFormalism
+ * @see IGlobalAttributeFormalism
  * 
  * @author Jean-Baptiste Voron
  */
-public interface IAttributeFormalism {
-
-	/** @return Attribute name */
-	String getName();
-
-	/** @return Drawable status (should the attribute be displayed ?) */
-	boolean isDrawable();
-
+public interface IAttributeFormalism extends IGlobalAttributeFormalism {
 	/** @return Multiline status */
 	boolean isMultiLine();
 
@@ -32,35 +29,4 @@ public interface IAttributeFormalism {
 	 * @return the list of authorized values for the given attribute
 	 */
 	List<String> getEnumeration(); 
-	
-	/**
-	 * @return the default value
-	 */
-	String getDefaultValue();
-
-	/**
-	 * @return <code>true</code> if the attribute has to be displayed with a bold font
-	 */
-	boolean isBold();
-
-	/**
-	 * @return <code>true</code> if the attribute has to be displayed with an italic font 
-	 */
-	boolean isItalic();
-
-	/**
-	 * @return the font size
-	 */
-	Integer getFontSize();
-	
-	/**
-	 * @return <code>true</code> if the attribute has to be displayed even if its valued is the default one
-	 */
-	boolean isDefaultValueDrawable();
-	
-	/** 
-	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
-	 * @return the delta location
-	 */
-	Point getDeltaLocation();
 }
