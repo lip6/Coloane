@@ -39,7 +39,7 @@ public interface IAttribute extends IAbstractPropertyChange {
 	String getName();
 
 	/**
-	 * @param set a new value for this attribute
+	 * @param value set a new value for this attribute
 	 */
 	void setValue(String value);
 
@@ -51,7 +51,7 @@ public interface IAttribute extends IAbstractPropertyChange {
 	IAttributeGraphicInfo getGraphicInfo();
 
 	/**
-	 * @return The element to which the attribute is related to 
+	 * @return The element to which the attribute is related to
 	 */
 	IElement getReference();
 

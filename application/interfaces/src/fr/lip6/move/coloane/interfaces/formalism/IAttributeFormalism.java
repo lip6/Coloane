@@ -28,5 +28,5 @@ public interface IAttributeFormalism extends IGlobalAttributeFormalism {
 	/**
 	 * @return the list of authorized values for the given attribute
 	 */
-	List<String> getEnumeration(); 
+	List<String> getEnumeration();
 }
