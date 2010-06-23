@@ -110,7 +110,7 @@
                         delta_x="20"
                         delta_y="20"
                         displayed_default="true"
-                        drawable="true"
+                        drawable="false"
                         multiline="false"
                         name="earliestFiringTime">
                   </Attribute>
@@ -119,11 +119,16 @@
                         default="inf"
                         delta_x="30"
                         delta_y="20"
-                        drawable="true"
+                        drawable="false"
                         italic="true"
                         multiline="false"
                         name="latestFiringTime">
                   </Attribute>
+                  <ComputedAttribute
+                        bold="true"
+                        formatter="fr.lip6.move.coloane.core.ui.figures.formatters.TimeFormatter"
+                        name="firingTime">
+                  </ComputedAttribute>
                </Node>
                <Arc
                      name="arc">
