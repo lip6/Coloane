@@ -39,7 +39,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	private int size = 10;
 	
 	/** Delta Location */
-	private Point delta = new Point(0,0);
+	private Point delta = new Point(0, 0);
 
 	/** Defines if this attribute is enumerated, and then enumeration is non null. */
 	private boolean enumerated;
@@ -69,7 +69,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * @param isDrawable Drawable status
 	 * @param isMultiline Multiline status
 	 * @param isEnumerated Enumerated status
-	 * @param enumValue Authorized values for the enumeration (or <code>null</code> if isEnumerated is <code>false</code>)
+	 * @param enumValues Authorized values for the enumeration (or <code>null</code> if isEnumerated is <code>false</code>)
 	 * @param defaultValue Default value
 	 * @param isDefaultValueDrawable Drawable status for the default value
 	 */
@@ -157,8 +157,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 	
 	/**
-	 * Should the attribute be displayed even if its value matches the default one?
-	 * @param isDefaultValueDrawable
+	 * @param isDefaultValueDrawable Should the attribute be displayed even if its value matches the default one?
 	 */
 	public final void setDefaultValueDrawable(boolean isDefaultValueDrawable) {
 		this.isDefaultValueDrawable = isDefaultValueDrawable;

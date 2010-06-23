@@ -88,9 +88,9 @@ public class Coloane extends AbstractUIPlugin {
 		// Build the QueryString
 		StringBuilder querystring = new StringBuilder();
 		querystring.append("?platform=eclipse_" + eclipseVersion); //$NON-NLS-1$
-		querystring.append("&os=" + Platform.getOS() + "-" + Platform.getOSArch()); //$NON-NLS-1$ //$NON-NLS-2$ 
-		querystring.append("&wm="+ Platform.getWS()); //$NON-NLS-1$
-		
+		querystring.append("&os=" + Platform.getOS() + "-" + Platform.getOSArch()); //$NON-NLS-1$ //$NON-NLS-2$
+		querystring.append("&wm=" + Platform.getWS()); //$NON-NLS-1$
+
 		String requestUrl = "http://coloane.lip6.fr/track.php" + querystring.toString(); //$NON-NLS-1$
 		try {
 	        URL url = new URL(requestUrl.toString());
@@ -166,7 +166,7 @@ public class Coloane extends AbstractUIPlugin {
 		LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 		// TODO: Should be defined in a property page...
 		LOGGER.setLevel(Level.ALL); // All messages are logged
-		
+
 		// Log messages are displayed in the system console
 		LOGGER.addHandler(new ConsoleHandler());
 
@@ -206,7 +206,7 @@ public class Coloane extends AbstractUIPlugin {
 		store.setDefault("SERVER", getParam("SERVER_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
 		store.setDefault("IP", getParam("IP_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
 		store.setDefault("PORT", getParam("PORT_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
-		
+
 		// Statistics Status
 		store.setDefault("STATS_STATUS", true); //$NON-NLS-1$
 
@@ -271,7 +271,7 @@ public class Coloane extends AbstractUIPlugin {
 	}
 
 	/**
-	 * Change the log details level 
+	 * Change the log details level
 	 * @param level the new log level
 	 */
 	public static void setVerbosity(Level level) {

@@ -33,7 +33,7 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	private int size = 10;
 	
 	/** Delta Location */
-	private Point delta = new Point(0,0);
+	private Point delta = new Point(0, 0);
 
 	/** The Java class used to format the attribute value */
 	private Class< ? > formatter = null;
@@ -115,10 +115,10 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	 * 
 	 * <b>A computed attribute should always be displayed</b>
 	 */
-	public boolean isDrawable() {
+	public final boolean isDrawable() {
 		return true;
 	}
-		
+
 	/** {@inheritDoc} */
 	public final boolean isDefaultValueDrawable() {
 		return this.isDefaultValueDrawable;
@@ -148,8 +148,9 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
-	public IAttributeFormatter getAttributeFormatter() {
+	public final IAttributeFormatter getAttributeFormatter() {
 		try {
+			// FIXME : maybe this could be done in the constructor
 			return (IAttributeFormatter) formatter.getConstructor(new Class< ? >[0]).newInstance(new Object[0]);
 		} catch (Exception e) {
 			e.printStackTrace();

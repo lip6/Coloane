@@ -201,7 +201,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 		if (IAttribute.VALUE_PROP.equals(prop)) {
 			// Follow Up
-			// TODO: Must be better explained 
+			// TODO: Must be better explained
 			firePropertyChange(prop, evt.getOldValue(), evt.getNewValue());
 		}
 	}
