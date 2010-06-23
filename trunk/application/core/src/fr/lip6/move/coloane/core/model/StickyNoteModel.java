@@ -87,8 +87,9 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 		firePropertyChange(LOCATION_PROP, oldLocation, getLocation());
 	}
 	
-	public void resetLocation() {
-		setLocation(new Point(0,0));
+	/** {@inheritDoc} */
+	public final void resetLocation() {
+		setLocation(new Point(0, 0));
 	}
 
 	/** {@inheritDoc} */

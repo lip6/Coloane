@@ -69,7 +69,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	private GraphEditorProperties editorProperties = null;
 
 	/**
-	 * Build a new graph according to a formalism name 
+	 * Build a new graph according to a formalism name
 	 * @param formalismName Formalism name used to create the new graph model
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */

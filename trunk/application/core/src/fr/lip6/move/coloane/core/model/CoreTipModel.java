@@ -94,7 +94,7 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 	/**
 	 * {@inheritDoc}
 	 */
-	public void resetLocation() {
-		setLocation(new Point(0,0));
+	public final void resetLocation() {
+		setLocation(new Point(0, 0));
 	}
 }

@@ -38,11 +38,12 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 
 	/**
 	 * Constructor<br>
-	 * </i>(Call by subclasses)</i> 
+	 * <i>(Call by subclasses)</i>
 	 * 
 	 * @param id Identifier
-	 * @param parent Parent model element 
+	 * @param parent Parent model element
 	 * @param attributes Element's attributes
+	 * @param computedAttributes Computed attributes
 	 */
 	AbstractElement(int id, IElement parent, List<IAttributeFormalism> attributes, List<IComputedAttributeFormalism> computedAttributes) {
 		this.id = id;
@@ -54,7 +55,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 				attributeModel.addPropertyChangeListener(this);
 				this.attributes.put(attr.getName(), attributeModel);
 			}
-			
+
 			if (computedAttributes != null) {
 				// Browse all attributes defined by the formalism
 				for (IComputedAttributeFormalism attr : computedAttributes) {
@@ -90,6 +91,9 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 		return attributes.values();
 	}
 	
+	/**
+	 * @return Collection of the computed attributes
+	 */
 	protected final Collection<IAttribute> getComputedAttributes() {
 		return computedAttributes.values();
 	}
@@ -104,10 +108,10 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 				drawables.add(attr);
 			}
 		}
-		
+
 		// All computed attributes should be added to the list of drawable attributes
 		drawables.addAll(this.computedAttributes.values());
-		
+
 		return drawables;
 	}
 

@@ -11,7 +11,7 @@ public interface ILocationInfo {
 	String LOCATION_PROP = "Location.info"; //$NON-NLS-1$
 
 	/**
-	 * @return location information of the current object 
+	 * @return location information of the current object
 	 * @see ILocationInfo
 	 */
 	Point getLocation();

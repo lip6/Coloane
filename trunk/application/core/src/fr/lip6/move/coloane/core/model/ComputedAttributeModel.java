@@ -22,7 +22,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	/** The main logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** The reference model element */ 
+	/** The reference model element */
 	private IElement reference;
 
 	private IComputedAttributeFormalism computedAttributFormalism;
@@ -46,7 +46,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	 * Constructor
 	 *
 	 * @param reference The element to which this attribute is associated
-	 * @param computeAttributFormalism The properties of this attribute (given by the formalism) 
+	 * @param computedAttributFormalism The properties of this attribute (given by the formalism)
 	 */
 	ComputedAttributeModel(IElement reference, IComputedAttributeFormalism computedAttributFormalism) {
 		LOGGER.finest("Création d'un AttributeModel(" + computedAttributFormalism.getName() + ", " + reference.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

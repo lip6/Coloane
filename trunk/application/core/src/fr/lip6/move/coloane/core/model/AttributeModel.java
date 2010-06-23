@@ -19,7 +19,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	/** The main logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** The reference model element */ 
+	/** The reference model element */
 	private IElement reference;
 
 	private IAttributeFormalism attributFormalism;
@@ -40,7 +40,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * Constructor
 	 *
 	 * @param reference The element to which this attribute is associated
-	 * @param attributeFormalism The properties of this attribute (given by the formalism) 
+	 * @param attributeFormalism The properties of this attribute (given by the formalism)
 	 */
 	AttributeModel(IElement reference, IAttributeFormalism attributeFormalism) {
 		LOGGER.finest("Création d'un AttributeModel(" + attributeFormalism.getName() + ", " + reference.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

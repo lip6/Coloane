@@ -28,7 +28,7 @@ public interface IGlobalAttributeFormalism {
 	boolean isBold();
 
 	/**
-	 * @return <code>true</code> if the attribute has to be displayed with an italic font 
+	 * @return <code>true</code> if the attribute has to be displayed with an italic font
 	 */
 	boolean isItalic();
 
@@ -36,7 +36,7 @@ public interface IGlobalAttributeFormalism {
 	 * @return the font size
 	 */
 	Integer getFontSize();
-		
+
 	/** 
 	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
 	 * @return the delta location
