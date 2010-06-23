@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.extensions.exportToPGF;
 import fr.lip6.move.coloane.extensions.exportToPGF.converters.Converter;
 import fr.lip6.move.coloane.extensions.exportToPGF.converters.ConverterFactory;
 import fr.lip6.move.coloane.extensions.exportToPGF.converters.UnknownFormalismException;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -156,7 +157,12 @@ public final class Exporter {
 		// Font:
 		result.put("isItalic", attribute.getAttributeFormalism().isItalic());
 		result.put("isBold", attribute.getAttributeFormalism().isBold());
-		result.put("isMultiLine", attribute.getAttributeFormalism().isMultiLine());
+		if (attribute.getAttributeFormalism() instanceof IAttributeFormalism) {
+			result.put("isMultiLine", ((IAttributeFormalism) attribute.getAttributeFormalism()).isMultiLine());
+		} else {
+			// FIXME : i'm not sure about this, i need a method to test if the attribute is multiline even for computed attributes.
+			result.put("isMultiLine", false);
+		}
 		result.put("width" , attribute.getGraphicInfo().getSize().width  * ratio);
 		result.put("height", attribute.getGraphicInfo().getSize().height * ratio);
 		return result;
