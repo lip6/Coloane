@@ -10,13 +10,14 @@ public class TimeFormatter implements IAttributeFormatter {
 	public String applyFormat(String value, IElement parentElement) {
 		String earlyValue = parentElement.getAttribute("earliestFiringTime").getValue();
 		String latestValue = parentElement.getAttribute("latestFiringTime").getValue();
-		
+		String paren = "]";
 		if (latestValue.equalsIgnoreCase("inf")) {
 			latestValue = new DecimalFormatSymbols().getInfinity();
+			paren = "[";
 		}
 		
 		if (!earlyValue.equals("") && !latestValue.equals("")) {
-			return "[" + earlyValue + "," + latestValue + "]"; 
+			return "[" + earlyValue + "," + latestValue + paren; 
 		}
 		return null;
 	}
