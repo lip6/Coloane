@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.extensions.exportToPGF.converters;
 
 import fr.lip6.move.coloane.extensions.exportToPGF.Exporter;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -20,7 +21,9 @@ public final class CPNConverter implements Converter {
 	public String convert(IAttribute attribute) {
 		String value = attribute.getValue();
 		// Replace new lines with LaTeX \\ only un multiline attributes:
-		if (attribute.getAttributeFormalism().isMultiLine()) {
+		// FIXME : i'm not sure about this, i need a method to test if the attribute is multiline even for computed attributes.
+		if (attribute.getAttributeFormalism() instanceof IAttributeFormalism
+				&& ((IAttributeFormalism) attribute.getAttributeFormalism()).isMultiLine()) {
 			// 8 '\' because StringTemplate or something else interprets them!
 			value = value.replaceAll("\n", " \\\\\\\\ \n");
 		}
