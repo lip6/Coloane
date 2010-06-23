@@ -4,7 +4,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 /**
- * Basic log handler that print all log messages on the standard output.<br> 
+ * Basic log handler that print all log messages on the standard output.<br>
  * A log message is displayed as follow : [LEVEL] MESSAGE ... (PACKAGE.CLASS.METHOD)<br>
  */
 public class ConsoleHandler extends Handler {
