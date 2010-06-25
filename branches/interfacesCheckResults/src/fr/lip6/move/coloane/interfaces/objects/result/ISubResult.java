@@ -4,45 +4,76 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Définition d'un sous-résultat<br>
- * Un sous-résultat peut contenir d'autres réstulats.
+ * This interface describes a <b>sub-result</b>.
+ * A sub-result is composed of the following elements:
+ * <ul>
+ * 	<li>Sub-results</li>
+ * 	<li>Object identifiers that will be highlighted in the editor</li>
+ * 	<li>Attribute that will be highlighted in the editor</li>
+ * 	<li>Textual results</li>
+ * 	<li>Special information</li>
+ * </ul>
  *
- * @author Jean-Baptiste
+ * @author Jean-Baptiste Voron
+ * @author Florian David
  */
 public interface ISubResult {
-
+	
 	/**
-	 * @return Tous les sous-résultats
+	 * @return A name associated to the sub-result (often a category name).
 	 */
-	List<ISubResult> getChildren();
-
+	String getSubResultName();
 	/**
-	 * @return La liste des objets désignés par la plate-forme
-	 */
-	List<Integer> getObjectsDesignation();
-
-	/**
-	 * @return La liste des objets qui doivent être mis en valeur
-	 */
-	List<Integer> getObjectsOutline();
-
-	/**
-	 * @return La liste des attributs qui doivent être mis en valeur
-	 */
-	Map<Integer, List<String>> getAttributesOutline();
-
-	/**
-	 * @return La liste des résultats textuels
-	 */
-	List<String> getTextualResults();
-
-	/**
-	 * @return Le nom de l'ensemble de résultats
+	 * @return A name associated to the sub-result (often a category name).
+	 * @deprecated use {@link ISubResult#getSubResultName()} instead.
 	 */
 	String getName();
 
 	/**
-	 * @return Le type de l'ensemble de résultat
+	 * @return A description of the sub-result.
+	 */
+	String getInformation();
+	
+	/**
+	 * @return A list of sub-results contained into the sub-result.
+	 */
+	List<ISubResult> getSubResults();
+	
+	/**
+	 * @return A list of sub-results contained into the sub-result.
+	 * @deprecated use {@link ISubResult#getSubResults()} instead.
+	 */
+	List<ISubResult> getChildren();
+
+	/**
+	 * @return The list of the objects identifier which will be able to be highlighted in the model and <b>will be added to the result view</b>.
+	 */
+	List<Integer> getObjectsOutline();
+
+	/**
+	 * @return Return the list of the objects identifier which will be able to be highlighted in the model but <b>won't be added to the result view</b>.
+	 */
+	List<Integer> getObjectsDesignation();
+
+	/**
+	 * @return The map of attributes which will be able to be highlighted in the model.
+	 */
+	Map<Integer, List<String>> getAttributesOutline();
+
+	/**
+	 * @return The list of textual results
+	 */
+	List<List<String>> getTextualResults();
+	
+	/**
+	 * @see ITip
+	 * @return The list of special information
+	 */
+	Map<Integer, List<ITip>> getTips();
+	
+	/**
+	 * @return the result set type
+	 * @deprecated
 	 */
 	int getType();
 }
