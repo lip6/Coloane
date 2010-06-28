@@ -29,6 +29,9 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 public class NodeLocationSection extends AbstractSection<INode> implements PropertyChangeListener {
 	/** Widgets qui permettent de modifier les coordonnées du noeud. */
 	private Spinner x, y;
+	
+	/** Controleurs pour les deux widgets x et y */
+	private SpinnerModifyListener xModifyListener, yModifyListener;
 
 	/**
 	 * Permet de mettre à jour le modèle du noeud.
@@ -90,7 +93,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 		x.setLayoutData(data);
 		x.setMinimum(0);
 		x.setMaximum(Integer.MAX_VALUE);
-		x.addModifyListener(new SpinnerModifyListener(0));
+		xModifyListener = new SpinnerModifyListener(0);
 
 		// Widget pour modifier la coordonnée y
 		y = new Spinner(composite, SWT.BORDER);
@@ -100,7 +103,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 		y.setLayoutData(data);
 		y.setMinimum(0);
 		y.setMaximum(Integer.MAX_VALUE);
-		y.addModifyListener(new SpinnerModifyListener(1));
+		yModifyListener = new SpinnerModifyListener(0);
 
 		// Etiquette
 		CLabel label = getWidgetFactory().createCLabel(composite, Messages.NodeLocationSection_0 + " :"); //$NON-NLS-1$
@@ -115,11 +118,27 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 	@Override
 	public final void refresh() {
 		if (!isDisposed()) {
-			Point location = getElements().get(0).getGraphicInfo().getLocation();
-			x.setSelection(location.x);
-			x.layout();
-			y.setSelection(location.y);
-			y.layout();
+			if (getElements().size() == 1) {
+				if (!x.isEnabled()) {
+					x.setEnabled(true);
+					y.setEnabled(true);
+					x.addModifyListener(xModifyListener);
+					y.addModifyListener(yModifyListener);
+				}
+
+				Point location = getElements().get(0).getGraphicInfo().getLocation();
+				x.setSelection(location.x);
+				x.layout();
+				y.setSelection(location.y);
+				y.layout();
+			} else {
+				x.setEnabled(false);
+				y.setEnabled(false);
+				x.removeModifyListener(xModifyListener);
+				y.removeModifyListener(yModifyListener);
+				x.setSelection(0);
+				y.setSelection(0);
+			}
 		}
 	}
 
