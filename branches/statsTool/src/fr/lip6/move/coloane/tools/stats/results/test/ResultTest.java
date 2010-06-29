@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.tools.stats.results.test;
 
+import fr.lip6.move.coloane.core.results.Result;
+import fr.lip6.move.coloane.core.results.SubResult;
 import fr.lip6.move.coloane.interfaces.model.command.CreateArcCommand;
-import fr.lip6.move.coloane.tools.stats.results.Result;
-import fr.lip6.move.coloane.tools.stats.results.SubResult;
 import junit.framework.TestCase;
 
 public class ResultTest extends TestCase {
