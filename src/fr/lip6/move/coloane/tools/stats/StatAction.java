@@ -4,62 +4,55 @@ import java.util.ArrayList;
 
 import java.util.List;
 
-import fr.lip6.move.coloane.tools.stats.results.Result;
-import fr.lip6.move.coloane.tools.stats.results.SubResult;
 import fr.lip6.move.coloane.core.extensions.IColoaneAction;
+import fr.lip6.move.coloane.core.results.Result;
+import fr.lip6.move.coloane.core.results.SubResult;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
+/**
+ * Very basic tool that provides some statistics about the current model
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Florian David
+ */
 public class StatAction implements IColoaneAction {
 
-	public List<IResult> run1(IGraph model) {
-
-		return (new ArrayList<IResult>());
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<IResult> run(IGraph model) {
-		ArrayList<INode> tabNodes = new ArrayList<INode>(model.getNodes());
-		ArrayList<IArc> tabArcs = new ArrayList<IArc>(model.getArcs());
+		ArrayList<INode> nodes = new ArrayList<INode>(model.getNodes());
+		ArrayList<IArc> arcs = new ArrayList<IArc>(model.getArcs());
 
-		Result res1 = new Result("StatTool", model);
-		SubResult subres1 = new SubResult("Places et transitions", "Affiche tous les noeuds sur le graphe");
-		SubResult subres2 = new SubResult("Arcs", "Affiche tous les arcs sur le graphe");
+		Result result = new Result("Statistics", model);
+		SubResult subresNodes = new SubResult("Places and Transitions", "Show all nodes");
+		SubResult subresArcs = new SubResult("Arcs", "Show all arcs");
 
-		for(int i = 0; i < tabNodes.size(); i++) {
-			subres1.addObjectDesignation(tabNodes.get(i));
-			//subres1.addObjectDesignation(tabNodes.get(i).getId());
-		}
-		for(int i = 0; i < tabArcs.size(); i++) {
-			subres2.addObjectDesignation(tabArcs.get(i));
-			//subres2.addObjectDesignation(tabArcs.get(i).getId());
-		}
+		// Add all nodes as objects designation for the first sub-result
+		for(int i = 0; i < nodes.size(); i++) { subresNodes.addObjectDesignation(nodes.get(i)); }
+		// Add all arcs as objects designation for the second sub-result
+		for(int i = 0; i < arcs.size(); i++) { subresArcs.addObjectDesignation(arcs.get(i)); }
 
+		
+		SubResult subresNodeList = new SubResult("Places and Transitions", "Node list");
+		SubResult subresArcList = new SubResult("Arcs", "Arc list");
 
-		SubResult subres3 = new SubResult("Places et transitions", "Liste tous les noeuds");
-		SubResult subres4 = new SubResult("Arcs", "Liste tous les arcs");
+		for(int i = 0; i < nodes.size(); i++) { subresNodeList.addObjectOutline(nodes.get(i)); }
+		for(int i = 0; i < arcs.size(); i++) { subresArcList.addObjectOutline(arcs.get(i));	}
 
-		for(int i = 0; i < tabNodes.size(); i++) {
-			subres3.addObjectOutline(tabNodes.get(i));
-			//subres3.addObjectOutline(tabNodes.get(i).getId());
-		}
-		for(int i = 0; i < tabArcs.size(); i++) {
-			subres4.addObjectOutline(tabArcs.get(i));
-			//subres4.addObjectOutline(tabArcs.get(i).getId());
-		}
+		result.addTextualResult("Number of nodes:",String.valueOf(nodes.size()));
+		result.addTextualResult("Number of arcs:",String.valueOf(arcs.size()));
 
-		res1.addTextualResult("Nombre de noeuds :",String.valueOf(tabNodes.size()));
-		res1.addTextualResult("Nombre d'arcs :",String.valueOf(tabArcs.size()));
-		res1.addTextualResult("","","","");
+		result.addSubResult(subresNodes);
+		result.addSubResult(subresArcs);
+		result.addSubResult(subresNodeList);
+		result.addSubResult(subresArcList);
 
-		res1.addSubResult(subres1);
-		res1.addSubResult(subres2);
-		res1.addSubResult(subres3);
-		res1.addSubResult(subres4);
-
-		ArrayList<IResult> al = new ArrayList<IResult>();
-		al.add(res1);
-		return al;
+		ArrayList<IResult> resultsList = new ArrayList<IResult>();
+		resultsList.add(result);
+		return resultsList;
 	}
 }

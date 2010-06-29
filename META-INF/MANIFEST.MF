@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Stats Plug-in
+Bundle-Name: Statistics Plug-in
 Bundle-SymbolicName: fr.lip6.move.coloane.tools.stats;singleton:=true
-Bundle-Version: 0.01
+Bundle-Version: 1.0
 Bundle-Activator: fr.lip6.move.coloane.tools.stats.Activator
 Bundle-Vendor: LIP6 / MoVe
 Require-Bundle: org.eclipse.core.runtime,
