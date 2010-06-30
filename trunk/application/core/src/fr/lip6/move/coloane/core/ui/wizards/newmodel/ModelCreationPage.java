@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -48,7 +48,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	private final IWorkbench workbench;
 
 	/** Le projet auquel on souhaite rajouter le nouveau modele */
-	private IProject currentProject;
+	private IContainer currentContainer;
 
 	/** La liste de choix pour les modèles d'exemples */
 	private Combo patternsList = null;
@@ -73,13 +73,14 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	public ModelCreationPage(IWorkbench currentWorkbench, IStructuredSelection currentSelection) {
 		super("modelcreationpage", currentSelection); //$NON-NLS-1$
 		this.workbench = currentWorkbench;
-		this.currentProject = (IProject) currentSelection.getFirstElement();
+		this.currentContainer = (IContainer) currentSelection.getFirstElement();
+
 		setTitle(Messages.ModelCreationPage_0);
 		setDescription(Messages.ModelCreationPage_1);
 		setFileExtension(Coloane.getParam("MODEL_EXTENSION")); //$NON-NLS-1$
 
 		// Si l'utilisateur a déjà choisi son projet... On peut calculer le nom par défaut
-		if (this.currentProject != null) {
+		if (this.currentContainer != null) {
 			setFileName(this.computeDefaultModelName());
 		}
 	}
@@ -259,14 +260,14 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	 * @return <code>true</code> si tout est OK; <code>false</code> sinon
 	 */
 	private boolean checkName(String modelName) {
-		return this.currentProject.getFile(modelName).exists();
+		return this.currentContainer.findMember(modelName) != null;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final boolean isPageComplete() {
 		// Raccourci : Finich dès la première page
-		if (this.currentProject != null) {
+		if (this.currentContainer != null) {
 			return true;
 		}
 
