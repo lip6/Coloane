@@ -44,14 +44,16 @@ public class AttributePositionCommand implements ICommand {
 	 */
 	public final void execute(IGraph graph) throws ModelException {
 		// Recherche de l'attribut concerne
-		attribute = graph.getObject(referenceId).getAttribute(name);
-		if (attribute != null) {
-			this.oldX = attribute.getGraphicInfo().getLocation().x;
-			this.oldY = attribute.getGraphicInfo().getLocation().y;
-			attribute.getGraphicInfo().setLocation(new Point(x, y));
-		} else {
-			throw new ModelException("The attribute " + name + " cannot be found for element " + referenceId);
-		}
+		for (IAttribute attribute : graph.getNode(referenceId).getDrawableAttributes()) {
+			if (attribute.getName().equals(name)) {
+				this.oldX = attribute.getGraphicInfo().getLocation().x;
+				this.oldY = attribute.getGraphicInfo().getLocation().y;
+				attribute.getGraphicInfo().setLocation(new Point(x, y));
+				return;
+			}			
+		} ;
+		throw new ModelException("The attribute " + name + " cannot be found for element " + referenceId);
+		//attribute = graph.getObject(referenceId).getAttribute(name);
 	}
 
 	/**
