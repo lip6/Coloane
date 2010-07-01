@@ -13,7 +13,8 @@ package fr.lip6.move.coloane.tools.graphviz;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator.DotAlgo;
-import fr.lip6.move.coloane.tools.graphviz.ProcessController.TimeOutException;
+import fr.lip6.move.coloane.core.motor.ProcessController;
+import fr.lip6.move.coloane.core.motor.ProcessController.TimeOutException;
 import fr.lip6.move.coloane.tools.graphviz.io.IOUtils;
 import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
 
@@ -232,7 +233,6 @@ public final class GraphViz {
 						.removeLastSegments(1).toFile());
 			controller.forwardErrorOutput(errorOutput);
 			controller.forwardOutput(System.out);
-			controller.forwardInput(System.in);
 			int exitCode = controller.execute();
 			if (exitCode != 0) {
 				return new Status(IStatus.WARNING, GraphVizActivator.getID(), "Graphviz exit code: " + exitCode + "."
@@ -245,9 +245,6 @@ public final class GraphViz {
 		} catch (TimeOutException e) {
 			return new Status(IStatus.ERROR, GraphVizActivator.getID(), "Graphviz process did not finish in a timely way."
 					+ createContentMessage(errorOutput));
-		} catch (InterruptedException e) {
-			return new Status(IStatus.ERROR, GraphVizActivator.getID(), "Unexpected exception executing Graphviz."
-					+ createContentMessage(errorOutput), e);
 		} catch (IOException e) {
 			return new Status(IStatus.ERROR, GraphVizActivator.getID(), "Unexpected exception executing Graphviz."
 					+ createContentMessage(errorOutput), e);
