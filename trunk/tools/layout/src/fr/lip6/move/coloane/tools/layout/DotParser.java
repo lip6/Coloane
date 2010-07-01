@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.tools.layout;
 
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.command.AttributePositionCommand;
 import fr.lip6.move.coloane.interfaces.model.command.CreateInflexPointCommand;
 import fr.lip6.move.coloane.interfaces.model.command.DeleteInflexPointsCommand;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
@@ -185,7 +187,12 @@ public final class DotParser {
 			int id = parseID(st);
 			Point p = parsePoint(st);
 			commands.add(new ObjectPositionCommand(id, p.x, p.y));
-			commands.add(new ResetAttributesPositionCommand(id));
+			//commands.add(new ResetAttributesPositionCommand(id));
+			for (IAttribute attribute : graph.getNode(id).getDrawableAttributes()) {
+				commands.add(new AttributePositionCommand(id, attribute.getName(), -1, -1));
+			}
+
+			
 		} catch (NumberFormatException e) {
 			throw new IOException("Bad token in stream while parsing dot node line.");
 		} catch (NullPointerException e) {
