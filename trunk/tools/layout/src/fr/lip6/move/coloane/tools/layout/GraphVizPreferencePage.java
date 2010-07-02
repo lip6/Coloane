@@ -49,6 +49,7 @@ public class GraphVizPreferencePage
 	private FileBrowserField dotBrowser;
 	private Button dotDotButton;
 	private Button neatoDotButton;
+	private Button fdpDotButton;
 	private Button circoDotButton;
 
 	/**
@@ -141,8 +142,10 @@ public class GraphVizPreferencePage
 		dotDotButton = createButton(buttonComposite, "dot (acyclic graph)", true, DotAlgo.DOT);
 		dotDotButton.setToolTipText("A mode adapted to acyclic graphs, a good setting for decision diagrams for instance. \n"
 				+ "Depending on the graph, may work well also for state space graphs, although neato is also a good option.");
-		neatoDotButton = createButton(buttonComposite, "neato (spring model) [recommended]", true, DotAlgo.NEATO);
+		neatoDotButton = createButton(buttonComposite, "neato (spring model/energy based) [recommended]", true, DotAlgo.NEATO);
 		neatoDotButton.setToolTipText("A mode base on a spring model, well adapted to graphs with cycles. This setting gives best results for Petri net and their variants.");
+		fdpDotButton = createButton(buttonComposite, "fdp (spring model/force based)", true, DotAlgo.FDP);
+		fdpDotButton.setToolTipText("A mode base on a spring model, with a different algorithm wrt neato. Supports larger graphs better than neato, and allows clustering.");
 		circoDotButton = createButton(buttonComposite, "circo (circular layout)", true, DotAlgo.CIRCO);
 		circoDotButton.setToolTipText("A circular layout, nodes are placed on a circle. This setting gives poor results with Petri nets.");
 
@@ -285,6 +288,9 @@ public class GraphVizPreferencePage
 		if (circoDotButton.getSelection()) {
 			return DotAlgo.CIRCO;
 		}
+		if (fdpDotButton.getSelection()) {
+			return DotAlgo.FDP;
+		}
 		// default to neato
 		return DotAlgo.NEATO;
 	}
@@ -312,6 +318,7 @@ public class GraphVizPreferencePage
 		dotDotButton.setSelection(dotAlgo == DotAlgo.DOT);
 		neatoDotButton.setSelection(dotAlgo == DotAlgo.NEATO);
 		circoDotButton.setSelection(dotAlgo == DotAlgo.CIRCO);
+		fdpDotButton.setSelection(dotAlgo == DotAlgo.FDP);
 		super.performDefaults();
 	}
 
