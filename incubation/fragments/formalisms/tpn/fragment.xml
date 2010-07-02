@@ -67,7 +67,7 @@
                      container="false"
                      name="transition">
                   <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.TPNTransition"
                         description="Create a transition"
                         drawable="true"
                         fill="false"
@@ -90,7 +90,7 @@
                   <Attribute
                         bold="false"
                         default="private"
-                        delta_x="-50"
+                        delta_x="-40"
                         delta_y="0"
                         drawable="true"
                         enumerated="true"
@@ -107,8 +107,6 @@
                   <Attribute
                         bold="true"
                         default="0"
-                        delta_x="20"
-                        delta_y="20"
                         displayed_default="true"
                         drawable="false"
                         multiline="false"
@@ -117,8 +115,6 @@
                   <Attribute
                         bold="true"
                         default="inf"
-                        delta_x="30"
-                        delta_y="20"
                         drawable="false"
                         italic="true"
                         multiline="false"
@@ -126,6 +122,8 @@
                   </Attribute>
                   <ComputedAttribute
                         bold="true"
+                        delta_x="20"
+                        delta_y="20"
                         formatter="fr.lip6.move.coloane.core.ui.figures.formatters.TimeFormatter"
                         name="firingTime">
                   </ComputedAttribute>
