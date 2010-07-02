@@ -68,5 +68,10 @@
 			<artifactId>importExportCAMI</artifactId>
 			<version>[0.16,)</version>
 		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.tools</groupId>
+			<artifactId>layout</artifactId>
+			<version>[0.16,)</version>
+		</dependency>
 	</dependencies>
 </project>
