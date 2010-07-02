@@ -33,6 +33,9 @@ public final class ModelFlattener {
 	private IGraph flatModel;
 	private Map<String, Map<INode, INode>> idsPerInstance;
 	private List<List<ResolvedTrans>> emptyEffect;
+	// hold instantiated graphs
+	private Map<TypeDeclaration, IGraph> typeGraphs;
+	private boolean shouldInstantiate;
 
 	/**
 	 * Constructor.
@@ -47,11 +50,14 @@ public final class ModelFlattener {
 	/**
 	 * Flatten a model and build a representation of the flat model.
 	 * @param root the composite to flatten
+	 * @param shouldInstantiate true if parameters should be bound to values as we flatten
 	 * @throws ModelException if cannot create TPN graph.
 	 */
-	public void doFlatten(CompositeTypeDeclaration root) throws ModelException {
+	public void doFlatten(CompositeTypeDeclaration root, boolean shouldInstantiate) throws ModelException {
 		flatModel = new GraphModelFactory().createGraph("Time Petri Net");
 		idsPerInstance = new HashMap<String, Map<INode, INode>>();
+		typeGraphs = new HashMap<TypeDeclaration, IGraph> ();
+		this.shouldInstantiate = shouldInstantiate;
 		try {
 			flatten(root, "");
 			for (String label : root.getLabels()) {
@@ -63,6 +69,8 @@ public final class ModelFlattener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		typeGraphs = null;
 	}
 
 
@@ -79,17 +87,17 @@ public final class ModelFlattener {
 
 
 		// grab the appropriate formalism elements to analyze an ITS Composite
-		IGraphFormalism formalism = ctd.getGraph().getFormalism().getMasterGraph();
+		IGraphFormalism formalism = getGraph(ctd).getFormalism().getMasterGraph();
 		IElementFormalism inst = formalism.getElementFormalism("instance");
 
 		if (ctd.getTypeType().equals("Scalar Set Composite")) {
 
-			IAttribute sizeAtt = ctd.getGraph().getAttribute("size");
+			IAttribute sizeAtt = getGraph(ctd).getAttribute("size");
 			int size = ctd.getIntegerAttributeValue(sizeAtt);
 			for (int i = 0 ; i < size ; ++i) {
 
 				/** Scan through the Nodes to find all instances and recursively flatten them */
-				Collection<INode> nodes = ctd.getGraph().getNodes();
+				Collection<INode> nodes = getGraph(ctd).getNodes();
 				for (INode node : nodes) {
 					// An instance
 					if (node.getNodeFormalism().equals(inst)) {
@@ -117,7 +125,7 @@ public final class ModelFlattener {
 		} else if (ctd.getTypeType().equals("ITSComposite")) {
 
 			/** Scan through the Nodes to find all instances and recursively flatten them */
-			Collection<INode> nodes = ctd.getGraph().getNodes();
+			Collection<INode> nodes = getGraph(ctd).getNodes();
 			for (INode node : nodes) {
 				// An instance
 				if (node.getNodeFormalism().equals(inst)) {
@@ -143,6 +151,23 @@ public final class ModelFlattener {
 			buildTransitions(tset, "");			
 		}
 
+	}
+
+	/**
+	 * Returns a graph for each type declaration.
+	 * The graph is just the normal graph if shouldInstantiate is false, 
+	 * otherwise it is the instantiated graph.
+	 * @param ctd
+	 * @return
+	 */
+	private IGraph getGraph(TypeDeclaration td) {
+		if (shouldInstantiate) {
+			if (! typeGraphs.containsKey(td)) {
+				typeGraphs.put(td, td.getInstantiatedGraph());
+			}
+			return typeGraphs.get(td);
+		}
+		return td.getGraph();
 	}
 
 	private String newPrefix(String prefix, String instName) {
@@ -241,7 +266,7 @@ public final class ModelFlattener {
 	private List<List<ResolvedTrans>> cumulateLabelEffect(CompositeTypeDeclaration ctd, String lab,
 			String prefix, List<List<ResolvedTrans>> tset) {
 		// grab the appropriate formalism elements to analyze an ITS Composite
-		IGraphFormalism formalism = ctd.getGraph().getFormalism().getMasterGraph();
+		IGraphFormalism formalism = getGraph(ctd).getFormalism().getMasterGraph();
 
 		List<List<ResolvedTrans>> resultSet = new ArrayList<List<ResolvedTrans>>();
 
@@ -249,7 +274,7 @@ public final class ModelFlattener {
 
 			IElementFormalism sync = formalism.getElementFormalism("delegator");
 			/** Scan through the Nodes to find all instances and recursively flatten them */
-			Collection<INode> nodes = ctd.getGraph().getNodes();
+			Collection<INode> nodes = getGraph(ctd).getNodes();
 			// scan through the nodes looking for delegator bearing the label "lab"
 			List<INode> matchingSyncs = new ArrayList<INode>();
 			for (INode node : nodes) {
@@ -263,7 +288,7 @@ public final class ModelFlattener {
 				}
 			}
 
-			IAttribute sizeAtt = ctd.getGraph().getAttribute("size");
+			IAttribute sizeAtt = getGraph(ctd).getAttribute("size");
 			int size = ctd.getIntegerAttributeValue(sizeAtt);
 
 			IElementFormalism inst = formalism.getElementFormalism("instance");
@@ -338,7 +363,7 @@ public final class ModelFlattener {
 
 			IElementFormalism sync = formalism.getElementFormalism("synchronization");
 			/** Scan through the Nodes to find all instances and recursively flatten them */
-			Collection<INode> nodes = ctd.getGraph().getNodes();
+			Collection<INode> nodes = getGraph(ctd).getNodes();
 			// scan through the nodes looking for syncs bearing the label "lab"
 			List<INode> matchingSyncs = new ArrayList<INode>();
 			for (INode node : nodes) {
@@ -439,13 +464,13 @@ public final class ModelFlattener {
 		}
 		// We are now sure this is a TPN
 		// grab the appropriate formalism elements to analyze an ITS Composite
-		IGraphFormalism formalism = type.getGraph().getFormalism().getMasterGraph();
+		IGraphFormalism formalism = getGraph(type).getFormalism().getMasterGraph();
 		IElementFormalism trans = formalism.getElementFormalism("transition");
 
 		/** Scan through the Nodes to find all trans bearing this label and collect them in matchingTrans */
 		List<INode> matchingTrans = new ArrayList<INode>();
 
-		Collection<INode> nodes = type.getGraph().getNodes();
+		Collection<INode> nodes = getGraph(type).getNodes();
 		for (INode node : nodes) {
 			// A transition
 			if (node.getNodeFormalism().equals(trans)) {
@@ -482,7 +507,7 @@ public final class ModelFlattener {
 	private void flatten(TypeDeclaration t, String prefix) throws ModelException {
 
 		// grab the appropriate formalism elements to analyze an ITS Composite
-		IGraphFormalism formalism = t.getGraph().getFormalism().getMasterGraph();
+		IGraphFormalism formalism = getGraph(t).getFormalism().getMasterGraph();
 		IElementFormalism place = formalism.getElementFormalism("place");
 		IElementFormalism trans = formalism.getElementFormalism("transition");
 		// to store node mapping of places
@@ -490,7 +515,7 @@ public final class ModelFlattener {
 		idsPerInstance.put(prefix, ids);
 
 		/** Scan through the Nodes to find all places and flatten them */
-		Collection<INode> nodes = t.getGraph().getNodes();
+		Collection<INode> nodes = getGraph(t).getNodes();
 		for (INode node : nodes) {
 			// A place
 			if (node.getNodeFormalism().equals(place)) {
