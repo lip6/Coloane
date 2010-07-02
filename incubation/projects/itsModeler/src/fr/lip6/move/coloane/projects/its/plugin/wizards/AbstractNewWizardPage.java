@@ -48,7 +48,7 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 	abstract protected String getWizardTitle() ;
 	abstract protected String getWizardDescription() ;
 	abstract protected String getWizardFileExtension() ;
-	
+	protected void addContent(Composite container) {};
 	
 	/**
 	 * {@inheritDoc}
@@ -91,6 +91,7 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 				dialogChanged();
 			}
 		});
+		addContent(container);
 		initialize();
 		dialogChanged();
 		setControl(container);
