@@ -77,10 +77,11 @@ public final class FlattenNewModelWizard extends Wizard implements INewWizard {
 	public boolean performFinish() {
 		final String containerName = page.getContainerName();
 		final String fileName = page.getFileName();
+		final boolean shouldInstantiate = page.shouldInstantiate();
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor) throws InvocationTargetException {
 				try {
-					doFinish(containerName, fileName, monitor);
+					doFinish(containerName, fileName, monitor, shouldInstantiate);
 				} catch (CoreException e) {
 					throw new InvocationTargetException(e);
 				} finally {
@@ -107,11 +108,12 @@ public final class FlattenNewModelWizard extends Wizard implements INewWizard {
 	 * @param containerName container
 	 * @param fileName file
 	 * @param monitor progress monitor
+	 * @param shouldInstantiate 
 	 * @throws CoreException if any problems
 	 */
 	private void doFinish(String containerName,
 			String fileName,
-			IProgressMonitor monitor)
+			IProgressMonitor monitor, boolean shouldInstantiate)
 	throws CoreException {
 		// create a sample file
 		monitor.beginTask("Creating " + fileName, 2);
@@ -127,7 +129,7 @@ public final class FlattenNewModelWizard extends Wizard implements INewWizard {
 			if (td instanceof CompositeTypeDeclaration) {
 				CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) td;
 				ModelFlattener mf = new ModelFlattener();
-				mf.doFlatten(ctd);
+				mf.doFlatten(ctd, shouldInstantiate);
 				monitor.worked(1);
 				graph = mf.getFlatModel();
 			} else {

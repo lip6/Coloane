@@ -1,6 +1,11 @@
 package fr.lip6.move.coloane.projects.its.plugin.wizards;
 
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -9,6 +14,8 @@ import org.eclipse.jface.viewers.ISelection;
  */
 public final class FlattenNewWizardPage extends AbstractNewWizardPage {
 
+	private boolean shouldInstantiate = false;
+	
 	/**
 	 * Constructor for ITSNewWizardPage.
 	 * 
@@ -18,6 +25,10 @@ public final class FlattenNewWizardPage extends AbstractNewWizardPage {
 		super(selection);
 	}
 
+	public boolean shouldInstantiate() {
+		return shouldInstantiate;
+	}
+	
 	@Override
 	protected String getWizardDescription() {
 		return "This wizard creates a new Coloane model by flattening the hierarchical ITS description.";
@@ -31,6 +42,23 @@ public final class FlattenNewWizardPage extends AbstractNewWizardPage {
 	@Override
 	protected String getWizardTitle() {
 		return "Flatten an ITS Model";
+	}
+	
+	@Override
+	protected void addContent(Composite container) {
+		Button b = new Button(container, SWT.CHECK);
+		b.setText("Instantiate Variables");
+		b.setToolTipText("Instantiate parameters of the model, i.e. $Variable in attributes replaced by their effective value.");
+		b.addSelectionListener(new SelectionListener() {
+			
+			public void widgetSelected(SelectionEvent e) {
+				boolean b = ((Button)e.getSource()).getSelection();
+				shouldInstantiate = b;
+			}
+			
+			public void widgetDefaultSelected(SelectionEvent e) {
+			}
+		});
 	}
 }
 
