@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.tools.layout;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.command.ICommand;
@@ -13,7 +14,10 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.graphics.Point;
@@ -53,15 +57,27 @@ public final class GraphLayout {
 	 */
 	public static List<ICommand> layout(IGraph graph) {
 		StringBuffer sb = new StringBuffer();
+		Map<String,List<INode>> clusters = new HashMap<String, List<INode>>();
 		sb.append("digraph G {\n");
+		sb.append("   concentrate = true; \n");
 		for (INode node : graph.getNodes()) {
 			// Produce one line
 			sb.append("    " + getDotID(node) + " ;\n");
+			addNode(clusters,node);
 		}
 		for (IArc arc : graph.getArcs()) {
 			// One line per arc
 			sb.append(getDotID(arc.getSource()) + " -> " + getDotID(arc.getTarget()) + "[label=ID" + arc.getId() + " ] ;\n");
 		}
+		if (! clusters.isEmpty()) {
+			for (Entry<String, List<INode> > e : clusters.entrySet()) {
+				sb.append("  subgraph \"cluster"+ e.getKey() + "\" { \n");
+				for (INode node : e.getValue()) {
+					sb.append("    " + getDotID(node) + " ;\n");
+				}
+				sb.append("  }\n");
+			}
+		}				
 		sb.append("}");
 		System.err.println(sb.toString());
 		try {
@@ -79,6 +95,31 @@ public final class GraphLayout {
 		return new ArrayList<ICommand>();
 	}
 	
+	/** Defines clusters if possible.
+	 * Relies on an attribute named "component" in the node.
+	 * If it exists, the node will be attached to a cluster bearing that name.
+	 * @param clusters
+	 * @param node
+	 */
+	private static void addNode(Map<String, List<INode>> clusters, INode node) {
+		IAttribute comp = node.getAttribute("component");
+		if (comp == null) {
+			return;
+		}
+		String cname = comp.getValue();
+		if (cname.equals("")) {
+			return;
+		}
+		List<INode> nodes;
+		if (! clusters.containsKey(cname)) {
+			nodes = new ArrayList<INode>();
+			clusters.put(cname,nodes);
+		} else {
+			nodes = clusters.get(cname);
+		}
+		nodes.add(node);
+	}
+
 	/**
 	 * Convert an integer node ID to a string passed to dot as object ID
 	 * e.g. 12 -> "ID12"
