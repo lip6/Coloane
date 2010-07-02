@@ -12,6 +12,10 @@ public class TimeFormatter implements IAttributeFormatter {
 		String latestValue = parentElement.getAttribute("latestFiringTime").getValue();
 		String paren = "]";
 		if (latestValue.equalsIgnoreCase("inf")) {
+			if ("0".equalsIgnoreCase(earlyValue)) {
+				// Don't display [0,inf[
+				return null;
+			}
 			latestValue = new DecimalFormatSymbols().getInfinity();
 			paren = "[";
 		}
