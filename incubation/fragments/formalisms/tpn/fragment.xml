@@ -62,6 +62,12 @@
                         multiline="false"
                         name="marking">
                   </Attribute>
+                  <Attribute
+                        displayed_default="false"
+                        drawable="false"
+                        multiline="false"
+                        name="component">
+                  </Attribute>
                </Node>
                <Node
                      container="false"
@@ -127,6 +133,12 @@
                         formatter="fr.lip6.move.coloane.core.ui.figures.formatters.TimeFormatter"
                         name="firingTime">
                   </ComputedAttribute>
+                  <Attribute
+                        displayed_default="false"
+                        drawable="false"
+                        multiline="false"
+                        name="component">
+                  </Attribute>
                </Node>
                <Arc
                      name="arc">
