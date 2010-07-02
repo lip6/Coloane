@@ -83,7 +83,7 @@ public class OrderingService extends AbstractCheckService implements ISimpleObse
 		if (td instanceof CompositeTypeDeclaration) {
 			ModelFlattener mf = new ModelFlattener();
 			try {
-				mf.doFlatten((CompositeTypeDeclaration) td);
+				mf.doFlatten((CompositeTypeDeclaration) td,true);
 			} catch (ModelException e) {
 				success  = Status.FAIL;
 				report = "An error occurred during flatten model phase :" + e + e.getMessage();
