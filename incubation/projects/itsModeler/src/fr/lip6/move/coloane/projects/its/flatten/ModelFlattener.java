@@ -529,6 +529,7 @@ public final class ModelFlattener {
 				String newPName = prefix + "." + placeName;
 
 				p.getAttribute("name").setValue(newPName);
+				p.getAttribute("component").setValue(prefix);				
 				p.getAttribute("marking").setValue(marking);
 			}
 		}
@@ -551,7 +552,8 @@ public final class ModelFlattener {
 					}
 					String tname = prefix + "." + transName;
 					newt.getAttribute("label").setValue(tname);
-
+					newt.getAttribute("component").setValue(prefix);
+					
 					//handle arcs
 					for (IArc a : node.getIncomingArcs()) {
 						// find the source place mapped in the flat model
