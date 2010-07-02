@@ -43,7 +43,7 @@ public class GraphVizActivator extends AbstractUIPlugin {
 	 * Dot algorithms available for use
 	 */
 	public enum DotAlgo {
-		DOT, NEATO, CIRCO;
+		DOT, NEATO, CIRCO, FDP;
 		/**
 		 * Given a string, looks up the corresponding DotAlgo. If no match,
 		 * returns the default NEATO.
