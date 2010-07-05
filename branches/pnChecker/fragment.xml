@@ -67,10 +67,10 @@
                         multiline="false"
                         name="name">
                      <AttributeChecker
-                           class_condition="checkerConditions.PlaceNameChecker"
-                           message="Le nom de cette place ne commence pas par &quot;Place&quot;."
-                           name="Place Name Checker"
-                           severity="Info">
+                           class_condition="checkerConditions.NameChecker"
+                           message="This place should have a name"
+                           name="Name Checker"
+                           severity="Error">
                      </AttributeChecker>
                   </Attribute>
                   <Attribute
@@ -82,10 +82,10 @@
                         name="marking">
                   </Attribute>
                   <NodeChecker
-                        class_condition="checkerConditions.IncomingArcsChecker"
-                        message="Il y a au moins 3 arcs entrants sur ce noeud."
-                        name="Incoming Arcs Checker"
-                        severity="Info">
+                        class_condition="checkerConditions.ConnectionChecker"
+                        message="Your place seems to be alone in your model"
+                        name="Connection Checker"
+                        severity="Warning">
                   </NodeChecker>
                </Node>
                <Node
@@ -110,10 +110,10 @@
                         multiline="false"
                         name="name">
                      <AttributeChecker
-                           class_condition="checkerConditions.TransitionNameChecker"
-                           message="Le nom de cette transition ne commence pas par &quot;Transition&quot;."
-                           name="Transition Name Checker"
-                           severity="Info">
+                           class_condition="checkerConditions.NameChecker"
+                           message="This transition should have a name"
+                           name="Name Checker"
+                           severity="Error">
                      </AttributeChecker>
                   </Attribute>
                   <GraphicInfo
@@ -124,6 +124,12 @@
                         palettable="false"
                         width="7">
                   </GraphicInfo>
+                  <NodeChecker
+                        class_condition="checkerConditions.ConnectionChecker"
+                        message="Your transition seems to be alone in your model"
+                        name="Connection Checker"
+                        severity="Warning">
+                  </NodeChecker>
                </Node>
                <Arc
                      name="arc">
@@ -143,26 +149,8 @@
                         italic="false"
                         multiline="true"
                         name="valuation">
-                     <AttributeChecker
-                           class_condition="checkerConditions.ValuationChecker"
-                           message="La valuation de l&apos;arc doit être comprise entre 2 et 5."
-                           name="Valuation Checker"
-                           severity="Error">
-                     </AttributeChecker>
                   </Attribute>
-                  <ArcChecker
-                        class_condition="checkerConditions.ArcNodeSourceTargetNamesChecker"
-                        message="Les noms des noeuds source et target de l&apos;arc sont les mêmes."
-                        name="Node Source and Target Names Checker"
-                        severity="Warning">
-                  </ArcChecker>
                </Arc>
-               <GraphChecker
-                     class_condition="checkerConditions.GraphCheckerSuperior4Nodes"
-                     message="Attention, le nombre de noeuds est strictement supérieur à 4."
-                     name="Nombre de noeuds supérieur à 4"
-                     severity="Warning">
-               </GraphChecker>
             </Graph>
             <Constraint
                   link="true"

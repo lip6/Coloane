@@ -3,19 +3,17 @@ package checkerConditions;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
 
 /**
- * Check that the model contains authors names
+ * A place/transition should have a name
  * 
  * @author Jean-Baptiste Voron
  * @author Florian David
- *
  */
-public class GraphAuthorsChecker implements IAttributeChecker {
+public class NameChecker implements IAttributeChecker {
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean performCheck(String value) {		
-		// False if this attribute is an empty string
+	public boolean performCheck(String value) {
 		return !value.isEmpty();
 	}
 }
