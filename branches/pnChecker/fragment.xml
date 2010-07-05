@@ -18,7 +18,7 @@
                      name="authors">
                   <AttributeChecker
                         class_condition="checkerConditions.GraphAuthorsChecker"
-                        message="Les noms des auteurs doivent être renseignés."
+                        message="Authors' name should be indicated"
                         name="Authors checker"
                         severity="Info">
                   </AttributeChecker>
