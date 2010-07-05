@@ -1,44 +1,45 @@
 package fr.lip6.move.coloane.core.model.interfaces;
 
+import fr.lip6.move.coloane.core.model.AttributeModel;
+import fr.lip6.move.coloane.core.model.NodeModel;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 /**
- * Interface définissant des objets positionnables sur l'éditeur.<br>
- * Ces objets doivent obligatoirement proposer :
+ * Interface that describes the way to manipulate objects located on the editor.<br>
+ * These objects must propose :
  * <ul>
- * 	<li>Une manière de récupérer les informations de positionnement</li>
- * 	<li>La gestion des guides verticaux et horizontaux</li>
+ * 	<li>A way to fetch their location (coordinates) {@link ILocationInfo}</li>
+ * 	<li>A way to handle vertical and horizontal guides {@link EditorGuide}</li>
  * </ul>
  * @see {@link NodeModel}, {@link AttributeModel}
  */
 public interface ILocatedElement {
-
 	/**
-	 * Retourne les informations sur la position de l'objet
-	 * @return Les informations de positionnement
+	 * Fetch the current position of the object.
+	 * @return ILocationInfo
 	 */
 	ILocationInfo getLocationInfo();
 
 	/**
-	 * @return le guide horizontal associé à l'objet
+	 * @return the horizontal guide associated to this object
 	 */
 	EditorGuide getHorizontalGuide();
 
 	/**
-	 * @return le guide vertical associÃ© Ã  l'objet
+	 * @return the vertical guide associated to this object
 	 */
 	EditorGuide getVerticalGuide();
 
 	/**
-	 * Positionne un nouveau guide horizontal sur l'objet
-	 * @param guide Le guide horizontal
+	 * Set a new horizontal guide to this object
+	 * @param guide the new horizontal guide
 	 */
 	void setHorizontalGuide(EditorGuide guide);
 
 	/**
-	 * Positionne un nouveau guide vertical sur l'objet
-	 * @param guide Le guide vertical
+	 * Set a new vertical guide to this object
+	 * @param guide the new vertical guide
 	 */
 	void setVerticalGuide(EditorGuide guide);
 }
