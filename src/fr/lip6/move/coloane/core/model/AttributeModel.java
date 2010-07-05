@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
  * 
  * @author Jean-Baptiste Voron
  */
-public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement {
+public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement, ISpecialState {
 	/** The main logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -64,9 +65,9 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	public final void setValue(String value) {
 		if (value == null) { return; }
 		String oldValue = this.value;
-		this.value = value;
+		// Warn the controller about the change only if it is necessary
 		if (!oldValue.equals(value)) {
-			LOGGER.finest("setValue(" + value + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+			this.value = value;
 			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
 		}
 	}
@@ -74,6 +75,11 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	/** {@inheritDoc} */
 	public final IAttributeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
+	}
+	
+	/** {@inheritDoc} */
+	public final ILocationInfo getLocationInfo() {
+		return this.graphicInfo;
 	}
 
 	/** {@inheritDoc} */
@@ -85,7 +91,6 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	public final IAttributeFormalism getAttributeFormalism() {
 		return attributFormalism;
 	}
-
 
 	/** {@inheritDoc} */
 	public final EditorGuide getHorizontalGuide() {
@@ -107,14 +112,15 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 		this.verticalGuide = guide;
 	}
 
-	/** {@inheritDoc} */
-	public final ILocationInfo getLocationInfo() {
-		return this.graphicInfo;
-	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
 		return "Attribut(" + name + ": " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	}
+	
+	/** {@inheritDoc} */
+	public final void setSpecialState(boolean state) {
+		firePropertyChange(SPECIAL_STATE_CHANGE, null, state);
 	}
 }
