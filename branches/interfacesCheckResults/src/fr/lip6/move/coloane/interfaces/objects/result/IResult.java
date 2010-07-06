@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.interfaces.objects.result;
 
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.command.ICommand;
+import fr.lip6.move.coloane.interfaces.model.requests.IRequest;
 
 import java.util.List;
 import java.util.Map;
@@ -62,7 +62,7 @@ public interface IResult {
 	IGraph getNewGraph();
 
 	/**
-	 * @return A list of modification to perform on the current model
+	 * @return A list of modification requests to perform on the current model
 	 */
-	List<ICommand> getModificationsOnCurrentGraph();
+	List<IRequest> getModificationsOnCurrentGraph();
 }
