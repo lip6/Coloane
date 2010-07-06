@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2383"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="clock.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+   inkscape:export-xdpi="3.5999999"
+   inkscape:export-ydpi="3.5999999">
+  <defs
+     id="defs2385">
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#pattern4932"
+       id="pattern3970"
+       patternTransform="matrix(0.1417701,0,0,0.1691489,-199.19026,-128.93751)" />
+    <marker
+       inkscape:stockid="Arrow2Send"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Send"
+       style="overflow:visible;">
+      <path
+         id="path4978"
+         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round;"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.3) rotate(180) translate(-2.3,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Sstart"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow2Sstart"
+       style="overflow:visible">
+      <path
+         id="path4975"
+         style="font-size:12.0;fill-rule:evenodd;stroke-width:0.62500000;stroke-linejoin:round"
+         d="M 8.7185878,4.0337352 L -2.2072895,0.016013256 L 8.7185884,-4.0017078 C 6.9730900,-1.6296469 6.9831476,1.6157441 8.7185878,4.0337352 z "
+         transform="scale(0.3) translate(-2.3,0)" />
+    </marker>
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#pattern4927"
+       id="pattern4932"
+       patternTransform="matrix(0.3551298,0,0,0.6510639,5.0488281e-6,-9.9414062e-6)" />
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#pattern4915"
+       id="pattern4927"
+       patternTransform="matrix(0.3551298,0,0,0.6510639,283.21433,-640.81782)" />
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="183.87816 : 87.311768 : 0"
+       inkscape:vp_y="4.2048851 : -730.05912 : 0"
+       inkscape:vp_z="-762.02805 : 9.3318439e-14 : 0"
+       inkscape:persp3d-origin="268.25462 : 1227.6223 : 1"
+       id="perspective2391" />
+    <pattern
+       patternUnits="userSpaceOnUse"
+       width="633.57156"
+       height="335.71429"
+       patternTransform="translate(140.3572,-640.81782)"
+       id="pattern4915">
+      <g
+         id="g4902"
+         transform="translate(-140.3572,640.81782)">
+        <rect
+           style="opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:5.08205414;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           id="rect4886"
+           width="628.4895"
+           height="330.63223"
+           x="142.89822"
+           y="-638.27679" />
+        <rect
+           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           id="rect4888"
+           width="31.428572"
+           height="328.57144"
+           x="185.71428"
+           y="-635.06635" />
+        <rect
+           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           id="rect4892"
+           width="31.428572"
+           height="328.57144"
+           x="271.42856"
+           y="-635.06635" />
+        <rect
+           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           id="rect4894"
+           width="31.428572"
+           height="328.57144"
+           x="360"
+           y="-635.92346" />
+        <rect
+           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           id="rect4896"
+           width="31.428572"
+           height="328.57144"
+           x="457.14285"
+           y="-636.20923" />
+        <rect
+           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           id="rect4898"
+           width="31.428572"
+           height="328.57144"
+           x="568.57141"
+           y="-635.06635" />
+        <rect
+           style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+           id="rect4900"
+           width="31.428572"
+           height="328.57144"
+           x="665.71429"
+           y="-635.06635" />
+      </g>
+    </pattern>
+    <pattern
+       patternUnits="userSpaceOnUse"
+       width="225.00009"
+       height="218.57144"
+       patternTransform="translate(283.21432,-640.81781)"
+       id="pattern4929">
+      <rect
+         id="rect4925"
+         y="0"
+         x="0"
+         height="218.57144"
+         width="225.00009"
+         style="fill:url(#pattern4932);stroke:none" />
+    </pattern>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#ffffff"
+     borderopacity="0.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="0"
+     inkscape:zoom="0.48916024"
+     inkscape:cx="107.36975"
+     inkscape:cy="787.72285"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="965"
+     inkscape:window-x="0"
+     inkscape:window-y="29" />
+  <metadata
+     id="metadata2388">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     style="display:inline">
+    <text
+       xml:space="preserve"
+       style="font-size:500px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans;-inkscape-font-specification:Sans"
+       x="-445.23013"
+       y="-59.596504"
+       id="text2423"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2425"
+         x="-445.23013"
+         y="-59.596504"
+         style="font-size:500px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:condensed;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Nimbus Sans L;-inkscape-font-specification:Nimbus Sans L Condensed">H</tspan></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect7798"
+       width="400"
+       height="400"
+       x="-357.14282"
+       y="46.647949"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffd700;fill-opacity:1;stroke:#000000;stroke-width:20;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path3168"
+       sodipodi:cx="-230"
+       sodipodi:cy="385.21933"
+       sodipodi:rx="600"
+       sodipodi:ry="600"
+       d="M 370,385.21933 A 600,600 0 1 1 -830,385.21933 A 600,600 0 1 1 370,385.21933 z"
+       transform="matrix(0.25,0,0,0.25,-91.785689,176.77167)"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:18;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2393"
+       sodipodi:cx="-300"
+       sodipodi:cy="262.36218"
+       sodipodi:rx="260"
+       sodipodi:ry="261.42856"
+       d="M -40,262.36218 A 260,261.42856 0 0 1 -40.00035,262.79091"
+       sodipodi:start="0"
+       sodipodi:end="0.0016399538"
+       sodipodi:open="true"
+       transform="matrix(0.25,0,0,0.25,-117.85712,184.98596)"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       sodipodi:type="arc"
+       style="fill:#f9eca7;fill-opacity:1;stroke:#000000;stroke-width:40;stroke-linecap:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path2395"
+       sodipodi:cx="-230"
+       sodipodi:cy="385.21933"
+       sodipodi:rx="600"
+       sodipodi:ry="600"
+       d="M 370,385.21933 A 600,600 0 1 1 -830,385.21933 A 600,600 0 1 1 370,385.21933 z"
+       transform="matrix(0.25,0,0,0.25,-116.85712,184.98596)"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <text
+       xml:space="preserve"
+       style="font-size:500px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;opacity:0.25;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Sans;-inkscape-font-specification:Sans"
+       x="-445.23013"
+       y="-61.640827"
+       id="text3213"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3215"
+         x="-445.23013"
+         y="-61.640827"
+         style="font-size:500px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:condensed;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Nimbus Sans L;-inkscape-font-specification:Nimbus Sans L Condensed">H</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.75;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -172.71426,148.07651 L -172.71426,185.21936"
+       id="path3167"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.75;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -173.35712,380.57651 L -173.35712,417.71936"
+       id="path3169"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.75;stroke-linecap:round;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M -43.571402,283.07651 L -80.714259,283.07651"
+       id="path3171"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.75;stroke-linecap:round;stroke-linejoin:miter;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       d="M -269.14283,283.07651 L -306.28569,283.07651"
+       id="path3173"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.78999996;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -101.66283,175.79889 L -115.47997,199.73088"
+       id="path3175"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.78999996;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -58.748264,221.88222 L -82.680259,235.69936"
+       id="path3177"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.78999996;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -228.0914,366.82479 L -241.90855,390.75679"
+       id="path3179"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.78999996;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -263.74827,329.02508 L -287.68026,342.84222"
+       id="path3181"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.78999996;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -265.17684,236.41365 L -289.10883,222.5965"
+       id="path3183"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.78999996;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -62.319692,342.12793 L -86.251684,328.31079"
+       id="path3185"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.78999996;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -228.80569,196.47107 L -242.62283,172.53908"
+       id="path3187"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:2.78999996;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -103.80569,387.89964 L -117.62283,363.96765"
+       id="path3191"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path4862"
+       sodipodi:cx="-148.57143"
+       sodipodi:cy="-216.20924"
+       sodipodi:rx="180"
+       sodipodi:ry="42.857143"
+       d="M 31.428574,-216.20924 A 180,42.857143 0 1 1 -328.57143,-216.20924 A 180,42.857143 0 1 1 31.428574,-216.20924 z"
+       transform="matrix(0.25,0,0,0.25,-120.64283,172.12882)"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path4864"
+       sodipodi:cx="-148.57143"
+       sodipodi:cy="-216.20924"
+       sodipodi:rx="180"
+       sodipodi:ry="42.857143"
+       d="M 31.428574,-216.20924 A 180,42.857143 0 1 1 -328.57143,-216.20924 A 180,42.857143 0 1 1 31.428574,-216.20924 z"
+       transform="matrix(0.25,0,0,0.25,-120.64283,117.8431)"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <rect
+       style="fill:none;stroke:none"
+       width="89.821449"
+       height="56.785713"
+       x="-202.76782"
+       y="62.638649"
+       id="rect4934"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       sodipodi:type="arc"
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="path4938"
+       sodipodi:cx="-214.28572"
+       sodipodi:cy="398.07648"
+       sodipodi:rx="30"
+       sodipodi:ry="30"
+       d="M -184.28572,398.07648 A 30,30 0 1 1 -244.28572,398.07648 A 30,30 0 1 1 -184.28572,398.07648 z"
+       transform="matrix(0.25,0,0,0.25,-119.99997,182.12882)"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.75;stroke-linecap:butt;stroke-linejoin:miter;marker-start:none;marker-end:url(#Arrow2Send);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -176.65436,283.24011 L -283.48489,322.57764"
+       id="path4940"
+       sodipodi:nodetypes="cc"
+       inkscape:transform-center-x="57.490361"
+       inkscape:transform-center-y="19.385939"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:3.75;stroke-linecap:butt;stroke-linejoin:miter;marker-start:none;marker-end:url(#Arrow2Send);stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M -171.50938,282.66334 L -139.9384,211.80915"
+       id="path7796"
+       sodipodi:nodetypes="cc"
+       inkscape:transform-center-x="-43.420579"
+       inkscape:transform-center-y="-42.156203"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect2427"
+       width="500"
+       height="497.27005"
+       x="-507.38892"
+       y="-40.475468" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:13.63050461;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect2429"
+       width="454.35013"
+       height="454.35013"
+       x="-435.03436"
+       y="-4.2597284"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/hclock_24.png"
+       inkscape:export-xdpi="4.7540431"
+       inkscape:export-ydpi="4.7540431" />
+    <rect
+       style="opacity:1;fill:#ffd800;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3972"
+       width="89.820999"
+       height="56.785999"
+       x="-202.76801"
+       y="62.638184"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <rect
+       style="fill:url(#pattern3970);stroke:none"
+       width="89.821457"
+       height="56.785713"
+       x="-199.19026"
+       y="-128.93752"
+       id="rect3968" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3978"
+       width="4.5996914"
+       height="57.240959"
+       x="-196.877"
+       y="62.400284"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3980"
+       width="4.5996914"
+       height="55.707726"
+       x="-185.077"
+       y="64.400284"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3982"
+       width="4.5996914"
+       height="57.240959"
+       x="-171.47704"
+       y="62.400463"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3984"
+       width="4.5996914"
+       height="57.240959"
+       x="-157.57715"
+       y="62.400284"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3986"
+       width="4.5996914"
+       height="57.240959"
+       x="-185.077"
+       y="62.400284"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3988"
+       width="4.5996914"
+       height="57.240959"
+       x="-141.87711"
+       y="62.400463"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+    <rect
+       style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:15;stroke-linecap:butt;stroke-linejoin:round;marker:none;marker-start:none;marker-mid:none;marker-end:none;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
+       id="rect3990"
+       width="4.5996914"
+       height="57.240959"
+       x="-129.37695"
+       y="62.400284"
+       inkscape:export-filename="/home/sasso/workspace/Hybrid Automata in Coloane Kills/resources/clock_16.png"
+       inkscape:export-xdpi="3.5999999"
+       inkscape:export-ydpi="3.5999999" />
+  </g>
+</svg>

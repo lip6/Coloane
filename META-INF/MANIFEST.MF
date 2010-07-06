@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Hybrid_Automata_in_Coloane_Kills
+Bundle-SymbolicName: Hybrid_Automata_in_Coloane_Kills;singleton:=true
+Bundle-Version: 1.0.0.alpha
+Fragment-Host: fr.lip6.move.coloane.core;bundle-version="0.16.2"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

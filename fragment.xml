@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="fr.lip6.move.coloane.core.formalisms">
+      <Formalism
+            extension="model"
+            fkname="Hybrid Automata"
+            id="hyridautomata"
+            image="resources/hclock_16.png"
+            name="Hybrid Automata">
+         <XmlDescription>
+            <Graph
+                  name="Hybrid Automata">
+               <Node
+                     container="false"
+                     name="State">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        description="A state of an hybrid automaton"
+                        drawable="true"
+                        height="18"
+                        icon16px="resources/state_16.png"
+                        icon24px="resources/state_24.png"
+                        palettable="true"
+                        paletteName="State"
+                        width="18">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Clock speed">
+                  </Attribute>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Invariant">
+                  </Attribute>
+               </Node>
+               <Arc
+                     name="Transition">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                        description="A transition of an hybrid automaton"
+                        drawable="true"
+                        icon16px="resources/arc_16.png"
+                        icon24px="resources/arc_24.png"
+                        palettable="true"
+                        paletteName="Transition">
+                  </GraphicInfo>
+                  <Attribute
+                        default="True"
+                        drawable="true"
+                        multiline="false"
+                        name="Guard">
+                  </Attribute>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Label">
+                  </Attribute>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Reset">
+                  </Attribute>
+               </Arc>
+               <Attribute
+                     drawable="true"
+                     multiline="false"
+                     name="Analogic clocks">
+               </Attribute>
+               <Attribute
+                     drawable="true"
+                     multiline="false"
+                     name="Digital clocks">
+               </Attribute>
+               <Node
+                     container="false"
+                     name="Initial state">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        description="An initial state of an hybrid automaton"
+                        drawable="true"
+                        fill="true"
+                        height="18"
+                        icon16px="resources/initial_16.png"
+                        icon24px="resources/initial_24.png"
+                        palettable="true"
+                        paletteName="Initial state"
+                        width="18">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Clock speed">
+                  </Attribute>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Invariant">
+                  </Attribute>
+               </Node>
+               <Node
+                     container="false"
+                     name="Final State">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
+                        description="A final state on an hybrid automaton"
+                        drawable="true"
+                        height="18"
+                        icon16px="resources/final_16.png"
+                        icon24px="resources/final_24.png"
+                        palettable="true"
+                        paletteName="Final state"
+                        width="18">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Clock speed">
+                  </Attribute>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Invariant">
+                  </Attribute>
+               </Node>
+            </Graph>
+         </XmlDescription>
+      </Formalism>
+      <Formalism
+            extension="model"
+            fkname="Timed Automata"
+            id="timedautomata"
+            image="resources/clock_16.png"
+            name="Timed Automata">
+         <XmlDescription>
+            <Graph
+                  name="Timed Automata">
+               <Node
+                     container="false"
+                     name="State">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        description="A state of an hybrid automaton"
+                        drawable="true"
+                        height="18"
+                        icon16px="resources/state_16.png"
+                        icon24px="resources/state_24.png"
+                        palettable="true"
+                        paletteName="State"
+                        width="18">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Invariant">
+                  </Attribute>
+               </Node>
+               <Arc
+                     name="Transition">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                        description="A transition of an hybrid automaton"
+                        drawable="true"
+                        icon16px="resources/arc_16.png"
+                        icon24px="resources/arc_24.png"
+                        palettable="true"
+                        paletteName="Transition">
+                  </GraphicInfo>
+                  <Attribute
+                        default="True"
+                        drawable="true"
+                        multiline="false"
+                        name="Guard">
+                  </Attribute>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Label">
+                  </Attribute>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Reset">
+                  </Attribute>
+               </Arc>
+               <Attribute
+                     drawable="true"
+                     multiline="false"
+                     name="Clocks">
+               </Attribute>
+               <Node
+                     container="false"
+                     name="Initial state">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        description="An initial state of an hybrid automaton"
+                        drawable="true"
+                        fill="true"
+                        height="18"
+                        icon16px="resources/initial_16.png"
+                        icon24px="resources/initial_24.png"
+                        palettable="true"
+                        paletteName="Initial state"
+                        width="18">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Invariant">
+                  </Attribute>
+               </Node>
+               <Node
+                     container="false"
+                     name="Final State">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
+                        description="A final state on an hybrid automaton"
+                        drawable="true"
+                        height="18"
+                        icon16px="resources/final_16.png"
+                        icon24px="resources/final_24.png"
+                        palettable="true"
+                        paletteName="Final state"
+                        width="18">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Invariant">
+                  </Attribute>
+               </Node>
+            </Graph>
+         </XmlDescription>
+      </Formalism>
+      <Formalism
+            extension="model"
+            fkname="Interrupt Timed Automata"
+            id="interrupttimedautomata"
+            image="resources/iclock_16.png"
+            name="Interrupt Timed Automata">
+         <XmlDescription>
+            <Graph
+                  name="Timed Automata">
+               <Node
+                     container="false"
+                     name="State">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        description="A state of an hybrid automaton"
+                        drawable="true"
+                        height="18"
+                        icon16px="resources/state_16.png"
+                        icon24px="resources/state_24.png"
+                        palettable="true"
+                        paletteName="State"
+                        width="18">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Invariant">
+                  </Attribute>
+                  <Attribute
+                        default="1"
+                        drawable="true"
+                        multiline="false"
+                        name="Level">
+                  </Attribute>
+                  <Attribute
+                        default="L"
+                        drawable="true"
+                        multiline="false"
+                        name="Policy">
+                  </Attribute>
+               </Node>
+               <Arc
+                     name="Transition">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                        description="A transition of an hybrid automaton"
+                        drawable="true"
+                        icon16px="resources/arc_16.png"
+                        icon24px="resources/arc_24.png"
+                        palettable="true"
+                        paletteName="Transition">
+                  </GraphicInfo>
+                  <Attribute
+                        default="True"
+                        drawable="true"
+                        multiline="false"
+                        name="Guard">
+                  </Attribute>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Label">
+                  </Attribute>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Reset">
+                  </Attribute>
+               </Arc>
+               <Attribute
+                     drawable="true"
+                     multiline="false"
+                     name="Clocks">
+               </Attribute>
+               <Node
+                     container="false"
+                     name="Initial state">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        description="An initial state of an hybrid automaton"
+                        drawable="true"
+                        fill="true"
+                        height="18"
+                        icon16px="resources/initial_16.png"
+                        icon24px="resources/initial_24.png"
+                        palettable="true"
+                        paletteName="Initial state"
+                        width="18">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Invariant">
+                  </Attribute>
+                  <Attribute
+                        default="1"
+                        drawable="true"
+                        multiline="false"
+                        name="Level">
+                  </Attribute>
+                  <Attribute
+                        default="L"
+                        drawable="true"
+                        multiline="false"
+                        name="Policy">
+                  </Attribute>
+               </Node>
+               <Node
+                     container="false"
+                     name="Final State">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
+                        description="A final state on an hybrid automaton"
+                        drawable="true"
+                        height="18"
+                        icon16px="resources/final_16.png"
+                        icon24px="resources/final_24.png"
+                        palettable="true"
+                        paletteName="Final state"
+                        width="18">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="Invariant">
+                  </Attribute>
+                  <Attribute
+                        default="1"
+                        drawable="true"
+                        multiline="false"
+                        name="Level">
+                  </Attribute>
+                  <Attribute
+                        default="L"
+                        drawable="true"
+                        multiline="false"
+                        name="Policy">
+                  </Attribute>
+               </Node>
+            </Graph>
+         </XmlDescription>
+      </Formalism>
+   </extension>
+
+</fragment>
