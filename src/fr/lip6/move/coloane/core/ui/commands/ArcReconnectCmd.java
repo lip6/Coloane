@@ -1,88 +1,93 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
+import fr.lip6.move.coloane.core.ui.checker.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-import org.eclipse.gef.commands.Command;
-
 /**
- * Commande permettant la re-connexion d'un arc.<br>
- * Le but de cette commande est de permettre de changer la source ou la cible d'un arc sans pour autant le detruire.
+ * Command that allows the re-connection of an arc.<br>
+ * The aim of this command is to allow to change source <b>or</b> the target of an arc without destroying it.<br>
+ * 
+ * @author Jean-Baptiste Voron
  */
-public class ArcReconnectCmd extends Command {
+public class ArcReconnectCmd extends CheckableCmd {
 
-	/** L'arc qu'on manipule */
+	/** The considered arc */
 	private IArc arc;
 
-	/** Noeud source */
+	/** New source node */
 	private INode newSource;
 
-	/** Noeud cible */
+	/** New target node */
 	private INode newTarget;
 
-	/** Ancien noeud source */
+	/** Old source node */
 	private final INode oldSource;
 
-	/** Ancien noeud cible */
+	/** Old target node */
 	private final INode oldTarget;
 
 	/**
-	 * Constructeur de la commande
-	 * @param a L'arc concerné par la reconnexion
+	 * Build the command for a given arc
+	 * @param arc The arc that will be reconnected somewhere
 	 */
-	public ArcReconnectCmd(IArc a) {
+	public ArcReconnectCmd(IArc arc) {
 		super(Messages.ArcReconnectCmd_0);
-		this.arc = a;
-		this.oldSource = a.getSource();
-		this.oldTarget = a.getTarget();
+
+		this.arc = arc;
+		this.oldSource = arc.getSource();
+		this.oldTarget = arc.getTarget();
+		
+		// Describes elements that must be checked
+		addCheckableElement(arc);
+		addCheckableElement(newSource);
+		addCheckableElement(newTarget);
+		addCheckableElement(oldSource);
+		addCheckableElement(oldTarget);
 	}
 
 	/**
-	 * Indique la nouvelle source de l'arc
-	 * @param connectionSource Le nouveau noeud source
+	 * Set the new source for the arc
+	 * @param newSource The new source
 	 */
-	public final void setNewSource(INode connectionSource) {
-		newSource = connectionSource;
-		newTarget = null;
+	public final void setNewSource(INode newSource) {
+		this.newSource = newSource;
+		this.newTarget = null;
 	}
 
 	/**
-	 * Indique la nouvelle cible de l'arc
-	 * @param connectionTarget Le nouveau noeud cible
+	 * Set the new target for the arc
+	 * @param newTarget The new target
 	 */
-	public final void setNewTarget(INode connectionTarget) {
-		newSource = null;
-		newTarget = connectionTarget;
+	public final void setNewTarget(INode newTarget) {
+		this.newSource = null;
+		this.newTarget = newTarget;
 	}
 
-
 	/**
-	 * Savoir si on peut executer
-	 * @return booleen
+	 * Can we execute this operation ?
 	 */
 	@Override
 	public final boolean canExecute() {
 
-		// Est-ce qu'on peut connecter la nouvelle source ?
-		if ((this.newSource != null) && !checkSourceReconnection()) {
+		// Can we connect the arc to the new source ?
+		if ((this.newSource != null) && !checkReconnection()) {
 			return false;
 		}
 
-		// Est-ce qu'on peut connecter la nouvelle cible ?
-		if ((this.newTarget != null) && !checkTargetReconnection()) {
+		// Can we connect the arc to the new target ?
+		if ((this.newTarget != null) && !checkReconnection()) {
 			return false;
 		}
 
-		// Recuperation du formalisme
+		// Fetch the formalism
 		IFormalism formalism = this.arc.getArcFormalism().getFormalism();
 
-		// Est-ce que la connexion est autorisée ?
+		// Is the connection allowed by the formalism ?
 		if ((this.newSource != null) && !formalism.isLinkAllowed(newSource, oldTarget, this.arc.getArcFormalism())) {
 			return false;
 		}
-
-		// Est-ce que la connexion est autorisée ?
 		if ((this.newTarget != null) && !formalism.isLinkAllowed(oldSource, newTarget, this.arc.getArcFormalism())) {
 			return false;
 		}
@@ -91,41 +96,33 @@ public class ArcReconnectCmd extends Command {
 	}
 
 	/**
-	 * Verification que le noeud source n'est pas deja connecte...
-	 * Retourne FALSE si la connexion existe deja.
-	 * @return booleen
+	 * Check that an arc is not already existing between source and target.<br>
+	 * @return <true> if the connection is new...
 	 */
-	private boolean checkSourceReconnection() {
-		if (newSource == oldSource) {
+	private boolean checkReconnection() {
+		// If the source has changed, check that an arc is not already set up
+		if ((newSource != null) && (newSource != oldSource)) {
+			for (IArc existingConnection : this.newSource.getOutgoingArcs()) {
+				if (existingConnection.getTarget().getId() == this.oldTarget.getId()) {
+					return false;
+				}
+			}
 			return true;
 		}
-
-		for (IArc existingConnection : this.newSource.getOutgoingArcs()) {
-			if (existingConnection.getTarget().getId() == this.oldTarget.getId()) {
-				return false;
+		
+		// If the target has changed, check that an arc is not already set up
+		if ((newTarget != null) && (newTarget != oldTarget)) {
+			for (IArc existingConnection : this.newTarget.getIncomingArcs()) {
+				if (existingConnection.getSource().getId() == this.oldSource.getId()) {
+					return false;
+				}
 			}
+			return true;
 		}
+		
 		return true;
 	}
 
-
-	/**
-	 * Verification que le noeud cible n'est pas deja connecte de la meme facon...
-	 * Retourne FALSE si la connexion oldsource -> newtarget existe deja.
-	 * @return booleen
-	 */
-	private boolean checkTargetReconnection() {
-		if (newTarget == oldTarget) {
-			return true;
-		}
-
-		for (IArc existingConnection : newTarget.getIncomingArcs()) {
-			if (existingConnection.getSource().getId() == this.oldSource.getId()) {
-				return false;
-			}
-		}
-		return true;
-	}
 
 	/** {@inheritDoc} */
 	@Override
@@ -139,16 +136,17 @@ public class ArcReconnectCmd extends Command {
 		INode sourceToConnect = newSource;
 		INode targetToConnect = newTarget;
 
-		// Si la source ne change pas...
+		// If the source has not changed
 		if (newSource == null) {
 			sourceToConnect = oldSource;
 		}
 
-		// si la cible ne change pas...
+		// If the target has not changed
 		if (newTarget == null) {
  			targetToConnect = oldTarget;
 		}
 
+		// Reconnect
 		this.arc.reconnect(sourceToConnect, targetToConnect);
 	}
 
