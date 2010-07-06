@@ -6,32 +6,43 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande de creation d'un point d'inflexion
+ * Create a new <b>inflex point</b> (aka. <i>bendpoint</i>)
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class InflexCreateCmd extends Command {
 
-	/** Arc concerne par le point d'inflexion */
+	/** The arc to which the inflex point will be added */
 	private IArc arc;
 
-	/** La position du point d'inflexion */
+	/** The location of the inflex point */
 	private Point position;
 
-	/** L'index du point d'inflexion */
+	/** The index if the point in the list of inflex point of this arc */
 	private int index;
 
 	/**
-	 * Constructeur
-	 * @param arcModel L'arc
-	 * @param p La position
-	 * @param i L'index
+	 * Constructor
+	 * @param arc The arc
+	 * @param location The inflex point location
+	 * @param index The index in the list of inflex points
 	 */
-	public InflexCreateCmd(IArc arcModel, Point p, int i) {
+	public InflexCreateCmd(IArc arc, Point location, int index) {
 		super(Messages.InflexCreateCmd_0);
-		this.arc = arcModel;
-		this.position = p;
+		this.arc = arc;
+		this.position = location;
 		this.position.x = Math.max(this.position.x, 0);
 		this.position.y = Math.max(this.position.y, 0);
-		this.index = i;
+		this.index = index;
+	}
+
+	/**
+	 * Constructor (will create an inflex point with the last index)
+	 * @param arc The arc
+	 * @param location The inflex point location
+	 */
+	public InflexCreateCmd(IArc arc, Point location) {
+		new InflexCreateCmd(arc, location, arc.getInflexPoints().size());
 	}
 
 	/** {@inheritDoc} */
@@ -51,6 +62,5 @@ public class InflexCreateCmd extends Command {
 	public final void redo() {
 		this.arc.addInflexPoint(this.position, this.index);
 	}
-
 }
 
