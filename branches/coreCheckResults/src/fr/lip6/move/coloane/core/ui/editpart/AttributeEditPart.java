@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -47,6 +48,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	private boolean select = false;
 	private boolean elementSelect = false;
 	private boolean highlight = false;
+	private boolean special = false;
 
 	private Font font;
 
@@ -199,6 +201,10 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		if (this.highlight) {
 			getFigure().setBackgroundColor(ColorConstants.lightGray);
 		}
+		// Special state (coming from problem view)
+		if (special) {
+			getFigure().setForegroundColor(ColorConstants.red);
+		}
 
 		// Font update
 		if (this.font == null || this.font.isDisposed()) {
@@ -326,6 +332,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				attribute.getGraphicInfo().setLocation(computeLocation(attribute));
 			}		
 			// In all cases, the view must be refreshed
+			refreshVisuals();
+		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
+			special = (Boolean) event.getNewValue();
 			refreshVisuals();
 		}
 	}
