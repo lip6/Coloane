@@ -16,7 +16,7 @@
                      container="false"
                      name="State">
                   <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        associatedFigure="fr.lip6.move.coloane.formalism.hack.StateNode"
                         description="A state of an hybrid automaton"
                         drawable="true"
                         height="18"
@@ -35,6 +35,32 @@
                         drawable="true"
                         multiline="true"
                         name="Invariant">
+                  </Attribute>
+                  <Attribute
+                        default="False"
+                        drawable="false"
+                        enumerated="true"
+                        multiline="false"
+                        name="Initial">
+                     <EnumerationValue
+                           name="True">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="False">
+                     </EnumerationValue>
+                  </Attribute>
+                  <Attribute
+                        default="False"
+                        drawable="false"
+                        enumerated="true"
+                        multiline="false"
+                        name="Final">
+                     <EnumerationValue
+                           name="True">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="False">
+                     </EnumerationValue>
                   </Attribute>
                </Node>
                <Arc
