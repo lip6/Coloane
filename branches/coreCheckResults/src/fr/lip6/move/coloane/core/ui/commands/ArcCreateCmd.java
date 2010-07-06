@@ -6,45 +6,45 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Premiere etape de la creation d'un lien entre deux noeuds !<br>
- * Cette commande est créée lors du premier clic sur le noeud de depart.<br>
- * Elle sert a stocker des informations sur le noeud de depart.<br>
+ * First step of the creation of an arc between two nodes.<br>
+ * This command is created when the user click on the source node.<br>
+ * 
  * @see ArcCompleteCmd
+ * @author Jean-Baptiste Voron
  */
 public class ArcCreateCmd extends Command {
-	/** Le noeud source */
+	/** source node */
 	private final INode source;
 
-	/** Le formalisme de l'arc */
+	/** arc formalism */
 	private final IArcFormalism arcFormalism;
 
-
 	/**
-	 * Création d'un arc entre deux element
-	 * @param arcSource Le noeud source de l'arc
-	 * @param arcFormalism Le formalisme de l'arc créé
+	 * Begin the creation of an arc
+	 * @param source The arc source
+	 * @param formalism The formalism that describes the arc
 	 */
-	public ArcCreateCmd(INode arcSource, IArcFormalism arcFormalism) {
+	public ArcCreateCmd(INode source, IArcFormalism formalism) {
 		super(Messages.ArcCreateCmd_0);
-		this.source = arcSource;
-		this.arcFormalism = arcFormalism;
+		this.source = source;
+		this.arcFormalism = formalism;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final boolean canExecute() {
-		return true;
+		return true; // always possible
 	}
 
 	/**
-	 * @return Le noeud source de l'arc
+	 * @return The arc source
 	 */
 	public final INode getSource() {
 		return source;
 	}
 
 	/**
-	 * @return Le formalisme de l'arc créé
+	 * @return The formalism that describes the arc
 	 */
 	public final IArcFormalism getArcFormalism() {
 		return arcFormalism;

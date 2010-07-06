@@ -6,48 +6,58 @@ import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.checker.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.gef.commands.Command;
+import java.util.Collection;
 
 /**
- * Commande de suppression d'un arc
+ * Delete an arc from the graph
+ * 
+ * @author Jean-Baptiste Voron
  */
-public class ArcDeleteCmd extends Command {
-	/** Graphe contenant l'arc à supprimer */
+public class ArcDeleteCmd extends CheckableCmd {
+	/** Graph that holds the arc to remove */
 	private IGraph graph;
 
-	/** L'arc adapte */
+	/** The arc */
 	private final IArc arc;
 
-	/** Garder une copie des liens */
-	private List<ILink> links = new ArrayList<ILink>();
+	/** A list of links attached to this arc (backup in case of undo) */
+	private Collection<ILink> links;
 
+	/** List of tips associated to this arc (backup in case of undo) */
+	private Collection<ICoreTip> tips;
+	
+	/** The session that holds the graph */
 	private ISession session;
 
-	private List<ICoreTip> tips;
-
 	/**
-	 * Effacer un arc
-	 * @param toDelete arc a effacer
+	 * Constructor
+	 * @param arc The arc to remove from the graph
 	 */
-	public ArcDeleteCmd(IArc toDelete) {
+	public ArcDeleteCmd(IArc arc) {
 		super(Messages.ArcDeleteCmd_0);
-		this.graph = (IGraph) toDelete.getParent();
-		this.arc = toDelete;
-		this.session = SessionManager.getInstance().getCurrentSession();
+		// Fetch the graph from the arc
+		this.graph = (IGraph) arc.getParent();
+		this.arc = arc;
+		this.session =  SessionManager.getInstance().getCurrentSession();
+		
+		// Check for local properties (and around the deleted arc)
+		addCheckableElement(arc);
+		addCheckableElement(arc.getSource());
+		addCheckableElement(arc.getTarget());
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		tips = new ArrayList<ICoreTip>(session.getTip(arc.getId()));
+		// Backup tips
+		this.tips = this.session.getTips(arc.getId());
+		// Backup links
 		if (arc instanceof ILinkableElement) {
-			links.addAll(((ILinkableElement) arc).getLinks());
+			links = ((ILinkableElement) arc).getLinks();
 		}
 		redo();
 	}
@@ -64,14 +74,15 @@ public class ArcDeleteCmd extends Command {
 	public final void undo() {
 		graph.addArc(arc);
 
-		// Ajout des liens
+		// Add links
 		if (graph instanceof GraphModel) {
-			GraphModel gm = (GraphModel) graph;
+			GraphModel graphModel = (GraphModel) graph;
 			for (ILink link : links) {
-				gm.addLink(link);
+				graphModel.addLink(link);
 			}
 		}
 
+		// Add tips
 		session.addAllTips(tips);
 	}
 }
