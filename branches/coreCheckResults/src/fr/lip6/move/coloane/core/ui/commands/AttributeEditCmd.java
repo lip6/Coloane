@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.ui.checker.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 /**
