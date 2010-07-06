@@ -13,7 +13,6 @@ import org.eclipse.draw2d.RotatableDecoration;
  * @author Jean-Baptiste Voron
  */
 public class InhibitorArc extends AbstractArcFigure implements IArcFigure {
-
 	/**
 	 * Constructor
 	 */
