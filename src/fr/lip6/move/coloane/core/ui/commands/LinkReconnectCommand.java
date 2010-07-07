@@ -7,22 +7,30 @@ import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande pour la reconnexion d'un lien.
+ * Reconnect a link with another source/target
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 public class LinkReconnectCommand extends Command {
-
+	/** The link to reconnect to */
 	private ILink link;
 
+	/** The note */
 	private IStickyNote newNote;
+	/** The new element designated by the reconnection */
 	private ILinkableElement newElement;
 
+	/** The old note (back up in case of undo) */
 	private IStickyNote oldNote;
+	/** The old element (backup in case of undo) */
 	private ILinkableElement oldElement;
 
 	/**
-	 * @param link Lien à reconnecter
-	 * @param newNote nouvelle source
-	 * @param newElement nouvelle cible
+	 * Constructor
+	 * @param link Link to reconnect
+	 * @param newNote New source
+	 * @param newElement New element
 	 */
 	public LinkReconnectCommand(ILink link, IStickyNote newNote, ILinkableElement newElement) {
 		this.link = link;
