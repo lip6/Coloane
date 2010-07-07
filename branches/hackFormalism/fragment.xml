@@ -101,57 +101,6 @@
                      multiline="false"
                      name="Digital clocks">
                </Attribute>
-               <Node
-                     container="false"
-                     name="Initial state">
-                  <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
-                        description="An initial state of an hybrid automaton"
-                        drawable="true"
-                        fill="true"
-                        height="18"
-                        icon16px="resources/initial_16.png"
-                        icon24px="resources/initial_24.png"
-                        palettable="true"
-                        paletteName="Initial state"
-                        width="18">
-                  </GraphicInfo>
-                  <Attribute
-                        drawable="true"
-                        multiline="true"
-                        name="Clock speed">
-                  </Attribute>
-                  <Attribute
-                        drawable="true"
-                        multiline="true"
-                        name="Invariant">
-                  </Attribute>
-               </Node>
-               <Node
-                     container="false"
-                     name="Final State">
-                  <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
-                        description="A final state on an hybrid automaton"
-                        drawable="true"
-                        height="18"
-                        icon16px="resources/final_16.png"
-                        icon24px="resources/final_24.png"
-                        palettable="true"
-                        paletteName="Final state"
-                        width="18">
-                  </GraphicInfo>
-                  <Attribute
-                        drawable="true"
-                        multiline="true"
-                        name="Clock speed">
-                  </Attribute>
-                  <Attribute
-                        drawable="true"
-                        multiline="true"
-                        name="Invariant">
-                  </Attribute>
-               </Node>
             </Graph>
          </XmlDescription>
       </Formalism>
@@ -168,7 +117,7 @@
                      container="false"
                      name="State">
                   <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        associatedFigure="fr.lip6.move.coloane.formalism.hack.StateNode"
                         description="A state of an hybrid automaton"
                         drawable="true"
                         height="18"
@@ -182,6 +131,32 @@
                         drawable="true"
                         multiline="true"
                         name="Invariant">
+                  </Attribute>
+                  <Attribute
+                        default="False"
+                        drawable="false"
+                        enumerated="true"
+                        multiline="false"
+                        name="Initial">
+                     <EnumerationValue
+                           name="True">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="False">
+                     </EnumerationValue>
+                  </Attribute>
+                  <Attribute
+                        default="False"
+                        drawable="false"
+                        enumerated="true"
+                        multiline="false"
+                        name="Final">
+                     <EnumerationValue
+                           name="True">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="False">
+                     </EnumerationValue>
                   </Attribute>
                </Node>
                <Arc
@@ -217,47 +192,6 @@
                      multiline="false"
                      name="Clocks">
                </Attribute>
-               <Node
-                     container="false"
-                     name="Initial state">
-                  <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
-                        description="An initial state of an hybrid automaton"
-                        drawable="true"
-                        fill="true"
-                        height="18"
-                        icon16px="resources/initial_16.png"
-                        icon24px="resources/initial_24.png"
-                        palettable="true"
-                        paletteName="Initial state"
-                        width="18">
-                  </GraphicInfo>
-                  <Attribute
-                        drawable="true"
-                        multiline="true"
-                        name="Invariant">
-                  </Attribute>
-               </Node>
-               <Node
-                     container="false"
-                     name="Final State">
-                  <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
-                        description="A final state on an hybrid automaton"
-                        drawable="true"
-                        height="18"
-                        icon16px="resources/final_16.png"
-                        icon24px="resources/final_24.png"
-                        palettable="true"
-                        paletteName="Final state"
-                        width="18">
-                  </GraphicInfo>
-                  <Attribute
-                        drawable="true"
-                        multiline="true"
-                        name="Invariant">
-                  </Attribute>
-               </Node>
             </Graph>
          </XmlDescription>
       </Formalism>
@@ -274,7 +208,7 @@
                      container="false"
                      name="State">
                   <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        associatedFigure="fr.lip6.move.coloane.formalism.hack.StateNode"
                         description="A state of an hybrid automaton"
                         drawable="true"
                         height="18"
@@ -300,6 +234,32 @@
                         drawable="true"
                         multiline="false"
                         name="Policy">
+                  </Attribute>
+                  <Attribute
+                        default="False"
+                        drawable="false"
+                        enumerated="true"
+                        multiline="false"
+                        name="Initial">
+                     <EnumerationValue
+                           name="True">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="False">
+                     </EnumerationValue>
+                  </Attribute>
+                  <Attribute
+                        default="False"
+                        drawable="false"
+                        enumerated="true"
+                        multiline="false"
+                        name="Final">
+                     <EnumerationValue
+                           name="True">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="False">
+                     </EnumerationValue>
                   </Attribute>
                </Node>
                <Arc
@@ -335,71 +295,6 @@
                      multiline="false"
                      name="Clocks">
                </Attribute>
-               <Node
-                     container="false"
-                     name="Initial state">
-                  <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
-                        description="An initial state of an hybrid automaton"
-                        drawable="true"
-                        fill="true"
-                        height="18"
-                        icon16px="resources/initial_16.png"
-                        icon24px="resources/initial_24.png"
-                        palettable="true"
-                        paletteName="Initial state"
-                        width="18">
-                  </GraphicInfo>
-                  <Attribute
-                        drawable="true"
-                        multiline="true"
-                        name="Invariant">
-                  </Attribute>
-                  <Attribute
-                        default="1"
-                        drawable="true"
-                        multiline="false"
-                        name="Level">
-                  </Attribute>
-                  <Attribute
-                        default="L"
-                        drawable="true"
-                        multiline="false"
-                        name="Policy">
-                  </Attribute>
-               </Node>
-               <Node
-                     container="false"
-                     name="Final State">
-                  <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
-                        description="A final state on an hybrid automaton"
-                        drawable="true"
-                        height="18"
-                        icon16px="resources/final_16.png"
-                        icon24px="resources/final_24.png"
-                        palettable="true"
-                        paletteName="Final state"
-                        width="18">
-                  </GraphicInfo>
-                  <Attribute
-                        drawable="true"
-                        multiline="true"
-                        name="Invariant">
-                  </Attribute>
-                  <Attribute
-                        default="1"
-                        drawable="true"
-                        multiline="false"
-                        name="Level">
-                  </Attribute>
-                  <Attribute
-                        default="L"
-                        drawable="true"
-                        multiline="false"
-                        name="Policy">
-                  </Attribute>
-               </Node>
             </Graph>
          </XmlDescription>
       </Formalism>

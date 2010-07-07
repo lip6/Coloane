@@ -75,16 +75,16 @@ public class StateNode extends AbstractNodeFigure implements INodeFigure {
 		graphics.drawOval(r);
 
 		Color oldbg = graphics.getBackgroundColor();
-		Color noir = new Color(Display.getCurrent(), 0, 0, 0);
+		Color fill = graphics.getForegroundColor();
 
 		if (isInitial()) {
-			graphics.setBackgroundColor(noir);
+			graphics.setBackgroundColor(fill);
 			graphics.fillPolygon(this.initTriangle());
 			graphics.setBackgroundColor(oldbg);
 		}
 
 		if (isFinal()) {
-			graphics.setBackgroundColor(noir);
+			graphics.setBackgroundColor(fill);
 			graphics.fillPolygon(this.finalTriangle());
 			graphics.setBackgroundColor(oldbg);
 		}
