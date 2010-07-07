@@ -6,27 +6,31 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande de deplacement d'un point d'inflexion
- *
+ * Move an inflex point
  */
 public class InflexMoveCmd extends Command {
 
+	/** The arc that holds the inflex point to move */
 	private IArc arc;
+	/** New position for the inflex point */
 	private Point newPosition;
-	private Point oldPosition;
+	/** Index of the inflex point to move */
 	private int index;
 
+	/** Old position (backup in case of undo) */
+	private Point oldPosition;
+
 	/**
-	 * Constructeur
-	 * @param arcModel L'arc concerne
-	 * @param p La position
-	 * @param i L'index
+	 * Constructor
+	 * @param arc The arc that holds the inflex point
+	 * @param position The new position for the inflex point
+	 * @param index The current index of the inflex point
 	 */
-	public InflexMoveCmd(IArc arcModel, Point p, int i) {
+	public InflexMoveCmd(IArc arc, Point position, int index) {
 		super(Messages.InflexMoveCmd_0);
-		this.arc = arcModel;
-		this.index = i;
-		this.newPosition = p;
+		this.arc = arc;
+		this.index = index;
+		this.newPosition = position;
 		this.newPosition.x = Math.max(this.newPosition.x, 0);
 		this.newPosition.y = Math.max(this.newPosition.y, 0);
 	}

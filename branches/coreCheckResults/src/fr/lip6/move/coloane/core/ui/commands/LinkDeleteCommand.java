@@ -2,20 +2,27 @@ package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
+import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande pour la suppression d'un lien
+ * Delete a link (between a node {@link ILinkableElement} and a note {@link IStickyNote})
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins 
  */
 public class LinkDeleteCommand extends Command {
+	/** The graph */
 	private ICoreGraph graph;
+	/** The link to delete */
 	private ILink link;
 
 	/**
-	 * @param graph graphe
-	 * @param link lien à supprimer
+	 * @param graph The current graph
+	 * @param link The link to delete
 	 */
 	public LinkDeleteCommand(IGraph graph, ILink link) {
 		this.graph = (ICoreGraph) graph;
