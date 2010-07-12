@@ -21,6 +21,8 @@ import org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard;
 /**
  * Generic wizard dedicated to exporting models.<br/>
  * The wizard ID is used in order to find corresponding export extensions.
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class ExportWizard extends FileSystemExportWizard implements IExecutableExtension {
 	/** Logger */
@@ -107,6 +109,9 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 				job.schedule();
 			} catch (CoreException ce) {
 				LOGGER.warning("Unable to load export extension: " + ce);  //$NON-NLS-1$
+				return false;
+			} catch (NullPointerException ne) {
+				LOGGER.warning("Unable to run export process: " + ne);  //$NON-NLS-1$
 				return false;
 			}
 		}
