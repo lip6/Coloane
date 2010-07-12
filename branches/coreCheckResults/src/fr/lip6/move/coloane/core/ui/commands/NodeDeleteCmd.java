@@ -13,30 +13,30 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gef.commands.Command;
-
 /**
- * Commande de suppression d'un noeud du modele
+ * Delete a node from the model
  */
-public class NodeDeleteCmd extends Command {
+public class NodeDeleteCmd extends CheckableCmd {
 
-	/** Noeud a retirer */
-	private final INode node;
-
-	/** Graphe contenant le noeud */
+	/** Graph Model that holds the node to delete */
 	private final IGraph graph;
 
-	/** Garder une copie des connexions sortantes du noeud */
+	/** Node to delete */
+	private final INode node;
+
+	/** List of outgoings arcs (backup in case of undo) */
 	private List<IArc> outArcs = null;
 
-	/** Garder une copie des connexions entrantes vers le noeud */
+	/** List of incoming arcs (backup in case of undo) */
 	private List<IArc> inArcs = null;
 
-	/** Garder une copie des liens */
+	/** List of links (backup in case of undo) */
 	private List<ILink> links = new ArrayList<ILink>();
 
+	/** List of tips (backup in case of undo) */
 	private List<ICoreTip> tips;
 
+	/** The current session */
 	private ISession session;
 
 	/**
@@ -49,26 +49,35 @@ public class NodeDeleteCmd extends Command {
 		this.graph = graph;
 		this.node = node;
 		this.session = SessionManager.getInstance().getCurrentSession();
+		
+		//The node and its associated arcs must be locally checked after the changes 
+		addCheckableElement(node);
+		for (IArc arc : node.getIncomingArcs()) {
+			addCheckableElement(arc);
+		}
+		for (IArc arc : node.getOutgoingArcs()) {
+			addCheckableElement(arc);
+		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
 		// Sauvegarde une copie des listes d'arcs entrants et sortant en cas d'annulation
-		tips = new ArrayList<ICoreTip>(session.getTip(node.getId()));
+		tips = new ArrayList<ICoreTip>(session.getTips(node.getId()));
 		if (node instanceof ILinkableElement) {
 			links.addAll(((ILinkableElement) node).getLinks());
 		}
 		outArcs = new ArrayList<IArc>(node.getOutgoingArcs());
 		for (IArc arc : outArcs) {
-			tips.addAll(session.getTip(arc.getId()));
+			tips.addAll(session.getTips(arc.getId()));
 			if (arc instanceof ILinkableElement) {
 				links.addAll(((ILinkableElement) arc).getLinks());
 			}
 		}
 		inArcs = new ArrayList<IArc>(node.getIncomingArcs());
 		for (IArc arc : inArcs) {
-			tips.addAll(session.getTip(arc.getId()));
+			tips.addAll(session.getTips(arc.getId()));
 			if (arc instanceof ILinkableElement) {
 				links.addAll(((ILinkableElement) arc).getLinks());
 			}
