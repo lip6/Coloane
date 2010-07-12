@@ -4,6 +4,7 @@ import org.eclipse.osgi.util.NLS;
 
 public final class Messages extends NLS {
 	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.core.ui.wizards.exportmodel.messages"; //$NON-NLS-1$
+	public static String ExportJob_0;
 	public static String ExportWizard_0;
 	public static String ExportWizard_1;
 	public static String ExportWizard_2;
