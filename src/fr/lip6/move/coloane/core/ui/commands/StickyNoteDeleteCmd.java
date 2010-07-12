@@ -11,41 +11,41 @@ import java.util.List;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande de suppression d'une note du modele
+ * Delete a sticky note
  */
 public class StickyNoteDeleteCmd extends Command {
 
-	/** Noeud a retirer */
-	private final IStickyNote stickyNote;
+	/** Note to delete */
+	private final IStickyNote note;
 
-	/** Graphe contenant le noeud */
+	/** The graph that holds the note */
 	private final ICoreGraph graph;
 
-	/** Liens reliés à cette note */
+	/** Links used by this note */
 	private List<ILink> links;
 
 	/**
-	 * Constructeur
-	 * @param graph Le graphe qui contient la note
-	 * @param stickyNote La note concernée par la suppression
+	 * Constructor
+	 * @param graph The graph that holds the note
+	 * @param stickyNote The note
 	 */
 	public StickyNoteDeleteCmd(IGraph graph, IStickyNote stickyNote) {
 		super(Messages.StickyNoteDeleteCmd_0);
 		this.graph = (ICoreGraph) graph;
-		this.stickyNote = stickyNote;
+		this.note = stickyNote;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		links = new ArrayList<ILink>(stickyNote.getLinks());
+		links = new ArrayList<ILink>(note.getLinks());
 		this.redo(); // Execute
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		graph.deleteSticky(stickyNote);
+		graph.deleteSticky(note);
 		for (ILink link : links) {
 			graph.deleteLink(link);
 		}
@@ -54,7 +54,7 @@ public class StickyNoteDeleteCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		graph.addSticky(stickyNote);
+		graph.addSticky(note);
 		for (ILink link : links) {
 			graph.addLink(link);
 		}
