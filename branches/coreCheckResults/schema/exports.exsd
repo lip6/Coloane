@@ -59,17 +59,19 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="reference" type="string" use="required">
+         <attribute name="wizard_id" type="string" use="required">
             <annotation>
                <documentation>
-                  This attribute is used to specify the wizard that will be used in order to choose the destination of the exported file. We recommend you to use the prefix fr.lip6.move.coloane.wizard.xxx where xxx is the filename extensions you will use for your exported files.
+                  This attribute tells what is the wizard ID used to choose the destination of the exported file. 
+This is the ID of the org.eclipse.wizard you have declared in your plug-in extension.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  This is the class where the work is done. We recommend you to choose / create a class inside your extension.
+                  This is the class where the work is done. 
+We recommend to choose / create a class inside your extension.
                </documentation>
                <appInfo>
                   <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.extensions.IExportTo"/>
