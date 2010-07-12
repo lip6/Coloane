@@ -19,48 +19,27 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard;
 
 /**
- * Assistant générique d'export de fichier modele<br/>
- * Le format d'export est defini par l'extension qui appelle l'assistant
+ * Generic wizard dedicated to exporting models.<br/>
+ * The wizard ID is used in order to find corresponding export extensions.
  */
 public class ExportWizard extends FileSystemExportWizard implements IExecutableExtension {
-	/** Le logger pour la classe */
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Le format d'export */
-	private String idWizard = null;
+	/** The wizard used for the export... Some export extensions are attached to this wizard */
+	private String exportType = null;
 
-	/** La seule et unique page du wizard */
+	/** The unique wizard page */
 	private ExportWizardPage page;
 
 	/** {@inheritDoc} */
 	@Override
 	public final void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		IStructuredSelection select = null;
+		// Check if some files are currently selected
 		if (currentSelection.getFirstElement() instanceof IFile) { select = currentSelection; }
 		this.page = new ExportWizardPage("ExportPage", select); //$NON-NLS-1$
 		super.init(workbench, currentSelection);
-	}
-
-	/** {@inheritDoc} */
-	@Override
-	public final boolean canFinish() {
-		boolean canPerform = true;
-
-		// On vérifie que chaque fichier peut être exporté
-		for (IResource res : page.getSelectedRessource()) {
-			IFormalism formalism = ModelLoader.loadFromXML(((IFile) res), new FormalismHandler()).getFormalism();
-			if (formalism == null || !ExportToExtension.canPerform(idWizard, formalism)) {
-				canPerform = false;
-				page.setErrorMessage(Messages.ExportWizard_0 + "'" + res.getName() + "'" + Messages.ExportWizard_3);  //$NON-NLS-1$//$NON-NLS-2$
-			}
-		}
-		if (idWizard != null
-				&& canPerform
-				&& !page.getSelectedDirectory().equals("") //$NON-NLS-1$
-				&& page.getSelectedRessource().size() > 0) {
-			return super.canFinish();
-		}
-		return false;
 	}
 
 	/** {@inheritDoc} */
@@ -71,26 +50,63 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 
 	/** {@inheritDoc} */
 	@Override
+	public final boolean canFinish() {
+		if (exportType == null) {
+			page.setErrorMessage(Messages.ExportWizard_1);
+			return false;
+		}
+		
+		// Check that every files can be exported
+		for (IResource res : page.getSelectedRessource()) {
+			// TODO: Use persistent attributes
+			IFormalism currentFormalism = ModelLoader.loadFromXML(((IFile) res), new FormalismHandler()).getFormalism();
+			// Check that it exists an export extension for this wizard, and this formalism
+			if (currentFormalism == null || !ExportToExtension.canPerform(exportType, currentFormalism)) {
+				page.setErrorMessage(Messages.ExportWizard_0 + "'" + res.getName() + "'" + Messages.ExportWizard_3);  //$NON-NLS-1$//$NON-NLS-2$
+				return false;
+			}
+		}
+		
+		// Check the directory
+		if (page.getSelectedDirectory().isEmpty()) {
+			page.setErrorMessage(Messages.ExportWizard_2);
+			return false;
+		}
+		
+		// Check the number of resources to export
+		if (page.getSelectedRessource().size() > 0) {
+			page.setErrorMessage(Messages.ExportWizard_4);
+			return false;
+		}
+		
+		return super.canFinish();
+	}
+
+	/** {@inheritDoc} */
+	@Override
 	public final boolean performFinish() {
 
+		// Check the target directory
 		if (!page.ensureTargetIsValid(new File(page.getSelectedDirectory()))) {
 			return false;
 		}
 
+		// For all selected resources
 		for (IResource res : page.getSelectedRessource()) {
+			// Export the model
 			try {
 				Job job = new ExportJob("Export " + res.getName(), //$NON-NLS-1$
 						(IFile) res,
-						ExportToExtension.createConvertInstance(this.idWizard),
+						ExportToExtension.createConvertInstance(this.exportType),
 						page.getSelectedDirectory(),
-						ExportToExtension.findExtension(this.idWizard));
+						ExportToExtension.findExtension(this.exportType));
 
 				job.setPriority(Job.LONG);
 				job.setRule(res);
 				job.setUser(true);
 				job.schedule();
 			} catch (CoreException ce) {
-				LOGGER.warning("Erreur lors de l'initialisation de l'extension chargee de l'export: " + ce);  //$NON-NLS-1$
+				LOGGER.warning("Unable to load export extension: " + ce);  //$NON-NLS-1$
 				return false;
 			}
 		}
@@ -99,18 +115,19 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 	}
 
 	/**
-	 * Indique le format d'export utilise dans cette instance d'assistant
-	 * @param idWizard Le format a utiliser pour l'export
+	 * Set the export type... This type is given by the wizard.
+	 * Each export extension defines the wizard (thanks to the wizard id) that it contributes to.
+	 * @param idWizard the wizard id that will be used to find corresponding export extension
 	 */
 	protected final void setExportFormat(String idWizard) {
-		LOGGER.finer("Wizard selectionne : " + idWizard); //$NON-NLS-1$
-		this.idWizard = idWizard;
+		LOGGER.finer("Selected wizard: " + idWizard); //$NON-NLS-1$
+		this.exportType = idWizard;
 	}
 
 
 	/** {@inheritDoc} */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
-		// Recuperation de l'identitifant de l'appelant permettant ansi de determiner le format d'export
+		// Fetch the identifier of the wizard, in order to find the corresponding export extension.
 		this.setExportFormat(config.getAttribute("id")); //$NON-NLS-1$
 	}
 }
