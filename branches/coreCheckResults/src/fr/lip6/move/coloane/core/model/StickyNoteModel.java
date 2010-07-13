@@ -16,33 +16,31 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * Description d'une note qui sera affichée sur l'éditeur
+ * Sticky Note
  */
 public class StickyNoteModel extends AbstractPropertyChange implements IStickyNote, ILocatedElement {
-	/** Logger 'fr.lip6.move.coloane.core'. */
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Les coordonnées de la note */
-	private int x;
-	private int y;
-	private int height;
-	private int width;
+	/** Location */
+	private Point location;
+	
+	/** Dimensions */
+	private Dimension dimension;
 
-	/** Les guides pour l'alignement automatique */
+	/** Guides to help the alignment */
 	private EditorGuide horizontalGuide;
 	private EditorGuide verticalGuide;
 
-	/** Le texte par défaut de la note */
+	/** Default text */
 	private String text = "Sticky"; //$NON-NLS-1$
 
-	/** Liste des liens */
+	/** List of links for this note */
 	private List<ILink> links = new ArrayList<ILink>();
 
-	/**
-	 * Constructeur
-	 */
+	/** Constructor */
 	StickyNoteModel() {
-		LOGGER.finest("Création d'une StickyNote()"); //$NON-NLS-1$
+		LOGGER.finest("Build a sticky note"); //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
@@ -52,15 +50,10 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** {@inheritDoc} */
 	public final void setLabelContents(String newText) {
-		LOGGER.finest("setLabelContent(" + newText + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		// sauvegarde de l'ancienne valeur
-		String oldText = this.text;
-
-		// Mise en place de la nouvelle valeur
-		this.text = newText;
-
-		// Evenement
-		firePropertyChange(IStickyNote.VALUE_PROP, oldText, this.text);
+		LOGGER.finest("Set note value " + newText); //$NON-NLS-1$
+		String oldText = this.text; // Backup the old value
+		this.text = newText; // Set the text
+		firePropertyChange(IStickyNote.VALUE_PROP, oldText, this.text); // Tells the editor that something has changed
 	}
 
 	/** {@inheritDoc} */
@@ -70,21 +63,15 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** {@inheritDoc} */
 	public final Point getLocation() {
-		return new Point(this.x, this.y);
+		return this.location;
 	}
 
 	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
-		LOGGER.finest("setLocation(" + location + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		// Sauvegarde des anciennes valeurs
-		Point oldLocation = getLocation();
-
-		// Mise en place des nouvelles
-		this.x = location.x;
-		this.y = location.y;
-
-		// Evénement
-		firePropertyChange(LOCATION_PROP, oldLocation, getLocation());
+		LOGGER.finest("Set note location " + location); //$NON-NLS-1$
+		Point oldLocation = getLocation(); // Backup
+		this.location = location.getCopy();
+		firePropertyChange(LOCATION_PROP, oldLocation, getLocation()); // Tells the editor that something has changed
 	}
 	
 	/** {@inheritDoc} */
@@ -94,21 +81,15 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** {@inheritDoc} */
 	public final Dimension getSize() {
-		return new Dimension(this.width, this.height);
+		return this.dimension;
 	}
 
 	/** {@inheritDoc} */
 	public final void setSize(Dimension size) {
-		LOGGER.finest("setSize(" + size + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		// Sauvegarde des anciennes valeurs
-		Dimension oldDimension = getSize();
-
-		// Mise en place des nouvelles valeurs
-		this.width = size.width;
-		this.height = size.height;
-
-		// Evénement
-		firePropertyChange(IStickyNote.RESIZE_PROP, oldDimension, getSize());
+		LOGGER.finest("set note dimensions " + size); //$NON-NLS-1$
+		Dimension oldDimension = getSize(); // Backup old value
+		this.dimension = size;
+		firePropertyChange(IStickyNote.RESIZE_PROP, oldDimension, getSize()); // Tells the editor that something has changed
 	}
 
 	/** {@inheritDoc} */

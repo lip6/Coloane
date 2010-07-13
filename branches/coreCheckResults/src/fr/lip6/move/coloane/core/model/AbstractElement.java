@@ -17,17 +17,14 @@ import java.util.Map;
  * Manage the attributes of an IElement.
  * 
  * @see ICoreElement
+ * @author Jean-Baptiste Voron
  */
 public abstract class AbstractElement extends AbstractPropertyChange implements IElement, ISpecialState, PropertyChangeListener {
 
-	/**
-	 * Map of attributes, the key is the name of the attributes.
-	 */
+	/** Map of attributes, the key is the name of the attributes. */
 	private Map<String, IAttribute> attributes = new HashMap<String, IAttribute>();
 
-	/**
-	 * Map of computed attributes, the key is the name of the attributes.
-	 */
+	/** Map of computed attributes, the key is the name of the attributes. */
 	private Map<String, IAttribute> computedAttributes = new HashMap<String, IAttribute>();
 
 	/** Unique identifier */
@@ -57,7 +54,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 			}
 
 			if (computedAttributes != null) {
-				// Browse all attributes defined by the formalism
+				// Browse all computed attributes defined by the formalism
 				for (IComputedAttributeFormalism attr : computedAttributes) {
 					IAttribute attributeModel = new ComputedAttributeModel(this, attr);
 					// Here, we register the attribute as a listener of node changes...
