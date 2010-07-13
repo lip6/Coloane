@@ -21,6 +21,9 @@ import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Describe an <b>arc</b> model object
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 public class ArcModel extends AbstractElement implements IArc, ILinkableElement {
 	/** logger */
@@ -28,7 +31,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** The arc formalism */
 	private final IArcFormalism arcFormalism;
-	/** All gaphical information about this arc */
+	/** All graphical information about this arc */
 	private final IArcGraphicInfo graphicInfo;
 
 	/** Source */

@@ -4,7 +4,6 @@ import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
@@ -73,11 +72,11 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	 * @param formalismName Formalism name used to create the new graph model
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */
-	public GraphModel(String formalismName) throws IllegalArgumentException {
-		super(1, null, FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getAttributes() , FormalismManager.getInstance().getFormalismByName(formalismName).getMasterGraph().getComputedAttributes());
-		LOGGER.fine("Création d'un GraphModel(" + formalismName + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		this.formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
-		this.graphFormalism = formalism.getMasterGraph();
+	public GraphModel(IFormalism formalism) throws IllegalArgumentException {
+		super(1, null, formalism.getRootGraph().getAttributes() , formalism.getRootGraph().getComputedAttributes());
+		LOGGER.fine("Build a graph model using formalism:" + formalism.getName() + ""); //$NON-NLS-1$ //$NON-NLS-2$
+		this.formalism = formalism;
+		this.graphFormalism = formalism.getRootGraph();
 
 		// Create graphical properties
 		this.editorProperties = new GraphEditorProperties();

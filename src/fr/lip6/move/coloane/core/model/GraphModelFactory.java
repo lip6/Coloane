@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
@@ -11,16 +12,20 @@ import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
 import org.eclipse.draw2d.AbsoluteBendpoint;
 
 /**
- * Classe permettant de construire un nouveau IGraph.
+ * Class that helps to build a new {@link IGraph}
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 public class GraphModelFactory {
 
 	/**
-	 * @param formalismName nom du formalisme.
-	 * @return nouvelle instance d'un IGraph.
+	 * Build a new graph model
+	 * @param formalism The formalism used to build the graph model
+	 * @return a new graph model
 	 */
-	public final IGraph createGraph(String formalismName) {
-		return new GraphModel(formalismName);
+	public final IGraph createGraph(IFormalism formalism) {
+		return new GraphModel(formalism);
 	}
 
 	/**
@@ -31,22 +36,22 @@ public class GraphModelFactory {
 	 * @return a copy
 	 */
 	public final IGraph copyGraph(IGraph original) {
-		IGraph copy = createGraph(original.getFormalism().getName());
+		IGraph copy = createGraph(original.getFormalism());
 
 		try {
-			// copy graph attributes
+			// Copy graph attributes
 			for (IAttribute att : original.getAttributes()) {
 				IAttribute attCopy = copy.getAttribute(att.getName());
 				copyAttribute(att, attCopy);
 			}
 
-			// copy nodes
+			// Copy nodes
 			for (INode node : original.getNodes()) {
 				INode nodeCopy = copy.createNode(node.getNodeFormalism().getName(), node.getId());
 				copyNode(node, nodeCopy);
 			}
 
-			// copy arcs
+			// Copy arcs
 			for (IArc arc : original.getArcs()) {
 				IArc arcCopy = copy.createArc(arc.getArcFormalism().getName(),
 											  copy.getNode(arc.getSource().getId()),

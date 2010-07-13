@@ -50,7 +50,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Constructor
-	 * 
 	 * @param parent The parent of this node (often the graph itself)
 	 * @param nodeFormalism The formalism description of the node
 	 * @param id The identifier (unique) of the node
@@ -101,7 +100,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Add an outgoing arc for the considered node
-	 * 
 	 * @param outArc The arc to add to the list
 	 */
 	final void addOutgoingArc(IArc outArc) {
@@ -112,7 +110,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Add an incoming arc for the considered node
-	 * 
 	 * @param inArc The arc to add to the list
 	 */
 	final void addIncomingArc(IArc inArc) {
@@ -123,7 +120,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Remove an outgoing arc from the node
-	 * 
 	 * @param outArc The arc to remove from the list
 	 */
 	final void removeOutcomingArc(IArc outArc) {
@@ -134,7 +130,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Remove an incoming arc from the node
-	 * 
 	 * @param inArc The arc to remove from the list
 	 */
 	final void removeIncomingArc(IArc inArc) {

@@ -48,7 +48,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * All information is extracted from the formalism definition.
 	 * More especially from the node formalism graphical description
 	 * @see IGraphicalDescription
-	 * @param node The node to wich this graphicInfo is associated to
+	 * @param node The node to which this graphicInfo is associated to
 	 */
 	public NodeGraphicInfo(INode node) {
 		this.node = (NodeModel) node;
