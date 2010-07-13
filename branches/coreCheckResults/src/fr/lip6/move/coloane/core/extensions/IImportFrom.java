@@ -6,16 +6,18 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
- * Interface que doivent implémenter les extensions d'import de modèles
+ * Import extensions must implement this interface.<br>
+ * In fact, they must provide a way to import data from a file and to transform it into a {@link IGraph}.
  */
 public interface IImportFrom {
+
 	/**
-	 * Permet de recuperer un modele correspendant a la represention interne de Coloane
-	 * @param filePath chemin du fichier a importer
-	 * @param formalism Le formalisme du modèle à importer
-	 * @param monitor Le moniteru de progression
-	 * @return un modele correspendant a la represention interne de Coloane
-	 * @throws ColoaneException toutes les exceptions susceptiblent d'etre engendrees et a afficher
+	 * Transform a file into a {@link IGraph}
+	 * @param filePath Path of the file to import
+	 * @param formalism The formalism that will be used to build the model
+	 * @param monitor Progress monitor
+	 * @return an {@link IGraph} using an appropriate formalism
+	 * @throws ColoaneException If something went wring during the import process
 	 */
 	IGraph importFrom(String filePath, String formalism, IProgressMonitor monitor) throws ColoaneException;
 }
