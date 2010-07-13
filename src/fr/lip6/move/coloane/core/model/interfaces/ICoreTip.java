@@ -4,6 +4,9 @@ import fr.lip6.move.coloane.core.model.CoreTipModel.ArcTipModel;
 
 /**
  * Interface for a graphical tip
+ * 
+ * @author Clément Démoulins
+ * @author Jean-Baptiste Voron
  */
 public interface ICoreTip extends ILocatedElement {
 

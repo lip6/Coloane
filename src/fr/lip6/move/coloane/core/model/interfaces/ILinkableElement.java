@@ -4,6 +4,9 @@ import java.util.List;
 
 /**
  * The element that implement this interface can be linked to a sticky note.
+ * 
+ * @author Clément Démoulins
+ * @author Jean-Baptiste Voron
  */
 public interface ILinkableElement {
 	/**

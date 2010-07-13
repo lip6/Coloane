@@ -116,7 +116,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
-		return "Attribut: " + name + "= " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "Attribute: " + name + "= " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 	
 	/** {@inheritDoc} */

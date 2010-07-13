@@ -5,6 +5,8 @@ import java.beans.PropertyChangeSupport;
 
 /**
  * Manager for listeners
+ * 
+ * @author Jean-Baptiste Voron
  */
 public abstract class AbstractPropertyChange {
 
