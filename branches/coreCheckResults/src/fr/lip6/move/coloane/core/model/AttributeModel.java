@@ -44,7 +44,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * @param attributeFormalism The properties of this attribute (given by the formalism)
 	 */
 	AttributeModel(IElement reference, IAttributeFormalism attributeFormalism) {
-		LOGGER.finest("Création d'un AttributeModel(" + attributeFormalism.getName() + ", " + reference.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.finest("Build an attribute: " + attributeFormalism.getName() + " for #" + reference.getId()); //$NON-NLS-1$ //$NON-NLS-2$
 		this.reference = reference;
 		this.attributFormalism = attributeFormalism;
 		this.name = attributeFormalism.getName();
@@ -116,7 +116,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
-		return "Attribut(" + name + ": " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "Attribut: " + name + "= " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 	
 	/** {@inheritDoc} */

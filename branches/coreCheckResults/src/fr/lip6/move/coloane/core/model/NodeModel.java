@@ -57,7 +57,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 */
 	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id) {
 		super(id, parent, nodeFormalism.getAttributes(), nodeFormalism.getComputedAttributes());
-		LOGGER.finest("Création d'un NodeModel(" + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest("Build a node: " + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.nodeFormalism = nodeFormalism;
 		this.graphicInfos = new NodeGraphicInfo(this);
 	}
@@ -66,13 +66,13 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * Delete all input or output arcs and links from the node
 	 */
 	final void deleteArcsLinks() {
-		LOGGER.finest("delete(" + getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest("Delete arcs from node #" + getId()); //$NON-NLS-1$
 		for (IArc arc : outgoingArcs) {
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
 			((ArcModel) arc).delete();
 		}
 		for (IArc arc : incomingArcs) {
-			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
+			((NodeModel) arc.getSource()).removeOutgoingArc(arc);
 			((ArcModel) arc).delete();
 		}
 		for (ILink link : links) {
@@ -103,7 +103,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @param outArc The arc to add to the list
 	 */
 	final void addOutgoingArc(IArc outArc) {
-		LOGGER.finest("addOutgoingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest("Add outgoing arc #" + outArc.getId()); //$NON-NLS-1$
 		outgoingArcs.add(outArc);
 		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, outArc);
 	}
@@ -113,7 +113,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @param inArc The arc to add to the list
 	 */
 	final void addIncomingArc(IArc inArc) {
-		LOGGER.finest("addIncomingArc(" + inArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest("Add incoming arc #" + inArc.getId()); //$NON-NLS-1$
 		incomingArcs.add(inArc);
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, inArc);
 	}
@@ -122,8 +122,8 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * Remove an outgoing arc from the node
 	 * @param outArc The arc to remove from the list
 	 */
-	final void removeOutcomingArc(IArc outArc) {
-		LOGGER.finest("removeOutcomingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+	final void removeOutgoingArc(IArc outArc) {
+		LOGGER.finest("Remove outgoing arc #" + outArc.getId()); //$NON-NLS-1$
 		outgoingArcs.remove(outArc);
 		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, outArc);
 	}
@@ -133,7 +133,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @param inArc The arc to remove from the list
 	 */
 	final void removeIncomingArc(IArc inArc) {
-		LOGGER.finest("removeIncomingArc(" + inArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest("Remove incoming arc #" + inArc.getId()); //$NON-NLS-1$
 		incomingArcs.remove(inArc);
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, inArc);
 	}
@@ -208,7 +208,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		if (attrName != null) {
 			name = attrName.getValue();
 		}
-		return "Node(" + getId() + ", " + name + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "Node #" + getId() + " (" + name + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/** {@inheritDoc} */

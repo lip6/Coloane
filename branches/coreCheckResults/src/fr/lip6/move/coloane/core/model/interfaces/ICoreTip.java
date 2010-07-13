@@ -1,49 +1,29 @@
 package fr.lip6.move.coloane.core.model.interfaces;
 
 import fr.lip6.move.coloane.core.model.CoreTipModel.ArcTipModel;
-import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
-import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
-
-import org.eclipse.draw2d.geometry.Point;
 
 /**
- * Interface pour le modèle d'un tip graphique (ITip adapté)
+ * Interface for a graphical tip
  */
-public interface ICoreTip {
+public interface ICoreTip extends ILocatedElement {
 
 	/**
-	 * @return modèle pour l'arc reliant ce tip à l'élément concerné
+	 * @return The link between the tip and the element
 	 */
 	ArcTipModel getArcModel();
 
-	/** {@inheritDoc} */
-	ILocationInfo getLocationInfo();
-
-	/** {@inheritDoc} */
+	/**
+	 * @return The ID of the object designated by the tip
+	 */
 	int getIdObject();
 
-	/** {@inheritDoc} */
+	/**
+	 * @return The name of the tip
+	 */
 	String getName();
 
-	/** {@inheritDoc} */
+	/**
+	 * @return The value of the tip 
+	 */
 	String getValue();
-
-	/** {@inheritDoc} */
-	EditorGuide getHorizontalGuide();
-
-	/** {@inheritDoc} */
-	EditorGuide getVerticalGuide();
-
-	/** {@inheritDoc} */
-	void setHorizontalGuide(EditorGuide guide);
-
-	/** {@inheritDoc} */
-	void setVerticalGuide(EditorGuide guide);
-
-	/** {@inheritDoc} */
-	Point getLocation();
-
-	/** {@inheritDoc} */
-	void setLocation(Point newLocation);
-
 }
