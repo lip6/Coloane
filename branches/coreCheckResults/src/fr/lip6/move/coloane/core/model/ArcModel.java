@@ -62,7 +62,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 		super(id, parent, arcFormalism.getAttributes(), arcFormalism.getComputedAttributes());
 		LOGGER.finest("Build an arc: " + arcFormalism.getName() + ", #" + source.getId() + " -> #" + target.getId()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		if (source == null || target == null) {
-			throw new NullPointerException("source and target nodes must be not null"); //$NON-NLS-1$
+			throw new NullPointerException("Source and target nodes must be not null"); //$NON-NLS-1$
 		}
 		this.arcFormalism = arcFormalism;
 		this.source = source;

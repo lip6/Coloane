@@ -7,6 +7,7 @@ import org.eclipse.draw2d.geometry.Dimension;
 /**
  * Sticky note interface 
  * 
+ * @author Clément Démoulins
  * @author Jean-Baptiste Voron
  */
 public interface IStickyNote extends ILocationInfo, ILinkableElement {
