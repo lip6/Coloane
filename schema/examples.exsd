@@ -1,16 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="fr.lip6.move.coloane.core">
+<schema targetNamespace="fr.lip6.move.coloane.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="fr.lip6.move.coloane.core" id="examples" name="Examples"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         Use this extension point to provide model examples for various formalisms. Contributed examples will be available during the model creation process (wizard). You can contribute the new model examples either by xml models (exported by coloane) or by programmatic descriptions.
       </documentation>
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="example" minOccurs="1" maxOccurs="unbounded"/>
@@ -114,13 +119,5 @@
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="copyright"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
 </schema>
