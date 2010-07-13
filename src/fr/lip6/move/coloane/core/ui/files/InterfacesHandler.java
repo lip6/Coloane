@@ -16,7 +16,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Find interfaces in a xml file.
+ * Find interfaces in a XML file.
  *
  * @author Clément Démoulins
  */
@@ -31,7 +31,7 @@ public class InterfacesHandler extends DefaultHandler {
 	private StringBuilder data;
 
 	/**
-	 * Class for public node with minimun data for link a node.<br>
+	 * Class for public node with minimum data for link a node.<br>
 	 * <ol>
 	 * <li>method toString() return a string to display to the users.
 	 * <li>method getLink() must be use in the model to link a node to a public node.
@@ -145,7 +145,7 @@ public class InterfacesHandler extends DefaultHandler {
 				if (nodeFormalism != null) {
 					current.setIcon(ImageDescriptor.createFromFile(Coloane.class, nodeFormalism.getGraphicalDescription().getIcon16px()));
 				} else if (formalism != null) {
-					IElementFormalism elementFormalism = formalism.getMasterGraph().getElementFormalism(nodeFormalismName);
+					IElementFormalism elementFormalism = formalism.getRootGraph().getElementFormalism(nodeFormalismName);
 					if (elementFormalism != null) {
 						current.setIcon(ImageDescriptor.createFromFile(Coloane.class, elementFormalism.getGraphicalDescription().getIcon16px()));
 					}

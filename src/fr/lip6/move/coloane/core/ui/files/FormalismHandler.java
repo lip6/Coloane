@@ -8,27 +8,25 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Handler qui permet de parser un modèle pour juste récupérer le formalisme.
- *
- * TODO : trouver un moyen de ne pas lire completement le fichier sachant que
- * le formalisme se trouve au début du fichier.
+ * Simple file handler that fetches the formalism from an XML file
+ * 
+ * @author Clément Démoulins
  */
 public class FormalismHandler extends DefaultHandler {
+	/** The formalism */
 	private IFormalism formalism;
 
-	/**
-	 * @return le formalisme
-	 */
+	/** @return the formalisme */
 	public final IFormalism getFormalism() {
-		return formalism;
+		return this.formalism;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
-		if ("model".equals(name)) { //$NON-NLS-1$
-			// Récupération du nom du formalisme
-			String formalismName = attributes.getValue("formalism"); //$NON-NLS-1$
+		if (IModelHandler.MODEL_MARKUP.equals(name)) {
+			// Fetch the formalism value
+			String formalismName = attributes.getValue(IModelHandler.MODEL_FORMALISM_MARKUP);
 			try {
 				formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 			} catch (IllegalArgumentException e) {
