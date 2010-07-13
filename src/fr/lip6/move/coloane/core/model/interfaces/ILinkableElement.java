@@ -3,22 +3,24 @@ package fr.lip6.move.coloane.core.model.interfaces;
 import java.util.List;
 
 /**
- * Les éléments qui implémentent cette interface pourront être liés entre eux.
+ * The element that implement this interface can be linked to a sticky note.
  */
 public interface ILinkableElement {
 	/**
-	 * @param link lien à ajouter
+	 * Add a sticky link to the element.
+	 * @param link The link to add
 	 */
 	void addLink(ILink link);
 
 	/**
-	 * @param link lien à supprimer
-	 * @return <code>true</code> si le lien a bien été supprimé.
+	 * Remove a sticky link from the element
+	 * @param link The link to remove 
+	 * @return <code>true</code> if the link has been correctly removed
 	 */
 	boolean removeLink(ILink link);
 
 	/**
-	 * @return la liste des liens de cette élément
+	 * @return All element sticky links
 	 */
 	List<ILink> getLinks();
 }

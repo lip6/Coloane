@@ -68,7 +68,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
-		LOGGER.finest("setLocation(" + location.x + ", " + location.y + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.finest("New location (" + location.x + ", " + location.y + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		Point oldLocation = new Point(this.x, this.y);
 		this.x = location.x;
 		this.y = location.y;

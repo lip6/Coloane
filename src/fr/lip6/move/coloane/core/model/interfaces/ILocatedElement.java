@@ -13,6 +13,8 @@ import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
  * 	<li>A way to handle vertical and horizontal guides {@link EditorGuide}</li>
  * </ul>
  * @see {@link NodeModel}, {@link AttributeModel}
+ * 
+ * @author Jean-Baptiste Voron
  */
 public interface ILocatedElement {
 	/**

@@ -47,13 +47,13 @@ public class GraphModelFactory {
 
 			// Copy nodes
 			for (INode node : original.getNodes()) {
-				INode nodeCopy = copy.createNode(node.getNodeFormalism().getName(), node.getId());
+				INode nodeCopy = copy.createNode(node.getNodeFormalism(), node.getId());
 				copyNode(node, nodeCopy);
 			}
 
 			// Copy arcs
 			for (IArc arc : original.getArcs()) {
-				IArc arcCopy = copy.createArc(arc.getArcFormalism().getName(),
+				IArc arcCopy = copy.createArc(arc.getArcFormalism(),
 											  copy.getNode(arc.getSource().getId()),
 											  copy.getNode(arc.getTarget().getId()),
 											  arc.getId());

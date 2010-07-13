@@ -1,24 +1,24 @@
 package fr.lip6.move.coloane.core.model.interfaces;
 
 /**
- * Interface pour un lien.
+ * Interface for a sticky link
  */
 public interface ILink {
 
 	/**
-	 * Reconnection du lien
-	 * @param newSource nouvelle note source
-	 * @param newTarget nouvelle cible
+	 * Reconnect the link with a new sticky note or a new element
+	 * @param newNote New sticky note
+	 * @param newTarget New element
 	 */
-	void reconnect(IStickyNote newSource, ILinkableElement newTarget);
+	void reconnect(IStickyNote newNote, ILinkableElement newTarget);
 
 	/**
-	 * @return source du lien
+	 * @return The element that is linked to the sticky note
 	 */
 	ILinkableElement getElement();
 
 	/**
-	 * @return cible du lien
+	 * @return The sitcky note
 	 */
 	IStickyNote getNote();
 }

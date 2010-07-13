@@ -49,7 +49,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	 * @param computedAttributFormalism The properties of this attribute (given by the formalism)
 	 */
 	ComputedAttributeModel(IElement reference, IComputedAttributeFormalism computedAttributFormalism) {
-		LOGGER.finest("Création d'un AttributeModel(" + computedAttributFormalism.getName() + ", " + reference.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.finest("Build a computed attribute: " + computedAttributFormalism.getName() + " for #" + reference.getId()); //$NON-NLS-1$ //$NON-NLS-2$
 		this.reference = reference;
 		this.computedAttributFormalism = computedAttributFormalism;
 		this.name = computedAttributFormalism.getName();
@@ -127,7 +127,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
-		return "Attribut(" + name + ": " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "ComputedAttribute: " + name + "= " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 	
 	/**
