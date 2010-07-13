@@ -22,19 +22,21 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Classe regroupant les outils utiles au chargement d'un modèle à partir d'un fichier xml
+ * Utility class that help to load a model from an XML file.
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 public final class ModelLoader {
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/**
-	 * Classe ne contenant que des méthode statique.
-	 */
+	/** Constructor */
 	private ModelLoader() {	}
 
 	/**
-	 * Charge le schema WML de haut niveau pour vérifier que le modèle est un modèle de graphe supporté
-	 * @return Le schéma ou <code>null</code> si le XSD n'a pas été trouvé
+	 * Load the high level XML schema to check that the model is currently supported.
+	 * @return The XSchema or <code>null</code> if the XSD has not been found
 	 */
 	private static Schema loadSchema() {
 		Schema schema = null;
@@ -45,8 +47,8 @@ public final class ModelLoader {
 			schema = schemaFactory.newSchema(schemaSource);
 			return schema;
 		} catch (SAXException e) {
-			LOGGER.warning("Erreur lors du chargement du schema de validation XML"); //$NON-NLS-1$
-			LOGGER.finer("Details : " + e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Unable to load the XML Schame"); //$NON-NLS-1$
+			LOGGER.warning("Details: " + e.getMessage()); //$NON-NLS-1$
 			return null;
 		}
 	}
@@ -71,7 +73,7 @@ public final class ModelLoader {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		Schema schema = loadSchema();
 
-		// Phase de validation du fichier par rapport au modele global
+		// Validate the model against the high level definition
 		Validator validator = schema.newValidator();
 		try {
 			validator.validate(new StreamSource(xmlURI.toURL().openStream()));
@@ -79,11 +81,11 @@ public final class ModelLoader {
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(xmlURI.toString(), handler);
 		} catch (SAXException e) {
-			LOGGER.warning("Impossible de parser le fichier. " + e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Unable to parse the file: " + e.getMessage()); //$NON-NLS-1$
 		} catch (IOException e) {
-			LOGGER.warning("Erreur d'E/S : " + e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("I/O error: " + e.getMessage()); //$NON-NLS-1$
 		} catch (ParserConfigurationException e) {
-			LOGGER.warning("Erreur lors de la création du parser. " + e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Wrong parser initialization: " + e.getMessage()); //$NON-NLS-1$
 		}
 
 		return handler;
