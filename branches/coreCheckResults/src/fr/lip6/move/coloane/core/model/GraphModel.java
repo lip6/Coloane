@@ -68,8 +68,8 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	private GraphEditorProperties editorProperties = null;
 
 	/**
-	 * Build a new graph according to a formalism name
-	 * @param formalismName Formalism name used to create the new graph model
+	 * Build a new graph according to a formalism
+	 * @param formalism Formalism used to create the new graph model
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */
 	public GraphModel(IFormalism formalism) throws IllegalArgumentException {
@@ -83,6 +83,8 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 
 		this.addPropertyChangeListener(this);
 	}
+	
+	
 
 	/**
 	 * @return A new and unique identifier.
