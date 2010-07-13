@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.wizards.newmodel;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -9,19 +10,21 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
 /**
- * Assistant pour la création d'un nouveau modèle.<br>
- * Cet assistant comporte 2 étapes :
+ * Wizard dedicated to new model creation.<br>
+ * This wizard is made of two pages:
  * <ul>
- * 	<li>Sélection du formalisme pour le nouveau modèle</li>
- * 	<li>Choix du nom de fichier et du projet de rattachement</li>
+ * 	<li>Choose a formalism among available ones</li>
+ * 	<li>Choose a filename and a project</li>
  * </ul>
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class NewModelWizard extends Wizard implements INewWizard {
 
-	/** Formalisme */
-	private String formalismName;
+	/** The formalism */
+	private IFormalism formalism;
 
-	/** Les pages de l'assistant */
+	/** Wizard pages */
 	private SelectFormalismPage selectFormalism;
 	private ModelCreationPage createModel;
 
@@ -34,9 +37,9 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	}
 
 	/**
-	 * Initialisation de l'assistant
-	 * @param workbench Workbench
-	 * @param selection Selection
+	 * Init the wizard
+	 * @param workbench The workbench
+	 * @param selection The current selection
 	 */
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/select_form.png")); //$NON-NLS-1$
@@ -52,18 +55,18 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	}
 
 	/**
-	 * Obtenir le nom du formalisme
+	 * Get the selected formalism
 	 * @return retourne le nom du formalisme
 	 */
-	public final String getFormalismName() {
-		return formalismName;
+	public final IFormalism getFormalism() {
+		return this.formalism;
 	}
 
 	/**
-	 * Indique quel formalisme va être utilisé pour la création du modèle
-	 * @param name Le nom du formalisme
+	 * Set the formalism that will be used in this process
+	 * @param formalism The formalism name
 	 */
-	public final void setFormalismName(String name) {
-		this.formalismName = name;
+	public final void setFormalism(IFormalism formalism) {
+		this.formalism = formalism;
 	}
 }
