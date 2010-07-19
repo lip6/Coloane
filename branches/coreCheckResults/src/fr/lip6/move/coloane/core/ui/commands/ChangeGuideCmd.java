@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 
 import org.eclipse.gef.commands.Command;
 
@@ -64,8 +65,8 @@ public class ChangeGuideCmd extends Command {
 	@Override
 	public final void execute() {
 		// Cache the old values
-		oldGuide = locatedElement.getVerticalGuide();
-		if (horizontal) { oldGuide = locatedElement.getHorizontalGuide(); }
+		oldGuide = locatedElement.getGuide(EditorRulerProvider.VERTICAL_ORIENTATION);
+		if (horizontal) { oldGuide = locatedElement.getGuide(EditorRulerProvider.HORIZONTAL_ORIENTATION); }
 		if (oldGuide != null) {	oldAlign = oldGuide.getAlignment(locatedElement); }
 		redo();
 	}
