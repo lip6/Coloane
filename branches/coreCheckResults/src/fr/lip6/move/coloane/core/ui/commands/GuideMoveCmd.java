@@ -11,7 +11,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 /**
  * Move a guide with all attached nodes
  */
-public class MoveGuideCmd extends Command {
+public class GuideMoveCmd extends Command {
 
 	/** The guide that is moved */
 	private EditorGuide guide;
@@ -27,7 +27,7 @@ public class MoveGuideCmd extends Command {
 	 * @param guide The guide that is moved
 	 * @param delta The move
 	 */
-	public MoveGuideCmd(EditorGuide guide, int delta) {
+	public GuideMoveCmd(EditorGuide guide, int delta) {
 		super(Messages.MoveGuideCommand_0);
 		this.guide = guide;
 		this.delta = delta;
