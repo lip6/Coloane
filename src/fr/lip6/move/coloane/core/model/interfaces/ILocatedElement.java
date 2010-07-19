@@ -24,24 +24,21 @@ public interface ILocatedElement {
 	ILocationInfo getLocationInfo();
 
 	/**
-	 * @return the horizontal guide associated to this object
+	 * @return the guide to which this object is attached
+	 * @see EditorGuide.#HORIZONTAL_ORIENTATION
+	 * @see EditorGuide.#VERTICAL_ORIENTATION
 	 */
-	EditorGuide getHorizontalGuide();
+	EditorGuide getGuide(int orientation);
 
 	/**
-	 * @return the vertical guide associated to this object
+	 * Set a new guide (horizontal or vertical) to this object
+	 * @param guide The new guide
 	 */
-	EditorGuide getVerticalGuide();
-
+	void setGuide(EditorGuide guide);
+	
 	/**
-	 * Set a new horizontal guide to this object
-	 * @param guide the new horizontal guide
+	 * Remove (detach) a guide from this object
+	 * @param guide The guide to remove
 	 */
-	void setHorizontalGuide(EditorGuide guide);
-
-	/**
-	 * Set a new vertical guide to this object
-	 * @param guide the new vertical guide
-	 */
-	void setVerticalGuide(EditorGuide guide);
+	void removeGuide(int orientation);
 }
