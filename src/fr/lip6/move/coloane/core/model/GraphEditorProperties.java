@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.ui.rulers.EditorRuler;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
+
 import org.eclipse.draw2d.PositionConstants;
 
 /**
@@ -21,8 +23,8 @@ public class GraphEditorProperties {
 	 * Constructor
 	 */
 	GraphEditorProperties() {
-		this.leftRuler = new EditorRuler(false);
-		this.topRuler = new EditorRuler(true);
+		this.leftRuler = new EditorRuler(EditorRulerProvider.VERTICAL_ORIENTATION);
+		this.topRuler = new EditorRuler(EditorRulerProvider.VERTICAL_ORIENTATION);
 	}
 
 	/**

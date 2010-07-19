@@ -38,7 +38,7 @@ public class DeleteGuideCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		oldElements = new HashMap<ILocatedElement, Integer>(guide.getMap());
+		oldElements = new HashMap<ILocatedElement, Integer>(guide.getAttachedElementsWithAlignment());
 		Iterator<ILocatedElement> iter = oldElements.keySet().iterator();
 		while (iter.hasNext()) {
 			guide.detachElement(iter.next());

@@ -32,7 +32,7 @@ public class CreateGuideCmd extends Command {
 	@Override
 	public final void execute() {
 		if (guide == null) {
-			guide = new EditorGuide(!ruler.isHorizontal());
+			guide = new EditorGuide(ruler.getGuidesOrientation());
 		}
 		guide.setPosition(position);
 		ruler.addGuide(guide);

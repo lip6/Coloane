@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
@@ -33,9 +34,9 @@ public class MoveGuideCmd extends Command {
 		
 		// Must move all elements... Create commands for all attached nodes
 		moveElementsCommand = new CompoundCommand();
-		for (ILocatedElement attachedElement : guide.getModelObjects()) {
+		for (ILocatedElement attachedElement : guide.getAttachedElements()) {
 			Point location = attachedElement.getLocationInfo().getLocation().getCopy();
-			if (guide.isHorizontal()) {
+			if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 				// Move along the horizontal axis
 				location.y += delta;
 			} else {

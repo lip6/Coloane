@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.rulers;
 
-import fr.lip6.move.coloane.core.ui.commands.CreateGuideCommand;
-import fr.lip6.move.coloane.core.ui.commands.DeleteGuideCommand;
-import fr.lip6.move.coloane.core.ui.commands.MoveGuideCommand;
+import fr.lip6.move.coloane.core.ui.commands.CreateGuideCmd;
+import fr.lip6.move.coloane.core.ui.commands.DeleteGuideCmd;
+import fr.lip6.move.coloane.core.ui.commands.MoveGuideCmd;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -14,39 +14,61 @@ import org.eclipse.gef.rulers.RulerChangeListener;
 import org.eclipse.gef.rulers.RulerProvider;
 
 /**
- * Le gestionnaire de règles et de guides
+ * Rulers and Guides Manager.<br>
+ * There is one of such manager for each ruler.
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class EditorRulerProvider extends RulerProvider {
+	/** Horizontal guide */
+	public static final int HORIZONTAL_ORIENTATION = 1;
+	/** Vertical guide */
+	public static final int VERTICAL_ORIENTATION = 2;
 
-	/** La regle concerné */
+
+	/** The ruler managed by this manager */
 	private EditorRuler ruler;
 
+	/** A listener of rulers events */
 	private PropertyChangeListener rulerListener = new PropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (evt.getPropertyName().equals(EditorRuler.PROPERTY_CHILDREN)) {
-				EditorGuide guide = (EditorGuide) evt.getNewValue();
-				if (getGuides().contains(guide)) {
-					guide.addPropertyChangeListener(guideListener);
-				} else {
-					guide.removePropertyChangeListener(guideListener);
-				}
-				for (int i = 0; i < listeners.size(); i++) {
-					((RulerChangeListener) listeners.get(i)).notifyGuideReparented(guide);
-				}
-			} else {
+			// What to do when ruler units have been changed ?
+			if (evt.getPropertyName().equals(EditorRuler.UNIT_PROP)) {
 				for (int i = 0; i < listeners.size(); i++) {
 					((RulerChangeListener) listeners.get(i)).notifyUnitsChanged(ruler.getUnit());
 				}
+				return;
+			}
+			
+			EditorGuide guide = null;
+			// What to do when a new guide is added to the ruler ?
+			if (evt.getPropertyName().equals(EditorRuler.NEW_GUIDE_PROP)) {
+				guide = (EditorGuide) evt.getNewValue();
+				guide.addPropertyChangeListener(guideListener);
+			}
+			
+			// What to do when a new guide is removed from the ruler ?
+			if (evt.getPropertyName().equals(EditorRuler.REMOVE_GUIDE_PROP)) {
+				guide = (EditorGuide) evt.getOldValue();
+				guide.removePropertyChangeListener(guideListener);
+			}
+			
+			// For both cases, a message has to be sent to listeners
+			for (int i = 0; i < listeners.size(); i++) {
+				((RulerChangeListener) listeners.get(i)).notifyGuideReparented(guide);
 			}
 		}
 	};
 
+	/** A listener of guide events */
 	private PropertyChangeListener guideListener = new PropertyChangeListener() {
 		public void propertyChange(PropertyChangeEvent evt) {
-			if (evt.getPropertyName().equals(EditorGuide.PROPERTY_CHILDREN)) {
+			// When an element is attached or detached from a guide
+			if (evt.getPropertyName().equals(EditorGuide.ELEMENT_PROP)) {
 				for (int i = 0; i < listeners.size(); i++) {
 					((RulerChangeListener) listeners.get(i)).notifyPartAttachmentChanged(evt.getNewValue(), evt.getSource());
 				}
+			// When a guide is moved along the ruler
 			} else {
 				for (int i = 0; i < listeners.size(); i++) {
 					((RulerChangeListener) listeners.get(i)).notifyGuideMoved(evt.getSource());
@@ -56,54 +78,46 @@ public class EditorRulerProvider extends RulerProvider {
 	};
 
 	/**
-	 * Constructeur
-	 * @param ruler La règle (horizontale ou verticale) concernée par ce gestionnaire
+	 * Constructor
+	 * @param ruler The ruler that is managed by this manager
 	 */
 	public EditorRulerProvider(EditorRuler ruler) {
 		this.ruler = ruler;
+		// Be aware of ruler changes
 		this.ruler.addPropertyChangeListener(rulerListener);
 		List<EditorGuide> guides = getGuides();
+		// Be aware of guides changes
 		for (int i = 0; i < guides.size(); i++) {
 			guides.get(i).addPropertyChangeListener(guideListener);
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings("unchecked")
 	public final List getAttachedModelObjects(Object guide) {
-		return new ArrayList(((EditorGuide) guide).getModelObjects());
+		return new ArrayList(((EditorGuide) guide).getAttachedElements());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final Command getCreateGuideCommand(int position) {
-		return new CreateGuideCommand(ruler, position);
+		return new CreateGuideCmd(ruler, position);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final Command getDeleteGuideCommand(Object guide) {
-		return new DeleteGuideCommand((EditorGuide) guide, ruler);
+		return new DeleteGuideCmd((EditorGuide) guide, ruler);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final Command getMoveGuideCommand(Object guide, int pDelta) {
-		return new MoveGuideCommand((EditorGuide) guide, pDelta);
+		return new MoveGuideCmd((EditorGuide) guide, pDelta);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final int[] getGuidePositions() {
 		List<EditorGuide> guides = getGuides();
@@ -114,41 +128,31 @@ public class EditorRulerProvider extends RulerProvider {
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final Object getRuler() {
 		return ruler;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final int getUnit() {
 		return ruler.getUnit();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final void setUnit(int newUnit) {
 		ruler.setUnit(newUnit);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final int getGuidePosition(Object guide) {
 		return ((EditorGuide) guide).getPosition();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final List<EditorGuide> getGuides() {
 		return ruler.getGuides();
