@@ -1,158 +1,158 @@
 package fr.lip6.move.coloane.interfaces.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 
 import java.util.Collection;
 
 /**
- * Définition d'un graphe.<br>
- * Cette définition comporte aussi tous les événements qui peuvent se produire sur un graphe
+ * Define a graph object.<br>
  */
 public interface IGraph extends IElement {
 
-	/** ID de propriete lorsqu'un noeud est ajoute au modele */
+	/** Event raised when a node is added to the graph */
 	String NODE_ADDED_PROP = "Model.AddingNode"; //$NON-NLS-1$
 
-	/** ID de propriete lorsqu'un noeud est supprime du modele */
+	/** Event raised when a node is removed from the graph */
 	String NODE_REMOVED_PROP = "Model.RemovingNode"; //$NON-NLS-1$
 
-	/** ID de propriete lorsqu'un arc est ajoute au modele */
+	/** Event raised when an arc is added to the graph */
 	String ARC_ADDED_PROP = "Model.AddingArc"; //$NON-NLS-1$
 
-	/** ID de propriete lorsqu'un arc est supprime du modele */
+	/** Event raised when an arc is removed from the graph */
 	String ARC_REMOVED_PROP = "Model.RemovingArc"; //$NON-NLS-1$
 
-	/** ID de propriete lorsqu'un attribut doit etre ajoute au modele */
+	/** Property when an attribute is added to the graph */
 	String ATTRIBUTE_ADDED_PROP = "Model.AddingAttribute"; //$NON-NLS-1$
 
 	/**
-	 * Création d'un noeud attaché à ce graphe.
-	 * @param nodeFormalismName type du noeud à créer.
-	 * @return le noeud créé.
-	 * @throws ModelException si le nom du formalisme n'est pas correcte
+	 * Create a node and add it to the graph
+	 * @param nodeFormalismName Type of the new node 
+	 * @return The new node
+	 * @throws ModelException If the type is not correct according to the graph formalism
 	 */
 	INode createNode(String nodeFormalismName) throws ModelException;
 
 	/**
-	 * Création d'un noeud attaché à ce graphe.
-	 * @param nodeFormalismName type du noeud à créer.
-	 * @param id L'identifiant du noeud
-	 * @return le noeud créé.
-	 * @throws ModelException si le nom du formalisme n'est pas correcte
+	 * Create a node and add it to the graph
+	 * @param nodeFormalism Formalism used by this node
+	 * @param id Node ID
+	 * @return The new node
+	 * @throws ModelException If the type is <code>null</code> or if it is not correct according to the graph formalism
 	 */
-	INode createNode(String nodeFormalismName, int id) throws ModelException;
+	INode createNode(INodeFormalism nodeFormalism, int id) throws ModelException;
 
 	/**
-	 * Suppression d'un noeud
-	 * @param node Le noeud qui doit être supprimé
+	 * Delete a node
+	 * @param node The node that has to be removed from the graph
 	 */
 	void deleteNode(INode node);
 
 	/**
-	 * Suppression d'un noeud
-	 * @param id identifiant du noeud à supprimer
+	 * Delete a not
+	 * @param id The id of the node to remove from the graph
 	 */
 	void deleteNode(int id);
 
 	/**
-	 * @param id L'identifiant du noeud recherché
-	 * @return le noeud demandé ou null;
+	 * Fetch a node in the graph
+	 * @param id The id of the node to find
+	 * @return The node or <code>null</code> if it has not been found
 	 */
 	INode getNode(int id);
 
 	/**
-	 * @return la liste des noeuds.
+	 * @return All graph nodes
 	 */
 	Collection<INode> getNodes();
 
 	/**
-	 * Ajoute un noeud à ce graphe.
-	 * @param node Le noeud à ajouter au graphe
+	 * Add an existing node to the graph 
+	 * @param node The node to add to the graph
 	 */
 	void addNode(INode node);
 
 	/**
-	 * Création d'un arc attaché aux noeuds source et target.
-	 * @param arcFormalismName type d'arc à créer.
-	 * @param source La source de l'arc
-	 * @param target La cible de l'arc
-	 * @return l'arc créé.
-	 * @throws ModelException si un des parametres n'est pas correct, par exemple le formalisme n'existe pas
-	 * ou un des noeuds source ou cible n'est pas valide.
+	 * Create an arc that links a source and a target
+	 * @param arcFormalismName The type of arc to create
+	 * @param source The source node
+	 * @param target The target node
+	 * @return The created arc
+	 * @throws ModelException if one of the type of arc is not correct or if either the source or the target does not exist
 	 */
 	IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException;
 
 	/**
-	 * Création d'un arc attaché aux noeuds source et target.
-	 * @param arcFormalismName type d'arc à créer.
-	 * @param source La source de l'arc
-	 * @param target La cible de l'arc
-	 * @param id L'identifiant de l'arc à créer
-	 * @return l'arc créé.
-	 * @throws ModelException si un des parametres n'est pas correct, par exemple le formalisme n'existe pas
-	 * ou un des noeuds source ou cible n'est pas valide.
+	 * Create an arc that links a source and a target
+	 * @param arcFormalism The formalism used by this arc
+	 * @param source The source node
+	 * @param target The target node
+	 * @param id The ID of the new arc
+	 * @return The created arc
+	 * @throws ModelException if one of the arc formalism is not correct or if either the source or the target does not exist
 	 */
-	IArc createArc(String arcFormalismName, INode source, INode target, int id) throws ModelException;
+	IArc createArc(IArcFormalism arcFormalism, INode source, INode target, int id) throws ModelException;
 
 	/**
-	 * Suppression d'un arc
-	 * @param arc L'arc à supprimer
+	 * Remove an arc from the graph
+	 * @param arc The arc to remove from the graph
 	 */
 	void deleteArc(IArc arc);
 
 	/**
-	 * Suppression d'un arc
-	 * @param id identifiant de l'arc à supprimer
+	 * Remove an arc from the graph
+	 * @param id The ID of the arc to remove
 	 */
 	void deleteArc(int id);
 
 	/**
-	 * @param id L'identifiant de l'arc recherché
-	 * @return l'arc demandé ou null.
+	 * Fetch an arc
+	 * @param id The ID of the arc to find
+	 * @return The arc or <code>null</code> if it has not been found
 	 */
 	IArc getArc(int id);
 
 	/**
-	 * @return la liste des arcs.
+	 * @return All graph arcs
 	 */
 	Collection<IArc> getArcs();
 
 	/**
-	 * Ajouter un arc qui aurait été enlevé.
-	 * @param arc L'arc qui doit être ajouté
+	 * Add an existing arc
+	 * @param arc The arc to add to the graph
 	 */
 	void addArc(IArc arc);
 
 	/**
-	 * Récupérer un objet du graphe grâce à son identifiant
-	 * @param id L'identifiant de l'objet recherché
-	 * @return L'objet comme un {@link IElement}
+	 * Fetch an object from the graph
+	 * @param id The ID of the object to find
+	 * @return The object as a {@link IElement}
 	 */
 	IElement getObject(int id);
 
 	/**
-	 * Supprime un objet identifié par son identifiant<br>
-	 * Si aucun objet existe... Rien ne se passe.
-	 * @param id L'identifiant de l'objet à supprimer
-	 * @throws ModelException si la suppression s'est mal passée
+	 * Remove an object identified by its ID<br>
+	 * If no object has this ID, nothing is done.
+	 * @param id The ID of the object to remove
+	 * @throws ModelException If something went wrong
 	 */
 	void deleteObject(int id) throws ModelException;
 
 	/**
-	 * Ajoute tous les éléments du graphe.
-	 * @param graph IGraph
+	 * Add all graph element into the current graph
+	 * @param graph The graph from which all elements have to be copied into the current graph
 	 */
 	void addGraph(IGraph graph);
 
 	/**
-	 * @return le formalisme associé à ce graphe.
+	 * @return The graph formalism
 	 */
 	IFormalism getFormalism();
 
 	/**
-	 * Retourne la date associee au modele
-	 * @return int
+	 * @return The date of last modification
 	 */
 	int getDate();
 }
