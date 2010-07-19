@@ -2,41 +2,42 @@ package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande dédiée au changement de guide pour un élément
+ * Change the guide associated to an element
  */
-public class ChangeGuideCommand extends Command {
-	/** L'élément concerné */
+public class GuideChangeCmd extends Command {
+	/** The moveable element */
 	private ILocatedElement locatedElement;
 
-	/** Ancien et nouveau guide */
+	/** Old and new guides */
 	private EditorGuide oldGuide, newGuide;
 
-	/** Ancien et nouvel alignement */
+	/** Old and new align */
 	private int oldAlign, newAlign;
 
-	/** Configration du guide qui doit être changé : <code>true</code> pour un guide horizontal */
+	/** Is the guide horizontal ? <code>true</code> if it is */
 	private boolean horizontal;
 
 	/**
-	 * Constructeur
-	 * @param locatedElement L'élément de modèle concerné par ce changement
-	 * @param horizontal Indicateur de configuration du guide : <code>true</code> pour un guide horizontal
+	 * Constructor
+	 * @param locatedElement The element
+	 * @param horizontal Is the current guide horizontal ? <true> if it is
 	 */
-	public ChangeGuideCommand(ILocatedElement locatedElement, boolean horizontal) {
+	public GuideChangeCmd(ILocatedElement locatedElement, boolean horizontal) {
 		super();
 		this.locatedElement = locatedElement;
 		this.horizontal = horizontal;
 	}
 
 	/**
-	 * Change un ancien guide pour un nouveau
-	 * @param oldGuide L'ancien guide
-	 * @param newGuide Le nouveau guide
-	 * @param newAlignment Le nouvel alignement à prendre en compte
+	 * Switch guide
+	 * @param oldGuide The old guide
+	 * @param newGuide The new guide
+	 * @param newAlignment The new align indicator
 	 */
 	protected final void changeGuide(EditorGuide oldGuide, EditorGuide newGuide, int newAlignment) {
 		if (oldGuide != null && oldGuide != newGuide) {
@@ -51,9 +52,9 @@ public class ChangeGuideCommand extends Command {
 	}
 
 	/**
-	 * Positionne le nouveau guide
-	 * @param guide Le nouveau guide
-	 * @param alignment Le nouvel alignement à prendre en compte
+	 * Set the new guide
+	 * @param guide The new guide
+	 * @param alignment The new align indicator
 	 */
 	public final void setNewGuide(EditorGuide guide, int alignment) {
 		newGuide = guide;
@@ -64,8 +65,8 @@ public class ChangeGuideCommand extends Command {
 	@Override
 	public final void execute() {
 		// Cache the old values
-		oldGuide = locatedElement.getVerticalGuide();
-		if (horizontal) { oldGuide = locatedElement.getHorizontalGuide(); }
+		oldGuide = locatedElement.getGuide(EditorRulerProvider.VERTICAL_ORIENTATION);
+		if (horizontal) { oldGuide = locatedElement.getGuide(EditorRulerProvider.HORIZONTAL_ORIENTATION); }
 		if (oldGuide != null) {	oldAlign = oldGuide.getAlignment(locatedElement); }
 		redo();
 	}

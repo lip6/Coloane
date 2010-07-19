@@ -7,7 +7,7 @@ import org.eclipse.gef.commands.Command;
 /**
  * Create a guide
  */
-public class CreateGuideCmd extends Command {
+public class GuideCreateCmd extends Command {
 	/** The new guide */
 	private EditorGuide guide;
 
@@ -22,7 +22,7 @@ public class CreateGuideCmd extends Command {
 	 * @param ruler The ruler where the guide is attached to
 	 * @param position The guide position
 	 */
-	public CreateGuideCmd(EditorRuler ruler, int position) {
+	public GuideCreateCmd(EditorRuler ruler, int position) {
 		super(Messages.CreateGuideCommand_0);
 		this.ruler = ruler;
 		this.position = position;

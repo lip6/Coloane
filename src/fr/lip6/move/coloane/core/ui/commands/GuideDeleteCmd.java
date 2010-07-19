@@ -11,25 +11,25 @@ import java.util.Map;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Suppression d'un guide associée à une règle
+ * Delete a guide associate to a ruler
  */
-public class DeleteGuideCommand extends Command {
+public class GuideDeleteCmd extends Command {
 
-	/** La règle à laquelle est attaché le guide */
+	/** The ruler that holds the guide */
 	private EditorRuler ruler;
 
-	/** Le guide concerné */
+	/** The guide which will be deleted */
 	private EditorGuide guide;
 
-	/** Sauvegarde des éléments de modèle attaché au guide... en cas d'annulation */
+	/** Backup objects in case of backup */
 	private Map<ILocatedElement, Integer> oldElements;
 
 	/**
-	 * Constructeur
-	 * @param guide Le guide à supprimer
-	 * @param ruler La règle à laquelle est attachée le guide
+	 * Constructor
+	 * @param guide The guide to delete
+	 * @param ruler The ruler that holds the guide
 	 */
-	public DeleteGuideCommand(EditorGuide guide, EditorRuler ruler) {
+	public GuideDeleteCmd(EditorGuide guide, EditorRuler ruler) {
 		super(Messages.DeleteGuideCommand_0);
 		this.guide = guide;
 		this.ruler = ruler;
@@ -38,7 +38,7 @@ public class DeleteGuideCommand extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		oldElements = new HashMap<ILocatedElement, Integer>(guide.getMap());
+		oldElements = new HashMap<ILocatedElement, Integer>(guide.getAttachedElementsWithAlignment());
 		Iterator<ILocatedElement> iter = oldElements.keySet().iterator();
 		while (iter.hasNext()) {
 			guide.detachElement(iter.next());
