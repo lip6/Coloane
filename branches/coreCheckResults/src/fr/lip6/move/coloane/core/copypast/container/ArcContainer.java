@@ -21,6 +21,9 @@ import org.eclipse.swt.graphics.Color;
  * @author Clément Démoulins
  */
 public class ArcContainer {
+	/** Space used in order to avoid overlapping between old objects and new objects */
+	private static final int DELTA_COPY = 10;
+
 	/** Arc ID */
 	private int id;
 
@@ -74,18 +77,17 @@ public class ArcContainer {
 	public final IArc copy(IGraph graph, INode source, INode target) throws ModelException {
 		// Move inflex point to create a distinct arc
 		for (Point p : pis) {
-			p.x += 10;
-			p.y += 10;
+			p.translate(DELTA_COPY, DELTA_COPY);
 		}
 		
 		// If there is no inflex point, create one to be able to distinguish between the two arcs
 		if (pis.isEmpty()) {
-			pis.add(new Point(source.getGraphicInfo().getLocation().x + 10, source.getGraphicInfo().getLocation().y + 10));
+			pis.add(source.getGraphicInfo().getLocation().getCopy().translate(DELTA_COPY, DELTA_COPY));
 		}
 		
 		// Move attributes to avoid overlapping with old attributes
 		for (AttributeContainer ac : attributs) {
-			ac.setLocation(ac.getLocation().x + 10, ac.getLocation().y + 10);
+			ac.setLocation(ac.getLocation().translate(DELTA_COPY, DELTA_COPY));
 		}
 
 		// Create the arc

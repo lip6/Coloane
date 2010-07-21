@@ -75,7 +75,7 @@ public class NodeContainer {
 		location.y += DELTA_COPY;
 		// Move attributes to avoid overlapping
 		for (AttributeContainer ac : attributes) {
-			ac.setLocation(ac.getLocation().x + DELTA_COPY, ac.getLocation().y + DELTA_COPY);
+			ac.setLocation(ac.getLocation().translate(DELTA_COPY, DELTA_COPY));
 		}
 
 		// Node creation
