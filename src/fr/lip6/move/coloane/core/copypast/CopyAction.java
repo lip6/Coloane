@@ -4,7 +4,6 @@ import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
@@ -16,51 +15,26 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * Action COPIER
+ * Copy action
+ * 
+ * @author Clément Démoulins
  */
 public class CopyAction extends SelectionAction {
 	private ColoaneEditor editor;
 
 	/**
-	 * Constructeur
-	 * @param part Le workbench actif (en fait l'éditeur)
+	 * Constructor
+	 * @param workbench The active workbench (the current editor)
 	 */
-	public CopyAction(IWorkbenchPart part) {
-		super(part);
-		if (part instanceof ColoaneEditor) {
-			editor = (ColoaneEditor) part;
+	public CopyAction(IWorkbenchPart workbench) {
+		super(workbench);
+		if (workbench instanceof ColoaneEditor) {
+			editor = (ColoaneEditor) workbench;
 		}
 		// force calculateEnabled() to be called in every context
 		setLazyEnablementCalculation(true);
 	}
-
-	/**
-	 * @param selectedObjects liste des objets à copier
-	 * @return commande qui va effectuer la copie
-	 */
-	private Command createCopyCommand(List<Object> selectedObjects) {
-		if (editor == null || selectedObjects == null || selectedObjects.isEmpty()) {
-			return null;
-		}
-
-		CopyCommand cmd = new CopyCommand(editor);
-		Iterator<Object> it = selectedObjects.iterator();
-		while (it.hasNext()) {
-			Object object = it.next();
-			if (object instanceof EditPart) {
-				Object model = ((EditPart) object).getModel();
-				if (model instanceof INode) {
-					INode node = (INode) model;
-					cmd.addNode(node);
-				} else if (model instanceof IArc) {
-					IArc arc = (IArc) model;
-					cmd.addArc(arc);
-				}
-			}
-		}
-		return cmd;
-	}
-
+	
 	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -70,6 +44,36 @@ public class CopyAction extends SelectionAction {
 			return false;
 		}
 		return cmd.canExecute();
+	}
+
+	/**
+	 * Create a copy action that use the current selection
+	 * @param selectedObjects List of selected objects
+	 * @return A command that will do the copy
+	 */
+	private Command createCopyCommand(List<Object> selectedObjects) {
+		// Some basic checks
+		if (editor == null || selectedObjects == null || selectedObjects.isEmpty()) {
+			return null;
+		}
+
+		// New copy command... to fill
+		CopyCommand copyCommand = new CopyCommand(editor);
+		
+		// Browse all selected objects and update the copy command
+		for (Object selectedObject : selectedObjects) {
+			if (selectedObject instanceof EditPart) {
+				Object model = ((EditPart) selectedObject).getModel();
+				if (model instanceof INode) {
+					INode node = (INode) model;
+					copyCommand.addNode(node);
+				} else if (model instanceof IArc) {
+					IArc arc = (IArc) model;
+					copyCommand.addArc(arc);
+				}
+			}
+		}
+		return copyCommand;
 	}
 
 	/** {@inheritDoc} */

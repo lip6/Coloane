@@ -22,22 +22,33 @@ import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
- * Commande COLLER
+ * Paste command
+ * 
+ * @author Clément Démoulins
  */
 public class PasteCommand extends Command {
-	private Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	/** Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+
+	/** The graph container */
 	private GraphContainer graphContainer;
+	
+	/** Map of all added nodes */
 	private Map<NodeContainer, INode> nodes = new HashMap<NodeContainer, INode>();
+	/** Map of all added arcs */
 	private Map<ArcContainer, IArc> arcs = new HashMap<ArcContainer, IArc>();
+	/** Current selection */
 	private List<EditPart> selection = new ArrayList<EditPart>();
 
+	/** The current graph */
 	private IGraph graph;
+	/** The viewer */
 	private GraphicalViewer viewer;
 
 	/**
-	 * Création de la commande de collage
-	 * @param editor L'éditeur de modèle concerné par la commande
+	 * Constructor
+	 * @param editor The current editor 
 	 */
 	public PasteCommand(ColoaneEditor editor) {
 		graph = editor.getGraph();
@@ -61,9 +72,8 @@ public class PasteCommand extends Command {
 		if (!canExecute()) {
 			return;
 		}
-		logger.fine("Collage de la sélection"); //$NON-NLS-1$
 
-		// Sauvegarde de la sélection
+		// Backup the selection
 		for (Object obj : ((IStructuredSelection) viewer.getSelection()).toList()) {
 			if (obj instanceof EditPart) {
 				selection.add((EditPart) obj);
@@ -71,28 +81,29 @@ public class PasteCommand extends Command {
 		}
 		viewer.deselectAll();
 
-		// Création des noeuds
+		// Create all nodes
 		for (NodeContainer nc : graphContainer.getNodes()) {
 			try {
 				INode node = nc.copy(graph);
-				// On sélectionne les nouveaux noeuds
+				// Add this node to the selection
 				viewer.appendSelection((EditPart) viewer.getEditPartRegistry().get(node));
 				nodes.put(nc, node);
 			} catch (ModelException e) {
-				logger.warning(e.getMessage());
+				LOGGER.warning("Something went wrong during the (node) paste operation : " + e.getMessage()); //$NON-NLS-1$
 				e.printStackTrace();
 			}
 		}
 
 		// Création des arcs
 		for (ArcContainer ac : graphContainer.getArcs()) {
+			// Fetch source and target is the new graph
 			INode source = nodes.get(graphContainer.getNode(ac.getIdSource()));
 			INode target = nodes.get(graphContainer.getNode(ac.getIdTarget()));
 			if (source != null && target != null) {
 				try {
 					arcs.put(ac, ac.copy(graph, source, target));
 				} catch (ModelException e) {
-					logger.warning(e.getMessage());
+					LOGGER.warning("Something went wrong during the (arc) paste operation : " + e.getMessage()); //$NON-NLS-1$
 					e.printStackTrace();
 				}
 			}

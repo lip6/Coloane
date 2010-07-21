@@ -10,14 +10,16 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * Action COLLER
+ * Paste action
+ * 
+ * @author Clément Démoulins
  */
 public class PasteAction extends SelectionAction {
 	private ColoaneEditor editor;
 
 	/**
-	 * Constructeur
-	 * @param part Le workbench actif (en fait l'éditeur)
+	 * Constructor
+	 * @param workbench The active workbench (the current editor)
 	 */
 	public PasteAction(IWorkbenchPart part) {
 		super(part);
@@ -42,7 +44,8 @@ public class PasteAction extends SelectionAction {
 	}
 
 	/**
-	 * @return commande pour coller
+	 * Create a paste command
+	 * @return A command to paste the contents of the clipboard
 	 */
 	private PasteCommand createPasteCommand() {
 		if (editor == null) {
