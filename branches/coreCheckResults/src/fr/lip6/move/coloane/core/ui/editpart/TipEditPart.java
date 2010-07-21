@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.model.CoreTipModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.results.Tip;
 import fr.lip6.move.coloane.core.ui.figures.TipFigure;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -14,6 +15,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
@@ -27,10 +29,20 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
- * EditPart pour les tips.
+ * EditPart that manages Tips.
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
+ * 
+ * @see Tip
  * @see ITip
  */
 public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPart, PropertyChangeListener {
+	/** Logger */
+	private final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
+	/** Maximum number of attempts for positioning a tip near its elements without overlapping with another figure */
+	private static final int LOCATION_MAX_ATTEMPTS = 3;
 
 	private ConnectionAnchor connectionAnchor;
 
@@ -49,12 +61,12 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 
 	/** {@inheritDoc} */
 	@Override
-	protected final void createEditPolicies() {
-	}
+	protected final void createEditPolicies() { }
 
 	/**
-	 * @param id id of the IElement concerned
-	 * @param figure figure pour laquelle on cherche une position
+	 * Compute the best location for a tip
+	 * @param id The ID of the IElement concerned by the tip
+	 * @param figure The figure that must be added to the model
 	 * @return the "best" location around the IElement
 	 */
 	private Point calculLocation(int id, IFigure figure) {
@@ -63,7 +75,7 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 		int tipHeight = figure.getSize().height;
 		IGraph graph = SessionManager.getInstance().getCurrentSession().getGraph();
 
-		// Cas d'un noeud, on centre au dessus du noeud
+		// If the element is a node, the tip is moved just above the node (center)
 		INode node = graph.getNode(id);
 		if (node != null) {
 			location = node.getGraphicInfo().getLocation().getCopy();
@@ -71,46 +83,46 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 			location.translate(nodeWidth / 2 - tipWidth / 2, -(30 + tipHeight / 2));
 		}
 
-		// Cas d'un arc, on centre au dessus du milieu de l'arc
-		// le milieu de l'arc est calculé par le modèle
+		// If the element is an arc, the tip is moved above the middle of the arc (center)
+		// The middle is computed by the arc model graphical class
 		IArc arc = graph.getArc(id);
 		if (arc != null) {
 			location = arc.getGraphicInfo().findMiddlePoint().getCopy();
 			location.translate(-tipWidth / 2, -(30 + tipHeight / 2));
 		}
 
-		// Ici on utilise la variable bound pour limiter la migration des rectangles dans les grands reseaux
-		// AU bout de 2 déplacements, on arrete et on pose la tip
-		int bound = 2;
-		while (findFigureInto(new Rectangle(location, figure.getSize())) != null) {
+		// Try to avoid tip overlapping.
+		// The static variable is used to limit the number of attempts. 
+		int attemps = 0;
+		while (findUnderlyingFigure(new Rectangle(location, figure.getSize()))) {
 			location.translate(20, 0);
-			if (--bound == 0) {
-				break;
+			if (++attemps > LOCATION_MAX_ATTEMPTS) {
+				LOGGER.fine("Correct tip location can not be computed"); //$NON-NLS-1$
+				break;				
 			}
 		}
 		return location;
 	}
 
 	/**
-	 * @param rectangle zone de recherche
-	 * @return la première figure trouvée ou <code>null</code>
+	 * Try to find an empty zone to put the tip figure into
+	 * @param rectangle The size of the tip (tip area)
+	 * @return <code>true</code> if an existing figure already exists somewhere under the tip area
 	 */
-	private IFigure findFigureInto(Rectangle rectangle) {
-		List<IFigure> exclude = new ArrayList<IFigure>(1);
-		exclude.add(figure);
-		for (int x = 0; x < rectangle.width; x++) {
-			for (int y = 0; y < rectangle.height; y++) {
+	private boolean findUnderlyingFigure(Rectangle rectangle) {
+		for (int x = 0; x < rectangle.width; x += 5) {
+			for (int y = 0; y < rectangle.height; y += 5) {
 				IFigure found = ((GraphEditPart) getParent()).getFigure().findFigureAt(rectangle.x + x, rectangle.y + y);
 				if (found != null) {
-					return found;
+					return true;
 				}
 			}
 		}
-		return null;
+		return false;
 	}
 
 	/**
-	 * @return l'unique ConnectionAnchor pour cette editPart
+	 * @return Connction anchors fo the tip
 	 */
 	private ConnectionAnchor getConnectionAnchor() {
 		if (connectionAnchor == null) {

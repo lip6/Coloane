@@ -2,12 +2,10 @@ package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
-import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-import fr.lip6.move.coloane.core.ui.commands.ChangeGuideCommand;
+import fr.lip6.move.coloane.core.ui.commands.GuideChangeCmd;
 import fr.lip6.move.coloane.core.ui.commands.LocatedElementSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeCreateCmd;
-import fr.lip6.move.coloane.core.ui.commands.StickyNoteCreateCommand;
-import fr.lip6.move.coloane.core.ui.commands.StickyNoteSetConstraintCmd;
+import fr.lip6.move.coloane.core.ui.commands.StickyNoteCreateCmd;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -17,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.XYLayout;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
@@ -31,20 +30,17 @@ import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.rulers.RulerProvider;
 
 /**
- * Ensemble de regles definissant le comportement du modele vis a vis de ses
- * noeuds fils. <i>Attention ! Le modele est l'unique conteneur de tous les
- * autres objets.</i> Les regles definies concernent :
- * <ul>
- * <li>La creation d'un noeud fils</li>
- * <li>Le deplacement d'un noeud fils</li>
- * </ul>
+ * Set of rules that define the graphical behavior of the model
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 
 public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 
 	/**
-	 * Constructeur
-	 * @param layout layout de l'editPart.
+	 * Constructor
+	 * @param layout Layout used by the editor in order to display the model
 	 */
 	public ColoaneEditPolicy(XYLayout layout) {
 		super();
@@ -52,101 +48,94 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	}
 
 	/**
-	 * Le modele (en tant que conteneur) doit definir une politique vis a vis de ses enfants
-	 * @param child editPart de l'enfant
-	 * @return NonResizableEditPolicy sauf dans le cas de la note.
-	 * @see ColoaneEditPolicy
+	 * Model children policy
+	 * @param child The child editpart
+	 * @return a {@link NonResizableEditPolicy} except in case of sticky notes 
 	 */
 	@Override
 	protected final EditPolicy createChildEditPolicy(EditPart child) {
 
-		// Dans le cas des notes on ne touche a rien
+		// In case of sticky note, the child is resizable...
 		if (child instanceof StickyEditPart) {
 			return new ResizableEditPolicy();
 		}
 
-		/*
-		 * Cette politique interdit aux enfants d'etre redimensionnes<br>
-		 * La redefinition de la methode interne supprime toute trace de cadre de selection.
-		 */
+		// In all other cases, children cannot be resized.
 		return new NonResizableEditPolicy() {
 			@Override
 			protected List<Object> createSelectionHandles() {
-				return new ArrayList<Object>(); // Doit retourner une arraylist vide et non null
+				return new ArrayList<Object>(); // Must return a empty array list (and not null)
 			}
 		};
 	}
-	
-	
 
 	/**
-	 * Traitement d'une demande d'ajout de noeud
-	 * @param request La requete formulee
-	 * @return commande associée à cette requête ou <tt>null</tt>
+	 * Handle a creation request
+	 * @param request The request of node/note creation
+	 * @return A command to create the node/note
 	 */
 	@Override
 	protected final Command getCreateCommand(CreateRequest request) {
 		Object childClass = request.getNewObjectType();
 
-		// Si l'objet a ajouter est un noeud... OK
+		// If the object is a node
 		if (childClass == INode.class) {
 			IGraph graph = (IGraph) getHost().getModel();
 			INodeFormalism nodeFormalism = (INodeFormalism) request.getNewObject();
-
-			// On applique la commande de creation du noeud
-			return new NodeCreateCmd(graph, nodeFormalism.getName(), (Rectangle) getConstraintFor(request));
+			return new NodeCreateCmd(graph, nodeFormalism, (Rectangle) getConstraintFor(request));
 		}
 
-		// Si l'objet a ajouter est une note... OK
+		// If the object is a note
 		if (childClass == StickyNoteModel.class) {
 			IGraph graph = (IGraph) getHost().getModel();
-
-			// On applique la commande de creation du noeud
-			return new StickyNoteCreateCommand(graph, (Rectangle) getConstraintFor(request));
+			return new StickyNoteCreateCmd(graph, (Rectangle) getConstraintFor(request));
 		}
 
-		// Sinon... On ne permet pas l'ajout !
+		// Otherwise, there is a problem
 		return null;
 	}
 
 	/**
-	 * Traitement du deplacement d'un noeud<br>
-	 * <b>Attention : Le redimensionnement n'est pas permis !</b>
-	 * @param request La requete formulée
-	 * @param child L'EditPart concernée
-	 * @param constraint La nouvelle position demandée
-	 * @return commande associée à cette requête ou <tt>null</tt>
+	 * Handle a node move<br>
+	 * @param request The move request 
+	 * @param child The edit part concerned by the move
+	 * @param constraint The new position (it's a rectangle)
+	 * @return A command that specifies the move (to be executed later)
 	 */
 	@Override
 	protected final Command createChangeConstraintCommand(ChangeBoundsRequest request, EditPart child, Object constraint) {
 		Command result = null;
 
-		// Dans le cas d'une note
-		if (child instanceof StickyEditPart && constraint instanceof Rectangle) {
-			result = new StickyNoteSetConstraintCmd((IStickyNote) child.getModel(), (Rectangle) constraint);		// Dans le cas d'un ILocatedElement (INode, IAttribute, TipModel)
+		// Considering move commands
+		if (request.getType().equals(REQ_MOVE_CHILDREN) && (constraint instanceof Rectangle)) {
+			Point newLocation = ((Rectangle) constraint).getLocation();
 
-		// Dans le cas d'un LocatedElement
-		} else if (child.getModel() instanceof ILocatedElement && constraint instanceof Rectangle) {
-			result = new LocatedElementSetConstraintCmd((ILocatedElement) child.getModel(), (Rectangle) constraint);
-
+			// For a sticky note
+			if (child instanceof StickyEditPart) {
+				//result = new StickyNoteSetConstraintCmd((IStickyNote) child.getModel(), newLocation);
+			// For another LocatedElement
+			} else if (child.getModel() instanceof ILocatedElement) {
+				result = new LocatedElementSetConstraintCmd((ILocatedElement) child.getModel(), newLocation);
+			}
 		}
 
+		// Detecting when an object is attached to a guide (horizontal / vertical)
 		if (child.getModel() instanceof ILocatedElement && (request.getType().equals(REQ_MOVE_CHILDREN) || request.getType().equals(REQ_ALIGN_CHILDREN))) {
 			ILocatedElement locatedElement = (ILocatedElement) child.getModel();
+			
+			// If the object is attached to a guide
 			result = chainGuideAttachmentCommand(request, locatedElement, result, true);
 			result = chainGuideAttachmentCommand(request, locatedElement, result, false);
+			// If the object is detach from a guide
 			result = chainGuideDetachmentCommand(request, locatedElement, result, true);
 			result = chainGuideDetachmentCommand(request, locatedElement, result, false);
-		}
-
-		// Dans tous les autres cas, on forwarde au pere
-		// return super.createChangeConstraintCommand(request, child, constraint);
+		} 
 		return result;
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	protected final Command createChangeConstraintCommand(EditPart arg0, Object arg1) {
+	protected final Command createChangeConstraintCommand(EditPart editPart, Object obj) {
 		return null;
 	}
 
@@ -160,26 +149,29 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 */
 	protected final Command chainGuideAttachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, boolean horizontal) {
 		Command result = cmd;
+		
+		// By default, try with the vertical guide
 		String keyGuide = SnapToGuides.KEY_VERTICAL_GUIDE;
 		String keyAnchor = SnapToGuides.KEY_VERTICAL_ANCHOR;
+		// Unless it's clearly specified to try with horizontal guide 
 		if (horizontal) {
 			keyGuide = SnapToGuides.KEY_HORIZONTAL_GUIDE;
 			keyAnchor = SnapToGuides.KEY_HORIZONTAL_ANCHOR;
 		}
 
-		// Attach to guide, if one is given
+		// Find a guide in extended data (from the request)
 		Integer guidePos = (Integer) request.getExtendedData().get(keyGuide);
 
+		// If a guide is existing
 		if (guidePos != null) {
 			int alignment = ((Integer) request.getExtendedData().get(keyAnchor)).intValue();
 
-			ChangeGuideCommand cgm = new ChangeGuideCommand(locatedElement, horizontal);
-			cgm.setNewGuide(findGuideAt(guidePos.intValue(), horizontal), alignment);
-			result = result.chain(cgm);
+			// Declare a new guide for this object (or replace the old one)
+			GuideChangeCmd changeGuideCommand = new GuideChangeCmd(locatedElement, horizontal);
+			changeGuideCommand.setNewGuide(findGuideAt(guidePos.intValue(), horizontal), alignment);
+			result = result.chain(changeGuideCommand); // Chain the two commands (move + attach)
 		}
-
 		return result;
-
 	}
 
 	/**
@@ -202,17 +194,17 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		Integer guidePos = (Integer) request.getExtendedData().get(key);
 
 		if (guidePos == null) {
-			result = result.chain(new ChangeGuideCommand(locatedElement, horizontal));
+			result = result.chain(new GuideChangeCmd(locatedElement, horizontal));
 		}
 
 		return result;
 	}
 
 	/**
-	 * Trouve le guide en considérant une position et une orientation
-	 * @param pos La position
-	 * @param horizontal L'orientation
-	 * @return Le guide trouvé
+	 * Find the correct guide given a position and an orientation
+	 * @param pos The position
+	 * @param horizontal Is the guide horizontal ? 
+	 * @return The guide
 	 */
 	private EditorGuide findGuideAt(int pos, boolean horizontal) {
 		String property = RulerProvider.PROPERTY_HORIZONTAL_RULER;
