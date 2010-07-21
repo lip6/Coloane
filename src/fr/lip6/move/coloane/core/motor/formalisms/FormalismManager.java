@@ -75,8 +75,7 @@ public final class FormalismManager {
 		xschema = description.getAttribute("xschema"); //$NON-NLS-1$
 		image = description.getAttribute("image"); //$NON-NLS-1$
 
-		LOGGER.fine("Construction du formalisme " + name + "(parent : " + fkname + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		LOGGER.finer("Details du formalisme " + name + " : "); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.fine("Build a formalism " + name + "(FK ID: " + fkname + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		LOGGER.finer("XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$
 
 		Formalism form = new Formalism(id, name, fkname, image);
@@ -86,16 +85,16 @@ public final class FormalismManager {
 		IConfigurationElement[] graphes = xmlDescription[0].getChildren("Graph"); //$NON-NLS-1$
 		for (IConfigurationElement graph : graphes) {
 			GraphFormalism g = new GraphFormalism(graph.getAttribute("name"), form); //$NON-NLS-1$
-			LOGGER.finer("Construction de l'element graphe : " + g.getName()); //$NON-NLS-1$
+			LOGGER.finer("Build a graph element : " + g.getName()); //$NON-NLS-1$
 			this.buildAttributes(g, graph);
 			this.buildComputedAttributes(g, graph);
-			form.setMasterGraph(g);
+			form.setRootGraph(g);
 
 			// Nodes definition from XML description
 			IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
 			for (IConfigurationElement node : nodes) {
 				NodeFormalism n = new NodeFormalism(node.getAttribute("name"), form); //$NON-NLS-1$
-				LOGGER.finer("Construction de l'element node : " + n.getName()); //$NON-NLS-1$
+				LOGGER.finer("Build a node element : " + n.getName()); //$NON-NLS-1$
 				this.buildAttributes(n, node);
 				this.buildComputedAttributes(n, node);
 				this.buildGraphicalDescription(n, node);
@@ -106,7 +105,7 @@ public final class FormalismManager {
 			IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
 			for (IConfigurationElement arc : arcs) {
 				ArcFormalism a = new ArcFormalism(arc.getAttribute("name"), form); //$NON-NLS-1$
-				LOGGER.finer("Construction de l'element arc : " + a.getName()); //$NON-NLS-1$
+				LOGGER.finer("Build an arc element : " + a.getName()); //$NON-NLS-1$
 				this.buildAttributes(a, arc);
 				this.buildComputedAttributes(a, arc);
 				this.buildGraphicalDescription(a, arc);
@@ -128,7 +127,7 @@ public final class FormalismManager {
 				}
 			}
 		} catch (CoreException core) {
-			LOGGER.warning("Erreur dans le formalisme ! Une contrainte a mal ete definie: " + core.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Formalism definition error! A constraint has not been correctly defined: " + core.getMessage()); //$NON-NLS-1$
 			return;
 		}
 
@@ -158,12 +157,12 @@ public final class FormalismManager {
 			// Now either !isEnum, or enumValues is not null.
 
 			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), Boolean.parseBoolean(attribute.getAttribute("drawable")), Boolean.parseBoolean(attribute.getAttribute("multiline")), isEnum, enumValues);  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-			LOGGER.finer("Construction de l'attribut " + a.getName() + " pour l'element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+			LOGGER.finer("Build the attribute " + a.getName() + " for the element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Parse the default value
 			if (attribute.getAttribute("default") != null) { //$NON-NLS-1$
 				a.setDefaultValue(attribute.getAttribute("default")); //$NON-NLS-1$
-				LOGGER.finer("Ajout de la valeur par defaut " + a.getDefaultValue() + " pour l'attribut : " + a.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+				LOGGER.finer("Add default value " + a.getDefaultValue() + " for the attribute : " + a.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 				if (attribute.getAttribute("displayed_default") != null) { //$NON-NLS-1$
 					a.setDefaultValueDrawable(Boolean.parseBoolean(attribute.getAttribute("displayed_default"))); //$NON-NLS-1$
 				}
@@ -172,12 +171,12 @@ public final class FormalismManager {
 			// Set default location (delta_x and delta_y)
 			if (attribute.getAttribute("delta_x") != null) { //$NON-NLS-1$
 				a.setXDelta(Integer.parseInt(attribute.getAttribute("delta_x"))); //$NON-NLS-1$
-				LOGGER.finer("Ajout de la position relative (X) pour l'attribut : " + a.getName()); //$NON-NLS-1$
+				LOGGER.finer("Add relative location (X) for the attribute : " + a.getName()); //$NON-NLS-1$
 			}
 			
 			if (attribute.getAttribute("delta_y") != null) { //$NON-NLS-1$
 				a.setYDelta(Integer.parseInt(attribute.getAttribute("delta_y"))); //$NON-NLS-1$
-				LOGGER.finer("Ajout de la position relative (Y) pour l'attribut : " + a.getName()); //$NON-NLS-1$
+				LOGGER.finer("Add relative location (Y) for the attribute : " + a.getName()); //$NON-NLS-1$
 			}
 
 			// Parse graphical considerations
@@ -187,11 +186,11 @@ public final class FormalismManager {
 			}
 			if (attribute.getAttribute("italic") != null) { //$NON-NLS-1$
 				a.setItalic(Boolean.parseBoolean(attribute.getAttribute("italic"))); //$NON-NLS-1$
-				LOGGER.finer("Ajout de l'indicateur d'italique pour l'attribut : " + a.getName()); //$NON-NLS-1$
+				LOGGER.finer("Add italic state for the attribute : " + a.getName()); //$NON-NLS-1$
 			}
 			if (attribute.getAttribute("size") != null) { //$NON-NLS-1$
 				a.setSize(attribute.getAttribute("size")); //$NON-NLS-1$
-				LOGGER.finer("Ajout de l'indicateur de taille de police pour l'attribut : " + a.getName()); //$NON-NLS-1$
+				LOGGER.finer("Add bold state for the attribute : " + a.getName()); //$NON-NLS-1$
 			}
 
 			// Add the attribute to the parent's list
@@ -215,7 +214,6 @@ public final class FormalismManager {
 			
 			// Parse the default value
 			if (defaultValue != null) {	
-				LOGGER.finer("Ajout de la valeur par defaut " + defaultValue + " pour l'attribut : " + attributeName); //$NON-NLS-1$ //$NON-NLS-2$
 				if (computedAttribute.getAttribute("displayed_default") != null) { //$NON-NLS-1$
 					defaultValueDrawable = Boolean.parseBoolean(computedAttribute.getAttribute("displayed_default")); //$NON-NLS-1$
 				}
@@ -229,36 +227,36 @@ public final class FormalismManager {
 				ca = new ComputedAttributeFormalism(attributeName, defaultValue, defaultValueDrawable, attributeFormatter.getClass());
 			} catch (CoreException e) {
 				e.printStackTrace();
-				LOGGER.warning("Echec lors de l'association de la figure a l'element : " + element.getName() + " ( " + e.getMessage() + " )"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				LOGGER.warning("Something went wrong when we tried to add the figure to the element : " + element.getName() + " ( " + e.getMessage() + " )"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				ca = new ComputedAttributeFormalism(attributeName, defaultValue, defaultValueDrawable);
 			}
 			
 			// Build the Computed Attribute Object
-			LOGGER.finer("Construction de l'attribut " + computedAttribute.getName() + " pour l'element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
+			LOGGER.finer("Build the computed attribute " + computedAttribute.getName() + " for the element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Set default location (delta_x and delta_y)
 			if (computedAttribute.getAttribute("delta_x") != null) { //$NON-NLS-1$
 				ca.setXDelta(Integer.parseInt(computedAttribute.getAttribute("delta_x"))); //$NON-NLS-1$
-				LOGGER.finer("Ajout de la position relative (X) pour l'attribut : " + computedAttribute.getName()); //$NON-NLS-1$
+				LOGGER.finer("Add relative location (X) for the computed attribute : " + computedAttribute.getName()); //$NON-NLS-1$
 			}
 			
 			if (computedAttribute.getAttribute("delta_y") != null) { //$NON-NLS-1$
 				ca.setYDelta(Integer.parseInt(computedAttribute.getAttribute("delta_y"))); //$NON-NLS-1$
-				LOGGER.finer("Ajout de la position relative (Y) pour l'attribut : " + computedAttribute.getName()); //$NON-NLS-1$
+				LOGGER.finer("Add relative location (Y) for the computed attribute : " + computedAttribute.getName()); //$NON-NLS-1$
 			}
 
 			// Parse graphical considerations
 			if (computedAttribute.getAttribute("bold") != null) { //$NON-NLS-1$
 				ca.setBold(Boolean.parseBoolean(computedAttribute.getAttribute("bold"))); //$NON-NLS-1$
-				LOGGER.finer("Ajout de l'indicateur de gras pour l'attribut : " + computedAttribute.getName()); //$NON-NLS-1$
+				LOGGER.finer("Add bold state for the attribute : " + computedAttribute.getName()); //$NON-NLS-1$
 			}
 			if (computedAttribute.getAttribute("italic") != null) { //$NON-NLS-1$
 				ca.setItalic(Boolean.parseBoolean(computedAttribute.getAttribute("italic"))); //$NON-NLS-1$
-				LOGGER.finer("Ajout de l'indicateur d'italique pour l'attribut : " + ca.getName()); //$NON-NLS-1$
+				LOGGER.finer("Add italic state for the attribute : " + ca.getName()); //$NON-NLS-1$
 			}
 			if (computedAttribute.getAttribute("size") != null) { //$NON-NLS-1$
 				ca.setSize(computedAttribute.getAttribute("size")); //$NON-NLS-1$
-				LOGGER.finer("Ajout de l'indicateur de taille de police pour l'attribut : " + ca.getName()); //$NON-NLS-1$
+				LOGGER.finer("Add font size for the attribute : " + ca.getName()); //$NON-NLS-1$
 			}
 
 			// Add the attribute to the parent's list
@@ -281,35 +279,35 @@ public final class FormalismManager {
 
 			// Build a GraphicalDescription object
 			GraphicalDescription gd = new GraphicalDescription(Boolean.parseBoolean(graphicalDescription.getAttribute("palettable")), Boolean.parseBoolean(graphicalDescription.getAttribute("drawable"))); //$NON-NLS-1$ //$NON-NLS-2$
-			LOGGER.finer("Construction de la description graphique pour l'element : " + element.getName()); //$NON-NLS-1$
+			LOGGER.finer("Build the graphical decription for the element : " + element.getName()); //$NON-NLS-1$
 
 			if (graphicalDescription.getAttribute("paletteName") != null) { //$NON-NLS-1$
 				gd.setPaletteName(graphicalDescription.getAttribute("paletteName")); //$NON-NLS-1$
-				LOGGER.finest("Ajout du nom de palette pour l'element : " + element.getName()); //$NON-NLS-1$
+				LOGGER.finest("Add a palette name for the element : " + element.getName()); //$NON-NLS-1$
 			}
 			if (graphicalDescription.getAttribute("description") != null) { //$NON-NLS-1$
 				gd.setDescription(graphicalDescription.getAttribute("description")); //$NON-NLS-1$
-				LOGGER.finest("Ajout de la description pour l'element : " + element.getName()); //$NON-NLS-1$
+				LOGGER.finest("Add a description for the element : " + element.getName()); //$NON-NLS-1$
 			}
 			if (graphicalDescription.getAttribute("fill") != null) { //$NON-NLS-1$
 				gd.setFilled(Boolean.parseBoolean(graphicalDescription.getAttribute("fill"))); //$NON-NLS-1$
-				LOGGER.finest("Ajout de l'indicateur de remplissage pour l'element : " + element.getName()); //$NON-NLS-1$
+				LOGGER.finest("Add a fill state for the element : " + element.getName()); //$NON-NLS-1$
 			}
 			if (graphicalDescription.getAttribute("height") != null) { //$NON-NLS-1$
 				gd.setHeight(graphicalDescription.getAttribute("height")); //$NON-NLS-1$
-				LOGGER.finest("Ajout de la hauteur pour l'element : " + element.getName()); //$NON-NLS-1$
+				LOGGER.finest("Add the height of the element : " + element.getName()); //$NON-NLS-1$
 			}
 			if (graphicalDescription.getAttribute("width") != null) { //$NON-NLS-1$
 				gd.setWidth(graphicalDescription.getAttribute("width")); //$NON-NLS-1$
-				LOGGER.finest("Ajout de la largeur pour l'element : " + element.getName()); //$NON-NLS-1$
+				LOGGER.finest("Add the width of the element : " + element.getName()); //$NON-NLS-1$
 			}
 			if (graphicalDescription.getAttribute("icon16px") != null) { //$NON-NLS-1$
 				gd.setIcon16px(graphicalDescription.getAttribute("icon16px")); //$NON-NLS-1$
-				LOGGER.finest("Ajout de l'icone 16px pour l'element : " + element.getName()); //$NON-NLS-1$
+				LOGGER.finest("Add the 16px icon for the element : " + element.getName()); //$NON-NLS-1$
 			}
 			if (graphicalDescription.getAttribute("icon24px") != null) { //$NON-NLS-1$
 				gd.setIcon24px(graphicalDescription.getAttribute("icon24px")); //$NON-NLS-1$
-				LOGGER.finest("Ajout de l'icone 24px pour l'element : " + element.getName()); //$NON-NLS-1$
+				LOGGER.finest("Add the 24px icon for the element : " + element.getName()); //$NON-NLS-1$
 			}
 
 			// Associate a graphical figure description (class) to the element
@@ -317,9 +315,9 @@ public final class FormalismManager {
 				try {
 					Object associatedFigure = graphicalDescription.createExecutableExtension("associatedFigure"); //$NON-NLS-1$
 					gd.setAssociatedFigure(associatedFigure.getClass());
-					LOGGER.finest("Ajout de la figure associee pour l'element : " + element.getName()); //$NON-NLS-1$
+					LOGGER.finest("Add the associated figure for the element : " + element.getName()); //$NON-NLS-1$
 				} catch (CoreException e) {
-					LOGGER.warning("Echec lors de l'association de la figure a l'element : " + element.getName() + " ( " + e.getMessage() + " )"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					LOGGER.warning("Something went wrong when we tried to add the figure to the element : " + element.getName() + " ( " + e.getMessage() + " )"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				}
 			}
 
@@ -340,8 +338,8 @@ public final class FormalismManager {
 				return form;
 			}
 		}
-		LOGGER.warning("Ce formalisme n'est pas connu : '" + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		throw new IllegalArgumentException("Ce formalisme n'est pas connu : '" + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.warning("This formalism is not known : '" + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException("This formalism is not known : '" + name + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -356,8 +354,8 @@ public final class FormalismManager {
 				return form;
 			}
 		}
-		LOGGER.warning("Ce formalisme n'est pas connu : '" + id + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		throw new IllegalArgumentException("Ce formalisme n'est pas connu : '" + id + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.warning("This formalism is not known : '" + id + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException("This formalism is not known : '" + id + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -366,7 +364,8 @@ public final class FormalismManager {
 	 * @param fkName The FKName of the formalism
 	 * @return The formalism {@link IFormalism}
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
-	 * TODO: Mise au clair de cette méthode !
+	 * TODO: This method is not clear...
+	 * @deprecated
 	 */
 	public IFormalism getFormalismByFkName(String fkName) throws IllegalArgumentException {
 		if (fkName.toLowerCase().equals("ami-net")) { //$NON-NLS-1$
@@ -381,8 +380,8 @@ public final class FormalismManager {
 				return form;
 			}
 		}
-		LOGGER.warning("Ce formalisme n'est pas connu : '" + fkName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		throw new IllegalArgumentException("Ce formalisme n'est pas connu : '" + fkName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.warning("This formalism is not known : '" + fkName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException("This formalism is not known : '" + fkName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
