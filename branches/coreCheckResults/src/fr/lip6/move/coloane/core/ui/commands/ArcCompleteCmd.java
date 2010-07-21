@@ -67,7 +67,7 @@ public class ArcCompleteCmd extends CheckableCmd {
 	public final void execute() {
 		// Build up the arc
 		try {
-			this.arc = this.graph.createArc(arcFormalism.getName(), source, target);
+			this.arc = this.graph.createArc(arcFormalism, source, target);
 		} catch (ModelException e) {
 			LOGGER.warning("Unable to build the arc: " + e.toString()); //$NON-NLS-1$
 			e.printStackTrace();

@@ -6,7 +6,10 @@ import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -48,6 +51,9 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 	/** Various data */
 	private StringBuilder data = new StringBuilder();
+	
+	/** ElementFormalism Cache */
+	private Map<String,IElementFormalism> formalismCache = new HashMap<String, IElementFormalism>();
 
 	/** {@inheritDoc} */
 	@Override
@@ -149,6 +155,12 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 			IFormalism formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 			IGraph graph = new GraphModel(formalism);
 			stack.push(graph);
+			
+			// build the formalism cache
+			for (IElementFormalism elementFormalism : formalism.getRootGraph().getAllElementFormalism()) {
+				formalismCache.put(elementFormalism.getName(),elementFormalism);
+			}
+			
 		} catch (IllegalArgumentException e) {
 			throw new SAXException(e);
 		}
@@ -169,7 +181,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		int id = Integer.parseInt(attributes.getValue(NODE_ID_MARKUP));
 
 		// Build the node
-		INode node = graph.createNode(nodeFormalismName);
+		INode node = graph.createNode((INodeFormalism) formalismCache.get(nodeFormalismName));
 		ids.put(id, node.getId());
 		node.getGraphicInfo().setLocation(new Point(x, y));
 
@@ -299,7 +311,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		String arcFormalismName = attributes.getValue(ARC_TYPE_MARKUP);
 
 		// Build the arc 
-		IArc arc = graph.createArc(arcFormalismName,
+		IArc arc = graph.createArc((IArcFormalism) formalismCache.get(arcFormalismName),
 				graph.getNode(ids.get(startid)),
 				graph.getNode(ids.get(endid)));
 		ids.put(id, arc.getId());

@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -9,13 +10,11 @@ import java.util.logging.Logger;
 
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
-import org.eclipse.gef.commands.Command;
 
 /**
- * Actions needed to create a new node<br>
- * This command describes also how to undo/redo this set of actions
+ * Create a new node.
  */
-public class NodeCreateCmd extends Command {
+public class NodeCreateCmd extends CheckableCmd {
 	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** The new node */
@@ -28,7 +27,7 @@ public class NodeCreateCmd extends Command {
 	private Point location;
 
 	/** The node formalism name */
-	private String nodeFormalismName;
+	private INodeFormalism nodeFormalism;
 
 	/**
 	 * Create a command that will create a node of a given formalism
@@ -36,10 +35,10 @@ public class NodeCreateCmd extends Command {
 	 * @param nodeFormalismName the node formalism 
 	 * @param location the location where the node will be displayed for the first time
 	 */
-	public NodeCreateCmd(IGraph graph, String nodeFormalismName, Rectangle location) {
+	public NodeCreateCmd(IGraph graph, INodeFormalism nodeFormalism, Rectangle location) {
 		super(Messages.NodeCreateCmd_0);
 		this.graph = graph;
-		this.nodeFormalismName = nodeFormalismName;
+		this.nodeFormalism = nodeFormalism;
 		this.location = location.getLocation();
 	}
 
@@ -53,12 +52,13 @@ public class NodeCreateCmd extends Command {
 	@Override
 	public final void execute() {
 		try {
-			node = graph.createNode(nodeFormalismName);
+			node = graph.createNode(nodeFormalism);
 			node.getGraphicInfo().setLocation(location);
 			// Reset location of all attached attributes 
 			for (IAttribute attribute : node.getDrawableAttributes()) {
 				attribute.getGraphicInfo().resetLocation();
 			}
+			addCheckableElement(node);
 		} catch (ModelException e) {
 			logger.warning(e.toString());
 			e.printStackTrace();
