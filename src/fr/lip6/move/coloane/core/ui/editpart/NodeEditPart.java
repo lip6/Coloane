@@ -12,9 +12,9 @@ import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcReconnectCmd;
-import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCommand;
-import fr.lip6.move.coloane.core.ui.commands.LinkCreateCommand;
-import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCommand;
+import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCmd;
+import fr.lip6.move.coloane.core.ui.commands.LinkCreateCmd;
+import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode;
@@ -71,6 +71,7 @@ import org.eclipse.ui.ide.IDE;
  * EditPart in charge of nodes management
  *
  * @author Jean-Baptiste Voron
+ * {@link}
  */
 public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener, org.eclipse.gef.NodeEditPart {
 	/** Core Logger */
@@ -267,31 +268,31 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 	/**
-	 * Regles de gestion de l'objet
+	 * Node Management.<br>
+	 * Define some rules about the node behavior.
 	 */
 	@Override
 	protected final void createEditPolicies() {
-		/* Ensemble de regles concernant la selection/deselection de l'objet */
+		// Selection policy
 		installEditPolicy(EditPolicy.SELECTION_FEEDBACK_ROLE, new SelectionEditPolicy() {
-			// Comportement lors de la deselection de l'objet
-			@Override
-			protected void hideSelection() {
-				select = false;
-				refreshVisuals();
-			}
-
-			// Comportement lors de la selection de l'objet
+			// What to do when object is selected ?
 			@Override
 			protected void showSelection() {
 				select = true;
 				refreshVisuals();
 			}
+			// What to do when object is unselected
+			@Override
+			protected void hideSelection() {
+				select = false;
+				refreshVisuals();
+			}
 		});
 
-		/* Ensemble des regles concernant le role profond de l'element du modele */
+		// Basic policy
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy() {
 
-			// On autorise la suppression de l'element
+			// A node can be removed/deleted. It is done by a dedicated DeleteCommand
 			@Override
 			protected Command createDeleteCommand(GroupRequest deleteRequest) {
 				IGraph parent = (IGraph) getHost().getParent().getModel();
@@ -299,29 +300,28 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 				Command cmd =  new NodeDeleteCmd(parent, child);
 				return cmd;
 			}
-
 		});
 
-		/* Ensembles de regles gouvernant la creation et le maintient des connexions inter-noeuds */
+		// Connections between nodes
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
 
 			/**
-			 * Première étape de la creation d'un lien.<br>
-			 * Lorsque l'utilisateur clique sur le noeud de depart, la commande CREATE est appelee.
-			 * @return la commande ou <code>null</code> si la création de l'arc n'est pas possible.
+			 * First step of connection creation.<br>
+			 * When a user click on a start node, the create command {@link ArcCreateCmd} or {@link LinkCreateCmd} is called.
+			 * @return the creation command or <code>null</code> if the connection is not possible from this node
 			 * @see getConnectionCompleteCommand
+			 * 
 			 */
 			@Override
 			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
 				INode source = (INode) getHost().getModel();
 				Command cmd = null;
 
-
-				// Les commandes de créations ne font que du stockage d'information.
+				// The conection is either an arc or an sticky link
 				if (request.getNewObjectType() == IArc.class) {
 					cmd = new ArcCreateCmd(source, (IArcFormalism) request.getNewObject());
 				} else if (request.getNewObjectType() == ILink.class && source instanceof ILinkableElement) {
-					cmd = new LinkCreateCommand((ILinkableElement) source);
+					cmd = new LinkCreateCmd((ILinkableElement) source);
 				}
 
 				request.setStartCommand(cmd);
@@ -329,52 +329,60 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			}
 
 			/**
-			 * Deuxième étape de la creation d'un lien.<br>
-			 * Lorsque l'utilisateur clique sur le noeud d'arrivee, la commande COMPLETE est appelee.
-			 * @return la commande ou <code>null</code> si la création de l'arc n'est pas possible.
+			 * Second step of connection creation.<br>
+			 * When a user chooses an ending node, the complete command {@link ArcCompleteCommand} is created.
+			 * @return the command or <code>null</code> if the connection is not possible to this node
 			 */
 			@Override
 			protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
 				Command cmd = null;
 
+				// In case of Arc connection
 				if (request.getStartCommand() instanceof ArcCreateCmd) {
 					INode source = ((ArcCreateCmd) request.getStartCommand()).getSource();
 					INode target = (INode) getHost().getModel();
 					IArcFormalism arcFormalism = ((ArcCreateCmd) request.getStartCommand()).getArcFormalism();
-
 					cmd = new ArcCompleteCmd(source, target, arcFormalism);
-				} else if (request.getStartCommand() instanceof LinkCreateCommand) {
-					ILinkableElement source = ((LinkCreateCommand) request.getStartCommand()).getSource();
+				// In case of StickyLink connection
+				} else if (request.getStartCommand() instanceof LinkCreateCmd) {
+					ILinkableElement source = ((LinkCreateCmd) request.getStartCommand()).getSource();
 					if (source instanceof IStickyNote) {
 						IGraph graph = (IGraph) ((INode) getHost().getModel()).getParent();
 						ILinkableElement target = (ILinkableElement) getHost().getModel();
-
-						cmd = new LinkCompleteCommand(graph, source, target);
+						cmd = new LinkCompleteCmd(graph, source, target);
 					}
 				}
-
 				return cmd;
 			}
 
+			/**
+			 * Source of arcs or sticky links connections can be changed at any time without destroying the existing connection.<br>
+			 * This operation is done thanks to the {@link ArcReconnectCmd} or {@link LinkReconnectCmd} command.<br>
+			 */
 			@Override
 			protected Command getReconnectSourceCommand(ReconnectRequest request) {
 				Command cmd = null;
 
+				// If case of Arc reconnection (source reconnection)
 				if (request.getConnectionEditPart() instanceof ArcEditPart) {
 					IArc arc = (IArc) request.getConnectionEditPart().getModel();
 					INode newSource = (INode) getHost().getModel();
 					ArcReconnectCmd reconnectCmd = new ArcReconnectCmd(arc);
 					reconnectCmd.setNewSource(newSource);
 					cmd = reconnectCmd;
+				// If case of Sticky Link reconnection (source reconnection)
 				} else if (request.getConnectionEditPart() instanceof LinkEditPart) {
 					ILink link = (ILink) request.getConnectionEditPart().getModel();
 					ILinkableElement newElement = (ILinkableElement) getHost().getModel();
-					cmd = new LinkReconnectCommand(link, link.getNote(), newElement);
+					cmd = new LinkReconnectCmd(link, link.getNote(), newElement);
 				}
-
 				return cmd;
 			}
 
+			/**
+			 * Only target of arcs can be changed without destroying the connection.
+			 * This operation is done thanks to the {@link ArcReconnectCmd} command.<br>
+			 */
 			@Override
 			protected Command getReconnectTargetCommand(ReconnectRequest request) {
 				Command cmd = null;
@@ -391,6 +399,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			}
 		});
 
+		// Add listeners to able able to detect when the mouse is over/out the node
 		getFigure().addMouseMotionListener(new MouseMotionListener.Stub() {
 			@Override
 			public void mouseEntered(MouseEvent me) {
@@ -413,7 +422,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 
 
 	/**
-	 * Creation des ancres pour attacher les connexions
+	 * Create anchors to deal with connections
 	 * @return ConnectionAnchor
 	 */
 	protected final ConnectionAnchor getConnectionAnchor() {
@@ -424,8 +433,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 	/**
-	 * Retourne la liste des arcs sortant du noeud considéré
-	 * @return List of IArcImpl
+	 * @return a list of all outgoing connections (arcs or sticky links)
 	 */
 	@Override
 	protected final List<Object> getModelSourceConnections() {
@@ -436,14 +444,13 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 	/**
-	 * Retourne la liste des arcs entrants du noeud considéré
-	 * @return List of IArcImpl
+	 * @return a list of all incoming connections (arcs or tip links)
 	 */
 	@Override
 	protected final List<Object> getModelTargetConnections() {
 		List<Object> targets = new ArrayList<Object>();
 		targets.addAll(((INode) getModel()).getIncomingArcs());
-		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTip(((INode) getModel()).getId())) {
+		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTips(((INode) getModel()).getId())) {
 			targets.add(((ICoreTip) tip).getArcModel());
 		}
 		return targets;

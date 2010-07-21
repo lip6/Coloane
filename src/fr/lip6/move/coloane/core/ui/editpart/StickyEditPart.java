@@ -1,13 +1,14 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.model.LinkModel;
 import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCommand;
-import fr.lip6.move.coloane.core.ui.commands.LinkCreateCommand;
-import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCommand;
+import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCmd;
+import fr.lip6.move.coloane.core.ui.commands.LinkCreateCmd;
+import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.StickyNoteDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.sticky.StickyNoteFigure;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -38,7 +39,12 @@ import org.eclipse.gef.requests.GroupRequest;
 import org.eclipse.gef.requests.ReconnectRequest;
 
 /**
- * EditPart pour la gestion des notes.
+ * Edit part that manages Sticky Notes
+ * 
+ * @author Clément Démoulins
+ * 
+ * @see StickyNoteModel
+ * @see LinkModel
  */
 public class StickyEditPart extends AbstractGraphicalEditPart implements PropertyChangeListener, NodeEditPart {
 
@@ -50,7 +56,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy() {
 
-			// On autorise la suppression de l'element
+			// How to delete a sticky note ?
 			@Override
 			protected Command createDeleteCommand(GroupRequest deleteRequest) {
 				IGraph parent = (IGraph) getHost().getParent().getModel();
@@ -58,15 +64,32 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 				Command cmd =  new StickyNoteDeleteCmd(parent, child);
 				return cmd;
 			}
-
 		});
 
+		// Connection properties 
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
+			
+			/**
+			 * Create a connection (first step).<br>
+			 */
+			@Override
+			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
+				Command cmd = null;
+				if (request.getNewObjectType() == ILink.class) {
+					cmd = new LinkCreateCmd((ILinkableElement) getHost().getModel());
+				}
+				request.setStartCommand(cmd);
+				return cmd;
+			}
+
+			/**
+			 * Complete a connection (first step).<br>
+			 */
 			@Override
 			protected Command getConnectionCompleteCommand(CreateConnectionRequest request) {
 				Command cmd = null;
-				if (request.getStartCommand() instanceof LinkCreateCommand) {
-					ILinkableElement source = ((LinkCreateCommand) request.getStartCommand()).getSource();
+				if (request.getStartCommand() instanceof LinkCreateCmd) {
+					ILinkableElement source = ((LinkCreateCmd) request.getStartCommand()).getSource();
 					if (!(source instanceof IStickyNote)) {
 						// On cherche le graph
 						IGraph graph;
@@ -79,34 +102,31 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 						}
 
 						ILinkableElement target = (ILinkableElement) getHost().getModel();
-						cmd = new LinkCompleteCommand(graph, source, target);
+						cmd = new LinkCompleteCmd(graph, source, target);
 					}
 				}
 				return cmd;
 			}
 
-			@Override
-			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
-				Command cmd = null;
-				if (request.getNewObjectType() == ILink.class) {
-					cmd = new LinkCreateCommand((ILinkableElement) getHost().getModel());
-				}
-				request.setStartCommand(cmd);
-				return cmd;
-			}
-
+			/**
+			 * It is impossible to reconnect the source of a connection between a sticky note and an element.<br>
+			 * It is always the stciky note.
+			 */
 			@Override
 			protected Command getReconnectSourceCommand(ReconnectRequest request) {
 				return null;
 			}
 
+			/**
+			 * Reconnection of the sticky link target.
+			 */
 			@Override
 			protected Command getReconnectTargetCommand(ReconnectRequest request) {
 				Command cmd = null;
 				if (request.getConnectionEditPart() instanceof LinkEditPart) {
 					ILink link = (ILink) request.getConnectionEditPart().getModel();
 					IStickyNote newNote = (IStickyNote) getHost().getModel();
-					cmd = new LinkReconnectCommand(link, newNote, link.getElement());
+					cmd = new LinkReconnectCmd(link, newNote, link.getElement());
 				}
 				return cmd;
 			}
@@ -125,14 +145,15 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 	}
 
 	/**
-	 * @return le modèle
+	 * @return The sticky note model element
 	 */
 	private StickyNoteModel getStickyNote() {
 		return (StickyNoteModel) getModel();
 	}
 
 	/**
-	 * Affiche une zone d'édition de l'attribut.
+	 * Allow the direct editing of a sticky note through the appropriate EditManager
+	 * @see StickyEditManager
 	 */
 	private void performDirectEdit() {
 		new StickyEditManager(this, new StickyCellEditorLocator((StickyNoteFigure) getFigure())).show();

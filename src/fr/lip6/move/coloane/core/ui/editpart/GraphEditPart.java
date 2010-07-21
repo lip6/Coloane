@@ -42,6 +42,9 @@ import org.eclipse.swt.SWT;
 
 /**
  * EditPart dedicated to the global graph model
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 public class GraphEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
@@ -176,7 +179,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		LOGGER.finest("propertyChange(" + event.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		String prop = event.getPropertyName();
 
-		// Ajout/Suppression
+		// Add/Delete a child
 		if (IGraph.NODE_ADDED_PROP.equals(prop) || IGraph.NODE_REMOVED_PROP.equals(prop)
 				|| IGraph.ARC_ADDED_PROP.equals(prop) || IGraph.ARC_REMOVED_PROP.equals(prop)
 				|| ICoreGraph.STICKY_ADD_PROP.equals(prop) || ICoreGraph.STICKY_REMOVED_PROP.equals(prop)
@@ -194,8 +197,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/**
-	 * Listen the model by installing some listeners on the model.
-	 * Notifier link between the view and the model.
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final void activate() {
@@ -208,7 +210,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/**
-	 * Stop the model listening
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final void deactivate() {
@@ -231,7 +233,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	/**
 	 * Recursively print the textual tree that describes a figure
 	 * @param s String to put in front of each line
-	 * @param fig figure for which the textuel description is needed
+	 * @param fig figure for which the textual description is needed
 	 * @return the textual description
 	 */
 	private static String treeToString(String s, IFigure fig) {

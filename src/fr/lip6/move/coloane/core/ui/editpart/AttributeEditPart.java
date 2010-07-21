@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.model.AttributeModel;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -233,7 +234,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	 */
 	@Override
 	protected final void createEditPolicies() {
-		// Allow the edition of the attribute value directly on the editor
+		// Allow the edition of the attribute value directly on the editor (only for standard attributes)
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new AttributeDirectEditPolicy());
 
 		// All rules about select state
@@ -301,13 +302,18 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	@Override
 	public final void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
-			performDirectEdit();
+			// Editing is allowed only for standard attributes
+			if (getModel() instanceof AttributeModel) {
+				performDirectEdit();
+			} else {
+				LOGGER.finer("This attribute cannot be edited since it is computed from several attributes value"); //$NON-NLS-1$
+			}
 		}
 	}
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent event) {
-		LOGGER.finest("Evénement pour un attribut: " + event.getPropertyName());  //$NON-NLS-1$
+		LOGGER.finest("Attribute has received an event: " + event.getPropertyName());  //$NON-NLS-1$
 		String prop = event.getPropertyName();
 
 		// When the value of the attribute is modified somewhere
