@@ -11,7 +11,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -62,8 +61,8 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 					location[i] = spinner.getSelection();
 					cc.add(new LocatedElementSetConstraintCmd(
 							(ILocatedElement) node,
-							new Rectangle(new Point(location[0], location[1]), graphicInfo.getSize()))
-					);
+							new Point(location[0], location[1])
+					));
 				}
 			}
 			if (cc.size() > 0) {
