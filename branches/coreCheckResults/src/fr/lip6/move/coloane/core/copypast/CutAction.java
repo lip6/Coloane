@@ -4,7 +4,6 @@ import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.gef.EditPart;
@@ -16,14 +15,16 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * Action COUPER
+ * Cut action
+ * 
+ * @author Clément Démoulins
  */
 public class CutAction extends SelectionAction {
 	private ColoaneEditor editor;
 
 	/**
-	 * Constructeur
-	 * @param part Le workbench actif (en fait l'éditeur)
+	 * Constructor
+	 * @param workbench The active workbench (the current editor)
 	 */
 	public CutAction(IWorkbenchPart part) {
 		super(part);
@@ -46,30 +47,30 @@ public class CutAction extends SelectionAction {
 	}
 
 	/**
-	 * @param selectedObjects liste d'objet à couper
-	 * @return commande pour couper
+	 * Create a cut action that use the current selection
+	 * @param selectedObjects The list of selected objects to cut
+	 * @return A cut command ready to be executed
 	 */
 	private Command createCutCommand(List<Object> selectedObjects) {
 		if (editor == null || selectedObjects == null || selectedObjects.isEmpty()) {
 			return null;
 		}
 
-		CutCommand cmd = new CutCommand(editor);
-		Iterator<Object> it = selectedObjects.iterator();
-		while (it.hasNext()) {
-			Object object = it.next();
-			if (object instanceof EditPart) {
-				Object model = ((EditPart) object).getModel();
+		CutCommand cutCommand = new CutCommand(editor);
+		// Browse all selected objects and update the copy command
+		for (Object selectedObject : selectedObjects) {
+			if (selectedObject instanceof EditPart) {
+				Object model = ((EditPart) selectedObject).getModel();
 				if (model instanceof INode) {
 					INode node = (INode) model;
-					cmd.addNode(node);
+					cutCommand.addNode(node);
 				} else if (model instanceof IArc) {
 					IArc arc = (IArc) model;
-					cmd.addArc(arc);
+					cutCommand.addArc(arc);
 				}
 			}
 		}
-		return cmd;
+		return cutCommand;
 	}
 
 	/** {@inheritDoc} */

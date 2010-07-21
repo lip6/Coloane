@@ -107,7 +107,7 @@ public class ArcContainer {
 	/**
 	 * @return The ID of the source node 
 	 */
-	public final int getSource() {
+	public final int getIdSource() {
 		return idSource;
 	}
 
