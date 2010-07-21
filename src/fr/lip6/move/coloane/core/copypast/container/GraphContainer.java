@@ -11,68 +11,80 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Classe conteneur de NodeContainer et d'ArcContainer
+ * Class that contains node container and arcs container.<br>
+ * This class is created when a copy action is performed by the user.
+ * 
+ * @author Clément Démoulins
+ * @author Jean-Baptiste Voron
+ * 
+ * @see NodeContainer
+ * @see ArcContainer
  */
 public class GraphContainer {
+	/** The formalism used by the graph */
 	private final IFormalism formalism;
 
+	/** A map of node container used to duplicate nodes */
 	private final Map<Integer, NodeContainer> nodes = new HashMap<Integer, NodeContainer>();
+	/** A set of arc container used to duplicate arcs */
 	private final Set<ArcContainer> arcs = new HashSet<ArcContainer>();
 
 	/**
-	 * Constructeur
-	 * @param formalism Le formalisme du modèle
+	 * Constructor
+	 * @param formalism The formalism used by the graph
 	 */
 	public GraphContainer(IFormalism formalism) {
 		this.formalism = formalism;
 	}
 
 	/**
-	 * Ajoute un noeud
-	 * @param node Le noeud à ajouter
+	 * Add node to the map of copied nodes
+	 * @param node The node to add to the map
 	 */
 	public final void addNode(INode node) {
 		nodes.put(node.getId(), new NodeContainer(node));
 	}
 
 	/**
-	 * @param id L'identifiant du conteneur de noeud recherché
-	 * @return le conteneur ou <code>null</code> s'il est introuvable
+	 * Fetch a node from the map of copied node
+	 * @param id The ID of the desired node
+	 * @return The node container or <code>null</code> if it does not exist
 	 */
 	public final NodeContainer getNode(int id) {
 		return nodes.get(id);
 	}
 
 	/**
-	 * @return l'ensemble des conteneurs de noeud
+	 * @return All copied nodes
 	 */
 	public final Collection<NodeContainer> getNodes() {
 		return nodes.values();
 	}
 
 	/**
-	 * @param arc L'arc qui doit être ajouté
+	 * Add an arc to the set of copied arcs
+	 * @param arc The copied arc
 	 */
 	public final void addArc(IArc arc) {
-		arcs.add(new ArcContainer(arc, arc.getSource().getId(), arc.getTarget().getId()));
+		arcs.add(new ArcContainer(arc));
 	}
 
 	/**
-	 * @return l'ensemble des conteneurs d'arc du graphe
+	 * @return All copied arcs
 	 */
 	public final Collection<ArcContainer> getArcs() {
 		return arcs;
 	}
 
 	/**
-	 * @return <code>true</code> s'il n'y a ni conteneur de noeud ni conteneurs d'arcs
+	 * @return <code>true</code> if there is no copied nodes and copied arcs; <code>false</code> otherwise
 	 */
 	public final boolean isEmpty() {
 		return nodes.isEmpty() && arcs.isEmpty();
 	}
 
 	/**
-	 * @return le formalisme du graphe
+	 * @return The formalism used by the graph
 	 */
 	public final IFormalism getFormalism() {
 		return formalism;
