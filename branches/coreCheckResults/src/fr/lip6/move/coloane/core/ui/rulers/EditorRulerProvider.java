@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.rulers;
 
-import fr.lip6.move.coloane.core.ui.commands.CreateGuideCmd;
-import fr.lip6.move.coloane.core.ui.commands.DeleteGuideCmd;
-import fr.lip6.move.coloane.core.ui.commands.MoveGuideCmd;
+import fr.lip6.move.coloane.core.ui.commands.GuideCreateCmd;
+import fr.lip6.move.coloane.core.ui.commands.GuideDeleteCmd;
+import fr.lip6.move.coloane.core.ui.commands.GuideMoveCmd;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -102,19 +102,19 @@ public class EditorRulerProvider extends RulerProvider {
 	/** {@inheritDoc} */
 	@Override
 	public final Command getCreateGuideCommand(int position) {
-		return new CreateGuideCmd(ruler, position);
+		return new GuideCreateCmd(ruler, position);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final Command getDeleteGuideCommand(Object guide) {
-		return new DeleteGuideCmd((EditorGuide) guide, ruler);
+		return new GuideDeleteCmd((EditorGuide) guide, ruler);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final Command getMoveGuideCommand(Object guide, int pDelta) {
-		return new MoveGuideCmd((EditorGuide) guide, pDelta);
+		return new GuideMoveCmd((EditorGuide) guide, pDelta);
 	}
 
 	/** {@inheritDoc} */
