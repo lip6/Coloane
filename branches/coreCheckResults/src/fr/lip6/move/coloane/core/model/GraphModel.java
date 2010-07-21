@@ -6,9 +6,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -39,9 +37,6 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 
 	/** Main formalism used by this graph */
 	private IFormalism formalism;
-
-	/** Set of properties given by the formalism for this graph */
-	private IGraphFormalism graphFormalism;
 
 	/** Nodes list (ordered by ID) */
 	private Map<Integer, INode>	nodes = new HashMap<Integer, INode>();
@@ -76,7 +71,6 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 		super(1, null, formalism.getRootGraph().getAttributes() , formalism.getRootGraph().getComputedAttributes());
 		LOGGER.fine("Build a graph model using formalism:" + formalism.getName() + ""); //$NON-NLS-1$ //$NON-NLS-2$
 		this.formalism = formalism;
-		this.graphFormalism = formalism.getRootGraph();
 
 		// Create graphical properties
 		this.editorProperties = new GraphEditorProperties();
@@ -99,9 +93,8 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
-	public final INode createNode(String nodeFormalismName) throws ModelException {
-		INodeFormalism nodeFormalism = (INodeFormalism) graphFormalism.getElementFormalism(nodeFormalismName);
-		if ((nodeFormalism == null) || !(nodeFormalism instanceof INodeFormalism)) {
+	public final INode createNode(INodeFormalism nodeFormalism) throws ModelException {
+		if (nodeFormalism == null) {
 			throw new ModelException("The formalism does not define a node type: " + nodeFormalism.getName()); //$NON-NLS-1$
 		}
 		return createNode(nodeFormalism, getNewId());
@@ -202,12 +195,10 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
-	public final IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException {
-		IElementFormalism arcFormalism = graphFormalism.getElementFormalism(arcFormalismName);
-		if (arcFormalism == null || !(arcFormalism instanceof IArcFormalism)) {
-			throw new ModelException("This formalism does not define an arc type: " + arcFormalismName); //$NON-NLS-1$
+	public final IArc createArc(IArcFormalism arcFormalism, INode source, INode target) throws ModelException {
+		if (arcFormalism == null) {
+			throw new ModelException("This formalism does not define an arc type: " + arcFormalism); //$NON-NLS-1$
 		}
-
 		return this.createArc((IArcFormalism) arcFormalism, source, target, getNewId());
 	}
 
