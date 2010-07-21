@@ -11,40 +11,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Definition d'un formalisme.<br>
- * L'instanciation d'un tel formalisme provoque systématiquement la création d'un objet {@link GraphFormalism}.<br>
- * Sans aucune autre précision, les éléments de formalisme créés par la suite seront associé à cet objet {@link GraphFormalism}.
+ * Define a formalism.<br>
  */
 public class Formalism implements IFormalism {
 
-	/** Id du formalisme. */
+	/** Formalism ID */
 	private String id;
 
-	/** Nom du formalisme. */
+	/** Formalism Name */
 	private String name;
 
-	/** Parent du formalisme (identifiant historique). */
+	/** Formalism Identifier for FK platform (historical reason) */
 	private String fkname;
 
-	/** Liste des regles du formalisme concernant les liens entre objets. */
+	/** Formalism constraints about relations between objects */
 	private List<IConstraintLink> linkconstraints;
 
-	/** Liste des regles du formalisme concernant les actions sur les noeuds. */
+	/** Formalism constraints about nodes */
 	private List<IConstraintNode> nodeconstraints;
 
-	/** Le graphe défnini par le formalisme */
-	private IGraphFormalism master = null;
+	/** Root Graph defined by this formalism */
+	private IGraphFormalism rootGraphFormalism = null;
 
-	/** Nom du fichier de l'image avec extension ex: icon.gif */
+	/** Image that represents the formalism */
 	private String image;
 
 	/**
-	 * Création d'un formalisme
+	 * Constructor
 	 *
-	 * @param id Id du formalisme
-	 * @param name Nom du formalisme.
-	 * @param fkname Le nom du formalisme à utiliser avec FrameKit
-	 * @param image L'image associé à toutes les instances de ce formalisme
+	 * @param id Formalism ID
+	 * @param name Formalism Name
+	 * @param fkname Formalism ID for FK platform
+	 * @param image Image that describes the formalism
 	 */
 	Formalism(String id, String name, String fkname, String image) {
 		this.id = id;
@@ -60,7 +58,7 @@ public class Formalism implements IFormalism {
 	 * {@inheritDoc}
 	 */
 	public final boolean isLinkAllowed(INode source, INode target, IArcFormalism arcFormalism) {
-		// Parcours de toutes les contraintes définies dans le formalisme
+		// Try to find a constraint for these two kinds of nodes
 		for (IConstraintLink constraint : linkconstraints) {
 			if (!constraint.isSatisfied(source, target, arcFormalism)) {
 				return false;
@@ -73,7 +71,7 @@ public class Formalism implements IFormalism {
 	 * {@inheritDoc}
 	 */
 	public final boolean isActionAllowed(INode node) {
-		// Parcours de toutes les contraintes définies dans le formalisme
+		// Try to find a constraint for this kind of node
 		for (IConstraintNode constraint : nodeconstraints) {
 			if (!constraint.isSatisfied(node)) {
 				return false;
@@ -83,19 +81,19 @@ public class Formalism implements IFormalism {
 	}
 
 	/**
-	 * Ajouter une contrainte de lien au formalisme
-	 * @param constraint La contrainte de lien à ajouter au formalisme
+	 * Add a link constraint to the formalism
+	 * @param constraint The constraint between nodes
 	 * @see {@link IConstraintLink}
 	 * @see {@link IConstraint}
 	 */
-	public final void addConstraintLink(IConstraintLink constraint) {
+	final void addConstraintLink(IConstraintLink constraint) {
 		if (constraint == null) { return; }
 		this.linkconstraints.add(constraint);
 	}
 
 	/**
-	 * Ajouter une contrainte de noeud au formalisme
-	 * @param constraint La contrainte de noeud à ajouter au formalisme
+	 * Add a node constraint to the formalism
+	 * @param constraint The constraint for a node
 	 * @see {@link IConstraintNode}
 	 * @see {@link IConstraint}
 	 */
@@ -133,16 +131,18 @@ public class Formalism implements IFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final IGraphFormalism getMasterGraph() {
-		return this.master;
+	public final IGraphFormalism getRootGraph() {
+		return this.rootGraphFormalism;
 	}
 
 	/**
-	 * Indique quel est le graphe principal du formalisme (point d'entrée)
-	 * @param master Le graphe principal du formalisme
+	 * Set the root graph (the graph described by the formalism).<br>
+	 * This information is used to get the most high level graph object very quickly from any node, arc or attribute.<br>
+	 * Just use {@link #getMasterGraph()} 
+	 * @param rootGraphFormalism The graph which is at the top level
 	 */
-	public final void setMasterGraph(IGraphFormalism master) {
-		this.master = master;
+	final void setRootGraph(IGraphFormalism rootGraphFormalism) {
+		this.rootGraphFormalism = rootGraphFormalism;
 	}
 
 	/**
