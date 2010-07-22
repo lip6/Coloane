@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.session;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.ui.checker.CheckerManager;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeListener;
@@ -87,11 +88,16 @@ public final class SessionManager implements ISessionManager {
 		if (this.currentSession == null) {
 			setCurrentSession(newSession); // Set the current session if no session is active yet
 		}
+		
+		// Before returning the new session, we add it an appropriate checker
+		CheckerManager.getInstance().associateCheckerToSession(newSession);
+		
 		return newSession;
 	}
 
 	/** {@inheritDoc} */
 	public ISession resumeSession(String sessionId) {
+		if (sessionId == null) { return null; }
 		ISession toResume = getSession(sessionId);
 
 		if (toResume != null) {

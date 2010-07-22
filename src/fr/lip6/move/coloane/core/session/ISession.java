@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.session;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultManager;
 import fr.lip6.move.coloane.core.results.Tip;
+import fr.lip6.move.coloane.core.ui.checker.Checker;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeListener;
@@ -17,7 +18,7 @@ import org.eclipse.jface.action.MenuManager;
  */
 public interface ISession {
 
-	/** Event raised when som tips are added/removed or updates */
+	/** Event raised when some tips are added/removed or updates */
 	String PROP_TIPS = "Session.tips"; //$NON-NLS-1$
 
 	/**
@@ -29,6 +30,17 @@ public interface ISession {
 	 * @return IGraph The graph associated to the session
 	 */
 	IGraph getGraph();
+	
+	/**
+	 * Set the checker that will be in charge of checking the correctness of the graph
+	 * @param checker The associated checker
+	 */
+	void setChecker(Checker checker);
+	
+	/**
+	 * @return The checker associated with the graph
+	 */
+	Checker getChecker();
 
 	/**
 	 * @return The list of menus (services) associated with this session
@@ -77,7 +89,7 @@ public interface ISession {
 	Collection<ICoreTip> getTipForObject(int id);
 	
 	/**
-	 * Add a listener to be waware of session changes
+	 * Add a listener to be aware of session changes
 	 * @param listener The listener to add to the session
 	 * @see PropertyChangeSupport
 	 */
