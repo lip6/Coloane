@@ -1,13 +1,13 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
+import fr.lip6.move.coloane.core.formalisms.elements.GraphicalDescription;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-import fr.lip6.move.coloane.core.motor.formalisms.elements.GraphicalDescription;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.commands.ArcCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.ArcCreateCmd;
@@ -450,7 +450,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	protected final List<Object> getModelTargetConnections() {
 		List<Object> targets = new ArrayList<Object>();
 		targets.addAll(((INode) getModel()).getIncomingArcs());
-		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTips(((INode) getModel()).getId())) {
+		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTipForObject(((INode) getModel()).getId())) {
 			targets.add(((ICoreTip) tip).getArcModel());
 		}
 		return targets;
