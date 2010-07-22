@@ -6,33 +6,36 @@ import org.eclipse.ui.IPerspectiveFactory;
 import org.eclipse.ui.console.IConsoleConstants;
 
 /**
-* Classe decrivantt la configuration de la perspective Coloane
-* <ul>
-* 	<li>Description des vues</li>
-* 	<li>Positionnement des vues</li>
-* </ul>
-*/
-
+ * Define the layout used by the Coloane perspective
+ * <ul>
+ * 	<li>Active views</li>
+ * 	<li>View Layout</li>
+ * </ul>
+ * 
+ * @author Jean-Baptiste Voron
+ */
 public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 
 	/** ID for action sets Platform */
-	public static final String ACT_PLATFORM = "fr.lip6.move.coloane.actionSets"; //$NON-NLS-1$
-
-	/** ID for the "Coloane results" view */
-	public static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.ResultsView"; //$NON-NLS-1$
+	//public static final String ACT_PLATFORM = "fr.lip6.move.coloane.actionSets"; //$NON-NLS-1$
 
 	/** ID for wizard */
 	public static final String PROJECT_WIZARD = "fr.lip6.move.coloane.wizard.projectWizard"; //$NON-NLS-1$
 	public static final String MODEL_WIZARD = "fr.lip6.move.coloane.wizard.modelWizard"; //$NON-NLS-1$
 
+	/** ID for the "Coloane results" view */
+	public static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.ResultsView"; //$NON-NLS-1$
+
+	/** ID for the "Models Navigator" view */
 	public static final String MODEL_NAVIGATOR = "fr.lip6.move.coloane.views.NavigatorView"; //$NON-NLS-1$
 
 	/**
-	 * Creation du plan de travail
+	 * Create the working space
 	 * <ul>
-	 * <li>Navigator View in the top-left corner
-	 * <li>Property and Problems View on the bottom
+	 * <li>Navigator view in the top-left corner
+	 * <li>Properties and Problems views on the bottom
 	 * </ul>
+	 *
 	 * @param layout Layout of the perspective
 	 */
 	public final void createInitialLayout(IPageLayout layout) {
@@ -51,7 +54,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		layout.addNewWizardShortcut(MODEL_WIZARD);
 
 		// Add action set Platform
-		layout.addActionSet(ACT_PLATFORM);
+		//layout.addActionSet(ACT_PLATFORM);
 
 		//  Add "show views". They will be present in "show view" menu
 		layout.addShowViewShortcut(RESULTS_VIEW);
@@ -59,6 +62,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
 		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
+		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
 		layout.addShowViewShortcut(MODEL_NAVIGATOR);
 	}
 
@@ -68,10 +72,10 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 	 */
 	public final void defineLayout(IPageLayout layout) {
 		// Some ratios for layout
-		final float topLeftRatio = 0.25f;
+		final float topLeftRatio = 0.2f;
 		final float bottomRatio = 0.75f;
 		final float outlineRatio = 0.5f;
-		final float consoleRatio = 0.6f;
+		final float consoleRatio = 0.55f;
 
 		// Get the editor area.
 		String editorArea = layout.getEditorArea();
@@ -89,6 +93,9 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		bottom.addView(RESULTS_VIEW);
 
 		// Right of bottom folder : Console
-		layout.createFolder("CONSOLE", IPageLayout.RIGHT, consoleRatio, "BOTTOM").addView(IConsoleConstants.ID_CONSOLE_VIEW); //$NON-NLS-1$ //$NON-NLS-2$
+		IFolderLayout consoleFolder = layout.createFolder("CONSOLE", IPageLayout.RIGHT, consoleRatio, "BOTTOM");  //$NON-NLS-1$ //$NON-NLS-2$
+		
+		consoleFolder.addView(IPageLayout.ID_PROBLEM_VIEW);
+		consoleFolder.addView(IConsoleConstants.ID_CONSOLE_VIEW);
 	}
 }
