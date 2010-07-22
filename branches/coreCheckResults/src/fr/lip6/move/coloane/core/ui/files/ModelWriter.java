@@ -26,7 +26,7 @@ public final class ModelWriter implements IModelHandler {
 	}
 
 	private static String printCloseMarkup(String type) {
-		return "<" + type + ">\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "</" + type + ">\n"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -219,7 +219,7 @@ public final class ModelWriter implements IModelHandler {
 			// Do not take into account empty attributes
 			if (!att.getValue().equals("")) { //$NON-NLS-1$
 				String balise = att.getName();
-				sb.append("<"+ ATTRIBUTES_LIST_MARKUP + " "+ ATTRIBUTE_NAME_MARKUP + "='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				sb.append("<"+ ATTRIBUTE_MARKUP + " "+ ATTRIBUTE_NAME_MARKUP + "='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				sb.append(" "+ ATTRIBUTE_X_MARKUP + "='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				sb.append(" "+ ATTRIBUTE_Y_MARKUP + "='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				sb.append(">"); //$NON-NLS-1$
