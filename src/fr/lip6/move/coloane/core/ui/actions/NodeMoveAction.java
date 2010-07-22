@@ -5,38 +5,39 @@ import fr.lip6.move.coloane.core.ui.commands.LocatedElementSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.editpart.NodeEditPart;
 
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.ui.IWorkbenchPart;
 
 /**
- * Action qui va déplacer la selection d'un pixel dans un sens.<br>
- * Les sens de déplacements possible sont définies par des constantes dans cette classe.
+ * Action that moves an element (nodes, note, ...) from one pixel in a direction.<br>
+ * The available directions are set by following constants.
+ * 
+ * @author Clément Démoulins
+ * 
+ * @see ILocatedElement
  */
 public class NodeMoveAction extends SelectionAction {
-	/** Déplacement vers le haut */
+	/** Move UP */
 	public static final String UP = "move.up"; //$NON-NLS-1$
-
-	/** Déplacement vers le bas */
+	/** Move DOWN */
 	public static final String DOWN = "move.down"; //$NON-NLS-1$
-
-	/** Déplacement vers la gauche */
+	/** Move LEFT */
 	public static final String LEFT = "move.left"; //$NON-NLS-1$
-
-	/** Déplacement vers la droite */
+	/** Move RIGHT */
 	public static final String RIGHT = "move.right"; //$NON-NLS-1$
 
 	private int dx = 0;
 	private int dy = 0;
 
 	/**
-	 * @param part le workBenchPart associé
-	 * @param action voir les constantes défini dans NodeMoveAction
+	 * Constructor
+	 * @param workbench The associated workbench
+	 * @param action The direction of the move (see constants)
 	 */
-	public NodeMoveAction(IWorkbenchPart part, String action) {
-		super(part);
+	public NodeMoveAction(IWorkbenchPart workbench, String action) {
+		super(workbench);
 		setId(action);
 		if (UP.equals(action)) {
 			dy = -1;
@@ -75,11 +76,7 @@ public class NodeMoveAction extends SelectionAction {
 			if (obj instanceof EditPart) {
 				ILocatedElement node = (ILocatedElement) ((EditPart) obj).getModel();
 				Point location = node.getLocationInfo().getLocation();
-				cc.add(new LocatedElementSetConstraintCmd((ILocatedElement) node, new Rectangle(
-						location.x + dx,
-						location.y + dy,
-						0,
-						0)));
+				cc.add(new LocatedElementSetConstraintCmd((ILocatedElement) node, location.getCopy().getTranslated(this.dx, this.dy)));
 			}
 		}
 		execute(cc);
