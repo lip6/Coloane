@@ -4,8 +4,8 @@ import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
-import fr.lip6.move.coloane.core.motor.session.ISession;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.session.ISession;
+import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
@@ -53,7 +53,7 @@ public class ArcDeleteCmd extends CheckableCmd {
 	@Override
 	public final void execute() {
 		// Backup tips
-		this.tips = this.session.getTips(arc.getId());
+		this.tips = this.session.getTipForObject(arc.getId());
 		// Backup links
 		if (arc instanceof ILinkableElement) {
 			links = ((ILinkableElement) arc).getLinks();
@@ -64,7 +64,7 @@ public class ArcDeleteCmd extends CheckableCmd {
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		session.removeAllTips(tips);
+		session.removeTips(tips);
 		graph.deleteArc(arc);
 	}
 
