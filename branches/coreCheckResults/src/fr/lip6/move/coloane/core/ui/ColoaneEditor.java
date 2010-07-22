@@ -429,10 +429,10 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		setPartProperty("session.id", file.getFullPath().toString()); //$NON-NLS-1$
 
 		// Build the model object from its XML representation
-		graph = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
+		this.graph = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
 
 		// If the loading fails... Display a message and quit
-		if (graph == null) {
+		if (this.graph == null) {
 			Coloane.showErrorMsg("Cannot display the model..."); //$NON-NLS-1$
 			setEditDomain(new DefaultEditDomain(this));
 			getSite().getPage().closeEditor(this, false);
@@ -441,7 +441,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// Build a new session
 		try {
-			SessionManager.getInstance().createSession(file.getFullPath().toString());
+			SessionManager.getInstance().createSession(file.getFullPath().toString(), this.graph);
 		} catch (ColoaneException ce) {
 			LOGGER.warning("Cannot create a session for this model"); //$NON-NLS-1$
 			LOGGER.warning(ce.getLogMessage());
