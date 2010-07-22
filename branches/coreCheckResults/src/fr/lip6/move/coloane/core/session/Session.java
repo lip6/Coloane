@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultManager;
 import fr.lip6.move.coloane.core.results.Tip;
+import fr.lip6.move.coloane.core.ui.checker.Checker;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -50,6 +51,9 @@ public class Session implements ISession {
 
 	/** The graph */
 	private IGraph graph;
+	
+	/** The checker associated with the graph */
+	private Checker checker;
 
 	/** The result manager */
 	private ResultManager resultManager;
@@ -125,8 +129,13 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final void setModel(IGraph model) {
-		this.graph = model;
+	public final void setChecker(Checker checker) {
+		this.checker = checker;
+	}
+	
+	/** {@inheritDoc} */
+	public Checker getChecker() {
+		return checker;
 	}
 
 	/** {@inheritDoc} */
