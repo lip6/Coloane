@@ -43,7 +43,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Chaine définissant le texte à afficher pour le modèle vide par défaut dans la liste d'exemples */
+	/** String that designates the default example (often empty) */
 	private static final String DEFAULT_MODEL = Messages.ModelCreationPage_4;
 
 	/** The current workbench */
