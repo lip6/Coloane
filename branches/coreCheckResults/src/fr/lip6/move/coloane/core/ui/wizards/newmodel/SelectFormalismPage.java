@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.TableItem;
  * @author Jean-Baptiste Voron
  */
 public class SelectFormalismPage extends WizardPage {
-
 	/** Height used to space the wizard page components */
 	private static final int GRID_HEIGHT = 20;
 
@@ -68,7 +67,15 @@ public class SelectFormalismPage extends WizardPage {
 		tableFormalism.setLinesVisible(false);
 		tableFormalism.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) { return; }
-			public void widgetSelected(SelectionEvent e) { updateStatus(); }
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					TableItem selectedTableItem  = (TableItem) e.item;
+					String selectedFormalism = selectedTableItem.getText();
+					updateStatus(selectedFormalism);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
 		});
 
 		tableFormalism.removeAll();
@@ -78,7 +85,7 @@ public class SelectFormalismPage extends WizardPage {
 
 		// Browse and display them into a list with their icon 
 		for (IFormalism formalism : listOfFormalisms) {
-			formalismCache.put(formalism.getName(), formalism);
+			formalismCache.put(formalism.getName().toLowerCase(), formalism);
 			TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Add it into the table
 			item.setText(formalism.getName().toUpperCase()); // Set the text
 			item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage()); // Set the picture
@@ -106,9 +113,9 @@ public class SelectFormalismPage extends WizardPage {
 	/**
 	 * Update the selected formalism
 	 */
-	private void updateStatus() {
-		String f = tableFormalism.getSelection()[0].getText();
-		((NewModelWizard) getWizard()).setFormalism(formalismCache.get(f));
+	private void updateStatus(String selectedFormalismName) {
+		IFormalism selectedFormalism = formalismCache.get(selectedFormalismName.toLowerCase());
+		((NewModelWizard) getWizard()).setFormalism(selectedFormalism);
 		getWizard().getContainer().updateButtons();
 	}
 }

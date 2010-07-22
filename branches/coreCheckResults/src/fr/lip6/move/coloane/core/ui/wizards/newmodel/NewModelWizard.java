@@ -55,8 +55,7 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	}
 
 	/**
-	 * Get the selected formalism
-	 * @return retourne le nom du formalisme
+	 * @return The formalism name
 	 */
 	public final IFormalism getFormalism() {
 		return this.formalism;
