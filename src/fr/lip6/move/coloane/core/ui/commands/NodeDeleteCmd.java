@@ -4,8 +4,8 @@ import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
-import fr.lip6.move.coloane.core.motor.session.ISession;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.session.ISession;
+import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -64,20 +64,20 @@ public class NodeDeleteCmd extends CheckableCmd {
 	@Override
 	public final void execute() {
 		// Sauvegarde une copie des listes d'arcs entrants et sortant en cas d'annulation
-		tips = new ArrayList<ICoreTip>(session.getTips(node.getId()));
+		tips = new ArrayList<ICoreTip>(session.getTipForObject(node.getId()));
 		if (node instanceof ILinkableElement) {
 			links.addAll(((ILinkableElement) node).getLinks());
 		}
 		outArcs = new ArrayList<IArc>(node.getOutgoingArcs());
 		for (IArc arc : outArcs) {
-			tips.addAll(session.getTips(arc.getId()));
+			tips.addAll(session.getTipForObject(arc.getId()));
 			if (arc instanceof ILinkableElement) {
 				links.addAll(((ILinkableElement) arc).getLinks());
 			}
 		}
 		inArcs = new ArrayList<IArc>(node.getIncomingArcs());
 		for (IArc arc : inArcs) {
-			tips.addAll(session.getTips(arc.getId()));
+			tips.addAll(session.getTipForObject(arc.getId()));
 			if (arc instanceof ILinkableElement) {
 				links.addAll(((ILinkableElement) arc).getLinks());
 			}
@@ -88,7 +88,7 @@ public class NodeDeleteCmd extends CheckableCmd {
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		session.removeAllTips(tips);
+		session.removeTips(tips);
 		graph.deleteNode(node);
 	}
 
