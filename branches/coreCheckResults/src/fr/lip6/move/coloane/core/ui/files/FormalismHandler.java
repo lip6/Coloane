@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.files;
 
-import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
+import fr.lip6.move.coloane.core.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import org.xml.sax.Attributes;
