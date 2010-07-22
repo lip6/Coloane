@@ -304,7 +304,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
-	public final void setDirty(boolean state) {
+	public final void setDirtyState(boolean state) {
 		if (state != dirty) {
 			if (state) {
 				LOGGER.fine("The graph is now DIRTY"); //$NON-NLS-1$
@@ -333,7 +333,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 				|| INode.PUBLIC_PROP.equals(prop)
 				|| IAttribute.VALUE_PROP.equals(prop)) {
 			updateDate();
-			setDirty(true);
+			setDirtyState(true);
 		}
 	}
 
