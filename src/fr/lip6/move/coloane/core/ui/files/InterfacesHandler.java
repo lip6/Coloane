@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.files;
 
+import fr.lip6.move.coloane.core.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
