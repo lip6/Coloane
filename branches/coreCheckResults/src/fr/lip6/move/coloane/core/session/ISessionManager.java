@@ -1,75 +1,81 @@
 package fr.lip6.move.coloane.core.session;
 
+import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Collection;
 
 /**
- * Gestionnaire de session, gère également l'état de la connection avec l'api.
+ * Session Manager
  */
 public interface ISessionManager {
 
-	/** Propriété pour le changement de la session courrante */
+	/** Event raised when the current session has changed */
 	String PROP_CURRENT_SESSION = "SessionManager.currentSession"; //$NON-NLS-1$
 
-	/** Propriété pour le changement d'état de l'authentification */
-	String PROP_AUTHENTICATION = "SessionManager.authentication"; //$NON-NLS-1$
-
 	/**
-	 * Ajoute une session au manager<br>
-	 * Si aucune session est courante... Celle la devient la session courante.</br>
-	 * Le nom de la session ne doit pas etre null ou vide
-	 * @param name Le nom de la nouvelle session
-	 * @return La nouvelle session ou NULL si le nom est incorrect ou la session si elle existe deja
+	 * Create a new session and add it to the manager.<br>
+	 * If no session is currently active, this new one becomes the <i>current session</i>.
+	 * The session name must not be <code>null</code> or be empty.
+	 * @param sessionId The name of the new session
+	 * @param graph The graph associated with the new session
+	 * @return The new session
+	 * @throws ColoaneException If something went wrong during the creation process
 	 */
-	ISession newSession(String name);
+	ISession createSession(String sessionId, IGraph graph) throws ColoaneException;
+	
+	/**
+	 * Resume the designated session.<br>
+	 * This session is new the current one.
+	 * @param sessionId The name of the session to resume
+	 * @return The session that has been resumed or <code>null</code> if something went wring during the process
+	 */
+	ISession resumeSession(String sessionId);
+	
+	/**
+	 * Remove session from the session manager.<br>
+	 * Usually, this operation is called when the user close an editor.
+	 * @param sessionId The name of the session to remove from the session manager
+	 * @return The session that has been removed from the session manager or <code>null</code> is something went wrong during the process 
+	 */
+	ISession destroySession(String sessionId);
 
 	/**
-	 * Retourne la session courante ou NULL si aucune session n'est active
-	 * @return La session courante ou NULL
+	 * @return The current session or <code>null</code> is no session is the current one
 	 */
 	ISession getCurrentSession();
 
 	/**
-	 * Retourne la session dont le nom est indique en parametre
-	 * @param sessionName nom de la session
-	 * @return la session designe ou <code>null</code> si on ne trouve pas la session
+	 * Return a session registered in the session manager according to its <b>name</b>
+	 * @param sessionName The session name
+	 * @return The desired session or <code>null</code> if no session has been found
 	 */
 	ISession getSession(String sessionName);
 
 	/**
+	 * Return a session registered in the session manager according to the <b>graph</b> it owns
 	 * @param graph IGraph
-	 * @return la session contenant ce graphe ou <code>null</code> si aucune session ne correspond.
+	 * @return The desired session or <code>null</code> if no session has been found
 	 */
 	ISession getSession(IGraph graph);
 
 	/**
-	 * @return Liste de toutes les sessions
+	 * @return The list of all registered session
 	 */
 	Collection<ISession> getSessions();
 
 	/**
-	 * Retourne le status d'authentification du client<br>
-	 * L'authentification est valable pour tous les modeles
-	 * @return Un booleen
-	 */
-	boolean isAuthenticated();
-
-	/**
-	 * Positionne le status d'authentification du client
-	 * @param authStatus Le nouveau status du client
-	 */
-	void setAuthenticated(boolean authStatus);
-
-	/**
-	 * @param listener listener à ajouter
+	 * Add a listener about session changes.
+	 * @param listener The listener to add to the list
 	 * @see PropertyChangeSupport
 	 */
 	void addPropertyChangeListener(PropertyChangeListener listener);
 
 	/**
-	 * @param listener listener à enlever
+	 * Remove a listener
+	 * @param listener The listener to remove
 	 * @see PropertyChangeSupport
 	 */
 	void removePropertyChangeListener(PropertyChangeListener listener);

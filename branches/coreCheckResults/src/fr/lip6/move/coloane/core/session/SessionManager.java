@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.session;
 
-import fr.lip6.move.coloane.interfaces.api.exceptions.ApiException;
+import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeListener;
@@ -13,37 +13,35 @@ import java.util.logging.Logger;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * Gestionnaire de Sessions
+ * Session Manager.<br>
+ * 
+ * @author Jean-Baptiste Voron
  */
 public final class SessionManager implements ISessionManager {
-	/** Le logger pour la classe */
-	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	/** Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** L'instance singleton du Session Manager */
+	/** Session manager instance */
 	private static SessionManager instance = null;
 
-	/** Est-on authentifie sur la plate-forme ? */
-	private boolean authenticated;
-
-	/** La session courante */
+	/** Current session */
 	private ISession currentSession;
 
-	/** Liste des sessions */
+	/** List of all sessions currently opened */
 	private Map<String, ISession> sessions = new HashMap<String, ISession>();
 
-	/** Gestion des listeners */
+	/** Listeners handler */
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	/**
-	 * Constructeur du gestionnaire de sessions
+	 * Constructor (private)
 	 */
 	private SessionManager() {
 		this.currentSession = null;
 	}
 
 	/**
-	 * Retourne le gestionnaire de sessions
-	 * @return SessionManager Une instance du gestionnaire de sessions
+	 * @return THE (unique) session manager 
 	 */
 	public static synchronized ISessionManager getInstance() {
 		if (instance == null) { instance = new SessionManager(); }
@@ -67,6 +65,7 @@ public final class SessionManager implements ISessionManager {
 				return session;
 			}
 		}
+		LOGGER.warning("No session has been found"); //$NON-NLS-1$
 		return null;
 	}
 
@@ -76,112 +75,67 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/** {@inheritDoc} */
-	public ISession newSession(String sessionId) {
-		// Le nom de la nouvelle session ne doit pas être null
-		if (sessionId == null) {
-			throw new NullPointerException("Nom de session null"); //$NON-NLS-1$
-		}
-
-		// Le nom de la nouvelle session ne doit pas être vide
-		if (sessionId.length() == 0) {
-			throw new IllegalArgumentException("Le nom de la session ne doit pas être vide"); //$NON-NLS-1$
-		}
-
-		// Si une session homonyme existe déjà... On lève une IllegalArgumentException
+	public ISession createSession(String sessionId, IGraph graph) throws ColoaneException {
+		// If a session already exists with the same name
 		if (sessions.containsKey(sessionId)) {
-			LOG.fine("Une session homonyme (" + sessionId + ") existe deja..."); //$NON-NLS-1$ //$NON-NLS-2$
-			throw new IllegalArgumentException("Cette session existe déjà :" + sessionId); //$NON-NLS-1$
+			throw new ColoaneException("A session with the same name (" + sessionId + ") already exists..."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		// Sinon on cree la session
-		ISession newSession = new Session(sessionId);
+		// Otherwise, a new session is created and added to the session list
+		ISession newSession = new Session(sessionId, graph);
 		sessions.put(sessionId, newSession);
 		if (this.currentSession == null) {
-			setCurrentSession(newSession);
+			setCurrentSession(newSession); // Set the current session if no session is active yet
 		}
 		return newSession;
 	}
 
-	/**
-	 * Reprendre, rendre active une session
-	 * @param sessionId nom de la session
-	 * @return booleen Un indicateur de deroulement
-	 */
-	public boolean resumeSession(String sessionId) {
+	/** {@inheritDoc} */
+	public ISession resumeSession(String sessionId) {
 		ISession toResume = getSession(sessionId);
 
 		if (toResume != null) {
-			LOG.finer("Reprise de la session : " + sessionId); //$NON-NLS-1$
-
-			// Reprise de la session
+			LOGGER.finer("Resuming the session : " + sessionId); //$NON-NLS-1$
+			// Tells the session that it will be resumed
 			((Session) toResume).resume();
 			setCurrentSession(toResume);
-
-			return true;
-		} else {
-			LOG.fine("Session " + sessionId + " non enregistree dans le SessionManager"); //$NON-NLS-1$ //$NON-NLS-2$
-			return false;
+			return toResume;
 		}
+		LOGGER.warning("The session " + sessionId + " is not registered in the session manager"); //$NON-NLS-1$ //$NON-NLS-2$
+		return null;
 	}
 
-	/**
-	 * Destruction de la session courante
-	 * @param sessionName nom de la session
-	 * @throws ApiException En cas d'erreur lors de la fermeture de la session
-	 */
-	public void deleteSession(String sessionName) throws ApiException {
-		LOG.fine("Destruction de la session " + sessionName); //$NON-NLS-1$
-		ISession toDestroy = sessions.remove(sessionName);
+
+	/** {@inheritDoc} */
+	public ISession destroySession(String sessionId) {
+		LOGGER.fine("Destroying the session " + sessionId); //$NON-NLS-1$
+		ISession toDestroy = sessions.remove(sessionId);
 		if (toDestroy != null) {
 			((Session) toDestroy).destroy();
-			// La session courante devient nulle
+			// If the destroyed session is the current one...
 			if (toDestroy.equals(currentSession)) {
 				setCurrentSession(null);
 			}
+			return toDestroy;
 		}
+		LOGGER.warning("The session " + sessionId + " is not registered in the session manager"); //$NON-NLS-1$ //$NON-NLS-2$		
+		return null;
 	}
 
 	/**
-	 * Deconnexion brutale de tous les modeles
+	 * Change the current session
+	 * @param currentSession The new current session
+	 * @return The new current session. Be careful, the new current session can be <code>null</code>.
 	 */
-	public void disconnectAllSessions() {
-		LOG.fine("Déconnexion de toutes les sessions"); //$NON-NLS-1$
-		for (ISession session : sessions.values()) {
-			try {
-				((Session) session).disconnect(false);
-			} catch (ApiException e) {
-				// With safeMode == false, should not raise an exception
-				throw new AssertionError();
-			}
-		}
-	}
-
-	/**
-	 * Change la session courrante
-	 * @param currentSession nouvelle session courrante
-	 */
-	private void setCurrentSession(ISession currentSession) {
+	private ISession setCurrentSession(ISession currentSession) {
 		ISession previousSession = this.currentSession;
 		this.currentSession = currentSession;
+		LOGGER.fine("The session " + currentSession + " is now the current one"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		LOG.finer("La session " + currentSession + " est maintenant la session courante"); //$NON-NLS-1$ //$NON-NLS-2$
-
-		// Rafraichisement des vues annexes
+		// Refresh views
 		firePropertyChange(PROP_CURRENT_SESSION, previousSession, currentSession);
-	}
-
-	/** {@inheritDoc} */
-	public boolean isAuthenticated() {
-		return authenticated;
-	}
-
-	/** {@inheritDoc} */
-	public void setAuthenticated(boolean authStatus) {
-		if (authenticated == authStatus) {
-			return;
-		}
-		this.authenticated = authStatus;
-		firePropertyChange(PROP_AUTHENTICATION, !authStatus, authStatus);
+		
+		return this.currentSession;
 	}
 
 	/** {@inheritDoc} */
@@ -195,10 +149,10 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/**
-	 * Envoie une notification de modification de propriété
-	 * @param property La propriété
-	 * @param oldValue L'ancienne valeur de la propriété
-	 * @param newValue La nouvelle valeur
+	 * Send a notification to all registered listeners
+	 * @param property The property that has changed
+	 * @param oldValue The old property value
+	 * @param newValue The new property value
 	 */
 	protected void firePropertyChange(final String property, final Object oldValue, final Object newValue) {
 		Display.getDefault().asyncExec(new Runnable() {
@@ -211,9 +165,10 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/**
-	 * Demande à toutes les sessions d'afficher ce message.
-	 * @param message message à afficher dans les consoles
-	 * @param type type du message (des constantes sont définies dans la classe MessageType)
+	 * Ask all sessions to display a message in their console
+	 * @param message The message to display
+	 * @param type The type of message
+	 * @see MessageType
 	 */
 	public void printConsoleMessage(String message, MessageType type) {
 		for (ISession session : sessions.values()) {

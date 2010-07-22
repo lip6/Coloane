@@ -1,143 +1,94 @@
 package fr.lip6.move.coloane.core.session;
 
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
-import fr.lip6.move.coloane.core.results.ResultTreeList;
+import fr.lip6.move.coloane.core.results.ResultManager;
+import fr.lip6.move.coloane.core.results.Tip;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
-import fr.lip6.move.coloane.interfaces.objects.service.IService;
 
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.jface.action.MenuManager;
 
 /**
- * Une session est attaché à chaque éditeur et gère l'ApiSession qui communique avec Framekit.
+ * Describe a session
  */
 public interface ISession {
 
-	/** Propriété pour les changements d'état de la connection */
-	String PROP_CONNECTION = "Session.connection"; //$NON-NLS-1$
-
-	/** Propriété pour l'ajout ou la suppression de tips */
+	/** Event raised when som tips are added/removed or updates */
 	String PROP_TIPS = "Session.tips"; //$NON-NLS-1$
 
-	/** Les indicateurs de statuts */
-	int CLOSED = 0;
-	int CONNECTED = 1;
-
 	/**
-	 * @return nom de la session
+	 * @return The session name
 	 */
 	String getSessionId();
 
 	/**
-	 * Retoune le modele
-	 * @return IGraph Le modele de la session
+	 * @return IGraph The graph associated to the session
 	 */
 	IGraph getGraph();
 
 	/**
-	 * Positionne le modele
-	 * @param graph nouveau modele
-	 */
-	void setModel(IGraph graph);
-
-	/**
-	 * Retourne le menu de service de la session
-	 * @return la racine du menu de services
+	 * @return The list of menus (services) associated with this session
 	 */
 	List<MenuManager> getServicesMenu();
 
 	/**
-	 * Permet d'ajouter un menu à la liste des menus associés à cette session
-	 * @param menu racine du menu à ajouter
+	 * Add a menu (service) to this session
+	 * @param menu The menu to add to the session
 	 */
 	void addServicesMenu(MenuManager menu);
 
 	/**
-	 * Vide le menu pour cette session.
+	 * Clear the menu list for this session
 	 */
 	void clearServicesMenu();
 
 	/**
-	 * Retourne la liste de resultats associee a la session
-	 * @return La liste de resultats a afficher dans la vue adequate
+	 * @return The result manager associated with this session
 	 */
-	ResultTreeList getServiceResults();
+	ResultManager getResultManager();
 
 	/**
-	 * Retourne le status courant de la session
-	 * @return le status courant de la session
+	 * Add a list of tips to the session.
+	 * @param tips List of tips to add to the session
+	 * @see Tip
 	 */
-	int getStatus();
+	void addAllTips(Collection<ICoreTip> tips);
 
 	/**
-	 * Modifie le status courant de la session
-	 * @param status Le status courant de la session
+	 * Remove all tips from the sessions
+	 * @param tips List of tips to remove from the session
 	 */
-	void setStatus(int status);
+	void removeTips(Collection<ICoreTip> tips);
 
 	/**
-	 * Ajout de tous les services passé en paramètre
-	 * @param services Collection de services
+	 * @return List of tips
 	 */
-	void addAllServices(Collection<IService> services);
+	Collection<ICoreTip> getTips();
 
 	/**
-	 * @return liste des services disponibles
+	 * Return the list of tips associated with an object of the current session graph
+	 * @param id The ID of the object for which the list of tips should be retrieved
+	 * @return A list of tips
 	 */
-	Collection<IService> getServices();
-
+	Collection<ICoreTip> getTipForObject(int id);
+	
 	/**
-	 * @param id id du service
-	 * @return IService correspondant ou <code>null</code>
-	 */
-	IService getService(String id);
-
-	/**
-	 * @param option option
-	 * @param state état de l'option
-	 */
-	void setOption(IOptionMenu option, boolean state);
-
-	/**
-	 * @param path restreint aux options ce trouvant dans la descendance de ce chemin
-	 * @return la liste des options actives
-	 */
-	List<IOptionMenu> getActiveOptions(String path);
-
-	/**
-	 * @param listener listener à ajouter
+	 * Add a listener to be waware of session changes
+	 * @param listener The listener to add to the session
 	 * @see PropertyChangeSupport
 	 */
 	void addPropertyChangeListener(PropertyChangeListener listener);
 
 	/**
-	 * @param listener listener à enlever
+	 * Remove a listener from the list
+	 * @param listener The listener to remove
 	 * @see PropertyChangeSupport
 	 */
 	void removePropertyChangeListener(PropertyChangeListener listener);
 
-	/**
-	 * @param tips liste de tips à afficher
-	 */
-	void addAllTips(Collection<ICoreTip> tips);
 
-	/**
-	 * @param tips liste de tips à enlever
-	 */
-	void removeAllTips(Collection<ICoreTip> tips);
-
-	/**
-	 * @return liste des tips qui doivent être affiché
-	 */
-	Collection<ICoreTip> getTips();
-
-	/**
-	 * @param id id d'un IElement
-	 * @return la liste des tips correspondant à cette id
-	 */
-	Collection<ICoreTip> getTip(int id);
 }
