@@ -5,42 +5,29 @@ import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 
 /**
- * Type de projet associé au "Modeling Project
- * @author jbvoron
- *
+ * Modeling Project Type
+ * 
+ * @author Jean-Baptiste Voron
  */
 public final class ColoaneProjectNature implements IProjectNature {
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public void configure() throws CoreException {
 		// TODO Auto-generated method stub
-
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public void deconfigure() throws CoreException {
 		// TODO Auto-generated method stub
-
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public IProject getProject() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public void setProject(IProject project) {
 		// TODO Auto-generated method stub
-
 	}
-
 }
