@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.motor.session.ISession;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.session.ISession;
+import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.checker.Checker;
 import fr.lip6.move.coloane.core.ui.checker.CheckerManager;
 import fr.lip6.move.coloane.interfaces.model.IArc;
