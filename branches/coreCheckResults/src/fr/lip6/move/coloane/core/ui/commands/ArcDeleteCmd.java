@@ -9,6 +9,7 @@ import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -65,6 +66,15 @@ public class ArcDeleteCmd extends CheckableCmd {
 	@Override
 	public final void redo() {
 		session.removeTips(tips);
+		
+		// Remove sticky links
+		if (graph instanceof GraphModel) {
+			GraphModel graphModel = (GraphModel) graph;
+			for (ILink link : new ArrayList<ILink>(graphModel.getLinks())) {
+				graphModel.deleteLink(link);
+			}
+		}
+		
 		graph.deleteArc(arc);
 	}
 
@@ -73,7 +83,7 @@ public class ArcDeleteCmd extends CheckableCmd {
 	public final void undo() {
 		graph.addArc(arc);
 
-		// Add links
+		// Add sticky links
 		if (graph instanceof GraphModel) {
 			GraphModel graphModel = (GraphModel) graph;
 			for (ILink link : links) {

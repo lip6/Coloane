@@ -23,6 +23,8 @@ import java.util.List;
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPolicy;
@@ -110,7 +112,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 
 			/**
 			 * It is impossible to reconnect the source of a connection between a sticky note and an element.<br>
-			 * It is always the stciky note.
+			 * It is always the sticky note.
 			 */
 			@Override
 			protected Command getReconnectSourceCommand(ReconnectRequest request) {

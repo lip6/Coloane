@@ -44,7 +44,9 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** Constructor */
 	StickyNoteModel() {
-		LOGGER.finest("Build a sticky note"); //$NON-NLS-1$
+		LOGGER.finest("Build a sticky note with default values"); //$NON-NLS-1$
+		this.location = new Point(0,0);
+		this.dimension = new Dimension(100, 70);
 	}
 
 	/** {@inheritDoc} */
@@ -72,7 +74,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
-		LOGGER.finest("Set note location " + location); //$NON-NLS-1$
+		LOGGER.finest("Set sticky note location " + location); //$NON-NLS-1$
 		Point oldLocation = getLocation(); // Backup
 		this.location = location.getCopy();
 		firePropertyChange(LOCATION_PROP, oldLocation, getLocation()); // Tells the editor that something has changed
@@ -90,7 +92,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** {@inheritDoc} */
 	public final void setSize(Dimension size) {
-		LOGGER.finest("set note dimensions " + size); //$NON-NLS-1$
+		LOGGER.finest("Set sticky note dimensions " + size); //$NON-NLS-1$
 		Dimension oldDimension = getSize(); // Backup old value
 		this.dimension = size;
 		firePropertyChange(IStickyNote.RESIZE_PROP, oldDimension, getSize()); // Tells the editor that something has changed

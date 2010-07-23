@@ -2,10 +2,12 @@ package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
+import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.ui.commands.GuideChangeCmd;
 import fr.lip6.move.coloane.core.ui.commands.LocatedElementSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.StickyNoteCreateCmd;
+import fr.lip6.move.coloane.core.ui.commands.StickyNoteSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
@@ -108,12 +110,12 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		Command result = null;
 
 		// Considering move commands
-		if (request.getType().equals(REQ_MOVE_CHILDREN) && (constraint instanceof Rectangle)) {
+		if ((request.getType().equals(REQ_MOVE_CHILDREN) || request.getType().equals(REQ_RESIZE_CHILDREN)) && (constraint instanceof Rectangle)) {
 			Point newLocation = ((Rectangle) constraint).getLocation();
 
 			// For a sticky note
 			if (child instanceof StickyEditPart) {
-				//result = new StickyNoteSetConstraintCmd((IStickyNote) child.getModel(), newLocation);
+				result = new StickyNoteSetConstraintCmd((IStickyNote) child.getModel(), ((Rectangle) constraint));
 			// For another LocatedElement
 			} else if (child.getModel() instanceof ILocatedElement) {
 				result = new LocatedElementSetConstraintCmd((ILocatedElement) child.getModel(), newLocation);
