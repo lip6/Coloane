@@ -129,16 +129,7 @@ public class SubResult implements ISubResult {
 			array.add(result[i]);
 			emptyList = emptyList && ("".equals(result[i])); //$NON-NLS-1$
 		}
-
-		// If all strings are empty, we return an array with "No result" inside to indicate to the user
-		// TODO: Note sure this operation is correctly place here...
-		if (emptyList) {
-			array.clear();
-			array.add("No result");
-			this.textualResults.add(array);
-		} else {
-			this.textualResults.add(array);
-		}
+		this.textualResults.add(array);
 	}
 	
 	
