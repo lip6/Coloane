@@ -82,7 +82,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		if (childClass == INode.class) {
 			IGraph graph = (IGraph) getHost().getModel();
 			INodeFormalism nodeFormalism = (INodeFormalism) request.getNewObject();
-			return new NodeCreateCmd(graph, nodeFormalism, (Rectangle) getConstraintFor(request));
+			return new NodeCreateCmd(graph, nodeFormalism, ((Rectangle) getConstraintFor(request)).getLocation());
 		}
 
 		// If the object is a note
