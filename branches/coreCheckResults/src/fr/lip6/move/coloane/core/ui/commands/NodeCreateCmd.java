@@ -9,7 +9,6 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.util.logging.Logger;
 
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * Create a new node.
@@ -35,11 +34,11 @@ public class NodeCreateCmd extends CheckableCmd {
 	 * @param nodeFormalismName the node formalism 
 	 * @param location the location where the node will be displayed for the first time
 	 */
-	public NodeCreateCmd(IGraph graph, INodeFormalism nodeFormalism, Rectangle location) {
+	public NodeCreateCmd(IGraph graph, INodeFormalism nodeFormalism, Point location) {
 		super(Messages.NodeCreateCmd_0);
 		this.graph = graph;
 		this.nodeFormalism = nodeFormalism;
-		this.location = location.getLocation();
+		this.location = location;
 	}
 
 	/** {@inheritDoc} */
