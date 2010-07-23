@@ -19,18 +19,16 @@ public class GuideChangeCmd extends Command {
 	/** Old and new align */
 	private int oldAlign, newAlign;
 
-	/** Is the guide horizontal ? <code>true</code> if it is */
-	private boolean horizontal;
-
 	/**
 	 * Constructor
 	 * @param locatedElement The element
-	 * @param horizontal Is the current guide horizontal ? <true> if it is
+	 * @param orientation The orientation of the guide
+	 * @see EditorRulerProvider
 	 */
-	public GuideChangeCmd(ILocatedElement locatedElement, boolean horizontal) {
+	public GuideChangeCmd(ILocatedElement locatedElement, int orientation) {
 		super();
 		this.locatedElement = locatedElement;
-		this.horizontal = horizontal;
+		this.oldGuide = locatedElement.getGuide(orientation);
 	}
 
 	/**
@@ -57,29 +55,30 @@ public class GuideChangeCmd extends Command {
 	 * @param alignment The new align indicator
 	 */
 	public final void setNewGuide(EditorGuide guide, int alignment) {
-		newGuide = guide;
-		newAlign = alignment;
+		this.newGuide = guide;
+		this.newAlign = alignment;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
+		if ((this.newGuide == null) && (this.oldGuide == null)) { return; }
 		// Cache the old values
-		oldGuide = locatedElement.getGuide(EditorRulerProvider.VERTICAL_ORIENTATION);
-		if (horizontal) { oldGuide = locatedElement.getGuide(EditorRulerProvider.HORIZONTAL_ORIENTATION); }
-		if (oldGuide != null) {	oldAlign = oldGuide.getAlignment(locatedElement); }
+		if (this.oldGuide != null) {	
+			this.oldAlign = this.oldGuide.getAlignment(this.locatedElement);
+		}
 		redo();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		changeGuide(oldGuide, newGuide, newAlign);
+		changeGuide(this.oldGuide, this.newGuide, this.newAlign);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		changeGuide(newGuide, oldGuide, oldAlign);
+		changeGuide(this.newGuide, this.oldGuide, this.oldAlign);
 	}
 }

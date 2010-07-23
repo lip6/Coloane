@@ -36,12 +36,12 @@ public class GuideMoveCmd extends Command {
 		moveElementsCommand = new CompoundCommand();
 		for (ILocatedElement attachedElement : guide.getAttachedElements()) {
 			Point location = attachedElement.getLocationInfo().getLocation().getCopy();
-			if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			if (guide.getOrientation() == EditorRulerProvider.VERTICAL_ORIENTATION) {
 				// Move along the horizontal axis
-				location.y += delta;
+				location.x += delta;
 			} else {
 				// Move along the vertical axis
-				location.x += delta;
+				location.y += delta;
 			}
 			// Add the element move command to the compound command
 			moveElementsCommand.add(new LocatedElementSetConstraintCmd(attachedElement, location));
