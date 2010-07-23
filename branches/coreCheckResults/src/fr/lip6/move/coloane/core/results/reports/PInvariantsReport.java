@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.results.reports;
 
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.results.ResultTreeImpl;
+import fr.lip6.move.coloane.core.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.panels.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 
@@ -17,19 +17,19 @@ public class PInvariantsReport implements IReport {
 
 		// Si aucun resultat... On retourne un root vide
 		if (nbSubResult <= 0) {
-			root = new ResultTreeImpl(result.getServiceName(), Messages.PInvariantsReport_0);
+			root = new ResultTreeImpl(result.getResultName(), Messages.PInvariantsReport_0);
 			root.setSessionManager(SessionManager.getInstance());
 			return root;
 		} else if (nbSubResult == 1) {
-			root = new ResultTreeImpl(result.getServiceName(), Messages.PInvariantsReport_1);
+			root = new ResultTreeImpl(result.getResultName(), Messages.PInvariantsReport_1);
 			root.setSessionManager(SessionManager.getInstance());
 		} else {
-			root = new ResultTreeImpl(result.getServiceName(), nbSubResult + Messages.PInvariantsReport_2);
+			root = new ResultTreeImpl(result.getResultName(), nbSubResult + Messages.PInvariantsReport_2);
 			root.setSessionManager(SessionManager.getInstance());
 		}
 
 		for (ISubResult sub : result.getSubResults()) {
-			ResultTreeImpl node = new ResultTreeImpl(sub.getTextualResults().get(0));
+			ResultTreeImpl node = new ResultTreeImpl(sub.getTextualResults().get(0).get(0));
 			System.err.println(sub.getObjectsDesignation());
 			System.err.println(sub.getObjectsOutline());
 			for (int id : sub.getObjectsDesignation()) {
