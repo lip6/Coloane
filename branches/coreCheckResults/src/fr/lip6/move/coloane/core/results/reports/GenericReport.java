@@ -115,6 +115,7 @@ public class GenericReport implements IReport {
 						formalismName = ((IGraph) element).getFormalism().getName();
 					}
 					// and we create a child for the current node.
+					formalismName = formalismName.substring(0,1).toUpperCase() + formalismName.substring(1);
 					ResultTreeImpl child = new ResultTreeImpl(id, formalismName, name);
 					// We add the attributes to highlight which belong to the element to the child.
 					child.addAttributesOutline(attributesMap);
