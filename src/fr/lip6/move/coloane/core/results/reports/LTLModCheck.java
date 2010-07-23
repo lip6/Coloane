@@ -1,9 +1,11 @@
 package fr.lip6.move.coloane.core.results.reports;
 
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.results.ResultTreeImpl;
+import fr.lip6.move.coloane.core.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.panels.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
+
+import java.util.List;
 
 /**
  * Rapport pour le service LTL
@@ -13,14 +15,15 @@ public class LTLModCheck implements IReport {
 
 	/** {@inheritDoc} */
 	public final ResultTreeImpl build(IResult result) {
-		ResultTreeImpl root = new ResultTreeImpl(result.getServiceName());
+		ResultTreeImpl root = new ResultTreeImpl(result.getResultName());
 		root.setSessionManager(SessionManager.getInstance());
 
 		// Parcours de tous les DE-FE
 		for (ISubResult sub : result.getSubResults()) {
-			ResultTreeImpl node = new ResultTreeImpl(sub.getName());
+			ResultTreeImpl node = new ResultTreeImpl(sub.getSubResultName());
 			int i = 0;
-			for (String desc : sub.getTextualResults()) {
+			for (List<String> descList : sub.getTextualResults()) {
+				String desc = descList.get(0);
 				node.addChild(new ResultTreeImpl(desc + " " + i)); //$NON-NLS-1$
 			}
 //			for (Vector<String> toHighlight : sub.getCmdXA()) {

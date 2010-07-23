@@ -1,11 +1,12 @@
 package fr.lip6.move.coloane.core.results;
 
-import fr.lip6.move.coloane.core.model.CoreTipModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
-import fr.lip6.move.coloane.core.motor.session.ISessionManager;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
 import fr.lip6.move.coloane.core.results.reports.GenericReport;
 import fr.lip6.move.coloane.core.results.reports.IReport;
+import fr.lip6.move.coloane.core.session.ISessionManager;
+import fr.lip6.move.coloane.core.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.panels.IResultTree;
+import fr.lip6.move.coloane.core.ui.panels.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
@@ -24,94 +25,108 @@ import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.Platform;
 
 /**
- * Liste de ResultTree. Cette liste étend Observable.<br>
- * Cette classe est thread-safe.
+ * Manager of results.<br>
+ * This class handles results {@link IResult} coming from services (<i>local tools</i> or <i>platform tools</i>).<br>
+ * Thanks to report classes {@link IReport}, the result is formatted and displayed correctly.<br>
+ * <br>
+ * Reports are used to deal with strange results coming from <b>old tools</b> or tools that are not aware of the results architecture used by Coloane.<br> 
+ * This class is thread-safe.
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Demoulins
+ * @author Florian David
  */
-public class ResultTreeList extends Observable implements IResultTree, Observer {
-	/** Le logger pour la classe */
+public class ResultManager extends Observable implements IResultTree, Observer {
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
-	 * Attributs du point d'extension 'exports'
+	 * Attributes for the extension point 'reports'.<br>
+	 * Those attributes will be used to fill up the list with all available reports
 	 */
 	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.reports"; //$NON-NLS-1$
 	private static final String SERVICE_EXTENSION = "service_name"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
-
+	
+	/** The map that associates a service name with its result tree */
 	private final Map<String, IResultTree> map;
+	/** Some object id to highlight */
 	private final List<Integer> highlights;
+	/** Association between service name and its delegate able to parse and handle results */
 	private Map<String, IReport> services;
+	/** A generic report able to deal with common results */
 	private final IReport generic;
 
 	/**
-	 * Constructeur
+	 * Constructor
 	 */
-	public ResultTreeList() {
+	public ResultManager() {
 		map = new LinkedHashMap<String, IResultTree>();
 		highlights = new ArrayList<Integer>();
 		generic = new GenericReport();
 	}
 
 	/**
-	 * Ajouter tous les services disponible par le point d'extension SERVICE_EXTENSION
-	 */
-	private void buildServicesList() {
-		services = new HashMap<String, IReport>();
-
-		IExtensionRegistry reg = Platform.getExtensionRegistry();
-		for (IConfigurationElement element : reg.getConfigurationElementsFor(EXTENSION_POINT_ID)) {
-			String service = element.getAttribute(SERVICE_EXTENSION);
-			try {
-				IReport report = (IReport) element.createExecutableExtension(CLASS_EXTENSION);
-				services.put(service, report);
-				LOGGER.fine("Ajout du service de resultat : " + service); //$NON-NLS-1$
-			} catch (CoreException e) {
-				LOGGER.warning("Probleme avec l'extension : " + service); //$NON-NLS-1$
-			}
-		}
-	}
-
-	/**
-	 * Prise en compte d'un objet resultat en provenance de la partie Com<br>
-	 * L'objet est transformé en {@link IResultTree}
-	 * @param serviceName Le nom du service pour lequel on recoit les resultats
-	 * @param result L'objet (en provenance de Com) qui contient les resultats
+	 * Take into account a new {@link IResult} coming from a service.<br>
+	 * The object is transformed into a {@link IResultTree}
+	 * @param serviceName Service name
+	 * @param result Object that contains all the result for this service
 	 */
 	public final void add(String serviceName, IResult result) {
+		// Lazy build of the services list (only if it is necessary).
 		if (services == null) {
 			this.buildServicesList();
 		}
 
 		ResultTreeImpl newResult = null;
 
+		// We look for an existing report that is able to deal with this kind of result
 		IReport report = services.get(serviceName.trim());
 		if (report != null) {
 			newResult = report.build(result);
-		}
-
-		// Si aucun report specialise n'est disponible, on utilise le GenericReport
-		if (newResult == null) {
+		// If no dedicated report is available, use the generic one
+		} else {
 			newResult = generic.build(result);
 		}
 
-		// Si un résultat pour ce service existait déjà ou le supprime
+		// Some basic considerations (top tree position and master name) 
+		newResult.setParent(this);
+		newResult.setServiceName(serviceName);
+
+		// If there was already a result object for this service, we replace it by the new one
 		if (map.containsKey(serviceName)) {
 			map.remove(serviceName);
 		}
-
-		newResult.setParent(this);
-		newResult.setServiceName(serviceName);
-		List<ICoreTip> coreTips = new ArrayList<ICoreTip>(result.getTipsList().size());
-		for (ITip tip : result.getTipsList()) {
-			coreTips.add(new CoreTipModel(tip));
-		}
-		newResult.setTips(coreTips);
 		map.put(serviceName, newResult);
+
+		// Ask to update the result view (through observers)
 		update(null, getWidth(newResult));
 	}
 
 	/**
-	 * Retourne le nombre d'elements composant l'arbre de resultats (i.e. le nombre de colonnes)
+	 * Build the list of available reports {@link IReport}.<br>
+	 * Those are contributed thanks to the extension point SERVICE_EXTENSION
+	 */
+	private void buildServicesList() {
+		services = new HashMap<String, IReport>();
+
+		// Fill the list
+		IExtensionRegistry reg = Platform.getExtensionRegistry();
+		for (IConfigurationElement element : reg.getConfigurationElementsFor(EXTENSION_POINT_ID)) {
+			String service = element.getAttribute(SERVICE_EXTENSION);
+			try {
+				IReport report = (IReport) element.createExecutableExtension(CLASS_EXTENSION);
+				services.put(service, report);
+				LOGGER.config("Add report/result handler: " + service); //$NON-NLS-1$
+			} catch (CoreException e) {
+				// Ooops something went wrong...
+				LOGGER.warning("Problem with the report/result extension: " + service); //$NON-NLS-1$
+			}
+		}
+	}
+
+	/**
+	 * Return the number of elements for each sub-tree.
 	 * @param node L'arbre de resultat qu'on souhaite analyser
 	 * @return Le nombre d'elements composant l'arbre (colonnes)
 	 */
@@ -201,12 +216,6 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		return;
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public final String toString() {
-		return map.toString();
-	}
-
 	/**
 	 * Supprime le resultat serviceName
 	 * @param serviceName nom du service
@@ -226,6 +235,13 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 		update(null, 0);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public final Map<Integer, List<String>> getAttributesOutline() {
+		return null;
+	}
+	
 	/** {@inheritDoc} */
 	public final List<ICoreTip> getTips() {
 		throw new UnsupportedOperationException();
@@ -237,7 +253,7 @@ public class ResultTreeList extends Observable implements IResultTree, Observer 
 	}
 
 	/** {@inheritDoc} */
-	public final void setTips(List<ICoreTip> tips) {
+	public final void setTips(Map<Integer, List<ITip>> map, Integer... objectIds) {
 		throw new UnsupportedOperationException();
 	}
 }

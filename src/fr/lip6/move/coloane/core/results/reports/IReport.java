@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.results.reports;
 
-import fr.lip6.move.coloane.core.results.ResultTreeImpl;
+import fr.lip6.move.coloane.core.ui.panels.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 /**

@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.results.reports;
 
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
-import fr.lip6.move.coloane.core.results.ResultTreeImpl;
+import fr.lip6.move.coloane.core.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.panels.ResultTreeImpl;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 
@@ -17,20 +17,20 @@ public class ComputeBoundsReport implements IReport {
 
 		// Si aucun resultat... On retourne un root vide
 		if (nbSubResult <= 0) {
-			root = new ResultTreeImpl(result.getServiceName(), Messages.ComputeBoundsReport_0);
+			root = new ResultTreeImpl(result.getResultName(), Messages.ComputeBoundsReport_0);
 			root.setSessionManager(SessionManager.getInstance());
 			return root;
 		} else if (nbSubResult == 1) {
-			root = new ResultTreeImpl(result.getServiceName(), Messages.ComputeBoundsReport_1);
+			root = new ResultTreeImpl(result.getResultName(), Messages.ComputeBoundsReport_1);
 			root.setSessionManager(SessionManager.getInstance());
 		} else {
-			root = new ResultTreeImpl(result.getServiceName(), nbSubResult + Messages.ComputeBoundsReport_2);
+			root = new ResultTreeImpl(result.getResultName(), nbSubResult + Messages.ComputeBoundsReport_2);
 			root.setSessionManager(SessionManager.getInstance());
 		}
 
 		// Sinon on parcours les resultats
 		for (ISubResult sub : result.getSubResults()) {
-			String res = sub.getTextualResults().get(0);
+			String res = sub.getTextualResults().get(0).get(0);
 			String firstPart = res.substring(0, res.indexOf(':')).trim();
 			String secondPart = res.substring(res.indexOf(':') + 1).trim();
 			ResultTreeImpl node = new ResultTreeImpl(firstPart, secondPart);
