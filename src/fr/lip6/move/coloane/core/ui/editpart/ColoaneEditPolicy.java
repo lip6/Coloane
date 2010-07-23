@@ -7,6 +7,7 @@ import fr.lip6.move.coloane.core.ui.commands.LocatedElementSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.StickyNoteCreateCmd;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -124,11 +125,11 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 			ILocatedElement locatedElement = (ILocatedElement) child.getModel();
 			
 			// If the object is attached to a guide
-			result = chainGuideAttachmentCommand(request, locatedElement, result, true);
-			result = chainGuideAttachmentCommand(request, locatedElement, result, false);
+			result = chainGuideAttachmentCommand(request, locatedElement, result, EditorRulerProvider.HORIZONTAL_ORIENTATION);
+			result = chainGuideAttachmentCommand(request, locatedElement, result, EditorRulerProvider.VERTICAL_ORIENTATION);
 			// If the object is detach from a guide
-			result = chainGuideDetachmentCommand(request, locatedElement, result, true);
-			result = chainGuideDetachmentCommand(request, locatedElement, result, false);
+			result = chainGuideDetachmentCommand(request, locatedElement, result, EditorRulerProvider.HORIZONTAL_ORIENTATION);
+			result = chainGuideDetachmentCommand(request, locatedElement, result, EditorRulerProvider.VERTICAL_ORIENTATION);
 		} 
 		return result;
 	}
@@ -147,16 +148,19 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 * @param horizontal indicates whether the guide is horizontal
 	 * @return the command representing the chaining
 	 */
-	protected final Command chainGuideAttachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, boolean horizontal) {
+	protected final Command chainGuideAttachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, int orientation) {
 		Command result = cmd;
 		
-		// By default, try with the vertical guide
-		String keyGuide = SnapToGuides.KEY_VERTICAL_GUIDE;
-		String keyAnchor = SnapToGuides.KEY_VERTICAL_ANCHOR;
-		// Unless it's clearly specified to try with horizontal guide 
-		if (horizontal) {
+		String keyGuide;
+		String keyAnchor; 
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			// The horizontal guide 
 			keyGuide = SnapToGuides.KEY_HORIZONTAL_GUIDE;
 			keyAnchor = SnapToGuides.KEY_HORIZONTAL_ANCHOR;
+		} else {
+			// The vertical guide
+			keyGuide = SnapToGuides.KEY_VERTICAL_GUIDE;
+			keyAnchor = SnapToGuides.KEY_VERTICAL_ANCHOR;
 		}
 
 		// Find a guide in extended data (from the request)
@@ -167,8 +171,9 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 			int alignment = ((Integer) request.getExtendedData().get(keyAnchor)).intValue();
 
 			// Declare a new guide for this object (or replace the old one)
-			GuideChangeCmd changeGuideCommand = new GuideChangeCmd(locatedElement, horizontal);
-			changeGuideCommand.setNewGuide(findGuideAt(guidePos.intValue(), horizontal), alignment);
+			GuideChangeCmd changeGuideCommand = new GuideChangeCmd(locatedElement, orientation);
+			EditorGuide theGuide = findGuideAt(guidePos.intValue(), orientation);
+			changeGuideCommand.setNewGuide(theGuide, alignment);
 			result = result.chain(changeGuideCommand); // Chain the two commands (move + attach)
 		}
 		return result;
@@ -183,18 +188,21 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 * @return the command representing the chaining
 	 */
 
-	protected final Command chainGuideDetachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, boolean horizontal) {
+	protected final Command chainGuideDetachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, int orientation) {
 		Command result = cmd;
-		String key = SnapToGuides.KEY_VERTICAL_GUIDE;
-		if (horizontal) {
+		String key;
+		
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			key = SnapToGuides.KEY_HORIZONTAL_GUIDE;
+		} else {
+			key	= SnapToGuides.KEY_VERTICAL_GUIDE;
 		}
 
 		// Detach from guide, if none is given
 		Integer guidePos = (Integer) request.getExtendedData().get(key);
 
 		if (guidePos == null) {
-			result = result.chain(new GuideChangeCmd(locatedElement, horizontal));
+			result = result.chain(new GuideChangeCmd(locatedElement, orientation));
 		}
 
 		return result;
@@ -203,13 +211,15 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	/**
 	 * Find the correct guide given a position and an orientation
 	 * @param pos The position
-	 * @param horizontal Is the guide horizontal ? 
+	 * @param orientation The orientation of the guide 
 	 * @return The guide
 	 */
-	private EditorGuide findGuideAt(int pos, boolean horizontal) {
-		String property = RulerProvider.PROPERTY_HORIZONTAL_RULER;
-		if (horizontal) {
+	private EditorGuide findGuideAt(int pos, int orientation) {
+		String property;
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			property = RulerProvider.PROPERTY_VERTICAL_RULER;
+		} else {
+			property = RulerProvider.PROPERTY_HORIZONTAL_RULER;
 		}
 		RulerProvider provider = ((RulerProvider) getHost().getViewer().getProperty(property));
 		return (EditorGuide) provider.getGuideAt(pos);
