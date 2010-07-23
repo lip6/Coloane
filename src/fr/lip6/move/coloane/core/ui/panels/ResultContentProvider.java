@@ -1,13 +1,12 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
-import fr.lip6.move.coloane.core.results.IResultTree;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
 /**
- * Modèle (au sens du MVC) des résultats pour le CheckBoxTreeViewer.
- * Le modèle se base sur les données contenues dans unIResultTree.
+ * Provide contents for the CheckBoxTreeViewer.<br>
+ * Results are extracted from a IResultTree
  */
 public class ResultContentProvider implements ITreeContentProvider {
 
