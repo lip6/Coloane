@@ -24,7 +24,7 @@ public class GraphEditorProperties {
 	 */
 	GraphEditorProperties() {
 		this.leftRuler = new EditorRuler(EditorRulerProvider.VERTICAL_ORIENTATION);
-		this.topRuler = new EditorRuler(EditorRulerProvider.VERTICAL_ORIENTATION);
+		this.topRuler = new EditorRuler(EditorRulerProvider.HORIZONTAL_ORIENTATION);
 	}
 
 	/**

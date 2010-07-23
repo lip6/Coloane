@@ -161,8 +161,10 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** {@inheritDoc} */
 	public final void setGuide(EditorGuide guide) {
 		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			LOGGER.fine("New horizontal guide for the node #" + this.getId()); //$NON-NLS-1$
 			this.horizontalGuide = guide;
 		} else {
+			LOGGER.fine("New vertical guide for the node #" + this.getId()); //$NON-NLS-1$
 			this.verticalGuide = guide;
 		}
 	}
@@ -170,8 +172,10 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	/** {@inheritDoc} */
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			LOGGER.fine("No more horizontal guide for the node #" + this.getId()); //$NON-NLS-1$
 			this.horizontalGuide = null;
 		} else {
+			LOGGER.fine("No more vertical guide for the node #" + this.getId()); //$NON-NLS-1$
 			this.verticalGuide = null;
 		}
 	}
