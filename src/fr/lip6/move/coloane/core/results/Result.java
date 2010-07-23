@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
 /**
@@ -201,11 +202,10 @@ public class Result implements IResult {
 	/**
 	 * Transform the current model thanks to the list of deltaRequests
 	 * @return The current model modified by the execution of deltaRequests
-	 * FIXME: What to do when an exception is raised ??
 	 */
-	public IGraph updateCurrentGraph() {
+	public final Command updateCurrentGraph() {
 		// If the command list is null...
-		if (this.deltaRequestsList.size() <= 0) { return this.currentGraph; }
+		if (this.deltaRequestsList.size() <= 0) { return null; }
 		
 		// Otherwise, we transform the original model
 		CompoundCommand deltaCommands = new CompoundCommand();
@@ -214,17 +214,14 @@ public class Result implements IResult {
 			// Transform the request into a command...
 			deltaCommands.add(CommandFactory.createCommand(request, this.currentGraph));
 		}
-		
-		// Execute the group of commands
-		deltaCommands.execute();
-		return this.currentGraph;
+		return deltaCommands;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public final IGraph getNewGraph() {
-		if (this.newComputedGraphRequestsList.size() <= 0) { return this.newComputedGraph; }
+	public final Command getNewGraph() {
+		if (this.newComputedGraphRequestsList.size() <= 0) { return null; }
 
 		// If the list of requests to be applied on the new graph is not null
 		// We transform the new computed model
@@ -234,9 +231,6 @@ public class Result implements IResult {
 			// Transform the request into a command...
 			deltaCommands.add(CommandFactory.createCommand(request, this.newComputedGraph));
 		}
-		
-		// Execute the group of commands
-		deltaCommands.execute();
-		return this.newComputedGraph;
+		return deltaCommands;
 	}
 }
