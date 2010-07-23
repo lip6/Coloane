@@ -22,11 +22,21 @@ public final class ModelWriter implements IModelHandler {
 	private ModelWriter() {	}
 	
 	private static String printOpenMarkup(String type) {
-		return "<" + type + ">\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		return printOpenMarkup(type, true);
 	}
 
 	private static String printCloseMarkup(String type) {
-		return "</" + type + ">\n"; //$NON-NLS-1$ //$NON-NLS-2$
+		return printCloseMarkup(type, true);
+	}
+
+	private static String printOpenMarkup(String type, boolean newLine) {
+		if (newLine) { return "<" + type + ">\n"; } //$NON-NLS-1$ //$NON-NLS-2$
+		return "<" + type + ">"; //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	private static String printCloseMarkup(String type, boolean newLine) {
+		if (newLine) { return "</" + type + ">\n"; } //$NON-NLS-1$ //$NON-NLS-2$
+		return "</" + type + ">"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -139,7 +149,7 @@ public final class ModelWriter implements IModelHandler {
 			sb.append(" "+ STICKY_HEIGHT_MARKUP + "='").append(note.getSize().height).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			// Sticky note value
-			sb.append(printOpenMarkup(STICKY_VALUE_MARKUP)).append(format(note.getLabelContents())).append(printCloseMarkup(STICKY_VALUE_MARKUP));
+			sb.append(printOpenMarkup(STICKY_VALUE_MARKUP,false)).append(format(note.getLabelContents())).append(printCloseMarkup(STICKY_VALUE_MARKUP));
 
 			// Links
 			for (ILink link : note.getLinks()) {

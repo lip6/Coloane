@@ -176,7 +176,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent event) {
-		LOGGER.finest("propertyChange(" + event.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
+		LOGGER.finest("Graph EditPart has received a new event: " + event.getPropertyName());  //$NON-NLS-1$
 		String prop = event.getPropertyName();
 
 		// Add/Delete a child

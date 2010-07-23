@@ -36,20 +36,20 @@ public class PartFactory implements EditPartFactory {
 
 		// If the model element is null, it could be problematic...
 		if (modelElement == null) {
-			LOGGER.warning("L'element de modele est null. Creation de l'edit part associe impossible"); //$NON-NLS-1$
+			LOGGER.warning("The model element is null. Thus, there is no way to create an EditPart"); //$NON-NLS-1$
 			return null;
 		}
 		
 		// The EditPart has to be built according to the model element
 		part = getPartForElement(modelElement);
 		if (part == null) {
-			LOGGER.warning("L'element de modele est invalide. Creation de l'edit part associe impossible"); //$NON-NLS-1$
+			LOGGER.warning("The model element is invalid. Thus, there is no way to create an EditPart"); //$NON-NLS-1$
 			return null;
 		}
 
 		// Associate the model element to the EditPart
 		part.setModel(modelElement);
-		LOGGER.fine("Creation d'un " + part.getClass().getSimpleName()); //$NON-NLS-1$
+		LOGGER.fine("Creating a " + part.getClass().getSimpleName()); //$NON-NLS-1$
 		return part;
 	}
 
