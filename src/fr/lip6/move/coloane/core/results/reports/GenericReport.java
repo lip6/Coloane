@@ -23,7 +23,7 @@ public class GenericReport implements IReport {
 
 	/**
 	 * Build a result tree from an {@link IResult}. It will be displayed in the result view.
-	 * @param result the {@link IResult} containing all data needed to build the tree (Comming from Com).
+	 * @param result the {@link IResult} containing all data needed to build the tree (Coming from Com).
 	 * @return the result builded tree.
 	 */
 	public final ResultTreeImpl build(IResult result) {
@@ -117,7 +117,7 @@ public class GenericReport implements IReport {
 					// and we create a child for the current node.
 					ResultTreeImpl child = new ResultTreeImpl(id, formalismName, name);
 					// We add the attributes to highlight which belong to the element to the child.
-					child.addAttributesOutline(attributesMap, id);
+					child.addAttributesOutline(attributesMap);
 					attributesMap.remove(id);
 					// We also add tips.
 					child.setTips(tipsMap, id);
@@ -128,7 +128,7 @@ public class GenericReport implements IReport {
 			}
 
 			// After adding all the attributes to corresponding elements, we add remaining attributes to the current node.
-			node.addAttributesOutline(attributesMap, attributesMap.keySet().toArray(new Integer[attributesMap.size()]));
+			node.addAttributesOutline(attributesMap);
 
 			// Create tips
 			node.setTips(tipsMap, tipsMap.keySet().toArray(new Integer[tipsMap.size()]));
