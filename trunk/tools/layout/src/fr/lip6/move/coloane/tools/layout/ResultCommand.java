@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.tools.layout;
 
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.command.ICommand;
+import fr.lip6.move.coloane.interfaces.model.requests.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
