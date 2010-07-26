@@ -271,7 +271,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 		// Build the link
 		ILink newLink = new LinkModel(note, (ILinkableElement) element);
-		((ILinkableElement) element).addLink(newLink);
+		newLink.connect();
 
 		stack.push(note);
 	}
