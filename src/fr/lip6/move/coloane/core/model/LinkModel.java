@@ -28,7 +28,7 @@ public class LinkModel implements ILink {
 	 * @param note The sticky note
 	 * @param element The element
 	 */
-	LinkModel(IStickyNote note, ILinkableElement element) {
+	public LinkModel(IStickyNote note, ILinkableElement element) {
 		LOGGER.fine("Build a link: " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$
 		if (note == null || element == null) {
 			throw new NullPointerException("Argument must be not null"); //$NON-NLS-1$

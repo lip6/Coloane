@@ -23,7 +23,7 @@ public interface ILinkableElement {
 	boolean removeLink(ILink link);
 
 	/**
-	 * @return All element sticky links
+	 * @return A <b>unmodifiable</b> list of sticky links 
 	 */
 	List<ILink> getLinks();
 }

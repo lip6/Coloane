@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
+import fr.lip6.move.coloane.core.model.LinkModel;
 import fr.lip6.move.coloane.core.model.StickyNoteModel;
-import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
@@ -17,8 +17,6 @@ import org.eclipse.gef.commands.Command;
  */
 public class LinkCompleteCmd extends Command {
 
-	/** The current graph */
-	private ICoreGraph graph;
 	/** The sticky note */
 	private IStickyNote note = null;
 	/** The model element linked to the sticky note */
@@ -35,9 +33,7 @@ public class LinkCompleteCmd extends Command {
 	 * @throws IllegalArgumentException If no element is a note ({@link IStickyNote})
 	 */
 	public LinkCompleteCmd(IGraph graph, ILinkableElement source, ILinkableElement target) throws IllegalArgumentException {
-		this.graph = (ICoreGraph) graph;
-
-		// Pour simplifier le modèle, on place la note en source du lien.
+		// The note is always the source of the sticky link
 		if (source instanceof IStickyNote) {
 			this.note = (IStickyNote) source;
 			this.element = target;
@@ -62,18 +58,18 @@ public class LinkCompleteCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		link = graph.createLink(note, element);
+		this.link = new LinkModel(note, element);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		graph.addLink(link);
+		this.link.getElement().addLink(link);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		graph.deleteLink(link);
+		this.link.getElement().removeLink(link);
 	}
 }

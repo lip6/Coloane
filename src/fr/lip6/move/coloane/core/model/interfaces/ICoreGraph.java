@@ -45,30 +45,4 @@ public interface ICoreGraph extends IGraph {
 	 * @return All graph sticky notes
 	 */
 	List<IStickyNote> getStickyNotes();
-
-	/**
-	 * Add an existing link to the graph 
-	 * @param link The sticky link to add to the graph
-	 */
-	void addLink(ILink link);
-
-	/**
-	 * Create a sticky link and add it to the graph
-	 * @param note The sticky note
-	 * @param element The element linked to the sticky note
-	 * @return The sticky link
-	 */
-	ILink createLink(IStickyNote note, ILinkableElement element);
-
-	/**
-	 * Remove a sticky link from  the graph
-	 * @param link The sticky link to remove from the graph
-	 * @return <code>true</code> if everything went fine
-	 */
-	boolean deleteLink(ILink link);
-
-	/**
-	 * @return All graph sticky links
-	 */
-	List<ILink> getLinks();
 }
