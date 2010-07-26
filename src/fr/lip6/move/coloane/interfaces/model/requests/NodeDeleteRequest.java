@@ -1,28 +1,28 @@
 package fr.lip6.move.coloane.interfaces.model.requests;
 
-import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * Ask the core project to remove an object.<br>
  *
  * @author Jean-Baptiste Voron
  */
-public class ObjectDeleteRequest implements IRequest {
+public class NodeDeleteRequest implements IRequest {
 	/** The element to remove from the model */
-	private IElement element;
+	private INode element;
 
 	/**
 	 * Constructor
 	 * @param element The element to remove from the model
 	 */
-	public ObjectDeleteRequest(IElement element) {
+	public NodeDeleteRequest(INode element) {
 		this.element = element;
 	}
 
 	/**
 	 * @return the element to remove from the model
 	 */
-	public IElement getElement() {
+	public INode getElement() {
 		return element;
 	}
 
@@ -30,6 +30,6 @@ public class ObjectDeleteRequest implements IRequest {
 	 * {@inheritDoc}
 	 */
 	public int getRequestType() {
-		return IRequest.OBJECT_DELETE_REQUEST;
+		return IRequest.NODE_DELETE_REQUEST;
 	}
 }

@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model.requests;
 
 import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.draw2d.geometry.Point;
 
@@ -9,9 +10,9 @@ import org.eclipse.draw2d.geometry.Point;
  *
  * @author Jean-Baptiste Voron
  */
-public class ObjectPositionRequest implements IRequest {
+public class NodePositionRequest implements IRequest {
 	/** Id of the object to move */
-	private IElement element;
+	private INode element;
 	
 	/** the new position for the object*/
 	private Point newPosition;
@@ -21,7 +22,7 @@ public class ObjectPositionRequest implements IRequest {
 	 * @param element The element to move
 	 * @param newPosition The new position for this object
 	 */
-	public ObjectPositionRequest(IElement element, Point newPosition) {
+	public NodePositionRequest(INode element, Point newPosition) {
 		this.element = element;
 		this.newPosition = newPosition;
 	}
@@ -29,7 +30,7 @@ public class ObjectPositionRequest implements IRequest {
 	/**
 	 * @return The element to move
 	 */
-	public IElement getElement() {
+	public INode getElement() {
 		return element;
 	}
 	
@@ -44,6 +45,6 @@ public class ObjectPositionRequest implements IRequest {
 	 * {@inheritDoc}
 	 */
 	public int getRequestType() {
-		return IRequest.OBJECT_POSITION_REQUEST;
+		return IRequest.NODE_POSITION_REQUEST;
 	}
 }

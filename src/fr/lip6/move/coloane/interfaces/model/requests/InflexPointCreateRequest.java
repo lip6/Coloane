@@ -30,6 +30,15 @@ public class InflexPointCreateRequest implements IRequest {
 		this.position = position;
 		this.index = index;
 	}
+	
+	/**
+	 * Constructor
+	 * @param arc The arc where to put this new inflex point
+	 * @param position The position of the point
+	 */
+	public InflexPointCreateRequest(IArc arc, Point position) {
+		new InflexPointCreateRequest(arc, position, arc.getInflexPoints().size() - 1);
+	}
 
 	/**
 	 * The arc to which the new inflex point will be added
@@ -52,6 +61,8 @@ public class InflexPointCreateRequest implements IRequest {
 	public Point getPosition() {
 		return position;
 	}
+	
+	/** {@inheritDoc} */
 	public int getRequestType() {
 		return IRequest.INFLEXPOINT_CREATE_REQUEST;
 	}
