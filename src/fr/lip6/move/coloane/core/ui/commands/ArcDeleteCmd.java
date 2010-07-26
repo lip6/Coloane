@@ -74,7 +74,7 @@ public class ArcDeleteCmd extends CheckableCmd {
 
 		// Add sticky links
 		for (ILink link : this.links) {
-			((ILinkableElement) this.arc).addLink(link);
+			link.connect();
 		}
 
 		// Add tips

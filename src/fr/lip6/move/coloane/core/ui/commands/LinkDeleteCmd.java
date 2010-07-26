@@ -34,12 +34,12 @@ public class LinkDeleteCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		this.link.getElement().removeLink(link);
+		link.disconnect();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		this.link.getElement().addLink(link);
+		link.connect();
 	}
 }

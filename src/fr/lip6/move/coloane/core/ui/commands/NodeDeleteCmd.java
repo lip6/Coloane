@@ -111,7 +111,7 @@ public class NodeDeleteCmd extends CheckableCmd {
 
 		// Add sticky links
 		for (ILink link : this.links) {
-			((ILinkableElement) link.getElement()).addLink(link);
+			link.connect();
 		}
 		
 		this.session.addAllTips(tips);

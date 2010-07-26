@@ -47,7 +47,7 @@ public class StickyNoteDeleteCmd extends Command {
 	public final void redo() {
 		graph.deleteSticky(note);
 		for (ILink link : links) {
-			link.getElement().removeLink(link);
+			link.disconnect();
 		}
 	}
 
@@ -56,7 +56,7 @@ public class StickyNoteDeleteCmd extends Command {
 	public final void undo() {
 		graph.addSticky(note);
 		for (ILink link : links) {
-			link.getElement().addLink(link);
+			link.connect();
 		}
 	}
 }
