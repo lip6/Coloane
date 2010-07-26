@@ -76,7 +76,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 			((NodeModel) arc.getSource()).removeOutgoingArc(arc);
 			((ArcModel) arc).delete();
 		}
-		for (ILink link : links) {
+		for (ILink link : new ArrayList<ILink>(this.getLinks())) {
 			link.disconnect();
 		}
 		outgoingArcs.clear();
