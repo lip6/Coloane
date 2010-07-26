@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces.objects.result;
 
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.requests.IRequest;
 
@@ -21,6 +22,46 @@ import java.util.Map;
  * @author Florian David
  */
 public interface IResult {
+	
+	/**
+	 * Add a sub-result in the sub-result list. 
+	 * @param subResult The sub-result added to the list.
+	 */
+	void addSubResult(ISubResult subResult);
+
+	/**
+	 * Add a special information to the existing list
+	 * @param tip The special information to add to the list
+	 */
+	void addTip(ITip tip);
+	
+	/**
+	 * Add a tip to the tip list.
+	 * @param object the tip will belong to this object.
+	 * @param name the tip name.
+	 * @param value the tip value.
+	 */
+	void addTip(IElement object, String name, String value);
+	
+	/**
+	 * Add a request to the existing list of delta requests.<br>
+	 * These requests specify the transformation from the current graph to a new one.
+	 * @param request The request to add to the list
+	 */
+	void addDeltaRequest(IRequest request);
+	
+	/**
+	 * Set a new graph as result.<br>
+	 * This new graph will be displayed in a new editor.
+	 * @param newGraph The new graph
+	 */
+	void setNewGraph(IGraph newGraph);
+
+	/**
+	 * Add a set of requests that describe modification to perform on a new model
+	 * @param requests A list of requests to apply on the new graph
+	 */
+	void addNewGraphDeltaRequest(List<IRequest> requests);
 
 	/**
 	 * Return the name of the result (name of the called tool is preferred).
@@ -29,21 +70,24 @@ public interface IResult {
 	String getResultName();
 
 	/**
-	 * @return the name of the root menu from which the service has been invoked
-	 * @deprecated Use {@link IResult#getResultName()} instead.
-	 */
-	String getRootName();
-
-	/**
-	 * @return the invoked service name 
-	 * @deprecated Use {@link IResult#getResultName()} instead.
-	 */
-	String getServiceName();
-	
-	/**
 	 * @return The list of sub-results contained in the result.
 	 */
 	List<ISubResult> getSubResults();
+	
+	/**
+	 * @return The list of requests to apply on the current graph
+	 */
+	public List<IRequest> getDeltaRequestsList();
+
+	/**
+	 * @return The list of requests to apply on the new graph
+	 */
+	public List<IRequest> getNewComputedGraphDeltaRequestsList();
+
+	/**
+	 * @return The new graph attached to this result
+	 */
+	public IGraph getNewComputedGraph();
 
 	/**
 	 * @return The list of textual results contained in the result.
@@ -55,14 +99,4 @@ public interface IResult {
 	 * @return The list of special information associated to the result.
 	 */
 	Map<Integer, List<ITip>> getTips();
-
-	/**
-	 * @return A new graph provided by the tool (or <code>null</code> if there is no new graph to display)
-	 */
-	IGraph getNewGraph();
-
-	/**
-	 * @return A list of modification requests to perform on the current model
-	 */
-	List<IRequest> getModificationsOnCurrentGraph();
 }
