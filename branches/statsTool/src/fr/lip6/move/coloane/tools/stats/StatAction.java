@@ -7,12 +7,12 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 import fr.lip6.move.coloane.core.extensions.IColoaneAction;
-import fr.lip6.move.coloane.core.results.Result;
-import fr.lip6.move.coloane.core.results.SubResult;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
+import fr.lip6.move.coloane.interfaces.objects.result.Result;
+import fr.lip6.move.coloane.interfaces.objects.result.SubResult;
 
 /**
  * Very basic tool that provides some statistics about the current model
@@ -29,7 +29,7 @@ public class StatAction implements IColoaneAction {
 		ArrayList<INode> nodes = new ArrayList<INode>(model.getNodes());
 		ArrayList<IArc> arcs = new ArrayList<IArc>(model.getArcs());
 
-		Result result = new Result("Statistics", model);
+		Result result = new Result("Statistics");
 		SubResult subresNodes = new SubResult("Places and Transitions", "Show all nodes");
 		SubResult subresArcs = new SubResult("Arcs", "Show all arcs");
 
