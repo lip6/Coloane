@@ -2,9 +2,9 @@ package fr.lip6.move.coloane.core.session;
 
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultManager;
-import fr.lip6.move.coloane.core.results.Tip;
 import fr.lip6.move.coloane.core.ui.checker.Checker;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.objects.result.Tip;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
