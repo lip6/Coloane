@@ -155,7 +155,7 @@
             <Constraint
                   link="true"
                   name="PlacePlace"
-                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                  type="fr.lip6.move.coloane.core.formalisms.constraints.ConnectionConstraint">
                <parameter
                      name="source"
                      value="place">
@@ -168,7 +168,7 @@
             <Constraint
                   link="true"
                   name="TransitionTransition"
-                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                  type="fr.lip6.move.coloane.core.formalisms.constraints.ConnectionConstraint">
                <parameter
                      name="source"
                      value="transition">
