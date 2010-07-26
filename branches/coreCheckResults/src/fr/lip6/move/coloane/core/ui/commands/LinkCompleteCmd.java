@@ -5,7 +5,6 @@ import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import org.eclipse.gef.commands.Command;
 
@@ -28,19 +27,12 @@ public class LinkCompleteCmd extends Command {
 	/**
 	 * Constructor
 	 * @param graph The current graph
-	 * @param source The source of the link
-	 * @param target The target of the link
-	 * @throws IllegalArgumentException If no element is a note ({@link IStickyNote})
+	 * @param note The sticky note
+	 * @param element the element attached to the note
 	 */
-	public LinkCompleteCmd(IGraph graph, ILinkableElement source, ILinkableElement target) throws IllegalArgumentException {
-		// The note is always the source of the sticky link
-		if (source instanceof IStickyNote) {
-			this.note = (IStickyNote) source;
-			this.element = target;
-		} else if (target instanceof IStickyNote) {
-			this.note = (IStickyNote) target;
-			this.element = source;
-		}
+	public LinkCompleteCmd(IStickyNote note, ILinkableElement element) {
+		this.note = note;
+		this.element = element;
 	}
 	
 	/**
@@ -59,17 +51,18 @@ public class LinkCompleteCmd extends Command {
 	@Override
 	public final void execute() {
 		this.link = new LinkModel(note, element);
+		redo();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		this.link.getElement().addLink(link);
+		this.link.connect();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		this.link.getElement().removeLink(link);
+		this.link.disconnect();
 	}
 }
