@@ -1,8 +1,6 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
-import fr.lip6.move.coloane.core.model.interfaces.ILink;
-import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
@@ -46,9 +44,6 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 
 	/** Sticky Notes list */
 	private List<IStickyNote> stickys = new ArrayList<IStickyNote>();
-
-	/** Link list */
-	private List<ILink> links = new ArrayList<ILink>();
 
 	/** Local counter used to compute ID for new objects */
 	private int idCounter = 2;
@@ -123,9 +118,6 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			}
 			for (IArc arc : node.getIncomingArcs()) {
 				arcs.remove(arc.getId());
-			}
-			for (ILink link : ((ILinkableElement) node).getLinks()) {
-				links.remove(link);
 			}
 			((NodeModel) node).deleteArcsLinks();
 			firePropertyChange(NODE_REMOVED_PROP, null, node);
@@ -335,37 +327,6 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			updateDate();
 			setDirtyState(true);
 		}
-	}
-
-	/** {@inheritDoc} */
-	public final void addLink(ILink link) {
-		links.add(link);
-		link.getElement().addLink(link);
-		link.getNote().addLink(link);
-		firePropertyChange(LINK_ADD_PROP, null, link);
-	}
-
-	/** {@inheritDoc} */
-	public final ILink createLink(IStickyNote note, ILinkableElement element) {
-		ILink link = new LinkModel(note, element);
-		addLink(link);
-		return link;
-	}
-
-	/** {@inheritDoc} */
-	public final boolean deleteLink(ILink link) {
-		boolean res = links.remove(link);
-		if (res) {
-			link.getElement().removeLink(link);
-			link.getNote().removeLink(link);
-			firePropertyChange(LINK_REMOVED_PROP, null, link);
-		}
-		return res;
-	}
-
-	/** {@inheritDoc} */
-	public final List<ILink> getLinks() {
-		return Collections.unmodifiableList(links);
 	}
 
 	/** {@inheritDoc} */

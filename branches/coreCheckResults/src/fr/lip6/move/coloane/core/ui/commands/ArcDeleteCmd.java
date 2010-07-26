@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
@@ -9,7 +8,6 @@ import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -54,10 +52,10 @@ public class ArcDeleteCmd extends CheckableCmd {
 	@Override
 	public final void execute() {
 		// Backup tips
-		this.tips = this.session.getTipForObject(arc.getId());
+		this.tips = this.session.getTipForObject(this.arc.getId());
 		// Backup links
-		if (arc instanceof ILinkableElement) {
-			links = ((ILinkableElement) arc).getLinks();
+		if (this.arc instanceof ILinkableElement) {
+			this.links = ((ILinkableElement) this.arc).getLinks();
 		}
 		redo();
 	}
@@ -65,33 +63,21 @@ public class ArcDeleteCmd extends CheckableCmd {
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		session.removeTips(tips);
-		
-		// Remove sticky links
-		if (graph instanceof GraphModel) {
-			GraphModel graphModel = (GraphModel) graph;
-			for (ILink link : new ArrayList<ILink>(graphModel.getLinks())) {
-				graphModel.deleteLink(link);
-			}
-		}
-		
-		graph.deleteArc(arc);
+		this.session.removeTips(this.tips);
+		this.graph.deleteArc(this.arc);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		graph.addArc(arc);
+		this.graph.addArc(this.arc);
 
 		// Add sticky links
-		if (graph instanceof GraphModel) {
-			GraphModel graphModel = (GraphModel) graph;
-			for (ILink link : links) {
-				graphModel.addLink(link);
-			}
+		for (ILink link : this.links) {
+			((ILinkableElement) this.arc).addLink(link);
 		}
 
 		// Add tips
-		session.addAllTips(tips);
+		this.session.addAllTips(this.tips);
 	}
 }

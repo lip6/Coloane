@@ -64,7 +64,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/**
-	 * Delete all input or output arcs and links from the node
+	 * Delete all input or output arcs and sticky links from the node
 	 */
 	final void deleteArcsLinks() {
 		LOGGER.finest("Delete arcs from node #" + getId()); //$NON-NLS-1$

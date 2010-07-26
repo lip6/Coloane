@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
@@ -15,8 +14,6 @@ import org.eclipse.gef.commands.Command;
  * @author Clément Démoulins 
  */
 public class LinkDeleteCmd extends Command {
-	/** The graph */
-	private ICoreGraph graph;
 	/** The link to delete */
 	private ILink link;
 
@@ -25,7 +22,6 @@ public class LinkDeleteCmd extends Command {
 	 * @param link The link to delete
 	 */
 	public LinkDeleteCmd(IGraph graph, ILink link) {
-		this.graph = (ICoreGraph) graph;
 		this.link = link;
 	}
 
@@ -38,12 +34,12 @@ public class LinkDeleteCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		graph.deleteLink(link);
+		this.link.getElement().removeLink(link);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		graph.addLink(link);
+		this.link.getElement().addLink(link);
 	}
 }
