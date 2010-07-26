@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+
 import fr.lip6.move.coloane.core.extensions.IColoaneAction;
 import fr.lip6.move.coloane.core.results.Result;
 import fr.lip6.move.coloane.core.results.SubResult;
@@ -23,7 +25,7 @@ public class StatAction implements IColoaneAction {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<IResult> run(IGraph model) {
+	public List<IResult> run(IGraph model, IProgressMonitor monitor) {
 		ArrayList<INode> nodes = new ArrayList<INode>(model.getNodes());
 		ArrayList<IArc> arcs = new ArrayList<IArc>(model.getArcs());
 
@@ -31,10 +33,30 @@ public class StatAction implements IColoaneAction {
 		SubResult subresNodes = new SubResult("Places and Transitions", "Show all nodes");
 		SubResult subresArcs = new SubResult("Arcs", "Show all arcs");
 
+		// Deal with the progress monitor : Tells the progress monitor the task title
+		monitor.beginTask("Computing statistics...", model.getNodes().size() + model.getArcs().size());
+
+		// New subtask !
+		monitor.subTask("Browsing nodes");
+
 		// Add all nodes as objects designation for the first sub-result
-		for(int i = 0; i < nodes.size(); i++) { subresNodes.addObjectDesignation(nodes.get(i)); }
+		for(int i = 0; i < nodes.size(); i++) { 
+			// Check if the user has canceled the tool execution 
+			if (monitor.isCanceled()) { return null; }
+			subresNodes.addObjectDesignation(nodes.get(i));
+			monitor.worked(1); // 1 work unit = 1 node processed
+		}
+
+		// New subtask !
+		monitor.subTask("Browsing arcs");
+
 		// Add all arcs as objects designation for the second sub-result
-		for(int i = 0; i < arcs.size(); i++) { subresArcs.addObjectDesignation(arcs.get(i)); }
+		for(int i = 0; i < arcs.size(); i++) { 
+			// Check if the user has canceled the tool execution 
+			if (monitor.isCanceled()) { return null; }
+			subresArcs.addObjectDesignation(arcs.get(i));
+			monitor.worked(1); // 1 work unit = 1 arc processed
+		}
 
 		
 		SubResult subresNodeList = new SubResult("Places and Transitions", "Node list");
@@ -53,6 +75,7 @@ public class StatAction implements IColoaneAction {
 
 		ArrayList<IResult> resultsList = new ArrayList<IResult>();
 		resultsList.add(result);
+		monitor.done();
 		return resultsList;
 	}
 }
