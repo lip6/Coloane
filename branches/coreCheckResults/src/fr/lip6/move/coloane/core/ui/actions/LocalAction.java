@@ -91,11 +91,9 @@ public class LocalAction extends Action {
 	public final void run() {
 		final ISession currentSession = SessionManager.getInstance().getCurrentSession();
 		IGraph currentGraph = currentSession.getGraph();
-		LOGGER.fine("Building the external coloane JOB"); //$NON-NLS-1$		
+		LOGGER.fine("Building the external coloane job"); //$NON-NLS-1$		
 		ColoaneJob job = new ColoaneJob(this.name, currentGraph, this.action);
-		LOGGER.finer("Executing the external coloane JOB"); //$NON-NLS-1$
-		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
-		job.schedule();
+		LOGGER.finer("Executing the external coloane job"); //$NON-NLS-1$
 		
 		job.addJobChangeListener(new JobChangeAdapter() {
 			@Override
@@ -110,5 +108,8 @@ public class LocalAction extends Action {
 				}
 			}
 		});
+		
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		job.schedule();
 	}
 }
