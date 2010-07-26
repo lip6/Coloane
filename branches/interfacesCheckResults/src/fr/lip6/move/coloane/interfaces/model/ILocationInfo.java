@@ -7,7 +7,7 @@ import org.eclipse.draw2d.geometry.Point;
  */
 public interface ILocationInfo {
 
-	/** The property ID */
+	/** Event raised when the element is moved */
 	String LOCATION_PROP = "Location.info"; //$NON-NLS-1$
 
 	/**

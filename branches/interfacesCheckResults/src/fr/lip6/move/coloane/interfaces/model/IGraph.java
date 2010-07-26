@@ -29,11 +29,11 @@ public interface IGraph extends IElement {
 
 	/**
 	 * Create a node and add it to the graph
-	 * @param nodeFormalismName Type of the new node 
+	 * @param nodeFormalism Formalism used by this node 
 	 * @return The new node
 	 * @throws ModelException If the type is not correct according to the graph formalism
 	 */
-	INode createNode(String nodeFormalismName) throws ModelException;
+	INode createNode(INodeFormalism nodeFormalism) throws ModelException;
 
 	/**
 	 * Create a node and add it to the graph
@@ -45,7 +45,8 @@ public interface IGraph extends IElement {
 	INode createNode(INodeFormalism nodeFormalism, int id) throws ModelException;
 
 	/**
-	 * Delete a node
+	 * Delete a node.<br>
+	 * Incoming arcs, outgoing arcs and sticky links will be deleted too.
 	 * @param node The node that has to be removed from the graph
 	 */
 	void deleteNode(INode node);
@@ -76,13 +77,13 @@ public interface IGraph extends IElement {
 
 	/**
 	 * Create an arc that links a source and a target
-	 * @param arcFormalismName The type of arc to create
+	 * @param arcFormalism The formalism used by this arc
 	 * @param source The source node
 	 * @param target The target node
 	 * @return The created arc
 	 * @throws ModelException if one of the type of arc is not correct or if either the source or the target does not exist
 	 */
-	IArc createArc(String arcFormalismName, INode source, INode target) throws ModelException;
+	IArc createArc(IArcFormalism arcFormalism, INode source, INode target) throws ModelException;
 
 	/**
 	 * Create an arc that links a source and a target
@@ -96,7 +97,8 @@ public interface IGraph extends IElement {
 	IArc createArc(IArcFormalism arcFormalism, INode source, INode target, int id) throws ModelException;
 
 	/**
-	 * Remove an arc from the graph
+	 * Remove an arc from the graph.<br>
+	 * All <b>sticky links</b> attached with this arc will be removed too !
 	 * @param arc The arc to remove from the graph
 	 */
 	void deleteArc(IArc arc);
