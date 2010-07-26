@@ -26,9 +26,7 @@ public class InflexPointsDeleteRequest implements IRequest {
 		return arc;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public int getRequestType() {
 		return IRequest.INFLEXPOINTS_DELETE_REQUEST;
 	}

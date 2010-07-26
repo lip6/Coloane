@@ -17,8 +17,8 @@ public interface IRequest {
 	static final int INFLEXPOINT_CREATE_REQUEST = 5;
 	static final int INFLEXPOINTS_DELETE_REQUEST = 6;
 	static final int NODE_CREATE_REQUEST = 7;
-	static final int OBJECT_POSITION_REQUEST = 8;
-	static final int OBJECT_DELETE_REQUEST = 9;
+	static final int NODE_DELETE_REQUEST = 8;
+	static final int NODE_POSITION_REQUEST = 9;
 	
 	/**
 	 * Gives the kind of request... <br>
