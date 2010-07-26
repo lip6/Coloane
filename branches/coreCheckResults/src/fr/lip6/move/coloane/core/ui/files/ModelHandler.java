@@ -2,7 +2,9 @@ package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.formalisms.FormalismManager;
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.LinkModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
@@ -268,7 +270,8 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		IElement element = graph.getObject(ids.get(linkId));
 
 		// Build the link
-		graph.createLink(note, (ILinkableElement) element);
+		ILink newLink = new LinkModel(note, (ILinkableElement) element);
+		((ILinkableElement) element).addLink(newLink);
 
 		stack.push(note);
 	}
