@@ -51,6 +51,13 @@ public interface IResult {
 	void addDeltaRequest(IRequest request);
 	
 	/**
+	 * Add a list of requests to the existing list of delta requests.<br>
+	 * These requests specify the transformation from the current graph to a new one.
+	 * @param requests The list of requests to add to the list
+	 */
+	void addDeltaRequests(List<IRequest> requests);
+	
+	/**
 	 * Set a new graph as result.<br>
 	 * This new graph will be displayed in a new editor.
 	 * @param newGraph The new graph

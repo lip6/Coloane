@@ -51,7 +51,7 @@ public class Result implements IResult {
 	 * Constructor of an empty result.
 	 * @param resultName the name of the result (name of the called tool is preferred).
 	 */
-	public Result(String resultName, IGraph currentGraph) {
+	public Result(String resultName) {
 		this.resultName = resultName;
 		this.newComputedGraph = null;
 		this.subResults = new ArrayList<ISubResult>();
@@ -98,6 +98,14 @@ public class Result implements IResult {
 	public final void addDeltaRequest(IRequest request) {
 		this.deltaRequestsList.add(request);
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public final void addDeltaRequests(List<IRequest> requests) {
+		this.deltaRequestsList.addAll(requests);
+	}
+
 	
 	/**
 	 * {@inheritDoc}
