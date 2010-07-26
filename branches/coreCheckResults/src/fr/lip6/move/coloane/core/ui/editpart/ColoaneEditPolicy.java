@@ -191,7 +191,6 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 */
 
 	protected final Command chainGuideDetachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, int orientation) {
-		Command result = cmd;
 		String key;
 		
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
@@ -202,12 +201,20 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 
 		// Detach from guide, if none is given
 		Integer guidePos = (Integer) request.getExtendedData().get(key);
-
+		Command newCommand;
 		if (guidePos == null) {
-			result = result.chain(new GuideChangeCmd(locatedElement, orientation));
+			newCommand = new GuideChangeCmd(locatedElement, orientation);
+		} else {
+			return cmd;
 		}
-
-		return result;
+		
+		// The new command is not null...
+		// If the current command (cmd) is not null, chain the new one and return.
+		if (cmd != null) {
+			return cmd.chain(newCommand);
+		} else {
+			return newCommand;
+		}
 	}
 
 	/**
