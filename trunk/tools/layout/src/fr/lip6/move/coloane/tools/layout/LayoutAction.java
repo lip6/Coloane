@@ -22,8 +22,7 @@ public class LayoutAction implements IColoaneAction {
 	 */
 	public final List<IResult> run(IGraph model, IProgressMonitor monitor) {
 		if (model != null) {
-			//List<IRequest> requests = GraphLayout.layout(model, monitor);
-			List<IRequest> requests = new ArrayList<IRequest>();
+			List<IRequest> requests = GraphLayout.layout(model, monitor);
 			List<IResult> results = new ArrayList<IResult>();
 
 			IResult result = new Result("Dot Layout");
