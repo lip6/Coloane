@@ -1,14 +1,11 @@
 package fr.lip6.move.coloane.tools.layout;
 
-import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.model.command.ICommand;
+import fr.lip6.move.coloane.interfaces.model.requests.IRequest;
 import fr.lip6.move.coloane.tools.graphviz.GraphViz;
-import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator;
-import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -20,6 +17,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.graphics.Point;
 
 /**
@@ -34,34 +32,20 @@ public final class GraphLayout {
 	 * Hide constructor : functionality is all static.
 	 */
 	private GraphLayout() { }
-	
-	 /**
-	  * Main non GUI related function, updates a graph in place.
-	  * @param graph the graph to update
-	  */
-	public static void doLayout(IGraph graph) {
-		List<ICommand> commands = layout(graph);
-		try {
-			for (ICommand command : commands) {
-				command.execute(graph);
-			}
-		} catch (ModelException e) {
-			LogUtils.logWarning(GraphVizActivator.getID(), "model formalism error", e);
-		}
-	}
 
 	/**
 	 * The main user function : apply dot layout to the provided Graph instance.
 	 * @param graph the graph to be updated with new positions.
 	 * @return the list of position commands to execute
 	 */
-	public static List<ICommand> layout(IGraph graph) {
+	public static List<IRequest> layout(IGraph graph, IProgressMonitor monitor) {
+		monitor.subTask("Rewriting the current graph as a DOT compatible graph");
 		StringBuffer sb = new StringBuffer();
 		Map<String,List<INode>> clusters = new HashMap<String, List<INode>>();
 		sb.append("digraph G {\n");
 		sb.append("   concentrate = true; \n");
 		for (INode node : graph.getNodes()) {
-			// Produce one line
+			// One line per node
 			sb.append("    " + getDotID(node) + " ;\n");
 			addNode(clusters,node);
 		}
@@ -79,12 +63,19 @@ public final class GraphLayout {
 			}
 		}				
 		sb.append("}");
-		System.err.println(sb.toString());
+		monitor.worked(1);
+
 		try {
+			// Call Graphviz
+			monitor.subTask("Calling DOT tool");
 			InputStream dotOutput = GraphViz.generate(new ByteArrayInputStream(sb.toString().getBytes()),
 								"plain", // format to basic annotated positions
 								new Point(20, 20));
-			return DotParser.parseGraphPositions(dotOutput, graph);
+			monitor.worked(1);
+			monitor.subTask("Parsing graph objects positions");
+			List<IRequest>requests = DotParser.parseGraphPositions(dotOutput, graph);
+			monitor.worked(1);
+			return requests;
 
 		// TODO: Exceptions must be handled more carefully !
 		} catch (CoreException e) {
@@ -92,7 +83,7 @@ public final class GraphLayout {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return new ArrayList<ICommand>();
+		return new ArrayList<IRequest>();
 	}
 	
 	/** Defines clusters if possible.

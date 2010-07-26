@@ -1,13 +1,12 @@
 package fr.lip6.move.coloane.tools.layout;
 
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.command.AttributePositionCommand;
-import fr.lip6.move.coloane.interfaces.model.command.CreateInflexPointCommand;
-import fr.lip6.move.coloane.interfaces.model.command.DeleteInflexPointsCommand;
-import fr.lip6.move.coloane.interfaces.model.command.ICommand;
-import fr.lip6.move.coloane.interfaces.model.command.ObjectPositionCommand;
-import fr.lip6.move.coloane.interfaces.model.command.ResetAttributesPositionCommand;
+import fr.lip6.move.coloane.interfaces.model.requests.AttributesResetPositionRequest;
+import fr.lip6.move.coloane.interfaces.model.requests.IRequest;
+import fr.lip6.move.coloane.interfaces.model.requests.InflexPointCreateRequest;
+import fr.lip6.move.coloane.interfaces.model.requests.InflexPointsDeleteRequest;
+import fr.lip6.move.coloane.interfaces.model.requests.NodePositionRequest;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -106,12 +105,14 @@ public final class DotParser {
 	 * @return the list of modifications to do as Commands.
 	 * @throws IOException in case of any parse problem.
 	 */
-	public static List<ICommand> parseGraphPositions(InputStream input, IGraph graph) throws IOException {
-		List<ICommand> commands = new ArrayList<ICommand>();
+	public static List<IRequest> parseGraphPositions(InputStream input, IGraph graph) throws IOException {
+		List<IRequest> requests = new ArrayList<IRequest>();
 		BufferedReader in = new BufferedReader(new InputStreamReader(input));
 
 		// Start by removing all inflex points.
-		commands.add(new DeleteInflexPointsCommand());
+		for (IArc arc : graph.getArcs()) {
+			requests.add(new InflexPointsDeleteRequest(arc));
+		}
 
 		parseGraphDescription(in);
 		while (in.ready()) {
@@ -120,14 +121,14 @@ public final class DotParser {
 			assert st.hasMoreElements();
 			String cmdType = st.nextToken();
 			if ("stop".equals(cmdType)) {
-				return commands;
+				return requests;
 			} else if ("node".equals(cmdType)) {
-				parseNode(st, graph, commands);
+				requests.addAll(parseNode(st, graph));
 			} else if ("edge".equals(cmdType)) {
-				parseArc(st, graph, commands);
+				requests.addAll(parseArc(st, graph));
 			}
 		}
-		return commands;
+		return requests;
 	}
 	/**
 	 * NB: edge token consumed
@@ -138,7 +139,8 @@ public final class DotParser {
 	 * @param graph to write into
 	 * @param commands the list of commands we are building
 	 */
-	private static void parseArc(StringTokenizer st, IGraph graph, List<ICommand> commands) {
+	private static List<IRequest> parseArc(StringTokenizer st, IGraph graph) {
+		List<IRequest> requests = new ArrayList<IRequest>();
 		assert st.countTokens() > 3;
 		@SuppressWarnings("unused")
 		int idSource = parseID(st);
@@ -153,10 +155,11 @@ public final class DotParser {
 		}
 		int idArc = parseID(st);
 		for (Point point : newPi) {
-			commands.add(new CreateInflexPointCommand(idArc, point.x, point.y));
+			requests.add(new InflexPointCreateRequest(graph.getArc(idArc), point));
 		}
-		// reset arc label position
-		commands.add(new ResetAttributesPositionCommand(idArc));
+		// Reset arc label position
+		requests.add(new AttributesResetPositionRequest(graph.getObject(idArc)));
+		return requests;
 	}
 
 	/** 
@@ -181,23 +184,17 @@ public final class DotParser {
 	 * @param commands The list of commands we are building
 	 * @throws IOException in case of problems
 	 */
-	private static void parseNode(StringTokenizer st, IGraph graph, List<ICommand> commands) throws IOException {
-		try {
-			assert st.countTokens() > 3;
-			int id = parseID(st);
-			Point p = parsePoint(st);
-			commands.add(new ObjectPositionCommand(id, p.x, p.y));
-			//commands.add(new ResetAttributesPositionCommand(id));
-			for (IAttribute attribute : graph.getNode(id).getDrawableAttributes()) {
-				commands.add(new AttributePositionCommand(id, attribute.getName(), -1, -1));
-			}
+	private static List<IRequest> parseNode(StringTokenizer st, IGraph graph) throws IOException {
+		List<IRequest> requests = new ArrayList<IRequest>();
 
+		assert st.countTokens() > 3;
+		int nodeId = parseID(st);
+		Point location = parsePoint(st);
 			
-		} catch (NumberFormatException e) {
-			throw new IOException("Bad token in stream while parsing dot node line.");
-		} catch (NullPointerException e) {
-			throw new IOException("Bad node ID when parsing dot annotations.");
-		}
+		requests.add(new NodePositionRequest(graph.getNode(nodeId), location));
+		requests.add(new AttributesResetPositionRequest(graph.getObject(nodeId)));
+		
+		return requests;
 	}
 
 	/** Convert the form of ID passed to dot back to an Integer.
