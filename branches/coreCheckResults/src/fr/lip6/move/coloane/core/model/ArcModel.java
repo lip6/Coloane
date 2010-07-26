@@ -76,10 +76,14 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	final void delete() {
 		// Browse all links and tell the source that the link will be destroyed
 		for (ILink link : new ArrayList<ILink>(links)) {
-			link.getElement().removeLink(link);
+			link.disconnect();
 		}
-		// Flush the list
-		links.clear();
+
+		// The sticky links list should be empty (due to link.disconnect())
+		if (!links.isEmpty()) {
+			LOGGER.warning("The sticky link list is not clean... cleaning it now"); //$NON-NLS-1$
+			links.clear();
+		}
 	}
 
 	/** {@inheritDoc} */

@@ -77,11 +77,16 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 			((ArcModel) arc).delete();
 		}
 		for (ILink link : links) {
-			link.getElement().removeLink(link);
+			link.disconnect();
 		}
 		outgoingArcs.clear();
 		incomingArcs.clear();
-		links.clear();
+		
+		// The sticky links list should be empty (due to link.disconnect())
+		if (!links.isEmpty()) {
+			LOGGER.warning("The sticky link list is not clean... cleaning it now"); //$NON-NLS-1$
+			links.clear();
+		}
 	}
 
 	/** {@inheritDoc} */

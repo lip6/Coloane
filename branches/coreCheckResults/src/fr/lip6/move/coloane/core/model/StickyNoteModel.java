@@ -142,4 +142,10 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
 		return res;
 	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final String toString() {
+		return "Sticky Note {" + text + "}"; //$NON-NLS-1$ //$NON-NLS-2$
+	}
 }
