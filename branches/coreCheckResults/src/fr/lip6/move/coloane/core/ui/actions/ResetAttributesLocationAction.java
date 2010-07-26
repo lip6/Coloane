@@ -11,7 +11,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.ui.actions.SelectionAction;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -78,7 +78,7 @@ public class ResetAttributesLocationAction extends SelectionAction {
 
 		
 		for (IAttribute attribute : attributesToReset) {
-			commandsGroup.add(new AttributeSetConstraintCmd(attribute, Rectangle.SINGLETON.setLocation(-1, -1)));
+			commandsGroup.add(new AttributeSetConstraintCmd(attribute, new Point(-1,-1)));
 		}
 		execute(commandsGroup);
 	}
