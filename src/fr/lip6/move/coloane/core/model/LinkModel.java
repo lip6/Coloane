@@ -23,7 +23,6 @@ public class LinkModel implements ILink {
 	 * Constructor.<br>
 	 * Create a link between two elements. 
 	 * This link is not oriented.
-	 * There is no difference between the source and the target.
 	 * <br><br>
 	 * @param note The sticky note
 	 * @param element The element
@@ -35,6 +34,20 @@ public class LinkModel implements ILink {
 		}
 		this.note = note;
 		this.element = element;
+	}
+	
+	/** {@inheritDoc} */
+	public final void connect() {
+		LOGGER.finer("Connect the link: " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$
+		this.note.addLink(this);
+		this.element.addLink(this);
+	}
+
+	/** {@inheritDoc} */
+	public final void disconnect() {
+		LOGGER.finer("Disconnect the link: " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$
+		this.note.removeLink(this);
+		this.element.removeLink(this);
 	}
 
 	/** {@inheritDoc} */
