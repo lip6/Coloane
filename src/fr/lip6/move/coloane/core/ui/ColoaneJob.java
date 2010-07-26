@@ -55,7 +55,9 @@ public class ColoaneJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		this.results = this.action.run(this.graph,monitor);
-		monitor.done();
+		if (this.results == null) {
+			return Status.CANCEL_STATUS;
+		}
 		return Status.OK_STATUS;
 	}
 
@@ -64,6 +66,7 @@ public class ColoaneJob extends Job {
 	protected final void canceling() {
 		LOGGER.warning("The job " + this.getName() + " has received an INTERRUPT request : "); //$NON-NLS-1$//$NON-NLS-2$
 		getThread().interrupt();
+		super.canceling();
 	}
 
 }
