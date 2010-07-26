@@ -62,7 +62,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	private ISessionManager sessionManager = null;
 
 	/**
-	 * Build a results tree with a <i>list</i> of object to highlight
+	 * Build a results tree with a <i>list</i> of objects to highlight
 	 * @param toHighlight The list of objects
 	 * @param details Some details about the service (each one will be shown in a single column)
 	 */
@@ -87,7 +87,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		try {
 			this.sessionManager = this.getSessionManager();
 			if (this.sessionManager != null) {
-				//this.addObserver(sessionManager.getCurrentSession().getServiceResults());
+				this.addObserver(sessionManager.getCurrentSession().getResultManager());
 			}
 		} catch (NullPointerException e) {
 			LOGGER.warning("Erreur dans l'attachement de la liste de resultats a la session"); //$NON-NLS-1$
