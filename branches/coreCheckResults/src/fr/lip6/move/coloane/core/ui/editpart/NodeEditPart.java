@@ -317,7 +317,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 				INode source = (INode) getHost().getModel();
 				Command cmd = null;
 
-				// The conection is either an arc or an sticky link
+				// The connection is either an arc or an sticky link
 				if (request.getNewObjectType() == IArc.class) {
 					cmd = new ArcCreateCmd(source, (IArcFormalism) request.getNewObject());
 				} else if (request.getNewObjectType() == ILink.class && source instanceof ILinkableElement) {
@@ -347,9 +347,8 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 				} else if (request.getStartCommand() instanceof LinkCreateCmd) {
 					ILinkableElement source = ((LinkCreateCmd) request.getStartCommand()).getSource();
 					if (source instanceof IStickyNote) {
-						IGraph graph = (IGraph) ((INode) getHost().getModel()).getParent();
 						ILinkableElement target = (ILinkableElement) getHost().getModel();
-						cmd = new LinkCompleteCmd(graph, source, target);
+						cmd = new LinkCompleteCmd((IStickyNote) source, target);
 					}
 				}
 				return cmd;
