@@ -9,6 +9,7 @@ import fr.lip6.move.coloane.core.ui.commands.InflexDeleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.LocatedElementSetConstraintCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.requests.ArcCreateRequest;
 import fr.lip6.move.coloane.interfaces.model.requests.AttributeChangeValueRequest;
@@ -23,6 +24,7 @@ import fr.lip6.move.coloane.interfaces.model.requests.NodePositionRequest;
 
 import java.util.logging.Logger;
 
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
@@ -57,7 +59,11 @@ public class CommandFactory {
 		// Reset the position of attributes attached to an object 
 		case IRequest.ATTRIBUTE_RESET_POSITION_REQUEST:
 			AttributesResetPositionRequest attributesResetPositionRequest = (AttributesResetPositionRequest) request;
-			return null;
+			CompoundCommand resetAttributesPositionCommand = new CompoundCommand();
+			for (IAttribute attribute : attributesResetPositionRequest.getParentObject().getAttributes()) {
+				resetAttributesPositionCommand.add(new AttributeSetConstraintCmd(attribute, new Point(-1, -1)));
+			}
+			return resetAttributesPositionCommand; 
 		
 		// Create a new inflex point
 		case IRequest.INFLEXPOINT_CREATE_REQUEST:
