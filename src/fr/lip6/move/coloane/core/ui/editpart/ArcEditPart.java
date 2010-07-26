@@ -19,7 +19,6 @@ import fr.lip6.move.coloane.core.ui.figures.RoundedPolyline;
 import fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc;
 import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
@@ -225,10 +224,8 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 				if (request.getStartCommand() instanceof LinkCreateCmd) {
 					ILinkableElement source = ((LinkCreateCmd) request.getStartCommand()).getSource();
 					if (source instanceof IStickyNote) {
-						IGraph graph = (IGraph) ((IArc) getHost().getModel()).getParent();
 						ILinkableElement target = (ILinkableElement) getHost().getModel();
-
-						cmd = new LinkCompleteCmd(graph, source, target);
+						cmd = new LinkCompleteCmd((IStickyNote) source, target);
 					}
 				}
 				return cmd;

@@ -11,8 +11,6 @@ import fr.lip6.move.coloane.core.ui.commands.LinkCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.StickyNoteDeleteCmd;
 import fr.lip6.move.coloane.core.ui.figures.sticky.StickyNoteFigure;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -70,7 +68,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
 			
 			/**
-			 * Create a connection (first step).<br>
+			 * Create a connection with an sticky link (first step).<br>
 			 */
 			@Override
 			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {
@@ -90,19 +88,11 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 				Command cmd = null;
 				if (request.getStartCommand() instanceof LinkCreateCmd) {
 					ILinkableElement source = ((LinkCreateCmd) request.getStartCommand()).getSource();
+					// The user completes the link creation by clicking on the sticky note
+					// In that case, the source must not be a sticky note but a ILinkableElement
 					if (!(source instanceof IStickyNote)) {
-						// On cherche le graph
-						IGraph graph;
-						if (source instanceof IElement) {
-							graph = (IGraph) ((IElement) source).getParent();
-						} else if (source instanceof IAttribute) {
-							graph = (IGraph) ((IAttribute) source).getReference().getParent();
-						} else {
-							return null; // si on a aucun moyen de récupérer le graph on annule tout
-						}
-
-						ILinkableElement target = (ILinkableElement) getHost().getModel();
-						cmd = new LinkCompleteCmd(graph, source, target);
+						IStickyNote target = (IStickyNote) getHost().getModel();
+						cmd = new LinkCompleteCmd(target, source);
 					}
 				}
 				return cmd;
