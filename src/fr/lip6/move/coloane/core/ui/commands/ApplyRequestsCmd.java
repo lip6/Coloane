@@ -7,7 +7,6 @@ import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 import java.util.List;
 
-import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
 /**
@@ -19,15 +18,12 @@ import org.eclipse.gef.commands.CompoundCommand;
  * @see IResult
  */
 
-public class ApplyRequestsCmd extends Command {
+public class ApplyRequestsCmd extends CompoundCommand {
 	/** List of request to apply on the graph */
 	List<IRequest> requests;
 	
 	/** The graph on which requests will be applied */
 	IGraph graph;
-	
-	/** The main command built from the list of requests */
-	CompoundCommand command;
 	
 	/**
 	 * Constructor
@@ -37,6 +33,12 @@ public class ApplyRequestsCmd extends Command {
 	public ApplyRequestsCmd(List<IRequest> requests, IGraph graph) {
 		this.requests = requests;
 		this.graph = graph;
+
+		for (IRequest request : this.requests) {
+			if (request == null) { continue; }
+			// Transform the request into a command...
+			add(CommandFactory.createCommand(request, this.graph));
+		}
 	}
 	
 	/**
@@ -45,30 +47,5 @@ public class ApplyRequestsCmd extends Command {
 	@Override
 	public boolean canExecute() {
 		return (this.requests.size() > 0);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void execute() {
-		// Transform all requests into a compound command
-		command = new CompoundCommand();
-		for (IRequest request : this.requests) {
-			if (request == null) { continue; }
-			// Transform the request into a command...
-			command.add(CommandFactory.createCommand(request, this.graph));
-		}
-		this.redo();
-	}
-	
-	@Override
-	public void redo() {
-		this.command.execute();
-	}
-	
-	@Override
-	public void undo() {
-		this.command.undo();
 	}
 }
