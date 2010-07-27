@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
@@ -19,18 +19,18 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
 /**
- * Marker manager.<br>
- * It managed all markers operations :
+ * Marker Manager.<br>
+ * It manages all markers operations :
  * <ul>
  * 	<li>Create markers</li>
  * 	<li>Delete markers</li>
  *  <li>Provide navigation from the marker to the correct graph element</li>
  * </ul>
  * 
- * 
  * @author Florian David
  */
 public final class MarkerManager {
+
 	/** ID of the root marker. */
 	private static String ROOT_MARKER = "fr.lip6.move.coloane.core.ui.checker.rootMarker"; //$NON-NLS-1$
 	/** ID of the node marker. */
@@ -45,6 +45,7 @@ public final class MarkerManager {
 	private static String GRAPH_MARKER = "fr.lip6.move.coloane.core.ui.checker.graphMarker"; //$NON-NLS-1$
 	/** ID of the graph attribute marker. */
 	private static String GRAPH_ATTRIBUTE_MARKER = "fr.lip6.move.coloane.core.ui.checker.graphAttributeMarker"; //$NON-NLS-1$
+
 	/** ID the marker attribute "ID". Used to keep the IElement id with which the marker is linked. */
 	private static String ID = "id"; //$NON-NLS-1$
 	
@@ -159,6 +160,20 @@ public final class MarkerManager {
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Delete all markers associated to a specific resource.<br>
+	 * This method is especially useful to clean the problem view when the user closes a model
+	 * @param resource The resource for which all resources must be deleted
+	 */
+	public static void deleteMarkers(IResource resource) {
+		try {
+			resource.deleteMarkers(null, false, IResource.DEPTH_ZERO);
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**

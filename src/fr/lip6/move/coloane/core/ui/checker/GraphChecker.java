@@ -51,11 +51,11 @@ public class GraphChecker {
 	}
 
 	/**
-	 * Call the {@link IGraphChecker#check(IGraph)} method of the checker on an {@link IGraph}.
+	 * Call the {@link IGraphChecker#performCheck(IGraph)} method of the checker on an {@link IGraph}.
 	 * @param graph the {@link IGraph} to check.
 	 * @return <code>true</code> if a marker must be created, <code>false</code> otherwise.
 	 */
 	public final boolean check(IGraph graph) {
-		return checker.check(graph);
+		return checker.performCheck(graph);
 	}
 }

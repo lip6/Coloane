@@ -34,7 +34,6 @@ public class ArcChecker {
 		this.severity = severity;
 		this.checker = checker;
 		this.message = message;
-		//
 	}
 
 	/**
