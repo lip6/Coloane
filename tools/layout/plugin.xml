@@ -13,7 +13,7 @@
           action="fr.lip6.move.coloane.tools.layout.LayoutAction"
           description="Layout the current graph"
           icon="resources/layout_icon.png"
-          name="Layout">
+          name="Automatic DOT layout">
     </Tool>
  </extension>
 </plugin>
