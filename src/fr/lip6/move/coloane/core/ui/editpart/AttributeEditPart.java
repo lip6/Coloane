@@ -313,7 +313,6 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent event) {
-		LOGGER.finest("Attribute has received an event: " + event.getPropertyName());  //$NON-NLS-1$
 		String prop = event.getPropertyName();
 
 		// When the value of the attribute is modified somewhere
