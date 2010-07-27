@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
+import fr.lip6.move.coloane.core.ui.commands.CheckableCmd;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 /**
  * This class listens to the {@link CommandStack}.
- * When a command {@link CheckableCmd} is executed, this class execute {@link CheckableCmd#checkElements()} of each command.
+ * When a command {@link CheckableCmd} is executed, this class executes {@link CheckableCmd#checkElements()} of each command.
  * @author Florian David
  */
 public class CommandStackListener implements CommandStackEventListener {

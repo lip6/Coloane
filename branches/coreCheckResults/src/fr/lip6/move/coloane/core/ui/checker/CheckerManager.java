@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
-import fr.lip6.move.coloane.core.motor.session.ISession;
+import fr.lip6.move.coloane.core.session.ISession;
+import fr.lip6.move.coloane.core.ui.commands.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.formalism.IArcChecker;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphChecker;
@@ -58,7 +59,7 @@ public final class CheckerManager {
 	 * @return the constructed checker.
 	 */
 	private Checker buildChecker(IConfigurationElement description) {
-		LOGGER.finer("Création d'un checker défini par le formalisme " + description.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finer("Create a checker defined by the formalism: " + description.getAttribute("name")); //$NON-NLS-1$ //$NON-NLS-2$
 		// Checker creation
 		Checker checker = new Checker();
 
@@ -88,9 +89,9 @@ public final class CheckerManager {
 				// and finally constructs the GraphChecker and add it to the Checker
 				GraphChecker graphChecker = new GraphChecker(graphCondition, message, severity);
 				checker.addGraphChecker(graphChecker);
-				LOGGER.finer("Ajout d'un GraphChecker sur le graphe '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				LOGGER.finer("Add a GraphChecker to the graph '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			} catch (CoreException core) {
-				LOGGER.warning("Erreur dans la définition d'un GraphChecker ! Une condition a été mal définie: " + core.getMessage()); //$NON-NLS-1$
+				LOGGER.warning("Error while building a GraphChecker! A condition is wrong: " + core.getMessage()); //$NON-NLS-1$
 			}
 		}
 		// Building AttributeCheckers on graph attributes
@@ -122,9 +123,9 @@ public final class CheckerManager {
 					// and finally constructs the NodeChecker and add it to the Checker
 					NodeChecker nodeChecker = new NodeChecker(nodeCondition, message, severity);
 					checker.addNodeChecker(node.getAttribute("name"), nodeChecker); //$NON-NLS-1$
-					LOGGER.finer("Ajout d'un NodeChecker sur le noeud '" + node.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					LOGGER.finer("Add a NodeChecker to the node '" + node.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				} catch (CoreException core) {
-					LOGGER.warning("Erreur dans la définition d'un NodeChecker ! Une condition a été mal définie: " + core.getMessage()); //$NON-NLS-1$
+					LOGGER.warning("Error while building a NodeChecker! A condition is wrong: " + core.getMessage()); //$NON-NLS-1$
 				}
 			}
 			// Building AttributeCheckers on node attributes
@@ -157,9 +158,9 @@ public final class CheckerManager {
 					// and finally constructs the ArcChecker and add it to the Checker
 					ArcChecker arcChecker = new ArcChecker(arcCondition, message, severity);
 					checker.addArcChecker(arc.getAttribute("name"), arcChecker); //$NON-NLS-1$
-					LOGGER.finer("Ajout d'un ArcChecker sur l'arc '" + arc.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					LOGGER.finer("Add an ArcChecker to the arc '" + arc.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				} catch (CoreException core) {
-					LOGGER.warning("Erreur dans la définition d'un ArcChecker ! Une condition a été mal définie: " + core.getMessage()); //$NON-NLS-1$
+					LOGGER.warning("Error while building a ArcChecker! A condition is wrong: " + core.getMessage()); //$NON-NLS-1$
 				}
 			}
 			// Building AttributeCheckers on arc attributes
@@ -204,18 +205,18 @@ public final class CheckerManager {
 					if (description.getName().equals("Arc")) { //$NON-NLS-1$
 						// Adding the attributeChecker to arcAttributeChecker
 						checker.addArcAttributeChecker(description.getAttribute("name"), attribute.getAttribute("name"), attributeChecker); //$NON-NLS-1$ //$NON-NLS-2$
-						LOGGER.finer("Ajout d'un AttributeChecker sur l'attribut '" + attribute.getAttribute("name") + "' de l'arc '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$ //$NON-NLS-5$
+						LOGGER.finer("Add an attribute checker to the attribute '" + attribute.getAttribute("name") + "' of the arc '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$ //$NON-NLS-5$
 					} else if (description.getName().equals("Node")) { //$NON-NLS-1$
 						// Adding the attributeChecker to nodeAttributeChecker
 						checker.addNodeAttributeChecker(description.getAttribute("name"), attribute.getAttribute("name"), attributeChecker); //$NON-NLS-1$ //$NON-NLS-2$
-						LOGGER.finer("Ajout d'un AttributeChecker sur l'attribut '" + attribute.getAttribute("name") + "' du noeud '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$ //$NON-NLS-5$
+						LOGGER.finer("Add an attribute checker to the attribute '" + attribute.getAttribute("name") + "' of the node '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$ //$NON-NLS-5$
 					} else if (description.getName().equals("Graph")) { //$NON-NLS-1$
 						// Adding the attributeChecker to graphAttributeChecker
 						checker.addGraphAttributeChecker(attribute.getAttribute("name"), attributeChecker); //$NON-NLS-1$
-						LOGGER.finer("Ajout d'un AttributeChecker sur l'attribut '" + attribute.getAttribute("name") + "' du graphe '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$ //$NON-NLS-5$
+						LOGGER.finer("Add an attribute checker to the attribute '" + attribute.getAttribute("name") + "' of the graph '" + description.getAttribute("name") + "'");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$ //$NON-NLS-5$
 					}
 				} catch (CoreException core) {
-					LOGGER.warning("Erreur dans la définition d'un AttributeChecker ! Une condition a été mal définie: " + core.getMessage()); //$NON-NLS-1$
+					LOGGER.warning("Error while building a AttributeChecker! A condition is wrong: " + core.getMessage()); //$NON-NLS-1$
 				}
 			}
 		}
@@ -421,7 +422,7 @@ public final class CheckerManager {
 	 * @param graph the graph to check.
 	 */
 	public void checkAll(Checker checker, IResource resource, IGraph graph) {
-		LOGGER.finer("Check intégral du graphe de la session " + resource.getFullPath().toString()); //$NON-NLS-1$
+		LOGGER.finer("Entire check for the graph of session " + resource.getFullPath().toString()); //$NON-NLS-1$
 
 		// Deleting all the markers.
 		MarkerManager.getInstance().deleteAllMarkers(resource);
@@ -448,7 +449,7 @@ public final class CheckerManager {
 	 * @param session the session where the checker is set.
 	 * @return the created checker.
 	 */
-	public Checker setChecker(ISession session) {
+	public Checker associateCheckerToSession(ISession session) {
 		String formalismId = session.getGraph().getFormalism().getId();
 
 		IConfigurationElement[] checkers = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_ID);
@@ -457,7 +458,7 @@ public final class CheckerManager {
 			// the checker is built and linked to the session.
 			if (checkers[i].getAttribute("id").equals(formalismId)) { //$NON-NLS-1$
 				Checker checker = buildChecker(checkers[i]);
-				LOGGER.finer("Attachement du checker à la session " + session.getName()); //$NON-NLS-1$
+				LOGGER.finer("Attach an appropriate checker to the session " + session.getSessionId()); //$NON-NLS-1$
 				session.setChecker(checker);
 				return checker;
 			}
