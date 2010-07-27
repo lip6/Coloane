@@ -65,12 +65,10 @@ public class ApplyRequestsCmd extends Command {
 	@Override
 	public void redo() {
 		this.command.execute();
-		super.redo();
 	}
 	
 	@Override
 	public void undo() {
 		this.command.undo();
-		super.undo();
 	}
 }

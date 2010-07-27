@@ -3,7 +3,9 @@ package fr.lip6.move.coloane.core.ui.actions;
 import fr.lip6.move.coloane.core.extensions.IColoaneAction;
 import fr.lip6.move.coloane.core.session.ISession;
 import fr.lip6.move.coloane.core.session.SessionManager;
+import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.ColoaneJob;
+import fr.lip6.move.coloane.core.ui.commands.ApplyRequestsCmd;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
@@ -15,6 +17,8 @@ import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class defines an action associated to a local tool.
@@ -102,8 +106,17 @@ public class LocalAction extends Action {
 					List<IResult> results = ((ColoaneJob) event.getJob()).getResults();
 					LOGGER.fine("Browsing results..."); //$NON-NLS-1$		
 					for (IResult result : results) {
-						//System.out.println("Result..." + result); //$NON-NLS-1$
 						currentSession.getResultManager().add(description, result);
+						// Create a new special command to apply incoming request
+						LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$		
+						final ApplyRequestsCmd command = new ApplyRequestsCmd(result.getDeltaRequestsList(), currentSession.getGraph());
+						Display.getDefault().asyncExec(new Runnable() {
+							public void run() {
+								LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$		
+								((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).executeCommand(command);
+							}
+						});
+						
 					}
 				}
 			}
