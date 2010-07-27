@@ -13,8 +13,8 @@ package fr.lip6.move.coloane.tools.graphviz;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator.DotAlgo;
-import fr.lip6.move.coloane.core.motor.ProcessController;
-import fr.lip6.move.coloane.core.motor.ProcessController.TimeOutException;
+import fr.lip6.move.coloane.interfaces.utils.ProcessController;
+import fr.lip6.move.coloane.interfaces.utils.ProcessController.TimeOutException;
 import fr.lip6.move.coloane.tools.graphviz.io.IOUtils;
 import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
 
