@@ -60,7 +60,11 @@ public class ToolsContribution extends CompoundContributionItem {
 				IAction localAction = new LocalAction(name, description, ImageDescriptor.createFromFile(action.getClass(), icon), action);
 				allContribs.add(new ActionContributionItem(localAction));
 			} catch (CoreException e) {
-				LOGGER.warning("Extension " + name + " was unable to be instanciated"); //$NON-NLS-1$ //$NON-NLS-2$
+				LOGGER.warning("Extension [" + name + "] was unable to be instanciated"); //$NON-NLS-1$ //$NON-NLS-2$
+				IStatus warningStatus = new Status(IStatus.ERROR, "fr.lip6.move.coloane.extensions.tools", "Extension " + name + " was unable to be instanciated");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				StatusManager.getManager().handle(warningStatus);
+			} catch (ClassCastException ce) {
+				LOGGER.warning("Extension [" + name + "] was unable to be instanciated (invalid tool)"); //$NON-NLS-1$ //$NON-NLS-2$
 				IStatus warningStatus = new Status(IStatus.ERROR, "fr.lip6.move.coloane.extensions.tools", "Extension " + name + " was unable to be instanciated");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				StatusManager.getManager().handle(warningStatus);
 			}
