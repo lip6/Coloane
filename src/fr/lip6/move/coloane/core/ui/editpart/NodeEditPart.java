@@ -134,7 +134,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			if (this.alternativeFigures.isEmpty()) {
 				nodeFigure = (INodeFigure) graphicalDescription.getAssociatedFigure();
 				if (nodeFigure == null) {
-					LOGGER.warning("Aucune figure trouvé, utilisation de la figure par défaut"); //$NON-NLS-1$
+					LOGGER.warning("No node figure found. The default figure will be used"); //$NON-NLS-1$
 					// TODO: Change the default figure (by a big point ?)
 					nodeFigure = new EllipseNode();
 				}
@@ -212,15 +212,14 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * @param property The event that has been caught
 	 */
 	public final void propertyChange(PropertyChangeEvent property) {
-		LOGGER.finest("Evénement pour un noeud: " + property.getPropertyName());  //$NON-NLS-1$
 		String prop = property.getPropertyName();
 
 		// Event that announce a link change
 		if (INode.INCOMING_ARCS_PROP.equals(prop)) {
-			LOGGER.finest("Mise à jour des arcs entrants."); //$NON-NLS-1$
+			LOGGER.finest("Update incoming arcs"); //$NON-NLS-1$
 			refreshTargetConnections();
 		} else if (INode.OUTGOING_ARCS_PROP.equals(prop)) {
-			LOGGER.finest("Mise à jour des arcs sortants."); //$NON-NLS-1$
+			LOGGER.finest("Update outgoing arcs"); //$NON-NLS-1$
 			refreshSourceConnections();
 
 		// Event that announce a color change
