@@ -63,6 +63,7 @@ import org.eclipse.gef.KeyStroke;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.SnapToGeometry;
+import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -412,6 +413,14 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		String projectName = file.getProject().getName();
 		IPath path = new Path(projectName);
 		return path.append(file.getProjectRelativePath());
+	}
+	
+	/**
+	 * Put a particular GEF command on the editor stack  
+	 * @param command The command that will be executed
+	 */
+	public final void executeCommand(Command command) {
+		super.getCommandStack().execute(command);
 	}
 
 	/**
