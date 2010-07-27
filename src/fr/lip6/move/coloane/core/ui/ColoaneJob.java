@@ -68,5 +68,4 @@ public class ColoaneJob extends Job {
 		getThread().interrupt();
 		super.canceling();
 	}
-
 }
