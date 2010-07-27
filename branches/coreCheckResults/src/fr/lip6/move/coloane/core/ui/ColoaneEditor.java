@@ -6,12 +6,14 @@ import fr.lip6.move.coloane.core.copypast.PasteAction;
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.session.ISession;
 import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.actions.AlternateAction;
 import fr.lip6.move.coloane.core.ui.actions.CurveAction;
 import fr.lip6.move.coloane.core.ui.actions.NodeMoveAction;
 import fr.lip6.move.coloane.core.ui.actions.RemoveInflexAction;
 import fr.lip6.move.coloane.core.ui.actions.ResetAttributesLocationAction;
+import fr.lip6.move.coloane.core.ui.checker.CheckerManager;
 import fr.lip6.move.coloane.core.ui.checker.CommandStackListener;
 import fr.lip6.move.coloane.core.ui.checker.MarkerManager;
 import fr.lip6.move.coloane.core.ui.files.ModelHandler;
@@ -441,7 +443,10 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// Build a new session
 		try {
-			SessionManager.getInstance().createSession(file.getFullPath().toString(), this.graph);
+			ISession session = SessionManager.getInstance().createSession(file.getFullPath().toString(), this.graph);
+			IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(session.getSessionId()));
+			CheckerManager.getInstance().checkAll(session.getChecker(), resource, this.graph);
+
 		} catch (ColoaneException ce) {
 			LOGGER.warning("Cannot create a session for this model"); //$NON-NLS-1$
 			LOGGER.warning(ce.getLogMessage());

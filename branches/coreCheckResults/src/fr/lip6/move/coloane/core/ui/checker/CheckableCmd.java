@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
-import fr.lip6.move.coloane.core.motor.session.ISession;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.session.ISession;
+import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -54,7 +54,7 @@ public abstract class CheckableCmd extends Command {
 		// First we get the current session, the resource associated with the session, the session checker and the session graph.
 		ISession session = SessionManager.getInstance().getCurrentSession();
 		IGraph graph = session.getGraph();
-		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(session.getName()));
+		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(session.getSessionId()));
 		Checker checker = session.getChecker();
 
 		// We call the checker on the graph.
