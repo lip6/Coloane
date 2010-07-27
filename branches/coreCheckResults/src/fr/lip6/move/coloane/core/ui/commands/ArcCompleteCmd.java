@@ -50,6 +50,9 @@ public class ArcCompleteCmd extends CheckableCmd {
 		
 		// This new arc must be locally checked
 		addCheckableElement(arc);
+		// Its source and its target must be checked too
+		addCheckableElement(arc.getSource());
+		addCheckableElement(arc.getTarget());
 	}
 
 	/** {@inheritDoc} */

@@ -39,6 +39,9 @@ public class NodeCreateCmd extends CheckableCmd {
 		this.graph = graph;
 		this.nodeFormalism = nodeFormalism;
 		this.location = location;
+		
+		// The graph must be "checked" when such a command is executed
+		// But the graph is always checked... Thus, no need to explicitly ask for a check
 	}
 
 	/** {@inheritDoc} */
