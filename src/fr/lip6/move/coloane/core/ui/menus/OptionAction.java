@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.menus;
 
-import fr.lip6.move.coloane.core.motor.session.ISession;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 
 import java.util.logging.Logger;
@@ -9,36 +8,30 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 
 /**
- * Action permettant d'ajouter une option au menu.<br>
- * La liste et l'état des options est maintenu dans la session courrante.
+ * Define an action that will manage the state of an option.<br>
  */
 public class OptionAction extends Action implements IStatedElement {
-	/** Le logger */
+	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private ISession session;
-	private IOptionMenu option;
-
-	private boolean state = false;
+	/** Visible state */
+	private boolean visible = false;
 
 	/**
-	 * @param option Objet décrivant l'option
-	 * @param session session attachée à cette option
+	 * Constructor
+	 * @param optionDescription The description of the option
 	 */
-	public OptionAction(IOptionMenu option, ISession session) {
-		super(option.getName(), convertStyle(option.getType()));
-		setId(option.getName());
-		setChecked(option.isValidated());
-		session.setOption(option, option.isValidated());
-		this.option = option;
-		this.session = session;
-		this.state = option.isVisible();
+	public OptionAction(IOptionMenu optionDescription) {
+		super(optionDescription.getName(), convertStyle(optionDescription.getType()));
+		setId(optionDescription.getName());
+		setChecked(optionDescription.isVisible());
+		this.visible = optionDescription.isVisible();
 	}
 
 	/**
-	 * Converti un type d'option en style compréhensible pour une IAction
-	 * @param style style donnée par l'api
-	 * @return style compréhensible par une Action
+	 * Convert a IOptionType to a type understandable by an IAction
+	 * @param style option style
+	 * @return a IAction style 
 	 */
 	private static int convertStyle(int style) {
 		if (style == IOptionMenu.TYPE_CHECKBOX) {
@@ -53,18 +46,16 @@ public class OptionAction extends Action implements IStatedElement {
 	/** {@inheritDoc} */
 	@Override
 	public final void run() {
-		LOGGER.fine("Changement d'une option : " + getId() + " = " + isChecked()); //$NON-NLS-1$ //$NON-NLS-2$
-		session.setOption(option, isChecked());
+		LOGGER.fine("Option switch : " + getId() + " = " + isChecked()); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/** {@inheritDoc} */
 	public boolean getState() {
-		return state;
+		return visible;
 	}
 
 	/** {@inheritDoc} */
 	public void setState(boolean state) {
-		this.state = state;
+		this.visible = state;
 	}
-
 }

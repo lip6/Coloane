@@ -1,12 +1,17 @@
 package fr.lip6.move.coloane.core.session;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.extensions.ApiDescription;
+import fr.lip6.move.coloane.core.extensions.ApiExtension;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultManager;
 import fr.lip6.move.coloane.core.ui.checker.Checker;
+import fr.lip6.move.coloane.core.ui.menus.ColoaneRootMenu;
+import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.result.Tip;
 
 import java.beans.PropertyChangeListener;
@@ -20,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
@@ -62,7 +66,7 @@ public class Session implements ISession {
 	private MessageConsole console;
 
 	/** A list of menu manager */
-	private List<MenuManager> menus = new ArrayList<MenuManager>();
+	private List<ColoaneRootMenu> rootMenus = new ArrayList<ColoaneRootMenu>();
 
 	/** A list of tips. Each object may have several associated tips */
 	private Map<Integer, List<ICoreTip>> tips = new HashMap<Integer, List<ICoreTip>>();
@@ -83,15 +87,28 @@ public class Session implements ISession {
 		if (sessionId.isEmpty()) {
 			throw new ColoaneException("The session name must not be empty"); //$NON-NLS-1$
 		}
-		
 		this.sessionId = sessionId;
 
 		// The graph associated with the session must not be null
 		if (graph == null) {
 			throw new ColoaneException("The session must be associated with a graph"); //$NON-NLS-1$
 		}		
-
 		this.graph = graph;
+		
+		// Set basic menus (for available APIs)
+		List<ApiDescription> apis = ApiExtension.getApis(this.graph.getFormalism());
+		for (ApiDescription api : apis) {
+			LOG.finer("Building the " + api.getName() + " root-menu associated with the session"); //$NON-NLS-1$ //$NON-NLS-2$
+			ColoaneRootMenu apiMenu = MenuManipulation.buildRootMenu(api.getName(), api.getDescription(), api.getIcon());
+		
+			// Build sub-menus
+			LOG.finer("Fetching sub-menus"); //$NON-NLS-1$
+			List<ISubMenu> submenus = api.getApiClass().initApi();
+			for (ISubMenu submenu : submenus) {
+				apiMenu.add(MenuManipulation.buildSubMenu(submenu));
+			}
+			rootMenus.add(apiMenu);
+		}
 	}
 	
 	/** {@inheritDoc} */
@@ -139,20 +156,19 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final List<MenuManager> getServicesMenu() {
-		return Collections.unmodifiableList(menus);
+	public final List<ColoaneRootMenu> getRootServiceMenus() {
+		return Collections.unmodifiableList(rootMenus);
 	}
 
 	/** {@inheritDoc} */
-	public final void addServicesMenu(MenuManager menu) {
-		LOG.finer("Add a service to the menu : " + menu.getMenuText()); //$NON-NLS-1$
-		this.menus.add(menu);
-	}
-
-	/** {@inheritDoc} */
-	public final void clearServicesMenu() {
-		LOG.finer("Clear the menu"); //$NON-NLS-1$
-		menus.clear();
+	public final ColoaneRootMenu getRootServiceMenu(String menuName) {
+		for (ColoaneRootMenu rootMenu : this.rootMenus) {
+			if (rootMenu.getMenuText().toLowerCase().equals(menuName.toLowerCase())) {
+				return rootMenu;
+			}
+		}
+		LOG.warning("No root menu named : " + menuName + " has been found...");  //$NON-NLS-1$//$NON-NLS-2$
+		return null;
 	}
 
 	/** {@inheritDoc} */

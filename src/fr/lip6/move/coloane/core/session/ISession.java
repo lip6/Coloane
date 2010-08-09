@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.session;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultManager;
 import fr.lip6.move.coloane.core.ui.checker.Checker;
+import fr.lip6.move.coloane.core.ui.menus.ColoaneRootMenu;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.Tip;
 
@@ -10,8 +11,6 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Collection;
 import java.util.List;
-
-import org.eclipse.jface.action.MenuManager;
 
 /**
  * Describe a session
@@ -43,20 +42,16 @@ public interface ISession {
 	Checker getChecker();
 
 	/**
-	 * @return The list of menus (services) associated with this session
+	 * @return The list of root menus (api services) associated with this session
 	 */
-	List<MenuManager> getServicesMenu();
+	List<ColoaneRootMenu> getRootServiceMenus();
 
 	/**
-	 * Add a menu (service) to this session
-	 * @param menu The menu to add to the session
+	 * @param menuName The name of the menu to fetch from the menu list
+	 * @return The desired menu or <code>null</code> if no such menu exists
 	 */
-	void addServicesMenu(MenuManager menu);
+	ColoaneRootMenu getRootServiceMenu(String menuName);
 
-	/**
-	 * Clear the menu list for this session
-	 */
-	void clearServicesMenu();
 
 	/**
 	 * @return The result manager associated with this session
