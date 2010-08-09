@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.ui.dialogs;
 
-import fr.lip6.move.coloane.core.ui.UserInterface;
+import fr.lip6.move.coloane.core.ui.UserInterfaceManager;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialog;
 
 /**
@@ -22,7 +22,7 @@ public class DrawDialog implements Runnable {
 	 * Corps du thread
 	 */
 	public final void run() {
-		UserInterface.getInstance().drawDialog(this.dialog);
+		UserInterfaceManager.getInstance().drawDialog(this.dialog);
 	}
 
 }
