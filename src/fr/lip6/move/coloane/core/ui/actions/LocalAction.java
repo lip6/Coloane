@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
-import fr.lip6.move.coloane.core.extensions.IColoaneAction;
 import fr.lip6.move.coloane.core.session.ISession;
 import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
@@ -8,6 +7,7 @@ import fr.lip6.move.coloane.core.ui.ColoaneJob;
 import fr.lip6.move.coloane.core.ui.commands.ApplyRequestsCmd;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
+import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -40,7 +40,7 @@ public class LocalAction extends Action {
 	private final ImageDescriptor icon;
 	
 	/** The effective ColoaneAction */
-	private final IColoaneAction action;
+	private final IService action;
 	
 	/**
 	 * Constructor
@@ -49,7 +49,7 @@ public class LocalAction extends Action {
 	 * @param icon The icon associated to the action
 	 * @param action The effective action to be run
 	 */
-	public LocalAction(String name, String description, ImageDescriptor icon, IColoaneAction action) {
+	public LocalAction(String name, String description, ImageDescriptor icon, IService action) {
 		this.name = name;
 		this.icon = icon;
 		this.description = description;
