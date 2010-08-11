@@ -3,14 +3,12 @@ package fr.lip6.move.coloane.core.session;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultManager;
 import fr.lip6.move.coloane.core.ui.checker.Checker;
-import fr.lip6.move.coloane.core.ui.menus.ColoaneRootMenu;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.Tip;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Describe a session
@@ -40,18 +38,6 @@ public interface ISession {
 	 * @return The checker associated with the graph
 	 */
 	Checker getChecker();
-
-	/**
-	 * @return The list of root menus (api services) associated with this session
-	 */
-	List<ColoaneRootMenu> getRootServiceMenus();
-
-	/**
-	 * @param menuName The name of the menu to fetch from the menu list
-	 * @return The desired menu or <code>null</code> if no such menu exists
-	 */
-	ColoaneRootMenu getRootServiceMenu(String menuName);
-
 
 	/**
 	 * @return The result manager associated with this session

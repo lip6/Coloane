@@ -1,17 +1,12 @@
 package fr.lip6.move.coloane.core.session;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.ApiDescription;
-import fr.lip6.move.coloane.core.extensions.ApiExtension;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultManager;
 import fr.lip6.move.coloane.core.ui.checker.Checker;
-import fr.lip6.move.coloane.core.ui.menus.ColoaneRootMenu;
-import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.result.Tip;
 
 import java.beans.PropertyChangeListener;
@@ -23,7 +18,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -38,7 +32,6 @@ import org.eclipse.ui.console.MessageConsoleStream;
  * <ul>
  * 	<li>a main graph</li>
  * 	<li>a list of results</li>
- * 	<li>a list of dedicated menus (services, actions, ...)</li>
  * 	<li>a list of tips</li>
  * </ul>
  * 
@@ -47,9 +40,6 @@ import org.eclipse.ui.console.MessageConsoleStream;
  * @author Jean-Baptiste Voron
  */
 public class Session implements ISession {
-	/** Logger */
-	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
 	/** Session identifier */
 	private String sessionId;
 
@@ -64,9 +54,6 @@ public class Session implements ISession {
 
 	/** The console (lazy loading) */
 	private MessageConsole console;
-
-	/** A list of menu manager */
-	private List<ColoaneRootMenu> rootMenus = new ArrayList<ColoaneRootMenu>();
 
 	/** A list of tips. Each object may have several associated tips */
 	private Map<Integer, List<ICoreTip>> tips = new HashMap<Integer, List<ICoreTip>>();
@@ -94,21 +81,6 @@ public class Session implements ISession {
 			throw new ColoaneException("The session must be associated with a graph"); //$NON-NLS-1$
 		}		
 		this.graph = graph;
-		
-		// Set basic menus (for available APIs)
-		List<ApiDescription> apis = ApiExtension.getApis(this.graph.getFormalism());
-		for (ApiDescription api : apis) {
-			LOG.finer("Building the " + api.getName() + " root-menu associated with the session"); //$NON-NLS-1$ //$NON-NLS-2$
-			ColoaneRootMenu apiMenu = MenuManipulation.buildRootMenu(api.getName(), api.getDescription(), api.getIcon());
-		
-			// Build sub-menus
-			LOG.finer("Fetching sub-menus"); //$NON-NLS-1$
-			List<ISubMenu> submenus = api.getApiClass().initApi();
-			for (ISubMenu submenu : submenus) {
-				apiMenu.add(MenuManipulation.buildSubMenu(submenu));
-			}
-			rootMenus.add(apiMenu);
-		}
 	}
 	
 	/** {@inheritDoc} */
@@ -153,22 +125,6 @@ public class Session implements ISession {
 	/** {@inheritDoc} */
 	public Checker getChecker() {
 		return checker;
-	}
-
-	/** {@inheritDoc} */
-	public final List<ColoaneRootMenu> getRootServiceMenus() {
-		return Collections.unmodifiableList(rootMenus);
-	}
-
-	/** {@inheritDoc} */
-	public final ColoaneRootMenu getRootServiceMenu(String menuName) {
-		for (ColoaneRootMenu rootMenu : this.rootMenus) {
-			if (rootMenu.getMenuText().toLowerCase().equals(menuName.toLowerCase())) {
-				return rootMenu;
-			}
-		}
-		LOG.warning("No root menu named : " + menuName + " has been found...");  //$NON-NLS-1$//$NON-NLS-2$
-		return null;
 	}
 
 	/** {@inheritDoc} */

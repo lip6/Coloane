@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.session;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.ui.UserInterfaceManager;
 import fr.lip6.move.coloane.core.ui.checker.CheckerManager;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
@@ -93,9 +92,6 @@ public final class SessionManager implements ISessionManager {
 		// Before returning the new session, we add it an appropriate checker
 		CheckerManager.getInstance().associateCheckerToSession(newSession);
 		
-		// Build the set of menus associated with this session
-		UserInterfaceManager.getInstance().drawMenus(newSession);
-		
 		return newSession;
 	}
 
@@ -111,7 +107,7 @@ public final class SessionManager implements ISessionManager {
 			setCurrentSession(toResume);
 			
 			// Refreshing menu list
-			UserInterfaceManager.getInstance().drawMenus(toResume);			
+			//UserInterfaceManager.getInstance().drawMenus(toResume);			
 			return toResume;
 		}
 		LOGGER.warning("The session " + sessionId + " is not registered in the session manager"); //$NON-NLS-1$ //$NON-NLS-2$
