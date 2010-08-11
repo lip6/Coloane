@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.extensions;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.interfaces.exceptions.PluginException;
+import fr.lip6.move.coloane.interfaces.extensions.IExample;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
