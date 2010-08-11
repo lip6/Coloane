@@ -4,21 +4,31 @@ Bundle-Version: 1.4.0
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Export-Package: fr.lip6.move.coloane.interfaces.api,
+Export-Package: fr.lip6.move.coloane.interfaces.api;uses:="fr.lip6.move.coloane.interfaces.api.session,fr.lip6.move.coloane.interfaces.api.objects,fr.lip6.move.coloane.interfaces.api.observers",
  fr.lip6.move.coloane.interfaces.api.evenements,
  fr.lip6.move.coloane.interfaces.api.exceptions,
  fr.lip6.move.coloane.interfaces.api.objects,
- fr.lip6.move.coloane.interfaces.api.observers,
- fr.lip6.move.coloane.interfaces.api.session,
+ fr.lip6.move.coloane.interfaces.api.observers;uses:="fr.lip6.move.coloane.interfaces.api.evenements,fr.lip6.move.coloane.interfaces.objects.result,fr.lip6.move.coloane.interfaces.objects.dialog",
+ fr.lip6.move.coloane.interfaces.api.session;
+  uses:="fr.lip6.move.coloane.interfaces.api.objects,
+   fr.lip6.move.coloane.interfaces.model,
+   fr.lip6.move.coloane.interfaces.objects.services,
+   fr.lip6.move.coloane.interfaces.objects.dialog",
  fr.lip6.move.coloane.interfaces.exceptions,
- fr.lip6.move.coloane.interfaces.formalism,
- fr.lip6.move.coloane.interfaces.model,
- fr.lip6.move.coloane.interfaces.model.requests,
+ fr.lip6.move.coloane.interfaces.extensions,
+ fr.lip6.move.coloane.interfaces.formalism;uses:="org.eclipse.draw2d.geometry,fr.lip6.move.coloane.interfaces.model,org.eclipse.draw2d",
+ fr.lip6.move.coloane.interfaces.model;
+  uses:="fr.lip6.move.coloane.interfaces.formalism,
+   org.eclipse.swt.graphics,
+   org.eclipse.draw2d.geometry,
+   org.eclipse.draw2d",
+ fr.lip6.move.coloane.interfaces.model.requests;uses:="fr.lip6.move.coloane.interfaces.formalism,org.eclipse.draw2d.geometry,fr.lip6.move.coloane.interfaces.model",
  fr.lip6.move.coloane.interfaces.objects.dialog,
- fr.lip6.move.coloane.interfaces.objects.menu,
- fr.lip6.move.coloane.interfaces.objects.result,
- fr.lip6.move.coloane.interfaces.objects.service,
+ fr.lip6.move.coloane.interfaces.objects.menu;uses:="fr.lip6.move.coloane.interfaces.objects.services",
+ fr.lip6.move.coloane.interfaces.objects.result;uses:="fr.lip6.move.coloane.interfaces.model.requests,fr.lip6.move.coloane.interfaces.model",
+ fr.lip6.move.coloane.interfaces.objects.services;uses:="org.eclipse.core.runtime,fr.lip6.move.coloane.interfaces.model",
  fr.lip6.move.coloane.interfaces.utils
-Require-Bundle: org.eclipse.gef;visibility:=reexport
+Require-Bundle: org.eclipse.gef;visibility:=reexport,
+ org.eclipse.core.runtime;bundle-version="3.6.0"
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

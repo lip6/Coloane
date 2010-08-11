@@ -6,7 +6,7 @@ import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.dialog.IDialogAnswer;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
-import fr.lip6.move.coloane.interfaces.objects.service.IService;
+import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
 import java.util.List;
 

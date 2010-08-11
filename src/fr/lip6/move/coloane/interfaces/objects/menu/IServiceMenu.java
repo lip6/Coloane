@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.objects.menu;
 
+import fr.lip6.move.coloane.interfaces.objects.services.IService;
+
 /**
  * Define a menu that provides access to a service.
  * 
@@ -10,5 +12,5 @@ public interface IServiceMenu extends IItemMenu {
     /**
      * @return The service associated with the menu item
      */
-	String getAssociatedService();
+	IService getAssociatedService();
 }
