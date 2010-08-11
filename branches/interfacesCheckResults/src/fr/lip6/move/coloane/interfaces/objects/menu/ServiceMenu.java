@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.objects.menu;
 
-import fr.lip6.move.coloane.interfaces.objects.services.IService;
+import fr.lip6.move.coloane.interfaces.objects.services.IApiService;
 
 /**
  * Define a menu that provides access to a service.
@@ -9,7 +9,7 @@ import fr.lip6.move.coloane.interfaces.objects.services.IService;
  */
 public class ServiceMenu extends ItemMenu implements IServiceMenu {
 	/** Associated service */
-	private IService associatedService;
+	private IApiService associatedService;
 
 	/**
 	 * Constructor
@@ -19,7 +19,7 @@ public class ServiceMenu extends ItemMenu implements IServiceMenu {
 	 * @param associatedService The associated service
 	 * @param path The service path
 	 */
-	public ServiceMenu(String name, boolean visibility, String helpMessage, IService associatedService, String path) {
+	public ServiceMenu(String name, boolean visibility, String helpMessage, IApiService associatedService, String path) {
 		super(name, visibility, helpMessage, path);
 		this.associatedService = associatedService;
 	}
@@ -27,7 +27,7 @@ public class ServiceMenu extends ItemMenu implements IServiceMenu {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final IService getAssociatedService() {
+	public final IApiService getAssociatedService() {
 		return this.associatedService;
 	}
 }
