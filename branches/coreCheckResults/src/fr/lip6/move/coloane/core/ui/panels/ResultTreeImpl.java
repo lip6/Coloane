@@ -30,9 +30,6 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Empty list of tips */
-	private static final List<ICoreTip> EMPTY_TIPS_LIST = Collections.unmodifiableList(new ArrayList<ICoreTip>(0));
-
 	/** Service name associated with this list of results */
 	private String serviceName;
 
@@ -52,7 +49,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	private final List<Integer> highlights;
 	
 	/** Tip list */
-	private List<ICoreTip> tips = EMPTY_TIPS_LIST;
+	private List<ICoreTip> tips = Collections.unmodifiableList(new ArrayList<ICoreTip>(0));
 
 	/**
 	 * Session Manager<br>
@@ -242,11 +239,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 			}
 		}
 
-		if (coreTips != null) {
-			this.tips = coreTips;
-		} else {
-			this.tips = EMPTY_TIPS_LIST;
-		}
+		this.tips = coreTips;
 	}
 
 	/**
