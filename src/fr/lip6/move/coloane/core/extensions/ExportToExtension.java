@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.core.extensions;
 
+import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import org.eclipse.core.runtime.CoreException;
