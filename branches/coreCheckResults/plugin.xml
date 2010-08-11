@@ -286,57 +286,6 @@
     </perspectiveExtension>
  </extension>
  <extension
-       point="fr.lip6.move.coloane.core.reports">
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.SyntaxCheckerReport"
-          service_name="Petri net syntax checker">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.LTLModCheck"
-          service_name="LTL model checking on the symbolic RG">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.PInvariantsReport"
-          service_name="P-positive invariants">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.ComputeBoundsReport"
-          service_name="Compute structural bounds">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.PInvariantsReport"
-          service_name="T-positive invariants">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.IsTheNetQuestionReport"
-          service_name="Is the net structurally bounded?">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.IsTheNetQuestionReport"
-          service_name="Is the net structuraly safe?">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.MinimalSyphonTrapReport"
-          service_name="Minimal syphon">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.MinimalSyphonTrapReport"
-          service_name="Minimal traps">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.ComputeBoundsReport"
-          service_name="Compute structural bounds by unfolding">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.IsTheNetQuestionReport"
-          service_name="Is the colored net structurally bounded?">
-    </report>
-    <report
-          class="fr.lip6.move.coloane.core.results.reports.IsTheNetQuestionReport"
-          service_name="Is the colored structurally net safe (by unfolding)?">
-    </report>
- </extension>
- <extension
        point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
     <propertyContributor
           contributorId="fr.lip6.move.coloane.properties.contributor"
@@ -465,6 +414,12 @@
                       drawable="true"
                       multiline="true"
                       name="authors">
+                   <AttributeChecker
+                         class_condition="fr.lip6.move.coloane.core.formalisms.checkers.EmptyAttributeChecker"
+                         message="You should provide some authors information"
+                         name="Authors checker"
+                         severity="Info">
+                   </AttributeChecker>
                 </Attribute>
                 <Attribute
                       default="0,0"
@@ -511,6 +466,12 @@
                       italic="false"
                       multiline="false"
                       name="name">
+                   <AttributeChecker
+                         class_condition="fr.lip6.move.coloane.core.formalisms.checkers.EmptyAttributeChecker"
+                         message="A place shoud have a name"
+                         name="Place name checker"
+                         severity="Error">
+                   </AttributeChecker>
                 </Attribute>
                 <Attribute
                       bold="false"
@@ -522,6 +483,12 @@
                       multiline="true"
                       name="marking">
                 </Attribute>
+                <NodeChecker
+                      class_condition="fr.lip6.move.coloane.core.formalisms.checkers.ConnectionChecker"
+                      message="A place should be connected to other nodes"
+                      name="Place connection checker"
+                      severity="Warning">
+                </NodeChecker>
              </Node>
              <Node
                    container="false"
@@ -546,6 +513,12 @@
                       italic="false"
                       multiline="false"
                       name="name">
+                   <AttributeChecker
+                         class_condition="fr.lip6.move.coloane.core.formalisms.checkers.EmptyAttributeChecker"
+                         message="A transition should have a name"
+                         name="Transition name checker"
+                         severity="Error">
+                   </AttributeChecker>
                 </Attribute>
                 <GraphicInfo
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
@@ -555,6 +528,12 @@
                       palettable="false"
                       width="7">
                 </GraphicInfo>
+                <NodeChecker
+                      class_condition="fr.lip6.move.coloane.core.formalisms.checkers.ConnectionChecker"
+                      message="A transition should be connected to other nodes"
+                      name="Transition connection checker"
+                      severity="Warning">
+                </NodeChecker>
              </Node>
              <Arc
                    name="arc">
@@ -580,7 +559,7 @@
           <Constraint
                 link="true"
                 name="PlacePlace"
-                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                type="fr.lip6.move.coloane.core.formalisms.constraints.ConnectionConstraint">
              <parameter
                    name="source"
                    value="place">
@@ -593,7 +572,7 @@
           <Constraint
                 link="true"
                 name="TransitionTransition"
-                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                type="fr.lip6.move.coloane.core.formalisms.constraints.ConnectionConstraint">
              <parameter
                    name="source"
                    value="transition">
@@ -721,43 +700,6 @@
                       width="7">
                 </GraphicInfo>
              </Node>
-             <Node
-                   container="false"
-                   name="queue">
-                <GraphicInfo
-                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RoundedRectangleNode"
-                      description="Create a queue"
-                      drawable="true"
-                      fill="false"
-                      height="7"
-                      icon16px="resources/formalisms/cpn/queue_16.png"
-                      icon24px="resources/formalisms/cpn/queue_24.png"
-                      palettable="true"
-                      paletteName="Queue"
-                      width="25">
-                </GraphicInfo>
-                <Attribute
-                      delta_x="20"
-                      delta_y="-5"
-                      drawable="true"
-                      multiline="false"
-                      name="name">
-                </Attribute>
-                <Attribute
-                      delta_x="20"
-                      delta_y="10"
-                      drawable="true"
-                      multiline="true"
-                      name="domain">
-                </Attribute>
-                <Attribute
-                      delta_x="20"
-                      delta_y="25"
-                      drawable="true"
-                      multiline="true"
-                      name="marking">
-                </Attribute>
-             </Node>
              <Arc
                    name="arc">
                 <GraphicInfo
@@ -798,7 +740,7 @@
           <Constraint
                 link="true"
                 name="PlacePlace"
-                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                type="fr.lip6.move.coloane.core.formalisms.constraints.ConnectionConstraint">
              <parameter
                    name="source"
                    value="place">
@@ -811,7 +753,7 @@
           <Constraint
                 link="true"
                 name="TransitionTransition"
-                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                type="fr.lip6.move.coloane.core.formalisms.constraints.ConnectionConstraint">
              <parameter
                    name="source"
                    value="transition">
@@ -947,47 +889,6 @@
              label="%MENUBAR_LABEL"
              mnemonic="S">
           <menu
-                icon="resources/icons/network.png"
-                id="fr.lip6.move.coloane.core.services.platform"
-                label="%PLATFORM_MENU">
-             <command
-                   commandId="%AUTHENTICATION"
-                   icon="resources/icons/authenticate.png"
-                   id="%AUTHENTICATION_ITEM"
-                   label="%AUTHENTICATION_ITEM"
-                   style="push"
-                   tooltip="%AUTHENTICATION_TIP">
-             </command>
-             <command
-                   commandId="%BREAK"
-                   icon="resources/icons/unauthenticate.png"
-                   id="%BREAK_ITEM"
-                   label="%BREAK_ITEM"
-                   style="push"
-                   tooltip="%BREAK_TIP">
-             </command>
-             <separator
-                   name="separator"
-                   visible="true">
-             </separator>
-             <command
-                   commandId="%CONNECT"
-                   icon="resources/icons/connect.png"
-                   id="%CONNECT_ITEM"
-                   label="%CONNECT_ITEM"
-                   style="push"
-                   tooltip="%CONNECT_TIP">
-             </command>
-             <command
-                   commandId="%DISCONNECT"
-                   icon="resources/icons/disconnect.png"
-                   id="%DISCONNECT_ITEM"
-                   label="%DISCONNECT_ITEM"
-                   style="push"
-                   tooltip="%DISCONNECT_TIP">
-             </command>
-          </menu>
-          <menu
                 icon="resources/icons/local.png"
                 id="fr.lip6.move.coloane.core.services.local"
                 label="%LOCAL_MENU">
@@ -1001,39 +902,6 @@
                 visible="true">
           </separator>
        </menu>
-    </menuContribution>
-    <menuContribution
-          locationURI="toolbar:org.eclipse.ui.workbench.file?after=additions">
-       <command
-             commandId="%AUTHENTICATION"
-             icon="resources/icons/authenticate.png"
-             id="%AUTHENTICATION_ITEM"
-             style="push"
-             tooltip="%AUTHENTICATION_TIP">
-       </command>
-       <command
-             commandId="%BREAK"
-             icon="resources/icons/unauthenticate.png"
-             id="%BREAK_ITEM"
-             style="push"
-             tooltip="%BREAK_TIP">
-       </command>
-       <command
-             commandId="%CONNECT"
-             icon="resources/icons/connect.png"
-             id="%CONNECT_ITEM"
-             label="%CONNECT_ITEM"
-             style="push"
-             tooltip="%CONNECT_TIP">
-       </command>
-       <command
-             commandId="%DISCONNECT"
-             icon="resources/icons/disconnect.png"
-             id="%DISCONNECT_ITEM"
-             label="%DISCONNECT_ITEM"
-             style="push"
-             tooltip="%DISCONNECT_TIP">
-       </command>
     </menuContribution>
  </extension>
  <extension
@@ -1063,5 +931,85 @@
           id="%DISCONNECT"
           name="disconnect">
     </command>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.checker.rootMarker"
+       name="Root Marker"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="org.eclipse.core.resources.problemmarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+    <attribute
+          name="id">
+    </attribute>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.checker.nodeMarker"
+       name="Node Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.checker.nodeAttributeMarker"
+       name="Node Attribute Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.checker.arcMarker"
+       name="Arc Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.checker.arcAttributeMarker"
+       name="Arc Attribute Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.checker.graphMarker"
+       name="Graph Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
+ </extension>
+ <extension
+       id="fr.lip6.move.coloane.core.ui.checker.graphAttributeMarker"
+       name="Graph Attribute Problem"
+       point="org.eclipse.core.resources.markers">
+    <super
+          type="fr.lip6.move.coloane.core.ui.checker.rootMarker">
+    </super>
+    <persistent
+          value="true">
+    </persistent>
  </extension>
 </plugin>
