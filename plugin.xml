@@ -901,6 +901,10 @@
                 name="separator.type"
                 visible="true">
           </separator>
+          <dynamic
+                class="fr.lip6.move.coloane.core.extensions.ApiContribution"
+                id="fr.lip6.move.coloane.core.services.apis">
+          </dynamic>
        </menu>
     </menuContribution>
  </extension>

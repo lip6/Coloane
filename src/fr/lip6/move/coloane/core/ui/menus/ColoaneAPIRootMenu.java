@@ -3,14 +3,14 @@ package fr.lip6.move.coloane.core.ui.menus;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 
-public class ColoaneRootMenu extends MenuManager {
+public class ColoaneAPIRootMenu extends MenuManager {
 	
 	/**
 	 * Constructor
 	 * @param rootMenuName The name of the menu
 	 * @param rootMenuId The Id of the menu
 	 */
-	ColoaneRootMenu(String rootMenuName, String rootMenuId) {
+	ColoaneAPIRootMenu(String rootMenuName, String rootMenuId) {
 		super (rootMenuName, rootMenuId);
 	}
 
@@ -20,7 +20,7 @@ public class ColoaneRootMenu extends MenuManager {
 	 * @param rootMenuIcon An icon associated with the menu
 	 * @param rootMenuId The Id of the menu
 	 */
-	ColoaneRootMenu(String rootMenuName, ImageDescriptor rootMenuIcon, String rootMenuId) {
+	ColoaneAPIRootMenu(String rootMenuName, ImageDescriptor rootMenuIcon, String rootMenuId) {
 		super(rootMenuName, rootMenuIcon, rootMenuId);
 	}
 }
