@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.interfaces.api.evenements;
 
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
-import fr.lip6.move.coloane.interfaces.objects.services.IService;
+import fr.lip6.move.coloane.interfaces.objects.services.IApiService;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ public interface IReceptMenu {
 	/**
 	 * @return une liste de service installés et disponibles sur la plate-forme
 	 */
-	List<IService> getServices();
+	List<IApiService> getServices();
 
 	/**
 	 * @return les mises a jour sur les menus

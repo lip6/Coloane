@@ -12,7 +12,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
  * 
  * @author Jean-Baptiste Voron
  */
-public interface ILocalService {
+public interface IService {
 	
 	/**
 	 * Run the service !
