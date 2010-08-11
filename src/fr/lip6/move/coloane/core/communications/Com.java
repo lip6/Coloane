@@ -38,17 +38,16 @@ public final class Com implements ICom {
 	private IApiConnection connection;
 
 	/**
-	 * Construteur de l'objet en charge des communication avec une API
+	 * Constructor
+	 * @see #getInstance()
 	 */
 	private Com() {	}
 
 	/**
-	 * Renvoie toujours le même objet Com
-	 * @return l'interface sur l'objet en charge des communication de Coloane avec une API
+	 * @return a COM Object
 	 */
 	public static Com getInstance() {
 		if (instance == null) {
-			LOGGER.config("Creation de l'objet de communications"); //$NON-NLS-1$
 			instance = new Com();
 		}
 		return instance;
@@ -113,7 +112,7 @@ public final class Com implements ICom {
 		connection.setBrutalInterruptObserver(new BrutalInterruptObserver(), false);
 		connection.setReceptMessageObserver(new ReceptMessageObserver(), false);
 		connection.setReceptDialogObserver(new ReceptDialogObserver(), false);
-		connection.setReceptMenuObserver(new ReceptMenuObserver(), false);
+		connection.setReceptMenuObserver(new MenuObserver(), false);
 		connection.setReceptResultObserver(new ReceptResultObserver(), false);
 		monitor.worked(1);
 

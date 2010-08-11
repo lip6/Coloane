@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.communications;
 
-import fr.lip6.move.coloane.core.motor.session.MessageType;
-import fr.lip6.move.coloane.core.ui.UserInterface;
+import fr.lip6.move.coloane.core.session.MessageType;
+import fr.lip6.move.coloane.core.ui.UserInterfaceManager;
 import fr.lip6.move.coloane.interfaces.api.evenements.IReceptMessage;
 import fr.lip6.move.coloane.interfaces.api.observers.IReceptMessageObserver;
 
@@ -17,6 +17,6 @@ public class ReceptMessageObserver implements IReceptMessageObserver {
 	/** {@inheritDoc} */
 	public final void update(IReceptMessage e) {
 		LOGGER.finer("Réception d'un message : " + e.getMessage()); //$NON-NLS-1$
-		UserInterface.getInstance().printConsoleMessage(e.getMessage(), MessageType.getAssociatedType(e.getTypeMessage()));
+		UserInterfaceManager.getInstance().printConsoleMessage(e.getMessage(), MessageType.getAssociatedType(e.getTypeMessage()));
 	}
 }
