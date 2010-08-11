@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.ui.wizards.exportmodel;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.core.ui.files.ModelHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.File;
@@ -77,7 +77,7 @@ public class ExportJob extends Job {
 		try {
 			LOGGER.finer("Exporting..."); //$NON-NLS-1$
 			worker.export(model, targetDirectory + "/" + newName, monitor); //$NON-NLS-1$
-		} catch (ColoaneException e) {
+		} catch (ExtensionException e) {
 			return new Status(IStatus.ERROR, "coloane", "export " + file + " to " + targetDirectory + "/" + newName + "failed", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		}
 		LOGGER.finer("Done..."); //$NON-NLS-1$
