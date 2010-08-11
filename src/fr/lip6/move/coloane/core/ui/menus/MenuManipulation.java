@@ -4,18 +4,16 @@ import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 
-import java.util.logging.Logger;
-
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
  * Set of methods that handle Coloane menu.<br>
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 public final class MenuManipulation {
-	/** The logger */
-	private static final Logger LOG = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
 	/**
 	 * Utility class
 	 */
@@ -80,45 +78,4 @@ public final class MenuManipulation {
 		item.setEnabled(active && option.isVisible());
 		return item;
 	}
-
-//	/**
-//	 * @param menuManager rootMenu
-//	 * @param mapUpdateMenu Map contenant les élements à mettre à jour.
-//	 */
-//	public static void update(MenuManager menuManager, Map<String, IUpdateMenu> mapUpdateMenu) {
-//		LOG.finer("Update menus"); //$NON-NLS-1$
-//		update(menuManager, mapUpdateMenu, true);
-//	}
-//
-//	/**
-//	 * @param item élement du menu
-//	 * @param mapUpdateMenu Map contenant les élements à mettre à jour.
-//	 * @param parent est que les menus parents sont actifs.
-//	 */
-//	private static void update(IContributionItem item, Map<String, IUpdateMenu> mapUpdateMenu, Boolean parent) {
-//		IUpdateMenu update = mapUpdateMenu.get(item.getId());
-//
-//		// Mise à jour d'un service ou d'une option
-//		if (item instanceof ActionContributionItem) {
-//			IAction action = ((ActionContributionItem) item).getAction();
-//			IStatedElement statedElement = (IStatedElement) action;
-//
-//			if (update != null) {
-//				statedElement.setState(update.getState());
-//			}
-//			action.setEnabled(parent && statedElement.getState());
-//		}
-//
-//		// Mise à jour d'un sous-menu
-//		if (item instanceof ColoaneMenuManager) {
-//			ColoaneMenuManager coloaneMenuManager = (ColoaneMenuManager) item;
-//
-//			if (update != null) {
-//				coloaneMenuManager.setState(update.getState());
-//			}
-//			for (IContributionItem subItem : coloaneMenuManager.getItems()) {
-//				update(subItem, mapUpdateMenu, parent && coloaneMenuManager.getState());
-//			}
-//		}
-//	}
 }
