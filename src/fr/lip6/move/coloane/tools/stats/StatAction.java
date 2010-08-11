@@ -1,18 +1,17 @@
 package fr.lip6.move.coloane.tools.stats;
 
-import java.util.ArrayList;
-
-import java.util.List;
-
-import org.eclipse.core.runtime.IProgressMonitor;
-
-import fr.lip6.move.coloane.core.extensions.IColoaneAction;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.Result;
 import fr.lip6.move.coloane.interfaces.objects.result.SubResult;
+import fr.lip6.move.coloane.interfaces.objects.services.IService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
  * Very basic tool that provides some statistics about the current model
@@ -20,7 +19,7 @@ import fr.lip6.move.coloane.interfaces.objects.result.SubResult;
  * @author Jean-Baptiste Voron
  * @author Florian David
  */
-public class StatAction implements IColoaneAction {
+public class StatAction implements IService {
 
 	/**
 	 * {@inheritDoc}
