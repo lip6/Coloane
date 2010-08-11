@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.ui;
 
-import fr.lip6.move.coloane.core.extensions.IColoaneAction;
 import fr.lip6.move.coloane.core.ui.actions.LocalAction;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
+import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class ColoaneJob extends Job {
 	List<IResult> results;
 	
 	/** The action */
-	IColoaneAction action;
+	IService action;
 	
 	/** The graph on which the action has to be performed */
 	IGraph graph;
@@ -40,7 +40,7 @@ public class ColoaneJob extends Job {
 	 * @param actionToPerform The action to run
 	 * @see Job
 	 */
-	public ColoaneJob(String name, IGraph graph, IColoaneAction actionToPerform) {
+	public ColoaneJob(String name, IGraph graph, IService actionToPerform) {
 		super(name);
 		setSystem(false);
 		this.results = new ArrayList<IResult>();
