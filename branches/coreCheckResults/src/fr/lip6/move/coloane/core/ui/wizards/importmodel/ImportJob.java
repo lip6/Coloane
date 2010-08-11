@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.wizards.importmodel;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.ByteArrayInputStream;
@@ -76,7 +76,7 @@ public class ImportJob extends Job {
 		} catch (CoreException e) {
 			LOGGER.warning("Fail during the file creation"); //$NON-NLS-1$
 			return e.getStatus();
-		} catch (ColoaneException e) {
+		} catch (ExtensionException e) {
 			LOGGER.warning("Fail during the import process: " + e.getMessage()); //$NON-NLS-1$
 			return new Status(IStatus.ERROR, "coloane", "Fail during the import process: " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (UnsupportedEncodingException e) {
