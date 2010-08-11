@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.interfaces.api.evenements;
 
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IUpdateMenu;
-import fr.lip6.move.coloane.interfaces.objects.service.IService;
+import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
 import java.util.List;
 import java.util.Map;
