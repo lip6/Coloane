@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.session;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.extensions.ApiDescription;
+import fr.lip6.move.coloane.core.extensions.ApiExtension;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultManager;
 import fr.lip6.move.coloane.core.ui.checker.Checker;
@@ -54,6 +56,9 @@ public class Session implements ISession {
 
 	/** The console (lazy loading) */
 	private MessageConsole console;
+	
+	/** List of available (connected) APIs */
+	private static List<ApiDescription> apis = null;
 
 	/** A list of tips. Each object may have several associated tips */
 	private Map<Integer, List<ICoreTip>> tips = new HashMap<Integer, List<ICoreTip>>();
@@ -126,7 +131,15 @@ public class Session implements ISession {
 	public Checker getChecker() {
 		return checker;
 	}
-
+	
+	/** {@inheritDoc} */
+	public List<ApiDescription> getAvailableApis() {
+		if (apis == null) {
+			apis = ApiExtension.getAvailableApis(this);
+		}
+		return apis;
+	}
+	
 	/** {@inheritDoc} */
 	public final ResultManager getResultManager() {
 		if (this.resultManager == null) {
