@@ -75,6 +75,13 @@ public class ToolsContribution extends CompoundContributionItem {
 		for (int i = 0; i < allContribs.size(); i++) {
 			toReturn[i] = allContribs.get(i);
 		}
+		
+		if (toReturn.length == 0) {
+			toReturn = new IContributionItem[1];
+			IAction localAction = new LocalAction("No tool currently available", "", null, null);  //$NON-NLS-1$//$NON-NLS-2$
+			localAction.setEnabled(false);
+			toReturn[0] = new ActionContributionItem(localAction);
+		}
 
 		return toReturn;
 	}

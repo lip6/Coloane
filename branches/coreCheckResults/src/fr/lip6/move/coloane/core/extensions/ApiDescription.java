@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.extensions;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.ui.menus.ColoaneAPIRootMenu;
 import fr.lip6.move.coloane.interfaces.api.IApi;
 
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -24,6 +25,9 @@ public class ApiDescription {
 	
 	/** The main class of the API */
 	private IApi apiClass;
+	
+	/** The API root menu */
+	private ColoaneAPIRootMenu rootMenu;
 
 	/**
 	 * Constructor
@@ -96,5 +100,20 @@ public class ApiDescription {
 	 */
 	public IApi getApiClass() {
 		return apiClass;
+	}
+	
+	/**
+	 * @return The root menu associated with the API
+	 */
+	public ColoaneAPIRootMenu getRootMenu() {
+		return rootMenu;
+	}
+	
+	/**
+	 * Set the root menu for the API
+	 * @param rootMenu The root menu (including sub-menus) for this API
+	 */
+	public void setRootMenu(ColoaneAPIRootMenu rootMenu) {
+		this.rootMenu = rootMenu;
 	}
 }
