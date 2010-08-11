@@ -27,13 +27,13 @@ public final class MenuManipulation {
 	 * @param rootMenuDescription the description of the menu to build
 	 * @param rootMenuImage the icon associated with the menu (or <code>null</code> if not)
 	 */
-	public static ColoaneRootMenu buildRootMenu(String rootMenuName, String rootMenuDescription, ImageDescriptor rootMenuImage) {
+	public static ColoaneAPIRootMenu buildRootMenu(String rootMenuName, String rootMenuDescription, ImageDescriptor rootMenuImage) {
 		String menuId = rootMenuName.toLowerCase();
 		// If the menu has no icon associated with
 		if (rootMenuImage == null) {
-			return new ColoaneRootMenu(rootMenuName, menuId);
+			return new ColoaneAPIRootMenu(rootMenuName, menuId);
 		}
-		return new ColoaneRootMenu(rootMenuName, rootMenuImage, menuId);
+		return new ColoaneAPIRootMenu(rootMenuName, rootMenuImage, menuId);
 	}
 
 	/**
