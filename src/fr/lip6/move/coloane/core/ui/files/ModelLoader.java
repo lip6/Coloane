@@ -54,32 +54,26 @@ public final class ModelLoader {
 	}
 
 	/**
-	 * @param <T> Handler type
-	 * @param xmlFile IFile
-	 * @param handler handler for parse the file
-	 * @return handler after parse
+	 * Load a model from an XML description
+	 * @param modelSource A {@link StreamSource} of the model
+	 * @param modelString The model under the form of a Java string
+	 * @param <T> Handler The type of handler that can manage the incoming model
+	 * @return handler after parse. Some properties will be set during the process
+	 * @see FormalismHandler
+	 * @see ModelHandler
 	 */
-	public static <T extends DefaultHandler> T loadFromXML(IFile xmlFile, T handler) {
-		return loadFromXML(xmlFile.getLocationURI(), handler);
-	}
-
-	/**
-	 * @param <T> Handler type
-	 * @param xmlURI uri
-	 * @param handler handler for parse the file
-	 * @return handler after parse
-	 */
-	public static <T extends DefaultHandler> T loadFromXML(URI xmlURI, T handler) {
-		SAXParserFactory factory = SAXParserFactory.newInstance();
-		Schema schema = loadSchema();
-
-		// Validate the model against the high level definition
-		Validator validator = schema.newValidator();
+	private static <T extends DefaultHandler> T loadFromXML(StreamSource modelSource, String modelString, T handler) {
 		try {
-			validator.validate(new StreamSource(xmlURI.toURL().openStream()));
+			// Fetch the XML schema (high level model definition)
+			Schema schema = loadSchema();
+			// Validate the model against the definition
+			Validator validator = schema.newValidator();
+			validator.validate(modelSource);
 
+			// Build the parsing factory & Parse
+			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
-			saxParser.parse(xmlURI.toString(), handler);
+			saxParser.parse(modelString, handler);
 		} catch (SAXException e) {
 			LOGGER.warning("Unable to parse the file: " + e.getMessage()); //$NON-NLS-1$
 		} catch (IOException e) {
@@ -90,20 +84,47 @@ public final class ModelLoader {
 
 		return handler;
 	}
+	
+	/**
+	 * Load a model from an XML file
+	 * @param xmlFile IThe file that contains the model description
+	 * @param <T> Handler The type of handler that can manage the incoming model
+	 * @return handler after parse. Some properties will be set during the process
+	 * @see FormalismHandler
+	 * @see ModelHandler
+	 */
+	public static <T extends DefaultHandler> T loadFromXML(IFile xmlFile, T handler) {
+		try {
+		URI modelURI = xmlFile.getLocationURI();
+		StreamSource modelSource = new StreamSource(modelURI.toURL().openStream());
+		return loadFromXML(modelSource, modelURI.toString(), handler);
+		} catch (IOException e) {
+			LOGGER.warning("I/O error: " + e.getMessage()); //$NON-NLS-1$
+		}
+		return null;
+	}
+	
 
 	/**
-	 * @param xmlFile XML File
-	 * @return IGraph loaded or <code>null</code>
+	 * Load a model from an XML file.<br>
+	 * The model is entirely read thanks to {@link ModelHandler}.<br>
+	 * You can use this method as the simple way to load a model from a file
+	 * @param xmlFile IThe file that contains the model description
+	 * @return The corresponding {@link IGraph}
 	 */
 	public static IGraph loadGraphFromXML(IFile xmlFile) {
 		return loadFromXML(xmlFile, new ModelHandler()).getGraph();
 	}
-
+	
 	/**
-	 * @param xmlURI URI to an XML File
-	 * @return IGraph loaded or <code>null</code>
+	 * Load a model from an XML Java string.<br>
+	 * The model is entirely read thanks to {@link ModelHandler}.<br>
+	 * You can use this method as the simple way to load a model from a XML Java string.
+	 * @param xmlModel The Java string that is the model description
+	 * @return The corresponding {@link IGraph}
 	 */
-	public static IGraph loadGraphFromXML(URI xmlURI) {
-		return loadFromXML(xmlURI, new ModelHandler()).getGraph();
+	public static IGraph loadGraphFromXMLString(String xmlModel) {
+		StreamSource modelSource = new StreamSource(new java.io.StringReader(xmlModel));
+		return loadFromXML(modelSource, xmlModel, new ModelHandler()).getGraph();
 	}
 }
