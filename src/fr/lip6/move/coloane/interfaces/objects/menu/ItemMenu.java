@@ -16,21 +16,16 @@ public class ItemMenu implements IItemMenu {
 	/** The visibility state of the item */
 	private boolean visible;
 
-	/** Path */
-	private String path;
-
 	/**
 	 * Constructor
 	 * @param name The name of the item
 	 * @param visible The visible state of the item
 	 * @param helpMessage The list of help messages associated with the item
-	 * @param path A path
 	 */
-	public ItemMenu(String name, boolean visible, String helpMessage, String path) {
+	public ItemMenu(String name, boolean visible, String helpMessage) {
 		this.name = name;
 		this.helpMessage = helpMessage;
 		this.visible = visible;
-		this.path = path;
 	}
 
 	/**
@@ -52,13 +47,6 @@ public class ItemMenu implements IItemMenu {
 	 */
 	public final boolean isVisible() {
 		return this.visible;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public final String getPath() {
-		return this.path;
 	}
 
 	/**

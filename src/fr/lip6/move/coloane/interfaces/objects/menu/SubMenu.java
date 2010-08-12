@@ -25,8 +25,8 @@ public class SubMenu extends ItemMenu implements ISubMenu {
 	 * @param visible The visible state of the sub-menu (and all of its children)
 	 * @param path Path
 	 */
-	public SubMenu(String name, boolean visible, String path) {
-		super(name, visible, null, path);
+	public SubMenu(String name, boolean visible) {
+		super(name, visible, null);
 		this.services = new ArrayList<IServiceMenu>();
 		this.options = new ArrayList<IOptionMenu>();
 		this.submenus = new ArrayList<ISubMenu>();

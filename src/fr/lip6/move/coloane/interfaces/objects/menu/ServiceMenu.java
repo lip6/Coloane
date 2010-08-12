@@ -19,8 +19,8 @@ public class ServiceMenu extends ItemMenu implements IServiceMenu {
 	 * @param associatedService The associated service
 	 * @param path The service path
 	 */
-	public ServiceMenu(String name, boolean visibility, String helpMessage, IApiService associatedService, String path) {
-		super(name, visibility, helpMessage, path);
+	public ServiceMenu(String name, boolean visibility, String helpMessage, IApiService associatedService) {
+		super(name, visibility, helpMessage);
 		this.associatedService = associatedService;
 	}
 

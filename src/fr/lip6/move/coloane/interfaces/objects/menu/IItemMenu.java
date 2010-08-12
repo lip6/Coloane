@@ -22,9 +22,4 @@ public interface IItemMenu {
      * @return An help message (a tip) associated with the item
      */
 	String getHelps();
-
-	/**
-	 * @return The path 
-	 */
-	String getPath();
 }
