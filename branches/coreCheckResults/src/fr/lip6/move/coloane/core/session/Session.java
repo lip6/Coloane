@@ -58,7 +58,7 @@ public class Session implements ISession {
 	private MessageConsole console;
 	
 	/** List of available (connected) APIs */
-	private static List<ApiDescription> apis = null;
+	private List<ApiDescription> apis = null;
 
 	/** A list of tips. Each object may have several associated tips */
 	private Map<Integer, List<ICoreTip>> tips = new HashMap<Integer, List<ICoreTip>>();
