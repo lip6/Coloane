@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.core.ui.menus;
 
+import fr.lip6.move.coloane.core.ui.actions.OptionAction;
+import fr.lip6.move.coloane.core.ui.actions.ServiceAction;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;

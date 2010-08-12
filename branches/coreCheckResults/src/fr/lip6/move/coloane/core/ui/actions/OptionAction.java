@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.core.ui.menus;
+package fr.lip6.move.coloane.core.ui.actions;
 
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 
