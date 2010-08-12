@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -30,6 +31,8 @@ import org.eclipse.ui.ide.IDE;
  * @author Florian David
  */
 public final class MarkerManager {
+	/** The logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** ID of the root marker. */
 	private static String ROOT_MARKER = "fr.lip6.move.coloane.core.ui.checker.rootMarker"; //$NON-NLS-1$
@@ -171,7 +174,7 @@ public final class MarkerManager {
 		try {
 			resource.deleteMarkers(null, false, IResource.DEPTH_ZERO);
 		} catch (CoreException e) {
-			e.printStackTrace();
+			LOGGER.warning("The resource " + resource.getName() + "does not exist anymore or has a problem...");  //$NON-NLS-1$//$NON-NLS-2$
 		}
 		
 	}
