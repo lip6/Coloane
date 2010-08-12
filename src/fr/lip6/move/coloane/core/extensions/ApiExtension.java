@@ -42,6 +42,11 @@ public class ApiExtension {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		for (int i = 0; i < contributions.length; i++) {
 			String acceptedFormalism = contributions[i].getAttribute(FORMALISM);
+			
+			if (acceptedFormalism == null) {
+				LOGGER.warning("API not recognized. It does not declare a valid list of accepted formalisms"); //$NON-NLS-1$
+				continue;
+			}
 			if ((acceptedFormalism.equals("*")) || (acceptedFormalism.equalsIgnoreCase(session.getGraph().getFormalism().getName()))) { //$NON-NLS-1$
 				try {
 					IApi apiClass = (IApi) contributions[i].createExecutableExtension(CLASS);
@@ -65,6 +70,7 @@ public class ApiExtension {
 				} catch (ColoaneException e) {
 					LOGGER.warning("Something went wrong during the association with the API : " + contributions[i].getAttribute(NAME)); //$NON-NLS-1$
 					LOGGER.warning(e.getLogMessage());
+					e.printStackTrace();
 				} catch (CoreException e) {
 					LOGGER.warning("The API main cannot be loaded." + e.getMessage()); //$NON-NLS-1$
 					e.printStackTrace();
