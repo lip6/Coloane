@@ -23,15 +23,12 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Define an action that will execute a service
  */
-public class ServiceAction extends Action implements IStatedElement {
+public class ServiceAction extends Action {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** All information about the service */
 	private IServiceMenu serviceDescription;
-
-	/** Visible state */
-	private boolean visible = false;
 
 	/**
 	 * Constructor
@@ -41,7 +38,6 @@ public class ServiceAction extends Action implements IStatedElement {
 		super(service.getName(), IAction.AS_PUSH_BUTTON);
 		setId(service.getName());
 		this.serviceDescription = service;
-		this.visible = service.isVisible();
 	}
 	
 	/** {@inheritDoc} */
@@ -81,15 +77,5 @@ public class ServiceAction extends Action implements IStatedElement {
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 		serviceDescription.getAssociatedService().run(SessionManager.getInstance().getCurrentSession().getGraph(), null);
-	}
-
-	/** {@inheritDoc} */
-	public boolean getState() {
-		return visible;
-	}
-
-	/** {@inheritDoc} */
-	public void setState(boolean state) {
-		this.visible = state;
 	}
 }
