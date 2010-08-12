@@ -16,10 +16,9 @@ public class OptionMenu extends ItemMenu implements IOptionMenu {
 	 * @param visible The visibility of the option
 	 * @param helpMessage An help message associated with the option
 	 * @param checked The state of the option
-	 * @param path The service path
 	 */
-	public OptionMenu(String name, boolean visible, String helpMessage, boolean checked, String path) {
-		super(name, visible, helpMessage, path);
+	public OptionMenu(String name, boolean visible, String helpMessage, boolean checked) {
+		super(name, visible, helpMessage);
 		this.checked = checked;
 	}
 
