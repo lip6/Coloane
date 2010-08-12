@@ -10,12 +10,9 @@ import org.eclipse.jface.action.IAction;
 /**
  * Define an action that will manage the state of an option.<br>
  */
-public class OptionAction extends Action implements IStatedElement {
+public class OptionAction extends Action {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
-	/** Visible state */
-	private boolean visible = false;
 
 	/**
 	 * Constructor
@@ -25,7 +22,6 @@ public class OptionAction extends Action implements IStatedElement {
 		super(optionDescription.getName(), convertStyle(optionDescription.getType()));
 		setId(optionDescription.getName());
 		setChecked(optionDescription.isVisible());
-		this.visible = optionDescription.isVisible();
 	}
 
 	/**
@@ -47,15 +43,5 @@ public class OptionAction extends Action implements IStatedElement {
 	@Override
 	public final void run() {
 		LOGGER.fine("Option switch : " + getId() + " = " + isChecked()); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-
-	/** {@inheritDoc} */
-	public boolean getState() {
-		return visible;
-	}
-
-	/** {@inheritDoc} */
-	public void setState(boolean state) {
-		this.visible = state;
 	}
 }
