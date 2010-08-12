@@ -10,7 +10,12 @@ package fr.lip6.move.coloane.interfaces.objects.services;
 public interface IApiService extends IService {
 
 	/**
-	 * @return le nom du service
+	 * @return The service name
 	 */
 	String getName();
+	
+	/**
+	 * @return A simple description of the service
+	 */
+	String getDescription();
 }
