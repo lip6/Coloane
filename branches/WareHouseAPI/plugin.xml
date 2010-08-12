@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="fr.lip6.move.coloane.core.apis">
+      <API
+            class="fr.lip6.move.coloane.api.warehouse.WareHouseApi"
+            description="Connection to a model warehouse"
+            formalism="*"
+            icon="resources/database.png"
+            name="Model Warehouse">
+      </API>
+   </extension>
+
+</plugin>
