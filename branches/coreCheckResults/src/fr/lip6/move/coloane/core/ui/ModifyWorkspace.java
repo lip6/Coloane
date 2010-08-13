@@ -16,52 +16,58 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.ide.IDE;
 
 /**
- * Cette classe agit sur le contenu du workspace.
- * Elle sauvegarde le modele recu dans un nouveau fichier du workspace et l'affiche
+ * This class allows to modify the workspace.<br>
+ * It backups an new incoming model file and displays it.
+ * 
+ * @author Jean-Baptiste Voron
+ * 
  * @see WorkspaceModifyOperation
  */
 public class ModifyWorkspace extends WorkspaceModifyOperation {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
-	private IFile file;
+	
+	/** The graph that has to be displayed */
 	private IGraph graph;
+
+	/** The workbench window */
 	private IWorkbenchWindow window;
+	
+	/** The file to write to the workspace */
+	private IFile file;
 
 	/**
-	 * Constructeur
-	 * <b>Attention !</b> Le fichier specifie sera ecrase s'il existe deja.
-	 * @param w Pour permettre l'affichage final du modele recu
-	 * @param f Le fichier precedemment decide (aucune verification d'existence n'est faite ici)
-	 * @param graph Le modele a sauvegarder (modele generique)
+	 * Constructor
+	 * <b>Warning !</b> If a file has already the same name, it will be overwrote
+	 * @param workbench The workbench window (to open the result model in a new editor)
+	 * @param file A file ready to receive the model
+	 * @param graph A model
 	 */
-	public ModifyWorkspace(IWorkbenchWindow w, IFile f, IGraph graph) {
-		this.file = f;
+	public ModifyWorkspace(IWorkbenchWindow workbench, IFile file, IGraph graph) {
+		this.file = file;
 		this.graph = graph;
-		this.window = w;
+		this.window = workbench;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	protected final void execute(IProgressMonitor monitor) throws CoreException, InvocationTargetException, InterruptedException {
-
-		// Traduction du modele au format xml
-		String xmlString = ModelWriter.translateToXML(graph);
-
-		// Creation de l'input stream a partir d'une chaine de caractere
-		InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
-
-		// Ecriture du fichier de sauvegarder a partir du l'input stream
 		try {
-			if (!file.exists()) {
-				file.create(inputS, true, monitor);
-			} else {
-				file.setContents(inputS, true, false, monitor);
-			}
-		} catch (CoreException e) {
-			LOGGER.warning("Erreur lors de l'écriture du fichier : " + e); //$NON-NLS-1$
-		}
 
-		// Affichage du nouveau modele dans un nouvel onglet
-		IDE.openEditor(this.window.getActivePage(), file, true);
+			// XML translation
+			String xmlString = ModelWriter.translateToXML(graph);
+			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
+			if (!this.file.exists()) {
+				// Creating the file
+				this.file.create(inputS, true, monitor);
+			} else {
+				// Replacing the file
+				this.file.setContents(inputS, true, false, monitor);
+			}
+
+			// Displaying the new model a an editor
+			IDE.openEditor(this.window.getActivePage(), file, true);
+		} catch (CoreException e) {
+			LOGGER.warning("Error while writing the file to the disk : " + e); //$NON-NLS-1$
+		}
 	}
 }
