@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.api.warehouse;
 
-import fr.lip6.move.coloane.api.warehouse.services.FirstService;
+import fr.lip6.move.coloane.api.warehouse.services.AskForModel;
 import fr.lip6.move.coloane.interfaces.api.IApi;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
@@ -22,14 +22,10 @@ public class WareHouseApi extends Observable implements IApi  {
 	public WareHouseApi() {
 		LOGGER.config("Connected to Warehouse API");
 		
-		ISubMenu subMenu1 = new SubMenu("Services", true);
-		IServiceMenu service1 = new ServiceMenu("Stats", true, "no help available", new FirstService(this));
+		ISubMenu subMenu1 = new SubMenu("Fetch a model", true);
+		IServiceMenu service1 = new ServiceMenu("Demo", true, "A simple model for demonstration purpose", new AskForModel(this));
 		subMenu1.addServiceMenu(service1);
 		menus.add(subMenu1);
-		
-		ISubMenu subMenu2 = new SubMenu("Options", true);
-		subMenu2.addOptionMenu(new OptionMenu("Speed", true, "no", true));
-		menus.add(subMenu2);
 	}
 	
 	public void enrichMenus() {
