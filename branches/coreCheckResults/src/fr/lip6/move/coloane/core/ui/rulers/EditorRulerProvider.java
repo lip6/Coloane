@@ -94,7 +94,7 @@ public class EditorRulerProvider extends RulerProvider {
 
 	/** {@inheritDoc} */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public final List getAttachedModelObjects(Object guide) {
 		return new ArrayList(((EditorGuide) guide).getAttachedElements());
 	}

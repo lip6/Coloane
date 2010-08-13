@@ -77,7 +77,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 
 	/** {@inheritDoc} */
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public final Object getAdapter(Class adapter) {
 		if (adapter == SnapToHelper.class) {
 			List<SnapToHelper> snapStrategies = new ArrayList<SnapToHelper>();

@@ -10,7 +10,7 @@ import org.eclipse.ui.views.properties.tabbed.ITypeMapper;
 public class TypeMapper implements ITypeMapper {
 
 	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	public final Class mapType(Object object) {
 		Class type = object.getClass();
 		if (object instanceof EditPart) {
