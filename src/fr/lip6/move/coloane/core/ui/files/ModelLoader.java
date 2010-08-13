@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.URI;
 import java.util.logging.Logger;
 
@@ -18,6 +19,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.eclipse.core.resources.IFile;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -62,22 +64,23 @@ public final class ModelLoader {
 	 * @see FormalismHandler
 	 * @see ModelHandler
 	 */
-	private static <T extends DefaultHandler> T loadFromXML(StreamSource modelSource, String modelString, T handler) {
+	private static <T extends DefaultHandler> T loadFromXML(URI modelURI, T handler) {
 		try {
 			// Fetch the XML schema (high level model definition)
 			Schema schema = loadSchema();
 			// Validate the model against the definition
 			Validator validator = schema.newValidator();
-			validator.validate(modelSource);
+			validator.validate(new StreamSource(modelURI.toURL().openStream()));
 
 			// Build the parsing factory & Parse
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
-			saxParser.parse(modelString, handler);
+			saxParser.parse(modelURI.toString(), handler);
 		} catch (SAXException e) {
 			LOGGER.warning("Unable to parse the file: " + e.getMessage()); //$NON-NLS-1$
 		} catch (IOException e) {
 			LOGGER.warning("I/O error: " + e.getMessage()); //$NON-NLS-1$
+			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
 			LOGGER.warning("Wrong parser initialization: " + e.getMessage()); //$NON-NLS-1$
 		}
@@ -94,14 +97,8 @@ public final class ModelLoader {
 	 * @see ModelHandler
 	 */
 	public static <T extends DefaultHandler> T loadFromXML(IFile xmlFile, T handler) {
-		try {
 		URI modelURI = xmlFile.getLocationURI();
-		StreamSource modelSource = new StreamSource(modelURI.toURL().openStream());
-		return loadFromXML(modelSource, modelURI.toString(), handler);
-		} catch (IOException e) {
-			LOGGER.warning("I/O error: " + e.getMessage()); //$NON-NLS-1$
-		}
-		return null;
+		return loadFromXML(modelURI, handler);
 	}
 	
 
@@ -124,7 +121,29 @@ public final class ModelLoader {
 	 * @return The corresponding {@link IGraph}
 	 */
 	public static IGraph loadGraphFromXMLString(String xmlModel) {
-		StreamSource modelSource = new StreamSource(new java.io.StringReader(xmlModel));
-		return loadFromXML(modelSource, xmlModel, new ModelHandler()).getGraph();
+		try {
+			StreamSource modelSource = new StreamSource(new java.io.StringReader(xmlModel));
+			ModelHandler modelHandler = new ModelHandler();
+		
+			// Fetch the XML schema (high level model definition)
+			Schema schema = loadSchema();
+			// Validate the model against the definition
+			Validator validator = schema.newValidator();
+			validator.validate(modelSource);
+
+			// Build the parsing factory & Parse
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser saxParser = factory.newSAXParser();
+			saxParser.parse(new InputSource(new StringReader(xmlModel)), modelHandler);
+			return modelHandler.getGraph();
+		} catch (SAXException e) {
+			LOGGER.warning("Unable to parse the file: " + e.getMessage()); //$NON-NLS-1$
+		} catch (IOException e) {
+			LOGGER.warning("I/O error: " + e.getMessage()); //$NON-NLS-1$
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			LOGGER.warning("Wrong parser initialization: " + e.getMessage()); //$NON-NLS-1$
+		}
+		return null;
 	}
 }
