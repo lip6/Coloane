@@ -5,15 +5,7 @@ Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: fr.lip6.move.coloane.interfaces.api;uses:="fr.lip6.move.coloane.interfaces.api.session,fr.lip6.move.coloane.interfaces.api.objects,fr.lip6.move.coloane.interfaces.api.observers",
- fr.lip6.move.coloane.interfaces.api.evenements,
- fr.lip6.move.coloane.interfaces.api.exceptions,
- fr.lip6.move.coloane.interfaces.api.objects,
- fr.lip6.move.coloane.interfaces.api.observers;uses:="fr.lip6.move.coloane.interfaces.api.evenements,fr.lip6.move.coloane.interfaces.objects.result,fr.lip6.move.coloane.interfaces.objects.dialog",
- fr.lip6.move.coloane.interfaces.api.session;
-  uses:="fr.lip6.move.coloane.interfaces.api.objects,
-   fr.lip6.move.coloane.interfaces.model,
-   fr.lip6.move.coloane.interfaces.objects.services,
-   fr.lip6.move.coloane.interfaces.objects.dialog",
+ fr.lip6.move.coloane.interfaces.api.services,
  fr.lip6.move.coloane.interfaces.exceptions,
  fr.lip6.move.coloane.interfaces.extensions,
  fr.lip6.move.coloane.interfaces.formalism;uses:="org.eclipse.draw2d.geometry,fr.lip6.move.coloane.interfaces.model,org.eclipse.draw2d",
