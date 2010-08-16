@@ -91,6 +91,5 @@ public class ServiceAction extends Action {
 		
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
-		serviceDescription.getAssociatedService().run(SessionManager.getInstance().getCurrentSession().getGraph(), null);
 	}
 }
