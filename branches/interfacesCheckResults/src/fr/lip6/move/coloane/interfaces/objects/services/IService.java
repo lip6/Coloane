@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.interfaces.objects.services;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
@@ -20,5 +21,5 @@ public interface IService {
 	 * @param monitor The progress monitor used to visualize the job progress
 	 * @return A set of commands that will be executed by the core
 	 */
-	List<IResult> run(IGraph model, IProgressMonitor monitor);
+	List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException;
 }
