@@ -3,6 +3,8 @@ package fr.lip6.move.coloane.interfaces.objects.menu;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jface.resource.ImageDescriptor;
+
 /**
  * Define a sub-menu.<br>
  * 
@@ -27,6 +29,19 @@ public class SubMenu extends ItemMenu implements ISubMenu {
 	 */
 	public SubMenu(String name, boolean visible) {
 		super(name, visible, null);
+		this.services = new ArrayList<IServiceMenu>();
+		this.options = new ArrayList<IOptionMenu>();
+		this.submenus = new ArrayList<ISubMenu>();
+	}
+	
+	/**
+	 * Constructor
+	 * @param name The name of the sub-menu
+	 * @param visible The visible state of the sub-menu (and all of its children)
+	 * @param path Path
+	 */
+	public SubMenu(String name, boolean visible, ImageDescriptor menuIcon) {
+		super(name, visible, null, menuIcon);
 		this.services = new ArrayList<IServiceMenu>();
 		this.options = new ArrayList<IOptionMenu>();
 		this.submenus = new ArrayList<ISubMenu>();
