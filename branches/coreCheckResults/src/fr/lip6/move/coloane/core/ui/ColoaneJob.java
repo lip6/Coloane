@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.ui;
 
 import fr.lip6.move.coloane.core.ui.actions.LocalAction;
+import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.services.IService;
@@ -48,17 +49,28 @@ public class ColoaneJob extends Job {
 		this.graph = graph;
 	}
 	
+	/**
+	 * @return The result list after the job execution
+	 */
 	public List<IResult> getResults() {
 		return this.results;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-		this.results = this.action.run(this.graph,monitor);
-		if (this.results == null) {
-			return Status.CANCEL_STATUS;
+		try {
+			this.results = this.action.run(this.graph,monitor);
+			if (this.results == null) {
+				return Status.CANCEL_STATUS;
+			}
+			return Status.OK_STATUS;
+		} catch (ServiceException e) {
+			LOGGER.warning(e.getMessage());
+			return new Status(Status.ERROR, "fr.lip6.move.coloane.core", e.getMessage()); //$NON-NLS-1$
 		}
-		return Status.OK_STATUS;
 	}
 
 	/** {@inheritDoc} */
