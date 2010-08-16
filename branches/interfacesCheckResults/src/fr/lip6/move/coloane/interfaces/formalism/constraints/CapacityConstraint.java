@@ -27,7 +27,7 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 	private String element;
 
 	/** Maximum number of objects */
-	private int max;
+	//private int max;
 
 	/**
 	 * Constructor<br>
@@ -71,6 +71,6 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 		}
 
 		this.element = myParams.get("element"); //$NON-NLS-1$
-		this.max = Integer.valueOf(myParams.get("maxIn")); //$NON-NLS-1$
+		//this.max = Integer.valueOf(myParams.get("maxIn")); //$NON-NLS-1$
 	}
 }
