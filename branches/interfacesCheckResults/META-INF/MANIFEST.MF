@@ -17,6 +17,7 @@ Export-Package: fr.lip6.move.coloane.interfaces.api;uses:="fr.lip6.move.coloane.
  fr.lip6.move.coloane.interfaces.exceptions,
  fr.lip6.move.coloane.interfaces.extensions,
  fr.lip6.move.coloane.interfaces.formalism;uses:="org.eclipse.draw2d.geometry,fr.lip6.move.coloane.interfaces.model,org.eclipse.draw2d",
+ fr.lip6.move.coloane.interfaces.formalism.constraints,
  fr.lip6.move.coloane.interfaces.model;
   uses:="fr.lip6.move.coloane.interfaces.formalism,
    org.eclipse.swt.graphics,
