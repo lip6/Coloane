@@ -88,6 +88,7 @@ public class AskForModel implements IApiService {
 			// Build the new graph from the response
 			IGraph newGraph = ModelLoader.loadGraphFromXMLString(responseBody.toString());
 			result.setNewGraph(newGraph);
+			result.setDisplay(false);
 			
 		} catch (MalformedURLException e) {
 			LOGGER.warning("The URL is malformed");
