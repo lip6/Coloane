@@ -6,10 +6,7 @@ Bundle-Version: 0.16.2
 Bundle-Activator: fr.lip6.move.coloane.core.main.Coloane
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Export-Package: fr.lip6.move.coloane.core.exceptions,
- fr.lip6.move.coloane.core.extensions,
- fr.lip6.move.coloane.core.formalisms.constraints,
- fr.lip6.move.coloane.core.main,
+Export-Package: fr.lip6.move.coloane.core.main,
  fr.lip6.move.coloane.core.ui.figures,
  fr.lip6.move.coloane.core.ui.files,
  fr.lip6.move.coloane.core.ui.wizards.exportmodel,
