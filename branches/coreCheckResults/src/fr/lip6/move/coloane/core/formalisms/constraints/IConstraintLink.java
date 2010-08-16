@@ -4,22 +4,17 @@ import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
- * Interface définissant le principe de contrainte pour un lien.<br>
- * Chaque contrainte de lien doit définir une méthode {@link #isSatisfied(INode, INode)}
- * qui retourne <code>true</code> si la contrainte est vérifiée (satisfaite) ou <code>false</code> dans le
- * cas inverse.
- *
+ * Link constraint.<br>
  * @author Jean-Baptiste Voron
- *
  */
 public interface IConstraintLink {
 
 	/**
-	 * Est-ce que la contrainte est satisfaite ?
-	 * @param source Le noeud <b>source</b> de l'arc a tester
-	 * @param target Le noeud <b>cible</b> de l'arc a tester
-	 * @param arcFormalism Le formalisme de l'arc
-	 * @return <code>true</code> si la connexion est possible. <code>false</code> sinon.
+	 * Is the link creation allowed ?
+	 * @param source The source node
+	 * @param target The target node
+	 * @param arcFormalism The arc formalism
+	 * @return <code>true</code> if the connection is allowed. <code>false</code> otherwise.
 	 */
 	boolean isSatisfied(INode source, INode target, IArcFormalism arcFormalism);
 }
