@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.interfaces.objects.result.Result;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -129,6 +130,10 @@ public class AskForModel implements IApiService {
 			
 		} catch (MalformedURLException e) {
 			LOGGER.warning("The URL is malformed");
+		} catch (ConnectException e) {
+			LOGGER.warning("Unable to connect to the warehouse server");
+			ServiceException se = new ServiceException(ServiceException.CONNECTION_ERROR, "Unable to connect to the warehouse server");
+			throw se;
 		} catch (IOException e) {
 			LOGGER.warning("Unable to connect to the warehouse server");
 			e.printStackTrace();
