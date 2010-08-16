@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.core.formalisms;
 
-import fr.lip6.move.coloane.core.formalisms.constraints.IConstraintLink;
-import fr.lip6.move.coloane.core.formalisms.constraints.IConstraintNode;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.constraints.IConstraintLink;
+import fr.lip6.move.coloane.interfaces.formalism.constraints.IConstraintNode;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;

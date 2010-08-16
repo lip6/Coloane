@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.core.formalisms;
 
-import fr.lip6.move.coloane.core.formalisms.constraints.IConstraintLink;
-import fr.lip6.move.coloane.core.formalisms.constraints.IConstraintNode;
 import fr.lip6.move.coloane.core.formalisms.elements.ArcFormalism;
 import fr.lip6.move.coloane.core.formalisms.elements.AttributeFormalism;
 import fr.lip6.move.coloane.core.formalisms.elements.ComputedAttributeFormalism;
@@ -10,6 +8,8 @@ import fr.lip6.move.coloane.core.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.core.formalisms.elements.GraphicalDescription;
 import fr.lip6.move.coloane.core.formalisms.elements.NodeFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.constraints.IConstraintLink;
+import fr.lip6.move.coloane.interfaces.formalism.constraints.IConstraintNode;
 
 import java.util.ArrayList;
 import java.util.List;
