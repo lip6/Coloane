@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.api;
 
-import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 
 import java.util.List;
 
@@ -11,5 +11,5 @@ public interface IApi extends IObservable {
 		/**
 		 * @return The list of menus associated with the API
 		 */
-		List<ISubMenu> getApiMenus();
+		List<IItemMenu> getApiMenus();
 }

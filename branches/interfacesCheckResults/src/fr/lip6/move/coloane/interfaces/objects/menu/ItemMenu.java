@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.objects.menu;
 
+import org.eclipse.jface.resource.ImageDescriptor;
+
 /**
  * Define a menu item.<br>
  * An item describes something (almost every elements) in a menu
@@ -15,6 +17,9 @@ public class ItemMenu implements IItemMenu {
 
 	/** The visibility state of the item */
 	private boolean visible;
+	
+	/** An icon associated with the menu item */
+	private ImageDescriptor icon;
 
 	/**
 	 * Constructor
@@ -27,7 +32,24 @@ public class ItemMenu implements IItemMenu {
 		this.helpMessage = helpMessage;
 		this.visible = visible;
 	}
+	
+	/**
+	 * Constructor
+	 * @param name The name of the item
+	 * @param visible The visible state of the item
+	 * @param helpMessage The list of help messages associated with the item
+	 * @param menuIcon An icon associated with the menu item
+	 */
+	public ItemMenu(String name, boolean visible, String helpMessage, ImageDescriptor menuIcon) {
+		this(name, visible, helpMessage);
+		this.icon = menuIcon;
+	}
+	
 
+	public ImageDescriptor getIcon() {
+		return icon;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -48,7 +70,7 @@ public class ItemMenu implements IItemMenu {
 	public final boolean isVisible() {
 		return this.visible;
 	}
-
+	
 	/**
 	 * {@inheritDoc}
 	 */
