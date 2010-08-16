@@ -90,22 +90,19 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	/** {@inheritDoc} */
 	public final INode createNode(INodeFormalism nodeFormalism) throws ModelException {
 		if (nodeFormalism == null) {
-			throw new ModelException("The formalism does not define a node type: " + nodeFormalism.getName()); //$NON-NLS-1$
+			throw new ModelException("The formalism does not correctly define the created node type"); //$NON-NLS-1$
 		}
 		return createNode(nodeFormalism, getNewId());
 	}
 
 	/** {@inheritDoc} */
 	public final INode createNode(INodeFormalism nodeFormalism, int id) throws ModelException {
-		LOGGER.fine("Build a new node: " + nodeFormalism.getName()); //$NON-NLS-1$
-
 		if (nodeFormalism == null) {
-			throw new ModelException("The formalism does not define a node type: " + nodeFormalism.getName()); //$NON-NLS-1$
+			throw new ModelException("The formalism does not correctly define the created node type"); //$NON-NLS-1$
 		}
-
+		LOGGER.fine("Build a new node: " + nodeFormalism.getName()); //$NON-NLS-1$
 		INode node = new NodeModel(this, nodeFormalism, id);
 		addNode(node);
-
 		return node;
 	}
 
