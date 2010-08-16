@@ -46,6 +46,9 @@ public class Result implements IResult {
 
 	/** List of textual results */
 	private List<List<String>> textualResults;
+	
+	/** Should the result be displayed to the user */
+	private boolean display;
 
 	/**
 	 * Constructor of an empty result.
@@ -59,6 +62,22 @@ public class Result implements IResult {
 		this.deltaRequestsList = new ArrayList<IRequest>();
 		this.newComputedGraphRequestsList = new ArrayList<IRequest>();
 		this.textualResults = new ArrayList<List<String>>();
+		this.display = true;
+	}
+	
+	/** 
+	 * Change the display status of the result
+	 * @param display <code>true</code> is the result should be display to the user
+	 */
+	public void setDisplay(boolean display) {
+		this.display = display;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public boolean shouldBeDisplayed() {
+		return display;
 	}
 
 	/**

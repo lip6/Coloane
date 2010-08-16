@@ -106,4 +106,10 @@ public interface IResult {
 	 * @return The list of special information associated to the result.
 	 */
 	Map<Integer, List<ITip>> getTips();
+	
+	/**
+	 * Should the result be displayed to the user
+	 * @return <code>true</code> if the result should be displayed to the user
+	 */
+	boolean shouldBeDisplayed();
 }
