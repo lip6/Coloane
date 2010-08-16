@@ -1,4 +1,6 @@
-package fr.lip6.move.coloane.interfaces.objects.services;
+package fr.lip6.move.coloane.interfaces.api.services;
+
+import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
 /**
  * Define what a API service should be.<br>

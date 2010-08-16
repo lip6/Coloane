@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.interfaces.objects.menu;
 
-import fr.lip6.move.coloane.interfaces.objects.services.IApiService;
+import fr.lip6.move.coloane.interfaces.api.services.IApiService;
 
 /**
  * Define a menu that provides access to a service.
