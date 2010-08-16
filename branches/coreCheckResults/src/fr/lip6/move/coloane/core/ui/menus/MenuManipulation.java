@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.ui.menus;
 
 import fr.lip6.move.coloane.core.ui.actions.OptionAction;
 import fr.lip6.move.coloane.core.ui.actions.ServiceAction;
+import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
@@ -38,23 +39,42 @@ public final class MenuManipulation {
 
 	/**
 	 * Build a new sub-menu
-	 * @param menuDescription Description of the new sub-menu to build
+	 * @param itemDescription Description of the new sub-menu to build
 	 * @return A menu manager that corresponds to the menu description
 	 */
-	public static ColoaneMenuManager buildSubMenu(ISubMenu menuDescription) {
-		String menuId = menuDescription.getName().toLowerCase();
-		ColoaneMenuManager item = new ColoaneMenuManager(menuDescription.getName(), menuId, menuDescription.isVisible());
+	public static ColoaneMenuManager buildSubMenu(ColoaneAPIRootMenu rootMenu, IItemMenu itemDescription) {
+		String menuId = itemDescription.getName().toLowerCase();
 		
-		for (ISubMenu subMenu : menuDescription.getSubMenus()) {
-			item.add(buildSubMenu(subMenu));
+		// Deal with SubMenu
+		if (itemDescription instanceof ISubMenu) {
+			ISubMenu menuDescription = (ISubMenu) itemDescription;
+			ColoaneMenuManager item = new ColoaneMenuManager(menuDescription.getName(), menuId, menuDescription.isVisible(), menuDescription.getIcon());
+		
+			for (ISubMenu subMenu : menuDescription.getSubMenus()) {
+				item.add(buildSubMenu(rootMenu, subMenu));
+			}
+			for (IServiceMenu service : menuDescription.getServiceMenus()) {
+				item.add(buildServiceMenu(service, itemDescription.isVisible()));
+			}
+			for (IOptionMenu option : menuDescription.getOptions()) {
+				item.add(buildOptionMenu(option, itemDescription.isVisible()));
+			}
+			return item;
 		}
-		for (IServiceMenu service : menuDescription.getServiceMenus()) {
-			item.add(buildServiceMenu(service, menuDescription.isVisible()));
+		
+		// Deal with ServiceMenu
+		if (itemDescription instanceof IServiceMenu) {
+			rootMenu.add(buildServiceMenu((IServiceMenu) itemDescription, true));
+			return null;
 		}
-		for (IOptionMenu option : menuDescription.getOptions()) {
-			item.add(buildOptionMenu(option, menuDescription.isVisible()));
+		
+		// Deal with OptionMenu
+		if (itemDescription instanceof IOptionMenu) {
+			rootMenu.add(buildOptionMenu((IOptionMenu) itemDescription, true));
+			return null;
 		}
-		return item;
+		
+		return null;
 	}
 
 	/**
@@ -66,6 +86,7 @@ public final class MenuManipulation {
 	private static IAction buildServiceMenu(IServiceMenu service, boolean parentState) {
 		IAction item = new ServiceAction(service);
 		item.setEnabled(parentState && service.isVisible());
+		item.setImageDescriptor(service.getIcon());
 		return item;
 	}
 

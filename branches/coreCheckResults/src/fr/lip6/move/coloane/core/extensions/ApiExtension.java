@@ -4,9 +4,10 @@ import fr.lip6.move.coloane.core.communications.MenuObserver;
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.session.ISession;
 import fr.lip6.move.coloane.core.ui.menus.ColoaneAPIRootMenu;
+import fr.lip6.move.coloane.core.ui.menus.ColoaneMenuManager;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.interfaces.api.IApi;
-import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,14 +58,21 @@ public class ApiExtension {
 					ColoaneAPIRootMenu apiMenu = MenuManipulation.buildRootMenu(api.getName(), api.getDescription(), api.getIcon());
 					apiClass.addObserver(new MenuObserver(apiMenu));
 												
+					try {
 					// Build sub-menus
 					LOGGER.finer("Fetching sub-menus"); //$NON-NLS-1$
-					List<ISubMenu> submenus = api.getApiClass().getApiMenus();
-					for (ISubMenu submenu : submenus) {
-						apiMenu.add(MenuManipulation.buildSubMenu(submenu));
+					List<IItemMenu> submenus = api.getApiClass().getApiMenus();
+					for (IItemMenu submenu : submenus) {
+						ColoaneMenuManager newMenu = MenuManipulation.buildSubMenu(apiMenu, submenu);
+						if (newMenu != null) {
+							apiMenu.add(newMenu);
+						}
 					}
 					api.setRootMenu(apiMenu);
-
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
 					// Add the API description to the list of available APi for this formalism
 					availableApis.add(api);
 				} catch (ColoaneException e) {
