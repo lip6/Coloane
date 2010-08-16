@@ -73,6 +73,11 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	 * @param result Object that contains all the result for this service
 	 */
 	public final void add(String serviceName, IResult result) {
+		// If the current result should not be displayed (as specified), do not take care of it
+		if (!result.shouldBeDisplayed()) {
+			return;
+		}
+
 		// Lazy build of the services list (only if it is necessary).
 		if (services == null) {
 			this.buildServicesList();
