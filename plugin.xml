@@ -898,13 +898,26 @@
              </dynamic>
           </menu>
           <separator
-                name="separator.type"
+                name="separator.type.1"
                 visible="true">
           </separator>
           <dynamic
-                class="fr.lip6.move.coloane.core.extensions.ApiContribution"
-                id="fr.lip6.move.coloane.core.services.apis">
+                class="fr.lip6.move.coloane.core.extensions.ApiLocalContribution"
+                id="fr.lip6.move.coloane.core.services.localapis">
           </dynamic>
+          <separator
+                name="separator.type.2"
+                visible="true">
+          </separator>
+          <dynamic
+                class="fr.lip6.move.coloane.core.extensions.ApiGlobalContribution"
+                id="fr.lip6.move.coloane.core.services.globalapis">
+          </dynamic>
+          <visibleWhen checkEnabled="false">
+          	 <with variable="activeWorkbenchWindow.activePerspective">
+                  <equals value="fr.lip6.move.coloane.perspective"/>
+             </with>
+          </visibleWhen>
        </menu>
     </menuContribution>
  </extension>
