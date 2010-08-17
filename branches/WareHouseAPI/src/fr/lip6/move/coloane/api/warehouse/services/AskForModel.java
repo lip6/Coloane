@@ -5,7 +5,6 @@ import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
 import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.objects.dialog.AuthenticationDialog;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.Result;
 
@@ -20,25 +19,16 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 public class AskForModel implements IApiService {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 	
-	private boolean authentication = false;
-	
-	private final WareHouseApi api;
-
 	/**
 	 * Constructor
 	 * @param api The main API file
 	 */
-	public AskForModel(WareHouseApi api) { 
-		this.api = api;
-	}
+	public AskForModel(WareHouseApi api) { }
 
 	/**
 	 * The name of the service
@@ -50,34 +40,10 @@ public class AskForModel implements IApiService {
 	public String getDescription() {
 		return "Fetch a model from the Coloane warehouse";
 	}
-	
-	private void getAuthenticationData () {
-		PlatformUI.getWorkbench().getDisplay().syncExec(new Runnable() {
-		    public void run() {
-		    	Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
-		    	AuthenticationDialog authDialog = new AuthenticationDialog(activeShell);
-		    	if (authDialog.open() == Dialog.OK) {
-		    		api.setLogin(authDialog.getLoginValue());
-		    		api.setPassword(authDialog.getPasswordValue());
-		    		authentication = true;
-		    	} else {
-		    		api.setLogin("");
-		    		api.setPassword("");
-		    	}
-		    }
-		});
 
-	}
 
 	public List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
-		
-		if (authentication == false) {
-			this.getAuthenticationData();
-			if ("".equals(api.getLogin()) || "".equals(api.getPassword())) {
-				throw new ServiceException(ServiceException.AUTHENTICATION_ERROR, "No authentication information has been provided");
-			}
-		}
-		
+				
 		List<IResult> results = new ArrayList<IResult>();
 		Result result = new Result("newdemomodel");
 		results.add(result);
