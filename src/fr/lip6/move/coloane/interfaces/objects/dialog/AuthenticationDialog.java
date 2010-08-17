@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.interfaces.objects.dialog;
 
 import org.eclipse.jface.dialogs.TitleAreaDialog;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -38,6 +39,13 @@ public class AuthenticationDialog extends TitleAreaDialog {
 		super.create();
 		setTitle("Authentication");
 		setMessage("This service requires an authentication.");
+		setTitleImage(ImageDescriptor.createFromFile(this.getClass(), "/resources/dialog_auth.png").createImage());
+	}
+	
+	@Override
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
+		newShell.setText("Authentication");
 	}
 	
 	/**
