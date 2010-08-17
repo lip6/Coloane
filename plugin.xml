@@ -7,6 +7,7 @@
             class="fr.lip6.move.coloane.api.warehouse.WareHouseApi"
             description="Connection to a model warehouse"
             formalism="*"
+            global="true"
             icon="resources/database.png"
             name="Model Warehouse">
       </API>
