@@ -1,11 +1,13 @@
 package fr.lip6.move.coloane.core.session;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.extensions.ApiDescription;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Session Manager
@@ -65,6 +67,11 @@ public interface ISessionManager {
 	 * @return The list of all registered session
 	 */
 	Collection<ISession> getSessions();
+	
+	/**
+	 * @return The list of available <b>global</b> APIs
+	 */
+	List<ApiDescription> getAvailableGlobalApis();
 
 	/**
 	 * Add a listener about session changes.

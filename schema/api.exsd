@@ -52,21 +52,21 @@
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  The name of your API (will be to root of all your services)
+                  The name of your API (will be to root of all your services). Make it short.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="description" type="string">
             <annotation>
                <documentation>
-                  A description of your API
+                  A description of your API. Make it short.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  The main class of your API. It must implement IApi interface.
                </documentation>
                <appInfo>
                   <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.api.IApi"/>
@@ -76,18 +76,27 @@
          <attribute name="formalism" type="string" use="default" value="*">
             <annotation>
                <documentation>
-                  List of formalisms for which your API provides services
+                  List of formalisms for which your API provides services. If services provided by your API can be used on all formalisms, please use the wildcard &quot;*&quot; in this field.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="icon" type="string">
             <annotation>
                <documentation>
-                  An icon to be displayed in the menu bar just near your API services list
+                  An icon that will be displayed in the menu bar just near your API services list. If yo udon&apos;t provide any icon, there will be no icon near your API menu entry.
                </documentation>
                <appInfo>
                   <meta.attribute kind="resource"/>
                </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="global" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  An API is GLOBAL if all its services are not expect to be used with a dedicated model. For example, an API wich provides some new models does not require a specific model to be called. Beside, GLOBAL API will be available (through menu bar) even if no model is opened.
+
+On the contrary, LOCAL APIs require at least one model to be opened. It is because provided services will apply on the current opened (active) model. Thus, this kind of API will be available (through menu bar) only when a model is opened.
+               </documentation>
             </annotation>
          </attribute>
       </complexType>

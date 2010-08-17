@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.session;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.extensions.ApiDescription;
+import fr.lip6.move.coloane.core.extensions.ApiExtension;
 import fr.lip6.move.coloane.core.ui.checker.CheckerManager;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
@@ -8,6 +10,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -33,6 +36,9 @@ public final class SessionManager implements ISessionManager {
 
 	/** Listeners handler */
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+	
+	/** List of available (connected) <b>global</b> APIs */
+	private List<ApiDescription> apis = null;
 
 	/**
 	 * Constructor (private)
@@ -145,6 +151,14 @@ public final class SessionManager implements ISessionManager {
 		firePropertyChange(PROP_CURRENT_SESSION, previousSession, currentSession);
 		
 		return this.currentSession;
+	}
+	
+	/** {@inheritDoc} */
+	public List<ApiDescription> getAvailableGlobalApis() {
+		if (apis == null) {
+			apis = ApiExtension.getAvailableApis(null, true);
+		}
+		return apis;
 	}
 
 	/** {@inheritDoc} */

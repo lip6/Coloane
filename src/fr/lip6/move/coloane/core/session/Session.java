@@ -57,7 +57,7 @@ public class Session implements ISession {
 	/** The console (lazy loading) */
 	private MessageConsole console;
 	
-	/** List of available (connected) APIs */
+	/** List of available (connected) <b>local</b> APIs */
 	private List<ApiDescription> apis = null;
 
 	/** A list of tips. Each object may have several associated tips */
@@ -135,7 +135,7 @@ public class Session implements ISession {
 	/** {@inheritDoc} */
 	public List<ApiDescription> getAvailableApis() {
 		if (apis == null) {
-			apis = ApiExtension.getAvailableApis(this);
+			apis = ApiExtension.getAvailableApis(this, false);
 		}
 		return apis;
 	}
