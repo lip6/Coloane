@@ -17,6 +17,22 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 
+/**
+ * The class is able to find all API extensions.<br>
+ * 
+ * There exist two kind of APIs;
+ * <ul>
+ * 	<li>Local API</li>
+ * 	<li>Global API</li>
+ * </ul>
+ * 
+ * A local API provides services which apply on models. Most of APIs are local.
+ * A global API provides services that do not require any model to be opened to be executed.
+ * Typical example of such APIs is a model provider API (that provide examples of API). In that
+ * case no running (active) model is required. The service will just feed Coloane with a new model.
+ * 
+ * @author Jean-Baptiste Voron
+ */
 public class ApiExtension {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
@@ -30,6 +46,7 @@ public class ApiExtension {
 	private static final String ICON = "icon"; //$NON-NLS-1$
 	private static final String FORMALISM = "formalism"; //$NON-NLS-1$
 	private static final String CLASS = "class"; //$NON-NLS-1$
+	private static final String GLOBAL = "global"; //$NON-NLS-1$
 
 	/**
 	 * Looks for all available APIs (for a given formalism)
@@ -37,28 +54,39 @@ public class ApiExtension {
 	 * @return a list of available APIs
 	 * @see ApiDescription
 	 */
-	public static List<ApiDescription> getAvailableApis(ISession session) {
+	public static List<ApiDescription> getAvailableApis(ISession session, boolean globalApis) {
 		List<ApiDescription> availableApis = new ArrayList<ApiDescription>();
 
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		for (int i = 0; i < contributions.length; i++) {
-			String acceptedFormalism = contributions[i].getAttribute(FORMALISM);
+			// Check if the API is of the right type (GLOBAL, LOCAL)
+			boolean isGlobal = Boolean.parseBoolean(contributions[i].getAttribute(GLOBAL));
+			if (globalApis ^ isGlobal) { continue; }
 			
-			if (acceptedFormalism == null) {
-				LOGGER.warning("API not recognized. It does not declare a valid list of accepted formalisms"); //$NON-NLS-1$
-				continue;
+			// If the API is local, we have to check the current model formalism against the API accepted formalisms 
+			if (!globalApis) {
+				String acceptedFormalism = contributions[i].getAttribute(FORMALISM);
+				if (acceptedFormalism == null) {
+					LOGGER.warning("API not recognized. It does not declare a valid list of accepted formalisms"); //$NON-NLS-1$
+					continue;
+				}
+				
+				if (!(acceptedFormalism.equals("*")) && !(acceptedFormalism.equalsIgnoreCase(session.getGraph().getFormalism().getName()))) { //$NON-NLS-1$
+					LOGGER.warning("API not designed for this formalism " + session.getGraph().getFormalism()); //$NON-NLS-1$
+					continue;
+				}
 			}
-			if ((acceptedFormalism.equals("*")) || (acceptedFormalism.equalsIgnoreCase(session.getGraph().getFormalism().getName()))) { //$NON-NLS-1$
-				try {
-					IApi apiClass = (IApi) contributions[i].createExecutableExtension(CLASS);
-					ApiDescription api = new ApiDescription(apiClass, contributions[i].getAttribute(NAME), contributions[i].getAttribute(DESCRIPTION), contributions[i].getAttribute(ICON));
+			
+			try {
+				IApi apiClass = (IApi) contributions[i].createExecutableExtension(CLASS);
+				ApiDescription api = new ApiDescription(apiClass, contributions[i].getAttribute(NAME), contributions[i].getAttribute(DESCRIPTION), contributions[i].getAttribute(ICON));
 						
-					// Build the root menu
-					LOGGER.finer("Building the " + api.getName() + " root-menu associated with the session"); //$NON-NLS-1$ //$NON-NLS-2$
-					ColoaneAPIRootMenu apiMenu = MenuManipulation.buildRootMenu(api.getName(), api.getDescription(), api.getIcon());
-					apiClass.addObserver(new MenuObserver(apiMenu));
+				// Build the root menu
+				LOGGER.finer("Building the " + api.getName() + " root-menu associated with the session"); //$NON-NLS-1$ //$NON-NLS-2$
+				ColoaneAPIRootMenu apiMenu = MenuManipulation.buildRootMenu(api.getName(), api.getDescription(), api.getIcon());
+				apiClass.addObserver(new MenuObserver(apiMenu));
 												
-					try {
+				try {
 					// Build sub-menus
 					LOGGER.finer("Fetching sub-menus"); //$NON-NLS-1$
 					List<IItemMenu> submenus = api.getApiClass().getApiMenus();
@@ -69,20 +97,19 @@ public class ApiExtension {
 						}
 					}
 					api.setRootMenu(apiMenu);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					
-					// Add the API description to the list of available APi for this formalism
-					availableApis.add(api);
-				} catch (ColoaneException e) {
-					LOGGER.warning("Something went wrong during the association with the API : " + contributions[i].getAttribute(NAME)); //$NON-NLS-1$
-					LOGGER.warning(e.getLogMessage());
-					e.printStackTrace();
-				} catch (CoreException e) {
-					LOGGER.warning("The API main cannot be loaded." + e.getMessage()); //$NON-NLS-1$
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
+					
+				// Add the API description to the list of available APi for this formalism
+				availableApis.add(api);
+			} catch (ColoaneException e) {
+				LOGGER.warning("Something went wrong during the association with the API : " + contributions[i].getAttribute(NAME)); //$NON-NLS-1$
+				LOGGER.warning(e.getLogMessage());
+				e.printStackTrace();
+			} catch (CoreException e) {
+				LOGGER.warning("The API main cannot be loaded." + e.getMessage()); //$NON-NLS-1$
+				e.printStackTrace();
 			}
 		}
 		return availableApis;
