@@ -1,12 +1,11 @@
 package fr.lip6.move.coloane.api.warehouse;
 
-import fr.lip6.move.coloane.api.warehouse.services.AskForModel;
 import fr.lip6.move.coloane.api.warehouse.services.Authentication;
+import fr.lip6.move.coloane.api.warehouse.services.BrowseModels;
 import fr.lip6.move.coloane.interfaces.api.IApi;
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
-import fr.lip6.move.coloane.interfaces.objects.menu.OptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.SubMenu;
 
@@ -27,12 +26,19 @@ public class WareHouseApi extends Observable implements IApi  {
 	private String login;
 	private String password;
 	
+	/**
+	 * Constructor
+	 */
 	public WareHouseApi() {
 		LOGGER.config("Connected to Warehouse API");
 		this.authentication = false;
 		this.reBuildMenus();
 	}
 	
+	/**
+	 * Rebuild at any time the entire menu tree.<br>
+	 * This method take into account the state of various API properties
+	 */
 	private void reBuildMenus() {
 		this.menus.clear();
 		
@@ -47,24 +53,24 @@ public class WareHouseApi extends Observable implements IApi  {
 		IServiceMenu unauthMenu = new ServiceMenu("Unset Authentication", authentication, null, null, this.getImage("unauthenticate.png")); //$NON-NLS-1$);
 		menus.add(unauthMenu);
 
-		ISubMenu subMenu1 = new SubMenu("Fetch a model", authentication);
-		IServiceMenu service1 = new ServiceMenu("Demo", true, "A simple model for demonstration purpose", new AskForModel(this));
+		ISubMenu subMenu1 = new SubMenu("Models", authentication);
+		IServiceMenu service1 = new ServiceMenu("Browse models...", true, "A simple model for demonstration purpose", new BrowseModels(this));
 		subMenu1.addServiceMenu(service1);
 		menus.add(subMenu1);
 	}
 	
-	public void enrichMenus() {
-		ISubMenu subMenu2 = new SubMenu("Fine Options", true);
-		subMenu2.addOptionMenu(new OptionMenu("Debug", false, "no", true));
-		menus.add(subMenu2);
-		this.setChanged();
-		notifyObservers(menus);
-	}
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<IItemMenu> getApiMenus() {
 		return this.menus;
 	}
 	
+	/**
+	 * Set authentication properties
+	 * @param login The registered login
+	 * @param password The registered password
+	 */
 	public void setAuthentication(String login, String password) {
 		this.login = login;
 		this.password = password;
@@ -75,10 +81,16 @@ public class WareHouseApi extends Observable implements IApi  {
 		notifyObservers(menus);
 	}
 	
+	/**
+	 * @return The registered login
+	 */
 	public String getLogin() {
 		return login;
 	}
 	
+	/**
+	 * @return The registered password
+	 */
 	public String getPassword() {
 		return password;
 	}
