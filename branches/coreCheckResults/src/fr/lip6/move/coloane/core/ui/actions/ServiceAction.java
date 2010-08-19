@@ -51,7 +51,10 @@ public class ServiceAction extends Action {
 		final ISession currentSession = SessionManager.getInstance().getCurrentSession();
 
 		LOGGER.fine("Service execution : " + serviceDescription.getAssociatedService()); //$NON-NLS-1$
-		IGraph currentGraph = currentSession.getGraph();
+		IGraph currentGraph = null;
+		if (currentSession != null) {
+			currentGraph = currentSession.getGraph();
+		}
 		LOGGER.fine("Building the coloane job"); //$NON-NLS-1$		
 		ColoaneJob job = new ColoaneJob(this.serviceDescription.getName(), currentGraph, this.serviceDescription.getAssociatedService());
 		LOGGER.finer("Executing the coloane job"); //$NON-NLS-1$
@@ -64,20 +67,26 @@ public class ServiceAction extends Action {
 					List<IResult> results = ((ColoaneJob) event.getJob()).getResults();
 					LOGGER.fine("Browsing results..."); //$NON-NLS-1$		
 					for (IResult result : results) {
-						// Add textual results to the ResultManager
-						currentSession.getResultManager().add(result.getResultName(), result);
+						// A session is necessary to add results to the ResultManager
+						if (currentSession != null) {
+							// Add textual results to the ResultManager
+							currentSession.getResultManager().add(result.getResultName(), result);
+						}
 						
-						// Deal with modifications of the current graph
-						if (result.getDeltaRequestsList().size() > 0) {
-							// Create a new special command to apply incoming request
-							LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$		
-							final ApplyRequestsCmd command = new ApplyRequestsCmd(result.getDeltaRequestsList(), currentSession.getGraph());
-							Display.getDefault().asyncExec(new Runnable() {
-								public void run() {
-									LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$		
-									((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).executeCommand(command);
-								}
-							});
+						// A session is necessary to modify the current models
+						if (currentSession != null) {
+							// Deal with modifications of the current graph
+							if (result.getDeltaRequestsList().size() > 0) {
+								// Create a new special command to apply incoming request
+								LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$		
+								final ApplyRequestsCmd command = new ApplyRequestsCmd(result.getDeltaRequestsList(), currentSession.getGraph());
+								Display.getDefault().asyncExec(new Runnable() {
+									public void run() {
+										LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$		
+										((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).executeCommand(command);
+									}
+								});
+							}
 						}
 						
 						// Deal with a new graph (if existing)

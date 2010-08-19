@@ -120,7 +120,7 @@ public final class ModelLoader {
 	 * @param xmlModel The Java string that is the model description
 	 * @return The corresponding {@link IGraph}
 	 */
-	public static IGraph loadGraphFromXMLString(String xmlModel) {
+	public static IGraph loadGraphFromXML(String xmlModel) {
 		try {
 			StreamSource modelSource = new StreamSource(new java.io.StringReader(xmlModel));
 			ModelHandler modelHandler = new ModelHandler();
