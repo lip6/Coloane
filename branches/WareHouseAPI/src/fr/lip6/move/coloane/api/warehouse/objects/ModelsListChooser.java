@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.api.warehouse.objects;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
