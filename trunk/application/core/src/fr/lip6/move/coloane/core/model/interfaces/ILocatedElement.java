@@ -1,44 +1,44 @@
 package fr.lip6.move.coloane.core.model.interfaces;
 
+import fr.lip6.move.coloane.core.model.AttributeModel;
+import fr.lip6.move.coloane.core.model.NodeModel;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 /**
- * Interface définissant des objets positionnables sur l'éditeur.<br>
- * Ces objets doivent obligatoirement proposer :
+ * Interface that describes the way to manipulate objects located on the editor.<br>
+ * These objects must propose :
  * <ul>
- * 	<li>Une manière de récupérer les informations de positionnement</li>
- * 	<li>La gestion des guides verticaux et horizontaux</li>
+ * 	<li>A way to fetch their location (coordinates) {@link ILocationInfo}</li>
+ * 	<li>A way to handle vertical and horizontal guides {@link EditorGuide}</li>
  * </ul>
  * @see {@link NodeModel}, {@link AttributeModel}
+ * 
+ * @author Jean-Baptiste Voron
  */
 public interface ILocatedElement {
-
 	/**
-	 * Retourne les informations sur la position de l'objet
-	 * @return Les informations de positionnement
+	 * Fetch the current position of the object.
+	 * @return ILocationInfo
 	 */
 	ILocationInfo getLocationInfo();
 
 	/**
-	 * @return le guide horizontal associé à l'objet
+	 * @return the guide to which this object is attached
+	 * @see EditorGuide.#HORIZONTAL_ORIENTATION
+	 * @see EditorGuide.#VERTICAL_ORIENTATION
 	 */
-	EditorGuide getHorizontalGuide();
+	EditorGuide getGuide(int orientation);
 
 	/**
-	 * @return le guide vertical associÃ© Ã  l'objet
+	 * Set a new guide (horizontal or vertical) to this object
+	 * @param guide The new guide
 	 */
-	EditorGuide getVerticalGuide();
-
+	void setGuide(EditorGuide guide);
+	
 	/**
-	 * Positionne un nouveau guide horizontal sur l'objet
-	 * @param guide Le guide horizontal
+	 * Remove (detach) a guide from this object
+	 * @param guide The guide to remove
 	 */
-	void setHorizontalGuide(EditorGuide guide);
-
-	/**
-	 * Positionne un nouveau guide vertical sur l'objet
-	 * @param guide Le guide vertical
-	 */
-	void setVerticalGuide(EditorGuide guide);
+	void removeGuide(int orientation);
 }

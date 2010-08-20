@@ -3,55 +3,65 @@ package fr.lip6.move.coloane.core.copypast;
 import fr.lip6.move.coloane.core.copypast.container.GraphContainer;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.ui.actions.Clipboard;
 
 /**
- * Commande COUPER
+ * Cut command
  */
 public class CutCommand extends Command {
-	private Logger log = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	/** The graph */
+	private IGraph graph;
 
-	private ColoaneEditor editor;
+	/** The container of all copied objects */
 	private GraphContainer container;
 
+	/** Backup nodes */
 	private List<INode> nodes = new ArrayList<INode>();
+	/** Backup arcs */
 	private Set<IArc> arcs = new HashSet<IArc>();
 
 	/**
-	 * Constructeur
-	 * @param editor L'éditeur responsable de cette commande
+	 * Constructor
+	 * @param editor The current editor 
 	 */
 	public CutCommand(ColoaneEditor editor) {
-		this.editor = editor;
 		if (editor.getGraph() != null) {
+			this.graph = editor.getGraph();
 			container = new GraphContainer(editor.getGraph().getFormalism());
 		}
 	}
 
 	/**
-	 * @param node Ajout d'un noeud à couper
+	 * Add a node to cut
+	 * @param nodeAdd The node to cut
 	 */
 	public final void addNode(INode node) {
+		// Backup
 		nodes.add(node);
+		// Backup arcs
 		arcs.addAll(node.getOutgoingArcs());
 		arcs.addAll(node.getIncomingArcs());
+		// Container for Paste action
 		container.addNode(node);
 	}
 
 	/**
-	 * @param arc Ajout d'un arc à couper
+	 * Add an arc to cut
+	 * @param arc The arc to cut
 	 */
 	public final void addArc(IArc arc) {
+		// Backup
 		arcs.add(arc);
+		// Container for Paste action
 		container.addArc(arc);
 	}
 
@@ -67,9 +77,8 @@ public class CutCommand extends Command {
 		if (!canExecute()) {
 			return;
 		}
-		log.fine("Coupage de la sélection"); //$NON-NLS-1$
+		// Copy
 		Clipboard.getDefault().setContents(container);
-
 		redo();
 	}
 
@@ -83,10 +92,10 @@ public class CutCommand extends Command {
 	@Override
 	public final void redo() {
 		for (IArc arc : arcs) {
-			editor.getGraph().deleteArc(arc);
+			this.graph.deleteArc(arc);
 		}
 		for (INode node : nodes) {
-			editor.getGraph().deleteNode(node);
+			this.graph.deleteNode(node);
 		}
 	}
 
@@ -94,11 +103,10 @@ public class CutCommand extends Command {
 	@Override
 	public final void undo() {
 		for (INode node : nodes) {
-			editor.getGraph().addNode(node);
+			this.graph.addNode(node);
 		}
 		for (IArc arc : arcs) {
-			editor.getGraph().addArc(arc);
+			this.graph.addArc(arc);
 		}
 	}
-
 }

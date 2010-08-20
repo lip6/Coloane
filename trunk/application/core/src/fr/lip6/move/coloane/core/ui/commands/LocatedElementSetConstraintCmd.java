@@ -14,76 +14,87 @@ import java.util.Map;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * Commande pour deplacer un ILocatedElement
+ * Move an object (that is supposed to move : {@link ILocatedElement})
+ * 
+ * @author Clément Démoulins
+ * @author Jean-Baptiste Voron
  */
 public class LocatedElementSetConstraintCmd extends Command {
 
-	/** Enregistre la nouvelle taille et le nouvel endroit */
+	/** New location */
 	private final Point newLocation;
-	/** Enregistre l'ancienne taille et le nouvel endroit */
+	/** Old location */
 	private Point oldLocation;
+	
+	/** Difference between the new and the old locations */
 	private Dimension delta;
 
-	/** Noeud a manipuler */
-	private final ILocatedElement locElement;
+	/** Model object to move */
+	private final ILocatedElement element;
 
-	/** Arcs sur lesquels ont doit déplacer les points d'inflexion */
+	/** List of arcs for which inflex points have to be moved too */
 	private final List<IArc> arcsForPI = new ArrayList<IArc>();
 
-	/** Arcs sur lesquels ont doit déplacer les attributs */
+	/** List of arcs for which attributes have to be moved too */
 	private final List<IAttribute> arcsForAttr = new ArrayList<IAttribute>();
 	private final Map<IArc, Dimension> arcsMiddleDelta = new HashMap<IArc, Dimension>();
 
-	/** Attributs devant être déplacé */
+	/** Attributes that have to be moved too */
 	private final List<IAttribute> attributes = new ArrayList<IAttribute>();
 
 	/**
-	 * Constructeur
-	 * @param locElement élément à déplacer
-	 * @param newBounds Nouvelles limites
+	 * Constructor
+	 * @param element Model object to move
+	 * @param newLocation New location for the model object
 	 */
-	public LocatedElementSetConstraintCmd(ILocatedElement locElement, Rectangle newBounds) {
+	public LocatedElementSetConstraintCmd(ILocatedElement element, Point newLocation) {
 		super(Messages.NodeSetConstraintCmd_0);
-		if (locElement == null || newBounds == null) {
+		if (element == null || newLocation == null) {
 			throw new NullPointerException();
 		}
-		this.locElement = locElement;
-		this.newLocation = newBounds.getLocation().getCopy();
+		this.element = element;
+		this.newLocation = newLocation.getCopy();
 		this.newLocation.x = Math.max(this.newLocation.x, 0);
 		this.newLocation.y = Math.max(this.newLocation.y, 0);
 
+		// Need to get the current selection to control if arcs are involved in the move
 		ColoaneEditor ce = (ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		GraphicalViewer viewer = (GraphicalViewer) ce.getAdapter(GraphicalViewer.class);
 
-		// Liste des objet sélectionner pour déterminer comment déplacer les attributs des arcs et des noeuds ainsi que les PI
+		// List of selected objects (try to know if arcs are involved in this move)
 		StructuredSelection s = (StructuredSelection) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getSite().getSelectionProvider().getSelection();
 		List< ? > selection = s.toList();
 
-		if (locElement instanceof INode) {
-			INode node = (INode) locElement;
+		// If the element is a node, some arcs may be involved in the move
+		// If source node and target node are selected, arc has to be moved too (and also inflex point)
+		if (element instanceof INode) {
+			INode node = (INode) element;
 
-			// Création de la liste d'arcs devant être déplacé (les points d'inflexions)
+			// Deal with incoming arcs. 
+			// Attributes have to be moved too.
+			// Inflex point may be moved too.
 			for (IArc in : node.getIncomingArcs()) {
 				INode src = in.getSource();
+				// If the source node is also moved, the arc will be moved automatically (but not its inflex point)
 				if (selection.contains(viewer.getEditPartRegistry().get(src))) {
 					arcsForPI.add(in);
 				}
 
-				// Ajout des attributs non sélectionné des arcs du noeuds
+				// If the target node is moved... The arc will be moved too (but not its attributes)
 				for (IAttribute arcAttr : in.getAttributes()) {
 					if (!selection.contains(viewer.getEditPartRegistry().get(arcAttr))) {
 						arcsForAttr.add(arcAttr);
 					}
 				}
 			}
-			// Ajout des attributs non sélectionné des arcs du noeuds
+			
+			// If the source node is moved... The outgoing arcs will be moved too (but not their attributes)
 			for (IArc out : node.getOutgoingArcs()) {
 				for (IAttribute arcAttr : out.getAttributes()) {
 					if (!selection.contains(viewer.getEditPartRegistry().get(arcAttr))) {
@@ -93,11 +104,11 @@ public class LocatedElementSetConstraintCmd extends Command {
 			}
 		}
 
-		// Création de la liste des attributs devant être déplacé
-		if (locElement instanceof IElement) {
-			IElement element = (IElement) locElement;
+		// Generally, attributes of the moved element must be moved too
+		if (element instanceof IElement) {
+			IElement modelElement = (IElement) element;
 
-			for (IAttribute attr : element.getDrawableAttributes()) {
+			for (IAttribute attr : modelElement.getDrawableAttributes()) {
 				if (!selection.contains(viewer.getEditPartRegistry().get(attr))) {
 					attributes.add(attr);
 				}
@@ -106,8 +117,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 	}
 
 	/**
-	 * On peut toujours deplacer un noeud.
-	 * Le redimensionnement est bloque automatiquement par les EditPolicy
+	 * A node can always be moved
 	 * @return true
 	 */
 	@Override
@@ -118,10 +128,10 @@ public class LocatedElementSetConstraintCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		oldLocation = new Point(locElement.getLocationInfo().getLocation());
+		oldLocation = new Point(element.getLocationInfo().getLocation());
 		delta = newLocation.getDifference(oldLocation);
 
-		// Mise à jour des milieux des arcs dont des attributs doivent être déplacés
+		// Update middle point of arcs where attributes will  be moved
 		for (IAttribute arcAttr : arcsForAttr) {
 			if (arcAttr.getReference() instanceof IArc) {
 				IArc arc = (IArc) arcAttr.getReference();
@@ -129,13 +139,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 			}
 		}
 
-		// Déplacement de l'élément ainsi que les PI des arcs attachés dans le cas d'un noeud et certaines condition
-		locElement.getLocationInfo().setLocation(newLocation);
-		for (IArc arc : arcsForPI) {
-			arc.modifyInflexPoints(delta.width, delta.height);
-		}
-
-		// Calcul du delta de déplacement à appliquer aux attributs des arcs
+		// Build a map of delta move for arcs's attributes (needed for the undo operation)
 		for (IAttribute arcAttr : arcsForAttr) {
 			if (arcAttr.getReference() instanceof IArc) {
 				IArc arc = (IArc) arcAttr.getReference();
@@ -146,30 +150,20 @@ public class LocatedElementSetConstraintCmd extends Command {
 			}
 		}
 
-		// Déplacement des attributs des arcs attachés au noeud
-		for (IAttribute arcAttr : arcsForAttr) {
-			if (arcAttr.getReference() instanceof IArc) {
-				IArc arc = (IArc) arcAttr.getReference();
-				Dimension middleDelta = arcsMiddleDelta.get(arc);
-				if (middleDelta != null) {
-					arcAttr.getGraphicInfo().setLocation(arcAttr.getGraphicInfo().getLocation().getTranslated(middleDelta));
-				}
-			}
-		}
-
-		// Déplacement des attributs attachés à cet élément (locElement)
-		for (IAttribute attr : attributes) {
-			attr.getGraphicInfo().setLocation(attr.getGraphicInfo().getLocation().getTranslated(delta));
-		}
+		this.redo();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		locElement.getLocationInfo().setLocation(newLocation);
+		element.getLocationInfo().setLocation(newLocation);
+
+		// Move inflex points
 		for (IArc arc : arcsForPI) {
 			arc.modifyInflexPoints(delta.width, delta.height);
 		}
+		
+		// Move arc's attributes
 		for (IAttribute arcAttr : arcsForAttr) {
 			if (arcAttr.getReference() instanceof IArc) {
 				IArc arc = (IArc) arcAttr.getReference();
@@ -179,6 +173,8 @@ public class LocatedElementSetConstraintCmd extends Command {
 				}
 			}
 		}
+		
+		// Move node attributes
 		for (IAttribute attr : attributes) {
 			attr.getGraphicInfo().setLocation(attr.getGraphicInfo().getLocation().getTranslated(delta));
 		}
@@ -187,10 +183,15 @@ public class LocatedElementSetConstraintCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		locElement.getLocationInfo().setLocation(oldLocation);
+		// Undo the move of the node
+		element.getLocationInfo().setLocation(oldLocation);
+
+		// The move of inflex points
 		for (IArc arc : arcsForPI) {
 			arc.modifyInflexPoints(-delta.width, -delta.height);
 		}
+		
+		// Arc's attribute
 		for (IAttribute arcAttr : arcsForAttr) {
 			if (arcAttr.getReference() instanceof IArc) {
 				IArc arc = (IArc) arcAttr.getReference();
@@ -200,9 +201,9 @@ public class LocatedElementSetConstraintCmd extends Command {
 				}
 			}
 		}
+		// Node's attribute
 		for (IAttribute attr : attributes) {
 			attr.getGraphicInfo().setLocation(attr.getGraphicInfo().getLocation().getTranslated(delta.getNegated()));
 		}
 	}
-
 }

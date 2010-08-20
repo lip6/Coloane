@@ -21,6 +21,9 @@ import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Describe an <b>arc</b> model object
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 public class ArcModel extends AbstractElement implements IArc, ILinkableElement {
 	/** logger */
@@ -28,7 +31,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** The arc formalism */
 	private final IArcFormalism arcFormalism;
-	/** All gaphical information about this arc */
+	/** All graphical information about this arc */
 	private final IArcGraphicInfo graphicInfo;
 
 	/** Source */
@@ -57,9 +60,9 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	 */
 	ArcModel(IElement parent, IArcFormalism arcFormalism, int id, INode source, INode target) {
 		super(id, parent, arcFormalism.getAttributes(), arcFormalism.getComputedAttributes());
-		LOGGER.finest("Création d'un ArcModel(" + arcFormalism.getName() + ", " + source.getId() + " -> " + target.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		LOGGER.finest("Build an arc: " + arcFormalism.getName() + ", #" + source.getId() + " -> #" + target.getId()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		if (source == null || target == null) {
-			throw new NullPointerException("Argument must be not null"); //$NON-NLS-1$
+			throw new NullPointerException("Source and target nodes must be not null"); //$NON-NLS-1$
 		}
 		this.arcFormalism = arcFormalism;
 		this.source = source;
@@ -72,11 +75,15 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	 */
 	final void delete() {
 		// Browse all links and tell the source that the link will be destroyed
-		for (ILink link : links) {
-			link.getElement().removeLink(link);
+		for (ILink link : new ArrayList<ILink>(links)) {
+			link.disconnect();
 		}
-		// Flush the list
-		links.clear();
+
+		// The sticky links list should be empty (due to link.disconnect())
+		if (!links.isEmpty()) {
+			LOGGER.warning("The sticky link list is not clean... cleaning it now"); //$NON-NLS-1$
+			links.clear();
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -101,7 +108,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** {@inheritDoc} */
 	public final void addInflexPoint(Point p, int index) {
-		LOGGER.finest("addInflexPoint(" + p + ", " + index + ")");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.finest("Add a bendpoint at location: " + p + " and index:" + index);  //$NON-NLS-1$//$NON-NLS-2$
 		inflexPoints.add(index, new AbsoluteBendpoint(p));
 		graphicInfo.updateMiddlePoint();
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
@@ -109,7 +116,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** {@inheritDoc} */
 	public final void addInflexPoint(Point p) {
-		LOGGER.finest("addInflexPoint(" + p + ")");  //$NON-NLS-1$//$NON-NLS-2$
+		LOGGER.finest("Add a bendpoint at location: " + p);  //$NON-NLS-1$
 		inflexPoints.add(new AbsoluteBendpoint(p));
 		graphicInfo.updateMiddlePoint();
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
@@ -117,7 +124,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** {@inheritDoc} */
 	public final void removeInflexPoint(int index) {
-		LOGGER.finest("removeInflexPoint(" + index + ")");  //$NON-NLS-1$//$NON-NLS-2$
+		LOGGER.finest("Remove the bendpoint at index: " + index);  //$NON-NLS-1$
 		inflexPoints.remove(index);
 		graphicInfo.updateMiddlePoint();
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
@@ -125,7 +132,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** {@inheritDoc} */
 	public final void removeAllInflexPoints() {
-		LOGGER.finest("removeAllInflexPoints()");  //$NON-NLS-1$
+		LOGGER.finest("Remove all bendpoints");  //$NON-NLS-1$
 		inflexPoints.clear();
 		graphicInfo.updateMiddlePoint();
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
@@ -133,7 +140,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** {@inheritDoc} */
 	public final void modifyInflexPoint(int index, Point p) {
-		LOGGER.finest("modifyInflexPoint(" + p + ", " + index + ")");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.finest("Move the bendpoint at location: " + p + " and at index: " + index);  //$NON-NLS-1$//$NON-NLS-2$
 		inflexPoints.get(index).setLocation(p);
 		graphicInfo.updateMiddlePoint();
 		firePropertyChange(IArc.INFLEXPOINT_PROP, null, this);
@@ -141,7 +148,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** {@inheritDoc} */
 	public final void modifyInflexPoints(int dx, int dy) {
-		LOGGER.finest("modifyInflexPoint(" + dx + ", " + dy + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.finest("Move all the bendpoints accoring to the delta location (" + dx + ", " + dy + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		for (AbsoluteBendpoint inflexPoint : inflexPoints) {
 			inflexPoint.translate(dx, dy);
 		}
@@ -160,8 +167,8 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/** {@inheritDoc} */
 	public final void reconnect(INode newSource, INode newTarget) {
-		LOGGER.finest("reconnect(" + newSource.getId() + " -> " + newTarget.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		((NodeModel) source).removeOutcomingArc(this);
+		LOGGER.finest("Reconnect the arc #" + newSource.getId() + " -> #" + newTarget.getId()); //$NON-NLS-1$ //$NON-NLS-2$
+		((NodeModel) source).removeOutgoingArc(this);
 		((NodeModel) target).removeIncomingArc(this);
 
 		this.source = newSource;
@@ -227,6 +234,6 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
-		return "Arc(" + getId() + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		return "Arc #" + getId(); //$NON-NLS-1$
 	}
 }

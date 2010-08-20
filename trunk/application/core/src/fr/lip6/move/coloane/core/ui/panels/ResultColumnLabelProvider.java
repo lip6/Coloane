@@ -1,19 +1,16 @@
 package fr.lip6.move.coloane.core.ui.panels;
 
-import fr.lip6.move.coloane.core.results.IResultTree;
 
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 
 /**
- * Classe qui permet à la vue de récupérer le texte en fonction de la colonne et
- * de l'objet element passé à getText qui correspond à un IResultTree donc une
- * ligne de résultat.
+ * Provide a label for each tree column
  */
 public class ResultColumnLabelProvider extends ColumnLabelProvider {
 	private final int column;
 
 	/**
-	 * @param column colonne
+	 * @param column The interesting column number
 	 */
 	public ResultColumnLabelProvider(int column) {
 		this.column = column;
@@ -29,5 +26,4 @@ public class ResultColumnLabelProvider extends ColumnLabelProvider {
 			return ""; //$NON-NLS-1$
 		}
 	}
-
 }

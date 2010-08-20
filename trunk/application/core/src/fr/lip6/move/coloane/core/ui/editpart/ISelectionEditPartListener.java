@@ -3,18 +3,19 @@ package fr.lip6.move.coloane.core.ui.editpart;
 import org.eclipse.gef.EditPartListener;
 
 /**
- * Les classes qui implémentent cette interface doivent pouvoir fournir un EditPartListener.
+ * Classes that implement this interface want to be able to change their aspect according to the selection state.<br>
+ * In that case, they should provide a SelectionEditPArtListener.
  */
 public interface ISelectionEditPartListener {
 
 	/**
-	 * Constantes pour chaque état de sélection en plus des constantes définies dans EditPart
+	 * Some constants
 	 */
 	int HIGHLIGHT = 10;
 	int HIGHLIGHT_NONE = 11;
 
 	/**
-	 * @return listener qui va écouter les changements de sélection
+	 * @return The listener used to deal with the selection state
 	 */
 	EditPartListener getSelectionEditPartListener();
 }

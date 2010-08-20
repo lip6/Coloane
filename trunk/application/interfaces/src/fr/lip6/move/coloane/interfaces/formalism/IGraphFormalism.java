@@ -1,23 +1,23 @@
 package fr.lip6.move.coloane.interfaces.formalism;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
- * Cette classe décrit un conteneur de noeuds, d'arcs et d'attributs d'un formalisme.<br>
- * Chaque instance de formalisme contient forcément au moins un élément de ce type.<br>
- * Dans le cas de la hiérachie, ce conteneur peut être contenu dans un noeud de plus haut niveau.
+ * Describe all properties for a graph.<br>
+ * Basically, it contains nodes, arcs and attributes.<br>
+ * Every formalism instances have, at least, one instance of this element. 
  */
 public interface IGraphFormalism extends IElementFormalism {
 
 	/**
-	 * @return la liste de tous les éléments fils de ce graphe
+	 * @return all elements that are declared as members of this graph
 	 */
-	List<IElementFormalism> getAllElementFormalism();
+	Collection<IElementFormalism> getAllElementFormalism();
 
 	/**
-	 * @return l'élément de formalisme désigné par son nom
-	 * @param name Le nom de l'élément de formalisme désiré
+	 * Get the description (formalism) of an object thanks to its name
+	 * @param name The name of the object
+	 * @return The formalism associated to this object 
 	 */
 	IElementFormalism getElementFormalism(String name);
-
 }

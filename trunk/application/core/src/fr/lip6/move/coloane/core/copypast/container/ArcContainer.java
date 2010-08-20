@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.copypast.container;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -14,68 +15,90 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Color;
 
 /**
- * Classe permettant la reconstruction d'un arc
+ * Class that allow to re-build an arc.<br>
+ * This operation is used when a user copy/cut/paste an element from the model.
+ * 
+ * @author Clément Démoulins
  */
 public class ArcContainer {
+	/** Space used in order to avoid overlapping between old objects and new objects */
+	private static final int DELTA_COPY = 10;
+
+	/** Arc ID */
 	private int id;
 
+	/** Arc source ID */
 	private int idSource;
+	
+	/** Arc target ID */
 	private int idTarget;
-	private String arcFormalismName;
+	
+	/** Arc formalism */
+	private IArcFormalism arcFormalism;
 
-	private List<AttributContainer> attributs = new ArrayList<AttributContainer>();
+	/** List of arc attributes */
+	private List<AttributeContainer> attributs = new ArrayList<AttributeContainer>();
 
+	/** Arc foreground color */
 	private Color color;
+	
+	/** List of inflex point */
 	private List<Point> pis = new ArrayList<Point>();
 
 	/**
-	 * Constructeur
-	 * @param arc L'arc considéré
-	 * @param idSource id du NodeContainer source
-	 * @param idTarget id du NodeContainer cible
+	 * Constructor
+	 * @param arc The arc to store
 	 */
-	public ArcContainer(IArc arc, int idSource, int idTarget) {
-		id = arc.getId();
-		this.idSource = idSource;
-		this.idTarget = idTarget;
-		color = arc.getGraphicInfo().getColor();
-		arcFormalismName = arc.getArcFormalism().getName();
+	public ArcContainer(IArc arc) {
+		this.id = arc.getId();
+		this.idSource = arc.getSource().getId();
+		this.idTarget = arc.getTarget().getId();
+		this.color = arc.getGraphicInfo().getColor();
+		this.arcFormalism = arc.getArcFormalism();
 
-		// Sauvegarde des points d'inflexion
+		// Inflex points backup
 		for (Bendpoint bp : arc.getInflexPoints()) {
 			pis.add(bp.getLocation());
 		}
-		// Sauvegarde des attributs
+		// Attributes backup
 		for (IAttribute attr : arc.getAttributes()) {
-			attributs.add(new AttributContainer(attr));
+			attributs.add(new AttributeContainer(attr));
 		}
 	}
 
 	/**
-	 * Copier un arc
-	 * @param graph Le graphe qui contient l'arc
-	 * @param source La source de l'arc
-	 * @param target La cible de l'arc
-	 * @return une copie de l'IArcImpl passée au constructeur
-	 * @throws ModelException Si la création de l'arc c'est mal passé.
+	 * Duplicate an arc (use when the user paste a new arc)
+	 * @param graph The graph that will hold the arc
+	 * @param source The source of the arc
+	 * @param target The target of the arc
+	 * @return An IArc already added to the graph
+	 * @throws ModelException If something went wrong during the creation
 	 */
 	public final IArc copy(IGraph graph, INode source, INode target) throws ModelException {
-		// Décalage des points d'inflexion
+		// Move inflex point to create a distinct arc
 		for (Point p : pis) {
-			p.x += 10;
-			p.y += 10;
+			p.translate(DELTA_COPY, DELTA_COPY);
 		}
-		// Décalage des attributs
-		for (AttributContainer ac : attributs) {
-			ac.setLocation(ac.getLocation().x + 10, ac.getLocation().y + 10);
+		
+		// If there is no inflex point, create one to be able to distinguish between the two arcs
+		if (pis.isEmpty()) {
+			pis.add(source.getGraphicInfo().getLocation().getCopy().translate(DELTA_COPY, DELTA_COPY));
+		}
+		
+		// Move attributes to avoid overlapping with old attributes
+		for (AttributeContainer ac : attributs) {
+			ac.setLocation(ac.getLocation().translate(DELTA_COPY, DELTA_COPY));
 		}
 
-		IArc arc = graph.createArc(arcFormalismName, source, target);
+		// Create the arc
+		IArc arc = graph.createArc(arcFormalism, source, target);
 		arc.getGraphicInfo().setColor(color);
-		for (AttributContainer ac : attributs) {
+		// Set the attributes
+		for (AttributeContainer ac : attributs) {
 			arc.getAttribute(ac.getName()).setValue(ac.getValue());
 			arc.getAttribute(ac.getName()).getGraphicInfo().setLocation(ac.getLocation());
 		}
+		// Set the inflex points
 		for (int index = 0; index < pis.size(); index++) {
 			Point p = pis.get(index);
 			arc.addInflexPoint(p, index);
@@ -84,21 +107,21 @@ public class ArcContainer {
 	}
 
 	/**
-	 * @return id du NodeContainer source
+	 * @return The ID of the source node 
 	 */
 	public final int getIdSource() {
 		return idSource;
 	}
 
 	/**
-	 * @return id du NodeContainer cible
+	 * @return The ID of the target node
 	 */
 	public final int getIdTarget() {
 		return idTarget;
 	}
 
 	/**
-	 * @return id de cette ArcContainer
+	 * @return The ID of the arc container
 	 */
 	public final int getId() {
 		return id;

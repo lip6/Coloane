@@ -1,7 +1,9 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
@@ -15,7 +17,7 @@ import java.util.logging.Logger;
  * 
  * @author Jean-Baptiste Voron
  */
-public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement {
+public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement, ISpecialState {
 	/** The main logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -43,7 +45,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * @param attributeFormalism The properties of this attribute (given by the formalism)
 	 */
 	AttributeModel(IElement reference, IAttributeFormalism attributeFormalism) {
-		LOGGER.finest("Création d'un AttributeModel(" + attributeFormalism.getName() + ", " + reference.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.finest("Build an attribute: " + attributeFormalism.getName() + " for #" + reference.getId()); //$NON-NLS-1$ //$NON-NLS-2$
 		this.reference = reference;
 		this.attributFormalism = attributeFormalism;
 		this.name = attributeFormalism.getName();
@@ -64,9 +66,9 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	public final void setValue(String value) {
 		if (value == null) { return; }
 		String oldValue = this.value;
-		this.value = value;
+		// Warn the controller about the change only if it is necessary
 		if (!oldValue.equals(value)) {
-			LOGGER.finest("setValue(" + value + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+			this.value = value;
 			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
 		}
 	}
@@ -74,6 +76,11 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	/** {@inheritDoc} */
 	public final IAttributeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
+	}
+	
+	/** {@inheritDoc} */
+	public final ILocationInfo getLocationInfo() {
+		return this.graphicInfo;
 	}
 
 	/** {@inheritDoc} */
@@ -86,35 +93,42 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 		return attributFormalism;
 	}
 
-
 	/** {@inheritDoc} */
-	public final EditorGuide getHorizontalGuide() {
-		return this.horizontalGuide;
+	public final EditorGuide getGuide(int orientation) {
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			return this.horizontalGuide;
+		} else {
+			return this.verticalGuide;
+		}
 	}
 
 	/** {@inheritDoc} */
-	public final EditorGuide getVerticalGuide() {
-		return this.verticalGuide;
+	public final void setGuide(EditorGuide guide) {
+		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			this.horizontalGuide = guide;
+		} else {
+			this.verticalGuide = guide;
+		}
+	}
+	
+	/** {@inheritDoc} */
+	public final void removeGuide(int orientation) {
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			this.horizontalGuide = null;
+		} else {
+			this.verticalGuide = null;
+		}
 	}
 
-	/** {@inheritDoc} */
-	public final void setHorizontalGuide(EditorGuide guide) {
-		this.horizontalGuide = guide;
-	}
-
-	/** {@inheritDoc} */
-	public final void setVerticalGuide(EditorGuide guide) {
-		this.verticalGuide = guide;
-	}
-
-	/** {@inheritDoc} */
-	public final ILocationInfo getLocationInfo() {
-		return this.graphicInfo;
-	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
-		return "Attribut(" + name + ": " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "Attribute: " + name + "= " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+	}
+	
+	/** {@inheritDoc} */
+	public final void setSpecialState(boolean state) {
+		firePropertyChange(SPECIAL_STATE_CHANGE, null, state);
 	}
 }

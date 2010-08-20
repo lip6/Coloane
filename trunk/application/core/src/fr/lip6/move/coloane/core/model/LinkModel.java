@@ -3,35 +3,51 @@ package fr.lip6.move.coloane.core.model;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 
 import java.util.logging.Logger;
 
 /**
- * Modèle d'un lien entre deux éléments (ILinkableElement).
+ * Link between two elements {@link IElement}
  */
 public class LinkModel implements ILink {
-	/** Le logger */
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+	/** The sticky note */
 	private IStickyNote note;
+	/** The element that is linked to the sticky note */
 	private ILinkableElement element;
 
 	/**
-	 * Création d'un lien entre deux éléments. Un lien n'est pas orienté, il n'y
-	 * a aucune différence entre la source et la cible.
+	 * Constructor.<br>
+	 * Create a link between two elements. 
+	 * This link is not oriented.
 	 * <br><br>
-	 * Attention, il n'y a aucune restriction au niveau du modèle sur la source
-	 * et la cible. Exemple : On pourrait avoir un lien entre deux noeuds.
-	 * @param note source du lien
-	 * @param element cible du lien
+	 * @param note The sticky note
+	 * @param element The element
 	 */
-	LinkModel(IStickyNote note, ILinkableElement element) {
-		LOGGER.fine("Création d'un link : " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$
+	public LinkModel(IStickyNote note, ILinkableElement element) {
+		LOGGER.fine("Build a link: " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$
 		if (note == null || element == null) {
 			throw new NullPointerException("Argument must be not null"); //$NON-NLS-1$
 		}
 		this.note = note;
 		this.element = element;
+	}
+	
+	/** {@inheritDoc} */
+	public final void connect() {
+		LOGGER.finer("Connect the link: " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$
+		this.note.addLink(this);
+		this.element.addLink(this);
+	}
+
+	/** {@inheritDoc} */
+	public final void disconnect() {
+		LOGGER.finer("Disconnect the link: " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$
+		this.note.removeLink(this);
+		this.element.removeLink(this);
 	}
 
 	/** {@inheritDoc} */

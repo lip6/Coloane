@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.interfaces.model;
 
+import fr.lip6.move.coloane.interfaces.formalism.IComputedAttributeFormalism;
+
 import java.util.Collection;
 
 /**
@@ -29,7 +31,8 @@ public interface IElement extends IAbstractPropertyChange {
 	IAttribute getAttribute(String name);
 
 	/**
-	 * @return Collection of drawable attribut.
+	 * @return Collection of drawable attributes. This list also contains computedAttributes
+	 * @see IComputedAttributeFormalism
 	 */
 	Collection<IAttribute> getDrawableAttributes();
 

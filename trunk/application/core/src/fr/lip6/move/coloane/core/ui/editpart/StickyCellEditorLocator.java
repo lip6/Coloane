@@ -9,7 +9,7 @@ import org.eclipse.swt.widgets.Text;
 
 
 /**
- * Permet de calculer la position de la zone d'édition par rapport à la stickyNote.
+ * Compute the best location for the editing zone associated to a sticky note
  * @see CellEditorLocator
  */
 public final class StickyCellEditorLocator implements CellEditorLocator {
@@ -17,13 +17,15 @@ public final class StickyCellEditorLocator implements CellEditorLocator {
 	private StickyNoteFigure stickyNote;
 
 	/**
-	 * @param stickyNote note associée
+	 * @param stickyNote Associated sticky note
 	 */
 	public StickyCellEditorLocator(StickyNoteFigure stickyNote) {
 		setLabel(stickyNote);
 	}
 
-	/** {@inheritDoc} */
+	/** 
+	 * {@inheritDoc}
+	 */
 	public void relocate(CellEditor celleditor) {
 		Text text = (Text) celleditor.getControl();
 		Rectangle rect = stickyNote.getClientArea();
@@ -49,5 +51,4 @@ public final class StickyCellEditorLocator implements CellEditorLocator {
 	protected void setLabel(StickyNoteFigure stickyNote) {
 		this.stickyNote = stickyNote;
 	}
-
 }

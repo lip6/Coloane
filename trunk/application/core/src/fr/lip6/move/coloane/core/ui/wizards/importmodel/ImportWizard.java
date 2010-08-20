@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.wizards.importmodel;
 
-import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.extensions.ImportFromExtension;
+import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
 
 import java.util.logging.Logger;
 
@@ -14,41 +14,42 @@ import org.eclipse.ui.IImportWizard;
 import org.eclipse.ui.IWorkbench;
 
 /**
- * Assistant d'import de fichier (externes au workspace).
- * Cet assistant est composé d'une page {@link ImportWizardPage}
+ * Wizard dedicated to importing files (transform them into models).
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class ImportWizard extends Wizard implements IImportWizard, IExecutableExtension {
-	/** Le logger pour la classe */
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Identifiant de l'assistant (wizard) **/
-	private String idWizard = null;
+	/** Wizard ID which is used to find the correspond import worker **/
+	private String importType = null;
 
-	/** La page du wizard chargee d'afficher les controles graphiques **/
-	private ImportWizardPage selectFilePage;
+	/** The wizard page **/
+	private ImportWizardPage page;
 
-	/** L'instance de conversion a utiliser */
-	private IImportFrom instance;
+	/** The import worker */
+	private IImportFrom worker;
 
 	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle(Messages.ImportWizard_0);
-		selectFilePage = new ImportWizardPage(workbench, selection, instance, idWizard);
+		page = new ImportWizardPage(workbench, selection, this.worker, this.importType);
 		setNeedsProgressMonitor(true);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void addPages() {
-		addPage(selectFilePage);
+		addPage(page);
 		super.addPages();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final boolean canFinish() {
-		if (this.idWizard == null) {
-			selectFilePage.setErrorMessage(Messages.ImportWizard_1);
+		if (this.importType == null) {
+			page.setErrorMessage(Messages.ImportWizard_1);
 			return false;
 		}
 		return super.canFinish();
@@ -57,28 +58,31 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	/** {@inheritDoc} */
 	@Override
 	public final boolean performFinish() {
-		return selectFilePage.finish();
+		return page.finish();
 	}
 
 	/**
-	 * Indique l'identifiant du wizard (extension) ayant appelee cette methode.
-	 * Cet identifiant est necessaire pour determiner le type de convertisseur a instancier
-	 * @param id Le format a utiliser pour l'export
+	 * Set the kind of import that is performed.
+	 * Build up the import worker.
+	 * @param idWizard The wizard id used by as handle by the extension points
 	 */
-	protected final void setImportFormat(String id) {
-		this.idWizard = id;
+	protected final void setImportFormat(String idWizard) {
+		LOGGER.finer("Selected wizard: " + idWizard); //$NON-NLS-1$
+		this.importType = idWizard;
+		
+		try {
+			// Set up the import builder
+			this.worker = (IImportFrom) ImportFromExtension.createConvertInstance(this.importType);
+			LOGGER.finer("Set up the import extension"); //$NON-NLS-1$
+		} catch (CoreException ce) {
+			LOGGER.warning("Unable to load the import extension: " + ce);  //$NON-NLS-1$
+			page.setErrorMessage(Messages.ImportWizard_1);
+		}
 	}
 
 	/** {@inheritDoc} */
-	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
-		this.idWizard = config.getAttribute("id"); //$NON-NLS-1$
-		LOGGER.finer("Wizard selectionne : " + idWizard); //$NON-NLS-1$
-
-		this.instance = (IImportFrom) ImportFromExtension.createConvertInstance(this.idWizard);
-		LOGGER.finer("Instanciation de l'extension OK !"); //$NON-NLS-1$
-
-		if (this.instance == null) {
-			LOGGER.warning("Erreur lors de la creation de l'instance de conversion"); //$NON-NLS-1$
-		}
+	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) {
+		// Fetch the identifier of the wizard, in order to find the corresponding export extension.
+		this.setImportFormat(config.getAttribute("id")); //$NON-NLS-1$
 	}
 }

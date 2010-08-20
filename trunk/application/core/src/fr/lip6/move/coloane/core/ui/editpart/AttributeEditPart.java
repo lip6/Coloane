@@ -1,6 +1,8 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
+import fr.lip6.move.coloane.core.model.AttributeModel;
+import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -47,6 +49,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	private boolean select = false;
 	private boolean elementSelect = false;
 	private boolean highlight = false;
+	private boolean special = false;
 
 	private Font font;
 
@@ -199,6 +202,10 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		if (this.highlight) {
 			getFigure().setBackgroundColor(ColorConstants.lightGray);
 		}
+		// Special state (coming from problem view)
+		if (special) {
+			getFigure().setForegroundColor(ColorConstants.red);
+		}
 
 		// Font update
 		if (this.font == null || this.font.isDisposed()) {
@@ -227,7 +234,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	 */
 	@Override
 	protected final void createEditPolicies() {
-		// Allow the edition of the attribute value directly on the editor
+		// Allow the edition of the attribute value directly on the editor (only for standard attributes)
 		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new AttributeDirectEditPolicy());
 
 		// All rules about select state
@@ -295,13 +302,17 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	@Override
 	public final void performRequest(Request request) {
 		if (request.getType() == RequestConstants.REQ_DIRECT_EDIT) {
-			performDirectEdit();
+			// Editing is allowed only for standard attributes
+			if (getModel() instanceof AttributeModel) {
+				performDirectEdit();
+			} else {
+				LOGGER.finer("This attribute cannot be edited since it is computed from several attributes value"); //$NON-NLS-1$
+			}
 		}
 	}
 
 	/** {@inheritDoc} */
 	public final void propertyChange(PropertyChangeEvent event) {
-		LOGGER.finest("Evénement pour un attribut: " + event.getPropertyName());  //$NON-NLS-1$
 		String prop = event.getPropertyName();
 
 		// When the value of the attribute is modified somewhere
@@ -326,6 +337,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				attribute.getGraphicInfo().setLocation(computeLocation(attribute));
 			}		
 			// In all cases, the view must be refreshed
+			refreshVisuals();
+		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {
+			special = (Boolean) event.getNewValue();
 			refreshVisuals();
 		}
 	}

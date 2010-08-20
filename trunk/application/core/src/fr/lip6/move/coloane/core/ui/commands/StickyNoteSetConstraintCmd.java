@@ -6,23 +6,23 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande pour deplacer une note
+ * Move a stocky note
  */
 public class StickyNoteSetConstraintCmd extends Command {
 
-	/** La nouvelle position et taille de la note */
-	private final Rectangle newBounds;
-
-	/** L'ancienne taille et position utilisée pour les <i>undo</i> */
-	private Rectangle oldBounds;
-
-	/** Le modèle de la note */
+	/** The note */
 	private final IStickyNote note;
 
+	/** The new size and position */
+	private final Rectangle newBounds;
+
+	/** The old size and positions */
+	private Rectangle oldBounds;
+
 	/**
-	 * Constructeur de la commande
-	 * @param note Le modèle de la note manipulée
-	 * @param newBounds Nouvelle taille et position de la note
+	 * Constructor
+	 * @param note The note
+	 * @param newBounds New size and location
 	 */
 	public StickyNoteSetConstraintCmd(IStickyNote note, Rectangle newBounds) {
 		if (note == null || newBounds == null) {

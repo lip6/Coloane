@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.editpart;
 
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-import fr.lip6.move.coloane.core.ui.commands.StickyNoteEditCommand;
+import fr.lip6.move.coloane.core.ui.commands.StickyNoteEditCmd;
 import fr.lip6.move.coloane.core.ui.figures.sticky.StickyNoteFigure;
 
 import org.eclipse.gef.commands.Command;
@@ -10,7 +10,9 @@ import org.eclipse.gef.requests.DirectEditRequest;
 
 
 /**
- * Règles pour l'édition des notes.
+ * Sticky Notes editing policies
+ * 
+ * @author Clément Démoulins
  */
 public class LabelDirectEditPolicy extends DirectEditPolicy {
 
@@ -19,7 +21,7 @@ public class LabelDirectEditPolicy extends DirectEditPolicy {
 	protected final Command getDirectEditCommand(DirectEditRequest edit) {
 		String labelText = (String) edit.getCellEditor().getValue();
 		StickyEditPart label = (StickyEditPart) getHost();
-		StickyNoteEditCommand command = new StickyNoteEditCommand((IStickyNote) label.getModel(), labelText);
+		StickyNoteEditCmd command = new StickyNoteEditCmd((IStickyNote) label.getModel(), labelText);
 		return command;
 	}
 

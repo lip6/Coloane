@@ -3,40 +3,42 @@ package fr.lip6.move.coloane.core.ui.commands;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Commande de deplacement d'un attribut
+ * Set a new position for an attribute
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class AttributeSetConstraintCmd extends Command {
 
-	/** Enregistre la nouvelle taille et le nouvel endroit */
-	private final Rectangle newBounds;
+	/** The new location for the attribute */
+	private Point newPosition;
 
-	/** Enregistre l'ancienne taille et le nouvel endroit */
-	private Point oldBounds;
+	/** The old location (backed-up to be able to undo the operation) */
+	private Point oldPosition;
 
-	/** Noeud à manipuler */
+	/** The attribute */
 	private final IAttribute attribute;
 
 	/**
-	 * Constructeur
-	 * @param a attribut
-	 * @param newBounds Nouvelles limites
+	 * Constructor
+	 * @param attribute The attribute to move
+	 * @param newPosition New position for the attribute
 	 */
-	public AttributeSetConstraintCmd(IAttribute a, Rectangle newBounds) {
+	public AttributeSetConstraintCmd(IAttribute attribute, Point newPosition) {
 		super(Messages.AttributeSetConstraintCmd_0);
-		if (a == null || newBounds == null) {
-			throw new IllegalArgumentException();
-		}
-		this.attribute = a;
-		this.newBounds = newBounds.getCopy();
+		// Attribute and NewPosition should not be null
+		assert(attribute != null);
+		assert(newPosition != null);
+		
+		this.attribute = attribute;
+		this.newPosition = newPosition.getCopy();
 	}
 
 	/**
-	 * On peut toujours deplacer un noeud.
-	 * Le redimensionnement est bloque automatiquement par les EditPolicy
+	 * A node is always movable.
+	 * Its size is given by the formalism and blocked by the <i>editpolicies</i>
 	 * @return true
 	 */
 	@Override
@@ -47,20 +49,20 @@ public class AttributeSetConstraintCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		oldBounds = attribute.getGraphicInfo().getLocation();
+		this.oldPosition = attribute.getGraphicInfo().getLocation();
 		this.redo();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		attribute.getGraphicInfo().setLocation(newBounds.getLocation());
+		attribute.getGraphicInfo().setLocation(newPosition);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		attribute.getGraphicInfo().setLocation(oldBounds);
+		attribute.getGraphicInfo().setLocation(oldPosition);
 	}
 
 }

@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.core.extensions;
 
 import fr.lip6.move.coloane.core.ui.actions.LocalAction;
+import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,11 @@ import org.eclipse.ui.statushandlers.StatusManager;
  * @author Jean-Baptiste Voron
  */
 public class ToolsContribution extends CompoundContributionItem {
+	
+	String NAME = "name"; //$NON-NLS-1$
+	String ICON = "icon"; //$NON-NLS-1$
+	String DESCRIPTION = "description"; //$NON-NLS-1$
+	String ACTION = "action"; //$NON-NLS-1$
 	
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
@@ -50,17 +56,21 @@ public class ToolsContribution extends CompoundContributionItem {
 		IConfigurationElement[] tools = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_ID);
 		for (int i = 0; i < tools.length; i++) {
 
-			String name = tools[i].getAttribute(IColoaneAction.NAME);
-			String description = tools[i].getAttribute(IColoaneAction.DESCRIPTION);
-			String icon = "/" + tools[i].getAttribute(IColoaneAction.ICON); //$NON-NLS-1$
+			String name = tools[i].getAttribute(NAME);
+			String description = tools[i].getAttribute(DESCRIPTION);
+			String icon = "/" + tools[i].getAttribute(ICON); //$NON-NLS-1$
 
 			// Create the associated action
 			try {
-				IColoaneAction action = (IColoaneAction) tools[i].createExecutableExtension(IColoaneAction.ACTION);
+				IService action = (IService) tools[i].createExecutableExtension(ACTION);
 				IAction localAction = new LocalAction(name, description, ImageDescriptor.createFromFile(action.getClass(), icon), action);
 				allContribs.add(new ActionContributionItem(localAction));
 			} catch (CoreException e) {
-				LOGGER.warning("Extension " + name + " was unable to be instanciated"); //$NON-NLS-1$ //$NON-NLS-2$
+				LOGGER.warning("Extension [" + name + "] was unable to be instanciated"); //$NON-NLS-1$ //$NON-NLS-2$
+				IStatus warningStatus = new Status(IStatus.ERROR, "fr.lip6.move.coloane.extensions.tools", "Extension " + name + " was unable to be instanciated");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				StatusManager.getManager().handle(warningStatus);
+			} catch (ClassCastException ce) {
+				LOGGER.warning("Extension [" + name + "] was unable to be instanciated (invalid tool)"); //$NON-NLS-1$ //$NON-NLS-2$
 				IStatus warningStatus = new Status(IStatus.ERROR, "fr.lip6.move.coloane.extensions.tools", "Extension " + name + " was unable to be instanciated");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				StatusManager.getManager().handle(warningStatus);
 			}
@@ -70,6 +80,13 @@ public class ToolsContribution extends CompoundContributionItem {
 		IContributionItem[] toReturn = new IContributionItem[allContribs.size()];
 		for (int i = 0; i < allContribs.size(); i++) {
 			toReturn[i] = allContribs.get(i);
+		}
+		
+		if (toReturn.length == 0) {
+			toReturn = new IContributionItem[1];
+			IAction localAction = new LocalAction("No tool currently available", "", null, null);  //$NON-NLS-1$//$NON-NLS-2$
+			localAction.setEnabled(false);
+			toReturn[0] = new ActionContributionItem(localAction);
 		}
 
 		return toReturn;

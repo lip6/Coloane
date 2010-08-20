@@ -4,10 +4,12 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "fr.lip6.move.coloane.core.ui.commands.messages"; //$NON-NLS-1$
+	public static String AlternateFigureCmd_0;
 	public static String ArcChangeCurve_0;
 	public static String ArcCreateCmd_0;
 	public static String ArcDeleteCmd_0;
 	public static String ArcReconnectCmd_0;
+	public static String AttributeEditCommand_0;
 	public static String AttributeSetConstraintCmd_0;
 	public static String CreateGuideCommand_0;
 	public static String DeleteGuideCommand_0;

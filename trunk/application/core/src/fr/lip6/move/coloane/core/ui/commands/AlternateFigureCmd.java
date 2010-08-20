@@ -5,7 +5,9 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Command that switches a node figure between the standard one and the alternate one.
+ * Command that switches a node figure between the standard one and one of the alternate one.
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class AlternateFigureCmd extends Command {
 
@@ -20,7 +22,7 @@ public class AlternateFigureCmd extends Command {
 	 * @param node Node on which the action has to be performed
 	 */
 	public AlternateFigureCmd(INode node) {
-		super("Alternate Figure"); //$NON-NLS-1$
+		super(Messages.AlternateFigureCmd_0);
 		this.node = (INode) node;
 	}
 

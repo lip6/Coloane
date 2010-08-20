@@ -1,42 +1,115 @@
 package fr.lip6.move.coloane.interfaces.objects.result;
 
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.command.ICommand;
+import fr.lip6.move.coloane.interfaces.model.requests.IRequest;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Cette interface décrit un résultat renvoyé par la plate-forme
+ * This interface describes a <b>result</b> sent by a tool.
+ * A result is basically composed of :
+ * <ul>
+ * 	<li>Sub-Results</li>
+ * 	<li>Textual Results</li>
+ * 	<li>Special Information: Tips</li>
+ * 	<li>A new model</li>
+ * 	<li>Some modifications to perform on the current model</li>
+ * </ul>
+ *
+ * @author Jean-Baptiste Voron
+ * @author Florian David
  */
 public interface IResult {
+	
+	/**
+	 * Add a sub-result in the sub-result list. 
+	 * @param subResult The sub-result added to the list.
+	 */
+	void addSubResult(ISubResult subResult);
 
 	/**
-	 * @return tous les sous-résultats
+	 * Add a special information to the existing list
+	 * @param tip The special information to add to the list
+	 */
+	void addTip(ITip tip);
+	
+	/**
+	 * Add a tip to the tip list.
+	 * @param object the tip will belong to this object.
+	 * @param name the tip name.
+	 * @param value the tip value.
+	 */
+	void addTip(IElement object, String name, String value);
+	
+	/**
+	 * Add a request to the existing list of delta requests.<br>
+	 * These requests specify the transformation from the current graph to a new one.
+	 * @param request The request to add to the list
+	 */
+	void addDeltaRequest(IRequest request);
+	
+	/**
+	 * Add a list of requests to the existing list of delta requests.<br>
+	 * These requests specify the transformation from the current graph to a new one.
+	 * @param requests The list of requests to add to the list
+	 */
+	void addDeltaRequests(List<IRequest> requests);
+	
+	/**
+	 * Set a new graph as result.<br>
+	 * This new graph will be displayed in a new editor.
+	 * @param newGraph The new graph
+	 */
+	void setNewGraph(IGraph newGraph);
+
+	/**
+	 * Add a set of requests that describe modification to perform on a new model
+	 * @param requests A list of requests to apply on the new graph
+	 */
+	void addNewGraphDeltaRequest(List<IRequest> requests);
+
+	/**
+	 * Return the name of the result (name of the called tool is preferred).
+	 * @return the result name.
+	 */
+	String getResultName();
+
+	/**
+	 * @return The list of sub-results contained in the result.
 	 */
 	List<ISubResult> getSubResults();
+	
+	/**
+	 * @return The list of requests to apply on the current graph
+	 */
+	public List<IRequest> getDeltaRequestsList();
 
 	/**
-	 * @return le nom du menu racine qui contient le service qui fournit ces résultats
+	 * @return The list of requests to apply on the new graph
 	 */
-	String getRootName();
+	public List<IRequest> getNewComputedGraphDeltaRequestsList();
 
 	/**
-	 * @return le nom du service qui a été invoqué
+	 * @return The new graph attached to this result
 	 */
-	String getServiceName();
+	public IGraph getNewComputedGraph();
 
 	/**
-	 * @return la liste d'informations associées au résultat
+	 * @return The list of textual results contained in the result.
 	 */
-	List<ITip> getTipsList();
+	List<List<String>> getTextualResults();
 
 	/**
-	 * @return le nouveau graphe qui doit être affiché dans une nouvelle fenêtre
+	 * @see ITip
+	 * @return The list of special information associated to the result.
 	 */
-	IGraph getNewGraph();
-
+	Map<Integer, List<ITip>> getTips();
+	
 	/**
-	 * @return les modifications à faire sur le graphe courant
+	 * Should the result be displayed to the user
+	 * @return <code>true</code> if the result should be displayed to the user
 	 */
-	List<ICommand> getModificationsOnCurrentGraph();
+	boolean shouldBeDisplayed();
 }

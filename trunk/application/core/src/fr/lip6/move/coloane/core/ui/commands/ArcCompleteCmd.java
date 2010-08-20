@@ -8,61 +8,69 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.logging.Logger;
 
-import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.gef.commands.Command;
-
 /**
- * Second step for the link creation between two nodes !<br>
- * This command is created when the user has designated the <b>target object</b>.
- * The special case source = target must be handled here !
+ * Second step of the creation of an arc between two nodes.
+ * This command is created when the user chooses the target of the arc.
+ *
  * @see ArcCreateCmd
+ * @author Jean-Baptiste Voron
  */
-public class ArcCompleteCmd extends Command {
-	/** Log factory */
+public class ArcCompleteCmd extends CheckableCmd {
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** The current graph */
+	/** The graph on which the arc will be created */
 	private IGraph graph;
 
-	/** Arc Source */
+	/** Source node */
 	private final INode source;
 
-	/** Arc Target */
+	/** Target node */
 	private final INode target;
 
-	/** Arc description (formalism) */
+	/** The formalism that describes the arc */
 	private final IArcFormalism arcFormalism;
 
-	/** The arc */
+	/** The created arc */
 	private IArc arc;
 
 	/**
-	 * Connect the arc
-	 * @param source Source
-	 * @param target Target
-	 * @param formalism Formalism
+	 * Create the command to build up the arc
+	 * @param source Source node
+	 * @param target Target node
+	 * @param arcFormalism The formalism that describes the arc (its properties)
 	 */
-	public ArcCompleteCmd(INode source, INode target, IArcFormalism formalism) {
+	public ArcCompleteCmd(INode source, INode target, IArcFormalism arcFormalism) {
+		// Fetch the parent model from the source node... Source and target parent must be the same  
+		assert(source.getParent().equals(target.getParent()));
 		this.graph = (IGraph) source.getParent();
 		this.source = source;
 		this.target = target;
-		this.arcFormalism = formalism;
+		this.arcFormalism = arcFormalism;
+		
+		// This new arc must be locally checked
+		addCheckableElement(arc);
+		// Its source and its target must be checked too
+		addCheckableElement(source);
+		addCheckableElement(target);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final boolean canExecute() {
-		// Is the connection correct according to the formalism ?
-		return arcFormalism.getFormalism().isLinkAllowed(this.source, this.target, this.arcFormalism);
+		// Is the connection authorized by the formalism ?
+		if (!arcFormalism.getFormalism().isLinkAllowed(this.source, this.target, this.arcFormalism)) {
+			return false;
+		}
+		return true;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		// Build the arc
+		// Build up the arc
 		try {
-			// The arc has to be created
-			arc = graph.createArc(arcFormalism.getName(), source, target);
+			this.arc = this.graph.createArc(arcFormalism, source, target);
 			
 			// Handle the special case where the source and the target node of the arc are the same
 			if (source.equals(target)) {
@@ -73,7 +81,7 @@ public class ArcCompleteCmd extends Command {
 				arc.addInflexPoint(new Point(x+20,y-20));
 			}
 		} catch (ModelException e) {
-			LOGGER.warning("Impossible de construire l'arc: " + e.toString()); //$NON-NLS-1$
+			LOGGER.warning("Unable to build the arc: " + e.toString()); //$NON-NLS-1$
 			e.printStackTrace();
 		}
 	}

@@ -8,15 +8,17 @@ import org.eclipse.swt.widgets.Text;
 
 
 /**
- * Classe utile à l'édition des attributs dans l'éditeur.
- * Elle permet de déterminer la position du CellEditor par rapport à l'attribut.
+ * Class used to edit attributes directly into the model.<br>
+ * It allow to compute the best location for the cell editor area.
  */
 public final class AttributeCellEditorLocator implements CellEditorLocator {
 
+	/** The attribute figure (which is a label) */
 	private Label attributeFigure;
 
 	/**
-	 * @param attributeFigure figure de l'attribut associé
+	 * Constructor
+	 * @param attributeFigure The attribute figure
 	 */
 	public AttributeCellEditorLocator(Label attributeFigure) {
 		this.attributeFigure = attributeFigure;
@@ -35,20 +37,4 @@ public final class AttributeCellEditorLocator implements CellEditorLocator {
 		rect.height += trim.height;
 		text.setBounds(rect.x, rect.y, rect.width, rect.height);
 	}
-
-	/**
-	 * @return the stickyNote figure.
-	 */
-	protected Label getLabel() {
-		return attributeFigure;
-	}
-
-	/**
-	 * Sets the attribut figure.
-	 * @param attributeFigure the attribut figure to set
-	 */
-	protected void setLabel(Label attributeFigure) {
-		this.attributeFigure = attributeFigure;
-	}
-
 }

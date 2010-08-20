@@ -33,7 +33,7 @@ import org.eclipse.ui.progress.UIJob;
 
 /**
  * Provider for model file of the models navigator.
- * Display for models additionnals informations : <ol>
+ * Display for models additional informations : <ol>
  * <li>public nodes
  * <li>links to another models
  * </ol>

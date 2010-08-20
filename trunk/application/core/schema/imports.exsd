@@ -69,7 +69,7 @@
                </appInfo>
             </annotation>
          </attribute>
-         <attribute name="reference" type="string" use="required">
+         <attribute name="wizard_id" type="string" use="required">
             <annotation>
                <documentation>
                   

@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -16,33 +17,36 @@ import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * Description d'une note qui sera affichée sur l'éditeur
+ * Sticky Note
+ * 
+ * @author Clément Démoulins
+ * @author Jean-Baptiste Voron
  */
 public class StickyNoteModel extends AbstractPropertyChange implements IStickyNote, ILocatedElement {
-	/** Logger 'fr.lip6.move.coloane.core'. */
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Les coordonnées de la note */
-	private int x;
-	private int y;
-	private int height;
-	private int width;
+	/** Location */
+	private Point location;
+	
+	/** Dimensions */
+	private Dimension dimension;
 
-	/** Les guides pour l'alignement automatique */
+	/** Guides to help the alignment */
 	private EditorGuide horizontalGuide;
 	private EditorGuide verticalGuide;
 
-	/** Le texte par défaut de la note */
+	/** Default text */
 	private String text = "Sticky"; //$NON-NLS-1$
 
-	/** Liste des liens */
+	/** List of links for this note */
 	private List<ILink> links = new ArrayList<ILink>();
 
-	/**
-	 * Constructeur
-	 */
+	/** Constructor */
 	StickyNoteModel() {
-		LOGGER.finest("Création d'une StickyNote()"); //$NON-NLS-1$
+		LOGGER.finest("Build a sticky note with default values"); //$NON-NLS-1$
+		this.location = new Point(0,0);
+		this.dimension = new Dimension(100, 70);
 	}
 
 	/** {@inheritDoc} */
@@ -52,15 +56,10 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** {@inheritDoc} */
 	public final void setLabelContents(String newText) {
-		LOGGER.finest("setLabelContent(" + newText + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		// sauvegarde de l'ancienne valeur
-		String oldText = this.text;
-
-		// Mise en place de la nouvelle valeur
-		this.text = newText;
-
-		// Evenement
-		firePropertyChange(IStickyNote.VALUE_PROP, oldText, this.text);
+		LOGGER.finest("Set note value " + newText); //$NON-NLS-1$
+		String oldText = this.text; // Backup the old value
+		this.text = newText; // Set the text
+		firePropertyChange(IStickyNote.VALUE_PROP, oldText, this.text); // Tells the editor that something has changed
 	}
 
 	/** {@inheritDoc} */
@@ -70,21 +69,15 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** {@inheritDoc} */
 	public final Point getLocation() {
-		return new Point(this.x, this.y);
+		return this.location;
 	}
 
 	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
-		LOGGER.finest("setLocation(" + location + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		// Sauvegarde des anciennes valeurs
-		Point oldLocation = getLocation();
-
-		// Mise en place des nouvelles
-		this.x = location.x;
-		this.y = location.y;
-
-		// Evénement
-		firePropertyChange(LOCATION_PROP, oldLocation, getLocation());
+		LOGGER.finest("Set sticky note location " + location); //$NON-NLS-1$
+		Point oldLocation = getLocation(); // Backup
+		this.location = location.getCopy();
+		firePropertyChange(LOCATION_PROP, oldLocation, getLocation()); // Tells the editor that something has changed
 	}
 	
 	/** {@inheritDoc} */
@@ -94,41 +87,42 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** {@inheritDoc} */
 	public final Dimension getSize() {
-		return new Dimension(this.width, this.height);
+		return this.dimension;
 	}
 
 	/** {@inheritDoc} */
 	public final void setSize(Dimension size) {
-		LOGGER.finest("setSize(" + size + ")"); //$NON-NLS-1$ //$NON-NLS-2$
-		// Sauvegarde des anciennes valeurs
-		Dimension oldDimension = getSize();
-
-		// Mise en place des nouvelles valeurs
-		this.width = size.width;
-		this.height = size.height;
-
-		// Evénement
-		firePropertyChange(IStickyNote.RESIZE_PROP, oldDimension, getSize());
+		LOGGER.finest("Set sticky note dimensions " + size); //$NON-NLS-1$
+		Dimension oldDimension = getSize(); // Backup old value
+		this.dimension = size;
+		firePropertyChange(IStickyNote.RESIZE_PROP, oldDimension, getSize()); // Tells the editor that something has changed
 	}
 
 	/** {@inheritDoc} */
-	public final EditorGuide getHorizontalGuide() {
-		return this.horizontalGuide;
+	public final EditorGuide getGuide(int orientation) {
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			return this.horizontalGuide;
+		} else {
+			return this.verticalGuide;
+		}
 	}
 
 	/** {@inheritDoc} */
-	public final EditorGuide getVerticalGuide() {
-		return this.verticalGuide;
+	public final void setGuide(EditorGuide guide) {
+		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			this.horizontalGuide = guide;
+		} else {
+			this.verticalGuide = guide;
+		}
 	}
-
+	
 	/** {@inheritDoc} */
-	public final void setHorizontalGuide(EditorGuide guide) {
-		this.horizontalGuide = guide;
-	}
-
-	/** {@inheritDoc} */
-	public final void setVerticalGuide(EditorGuide guide) {
-		this.verticalGuide = guide;
+	public final void removeGuide(int orientation) {
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			this.horizontalGuide = null;
+		} else {
+			this.verticalGuide = null;
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -147,5 +141,11 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 		boolean res = links.remove(link);
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
 		return res;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final String toString() {
+		return "Sticky Note {" + text + "}"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
