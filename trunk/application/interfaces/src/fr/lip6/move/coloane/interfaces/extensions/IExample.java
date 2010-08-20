@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.interfaces.extensions;
 
 import fr.lip6.move.coloane.interfaces.exceptions.PluginException;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 /**
@@ -14,5 +15,5 @@ public interface IExample {
 	 * @return The resulting model
 	 * @throws PluginException Something went wrong
 	 */
-	IGraph buildModel() throws PluginException;
+	IGraph buildModel(IFormalism formalism) throws PluginException;
 }
