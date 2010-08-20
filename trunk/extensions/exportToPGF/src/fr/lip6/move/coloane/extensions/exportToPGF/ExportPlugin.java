@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.extensions.exportToPGF;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.extensions.exportToPGF.converters.UnknownFormalismException;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.BufferedWriter;
@@ -24,9 +24,9 @@ public final class ExportPlugin implements IExportTo {
 	 * @param graph The graph to export to TikZ.
 	 * @param filePath The file where to put TikZ generated code.
 	 * @param monitor A progress monitor.
-	 * @throws ColoaneException An exception thrown when a problem is encountered.
+	 * @throws ExtensionException An exception thrown when a problem is encountered.
 	 */
-	public void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ColoaneException {
+	public void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ExtensionException {
 		Logger logger = Logger.getLogger("fr.lip6.move.coloane.core");
 		Exporter exporter = new Exporter(monitor);
 		int totalWork = graph.getNodes().size() + graph.getArcs().size();
@@ -39,13 +39,13 @@ public final class ExportPlugin implements IExportTo {
 			outputBuffer.close();
 		} catch (FileNotFoundException fe) {
 			logger.warning("Invalid file name");
-			throw new ColoaneException("Invalid filename !");
+			throw new ExtensionException("Invalid filename !");
 		} catch (IOException ioe) {
 			logger.warning("Cannot write to file");
-			throw new ColoaneException("Write error :" + ioe.getMessage());
+			throw new ExtensionException("Write error :" + ioe.getMessage());
 		} catch (UnknownFormalismException e) {
 			logger.warning("No converter for formalism " + graph.getFormalism().getId());
-			throw new ColoaneException("Write error :" + e.getMessage());
+			throw new ExtensionException("Write error :" + e.getMessage());
 		}
 		monitor.done();
 	}
