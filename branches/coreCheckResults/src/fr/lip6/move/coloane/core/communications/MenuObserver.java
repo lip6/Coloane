@@ -3,11 +3,11 @@ package fr.lip6.move.coloane.core.communications;
 import fr.lip6.move.coloane.core.ui.menus.ColoaneAPIRootMenu;
 import fr.lip6.move.coloane.core.ui.menus.ColoaneMenuManager;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
+import fr.lip6.move.coloane.interfaces.api.IApi;
+import fr.lip6.move.coloane.interfaces.api.IApiObserver;
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import java.util.logging.Logger;
 
 /**
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
-public class MenuObserver implements Observer {
+public class MenuObserver implements IApiObserver {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 	
@@ -31,9 +31,8 @@ public class MenuObserver implements Observer {
 	 * {@inheritDoc}
 	 */
 	@SuppressWarnings("unchecked")
-	public void update(Observable o, Object newMenus) {
+	public void update(IApi api, Object newMenus) {
 		LOGGER.warning("Menu should be updated"); //$NON-NLS-1$
-		LOGGER.finer("Cleaning..."); //$NON-NLS-1$
 		this.rootMenu.removeAll();
 
 		// Build sub-menus

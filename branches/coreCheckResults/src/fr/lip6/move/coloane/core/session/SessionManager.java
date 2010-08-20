@@ -186,16 +186,4 @@ public final class SessionManager implements ISessionManager {
 			}
 		});
 	}
-
-	/**
-	 * Ask all sessions to display a message in their console
-	 * @param message The message to display
-	 * @param type The type of message
-	 * @see MessageType
-	 */
-	public void printConsoleMessage(String message, MessageType type) {
-		for (ISession session : sessions.values()) {
-			((Session) session).printConsoleMessage(message, type);
-		}
-	}
 }

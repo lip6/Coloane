@@ -214,6 +214,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	public final void propertyChange(PropertyChangeEvent property) {
 		String prop = property.getPropertyName();
 
+
 		// Event that announce a link change
 		if (INode.INCOMING_ARCS_PROP.equals(prop)) {
 			LOGGER.finest("Update incoming arcs"); //$NON-NLS-1$
