@@ -7,7 +7,7 @@
             class="fr.lip6.move.coloane.extensions.exportToDOT.ExportToImpl"
             id="fr.lip6.move.coloane.extensions.exportdot"
             extension="dot"
-            reference="fr.lip6.move.coloane.wizard.export.dot">
+            wizard_id="fr.lip6.move.coloane.wizard.export.dot">
          <AcceptedFormalism
                id="PT-Net">
          </AcceptedFormalism>
