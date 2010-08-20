@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.interfaces.extensions;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -19,5 +20,5 @@ public interface IImportFrom {
 	 * @return an {@link IGraph} using an appropriate formalism
 	 * @throws ColoaneException If something went wring during the import process
 	 */
-	IGraph importFrom(String filePath, String formalism, IProgressMonitor monitor) throws ExtensionException;
+	IGraph importFrom(String filePath, IFormalism formalism, IProgressMonitor monitor) throws ExtensionException;
 }
