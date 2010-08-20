@@ -1,12 +1,12 @@
 package fr.lip6.move.coloane.tools.layout;
 
-import fr.lip6.move.coloane.core.extensions.IColoaneAction;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.requests.IRequest;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.Result;
 import fr.lip6.move.coloane.interfaces.objects.result.SubResult;
+import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 /**
  * The action of laying out a graph.
  */
-public class LayoutAction implements IColoaneAction {
+public class LayoutAction implements IService {
 	/**
 	 * {@inheritDoc}
 	 */
