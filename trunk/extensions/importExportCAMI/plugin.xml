@@ -7,7 +7,7 @@
             class="fr.lip6.move.coloane.extensions.importExportCAMI.exportToCAMI.ExportToImpl"
             extension="cami"
             id="fr.lip6.move.coloane.extensions.exportcami"
-            reference="fr.lip6.move.coloane.wizard.export.cami">
+            wizard_id="fr.lip6.move.coloane.wizard.export.cami">
          <AcceptedFormalism
                id="PT-Net">
          </AcceptedFormalism>
@@ -27,7 +27,7 @@
       <Import
             class="fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importcami"
-            reference="fr.lip6.move.coloane.wizard.import.cami">
+            wizard_id="fr.lip6.move.coloane.wizard.import.cami">
          <AcceptedFormalism
                id="PT-Net">
          </AcceptedFormalism>
