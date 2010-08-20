@@ -8,6 +8,8 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.logging.Logger;
 
+import org.eclipse.draw2d.geometry.Point;
+
 /**
  * Second step of the creation of an arc between two nodes.
  * This command is created when the user chooses the target of the arc.

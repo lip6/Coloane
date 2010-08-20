@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -50,7 +50,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	private final IWorkbench workbench;
 
 	/** The project we want to add the new model to */
-	private IContainer currentContainer;
+	private IProject currentProject;
 
 	/** The list of available example */
 	private Combo patternsList = null;
@@ -81,7 +81,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		setFileExtension(Coloane.getParam("MODEL_EXTENSION")); //$NON-NLS-1$
 
 		// IF the user has already selected a project, no need to ask him/her again
-		if (this.currentContainer != null) {
+		if (this.currentProject != null) {
 			setFileName(this.computeDefaultModelName());
 		}
 	}
@@ -256,14 +256,14 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	 * @return <code>true</code> if everything went fine; <code>false</code> otherwise
 	 */
 	private boolean checkName(String modelName) {
-		return this.currentContainer.findMember(modelName) != null;
+		return this.currentProject.getFile(modelName).exists();
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final boolean isPageComplete() {
 		// The project must not be null
-		if (this.currentContainer != null) {
+		if (this.currentProject != null) {
 			return true;
 		}
 
