@@ -4,12 +4,17 @@ import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 
 import java.util.List;
 
-public interface IApi extends IObservable {
+public interface IApi {
 
-		public final int MENU_OBSERVER = 0;
+		/**
+		 * @return The initial list of menus associated with the API
+		 */
+		List<IItemMenu> getInitialApiMenus();
 		
 		/**
-		 * @return The list of menus associated with the API
+		 * Add a specific observer to the API
+		 * @param observer The observer object
+		 * @param observerType The kind of observer
 		 */
-		List<IItemMenu> getApiMenus();
+		void addObserver(IApiObserver observer, int observerType);
 }
