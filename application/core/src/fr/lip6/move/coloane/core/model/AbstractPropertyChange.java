@@ -4,12 +4,13 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 /**
- * Gestionnaire de modifications de propriétés
+ * Manager for listeners
+ * 
+ * @author Jean-Baptiste Voron
  */
 public abstract class AbstractPropertyChange {
-	/**
-	 * Manage properties change listeners.
-	 */
+
+	/** Manage properties change listeners. */
 	private PropertyChangeSupport pcsDelegate = new PropertyChangeSupport(this);
 
 	/**
@@ -22,7 +23,7 @@ public abstract class AbstractPropertyChange {
 
 	/**
 	 * Remove the listener
-	 * @param listener the listener to remove
+	 * @param listener The listener to remove
 	 */
 	public final synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcsDelegate.removePropertyChangeListener(listener);

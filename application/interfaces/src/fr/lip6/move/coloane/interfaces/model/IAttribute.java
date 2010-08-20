@@ -44,7 +44,7 @@ public interface IAttribute extends IAbstractPropertyChange {
 	void setValue(String value);
 
 	/**
-	 * Fetch the object that describe all graphical properties for this attribute
+	 * Fetch the object that describe all graphical properties for this attribute.<br>
 	 * @return IAttributeGraphicInfo
 	 * @see IAttributeGraphicInfo
 	 */

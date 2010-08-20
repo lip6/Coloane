@@ -4,14 +4,17 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 
 /**
- * Page composant l'assistant de création de nouveaux fichiers modèles
+ * Wizard page for new project creation
+ * 
+ * @see NewProjectWizard
+ * @author Jean-Baptiste Voron
  */
 public class ProjectCreationPage extends WizardNewProjectCreationPage {
 
 	/**
-	 * Constructeur
-	 * @param pageName Le nom de la page à construire
-	 * @param selection La sélection courante dans le workbench
+	 * Constructor
+	 * @param pageName The page name
+	 * @param selection The current selection <i>(not used here)</i>
 	 */
 	public ProjectCreationPage(String pageName, IStructuredSelection selection) {
 		super(pageName);
@@ -20,11 +23,12 @@ public class ProjectCreationPage extends WizardNewProjectCreationPage {
 	}
 
 	/**
-	 * Permission de finir ?
-	 * @return boolean (false)
+	 * Can finish ?
+	 * @return <code>true</code>
 	 */
 	public final boolean finish() {
+		// Always return true.
+		// Default values will be used if necessary
 		return true;
 	}
-
 }

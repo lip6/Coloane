@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.commands.RemoveInflexCmd;
+import fr.lip6.move.coloane.core.ui.commands.InflexDeleteAllCmd;
 import fr.lip6.move.coloane.core.ui.editpart.ArcEditPart;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
@@ -65,7 +65,7 @@ public class RemoveInflexAction extends SelectionAction {
 		CompoundCommand commandsGroup = new CompoundCommand();
 		if (getSelectedNode() == null) { return; }
 		for (IArc arc : getSelectedNode()) {
-			commandsGroup.add(new RemoveInflexCmd(arc));
+			commandsGroup.add(new InflexDeleteAllCmd(arc));
 		}
 		execute(commandsGroup);
 	}

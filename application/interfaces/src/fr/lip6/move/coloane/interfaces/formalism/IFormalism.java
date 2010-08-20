@@ -3,53 +3,55 @@ package fr.lip6.move.coloane.interfaces.formalism;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
- * Définition d'un formalisme.<br>
+ * Describe a formalism.<br>
+ * Here, the formalism is used to describe all nodes, arcs and attributes that can be used in a model.<br>
+ * Some constraints can also be defined :
+ * <ul>
+ * 	<li>constraints between nodes</li>
+ * 	<li>constraints on node actions</li>
+ * </ul>
  */
 public interface IFormalism {
 
 	/**
-	 * Indique si la création de l'arc est possible
-	 * @param source (modele) La source de l'arc
-	 * @param target (modele) La cible de l'arc
-	 * @param arcFormalism Le formalism de l'arc
-	 * @return <code>true</code> si la liaison est possible
+	 * Tells if the arc creation is allowed or not
+	 * @param source The source node
+	 * @param target The target node
+	 * @param arcFormalism The arc formalism
+	 * @return <code>true</code> if the creation is allowed
 	 */
 	boolean isLinkAllowed(INode source, INode target, IArcFormalism arcFormalism);
 
 	/**
-	 * Indique si l'action sur un noeud du modele est envisageable
-	 * @param node Element (modele) sur lequel l'action est entreprise
-	 * @return <code>true</code> si la liaison est possible
+	 * Tells if the action is allowed on this particular node
+	 * @param node The node
+	 * @return <code>true</code> if the action is allowed
 	 */
 	boolean isActionAllowed(INode node);
 
 	/**
-	 * @return l'id du formalisme
+	 * @return The formalism ID
 	 */
 	String getId();
 
 	/**
-	 * @return Le nom du formalisme
+	 * @return The formalism name
 	 */
 	String getName();
 
 	/**
-	 * @return Le nom du parent du formalisme (identifiant historique)
+	 * @return The formalism ID for FK platform (kept for historical reason)
+	 * @deprecated
 	 */
 	String getFKName();
 
 	/**
-	 * @return L'image associée à toutes les instances de ce formalisme
+	 * @return The image associated to this formalism
 	 */
 	String getImageName();
 
 	/**
-	 * @return Le graphe principal du formalisme
+	 * @return The root graph that is using this formalism
 	 */
-	IGraphFormalism getMasterGraph();
-
-	/**
-	 * @return Le nom du formalisme
-	 */
-	String toString();
+	IGraphFormalism getRootGraph();
 }

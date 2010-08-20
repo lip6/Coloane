@@ -9,149 +9,151 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Définition d'un guide
+ * Define a guide
+ * 
+ * @author Jean-Baptiste Voron
  */
-public class EditorGuide {
-	/** Property used to notify listeners when the parts attached to a guide are changed */
-	public static final String PROPERTY_CHILDREN = "elements changed"; //$NON-NLS-1$
+public class EditorGuide {	
+	/** Property used to notify listeners when an element is attached/detached to/from the guide */
+	public static final String ELEMENT_PROP = "Guide.Element"; //$NON-NLS-1$
 
 	/** Property used to notify listeners when the guide is re-positioned */
-	public static final String PROPERTY_POSITION = "position changed"; //$NON-NLS-1$
+	public static final String PROPERTY_POSITION = "Guide.Position"; //$NON-NLS-1$
 
 	private PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
-	/** Une map d'élément de modèle fixés sur ce guide */
-	private Map<ILocatedElement, Integer> map;
+	/**
+	 *  All elements that are attached to this guide with their alignment.<br>
+	 *  <ul>
+	 *  	<li>-1: <i>left</i> or <i>top</i></li>
+	 *  	<li>0: <i>center</i></li>
+	 *  	<li>1: <i>right</i> or <i>bottom</i></li>
+	 *  </ul>
+	 */
+	private Map<ILocatedElement, Integer> attachedElements;
 
-	/** La position de ce guide */
+	/** Position */
 	private int position;
 
-	/** L'indicateur de configuration du guide : <code>true</code> si le guide est horizontal */
-	private boolean horizontal;
+	/** 
+	 * Orientation
+	 * @see #HORIZONTAL_ORIENTATION
+	 * @see #VERTICAL_ORIENTATION
+	 */
+	private int orientation;
 
 	/**
-	 * Constructeur
+	 * Constructor
+	 * @param orientation The orientation of the guide
+	 * <b>The guide is horizontal if it is associated with a vertical rule</b>
 	 */
-	public EditorGuide() { }
-
-	/**
-	 * Constructeur
-	 * @param isHorizontal <code>true</code> si le guide est horizontal
-	 * Le guide est horizontal ssi il est placé sur un règle verticale
-	 */
-	public EditorGuide(boolean isHorizontal) {
-		setHorizontal(isHorizontal);
+	public EditorGuide(int orientation) {
+		setOrientation(orientation);
 	}
 
 	/**
-	 * Attache l'EditPart considéré au guide.
-	 * L'Edit part est lui aussi modifié pour tenir compte de cet attachement
-	 * @param locatedElement L'editpart qui doit être attaché au guide. Si l'editpart est déjà attaché, son alignement est modifié
-	 * @param alignment -1 : gauche ou haut; 0 center; 1, droite ou bas
+	 * Attach the element to the guide.
+	 * Note that the element is also modified.
+	 * If the element is already attached, it is detached first.
+	 * @param locatedElement The element that is attached to the guide. 
+	 * @param alignment The desired alignment
+	 * @see #attachedElements
 	 */
 	public final void attachElement(ILocatedElement locatedElement, int alignment) {
-		// Verification de l'existence de l'editpart
-		if (getMap().containsKey(locatedElement) && getAlignment(locatedElement) == alignment) {
+		// Check if the element is already attached to this guide
+		if (getAttachedElementsWithAlignment().containsKey(locatedElement) && getAlignment(locatedElement) == alignment) {
 			return;
 		}
 
-		// Sinon... On ajoute l'editpart
-		getMap().put(locatedElement, Integer.valueOf(alignment));
-		EditorGuide guide;
-		if (isHorizontal()) {
-			guide = locatedElement.getHorizontalGuide();
-		} else {
-			guide = locatedElement.getVerticalGuide();
-		}
+		// If not, the element is added to the list of attached elements (with its alignment)
+		getAttachedElementsWithAlignment().put(locatedElement, Integer.valueOf(alignment));
 
-		// Si un guide existe déjà pour cet objet... On le détache d'abord
+		// Fetch an already existing guide for this object
+		EditorGuide guide = locatedElement.getGuide(getOrientation());
+
+		// If a guide already exists, we detach it first...
 		if (guide != null && guide != this) {
 			guide.detachElement(locatedElement);
 		}
 
-		// Accrochage du nouveau guide
-		if (isHorizontal()) {
-			locatedElement.setHorizontalGuide(this);
-		} else {
-			locatedElement.setVerticalGuide(this);
-		}
+		// And attach the new one (in all situations)
+		locatedElement.setGuide(this);
 
-		listeners.firePropertyChange(PROPERTY_CHILDREN, null, locatedElement);
+		// Tells the element that it is now attached to a guide
+		listeners.firePropertyChange(ELEMENT_PROP, null, locatedElement);
 	}
 
 	/**
-	 * Détache le guide de l'élément de modèle.
-	 * @param locatedElement Element de modèle concerné par le détachement du guide
+	 * Detach the element form this guide
+	 * @param locatedElement The element to detach
 	 */
 	public final void detachElement(ILocatedElement locatedElement) {
-		if (getMap().containsKey(locatedElement)) {
-			getMap().remove(locatedElement);
-			if (isHorizontal()) {
-				locatedElement.setHorizontalGuide(null);
-			} else {
-				locatedElement.setVerticalGuide(null);
-			}
-			listeners.firePropertyChange(PROPERTY_CHILDREN, null, locatedElement);
+		// Check if the element is actually stick to this guide
+		if (getAttachedElementsWithAlignment().containsKey(locatedElement)) {
+			getAttachedElementsWithAlignment().remove(locatedElement);
+			locatedElement.removeGuide(this.getOrientation());
+			listeners.firePropertyChange(ELEMENT_PROP, null, locatedElement);
 		}
 	}
 
 	/**
-	 * Retourne le coté sur lequel est attaché le guide.
-	 * Cette information est nécessaire pour permettre l'attachement ou le détachement
-	 * d'un élément de modèle pendant le redimensionnement de l'objet.
-	 * @param locatedElement L'élément de modèle concerné
-	 * @return 1 pour le bas ou la droite; 0 pour le centre; -1 pour le haut ou la gauche; -2 si le guide n'est pas attaché
-	 * @see ColoaneEditPolicy
+	 * Return the side used to attached the element to the guide
+	 * @param locatedElement The element
+	 * @return the alignment information for this object
 	 */
 	public final int getAlignment(ILocatedElement locatedElement) {
-		if (getMap().get(locatedElement) != null) {
-			return ((Integer) getMap().get(locatedElement)).intValue();
+		if (getAttachedElementsWithAlignment().get(locatedElement) != null) {
+			return ((Integer) getAttachedElementsWithAlignment().get(locatedElement)).intValue();
 		}
 		return -2;
 	}
 
 	/**
-	 * @return La map contenant tous les objets du modèle attaché au guide (ainsi que leurs alignements)
+	 * @return all attached element with their alignment information
 	 */
-	public final Map<ILocatedElement, Integer> getMap() {
-		if (map == null) {
-			map = new Hashtable<ILocatedElement, Integer>();
+	public final Map<ILocatedElement, Integer> getAttachedElementsWithAlignment() {
+		if (attachedElements == null) {
+			attachedElements = new Hashtable<ILocatedElement, Integer>();
 		}
-		return map;
+		return attachedElements;
 	}
 
 	/**
-	 * @return tous les objets du modèle attachés au guide
+	 * @return all objects that are attached to this guide
 	 */
-	public final Set<ILocatedElement> getModelObjects() {
-		return getMap().keySet();
+	public final Set<ILocatedElement> getAttachedElements() {
+		return getAttachedElementsWithAlignment().keySet();
 	}
 
 	/**
-	 * @return La position du guide (pixels)
+	 * @return the current position of the guide
 	 */
 	public final int getPosition() {
 		return position;
 	}
 
 	/**
-	 * @return <code>true</code> si le guide est horizontal
+	 * @return the orientation of the guide
+	 * @see EditorRulerProvider.#HORIZONTAL_ORIENTATION
+	 * @see EditorRulerProvider.#VERTICAL_ORIENTATION
 	 */
-	public final boolean isHorizontal() {
-		return horizontal;
+	public final int getOrientation() {
+		return orientation;
 	}
 
 	/**
-	 * Définit l'orientation du guide
-	 * @param isHorizontal <code>true</code> si le guide est positionné sur un règle verticale
+	 * Set the guide orientation
+	 * @param orientation The guide orientation
+	 * @see #HORIZONTAL_ORIENTATION
+	 * @see #VERTICAL_ORIENTATION
 	 */
-	public final void setHorizontal(boolean isHorizontal) {
-		horizontal = isHorizontal;
+	private final void setOrientation(int orientation) {
+		this.orientation = orientation;
 	}
 
 	/**
-	 * Positionne le guide
-	 * @param offset La position du quige (en pixels)
+	 * Set the position
+	 * @param offset The new guide position
 	 */
 	public final void setPosition(int offset) {
 		if (this.position != offset) {
@@ -162,18 +164,16 @@ public class EditorGuide {
 	}
 
 	/**
-	 * Supprime le listener de modifications de propriétés
-	 * @param listener Le listener à supprimer
-	 * @see PropertyChangeSupport#removePropertyChangeListener(PropertyChangeListener)
+	 * Remove the listener from the list
+	 * @param listener The listener to remove from the list
 	 */
 	public final void removePropertyChangeListener(PropertyChangeListener listener) {
 		listeners.removePropertyChangeListener(listener);
 	}
 
 	/**
-	 * Ajoute le listener de modifications de propriétés
-	 * @param listener Le listener à supprimer
-	 * @see PropertyChangeSupport#addPropertyChangeListener(PropertyChangeListener)
+	 * Add a listener to the list
+	 * @param listener The listener to add to the list
 	 */
 	public final void addPropertyChangeListener(PropertyChangeListener listener) {
 		listeners.addPropertyChangeListener(listener);

@@ -1,12 +1,16 @@
 package fr.lip6.move.coloane.interfaces.objects.menu;
 
+import fr.lip6.move.coloane.interfaces.api.services.IApiService;
+
 /**
- * Cette interface définie une entrée dans un menu permettant l'appel d'un service
+ * Define a menu that provides access to a service.
+ * 
+ * @author Jean-Baptiste Voron
  */
 public interface IServiceMenu extends IItemMenu {
 
     /**
-     * @return l'identifiant du service associé à l'item
+     * @return The service associated with the menu item
      */
-	String getAssociatedService();
+	IApiService getAssociatedService();
 }

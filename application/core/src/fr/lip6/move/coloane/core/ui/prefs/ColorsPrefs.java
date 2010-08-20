@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.ui.prefs;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.dialogs.Messages;
 
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ColorFieldEditor;
@@ -54,7 +53,6 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 		node.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		node.setLayout(layout);
 
-
 		//Node color
 		nodeColorEditor = new ColorFieldEditor("COLORNODE", Messages.ColorsPrefs_6, node); //$NON-NLS-1$
 		nodeColorEditor.setPreferenceStore(getPreferenceStore());
@@ -106,6 +104,7 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 		nodeColorEditor2.loadDefault();
 		arcColorEditor.loadDefault();
 		arcColorEditor1.loadDefault();
+		arcColorEditor2.loadDefault();
 	}
 
 	/** {@inheritDoc} */
@@ -116,6 +115,7 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 		nodeColorEditor2.store();
 		arcColorEditor.store();
 		arcColorEditor1.store();
+		arcColorEditor2.store();
 		return super.performOk();
 	}
 

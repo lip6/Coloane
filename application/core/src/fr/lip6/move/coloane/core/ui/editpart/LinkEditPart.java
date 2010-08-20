@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.ui.editpart;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-import fr.lip6.move.coloane.core.ui.commands.LinkDeleteCommand;
+import fr.lip6.move.coloane.core.ui.commands.LinkDeleteCmd;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -20,7 +20,13 @@ import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
 import org.eclipse.gef.requests.GroupRequest;
 
 /**
- * EditPart des liens (ILink).
+ * EditPart that manages sticky links.
+ * 
+ * @author Clément Démoulins
+ * @author Jean-Baptiste Voron
+ * 
+ * @see ILink
+ * @see IStickyNote
  */
 public class LinkEditPart extends AbstractConnectionEditPart {
 
@@ -28,6 +34,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	@Override
 	protected final IFigure createFigure() {
 		PolylineConnection arc = new PolylineConnection();
+		// TODO: Must be set in properties 
 		arc.setLineStyle(Graphics.LINE_DOT);
 		arc.setForegroundColor(ColorConstants.gray);
 		return arc;
@@ -36,22 +43,21 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	/** {@inheritDoc} */
 	@Override
 	protected final void createEditPolicies() {
-		// Selection handle edit policy.
 		// Makes the connection show a feedback, when selected by the user.
 		installEditPolicy(EditPolicy.CONNECTION_ENDPOINTS_ROLE, new ConnectionEndpointEditPolicy());
 
+		// Some basic behavior properties
 		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ComponentEditPolicy() {
+
+			// How to delete a sticky link ?
 			@Override
 			protected Command createDeleteCommand(GroupRequest deleteRequest) {
-				// Il faut retrouver le graphe
-				IGraph graph;
+				// Fetch the link model and the node element
 				ILink link = (ILink) getHost().getModel();
-				// on recherche l'élément qui n'est pas la note
 				ILinkableElement linkableElement = link.getElement();
-				if (linkableElement instanceof IStickyNote) {
-					linkableElement = link.getNote();
-				}
-				// on récupère le parent de cette élément qui doit être un IGraph
+
+				IGraph graph;
+				// The linkable element is either an element (arc, node, ...) or an attribute
 				if (linkableElement instanceof IElement) {
 					IElement element = (IElement) linkableElement;
 					graph = (IGraph) element.getParent();
@@ -59,13 +65,11 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 					IElement element = ((IAttribute) linkableElement).getReference();
 					graph = (IGraph) element.getParent();
 				} else {
-					return null; // La suppression n'est pas possible
+					return null; // Deleting the link is not possible
 				}
-
-				LinkDeleteCommand deleteCommand = new LinkDeleteCommand(graph, link);
+				LinkDeleteCmd deleteCommand = new LinkDeleteCmd(graph, link);
 				return deleteCommand;
 			}
 		});
 	}
-
 }

@@ -1,30 +1,36 @@
 package fr.lip6.move.coloane.core.exceptions;
 
 /**
- * Exception utilisee en cas d'erreur importante et non specialisee de Coloane
+ * Main exception used in case of unrecoverable error. 
  */
 public class ColoaneException extends Exception {
-	/** Utilise pour la serialisation */
+	/** Serialize */
 	private static final long serialVersionUID = 1L;
 
-	/** Message d'information sur l'exception */
+	/** Information message about the exception */
 	private String message;
 
 	/**
-	 * Constructeur de la classe
-	 * @param msg Message associee a l'exception
+	 * Constructor
+	 * @param message the information message about the exception
 	 */
-	public ColoaneException(String msg) {
-		super(msg);
-		message = msg;
+	public ColoaneException(String message) {
+		super(message);
+		this.message = message;
 	}
 
 	/**
-	 * Retourne le message associe a l'exception
-	 * @return Le message d'erreur
+	 * @return Return the error message
 	 */
 	@Override
 	public final String getMessage() {
+		return message;
+	}
+
+	/**
+	 * @return Return the error message with an header
+	 */
+	public final String getLogMessage() {
 		return Messages.ColoaneException_0 + message;
 	}
 }

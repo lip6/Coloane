@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -50,7 +51,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Constructor
-	 * 
 	 * @param parent The parent of this node (often the graph itself)
 	 * @param nodeFormalism The formalism description of the node
 	 * @param id The identifier (unique) of the node
@@ -58,30 +58,35 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 */
 	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id) {
 		super(id, parent, nodeFormalism.getAttributes(), nodeFormalism.getComputedAttributes());
-		LOGGER.finest("Création d'un NodeModel(" + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest("Build a node: " + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.nodeFormalism = nodeFormalism;
 		this.graphicInfos = new NodeGraphicInfo(this);
 	}
 
 	/**
-	 * Delete all input or output arcs and links from the node
+	 * Delete all input or output arcs and sticky links from the node
 	 */
 	final void deleteArcsLinks() {
-		LOGGER.finest("delete(" + getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest("Delete arcs from node #" + getId()); //$NON-NLS-1$
 		for (IArc arc : outgoingArcs) {
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
 			((ArcModel) arc).delete();
 		}
 		for (IArc arc : incomingArcs) {
-			((NodeModel) arc.getSource()).removeOutcomingArc(arc);
+			((NodeModel) arc.getSource()).removeOutgoingArc(arc);
 			((ArcModel) arc).delete();
 		}
-		for (ILink link : links) {
-			link.getElement().removeLink(link);
+		for (ILink link : new ArrayList<ILink>(this.getLinks())) {
+			link.disconnect();
 		}
 		outgoingArcs.clear();
 		incomingArcs.clear();
-		links.clear();
+		
+		// The sticky links list should be empty (due to link.disconnect())
+		if (!links.isEmpty()) {
+			LOGGER.warning("The sticky link list is not clean... cleaning it now"); //$NON-NLS-1$
+			links.clear();
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -101,44 +106,40 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/**
 	 * Add an outgoing arc for the considered node
-	 * 
 	 * @param outArc The arc to add to the list
 	 */
 	final void addOutgoingArc(IArc outArc) {
-		LOGGER.finest("addOutgoingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest("Add outgoing arc #" + outArc.getId()); //$NON-NLS-1$
 		outgoingArcs.add(outArc);
 		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, outArc);
 	}
 
 	/**
 	 * Add an incoming arc for the considered node
-	 * 
 	 * @param inArc The arc to add to the list
 	 */
 	final void addIncomingArc(IArc inArc) {
-		LOGGER.finest("addIncomingArc(" + inArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest("Add incoming arc #" + inArc.getId()); //$NON-NLS-1$
 		incomingArcs.add(inArc);
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, inArc);
 	}
 
 	/**
 	 * Remove an outgoing arc from the node
-	 * 
 	 * @param outArc The arc to remove from the list
 	 */
-	final void removeOutcomingArc(IArc outArc) {
-		LOGGER.finest("removeOutcomingArc(" + outArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+	final void removeOutgoingArc(IArc outArc) {
+		LOGGER.finest("Remove outgoing arc #" + outArc.getId()); //$NON-NLS-1$
 		outgoingArcs.remove(outArc);
 		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, outArc);
 	}
 
 	/**
 	 * Remove an incoming arc from the node
-	 * 
 	 * @param inArc The arc to remove from the list
 	 */
 	final void removeIncomingArc(IArc inArc) {
-		LOGGER.finest("removeIncomingArc(" + inArc.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest("Remove incoming arc #" + inArc.getId()); //$NON-NLS-1$
 		incomingArcs.remove(inArc);
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, inArc);
 	}
@@ -154,24 +155,36 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
-	public final EditorGuide getHorizontalGuide() {
-		return this.horizontalGuide;
+	public final EditorGuide getGuide(int orientation) {
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			return this.horizontalGuide;
+		} else {
+			return this.verticalGuide;
+		}
 	}
 
 	/** {@inheritDoc} */
-	public final EditorGuide getVerticalGuide() {
-		return this.verticalGuide;
+	public final void setGuide(EditorGuide guide) {
+		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			LOGGER.fine("New horizontal guide for the node #" + this.getId()); //$NON-NLS-1$
+			this.horizontalGuide = guide;
+		} else {
+			LOGGER.fine("New vertical guide for the node #" + this.getId()); //$NON-NLS-1$
+			this.verticalGuide = guide;
+		}
+	}
+	
+	/** {@inheritDoc} */
+	public final void removeGuide(int orientation) {
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			LOGGER.fine("No more horizontal guide for the node #" + this.getId()); //$NON-NLS-1$
+			this.horizontalGuide = null;
+		} else {
+			LOGGER.fine("No more vertical guide for the node #" + this.getId()); //$NON-NLS-1$
+			this.verticalGuide = null;
+		}
 	}
 
-	/** {@inheritDoc} */
-	public final void setHorizontalGuide(EditorGuide guide) {
-		this.horizontalGuide = guide;
-	}
-
-	/** {@inheritDoc} */
-	public final void setVerticalGuide(EditorGuide guide) {
-		this.verticalGuide = guide;
-	}
 
 	/** {@inheritDoc} */
 	public final void updateTips() {
@@ -213,7 +226,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		if (attrName != null) {
 			name = attrName.getValue();
 		}
-		return "Node(" + getId() + ", " + name + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		return "Node #" + getId() + " (" + name + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
 
 	/** {@inheritDoc} */

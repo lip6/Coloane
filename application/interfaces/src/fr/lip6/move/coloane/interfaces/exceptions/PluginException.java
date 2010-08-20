@@ -10,21 +10,18 @@ package fr.lip6.move.coloane.interfaces.exceptions;
  *
  * @author Jean-Baptiste Voron
  */
-public class PluginException extends Exception {
+public class PluginException extends ExtensionException {
 
 	/** Serialization stuff */
 	private static final long serialVersionUID = 1L;
 
-	/** Message associated to the exception */
-	private String message;
-
 	/** Plugin name */
-	private String name;
+	private String pluginName;
 
 	/** Default constructor */
 	public PluginException() {
-		this.name = "Unknown Plugin"; //$NON-NLS-1$
-		this.message = "Unknown Model Error"; //$NON-NLS-1$
+		super();
+		this.pluginName = "Unknown Plugin"; //$NON-NLS-1$
 	}
 
 	/**
@@ -32,31 +29,24 @@ public class PluginException extends Exception {
 	 * @param message The exception reason
 	 */
 	public PluginException(final String message) {
-		this.message = message; //$NON-NLS-1$
+		super(message);
+		this.pluginName = "Unknown Plugin"; //$NON-NLS-1$
 	}
 
 	/**
 	 * Constructor
-	 * @param name The plugin name
+	 * @param pluginName The plugin name
 	 * @param message The exception reason
 	 */
-	public PluginException(final String name, final String message) {
-		this.message = message; //$NON-NLS-1$
-		this.name = name; //$NON-NLS-1$
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public final String getMessage() {
-		return this.message;
+	public PluginException(final String pluginName, final String message) {
+		super(message);
+		this.pluginName = pluginName; //$NON-NLS-1$
 	}
 
 	/**
 	 * @return The name of the plugin that has raised the exception
 	 */
 	public final String getPluginName() {
-		return this.name;
+		return this.pluginName;
 	}
 }

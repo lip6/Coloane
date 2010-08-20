@@ -3,31 +3,40 @@ package fr.lip6.move.coloane.core.model;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
+import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
 import org.eclipse.draw2d.geometry.Point;
 
 /**
- * Modèle d'un tip utilisé par les editPart.<br>
- * Cette permet à un tip d'être déplacé et d'être collé à un guide.
+ * Describe a special element : TIP.<br>
+ * A tip is like a bubble and is often sticked to an element.
+ * 
+ * @author Clément Démoulins
  */
 public class CoreTipModel extends AbstractPropertyChange implements ILocatedElement, ILocationInfo, ICoreTip {
+
+	/** Guides */
 	private EditorGuide horizontalGuide;
 	private EditorGuide verticalGuide;
+	
+	/** Current position */
 	private Point location;
+	/** The description of the tip */
 	private ITip tip;
 	private ArcTipModel arcModel;
 
 	/**
-	 * Modèle d'un arc reliant un IElement avec un CoreTipModel.<br>
-	 * Seul les méthodes d'Object sont utilisée donc la classe est vide.
+	 * Class that describes an arc between an {@link IElement} and a {@link CoreTipModel}.<br>
+	 * Only {@link Object} methods are used here.
 	 */
 	public static class ArcTipModel { }
 
 	/**
-	 * Construction d'un ITip amélioré pour une gestion graphique
-	 * @param tip tip d'origine
+	 * Constructor
+	 * @param tip The tip
 	 */
 	public CoreTipModel(ITip tip) {
 		this.tip = tip;
@@ -60,23 +69,30 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 	}
 
 	/** {@inheritDoc} */
-	public final EditorGuide getHorizontalGuide() {
-		return this.horizontalGuide;
+	public final EditorGuide getGuide(int orientation) {
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			return this.horizontalGuide;
+		} else {
+			return this.verticalGuide;
+		}
 	}
 
 	/** {@inheritDoc} */
-	public final EditorGuide getVerticalGuide() {
-		return this.verticalGuide;
+	public final void setGuide(EditorGuide guide) {
+		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			this.horizontalGuide = guide;
+		} else {
+			this.verticalGuide = guide;
+		}
 	}
-
+	
 	/** {@inheritDoc} */
-	public final void setHorizontalGuide(EditorGuide guide) {
-		this.horizontalGuide = guide;
-	}
-
-	/** {@inheritDoc} */
-	public final void setVerticalGuide(EditorGuide guide) {
-		this.verticalGuide = guide;
+	public final void removeGuide(int orientation) {
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			this.horizontalGuide = null;
+		} else {
+			this.verticalGuide = null;
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -91,9 +107,7 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 		firePropertyChange(LOCATION_PROP, oldLocation, location);
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public final void resetLocation() {
 		setLocation(new Point(0, 0));
 	}

@@ -1,63 +1,66 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.ui.rulers.EditorRuler;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
+
 import org.eclipse.draw2d.PositionConstants;
 
 /**
- * Propriétés de l'éditeur de graphe
+ * Graph editor properties
  */
 public class GraphEditorProperties {
 
-	/** Affichage des règles sur l'éditeur ? */
+	/** Drawing rulers */
 	private boolean rulersVisibility = true;
 
-	/** État du magnétisme entre objets */
+	/** Magnetism */
 	private boolean snapState = true;
 
-	/** Les règles associées à l'éditeur */
+	/** Rulers associated to the editor */
 	private EditorRuler leftRuler, topRuler;
 
 	/**
-	 * Constructeur
+	 * Constructor
 	 */
 	GraphEditorProperties() {
-		this.leftRuler = new EditorRuler(false);
-		this.topRuler = new EditorRuler(true);
+		this.leftRuler = new EditorRuler(EditorRulerProvider.VERTICAL_ORIENTATION);
+		this.topRuler = new EditorRuler(EditorRulerProvider.HORIZONTAL_ORIENTATION);
 	}
 
 	/**
-	 * @return <code>true</code> si les règles doivent être visibles
+	 * @return The rulers visibility status
 	 */
 	public final boolean getRulersVisibility() {
 		return rulersVisibility;
 	}
 
 	/**
-	 * Indique l'état de visibilité des règles qui doivent être affichées sur l'éditeur
-	 * @param rulersVisibility <code>true</code> si les règles doivent être visibles
+	 * Set the state of rulers visibility
+	 * @param rulersVisibility <code>true</code> if rulers have to be visible
 	 */
 	public final void setRulersVisibility(boolean rulersVisibility) {
 		this.rulersVisibility = rulersVisibility;
 	}
 
 	/**
-	 * @return <code>true</code> si le magnétisme doit être activé entre les objets
+	 * @return The magnetism status
 	 */
 	public final boolean getSnapState() {
 		return snapState;
 	}
 
 	/**
-	 * Indique l'état du magnétisme entre les objets du graphe
-	 * @param snapState <code>true</code> si le magnétisme doit être activé
+	 * Set the magnetism status
+	 * @param snapState <code>true</code> if the magnetisme has to be activated
 	 */
 	public final void setSnapState(boolean snapState) {
 		this.snapState = snapState;
 	}
 
 	/**
-	 * @param orientation indique quelle règle doitêtre renvoyée
-	 * @return la règle de l'éditeur désignée par son <code>orientation</code>
+	 * Fetch the ruler object
+	 * @param orientation what kind of ruler
+	 * @return the ruler according to the asked orientation
 	 */
 	public final EditorRuler getRuler(int orientation) {
 		EditorRuler result = null;

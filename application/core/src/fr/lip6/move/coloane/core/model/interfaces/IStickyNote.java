@@ -5,34 +5,38 @@ import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import org.eclipse.draw2d.geometry.Dimension;
 
 /**
- * Interface définissant une note, ses comportements publics et ses propriétés
+ * Sticky note interface 
+ * 
+ * @author Clément Démoulins
+ * @author Jean-Baptiste Voron
  */
 public interface IStickyNote extends ILocationInfo, ILinkableElement {
 
-	/** ID pour la propriete lorsqu'un changement de la valeur */
+	/** Event raised when the sticky note value is updated */
 	String VALUE_PROP = "Sticky.ValueUpdate"; //$NON-NLS-1$
 
-	/** ID pour la propriété de changement de taille */
+	/** Event raised when the sticky note is resized */
 	String RESIZE_PROP = "Sticky.Resize"; //$NON-NLS-1$
 
 	/**
-	 * @return Le contenu de la note
+	 * @return The sticky note value
 	 */
 	String getLabelContents();
 
 	/**
-	 * Indique un nouveau contenu pour la note
-	 * @param newText Le nouveau contenu
+	 * Set a new value for the sticky note
+	 * @param newText The new value
 	 */
 	void setLabelContents(String newText);
 
 	/**
-	 * @return Taille de la note
+	 * @return The sticky note size
 	 */
 	Dimension getSize();
 
 	/**
-	 * @param size nouvelle taille de la note
+	 * Set a new size for the sticky note
+	 * @param size The new size
 	 */
 	void setSize(Dimension size);
 }

@@ -19,24 +19,27 @@ import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.dialogs.WizardExportResourcesPage;
 
 /**
- * Page composant l'assistant d'export de fichiers.<br>
- * Cette page comporte :
+ * Export Wizard Page.<br>
+ * In this page, you will find :
  * <ul>
- * 	<li>Une zone pour la selection des fichiers</li>
- * 	<li>Une zone pour la destination finale</li>
- * 	<li>Une zone d'options (non utilisée pour le moment) </li>
+ * 	<li>An area to select files to export</li>
+ * 	<li>A field to set the final destination</li>
+ * 	<li>An area with options that concern the export process</li>
  * </ul>
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class ExportWizardPage extends WizardExportResourcesPage {
 	private Button destinationBrowseButton;
 	private Text destinationNameField;
 
 	/**
-	 * Constructeur de la page de l'assistant
-	 * @param pageName Le nom de la page de l'assistant
-	 * @param selection La sélection courante
+	 * Set up the page
+	 * @param pageName The page name
+	 * @param selection The current selection
 	 */
 	protected ExportWizardPage(String pageName, IStructuredSelection selection) {
+		// Use a standard template
 		super("FileSystemExportPage", selection); //$NON-NLS-1$
 		setTitle(Messages.ExportWizardPage_1);
 		setDescription(Messages.ExportWizardPage_2);
@@ -78,7 +81,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	/** {@inheritDoc} */
 	public final void handleEvent(Event e) {
 		Widget source = e.widget;
-		// Detecte le clic sur le bouton BROWSE
+		// Browse button click !
 		if (source == destinationBrowseButton) {
 			handleDestinationBrowseButtonPressed();
 		}
@@ -86,7 +89,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	}
 
 	/**
-	 * Dessine la fenetre de selection de la destination d'export
+	 * Ask the user for the destination
 	 */
 	protected final void handleDestinationBrowseButtonPressed() {
 		DirectoryDialog dialog = new DirectoryDialog(getContainer().getShell(), SWT.SAVE);
@@ -100,17 +103,26 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 			setDestinationValue(selectedDirectoryName);
 		}
 	}
+	
+	/**
+	 * Set the field value
+	 * @param value The new destination value
+	 */
+	protected final void setDestinationValue(String value) {
+		destinationNameField.setText(value);
+	}
+
 
 	/**
-	 * Donne le focus sur le champs "directory"
+	 * Set the focus to the destination field
 	 */
 	protected final void giveFocusToDestination() {
 		destinationNameField.setFocus();
 	}
 
 	/**
-	 * Retourne les ressources selectionnees dans la fenetre
-	 * @return Une liste de ressources
+	 * Give back the selected resources
+	 * @return A list of resources
 	 */
 	@SuppressWarnings("unchecked")
 	public final List<IResource> getSelectedRessource() {
@@ -119,36 +131,36 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	}
 
 	/**
-	 * Retourne la destination choisie pour l'export
-	 * @return La chaine de caracteres correspondant au chemin choisi
+	 * Give back the selected destination for the exported file
+	 * @return The destination path
 	 */
 	protected final String getSelectedDirectory() {
 		return destinationNameField.getText().trim();
 	}
 
 	/**
-	 * Positionne la valeur du champ "directory" a la valeur choisie dans la fenetre BROWSE
-	 * @param value La valeur de la destination
+	 * Check that the destination directory is valid
+	 * @param directory The destination directory
+	 * @return <code>true</code> if everything is correct.
 	 */
-	protected final void setDestinationValue(String value) {
-		destinationNameField.setText(value);
-	}
+	public final boolean ensureTargetIsValid(File targetDirectory) {
+		// Check whether the directory is really a directory
+		if (targetDirectory.exists() && !targetDirectory.isDirectory()) {
+			displayErrorDialog(Messages.ExportWizardPage_11);
+			giveFocusToDestination();
+			return false;
+		}
+		
+		// Does the directory exist ? 
+		if (!targetDirectory.exists()) {
 
-	/**
-	 * Verification que la destination existe ou potentiellement creeable
-	 * @param directory La destination a veirifer
-	 * @return true ou false
-	 */
-	protected final boolean ensureDirectoryExists(File directory) {
-
-		// Existence du repertoire
-		if (!directory.exists()) {
+			// Ask the user about the creation of this directory...
 			if (!queryYesNoQuestion(Messages.ExportWizardPage_9)) {
 				return false;
 			}
 
-			// Est-il possible de la creer ?
-			if (!directory.mkdirs()) {
+			// Is it possible to create this directory ? 
+			if (!targetDirectory.mkdirs()) {
 				displayErrorDialog(Messages.ExportWizardPage_10);
 				giveFocusToDestination();
 				return false;
@@ -156,19 +168,4 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 		}
 		return true;
 	}
-
-	/**
-	 * Verification que la destination est un repertoire et existe
-	 * @param targetDirectory La destination finale
-	 * @return un booleen
-	 */
-	public final boolean ensureTargetIsValid(File targetDirectory) {
-		if (targetDirectory.exists() && !targetDirectory.isDirectory()) {
-			displayErrorDialog(Messages.ExportWizardPage_11);
-			giveFocusToDestination();
-			return false;
-		}
-		return ensureDirectoryExists(targetDirectory);
-	}
-
 }

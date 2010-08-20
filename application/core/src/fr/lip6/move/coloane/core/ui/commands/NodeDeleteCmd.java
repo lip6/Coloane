@@ -1,11 +1,10 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
-import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
-import fr.lip6.move.coloane.core.motor.session.ISession;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.session.ISession;
+import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -13,64 +12,76 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.gef.commands.Command;
-
 /**
- * Commande de suppression d'un noeud du modele
+ * Delete a node from the model
  */
-public class NodeDeleteCmd extends Command {
+public class NodeDeleteCmd extends CheckableCmd {
 
-	/** Noeud a retirer */
-	private final INode node;
-
-	/** Graphe contenant le noeud */
+	/** Graph Model that holds the node to delete */
 	private final IGraph graph;
 
-	/** Garder une copie des connexions sortantes du noeud */
+	/** Node to delete */
+	private final INode node;
+
+	/** List of outgoings arcs (backup in case of undo) */
 	private List<IArc> outArcs = null;
 
-	/** Garder une copie des connexions entrantes vers le noeud */
+	/** List of incoming arcs (backup in case of undo) */
 	private List<IArc> inArcs = null;
 
-	/** Garder une copie des liens */
+	/** List of links (backup in case of undo) */
 	private List<ILink> links = new ArrayList<ILink>();
 
+	/** List of tips (backup in case of undo) */
 	private List<ICoreTip> tips;
 
+	/** The current session */
 	private ISession session;
 
 	/**
-	 * Constructeur
-	 * @param graph graphe contenant le noeud
-	 * @param node noeud à supprimer
+	 * Constructor
+	 * @param graph The graph that owns the node to delete
+	 * @param node The node to delete
 	 */
 	public NodeDeleteCmd(IGraph graph, INode node) {
 		super(Messages.NodeDeleteCmd_0);
 		this.graph = graph;
 		this.node = node;
 		this.session = SessionManager.getInstance().getCurrentSession();
+		
+		//The node and its associated arcs must be locally checked after the changes 
+		addCheckableElement(node);
+		for (IArc arc : node.getIncomingArcs()) {
+			addCheckableElement(arc);
+		}
+		for (IArc arc : node.getOutgoingArcs()) {
+			addCheckableElement(arc);
+		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
-		// Sauvegarde une copie des listes d'arcs entrants et sortant en cas d'annulation
-		tips = new ArrayList<ICoreTip>(session.getTip(node.getId()));
-		if (node instanceof ILinkableElement) {
-			links.addAll(((ILinkableElement) node).getLinks());
+		// Backup the list of associated tips
+		this.tips = new ArrayList<ICoreTip>(this.session.getTipForObject(this.node.getId()));
+		// Backup the list of associated sticky links
+		if (this.node instanceof ILinkableElement) {
+			this.links.addAll(((ILinkableElement) this.node).getLinks());
 		}
-		outArcs = new ArrayList<IArc>(node.getOutgoingArcs());
+
+		// Backup a list of incoming and outgoing arcs in case of undo operation
+		this.outArcs = new ArrayList<IArc>(this.node.getOutgoingArcs());
 		for (IArc arc : outArcs) {
-			tips.addAll(session.getTip(arc.getId()));
+			this.tips.addAll(this.session.getTipForObject(arc.getId()));
 			if (arc instanceof ILinkableElement) {
-				links.addAll(((ILinkableElement) arc).getLinks());
+				this.links.addAll(((ILinkableElement) arc).getLinks());
 			}
 		}
-		inArcs = new ArrayList<IArc>(node.getIncomingArcs());
-		for (IArc arc : inArcs) {
-			tips.addAll(session.getTip(arc.getId()));
+		this.inArcs = new ArrayList<IArc>(this.node.getIncomingArcs());
+		for (IArc arc : this.inArcs) {
+			this.tips.addAll(this.session.getTipForObject(arc.getId()));
 			if (arc instanceof ILinkableElement) {
-				links.addAll(((ILinkableElement) arc).getLinks());
+				this.links.addAll(((ILinkableElement) arc).getLinks());
 			}
 		}
 		this.redo(); // Execute
@@ -79,33 +90,30 @@ public class NodeDeleteCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		session.removeAllTips(tips);
+		session.removeTips(tips);
 		graph.deleteNode(node);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		graph.addNode(node);
+		this.graph.addNode(this.node);
 
-		// Ajout des arcs entrants
+		// Add incoming arcs
 		for (IArc arc : inArcs) {
-			graph.addArc(arc);
+			this.graph.addArc(arc);
 		}
 
-		// Ajout des arcs sortants
+		// Add outgoing arcs
 		for (IArc arc : outArcs) {
-			graph.addArc(arc);
+			this.graph.addArc(arc);
 		}
 
-		// Ajout des liens
-		if (graph instanceof GraphModel) {
-			GraphModel gm = (GraphModel) graph;
-			for (ILink link : links) {
-				gm.addLink(link);
-			}
+		// Add sticky links
+		for (ILink link : this.links) {
+			link.connect();
 		}
-
-		session.addAllTips(tips);
+		
+		this.session.addAllTips(tips);
 	}
 }

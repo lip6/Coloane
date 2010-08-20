@@ -1,27 +1,32 @@
 package fr.lip6.move.coloane.interfaces.objects.menu;
 
+import org.eclipse.jface.resource.ImageDescriptor;
+
 /**
- * Le composant de base d'un menu.<br><b>Tout est item !</b>
+ * Define a menu item.<br>
+ * An item describes something (almost every elements) in a menu
+ * 
+ * @author Jean-Baptiste Voron
  */
 public interface IItemMenu {
 
 	/**
-	 * @return le nom de l'item
+	 * @return The item name
 	 */
 	String getName();
 
 	/**
-	 * @return chemin d'accès jusqu'à l'item
-	 */
-	String getPath();
-
-	/**
-     * @return la visibilite de l'item
+     * @return The visible state of the item
      */
 	boolean isVisible();
 
 	/**
-     * @return les messages d'aide sur l'item
+	 * @return An icon associated with the menu item
+	 */
+	ImageDescriptor getIcon();
+
+	/**
+     * @return An help message (a tip) associated with the item
      */
 	String getHelps();
 }

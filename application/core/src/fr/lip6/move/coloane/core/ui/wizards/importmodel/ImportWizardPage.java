@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.core.ui.wizards.importmodel;
 
-import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.core.extensions.ImportFromExtension;
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.io.File;
@@ -37,48 +37,51 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
 
 /**
- * Page composant l'assistant d'import de fichier.<br/>
- * Cette page est composée :
+ * Wizard page for import process.<br>
+ * This page is composed of:
  * <ul>
- * 	<li>D'une sélection de formalismes</li>
- * 	<li>D'un choix de projets</li>
- * 	<li>D'un choix de nom de fichier</li>
+ * 	<li>A list of target formalisms</li>
+ * 	<li>A list of target projects</li>
+ * 	<li>A field to set the model name</li>
  * </ul>
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class ImportWizardPage extends WizardNewFileCreationPage {
-	/** Le logger pour la classe */
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Le composant de choix de fichier */
+	/** File selector */
 	private FileFieldEditor fileSelect;
 
-	/** Le composant de choix de formalismes */
+	/** Formalisms selector */
 	private Combo formSelect;
 
-	/** Le workbench */
+	/** Workbench */
 	private final IWorkbench workbench;
 
-	/** L'instance de conversion */
-	private IImportFrom importInstance;
+	/** The import worker */
+	private IImportFrom worker;
 
-	private String idWizard;
+	/** The import type */
+	private String importType;
 
 	/**
-	 * Constructeur de la page d'assistant
-	 * @param workbench Le workbench courant
-	 * @param selection La selection courante
-	 * @param importInstance L'instance de l'extension d'importation
-	 * @param idWizard Id de l'extension
+	 * Constructor
+	 * @param workbench The current workbench
+	 * @param selection The current selection
+	 * @param worker The import worker
+	 * @param importType The kind of import asked by the user.
 	 */
-	public ImportWizardPage(IWorkbench workbench, IStructuredSelection selection, IImportFrom importInstance, String idWizard) {
+	public ImportWizardPage(IWorkbench workbench, IStructuredSelection selection, IImportFrom worker, String importType) {
 		super(Messages.ImportWizardPage_12, selection);
 		setTitle(Messages.ImportWizardPage_0);
 		setDescription(Messages.ImportWizardPage_1);
 		setFileExtension(Coloane.getParam("MODEL_EXTENSION")); //$NON-NLS-1$
 
 		this.workbench = workbench;
-		this.importInstance = importInstance;
-		this.idWizard = idWizard;
+		this.worker = worker;
+		this.importType = importType;
 	}
 
 	/** {@inheritDoc} */
@@ -97,7 +100,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		GridData fileSelectionData = new GridData(GridData.GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL);
 		fileSelectionArea.setLayoutData(fileSelectionData);
 
-		// Pour la gestion du choix de fichier
+		// Select the file
 		GridLayout fileSelectionLayout = new GridLayout();
 		fileSelectionLayout.numColumns = 3;
 		fileSelectionLayout.makeColumnsEqualWidth = false;
@@ -106,14 +109,14 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		fileSelectionArea.setLayout(fileSelectionLayout);
 		formalismSelectionArea.setLayout(fileSelectionLayout);
 
-		// Creation de la partie responsable du choix du formalisme
+		// Select the formalism
 		Label formLabel = new Label(formalismSelectionArea, SWT.NONE);
 		formLabel.setText(Messages.ImportWizardPage_3);
 		formSelect = new Combo(formalismSelectionArea, SWT.BORDER | SWT.READ_ONLY);
 		formSelect.addListener(SWT.Modify, this);
 
-		// On recupere la liste des formalismes
-		List<IFormalism> listOfFormalisms = ImportFromExtension.getFormalisms(idWizard);
+		// Fetch available formalisms
+		List<IFormalism> listOfFormalisms = ImportFromExtension.getFormalisms(importType);
 		for (IFormalism formalism : listOfFormalisms) {
 			formSelect.add(formalism.getName());
 		}
@@ -142,34 +145,34 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	}
 
 	/**
-	 * Action à effectuer lorsque le bouton finish est pressé
-	 * @return <code>true</code> si tout s'est bien passé
+	 * What to do when finish button is pressed
+	 * @return <code>true</code> if everithing went fine
 	 * @see NewModelWizard#performFinish()
-	 * TODO : Beaucoup (trop) d'exceptions sont levées... A vérifier
 	 */
 	public final boolean finish() {
-		if (importInstance == null) {
+		if (worker == null) {
+			setErrorMessage(Messages.ImportWizard_1);
 			return false;
 		}
 
-		LOGGER.fine("Traitement de l'assistant"); //$NON-NLS-1$
+		LOGGER.fine("Importing the file..."); //$NON-NLS-1$
 
-		// Importe le modele, via l'instance precedement creee
+		// Import the model
 		String path = fileSelect.getStringValue();
 
-		// Tentative de creation de fichier
-		LOGGER.fine("Creation du nouveau fichier"); //$NON-NLS-1$
+		// Try to create a new file to store the new model
+		LOGGER.finer("Create a new file for the result"); //$NON-NLS-1$
 		final IFile newFile = createNewFile();
-		LOGGER.fine("Creation du nouveau fichier dans le workspace"); //$NON-NLS-1$
 
-		// Verification que tout est OK
+		// Check that the file has been created correctly
 		if (newFile == null) {
 			setErrorMessage(Messages.ImportWizardPage_14);
 			return false;
 		}
 
+		// Use a job to import the new model
 		Job job = new ImportJob("Import " + path, //$NON-NLS-1$
-						importInstance,
+						worker,
 						formSelect.getText(),
 						fileSelect.getStringValue(),
 						newFile);
@@ -179,23 +182,10 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		job.setUser(true);
 		job.schedule();
 
-		//		} catch (CoreException e) {
-		//			LOGGER.warning("Echec lors de la creation du fichier"); //$NON-NLS-1$
-		//			e.printStackTrace();
-		//			return false;
-		//		} catch (UnsupportedEncodingException e) {
-		//			LOGGER.warning("Echec lors de la creation du fichier (charset invalide)"); //$NON-NLS-1$
-		//			e.printStackTrace();
-		//			return false;
-		//		}
-
-//		final IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
-
-		// Ouverture du nouveau fichier
+		// Open the new model
 		job = new Job("Open editor") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
-//				System.err.println(page);
 				Display.getDefault().asyncExec(new Runnable() {
 					public void run() {
 						IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();

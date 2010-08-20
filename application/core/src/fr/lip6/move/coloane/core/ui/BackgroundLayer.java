@@ -8,7 +8,8 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.swt.graphics.Image;
 
 /**
- * Définition pour un calque de fond de l'éditeur de graphes
+ * Define a background layer in order to display a palm picture
+ *
  * @author Jean-Baptiste Voron
  */
 public class BackgroundLayer extends FreeformLayer {
@@ -16,7 +17,7 @@ public class BackgroundLayer extends FreeformLayer {
 	private Image palm = new Image(Coloane.getParent().getDisplay(), Coloane.class.getResourceAsStream("/resources/icons/coloane_transparent.png")); //$NON-NLS-1$
 
 	/**
-	 * Constructeur de calcque de fond
+	 * Constructor
 	 */
 	public BackgroundLayer() {
 		setOpaque(true);

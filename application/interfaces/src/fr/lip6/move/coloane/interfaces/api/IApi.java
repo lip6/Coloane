@@ -1,14 +1,20 @@
 package fr.lip6.move.coloane.interfaces.api;
 
-/**
- * Définition d'une API de communication.<br>
- * L'API de communication doit pertmettre la création d'une connexion via la méthode getApiConnection
- * @see IApiConnection
- */
+import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
+
+import java.util.List;
+
 public interface IApi {
-	/**
-	 * Cree un objet representant une connexion
-	 * @return un objet representant une connexion
-	 */
-	IApiConnection createApiConnection();
+
+		/**
+		 * @return The initial list of menus associated with the API
+		 */
+		List<IItemMenu> getInitialApiMenus();
+		
+		/**
+		 * Add a specific observer to the API
+		 * @param observer The observer object
+		 * @param observerType The kind of observer
+		 */
+		void addObserver(IApiObserver observer, int observerType);
 }

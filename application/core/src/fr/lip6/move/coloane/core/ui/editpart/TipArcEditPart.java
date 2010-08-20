@@ -6,7 +6,10 @@ import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
 /**
- * Arc permettant de relier un tip avec sont IElement associé.
+ * EditPart that manages links between tips and its element
+ * 
+ * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 public class TipArcEditPart extends AbstractConnectionEditPart {
 
@@ -22,5 +25,4 @@ public class TipArcEditPart extends AbstractConnectionEditPart {
 		arc.setLineStyle(Graphics.LINE_DOT);
 		return arc;
 	}
-
 }

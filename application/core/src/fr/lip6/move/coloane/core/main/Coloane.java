@@ -22,6 +22,7 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -134,8 +135,10 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg the message to be displayed
 	 */
 	public static void showErrorMsg(String msg) {
-		LOGGER.fine("Affichage d'un message d'erreur : " + msg); //$NON-NLS-1$
-		MessageDialog.openError(instance.getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Error", msg); //$NON-NLS-1$
+		LOGGER.warning("Affichage d'un message d'erreur : " + msg); //$NON-NLS-1$
+		IWorkbenchWindow activeWorkbenchWindow = instance.getWorkbench().getActiveWorkbenchWindow();
+		if (activeWorkbenchWindow != null)
+			MessageDialog.openError(activeWorkbenchWindow.getShell(), "Coloane Error", msg); //$NON-NLS-1$
 	}
 
 	/**

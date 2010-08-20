@@ -1,21 +1,23 @@
 package fr.lip6.move.coloane.core.ui.actions;
 
-import fr.lip6.move.coloane.core.extensions.IColoaneAction;
-import fr.lip6.move.coloane.core.motor.Motor;
-import fr.lip6.move.coloane.core.motor.session.SessionManager;
+import fr.lip6.move.coloane.core.session.ISession;
+import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
-import fr.lip6.move.coloane.core.ui.commands.ModificationResultCommand;
+import fr.lip6.move.coloane.core.ui.ColoaneJob;
+import fr.lip6.move.coloane.core.ui.commands.ApplyRequestsCmd;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.command.ICommand;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
+import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
-import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.commands.Command;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.JobChangeAdapter;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -25,18 +27,20 @@ import org.eclipse.ui.PlatformUI;
  * @author Clément Démoulins
  */
 public class LocalAction extends Action {
+	/** Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 	
 	/** The name of the action */
-	private String name;
+	private final String name;
 	
 	/** The description of the action */
-	private String description;
+	private final String description;
 	
 	/** The icon associated to the action */
-	private ImageDescriptor icon;
+	private final ImageDescriptor icon;
 	
 	/** The effective ColoaneAction */
-	private IColoaneAction action;
+	private final IService action;
 	
 	/**
 	 * Constructor
@@ -45,7 +49,7 @@ public class LocalAction extends Action {
 	 * @param icon The icon associated to the action
 	 * @param action The effective action to be run
 	 */
-	public LocalAction(String name, String description, ImageDescriptor icon, IColoaneAction action) {
+	public LocalAction(String name, String description, ImageDescriptor icon, IService action) {
 		this.name = name;
 		this.icon = icon;
 		this.description = description;
@@ -89,16 +93,36 @@ public class LocalAction extends Action {
 	 */
 	@Override
 	public final void run() {
-		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
-		List<IResult> results = action.run(currentGraph);
-		List<ICommand> commands = new ArrayList<ICommand>();
-		for (IResult result : results) {
-			commands.addAll(result.getModificationsOnCurrentGraph());
-			Motor.getInstance().addResult(result);
-		}
-		Command result = new ModificationResultCommand(currentGraph, commands);
-		ColoaneEditor ce = (ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		GraphicalViewer viewer = (GraphicalViewer) ce.getAdapter(GraphicalViewer.class);
-		viewer.getEditDomain().getCommandStack().execute(result);
+		final ISession currentSession = SessionManager.getInstance().getCurrentSession();
+		IGraph currentGraph = currentSession.getGraph();
+		LOGGER.fine("Building the external coloane job"); //$NON-NLS-1$		
+		ColoaneJob job = new ColoaneJob(this.name, currentGraph, this.action);
+		LOGGER.finer("Executing the external coloane job"); //$NON-NLS-1$
+		
+		job.addJobChangeListener(new JobChangeAdapter() {
+			@Override
+	        public void done(IJobChangeEvent event) {
+				if (event.getResult().isOK()) {
+					List<IResult> results = ((ColoaneJob) event.getJob()).getResults();
+					LOGGER.fine("Browsing results..."); //$NON-NLS-1$		
+					for (IResult result : results) {
+						currentSession.getResultManager().add(description, result);
+						// Create a new special command to apply incoming request
+						LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$		
+						final ApplyRequestsCmd command = new ApplyRequestsCmd(result.getDeltaRequestsList(), currentSession.getGraph());
+						Display.getDefault().asyncExec(new Runnable() {
+							public void run() {
+								LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$		
+								((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).executeCommand(command);
+							}
+						});
+						
+					}
+				}
+			}
+		});
+		
+		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		job.schedule();
 	}
 }

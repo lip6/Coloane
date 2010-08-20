@@ -3,7 +3,7 @@ package fr.lip6.move.coloane.core.ui.properties.sections;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
- * Section qui affiche les attributs du noeud.
+ * Section that displays node attributes
  */
 public class NodeSection extends AbstractElementSection<INode> {
 

@@ -1,9 +1,9 @@
 package fr.lip6.move.coloane.core.ui.wizards.exportmodel;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.core.ui.files.ModelHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.File;
@@ -16,63 +16,71 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 
 /**
- * Job pour exporter une liste de fichiers dans un format donné.
+ * Dedicated job for exporting models
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class ExportJob extends Job {
-	/** Le logger pour la classe */
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	private IExportTo exportInstance;
+	/** The export worker coming from the extension */
+	private IExportTo worker;
 
-	private String outputDirectory;
+	/** The target directory */
+	private String targetDirectory;
 
-	private String newExtension;
+	/** The extension for the new file */
+	private String fileExtension;
 
+	/** The model file */
 	private IFile file;
 
 	/**
-	 * @param name nom du job
-	 * @param file fichier à exporter
-	 * @param exportInstance extension se chargeant de l'export
-	 * @param outputDirectory dossier cible
-	 * @param newExtension nouvelle extension
+	 * Constructor
+	 * @param name Job name
+	 * @param file File to export
+	 * @param worker The class that is able to export the model
+	 * @param targetDirectory The target directory
+	 * @param fileExtension The file extension for the new file
 	 */
-	public ExportJob(String name, IFile file, IExportTo exportInstance, String outputDirectory, String newExtension) {
+	public ExportJob(String name, IFile file, IExportTo worker, String targetDirectory, String fileExtension) {
 		super(name);
-		if (exportInstance == null) {
-			throw new NullPointerException("exportInstance must not be null"); //$NON-NLS-1$
+		if (worker == null) {
+			throw new NullPointerException(Messages.ExportJob_0);
 		}
 		this.file = file;
-		this.exportInstance = exportInstance;
-		this.outputDirectory = outputDirectory;
-		this.newExtension = newExtension;
+		this.worker = worker;
+		this.targetDirectory = targetDirectory;
+		this.fileExtension = fileExtension;
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	protected final IStatus run(IProgressMonitor monitor) {
-		LOGGER.finer("Fichier a exporter : " + file.getName() + " vers " + outputDirectory); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.fine("File to export: " + file.getName() + " to" + targetDirectory); //$NON-NLS-1$ //$NON-NLS-2$
 
 		IGraph model = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
-		LOGGER.fine("L'assistant d'export a ete trouve et instancie... Calcul du nom final"); //$NON-NLS-1$
 
-		// Manipulation du nom de fichier pour supprimer l'ancienne extension et remplacer par la nouvelle
-		String newName = file.getName().substring(0, file.getName().lastIndexOf('.') + 1) + newExtension;
-		File outputFile = new File(outputDirectory + "/" + newName); //$NON-NLS-1$
+		// Strip the old extension and use the new one
+		String newName = file.getName().substring(0, file.getName().lastIndexOf('.') + 1) + fileExtension;
+		File outputFile = new File(targetDirectory + "/" + newName); //$NON-NLS-1$
 
-		// Si le fichier existe déjà on ajoute un numéro de version au fichier : name.version.extension
+		// If the target file already exists, use a version number
 		for (int version = 1; outputFile.exists(); version++) {
-			newName = file.getName().substring(0, file.getName().lastIndexOf('.') + 1) + version + "." + newExtension; //$NON-NLS-1$
-			outputFile = new File(outputDirectory + "/" + newName); //$NON-NLS-1$
+			LOGGER.finer("File:" + outputFile + "already exists... Build a new one"); //$NON-NLS-1$ //$NON-NLS-2$
+			newName = file.getName().substring(0, file.getName().lastIndexOf('.') + 1) + version + "." + fileExtension; //$NON-NLS-1$
+			outputFile = new File(targetDirectory + "/" + newName); //$NON-NLS-1$
 		}
-		LOGGER.finer("Nom final : " + newName); //$NON-NLS-1$
+		LOGGER.fine("Final name: " + newName); //$NON-NLS-1$
 
 		try {
-			exportInstance.export(model, outputDirectory + "/" + newName, monitor); //$NON-NLS-1$
-		} catch (ColoaneException e) {
-			return new Status(IStatus.ERROR, "coloane", "export " + file + " to " + outputDirectory + "/" + newName + "failed", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			LOGGER.finer("Exporting..."); //$NON-NLS-1$
+			worker.export(model, targetDirectory + "/" + newName, monitor); //$NON-NLS-1$
+		} catch (ExtensionException e) {
+			return new Status(IStatus.ERROR, "coloane", "export " + file + " to " + targetDirectory + "/" + newName + "failed", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		}
+		LOGGER.finer("Done..."); //$NON-NLS-1$
 		return Status.OK_STATUS;
 	}
-
 }

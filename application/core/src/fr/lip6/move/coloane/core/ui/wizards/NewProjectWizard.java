@@ -18,27 +18,30 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
 
 /**
- * Assistant pour la création de nouveaux fichiers modèle
+ * Wizard dedicated to new project creation
+ * 
+ * @author Jean-Baptiste Voron
  */
 public class NewProjectWizard extends Wizard implements INewWizard {
-	/** L'unique page constituante de cet assistant */
-	private ProjectCreationPage projectCreationPage;
+	/** the wizard page */
+	private ProjectCreationPage page;
 
 	/** {@inheritDoc} */
 	@Override
 	public final void addPages() {
-		addPage(projectCreationPage);
+		addPage(page);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final boolean performFinish() {
-		// Recuperation des informations sur le nouveau projet a creer
-		IProject newProject = projectCreationPage.getProjectHandle();
+		// Fetch information about the new project
+		IProject newProject = page.getProjectHandle();
 
-		// On recupere le template de description pour les nouveaux projects
+		// Fetch the template for new projects
 		IProjectDescription basicDescription = ResourcesPlugin.getWorkspace().newProjectDescription(newProject.getName());
 
+		// Set the nature of the project. Use the coloane one
 		String[] natures = basicDescription.getNatureIds();
 		String[] newNatures = new String[natures.length + 1];
 		System.arraycopy(natures, 0, newNatures, 0, natures.length);
@@ -46,21 +49,21 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		basicDescription.setNatureIds(newNatures);
 
 		IPath platformPath = Platform.getLocation();
-		IPath askedPath = projectCreationPage.getLocationPath();
+		IPath askedPath = page.getLocationPath();
 
-		// On doit prendre en compte la demande de l'utilisateur concernant le chemin de sauvegarde
+		// Take care of the asked path
 		if (!platformPath.equals(askedPath)) {
 			platformPath = askedPath;
 			basicDescription.setLocation(askedPath);
 		}
 
 		try {
-			// On verifie que le projet n'existe pas deja
+			// Check whether the project does not already exist
 			if (!newProject.exists()) {
 				newProject.create(basicDescription, null);
 			}
 
-			// Si le projet n'est pas ouvert... on l'ouvre !
+			// Open the project if it is not
 			if (!newProject.isOpen()) {
 				newProject.open(null);
 			}
@@ -78,7 +81,6 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/newproject_corner.png")); //$NON-NLS-1$
 		setWindowTitle(Messages.NewProjectWizard_1);
-		projectCreationPage = new ProjectCreationPage("newproject", selection); //$NON-NLS-1$
+		page = new ProjectCreationPage("newproject", selection); //$NON-NLS-1$
 	}
-
 }

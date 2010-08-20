@@ -4,6 +4,7 @@ import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.extensions.ExampleExtension;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -31,71 +32,71 @@ import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.ide.IDE;
 
 /**
- * Page d'assistant dédiée à la création d'un modèle.<br>
- * Cette page doit proposer :
+ * Second page of the new model wizard.<br>
+ * This page asks the user:
  * <ul>
- * 	<li>le rattachement à un projet</li>
- * 	<li>la sélection d'un modèle déjà préconstruit</li>
+ * 	<li>to choose a project to store the file into</li>
+ * 	<li>to use an existing example for this formalism</li>
  * </ul>
  */
 public class ModelCreationPage extends WizardNewFileCreationPage {
-	/** Le logger pour la classe */
+	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Chaine définissant le texte à afficher pour le modèle vide par défaut dans la liste d'exemples */
+	/** String that designates the default example (often empty) */
 	private static final String DEFAULT_MODEL = Messages.ModelCreationPage_4;
 
+	/** The current workbench */
 	private final IWorkbench workbench;
 
-	/** Le projet auquel on souhaite rajouter le nouveau modele */
+	/** The project we want to add the new model to */
 	private IContainer currentContainer;
 
-	/** La liste de choix pour les modèles d'exemples */
+	/** The list of available example */
 	private Combo patternsList = null;
 
-	/** La description de l'exemple choisi */
+	/** The description of the selected example */
 	private Text patternDescription = null;
 
-	/** Liste des modeles d'exemples disponible */
+	/** List of available example models */
 	private Map<String, String> patternContributions = new HashMap<String, String>();
 
-	/** Le nom du modèle choisi */
+	/** Name of the new model */
 	private String modelSelected = DEFAULT_MODEL;
 
-	/** Le formalisme choisi pour le nouveau fichier */
-	private String formalismName;
+	/** The formalism used for this new model */
+	private IFormalism formalism;
 
 	/**
-	 * Creer une nouvelle page de wizard
-	 * @param currentWorkbench le workbench courant
-	 * @param currentSelection l'object selection courant
+	 * Constructor
+	 * @param workbench The current workbench
+	 * @param selection The current selection
 	 */
-	public ModelCreationPage(IWorkbench currentWorkbench, IStructuredSelection currentSelection) {
-		super("modelcreationpage", currentSelection); //$NON-NLS-1$
-		this.workbench = currentWorkbench;
-		this.currentContainer = (IContainer) currentSelection.getFirstElement();
-
+	public ModelCreationPage(IWorkbench workbench, IStructuredSelection selection) {
+		super("modelcreationpage", selection); //$NON-NLS-1$
+		this.workbench = workbench;
+		this.currentProject = (IProject) selection.getFirstElement();
 		setTitle(Messages.ModelCreationPage_0);
 		setDescription(Messages.ModelCreationPage_1);
 		setFileExtension(Coloane.getParam("MODEL_EXTENSION")); //$NON-NLS-1$
 
-		// Si l'utilisateur a déjà choisi son projet... On peut calculer le nom par défaut
+		// IF the user has already selected a project, no need to ask him/her again
 		if (this.currentContainer != null) {
 			setFileName(this.computeDefaultModelName());
 		}
 	}
 
 	/**
-	 * Cette methode ajoute les controles pour visualiser les projets ouverts
-	 * pour le control standard de WizardNewFileCreationPage
-	 * @param parent Le conteneur de la boite de dialogue
+	 * Build the page with all the graphical components
+	 * @param parent The main container
 	 */
 	@Override
 	public final void createControl(Composite parent) {
 		super.createControl(parent);
 
 		Composite composite = (Composite) getControl();
-		// Groupe de sélection pour les exemples
+
+		// Example part
 		Group group = new Group(composite, SWT.NONE);
 		group.setLayout(new GridLayout(2, false));
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
@@ -149,42 +150,40 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		super.setVisible(visible);
 
 		if (visible) {
-			// On recupere la liste des exemples
-			this.formalismName = ((NewModelWizard) getWizard()).getFormalismName();
-			this.patternContributions = ExampleExtension.getModelsName(this.formalismName);
+			// Fetch the example list
+			this.formalism = ((NewModelWizard) getWizard()).getFormalism();
+			this.patternContributions = ExampleExtension.getModelsName(this.formalism);
 
-			// Ajout de l'exemple vide
+			// Add the default model (empty)
 			this.patternsList.add(DEFAULT_MODEL);
 			this.patternsList.select(0);
 
-			// Contribution à partir des exemples disponibles
+			// Fill the list
 			for (String name : this.patternContributions.keySet()) {
 				patternsList.add(name);
 			}
 
-			// Rafraichissement
+			// Refresh the display
 			this.patternsList.getParent().layout();
-
 		} else {
 			patternsList.removeAll();
 		}
 	}
 
 	/**
-	 * Methode invoquee lorsque le bouton finish est pressee
-	 * @return true si ok
+	 * What to do when the finish button is pressed ?
+	 * @return <code>true</code> if everything went fine
 	 * @see NewModelWizard#performFinish()
 	 */
 	public final boolean finish() {
-		// Tentative de creation de fichier
-		// newFile != null si la creation reussie
+		// Try to create a new file
 		IFile newFile = createNewFile();
 		if (newFile == null) {
 			setErrorMessage(Messages.ModelCreationPage_3);
 			return false;
 		}
 
-		// Ouverture du nouveau fichier
+		// Open the new file
 		IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
 		if (newFile != null && page != null) {
 			try {
@@ -199,7 +198,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	}
 
 	/**
-	 * Methode remplissant le fichier avec un contenu par defaut
+	 * Fill the new file with default contents or contributed contents (in case of example)
 	 * @return InputStream
 	 */
 	@Override
@@ -207,26 +206,23 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		InputStream inputS;
 
 		try {
-			// Formalisme choisi par l'utilisateur dans la boite de dialogue
-			String formalismName = ((NewModelWizard) getWizard()).getFormalismName();
-			LOGGER.fine("Choix du formalisme : " + formalismName); //$NON-NLS-1$
-
-			// Creation du fihier sous-jacent par defaut
-			LOGGER.fine("Creation du fichier sous-jacent"); //$NON-NLS-1$
+			// Choosen formalism
+			IFormalism formalism = ((NewModelWizard) getWizard()).getFormalism();
+			LOGGER.fine("Choosen formalism: " + formalism.getName()); //$NON-NLS-1$
 
 			String xmlString;
 			if (DEFAULT_MODEL.equalsIgnoreCase(modelSelected)) {
-				xmlString = ModelWriter.createDefault(formalismName);
-				LOGGER.fine("Creation d'un fichier vide par defaut"); //$NON-NLS-1$
+				xmlString = ModelWriter.createDefault(formalism);
+				LOGGER.fine("Create an empty model"); //$NON-NLS-1$
 			} else {
 				xmlString = ModelWriter.translateToXML(ExampleExtension.getModel(patternsList.getText()));
-				LOGGER.fine("Creation d'un fichier a partir de l'example :" + patternsList.getText()); //$NON-NLS-1$
+				LOGGER.fine("Create a model based on the example:" + patternsList.getText()); //$NON-NLS-1$
 			}
 
-			// Creation de l'input stream a partir d'une chaine de caractere
+			// Build the input stream from the string 
 			inputS = new ByteArrayInputStream(xmlString.getBytes());
 		} catch (CoreException e) {
-			LOGGER.warning("Impossible de creer le nouveau fichier"); //$NON-NLS-1$
+			LOGGER.warning("Unable to get the example source"); //$NON-NLS-1$
 			LOGGER.warning(e.getMessage());
 			Coloane.showErrorMsg(e.getMessage());
 			return null;
@@ -240,9 +236,9 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	}
 
 	/**
-	 * Calcule le nom du nouveau fichier et installe le nom dans la page du wizard<br>
-	 * Cette méthode est uniquement appelé lors d'un finish direct sur la première page de l'assistant
-	 * @return le premier nom par défaut disponible pour le nouveau modèle
+	 * Compute a name for the new file.<br>
+	 * This method is called only when the user press the finish button on the first page.<br>
+	 * @return The first available name for the file
 	 */
 	private String computeDefaultModelName() {
 		int counter = 0;
@@ -255,9 +251,9 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	}
 
 	/**
-	 * Vérifie que le nom n'est pas déjà pris...
-	 * @param modelName Le nom du nouveau modèle (sans extension)
-	 * @return <code>true</code> si tout est OK; <code>false</code> sinon
+	 * Check whether a filename already exist in the current project
+	 * @param modelName The model name (without any extension)
+	 * @return <code>true</code> if everything went fine; <code>false</code> otherwise
 	 */
 	private boolean checkName(String modelName) {
 		return this.currentContainer.findMember(modelName) != null;
@@ -266,24 +262,24 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	/** {@inheritDoc} */
 	@Override
 	public final boolean isPageComplete() {
-		// Raccourci : Finich dès la première page
+		// The project must not be null
 		if (this.currentContainer != null) {
 			return true;
 		}
 
-		// Le nouveau modele doit etre attaché a un projet
+		// The new model has to been attached to a project
 		if (getContainerFullPath() == null) {
 			setErrorMessage(Messages.ModelCreationPage_11);
 			return false;
 		}
 
-		// Le nom du fichier ne doit pas être vide
+		// The file name must not be empty
 		if ((getFileName() == null) || (getFileName().equals(""))) { //$NON-NLS-1$
 			setErrorMessage(Messages.ModelCreationPage_13);
 			return false;
 		}
 
-		// Vérification de la non-existence du fichier
+		// Other checks
 		return super.isPageComplete();
 	}
 }

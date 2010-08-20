@@ -2,6 +2,7 @@ package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
+import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 import fr.lip6.move.coloane.interfaces.formalism.IComputedAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeFormatter;
@@ -49,7 +50,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	 * @param computedAttributFormalism The properties of this attribute (given by the formalism)
 	 */
 	ComputedAttributeModel(IElement reference, IComputedAttributeFormalism computedAttributFormalism) {
-		LOGGER.finest("Création d'un AttributeModel(" + computedAttributFormalism.getName() + ", " + reference.getId() + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.finest("Build a computed attribute: " + computedAttributFormalism.getName() + " for #" + reference.getId()); //$NON-NLS-1$ //$NON-NLS-2$
 		this.reference = reference;
 		this.computedAttributFormalism = computedAttributFormalism;
 		this.name = computedAttributFormalism.getName();
@@ -100,23 +101,30 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 
 
 	/** {@inheritDoc} */
-	public final EditorGuide getHorizontalGuide() {
-		return this.horizontalGuide;
+	public final EditorGuide getGuide(int orientation) {
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			return this.horizontalGuide;
+		} else {
+			return this.verticalGuide;
+		}
 	}
 
 	/** {@inheritDoc} */
-	public final EditorGuide getVerticalGuide() {
-		return this.verticalGuide;
+	public final void setGuide(EditorGuide guide) {
+		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			this.horizontalGuide = guide;
+		} else {
+			this.verticalGuide = guide;
+		}
 	}
-
+	
 	/** {@inheritDoc} */
-	public final void setHorizontalGuide(EditorGuide guide) {
-		this.horizontalGuide = guide;
-	}
-
-	/** {@inheritDoc} */
-	public final void setVerticalGuide(EditorGuide guide) {
-		this.verticalGuide = guide;
+	public final void removeGuide(int orientation) {
+		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
+			this.horizontalGuide = null;
+		} else {
+			this.verticalGuide = null;
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -127,7 +135,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
-		return "Attribut(" + name + ": " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		return "ComputedAttribute: " + name + "= " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
 	
 	/**

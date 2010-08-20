@@ -48,7 +48,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * All information is extracted from the formalism definition.
 	 * More especially from the node formalism graphical description
 	 * @see IGraphicalDescription
-	 * @param node The node to wich this graphicInfo is associated to
+	 * @param node The node to which this graphicInfo is associated to
 	 */
 	public NodeGraphicInfo(INode node) {
 		this.node = (NodeModel) node;
@@ -68,7 +68,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 	/** {@inheritDoc} */
 	public final void setLocation(Point location) {
-		LOGGER.finest("setLocation(" + location.x + ", " + location.y + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		LOGGER.finest("New location (" + location.x + ", " + location.y + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		Point oldLocation = new Point(this.x, this.y);
 		this.x = location.x;
 		this.y = location.y;
