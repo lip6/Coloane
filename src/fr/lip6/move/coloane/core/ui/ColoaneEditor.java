@@ -172,7 +172,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		}
 
 		/** {@inheritDoc} */
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("rawtypes")
 		public Object getAdapter(Class type) {
 			if (type == ZoomManager.class) {
 				return getGraphicalViewer().getProperty(
@@ -614,7 +614,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	}
 
 	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	@Override
 	public final Object getAdapter(Class type) {
 		if (type == IContentOutlinePage.class) {

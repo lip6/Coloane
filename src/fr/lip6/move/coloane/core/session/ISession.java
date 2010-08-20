@@ -12,6 +12,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.ui.console.MessageConsole;
+
 /**
  * Describe a session
  */
@@ -75,6 +77,11 @@ public interface ISession {
 	 * @return A list of tips
 	 */
 	Collection<ICoreTip> getTipForObject(int id);
+	
+	/**
+	 * @return The console associated with this session
+	 */
+	MessageConsole getConsole();
 	
 	/**
 	 * Add a listener to be aware of session changes

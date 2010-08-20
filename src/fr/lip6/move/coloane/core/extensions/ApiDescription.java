@@ -1,10 +1,12 @@
 package fr.lip6.move.coloane.core.extensions;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.core.session.Session;
 import fr.lip6.move.coloane.core.ui.menus.ColoaneAPIRootMenu;
 import fr.lip6.move.coloane.interfaces.api.IApi;
 
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.ui.console.MessageConsole;
 
 /**
  * Describe a connected API.<br>
@@ -28,6 +30,13 @@ public class ApiDescription {
 	
 	/** The API root menu */
 	private ColoaneAPIRootMenu rootMenu;
+	
+	/** 
+	 * The associated message console
+	 * Note that several APIs may share the same console.
+	 * That's why the console is provided by the session
+	 */
+	private MessageConsole console;
 
 	/**
 	 * Constructor
@@ -115,5 +124,21 @@ public class ApiDescription {
 	 */
 	public void setRootMenu(ColoaneAPIRootMenu rootMenu) {
 		this.rootMenu = rootMenu;
+	}
+	
+	/**
+	 * Set the console used by the session to which the API is attached to
+	 * @param console The console provided y the session
+	 * @see Session#getConsole()
+	 */
+	public void setConsole(MessageConsole console) {
+		this.console = console;
+	}
+	
+	/**
+	 * @return The console on which messages must be written to
+	 */
+	public MessageConsole getConsole() {
+		return console;
 	}
 }

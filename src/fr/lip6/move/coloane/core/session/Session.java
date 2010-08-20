@@ -13,7 +13,6 @@ import fr.lip6.move.coloane.interfaces.objects.result.Tip;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,7 +24,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.MessageConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * Session.<br>
@@ -216,33 +214,14 @@ public class Session implements ISession {
 	}
 
 	/**
-	 * @return The console associated with this session
+	 * {@inheritDoc}
 	 */
-	private MessageConsole getConsole() {
-		if (console == null) {
-			console = new MessageConsole(sessionId, null); // TODO : Add an icon
-			ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[] {console});
+	public MessageConsole getConsole() {
+		if (this.console == null) {
+			this.console = new MessageConsole(sessionId, null); // TODO : Add an icon
+			ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[] {this.console});
 		}
 		return console;
-	}
-
-	/**
-	 * Print a message in the associated console
-	 * @param message the message to print
-	 * @param type The type of message to print
-	 * @see MessageType
-	 */
-	public final void printConsoleMessage(String message, MessageType type) {
-		MessageConsoleStream mcs = this.getConsole().newMessageStream();
-		type.applyType(mcs);
-		mcs.println(message);
-		try {
-			mcs.flush();
-			mcs.close();
-		} catch (IOException e) {
-			// Hope that no such problem will ever occurs
-			throw new AssertionError(e);
-		}
 	}
 	
 	/** {@inheritDoc} */

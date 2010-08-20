@@ -922,34 +922,6 @@
     </menuContribution>
  </extension>
  <extension
-       id="fr.lip6.move.coloane.handlers"
-       name="Handlers"
-       point="org.eclipse.ui.handlers">
-    <handler
-          class="fr.lip6.move.coloane.core.ui.handlers.AuthenticationHandler"
-          commandId="%AUTHENTICATION">
-    </handler>
- </extension>
- <extension
-       point="org.eclipse.ui.commands">
-    <command
-          id="%AUTHENTICATION"
-          name="authentication">
-    </command>
-    <command
-          id="%BREAK"
-          name="break">
-    </command>
-    <command
-          id="%CONNECT"
-          name="connect">
-    </command>
-    <command
-          id="%DISCONNECT"
-          name="disconnect">
-    </command>
- </extension>
- <extension
        id="fr.lip6.move.coloane.core.ui.checker.rootMarker"
        name="Root Marker"
        point="org.eclipse.core.resources.markers">
