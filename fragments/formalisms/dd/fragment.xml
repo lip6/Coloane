@@ -76,7 +76,7 @@
           <Constraint
                 link="true"
                 name="Terminal (No output arc)"
-                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.CardinalityConstraint">
+                type="fr.lip6.move.coloane.interfaces.formalism.constraints.CardinalityConstraint">
              <parameter
                    name="maxIn"
                    value="-1">
