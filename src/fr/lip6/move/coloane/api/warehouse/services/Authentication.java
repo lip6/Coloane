@@ -27,7 +27,9 @@ public class Authentication implements IApiService {
 		    	Shell activeShell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		    	AuthenticationDialog authDialog = new AuthenticationDialog(activeShell);
 		    	if (authDialog.open() == Dialog.OK) {
-		    		api.setAuthentication(authDialog.getLoginValue(), authDialog.getPasswordValue());
+		    		api.setAuthenticationCredential("login", authDialog.getLoginValue());
+		    		api.setAuthenticationCredential("password", authDialog.getLoginValue());
+		    		api.setAuthenticated(true);
 		    	}
 		    }
 		});
