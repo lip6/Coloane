@@ -91,9 +91,7 @@ public final class SessionManager implements ISessionManager {
 		// Otherwise, a new session is created and added to the session list
 		ISession newSession = new Session(sessionId, graph);
 		sessions.put(sessionId, newSession);
-		if (this.currentSession == null) {
-			setCurrentSession(newSession); // Set the current session if no session is active yet
-		}
+		setCurrentSession(newSession); // Set the current session if no session is active yet
 		
 		// Before returning the new session, we add it an appropriate checker
 		CheckerManager.getInstance().associateCheckerToSession(newSession);
@@ -113,7 +111,6 @@ public final class SessionManager implements ISessionManager {
 			setCurrentSession(toResume);
 			
 			// Refreshing menu list
-			//UserInterfaceManager.getInstance().drawMenus(toResume);			
 			return toResume;
 		}
 		LOGGER.warning("The session " + sessionId + " is not registered in the session manager"); //$NON-NLS-1$ //$NON-NLS-2$
