@@ -103,6 +103,17 @@ public final class ModelLoader {
 	
 
 	/**
+	 * Load a model from an XML URI.<br>
+	 * The model is entirely read thanks to {@link ModelHandler}.<br>
+	 * You can use this method as the simple way to load a model from a file
+	 * @param xmlFile The URI that contains the model description
+	 * @return The corresponding {@link IGraph}
+	 */
+	public static IGraph loadGraphFromXML(URI xmlUri) {
+		return loadFromXML(xmlUri, new ModelHandler()).getGraph();
+	}
+	
+	/**
 	 * Load a model from an XML file.<br>
 	 * The model is entirely read thanks to {@link ModelHandler}.<br>
 	 * You can use this method as the simple way to load a model from a file

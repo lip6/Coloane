@@ -1,5 +1,6 @@
-package fr.lip6.move.coloane.core.model;
+package fr.lip6.move.coloane.core.model.factory;
 
+import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -106,8 +107,7 @@ public class GraphModelFactory {
 	 * @param srcGi the source
 	 * @param destGi the destination
 	 */
-	private void copyNodeGraphicInfo(INodeGraphicInfo srcGi,
-			INodeGraphicInfo destGi) {
+	private void copyNodeGraphicInfo(INodeGraphicInfo srcGi, INodeGraphicInfo destGi) {
 		destGi.setBackground(srcGi.getBackground());
 		destGi.setForeground(srcGi.getForeground());
 		destGi.setLocation(srcGi.getLocation());
@@ -131,8 +131,7 @@ public class GraphModelFactory {
 	 * @param srcAgi the source
 	 * @param destAgi the destination
 	 */
-	private void copyAttributeGraphicInfo(IAttributeGraphicInfo srcAgi,
-			IAttributeGraphicInfo destAgi) {
+	private void copyAttributeGraphicInfo(IAttributeGraphicInfo srcAgi, IAttributeGraphicInfo destAgi) {
 		destAgi.setBackground(srcAgi.getBackground());
 		destAgi.setForeground(srcAgi.getForeground());
 		destAgi.setLocation(srcAgi.getLocation());
