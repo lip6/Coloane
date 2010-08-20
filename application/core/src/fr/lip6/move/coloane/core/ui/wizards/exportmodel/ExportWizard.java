@@ -76,7 +76,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 		}
 		
 		// Check the number of resources to export
-		if (page.getSelectedRessource().size() > 0) {
+		if (page.getSelectedRessource().size() <= 0) {
 			page.setErrorMessage(Messages.ExportWizard_4);
 			return false;
 		}
