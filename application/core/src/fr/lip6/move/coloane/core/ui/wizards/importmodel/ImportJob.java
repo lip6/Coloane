@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.core.ui.wizards.importmodel;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.ByteArrayInputStream;
@@ -31,7 +32,7 @@ public class ImportJob extends Job {
 	private IImportFrom worker;
 
 	/** The formalism used by the new model */
-	private String formalism;
+	private IFormalism formalism;
 
 	/** The source path */
 	private String path;
@@ -47,7 +48,7 @@ public class ImportJob extends Job {
 	 * @param path the source path
 	 * @param newFile The file that will handle the new model data
 	 */
-	public ImportJob(String name, IImportFrom worker, String formalism, String path, IFile newFile) {
+	public ImportJob(String name, IImportFrom worker, IFormalism formalism, String path, IFile newFile) {
 		super(name);
 		this.worker = worker;
 		this.formalism = formalism;

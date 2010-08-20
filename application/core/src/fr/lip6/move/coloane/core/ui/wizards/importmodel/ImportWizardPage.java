@@ -169,11 +169,21 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			setErrorMessage(Messages.ImportWizardPage_14);
 			return false;
 		}
+		
+		// Fetch available formalisms
+		IFormalism inputFormalism = null;
+		List<IFormalism> listOfFormalisms = ImportFromExtension.getFormalisms(importType);
+		for (IFormalism formalism : listOfFormalisms) {
+			if (formalism.getName().equals(formSelect.getText())) {
+				inputFormalism = formalism;
+				break;
+			}
+		}
 
 		// Use a job to import the new model
 		Job job = new ImportJob("Import " + path, //$NON-NLS-1$
 						worker,
-						formSelect.getText(),
+						inputFormalism,
 						fileSelect.getStringValue(),
 						newFile);
 

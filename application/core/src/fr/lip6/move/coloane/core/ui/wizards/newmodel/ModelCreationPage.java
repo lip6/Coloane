@@ -215,7 +215,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 				xmlString = ModelWriter.createDefault(formalism);
 				LOGGER.fine("Create an empty model"); //$NON-NLS-1$
 			} else {
-				xmlString = ModelWriter.translateToXML(ExampleExtension.getModel(patternsList.getText()));
+				xmlString = ModelWriter.translateToXML(ExampleExtension.getModel(patternsList.getText(), formalism));
 				LOGGER.fine("Create a model based on the example:" + patternsList.getText()); //$NON-NLS-1$
 			}
 

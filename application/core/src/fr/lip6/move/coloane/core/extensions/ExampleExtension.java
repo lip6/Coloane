@@ -57,7 +57,7 @@ public final class ExampleExtension {
 	 * @throws CoreException If something went wrong with the extension mechanism
 	 * @throws ColoaneException If something went wrong during the graph building
 	 */
-	public static IGraph getModel(String modelName) throws CoreException, ColoaneException {
+	public static IGraph getModel(String modelName, IFormalism formalism) throws CoreException, ColoaneException {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		IConfigurationElement convertContribution = null;
 		for (int i = 0; i < contributions.length; i++) {
@@ -75,7 +75,7 @@ public final class ExampleExtension {
 		
 		// Execute the instance
 		try {
-			return convertInstance.buildModel();
+			return convertInstance.buildModel(formalism);
 		} catch (PluginException e) {
 			throw new ColoaneException("Plugin error " + e.getMessage() + "[" + e.getPluginName() + "]");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
 		}
