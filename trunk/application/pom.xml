@@ -15,8 +15,8 @@
 	<description>Application Package</description>
 
 	<modules>
-		<module>apicami</module>
-		<module>apiws</module>
+<!--                <module>apicami</module>-->
+<!--                <module>apiws</module>-->
 		<module>core</module>
 		<module>interfaces</module>
 	</modules>
