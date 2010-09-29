@@ -94,15 +94,6 @@ public class AuthenticationDialog extends TitleAreaDialog {
 		return area;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected boolean isResizable() {
-		return false;
-	}
-	
-	
 	
 	
 	@Override
