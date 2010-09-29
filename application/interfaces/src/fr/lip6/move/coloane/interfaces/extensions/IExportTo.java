@@ -15,7 +15,7 @@ public interface IExportTo {
 	 * @param filePath chemin du fichier dans lequel exporter le modele courant
 	 * @param monitor Moniteur qui gère la barre de progression, si l'extension n'utilise
 	 * pas le moniteur, aucune barre de progression n'apparaitra.
-	 * @throws ColoaneException toutes les exceptions susceptiblent d'etre engendrees et a afficher
+	 * @throws ExtensionException toutes les exceptions susceptiblent d'etre engendrees et a afficher
 	 */
 	void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ExtensionException;
 }

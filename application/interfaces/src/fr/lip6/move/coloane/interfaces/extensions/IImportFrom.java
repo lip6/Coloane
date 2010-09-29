@@ -18,7 +18,7 @@ public interface IImportFrom {
 	 * @param formalism The formalism that will be used to build the model
 	 * @param monitor Progress monitor
 	 * @return an {@link IGraph} using an appropriate formalism
-	 * @throws ColoaneException If something went wring during the import process
+	 * @throws ExtensionException If something went wring during the import process
 	 */
 	IGraph importFrom(String filePath, IFormalism formalism, IProgressMonitor monitor) throws ExtensionException;
 }
