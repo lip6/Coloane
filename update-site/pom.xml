@@ -27,7 +27,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>$BUILDTOOLS/buildSiteXML.pl</executable>
+							<executable>${env.BUILDTOOLS}/buildSiteXML.pl</executable>
 							<arguments>
 								<argument>site.xml</argument>
 								<argument>${build.finalName}</argument>
@@ -43,7 +43,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>$BUILDTOOLS/deployUpdateSite.sh</executable>
+							<executable>${env.BUILDTOOLS}/deployUpdateSite.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${project.deployPath}</argument>
@@ -58,7 +58,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>$BUILDTOOLS/generateMetadata.sh</executable>
+							<executable>${env.BUILDTOOLS}/generateMetadata.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${project.deployPath}</argument>
@@ -73,7 +73,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>$BUILDTOOLS/synchronize.sh</executable>
+							<executable>${env.BUILDTOOLS}/synchronize.sh</executable>
 							<arguments>
 								<argument>${project.deployPath}</argument>
 								<argument>/coloane/public</argument>
