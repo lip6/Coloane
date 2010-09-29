@@ -498,7 +498,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>$BUILDTOOLS/updateManifest.sh</executable>
+							<executable>${env.BUILDTOOLS}/updateManifest.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${buildNumber}</argument>
@@ -514,7 +514,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>$BUILDTOOLS/deployJar.sh</executable>
+							<executable>${env.BUILDTOOLS}/deployJar.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${build.finalName}.${project.packaging}</argument>
@@ -531,7 +531,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>$BUILDTOOLS/cleanManifest.sh</executable>
+							<executable>${env.BUILDTOOLS}/cleanManifest.sh</executable>
 						</configuration>
 					</execution>
 				</executions>
@@ -608,7 +608,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<keystore>$BUILDTOOLS/coloane.keystore</keystore>
+					<keystore>${env.BUILDTOOLS}/coloane.keystore</keystore>
 					<alias>coloane</alias>
 					<storepass>odui2aiF</storepass>
 					<keypass>gu2Ieg2v</keypass>
