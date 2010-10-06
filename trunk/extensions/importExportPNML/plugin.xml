@@ -5,9 +5,10 @@
          point="fr.lip6.move.coloane.core.exports">
       <Export
             class="fr.lip6.move.coloane.extension.importExportPNML.exportToPNML.ExportToImpl"
-            id="fr.lip6.move.coloane.extensions.exportpnml"
             extension="pnml"
-            reference="fr.lip6.move.coloane.wizard.export.pnml">
+            id="fr.lip6.move.coloane.extensions.exportpnml"
+            reference="fr.lip6.move.coloane.wizard.export.pnml"
+            wizard_id="fr.lip6.move.coloane.wizard.export.pnml">
          <AcceptedFormalism
                id="PT-Net">
          </AcceptedFormalism>
@@ -18,7 +19,8 @@
       <Import
             class="fr.lip6.move.coloane.extension.importExportPNML.importFromPNML.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importpnml"
-            reference="fr.lip6.move.coloane.wizard.import.pnml">
+            reference="fr.lip6.move.coloane.wizard.import.pnml"
+            wizard_id="fr.lip6.move.coloane.wizard.import.pnml">
          <AcceptedFormalism
                id="PT-Net">
          </AcceptedFormalism>
