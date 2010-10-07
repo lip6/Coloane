@@ -1,7 +1,10 @@
 package fr.lip6.move.coloane.extension.importExportPNML.importFromPNML;
 
-import fr.lip6.move.coloane.core.model.GraphModel;
+import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -35,12 +38,17 @@ public class PTProcessor extends Processor {
 	 * We need them to create Coloane arcs.
 	 */
 	private Map<String, Integer> nodesIds = null;
+	private final GraphModelFactory modelFactory;
+	private INodeFormalism placeFormalism;
+	private INodeFormalism transitionFormalism;
+	private IArcFormalism arcFormalism;
 
 	/**
 	 * Processor of P/T nets.
 	 */
 	public PTProcessor() {
 		super();
+		modelFactory = new GraphModelFactory();
 	}
 
 	/**
@@ -53,9 +61,13 @@ public class PTProcessor extends Processor {
 	 * @throws ModelException Something went wrong during models fetching
 	 */
 	@Override
-	public final IGraph process(HLAPIRootClass rootClass, String formalism) throws ModelException {
+	public final IGraph process(HLAPIRootClass rootClass, IFormalism formalism) throws ModelException {
 		final PetriNetDocHLAPI root = (PetriNetDocHLAPI) rootClass;
-		IGraph topGraph = new GraphModel(formalism);
+		IGraph topGraph = modelFactory.createGraph(formalism);
+
+		this.placeFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("place");
+		this.transitionFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("transition");
+		this.arcFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("arch");
 
 		nodesIds = new HashMap<String, Integer>();
 		for (PetriNetHLAPI iterableElement : root.getNetsHLAPI()) {
@@ -72,8 +84,8 @@ public class PTProcessor extends Processor {
 	 * @return {@link IGraph} the Coloane graph for this net
 	 * @throws ModelException Something went wrong during the model construction
 	 */
-	private IGraph processNet(PetriNetHLAPI pnmlNet, String formalism) throws ModelException {
-		IGraph netGraph = new GraphModel(formalism);
+	private IGraph processNet(PetriNetHLAPI pnmlNet, IFormalism formalism) throws ModelException {
+		IGraph netGraph = modelFactory.createGraph(formalism);
 		if (pnmlNet.getName() != null) { netGraph.getAttribute("title").setValue(pnmlNet.getName().getText()); }
 
 		// Browse all net pages
@@ -123,7 +135,7 @@ public class PTProcessor extends Processor {
 	 * @return {@link INode} a Coloane graph node
 	 * @throws ModelException Somthing went wrogn during model construction
 	 */
-	private INode processNode(NodeHLAPI pnmlNode, String nodeType, IGraph netGraph) throws ModelException {
+	private INode processNode(NodeHLAPI pnmlNode, INodeFormalism nodeType, IGraph netGraph) throws ModelException {
 		INode node = netGraph.createNode(nodeType);
 
 		// Store the reference into the hasmap to be able to create arc later
@@ -153,7 +165,7 @@ public class PTProcessor extends Processor {
 	 * @throws ModelException Something went wrong during transition fetching
 	 */
 	private void processPlace(PlaceHLAPI pnmlPlace, IGraph netGraph) throws ModelException {
-		INode node = processNode(pnmlPlace, "place", netGraph);
+		INode node = processNode(pnmlPlace, placeFormalism, netGraph);
 		if (pnmlPlace.getInitialMarkingHLAPI() != null) {
 			node.getAttribute("marking").setValue(String.valueOf(pnmlPlace.getInitialMarkingHLAPI().getText()));
 		}
@@ -167,7 +179,7 @@ public class PTProcessor extends Processor {
 	 * @throws ModelException Something went wrong during transition fetching
 	 */
 	private void processTransition(TransitionHLAPI pnmlTransition, IGraph netGraph) throws ModelException {
-		processNode(pnmlTransition, "transition", netGraph);
+		processNode(pnmlTransition, transitionFormalism, netGraph);
 	}
 
 	/**
@@ -200,7 +212,7 @@ public class PTProcessor extends Processor {
 		}
 
 		// Set source and target
-		IArc coloaneArc = netGraph.createArc("arc", netGraph.getNode(nodesIds.get(src.getId())), netGraph.getNode(nodesIds.get(target.getId())));
+		IArc coloaneArc = netGraph.createArc(arcFormalism, netGraph.getNode(nodesIds.get(src.getId())), netGraph.getNode(nodesIds.get(target.getId())));
 
 		// Sets Inscription
 		if (pnmlArc.getInscriptionHLAPI() != null) {

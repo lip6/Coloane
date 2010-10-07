@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.extension.importExportPNML.exportToPNML;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IExportTo;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -44,7 +44,7 @@ public class ExportToImpl implements IExportTo {
 	}
 
 	/** {@inheritDoc} */
-	public final void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ColoaneException {
+	public final void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ExtensionException {
 		PetriNetDocHLAPI doc;
 
 		int totalWork = graph.getNodes().size() + graph.getArcs().size();

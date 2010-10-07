@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.extension.importExportPNML.importFromPNML;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.pnml.framework.hlapi.HLAPIRootClass;
 
@@ -18,5 +19,5 @@ public abstract class Processor {
 	 * @throws ModelException Something went wrong during PN models processing
 	 * @return A coloane graph model {@link IGraph}
 	 */
-	public abstract IGraph process(HLAPIRootClass rootClass, String formalism) throws ModelException;
+	public abstract IGraph process(HLAPIRootClass rootClass, IFormalism formalism) throws ModelException;
 }
