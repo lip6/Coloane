@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.extension.importExportPNML.importFromPNML;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IImportFrom;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.pnml.framework.general.PnmlImport;
 import fr.lip6.move.pnml.framework.hlapi.HLAPIRootClass;
@@ -24,7 +25,8 @@ public class ImportFromImpl implements IImportFrom {
 	public ImportFromImpl() { }
 
 	/** {@inheritDoc} */
-	public final IGraph importFrom(String filePath, String formalism, IProgressMonitor monitor) throws ColoaneException {
+	public final IGraph importFrom(String filePath, IFormalism formalism,
+			IProgressMonitor monitor) throws ExtensionException {
 		IGraph graph = null;
 
 		// Create the document workspace
@@ -32,7 +34,7 @@ public class ImportFromImpl implements IImportFrom {
 		try {
 			ModelRepository.getInstance().createDocumentWorkspace(filePath);
 		} catch (final InvalidIDException e) {
-			throw new ColoaneException(e.getMessage());
+			throw new ExtensionException(e.getMessage());
 		}
 
 		PnmlImport pnmlImport = new PnmlImport();
@@ -45,7 +47,7 @@ public class ImportFromImpl implements IImportFrom {
 			graph = proc.process(imported, formalism);
 		} catch (final Exception e) {
 			e.printStackTrace();
-			throw new ColoaneException(e.getMessage());
+			throw new ExtensionException(e.getMessage());
 
 		// The workspace must be cleaned before exiting !
 		} finally {
