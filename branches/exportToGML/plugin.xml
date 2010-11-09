@@ -11,6 +11,12 @@
          <AcceptedFormalism
                id="PT-Net">
          </AcceptedFormalism>
+         <AcceptedFormalism
+               id="CPN">
+         </AcceptedFormalism>
+         <AcceptedFormalism
+               id="SNB">
+         </AcceptedFormalism>
       </Export>
    </extension>
    <extension
