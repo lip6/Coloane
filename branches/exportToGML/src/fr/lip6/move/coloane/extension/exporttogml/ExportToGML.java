@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.exportToGML;
+package fr.lip6.move.coloane.extension.exporttogml;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

@@ -4,9 +4,9 @@
    <extension
          point="fr.lip6.move.coloane.core.exports">
       <Export
-            class="fr.lip6.move.coloane.extension.exportToGML.ExportToGML"
+            class="fr.lip6.move.coloane.extension.exporttogml.ExportToGML"
             extension="gml"
-            id="fr.lip6.move.coloane.extensions.exportToGML"
+            id="fr.lip6.move.coloane.extensions.exporttogml"
             wizard_id="fr.lip6.move.coloane.wizard.export.gml">
          <AcceptedFormalism
                id="PT-Net">
