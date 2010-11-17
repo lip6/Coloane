@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ExportToGML
 Bundle-SymbolicName: fr.lip6.move.coloane.extension.exportToGML;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: fr.lip6.move.coloane.extension.exporttogml.Activator
+Bundle-Activator: fr.lip6.move.coloane.extension.exportToGML.ExportToGML
 Require-Bundle: org.eclipse.core.runtime,
  fr.lip6.move.coloane.interfaces;bundle-version="1.3.0",
  fr.lip6.move.coloane.core;bundle-version="0.16.2",

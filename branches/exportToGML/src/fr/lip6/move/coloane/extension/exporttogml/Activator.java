@@ -1,39 +1,33 @@
-package fr.lip6.move.coloane.extension.exporttogml;
+package fr.lip6.move.coloane.extension.exportToGML;
 
-import org.eclipse.core.runtime.Plugin;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends Plugin {
+public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "exportToGML";
+	public static final String PLUGIN_ID = "fr.lip6.move.coloane.extension.exportToGML";
 
 	// The shared instance
 	private static Activator plugin;
-	
+
 	/**
 	 * The constructor
 	 */
 	public Activator() {
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.Plugins#start(org.osgi.framework.BundleContext)
-	 */
-	public void start(BundleContext context) throws Exception {
+	/** {@inheritDoc} */
+	public final void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext context) throws Exception {
+	/** {@inheritDoc} */
+	public final void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
 	}
