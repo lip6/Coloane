@@ -65,11 +65,13 @@ public class ExportToGML implements IExportTo {
 		out.write("    xmlns=\"http://gml.lip6.fr/model\">\n");
     	
 		// Export model attributes
+		IAttribute declarativePart = graph.getAttribute("declaration");
+		symbols = exportDeclarativePart(declarativePart.getValue(),out,monitor,gap);
 		for(IAttribute attr : graph.getAttributes()) {
-			if (attr.getName() == "declaration")
-				symbols = exportDeclarativePart(attr.getValue(),out,monitor,gap);
-			else
+			System.out.println(attr.getName());
+			if (attr != declarativePart) {
 				exportAttribute(attr, out, monitor, gap, symbols);
+			}
 		}
     	out.write("\n");
     	
