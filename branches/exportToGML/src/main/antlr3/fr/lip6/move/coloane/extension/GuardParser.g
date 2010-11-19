@@ -117,56 +117,54 @@ relOperator[boolean incard] returns [String value] :
   LT { if ($incard) $value="Less"; else $value="less"; } |
   GT { if ($incard) $value="Greater"; else $value="greater"; } ;
 
-guardOperator[String gap] returns [String value] : v=varClassElement[$gap] { $value = $v.value; } | s=simpleBagOperator[$gap] { $value=$s.value; } ;
+guardOperator[String gap] returns [String value] : v=varClassElement[$gap] { $value = $v.value; } ;
 
 varClassElement[String gap] returns [String value]
 @init { $value=""; } :
-  id=IDENTIFIER { is_variable($id.getText()) }? { $value = $value.concat("<attribute name=\"name\">" + $id.getText() + "</attribute>\n"); } | // variableIdentifier
+  id=IDENTIFIER { is_variable($id.getText()) }? // variableIdentifier
+{ $value = $value + gap + "<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
+} |
   id=IDENTIFIER DOT ALL { is_class($id.getText()) }? // classIdentifier DOT ALL
-{ $value = $value.concat("<attribute name=\"function\">\n");
-  $value = $value.concat("<attribute name=\"all\">\n");
-  $value = $value.concat("<attribute name=\"type\">");
-  $value = $value.concat($id.getText());
-  $value = $value.concat("</attribute>\n");
-  $value = $value.concat("</attribute>\n");
-  $value = $value.concat("</attribute>\n");
+{ $value = $value + gap + "<attribute name=\"function\">\n";
+  $value = $value + gap + "\t<attribute name=\"all\">\n";
+  $value = $value + gap + "\t\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "\t</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } |
   idc=IDENTIFIER DOT i=INTEGER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
-{ $value = $value.concat("<attribute name=\"intConst\">\n");
-  $value = $value.concat("<attribute name=\"type\">" + $id.getText() + "</attribute>\n");
-  $value = $value.concat("<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n");
-  $value = $value.concat("</attribute>\n");
+{ $value = $value + gap + "<attribute name=\"intConst\">\n";
+  $value = $value + gap + "\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } |
   idc=IDENTIFIER DOT i=IDENTIFIER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
-{ $value = $value.concat("<attribute name=\"enumConst\">\n");
-  $value = $value.concat("<attribute name=\"type\">" + $id.getText() + "</attribute>\n");
-  $value = $value.concat("<attribute name=\"enumValue\">" + $i.getText() + "</attribute>\n");
-  $value = $value.concat("</attribute>\n");
+{ $value = $value + gap + "<attribute name=\"enumConst\">\n";
+  $value = $value + gap + "\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"enumValue\">" + $i.getText() + "</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } |
   id=IDENTIFIER PLUSPLUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier ++ n
   { Integer.parseInt($n.getText()) > 0 }?
-{ $value = $value.concat("<attribute name=\"function\">\n");
+{ $value = $value + gap + "<attribute name=\"function\">\n";
   for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value.concat("<attribute name=\"++\">\n");
+    $value = $value + gap + "\t<attribute name=\"++\">\n";
   }
-  $value = $value.concat("<attribute name=\"name\">" + $id.getText() + "</attribute>\n");
+  $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
   for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value.concat("</attribute>\n");
+    $value = $value + gap + "\t</attribute>\n";
   }
-  $value = $value.concat("</attribute>\n");
+  $value = $value + gap + "</attribute>\n";
 } |
   id=IDENTIFIER MINUSMINUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier -- n
   { Integer.parseInt($n.getText()) > 0 }?
-{ $value = $value.concat("<attribute name=\"function\">\n");
+{ $value = $value + gap + "<attribute name=\"function\">\n";
   for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value.concat("<attribute name=\"--\">\n");
+    $value = $value + gap + "\t<attribute name=\"--\">\n";
   }
-  $value = $value.concat("<attribute name=\"name\">" + $id.getText() + "</attribute>\n");
+  $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
   for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value.concat("</attribute>\n");
+    $value = $value + gap + "\t</attribute>\n";
   }
-  $value = $value.concat("</attribute>\n");
+  $value = $value + gap + "</attribute>\n";
 } ;
-  
-simpleBagOperator[String gap] returns [String value] : LBRACE id=IDENTIFIER RBRACE { is_variable($id.getText()) }? ;
   

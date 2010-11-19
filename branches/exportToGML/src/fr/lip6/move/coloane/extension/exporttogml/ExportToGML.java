@@ -21,7 +21,6 @@ import main.antlr3.fr.lip6.move.coloane.extension.DeclarativePartParserSN;
 import main.antlr3.fr.lip6.move.coloane.extension.GuardLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.GuardParser;
 import main.antlr3.fr.lip6.move.coloane.extension.ValuationLexerSNB;
-import main.antlr3.fr.lip6.move.coloane.extension.ValuationParserSN;
 import main.antlr3.fr.lip6.move.coloane.extension.ValuationParserSNB;
 
 public class ExportToGML implements IExportTo {
@@ -68,7 +67,6 @@ public class ExportToGML implements IExportTo {
 		IAttribute declarativePart = graph.getAttribute("declaration");
 		symbols = exportDeclarativePart(declarativePart.getValue(),out,monitor,gap);
 		for(IAttribute attr : graph.getAttributes()) {
-			System.out.println(attr.getName());
 			if (attr != declarativePart) {
 				exportAttribute(attr, out, monitor, gap, symbols);
 			}
@@ -155,7 +153,7 @@ public class ExportToGML implements IExportTo {
 			ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ValuationParserSNB parser = new ValuationParserSNB(tokens);
-			out.write(parser.arcLabel(symbols));
+			out.write(parser.arcLabel(symbols,gap));
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Error parsing prod file " + e.getMessage());
 		}
