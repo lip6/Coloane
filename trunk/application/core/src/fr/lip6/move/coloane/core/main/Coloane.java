@@ -77,32 +77,36 @@ public class Coloane extends AbstractUIPlugin {
 	 * </ul>
 	 */
 	private void sendProperties() {
-		// Compute current eclipse platform version
-		String eclipseVersion = null;
-	    String aboutText = Platform.getProduct().getProperty("aboutText"); //$NON-NLS-1$
-	    String pattern = "Version: (.*)\n"; //$NON-NLS-1$
-	    Pattern p = Pattern.compile(pattern);
-		Matcher m = p.matcher(aboutText);
-		if (m.find()) { eclipseVersion = m.group(1); }
-		if (eclipseVersion == null) { LOGGER.warning("Your eclipse version cannot be computed... Perhaps an installation problem ?"); }  //$NON-NLS-1$
+		new Thread(new Runnable() {
+			public void run() {
+				// Compute current eclipse platform version
+				String eclipseVersion = null;
+			    String aboutText = Platform.getProduct().getProperty("aboutText"); //$NON-NLS-1$
+			    String pattern = "Version: (.*)\n"; //$NON-NLS-1$
+			    Pattern p = Pattern.compile(pattern);
+				Matcher m = p.matcher(aboutText);
+				if (m.find()) { eclipseVersion = m.group(1); }
+				if (eclipseVersion == null) { LOGGER.warning("Your eclipse version cannot be computed... Perhaps an installation problem ?"); }  //$NON-NLS-1$
 
-		// Build the QueryString
-		StringBuilder querystring = new StringBuilder();
-		querystring.append("?platform=eclipse_" + eclipseVersion); //$NON-NLS-1$
-		querystring.append("&os=" + Platform.getOS() + "-" + Platform.getOSArch()); //$NON-NLS-1$ //$NON-NLS-2$
-		querystring.append("&wm=" + Platform.getWS()); //$NON-NLS-1$
+				// Build the QueryString
+				StringBuilder querystring = new StringBuilder();
+				querystring.append("?platform=eclipse_" + eclipseVersion); //$NON-NLS-1$
+				querystring.append("&os=" + Platform.getOS() + "-" + Platform.getOSArch()); //$NON-NLS-1$ //$NON-NLS-2$
+				querystring.append("&wm=" + Platform.getWS()); //$NON-NLS-1$
 
-		String requestUrl = "http://coloane.lip6.fr/track.php" + querystring.toString(); //$NON-NLS-1$
-		try {
-	        URL url = new URL(requestUrl.toString());
-	        InputStream is = url.openConnection().getInputStream();
-	        is.close();
-	        LOGGER.info("Information about your configuration has been sent to the coloane developper center !"); //$NON-NLS-1$
-		} catch (MalformedURLException e) {
-			LOGGER.warning("Track information are invalid : " + querystring); //$NON-NLS-1$
-		} catch (IOException e) {
-			LOGGER.warning("Error while sending track information"); //$NON-NLS-1$
-		}
+				String requestUrl = "http://coloane.lip6.fr/track.php" + querystring.toString(); //$NON-NLS-1$
+				try {
+			        URL url = new URL(requestUrl.toString());
+			        InputStream is = url.openConnection().getInputStream();
+			        is.close();
+			        LOGGER.info("Information about your configuration has been sent to the coloane developper center !"); //$NON-NLS-1$
+				} catch (MalformedURLException e) {
+					LOGGER.warning("Track information are invalid : " + querystring); //$NON-NLS-1$
+				} catch (IOException e) {
+					LOGGER.warning("Error while sending track information"); //$NON-NLS-1$
+				}
+			}
+		}).start();
 	}
 
 	/**
