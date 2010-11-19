@@ -57,7 +57,7 @@ public class ExportToGML implements IExportTo {
 	 * @throws IOException if the writer throw an exception
 	 */
 	private void exportGraph(IGraph graph, Writer out, IProgressMonitor monitor) throws IOException,ExtensionException {
-		String gap = "  ";
+		String gap = "\t";
 		HashMap<String,String> symbols = null;
 		
 		out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n");
@@ -133,7 +133,7 @@ public class ExportToGML implements IExportTo {
 			DeclarativePartLexer lexer = new DeclarativePartLexer(new ANTLRStringStream(value));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			parser = new DeclarativePartParserSN(tokens);
-			out.write(parser.declaration());
+			out.write(parser.declaration(gap));
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Error parsing prod file " + e.getMessage());
 		}
@@ -205,7 +205,7 @@ public class ExportToGML implements IExportTo {
 	private void exportNode(INode node, Writer out, IProgressMonitor monitor, String gap, HashMap<String,String> symbols) throws IOException,ExtensionException {
 		out.write(gap + "<node id=\"" + node.getNodeFormalism().getName() + node.getId() + "\" nodeType=\"" + node.getNodeFormalism().getName() + "\">\n");
 		for(IAttribute attr : node.getAttributes()) {
-			exportAttribute(attr, out, monitor, gap + "  ", symbols);
+			exportAttribute(attr, out, monitor, gap + "\t", symbols);
 		}
 		out.write(gap + "</node>\n");
 	}
@@ -225,7 +225,7 @@ public class ExportToGML implements IExportTo {
 			GuardLexer lexer = new GuardLexer(new ANTLRStringStream(value));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			GuardParser parser = new GuardParser(tokens);
-			out.write(parser.transitionGuard(symbols));
+			out.write(parser.transitionGuard(symbols,gap));
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Error parsing prod file " + e.getMessage());
 		}
@@ -248,7 +248,7 @@ public class ExportToGML implements IExportTo {
 				+ "source=\"" + source.getNodeFormalism().getName() + source.getId() + "\" "
 				+ "target=\"" + target.getNodeFormalism().getName() + target.getId() + "\">\n");
 		for(IAttribute attr : arc.getAttributes()) {
-			exportAttribute(attr, out, monitor, gap + "  ",symbols);
+			exportAttribute(attr, out, monitor, gap + "\t",symbols);
 		}
 		out.write(gap + "</arc>\n");
 	}

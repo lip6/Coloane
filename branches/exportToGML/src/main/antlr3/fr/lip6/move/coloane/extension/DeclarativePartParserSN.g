@@ -22,218 +22,194 @@ options {
 }
 
 // the starting rule
-declaration returns [String value]
-@init { $value = ""; } :
-   c1=classSection { $value = $value + $c1.value; }
-  (c2=equivalenceSection { $value = $value + $c2.value; })?
-  (c3=domainSection { $value = $value.concat($c3.value); })?
-  c4=variableSection { $value = $value.concat($c4.value); } ;
+declaration[String gap] returns [String value]
+@init { $value = gap + "<attribute name=\"declaration\">\n"; }
+@after { $value = $value + gap + "</attribute>\n"; } :
+   c1=classSection[$gap+"\t"] { $value = $value + $c1.value; }
+  (c2=equivalenceSection[$gap+"\t"] { $value = $value + $c2.value; })?
+  (c3=domainSection[$gap+"\t"] { $value = $value + $c3.value; })?
+  c4=variableSection[$gap+"\t"] { $value = $value + $c4.value; } ;
 
 // the class declaration section
-classSection returns [String value] : CLASS l=classDeclarationList
+classSection[String gap] returns [String value] : CLASS l=classDeclarationList[$gap]
 {
   $value = $l.value;
 } ;
 
-classDeclarationList returns [String value] : 
-  e=classDeclaration { $value = $e.value; } |
-  e=classDeclaration l=classDeclarationList { $value = $e.value.concat($l.value); } ;
+classDeclarationList[String gap] returns [String value] : 
+  e=classDeclaration[$gap] { $value = $e.value; } |
+  e=classDeclaration[$gap] l=classDeclarationList[$gap] { $value = $e.value.concat($l.value); } ;
 
-classDeclaration returns [String value]
+classDeclaration[String gap] returns [String value]
 @init {
   boolean circular=false;
 } 
-: id=IDENTIFIER IS (CIRCULAR { circular=true; })? d=classDescription SEMICOLON { symbols.get($id.getText())==null }?
+: id=IDENTIFIER IS (CIRCULAR { circular=true; })? d=classDescription[$gap+"\t\t"] SEMICOLON { symbols.get($id.getText())==null }?
 { symbols.put($id.getText(),"class");
   
   $value = "";
-  $value = $value.concat("<attribute name=\"classeDeclaration\">\n");
+  $value = $value + gap + "<attribute name=\"classeDeclaration\">\n";
   // balise name
-  $value = $value.concat("<attribute name=\"name\">");
-  $value = $value.concat($id.getText());
-  $value = $value.concat("</attribute>\n"); // fermeture de la balise name
+  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n"; // fermeture de la balise name
   // balise classType
-  $value = $value.concat("<attribute name=\"classType\">\n");
+  $value = $value + gap + "\t<attribute name=\"classType\">\n";
   $value = $value.concat($d.value);
-  $value = $value.concat("</attribute>\n"); // fermeture de la balise classType
+  $value = $value + gap + "\t</attribute>\n"; // fermeture de la balise classType
   // balise circular
-  $value = $value.concat("<attribute name=\"circular\">");
+  $value = $value + gap + "\t<attribute name=\"circular\">";
   if (circular) $value = $value.concat("true"); else $value = $value.concat("false");
   $value = $value.concat("</attribute>\n"); // fermeture de la balise circular
-  $value = $value.concat("</attribute>\n"); // fermeture de la balise classeDeclaration
+  $value = $value + gap + "</attribute>\n"; // fermeture de la balise classeDeclaration
 } ;
 
-classDescription returns [String value]
+classDescription[String gap] returns [String value]
 @init { $value=""; } : 
-  e=interval
+  e=interval[$gap]
   {
     $value = $value.concat($e.value);
   } |
-  c=classEnum { $value = $value.concat($c.value); } ;
+  c=classEnum[$gap] { $value = $value.concat($c.value); } ;
    
-classEnum returns [String value] 
+classEnum[String gap] returns [String value] 
 @init { $value=""; } :
-  LHOOK e=listIdentifier RHOOK 
-{
-  $value = $value.concat("<attribute name=\"classEnum\">");
-  $value = $value.concat($e.value);
-  $value = $value.concat("</attribute>\n");
+  LHOOK e=listIdentifier[$gap+"\t"] RHOOK 
+{ $value = $value + gap + "<attribute name=\"classEnum\">" + $e.value + "</attribute>\n";
 } ;
 
-interval returns [String value] : e=INTEGER DOUBLEDOT f=INTEGER
-{
-  $value="";
-  $value = $value.concat("<attribute name=\"classIntInterval\">\n");
-  $value = $value.concat("<attribute name=\"lowerBound\">");
-  $value = $value.concat($e.text);
-  $value = $value.concat("</attribute>");
-  $value = $value.concat("<attribute name=\"higherBound\">");
-  $value = $value.concat($f.text);
-  $value = $value.concat("</attribute>");
-  $value = $value.concat("</attribute>\n");
+interval[String gap] returns [String value] : e=INTEGER DOUBLEDOT f=INTEGER
+{ $value="";
+  $value = $value + gap + "<attribute name=\"classIntInterval\">\n";
+  $value = $value + gap + "\t<attribute name=\"lowerBound\">" + $e.text + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"higherBound\">" + $f.text + "</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } ;
 
-listIdentifier returns [String value] : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques 
+listIdentifier[String gap] returns [String value] : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques 
 {
   $value="";
   for (Object x : $ids) {
-    $value = $value.concat("<attribute name=\"enumValue\">");
+    $value = $value + gap + "<attribute name=\"enumValue\">";
     $value = $value.concat(((Token)x).getText());
     $value = $value.concat("</attribute>\n");
   }
 };
 
 // the equivalence declaration section
-equivalenceSection returns [String value] : EQUIV e=equivalenceDeclarationList { $value = $e.value; } ;
+equivalenceSection[String gap] returns [String value] : EQUIV e=equivalenceDeclarationList[$gap] { $value = $e.value; } ;
 
-equivalenceDeclarationList returns [String value] :
-  e=equivalenceDeclaration { $value = $e.value; } (l=equivalenceDeclarationList { $value = $value.concat($l.value); })? ;
+equivalenceDeclarationList[String gap] returns [String value] :
+  e=equivalenceDeclaration[$gap] { $value = $e.value; } (l=equivalenceDeclarationList[$gap] { $value = $value.concat($l.value); })? ;
   
-equivalenceDeclaration returns [String value]
+equivalenceDeclaration[String gap] returns [String value]
 @init { $value = ""; } :
-  IN id=IDENTIFIER COLON d=equivalenceDescription SEMICOLON { is_class($id.getText()) }? 
+  IN id=IDENTIFIER COLON d=equivalenceDescription[$gap+"\t\t"] SEMICOLON { is_class($id.getText()) }? 
 { 
-  $value = $value.concat("<attribute name=\"scsDeclaration\">\n");
-  $value = $value.concat("<attribute name=\"type\">");
+  $value = $value + gap + "<attribute name=\"scsDeclaration\">\n";
+  $value = $value + gap + "\t<attribute name=\"type\">";
   $value = $value.concat($id.getText());
   $value = $value.concat("</attribute>\n");
-  $value = $value.concat("<attribute name=\"scsType\">");
+  $value = $value + gap + "\t<attribute name=\"scsType\">\n";
   $value = $value.concat($d.value);
-  $value = $value.concat("</attribute>\n");
-  $value = $value.concat("</attribute>\n");
+  $value = $value + gap + "\t</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 };
 
-equivalenceDescription returns [String value] 
+equivalenceDescription[String gap] returns [String value] 
 @init { $value=""; } :
-  e=intervalDefinition { $value = $value.concat($e.value); } (COMA l=equivalenceDescription { $value = $value.concat($l.value); })? ;
+  e=intervalDefinition[$gap] { $value = $value.concat($e.value); } (COMA l=equivalenceDescription[$gap] { $value = $value.concat($l.value); })? ;
 
-intervalDefinition returns [String value] 
+intervalDefinition[String gap] returns [String value] 
 @init { $value=""; } :
-  i=interval
+  i=interval[$gap]
 {
   $value = $value.concat($i.value); 
 } | 
   e=INTEGER 
-{ $value = $value.concat("<attribute name=\"classIntInterval\">\n");
-  $value = $value.concat("<attribute name=\"lowerBound\">");
-  $value = $value.concat($e.text);
-  $value = $value.concat("</attribute>");
-  $value = $value.concat("<attribute name=\"higherBound\">");
-  $value = $value.concat($e.text);
-  $value = $value.concat("</attribute>");
-  $value = $value.concat("</attribute>\n");
+{ $value = $value + gap + "<attribute name=\"classIntInterval\">\n";
+  $value = $value + gap + "\t<attribute name=\"lowerBound\">" + $e.getText() + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"higherBound\">" + $e.getText() + "</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } |
-  c=classEnum
+  c=classEnum[$gap]
 { $value = $value.concat($c.value);
 } |
   f=IDENTIFIER
-{ $value = $value.concat("<attribute name=\"classEnum\">");
-  $value = $value.concat("<attribute name=\"enumValue\">");
-  $value = $value.concat($f.getText());
-  $value = $value.concat("</attribute>");
-  $value = $value.concat("</attribute>\n");
+{ $value = $value + gap + "<attribute name=\"classEnum\">\n";
+  $value = $value + gap + "\t<attribute name=\"enumValue\">" + $f.getText() + "</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } ;
 
 // the domain declaration section
-domainSection returns [String value] : DOMAIN d=domainDeclarationList { $value = $d.value; } ;
+domainSection[String gap] returns [String value] : DOMAIN d=domainDeclarationList[$gap] { $value = $d.value; } ;
 
-domainDeclarationList returns [String value] 
+domainDeclarationList[String gap] returns [String value] 
 @init { $value = ""; } :
-  d=domainDeclaration { $value = $value.concat($d.value); } (l=domainDeclarationList { $value = $value.concat($l.value); })? ;
+  d=domainDeclaration[$gap] { $value = $value.concat($d.value); } (l=domainDeclarationList[$gap] { $value = $value.concat($l.value); })? ;
 
-domainDeclaration returns [String value]
+domainDeclaration[String gap] returns [String value]
 @init { $value=""; } :
-  id=IDENTIFIER IS d=domainDescription SEMICOLON { symbols.get($id.getText())==null }?
+  id=IDENTIFIER IS d=domainDescription[$gap+"\t\t"] SEMICOLON { symbols.get($id.getText())==null }?
 { symbols.put($id.getText(),"domain");
-  $value = $value.concat("<attribute name=\"domainDeclaration\">\n");
-  $value = $value.concat("<attribute name=\"name\">");
-  $value = $value.concat($id.getText());
-  $value = $value.concat("</attribute>\n");
-  $value = $value.concat("<attribute name=\"domainType\">");
+  $value = $value + gap + "<attribute name=\"domainDeclaration\">\n";
+  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"domainType\">\n";
   $value = $value.concat($d.value);
-  $value = $value.concat("</attribute>\n");
-  $value = $value.concat("</attribute>\n");
+  $value = $value + gap + "\t</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } ;
 
-domainDescription returns [String value] 
+domainDescription[String gap] returns [String value] 
 @init { $value = ""; } :
-  b=bagDefinition { $value = $value.concat($b.value); } |
-  s=singleDomain 
-{ $value = $value.concat("<attribute name=\"cartesianProduct\">\n");
-  $value = $value.concat("<attribute name=\"type\">");
-  $value = $value.concat($s.value);
-  $value = $value.concat("</attribute>\n");
-  $value = $value.concat("</attribute>\n");
+  b=bagDefinition[$gap] { $value = $value.concat($b.value); } |
+  s=singleDomain[$gap] 
+{ $value = $value + gap + "<attribute name=\"cartesianProduct\">\n";
+  $value = $value + gap + "\t<attribute name=\"type\">" + $s.value + "</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } |
-  p=productDefinition { $value = $value.concat($p.value); } ;
+  p=productDefinition[$gap] { $value = $value.concat($p.value); } ;
 
-singleDomain returns [String value] : id=IDENTIFIER { is_domain($id.getText()) || is_class($id.getText()) }?
+singleDomain[String gap] returns [String value] : id=IDENTIFIER { is_domain($id.getText()) || is_class($id.getText()) }?
 { $value = $id.getText(); } ;
 
-bagDefinition returns [String value] : BAG LPAREN id=IDENTIFIER RPAREN { is_class($id.getText()) }?
+bagDefinition[String gap] returns [String value] : BAG LPAREN id=IDENTIFIER RPAREN { is_class($id.getText()) }?
 { $value = "";
-  $value = $value.concat("<attribute name=\"domainBag\">");
-  $value = $value.concat("<attribute name=\"type\">");
-  $value = $value.concat($id.getText());
-  $value = $value.concat("</attribute>\n");
-  $value = $value.concat("</attribute>\n");
+  $value = $value + gap + "<attribute name=\"domainBag\">\n";
+  $value = $value + gap + "\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } ;
 
-productDefinition returns [String value]
-@init { $value="<attribute name=\"cartesianProduct\">"; } :
-  LT p=productElementList GT { $value = $value.concat($p.value); $value = $value.concat("</attribute>\n"); } ;
+productDefinition[String gap] returns [String value]
+@init { $value = gap + "<attribute name=\"cartesianProduct\">\n"; } :
+  LT p=productElementList[$gap+"\t"] GT
+{ $value = $value.concat($p.value);
+  $value = $value + gap + "</attribute>\n";
+} ;
   
-productElementList returns [String value]
+productElementList[String gap] returns [String value]
 @init { $value = ""; } :
   id=IDENTIFIER
-{ $value = $value.concat("<attribute name\"type\">");
-  $value = $value.concat($id.getText());
-  $value = $value.concat("</attribute>\n");
-} (COMA p=productElementList { $value = $value.concat($p.value); })? ;
+{ $value = $value + gap + "<attribute name\"type\">" + $id.getText() + "</attribute>\n";
+} (COMA p=productElementList[$gap] { $value = $value.concat($p.value); })? ;
 
 // the variable declaration section
-variableSection returns [String value] : VAR l=variableDeclarationList { $value = $l.value; } ;
+variableSection[String gap] returns [String value] : VAR l=variableDeclarationList[$gap] { $value = $l.value; } ;
 
-variableDeclarationList returns [String value]
+variableDeclarationList[String gap] returns [String value]
 @init { $value=""; } :
-  v=variableDeclaration { $value = $value.concat($v.value); } (l=variableDeclarationList { $value = $value.concat($l.value); })? ;
+  v=variableDeclaration[$gap] { $value = $value.concat($v.value); } (l=variableDeclarationList[$gap] { $value = $value.concat($l.value); })? ;
 
-variableDeclaration returns [String value]
+variableDeclaration[String gap] returns [String value]
 @init {
   $value="";
   boolean unique = false;
 } :
   idv=IDENTIFIER { symbols.get($idv.getText()) == null }? IN (UNIQUE { unique=true; })? idd=IDENTIFIER SEMICOLON { is_domain($idd.getText()) || is_class($idd.getText()) }?
 {
-  $value = $value.concat("<attribute name=\"variableDeclaration\">\n");
-  $value = $value.concat("<attribute name=\"name\">");
-  $value = $value.concat($idv.getText());
-  $value = $value.concat("</attribute>\n");
-  $value = $value.concat("<attribute name=\"type\">");
-  $value = $value.concat($idd.getText());
-  $value = $value.concat("</attribute>\n");
-  $value = $value.concat("<attribute name=\"unique\">");
+  $value = $value + gap + "<attribute name=\"variableDeclaration\">\n";
+  $value = $value + gap + "\t<attribute name=\"name\">" + $idv.getText() + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"type\">" + $idd.getText() + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"unique\">";
   if (unique) $value = $value.concat("true"); else $value = $value.concat("false");
   $value = $value.concat("</attribute>\n");
-  $value = $value.concat("</attribute>\n");
+  $value = $value+ gap + "</attribute>\n";
 } ;

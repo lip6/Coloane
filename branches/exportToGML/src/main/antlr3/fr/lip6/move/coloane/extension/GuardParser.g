@@ -19,52 +19,146 @@ options {
   private boolean is_variable(String id) { return symbols.get(id) == "variable"; }
 }
 
-transitionGuard[HashMap<String,String> s] returns [String value]
+transitionGuard[HashMap<String,String> s,String gap] returns [String value]
 @init {
   symbols = s;
-  $value = "<attribute name=\"guard\">\n";
+  $value = gap + "<attribute name=\"guard\">\n";
 }
 @after {
-  $value.concat("</attribute>\n");
+  $value = $value + gap + "</attribute>\n";
 } :
-  TRUE { $value.concat("<attribute name=\"boolExpr\">\n<attribute name=\"boolValue\">true</attribute>\n</attribute>\n"); } |
-  FALSE { $value.concat("<attribute name=\"boolExpr\">\n<attribute name=\"boolValue\">false</attribute>\n</attribute>\n"); } |
-  LHOOK g=guard RHOOK { $value.concat($g.value); } ;
-
-guard returns [String value]
-@init { $value = "<attribute name=\"boolExpr\">\n"; }
-@after { $value.concat("</attribute>\n"); } :
-  NOT g=guard
-{ $value.concat("<attribute name=\"not\">");
-  $value.concat($g.value);
-  $value.concat("</attribute>\n");
+  TRUE
+{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
+  $value = $value + gap + "\t<attribute name=\"boolValue\">true</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } |
-  LPAREN h=guard RPAREN
-{ $value.concat($h.value);
+  FALSE
+{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
+  $value = $value + gap + "\t<attribute name=\"boolValue\">false</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } |
-  d=disjunctiveNormalForm {  } ;
+  LHOOK g=guard[$gap] RHOOK { $value = $value.concat($g.value); } ;
 
-disjunctiveNormalForm : orOperator (OR disjunctiveNormalForm)? ;
-  
-orOperator : atom (AND atom)* ;
+guard[String gap] returns [String value]
+@init { $value = gap + "<attribute name=\"boolExpr\">\n"; }
+@after { $value = $value + gap + "</attribute>\n"; } :
+  NOT g=guard[gap+"\t"]
+{ $value = $value + gap + "<attribute name=\"not\">\n";
+  $value = $value.concat($g.value);
+  $value = $value + gap + "</attribute>\n";
+} |
+  LPAREN h=guard[gap] RPAREN
+{ $value = $value.concat($h.value);
+} |
+  d=disjunctiveNormalForm[$gap+"\t"]
+{ $value = $value + gap + "<attribute name=\"or\">\n";
+  $value = $value + $d.value;
+  $value = $value + gap + "</attribute>\n";
+} ;
 
-atom returns [String value]
+disjunctiveNormalForm[String gap] returns [String value]
 @init { $value = ""; } :
-  TRUE { $value.concat("<attribute name=\"boolExpr\">\n<attribute name=\"boolValue\">true</attribute>\n</attribute>\n"); } |
-  FALSE { $value.concat("<attribute name=\"boolExpr\">\n<attribute name=\"boolValue\">false</attribute>\n</attribute>\n"); } |
-  guardOperator relOperator guardOperator |
-  UNIQUE LPAREN guardOperator RPAREN |
-  CARD LPAREN guardOperator RPAREN relOperator INTEGER ;
-
-relOperator : EQ | NEQ | LEQ | GEQ | LT | GT ;
-
-guardOperator : varClassElement | simpleBagOperator ;
-
-varClassElement : IDENTIFIER |
-  IDENTIFIER DOT IDENTIFIER |
-  IDENTIFIER PLUSPLUS INTEGER |
-  IDENTIFIER MINUSMINUS INTEGER |
-  IDENTIFIER DOT ALL ;
+  o=orOperator[$gap+"\t"]
+{ $value = $value + gap + "<attribute name=\"and\">\n";
+  $value = $o.value;
+  $value = $value + gap + "</attribute>\n";
+}
+  (OR d=disjunctiveNormalForm[$gap] { $value = $value + $d.value; })? ;
   
-simpleBagOperator : LBRACE IDENTIFIER RBRACE ;
+orOperator[String gap] returns [String value] : a=atom[$gap+"\t"] (AND o=orOperator[$gap])? ;
+
+atom[String gap] returns [String value]
+@init { $value = ""; } :
+  TRUE
+{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
+  $value = $value + gap + "\t<attribute name=\"boolValue\">true</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
+} |
+  FALSE
+{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
+  $value = $value + gap + "\t<attribute name=\"boolValue\">false</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
+} |
+  g1=guardOperator[$gap+"\t\t"] op=relOperator[false] g2=guardOperator[$gap+"\t\t"]
+{ $value = $value + gap + "<attribute name\"" + $op.value + "\">\n";
+  $value = $value + gap + "\t<attribute name=\"boolExpr\">\n";
+  $value = $value + $g1.value;
+  $value = $value + gap + "\t</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"boolExpr\">\n";
+  $value = $value + gap + $g2.value;
+  $value = $value + gap + "\t</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
+} |
+  UNIQUE LPAREN id=IDENTIFIER RPAREN { is_variable($id.getText()) }?
+{ $value = $value + gap + "<attribute name=\"unique\">\n";
+  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
+} |
+  CARD LPAREN g=IDENTIFIER RPAREN op=relOperator[true] i=INTEGER { is_variable($g.getText()) }?
+{ $value = $value + gap + "<attribute name=\"cardinalExpression\">\n";
+  $value = $value + gap + "\t<attribute name=\"cardinal" + $op.value + "\">\n";
+  $value = $value + gap + "\t<attribute name=\"name\">" + $g.getText() + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
+} ;
+
+relOperator[boolean incard] returns [String value] :
+  EQ { if ($incard) $value="Equal"; else $value="equal"; } |
+  NEQ { if ($incard) $value="NotEqual"; else $value="notEqual"; } |
+  LEQ { if ($incard) $value="LessEqual"; else $value="lessEqual"; } |
+  GEQ { if ($incard) $value="GreaterEqual"; else $value="greaterEqual"; } |
+  LT { if ($incard) $value="Less"; else $value="less"; } |
+  GT { if ($incard) $value="Greater"; else $value="greater"; } ;
+
+guardOperator[String gap] returns [String value] : v=varClassElement { $value = $v.value; } | s=simpleBagOperator { $value=$s.value; } ;
+
+varClassElement returns [String value]
+@init { $value=""; } :
+  id=IDENTIFIER { is_variable($id.getText()) }? { $value = $value.concat("<attribute name=\"name\">" + $id.getText() + "</attribute>\n"); } | // variableIdentifier
+  id=IDENTIFIER DOT ALL { is_class($id.getText()) }? // classIdentifier DOT ALL
+{ $value = $value.concat("<attribute name=\"function\">\n");
+  $value = $value.concat("<attribute name=\"all\">\n");
+  $value = $value.concat("<attribute name=\"type\">");
+  $value = $value.concat($id.getText());
+  $value = $value.concat("</attribute>\n");
+  $value = $value.concat("</attribute>\n");
+  $value = $value.concat("</attribute>\n");
+} |
+  idc=IDENTIFIER DOT i=INTEGER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
+{ $value = $value.concat("<attribute name=\"intConst\">\n");
+  $value = $value.concat("<attribute name=\"type\">" + $id.getText() + "</attribute>\n");
+  $value = $value.concat("<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n");
+  $value = $value.concat("</attribute>\n");
+} |
+  idc=IDENTIFIER DOT i=IDENTIFIER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
+{ $value = $value.concat("<attribute name=\"enumConst\">\n");
+  $value = $value.concat("<attribute name=\"type\">" + $id.getText() + "</attribute>\n");
+  $value = $value.concat("<attribute name=\"enumValue\">" + $i.getText() + "</attribute>\n");
+  $value = $value.concat("</attribute>\n");
+} |
+  id=IDENTIFIER PLUSPLUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier ++ n
+  { Integer.parseInt($n.getText()) > 0 }?
+{ $value = $value.concat("<attribute name=\"function\">\n");
+  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
+    $value = $value.concat("<attribute name=\"++\">\n");
+  }
+  $value = $value.concat("<attribute name=\"name\">" + $id.getText() + "</attribute>\n");
+  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
+    $value = $value.concat("</attribute>\n");
+  }
+  $value = $value.concat("</attribute>\n");
+} |
+  id=IDENTIFIER MINUSMINUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier -- n
+  { Integer.parseInt($n.getText()) > 0 }?
+{ $value = $value.concat("<attribute name=\"function\">\n");
+  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
+    $value = $value.concat("<attribute name=\"--\">\n");
+  }
+  $value = $value.concat("<attribute name=\"name\">" + $id.getText() + "</attribute>\n");
+  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
+    $value = $value.concat("</attribute>\n");
+  }
+  $value = $value.concat("</attribute>\n");
+} ;
+  
+simpleBagOperator returns [String value] : LBRACE id=IDENTIFIER RBRACE { is_variable($id.getText()) }? ;
   
