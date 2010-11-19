@@ -59,13 +59,20 @@ guard[String gap] returns [String value]
 disjunctiveNormalForm[String gap] returns [String value]
 @init { $value = ""; } :
   o=orOperator[$gap+"\t"]
-{ $value = $value + gap + "<attribute name=\"and\">\n";
-  $value = $o.value;
+{ $value = $value + gap + "<attribute name=\"or\">\n";
+  $value = $value + $o.value;
   $value = $value + gap + "</attribute>\n";
 }
   (OR d=disjunctiveNormalForm[$gap] { $value = $value + $d.value; })? ;
   
-orOperator[String gap] returns [String value] : a=atom[$gap+"\t"] (AND o=orOperator[$gap])? ;
+orOperator[String gap] returns [String value]
+@init { $value = ""; } :
+  a=atom[$gap+"\t"]
+{ $value = $value + gap + "<attribute name=\"and\">\n";
+  $value = $value + $a.value;
+  $value = $value + gap + "</attribute>\n";
+}
+  (AND o=orOperator[$gap] { $value = $value + $o.value; })? ;
 
 atom[String gap] returns [String value]
 @init { $value = ""; } :
@@ -99,6 +106,7 @@ atom[String gap] returns [String value]
   $value = $value + gap + "\t<attribute name=\"cardinal" + $op.value + "\">\n";
   $value = $value + gap + "\t<attribute name=\"name\">" + $g.getText() + "</attribute>\n";
   $value = $value + gap + "\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } ;
 
 relOperator[boolean incard] returns [String value] :
@@ -109,9 +117,9 @@ relOperator[boolean incard] returns [String value] :
   LT { if ($incard) $value="Less"; else $value="less"; } |
   GT { if ($incard) $value="Greater"; else $value="greater"; } ;
 
-guardOperator[String gap] returns [String value] : v=varClassElement { $value = $v.value; } | s=simpleBagOperator { $value=$s.value; } ;
+guardOperator[String gap] returns [String value] : v=varClassElement[$gap] { $value = $v.value; } | s=simpleBagOperator[$gap] { $value=$s.value; } ;
 
-varClassElement returns [String value]
+varClassElement[String gap] returns [String value]
 @init { $value=""; } :
   id=IDENTIFIER { is_variable($id.getText()) }? { $value = $value.concat("<attribute name=\"name\">" + $id.getText() + "</attribute>\n"); } | // variableIdentifier
   id=IDENTIFIER DOT ALL { is_class($id.getText()) }? // classIdentifier DOT ALL
@@ -160,5 +168,5 @@ varClassElement returns [String value]
   $value = $value.concat("</attribute>\n");
 } ;
   
-simpleBagOperator returns [String value] : LBRACE id=IDENTIFIER RBRACE { is_variable($id.getText()) }? ;
+simpleBagOperator[String gap] returns [String value] : LBRACE id=IDENTIFIER RBRACE { is_variable($id.getText()) }? ;
   

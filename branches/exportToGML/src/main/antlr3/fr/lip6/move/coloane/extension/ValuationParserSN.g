@@ -62,7 +62,7 @@ elementaryExpression[boolean nested] returns [String value]
   if (!nested)
     $value = $value.concat("</attribute>\n");
 } |
-  { !(nested) }? c=coefficient TIMES p=elementaryProduct // on n'autorise pas de coefficients au sein d'un produit cartésien (on aurait préféré un gated predicate ici)
+  { !(nested) }? c=coefficient TIMES p=elementaryProduct // no coefficient allowed inside a cartesian product (it would be better to use a gated predicate here)
 { $value = $value.concat("<attribute name=\"occurs\">\n");
   $value = $value.concat($c.value);
   $value = $value.concat("</attribute>\n");
