@@ -222,7 +222,7 @@
     <!-- Serveur d'integration continue -->
     <ciManagement>
         <system>TeamCity</system>
-        <url>http://izanami.rsr.lip6.fr:8111/</url>
+        <url>https://teamcity-systeme.lip6.fr/</url>
     </ciManagement>
 
     <!-- Pour les tests unitaires -->
@@ -261,12 +261,12 @@
         <repository>
             <id>forge.releases</id>
             <name>Internal Release Repository for Coloane</name>
-            <url>http://132.227.64.155:8081/nexus/content/repositories/releases</url>
+            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>forge.snapshots</id>
             <name>Internal Snapshot Repository for Coloane</name>
-            <url>http://132.227.64.155:8081/nexus/content/repositories/snapshots</url>
+            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
         <site>
             <id>Coloane-Reports</id>
