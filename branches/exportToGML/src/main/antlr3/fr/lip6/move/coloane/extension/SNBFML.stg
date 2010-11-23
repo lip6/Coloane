@@ -1,8 +1,4 @@
 group SNBGML;
 
-openAttributeIN(name) ::= <<  \<attribute name=\"<name>\"\>>>
-closeAttributeIN() ::= <<\b
- 
-
-openAttributeDE(name) ::= "\<attribute name=\"<name>\"\>";
-closeAttributeDE() ::= "\</attribute\>";
+openAttribute(name) ::= "\<attribute name=\"<name>\"\>";
+closeAttribute() ::= "\</attribute\>";

@@ -16,9 +16,9 @@ options {
 	HashMap<String,String> symbols = new HashMap<String,String>();
 	public HashMap<String,String> getSymbols() { return symbols; }
 	
-	private boolean is_class(String id) { return symbols.get(id) == "class"; }
-	private boolean is_domain(String id) { return symbols.get(id) == "domain"; }
-	private boolean is_variable(String id) { return symbols.get(id) == "variable"; }
+	private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
+  private boolean is_domain(String id) { return "domain".equals(symbols.get(id)); }
+  private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); }
 }
 
 // the starting rule
@@ -205,6 +205,7 @@ variableDeclaration[String gap] returns [String value]
 } :
   idv=IDENTIFIER { symbols.get($idv.getText()) == null }? IN (UNIQUE { unique=true; })? idd=IDENTIFIER SEMICOLON { is_domain($idd.getText()) || is_class($idd.getText()) }?
 {
+  symbols.put($idv.getText(),"variable");
   $value = $value + gap + "<attribute name=\"variableDeclaration\">\n";
   $value = $value + gap + "\t<attribute name=\"name\">" + $idv.getText() + "</attribute>\n";
   $value = $value + gap + "\t<attribute name=\"type\">" + $idd.getText() + "</attribute>\n";

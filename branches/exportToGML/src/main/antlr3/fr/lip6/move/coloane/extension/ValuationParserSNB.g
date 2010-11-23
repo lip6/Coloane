@@ -14,9 +14,9 @@ options {
 @members {
   HashMap<String,String> symbols;
   
-  private boolean is_class(String id) { return symbols.get(id) == "class"; }
-  private boolean is_domain(String id) { return symbols.get(id) == "domain"; }
-  private boolean is_variable(String id) { return symbols.get(id) == "variable"; }
+  private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
+  private boolean is_domain(String id) { return "domain".equals(symbols.get(id)); }
+  private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); }
 }
 
 arcLabel[HashMap<String,String> s,String gap] returns [String value] 
@@ -37,7 +37,7 @@ positiveInteger returns [String value] : i=INTEGER { Integer.parseInt($i.getText
 listElementaryExpr[String gap] returns [String value]
 @init { $value = ""; } :
   e=elementaryExpression[false,gap] { $value = $value.concat($e.value); } (PLUS l=listElementaryExpr[$gap] { $value = $value.concat($l.value); } )? |
-  id=IDENTIFIER { is_class($id.getText()) }? DOT ALL MINUS e=elementaryExpression[false,gap+"\t\t"]
+  id=IDENTIFIER { is_class($id.getText()) }? DOT ALL MINUS e=elementaryExpression[false,gap+"\t\t\t"]
 { $value = $value + gap + "<attribute name=\"token\">\n";
   $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
   $value = $value + gap + "\t\t<attribute name=\"setDiff\">";
@@ -53,11 +53,11 @@ listElementaryExpr[String gap] returns [String value]
 elementaryExpression[boolean nested,String gap] returns [String value]
 @init { if (!nested) $value= gap + "<attribute name=\"token\">\n"; else $value=""; }
 @after { if (!nested) $value = $value + gap + "</attribute>\n"; } :
-  { !(nested) }? e=elementaryProduct[gap+"\t"]
+  { !(nested) }? e=elementaryProduct[gap+"\t\t"]
 { $value = $value + gap + "\t<attribute name=\"occurs\">\n";
   $value = $value + gap + "\t\t<attribute name=\"intValue\">1</attribute>\n";
   $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"tokenProfile\">";
+  $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
   $value = $value + $e.value;
   $value = $value + gap + "\t</attribute>\n";
 } |
@@ -105,9 +105,8 @@ elementaryProduct[String gap] returns [String value]
   LT l=listProdElement[$gap] GT { $value = $value.concat($l.value); } ;
 
 listProdElement[String gap] returns [String value]
-@init { $value = gap + "<attribute name=\"expr\">\n"; }
-@after { $value = $value + gap + "</attribute>\n"; } :
-  e=prodElement[$gap+"\t"]
+@init { $value = ""; } :
+  e=prodElement[$gap+""]
 { $value = $value + $e.value;
 }
   (COMA l=listProdElement[$gap+"\t"] { $value = $value.concat($l.value); })? ;
@@ -172,7 +171,7 @@ initMarking[HashMap<String,String> s,String gap] returns [String value]
 { $value = $value + gap + "\t<attribute name=\"token\">\n";
   $value = $value + gap + "\t\t<attribute name=\"occurs\">" + $i.value + "</attribute>\n";
   $value = $value + gap + "\t</attribute>\n";
-} ;
+} | ;
   
 listMarking[String gap] returns [String value]
 @init { $value = ""; } :
@@ -185,7 +184,7 @@ marking[String gap] returns [String value]
 { $value = $value + gap + "\t<attribute name=\"occurs\">\n";
   $value = $value + gap + "\t\t<attribute name=\"intValue\">1</attribute>\n";
   $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"tokenProfile\">";
+  $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
   $value = $value + $e.value;
   $value = $value + gap + "\t</attribute>\n";
 } |
@@ -223,17 +222,31 @@ simpleBagOperators[String gap] returns [String value] : LBRACE id=varClassElemen
 } ;
 
 recursiveBagOperators[String gap] returns [String value]
-@init { $value = gap + "<attribute name=\"bagOperator\">\n"; }
+@init { $value = gap + "<attribute name=\"bagOperator\">\n";
+   }
 @after { $value = $value + gap + "</attribute>\n"; } :
   i=interTerm[$gap+"\t"]
 { $value = $value + $i.value; 
 }
   (INTER r=recursiveBagOperators[$gap] { $value = $value + $r.value; })? ;
 
-interTerm[String gap] returns [String value] : LPAREN i=interTerm2[$gap] { $value = $i.value; } RPAREN | i=interTerm2[$gap] { $value = $i.value; } ;
+interTerm[String gap] returns [String value]
+@init { $value = gap + "<attribute name=\"bagUnion\">\n"; }
+@after { $value = gap + "</attribute>\n"; } :
+  LPAREN i=interTerm2[$gap+"\t"] { $value = $i.value; } RPAREN | i=interTerm2[$gap+"\t"] { $value = $i.value; } ;
 
-interTerm2[String gap] returns [String value] : atomBag[$gap] (UNION interTerm2[$gap])? ;
+interTerm2[String gap] returns [String value] :
+  a=atomBag[$gap] { $value = $a.value; } (UNION i=interTerm2[$gap] { $value = $value + $i.value; })? ;
 
-atomBag[String gap] : simpleBagOperators[$gap] |
-  id=IDENTIFIER | // variable-bag identifier
-  TILDE atomBag[$gap] ;
+atomBag[String gap] returns [String value]
+@init { $value = gap + "<attribute name=\"bagOperator\">\n"; }
+@after { $value = gap + "</attribute>\n"; } :
+  s=simpleBagOperators[$gap+"\t"] { $value = $value + $s.value; } |
+  id=IDENTIFIER // variable-bag identifier
+{ $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
+} |
+  TILDE a=atomBag[$gap+"\t\t"]
+{ $value = $value + gap + "\t<attribute name=\"bagComplementary\">\n";
+  $value = $value + $a.value;
+  $value = $value + gap + "\t</attribute>\n";  
+} ;

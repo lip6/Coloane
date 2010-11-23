@@ -14,14 +14,14 @@ options {
 @members {
   HashMap<String,String> symbols;
   
-  private boolean is_class(String id) { return symbols.get(id) == "class"; }
-  private boolean is_domain(String id) { return symbols.get(id) == "domain"; }
-  private boolean is_variable(String id) { return symbols.get(id) == "variable"; }
+  private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
+  private boolean is_domain(String id) { return "domain".equals(symbols.get(id)); }
+  private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); }
 }
 
 transitionGuard[HashMap<String,String> s,String gap] returns [String value]
 @init {
-  symbols = s;
+  symbols = $s;
   $value = gap + "<attribute name=\"guard\">\n";
 }
 @after {
@@ -59,7 +59,7 @@ guard[String gap] returns [String value]
 disjunctiveNormalForm[String gap] returns [String value]
 @init { $value = ""; } :
   o=orOperator[$gap+"\t"]
-{ $value = $value + gap + "<attribute name=\"or\">\n";
+{ $value = $value + gap + "<attribute name=\"and\">\n";
   $value = $value + $o.value;
   $value = $value + gap + "</attribute>\n";
 }
@@ -68,9 +68,7 @@ disjunctiveNormalForm[String gap] returns [String value]
 orOperator[String gap] returns [String value]
 @init { $value = ""; } :
   a=atom[$gap+"\t"]
-{ $value = $value + gap + "<attribute name=\"and\">\n";
-  $value = $value + $a.value;
-  $value = $value + gap + "</attribute>\n";
+{ $value = $value + $a.value;
 }
   (AND o=orOperator[$gap] { $value = $value + $o.value; })? ;
 

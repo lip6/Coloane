@@ -57,7 +57,7 @@ public class ExportToGML implements IExportTo {
 	 */
 	private void exportGraph(IGraph graph, Writer out, IProgressMonitor monitor) throws IOException,ExtensionException {
 		String gap = "\t";
-		HashMap<String,String> symbols = null;
+		HashMap<String,String> symbol_table = null;
 		
 		out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n");
 		out.write("<model formalismUrl=\"snb.fml\"\n");
@@ -65,23 +65,23 @@ public class ExportToGML implements IExportTo {
     	
 		// Export model attributes
 		IAttribute declarativePart = graph.getAttribute("declaration");
-		symbols = exportDeclarativePart(declarativePart.getValue(),out,monitor,gap);
+		symbol_table = exportDeclarativePart(declarativePart.getValue(),out,monitor,gap);
 		for(IAttribute attr : graph.getAttributes()) {
 			if (attr != declarativePart) {
-				exportAttribute(attr, out, monitor, gap, symbols);
+				exportAttribute(attr, out, monitor, gap, symbol_table);
 			}
 		}
     	out.write("\n");
     	
     	//Export nodes
     	for(INode node : graph.getNodes()) {
-    		exportNode(node, out, monitor, gap, symbols);
+    		exportNode(node, out, monitor, gap, symbol_table);
     	}
     	out.write("\n");
     	
     	//Export Arcs
     	for(IArc arc : graph.getArcs()) {
-    		exportArc(arc, out, monitor, gap, symbols);
+    		exportArc(arc, out, monitor, gap, symbol_table);
     	}
     	out.write("\n");
 
@@ -91,7 +91,7 @@ public class ExportToGML implements IExportTo {
 	/**
 	 * Export an attribute object
 	 *
-	 * @param attr attribut to export
+	 * @param attr attribute to export
 	 * @param out export in this writer
 	 * @param monitor monitor the export
 	 * @param gap gap
@@ -99,16 +99,16 @@ public class ExportToGML implements IExportTo {
 	 * @throws IOException if the writer throw an exception
 	 */
 	private void exportAttribute(IAttribute attr, Writer out, IProgressMonitor monitor, String gap, HashMap<String,String> symbols) throws IOException,ExtensionException {
-		if (attr.getName() == "domain") {
+		if ("domain".equals(attr.getName())) {
 			exportDomain(attr.getValue(),out,monitor,gap,symbols);
 		}
-		else if (attr.getName() == "guard") {
+		else if ("guard".equals(attr.getName())) {
 			exportGuard(attr.getValue(),out,monitor,gap,symbols);
 		}
-		else if (attr.getName() == "marking") {
+		else if ("marking".equals(attr.getName())) {
 			exportMarking(attr.getValue(),out,monitor,gap,symbols);
 		}
-		else if (attr.getName() == "valuation") {
+		else if ("valuation".equals(attr.getName())) {
 			exportValuation(attr.getValue(),out,monitor,gap,symbols);
 		}
 		else {
@@ -170,7 +170,7 @@ public class ExportToGML implements IExportTo {
 	 * @throws IOException if the writer throws an exception
 	 */
 	private void exportDomain(String value, Writer out, IProgressMonitor monitor, String gap, HashMap<String,String> symbols) throws IOException,ExtensionException {
-		if (symbols.get(value) == "domain")
+		if ("domain".equals(symbols.get(value)))
 			out.write(gap + "<attribute name=\"domain\">" + value + "</attribute>\n");
 		else
 			throw new ExtensionException("Error parsing prod file : " + value + " has not been defined in domain declaration part");
@@ -187,7 +187,14 @@ public class ExportToGML implements IExportTo {
 	 * @throws IOException if the writer throws an exception
 	 */
 	private void exportMarking(String value, Writer out, IProgressMonitor monitor, String gap, HashMap<String,String> symbols) throws IOException,ExtensionException {
-		
+		try {
+			ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			ValuationParserSNB parser = new ValuationParserSNB(tokens);
+			out.write(parser.initMarking(symbols,gap));
+		} catch (RecognitionException e) {
+			throw new ExtensionException("Error parsing prod file " + e.getMessage());
+		}
 	}
 
 	/**
