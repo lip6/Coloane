@@ -37,23 +37,23 @@ transitionGuard[HashMap<String,String> s,String gap] returns [String value]
   $value = $value + gap + "\t<attribute name=\"boolValue\">false</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
-  LHOOK g=guard[$gap] RHOOK { $value = $value.concat($g.value); } ;
+  LHOOK g=guard[$gap+"\t"] RHOOK { $value = $value.concat($g.value); } ;
 
 guard[String gap] returns [String value]
 @init { $value = gap + "<attribute name=\"boolExpr\">\n"; }
 @after { $value = $value + gap + "</attribute>\n"; } :
-  NOT g=guard[gap+"\t"]
-{ $value = $value + gap + "<attribute name=\"not\">\n";
+  NOT g=guard[gap+"\t\t"]
+{ $value = $value + gap + "\t<attribute name=\"not\">\n";
   $value = $value.concat($g.value);
-  $value = $value + gap + "</attribute>\n";
+  $value = $value + gap + "\t</attribute>\n";
 } |
-  LPAREN h=guard[gap] RPAREN
+  LPAREN h=guard[gap+"\t"] RPAREN
 { $value = $value.concat($h.value);
 } |
-  d=disjunctiveNormalForm[$gap+"\t"]
-{ $value = $value + gap + "<attribute name=\"or\">\n";
+  d=disjunctiveNormalForm[gap+"\t\t"]
+{ $value = $value + gap + "\t<attribute name=\"or\">\n";
   $value = $value + $d.value;
-  $value = $value + gap + "</attribute>\n";
+  $value = $value + gap + "\t</attribute>\n";
 } ;
 
 disjunctiveNormalForm[String gap] returns [String value]
@@ -63,11 +63,11 @@ disjunctiveNormalForm[String gap] returns [String value]
   $value = $value + $o.value;
   $value = $value + gap + "</attribute>\n";
 }
-  (OR d=disjunctiveNormalForm[$gap] { $value = $value + $d.value; })? ;
+  (OR d=disjunctiveNormalForm[$gap+"\t"] { $value = $value + $d.value; })? ;
   
 orOperator[String gap] returns [String value]
 @init { $value = ""; } :
-  a=atom[$gap+"\t"]
+  a=atom[$gap]
 { $value = $value + $a.value;
 }
   (AND o=orOperator[$gap] { $value = $value + $o.value; })? ;

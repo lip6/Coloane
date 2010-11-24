@@ -51,18 +51,23 @@ listElementaryExpr[String gap] returns [String value]
 } ;
 
 elementaryExpression[boolean nested,String gap] returns [String value]
-@init { if (!nested) $value= gap + "<attribute name=\"token\">\n"; else $value=""; }
+@init { if (!nested) $value= gap + "<attribute name=\"token\">\n"; else $value="";
+  String gap2;
+  if (!nested) gap2 = gap + "\t\t"; else gap2 = gap;
+}
 @after { if (!nested) $value = $value + gap + "</attribute>\n"; } :
-  { !(nested) }? e=elementaryProduct[gap+"\t\t"]
-{ $value = $value + gap + "\t<attribute name=\"occurs\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"intValue\">1</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
-  $value = $value + $e.value;
-  $value = $value + gap + "\t</attribute>\n";
-} |
-  { nested }? e=elementaryProduct[$gap]
-{ $value = $value + $e.value;
+  e=elementaryProduct[gap2]
+{ if (nested) { 
+    $value = $value + $e.value;
+  }
+  else {
+    $value = $value + gap + "\t<attribute name=\"occurs\">\n";
+    $value = $value + gap + "\t\t<attribute name=\"intValue\">1</attribute>\n";
+    $value = $value + gap + "\t</attribute>\n";
+    $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
+    $value = $value + $e.value;
+    $value = $value + gap + "\t</attribute>\n";
+  }
 } |
   { !(nested) }? c=coefficient[$gap + "\t\t"] TIMES p=elementaryProduct[$gap + "\t\t"] // no coefficient allowed inside a cartesian product (it would be better to use a gated predicate here)
 { $value = $value + gap + "\t<attribute name=\"occurs\">\n";
@@ -200,11 +205,11 @@ marking[String gap] returns [String value]
 /* end of Marking part */
 
 prodElement[String gap] returns [String value]
-@init { $value=""; } :
+@init { $value = ""; } :
   e=elementaryExpression[true,$gap] { $value = $value.concat($e.value); } |
   (IDENTIFIER)=> v=varClassElement[$gap+"\t"]
 { $value = $value + gap + "<attribute name=\"expr\">\n";
-  $value = $value.concat($v.value);
+  $value = $value + $v.value;
   $value = $value + gap + "</attribute>\n";
 } |
   r=recursiveBagOperators[$gap+"\t\t"]
@@ -232,7 +237,7 @@ recursiveBagOperators[String gap] returns [String value]
 
 interTerm[String gap] returns [String value]
 @init { $value = gap + "<attribute name=\"bagUnion\">\n"; }
-@after { $value = gap + "</attribute>\n"; } :
+@after { $value = $value + gap + "</attribute>\n"; } :
   LPAREN i=interTerm2[$gap+"\t"] { $value = $i.value; } RPAREN | i=interTerm2[$gap+"\t"] { $value = $i.value; } ;
 
 interTerm2[String gap] returns [String value] :
@@ -240,7 +245,7 @@ interTerm2[String gap] returns [String value] :
 
 atomBag[String gap] returns [String value]
 @init { $value = gap + "<attribute name=\"bagOperator\">\n"; }
-@after { $value = gap + "</attribute>\n"; } :
+@after { $value = $value + gap + "</attribute>\n"; } :
   s=simpleBagOperators[$gap+"\t"] { $value = $value + $s.value; } |
   id=IDENTIFIER // variable-bag identifier
 { $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
