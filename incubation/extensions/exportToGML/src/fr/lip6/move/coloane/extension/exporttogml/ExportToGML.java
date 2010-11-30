@@ -24,7 +24,7 @@ import main.antlr3.fr.lip6.move.coloane.extension.ValuationLexerSNB;
 import main.antlr3.fr.lip6.move.coloane.extension.ValuationParserSNB;
 
 public class ExportToGML implements IExportTo {
-	
+
 	/** (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.extensions.IExportTo#export(fr.lip6.move.coloane.interfaces.model.IGraph, java.lang.String, org.eclipse.core.runtime.IProgressMonitor)
 	 */
