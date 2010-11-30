@@ -6,8 +6,8 @@
       <Export
             class="fr.lip6.move.coloane.extensions.exporttosvg.ExportToSVG"
             extension="svg"
-            id="fr.lip6.move.coloane.extensions.exportsvg"
-            reference="fr.lip6.move.coloane.wizard.export.svg">
+            id="fr.lip6.move.coloane.extensions.exporttosvg"
+            wizard_id="fr.lip6.move.coloane.wizard.export.svg">
       </Export>
    </extension>
    <extension

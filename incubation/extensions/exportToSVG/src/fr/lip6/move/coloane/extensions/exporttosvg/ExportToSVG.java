@@ -18,11 +18,11 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.RoundedPolylineConnection;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -44,7 +44,7 @@ public class ExportToSVG implements IExportTo {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ColoaneException {
+	public void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ExtensionException {
 		monitor.beginTask("export model to svg", 7);
 		try {
 			Map<IFigure, IArc> arcs = new HashMap<IFigure, IArc>();
