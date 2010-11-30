@@ -13,6 +13,13 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
 
+import main.antlr3.fr.lip6.move.coloane.extension.DeclarativePartLexer;
+import main.antlr3.fr.lip6.move.coloane.extension.DeclarativePartParserSN;
+import main.antlr3.fr.lip6.move.coloane.extension.GuardLexer;
+import main.antlr3.fr.lip6.move.coloane.extension.GuardParser;
+import main.antlr3.fr.lip6.move.coloane.extension.ValuationLexerSNB;
+import main.antlr3.fr.lip6.move.coloane.extension.ValuationParserSNB;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
