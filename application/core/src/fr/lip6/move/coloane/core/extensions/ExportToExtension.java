@@ -6,7 +6,6 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.wizard.Wizard;
 
 /**
  * Describe an export extension.<br>

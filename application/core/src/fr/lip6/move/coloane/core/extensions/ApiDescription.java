@@ -1,7 +1,6 @@
 package fr.lip6.move.coloane.core.extensions;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.session.Session;
 import fr.lip6.move.coloane.core.ui.menus.ColoaneAPIRootMenu;
 import fr.lip6.move.coloane.interfaces.api.IApi;
 
@@ -71,13 +70,15 @@ public class ApiDescription {
 		this.apiClass = apiClass;
 
 		this.name = name;
-		if (name == null)
+		if (name == null) {
 			throw new ColoaneException("The API name cannot be null"); //$NON-NLS-1$
-		
+		}
+
 		this.description = description;
-		if (this.description == null)
+		if (this.description == null) {
 			this.description = ""; //$NON-NLS-1$
-		
+		}
+
 		if (iconPath != null) {
 			this.icon = ImageDescriptor.createFromFile(this.apiClass.getClass(), "/" + iconPath); //$NON-NLS-1$
 		}
@@ -86,35 +87,35 @@ public class ApiDescription {
 	/**
 	 * @return the API name
 	 */
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 	
 	/**
 	 * @return the API description
 	 */
-	public String getDescription() {
+	public final String getDescription() {
 		return description;
 	}
 	
 	/**
 	 * @return the icon associated with the API
 	 */
-	public ImageDescriptor getIcon() {
+	public final ImageDescriptor getIcon() {
 		return icon;
 	}
 	
 	/**
 	 * @return the main class of the API
 	 */
-	public IApi getApiClass() {
+	public final IApi getApiClass() {
 		return apiClass;
 	}
 	
 	/**
 	 * @return The root menu associated with the API
 	 */
-	public ColoaneAPIRootMenu getRootMenu() {
+	public final ColoaneAPIRootMenu getRootMenu() {
 		return rootMenu;
 	}
 	
@@ -122,7 +123,7 @@ public class ApiDescription {
 	 * Set the root menu for the API
 	 * @param rootMenu The root menu (including sub-menus) for this API
 	 */
-	public void setRootMenu(ColoaneAPIRootMenu rootMenu) {
+	public final void setRootMenu(ColoaneAPIRootMenu rootMenu) {
 		this.rootMenu = rootMenu;
 	}
 	
@@ -131,14 +132,14 @@ public class ApiDescription {
 	 * @param console The console provided y the session
 	 * @see Session#getConsole()
 	 */
-	public void setConsole(MessageConsole console) {
+	public final void setConsole(MessageConsole console) {
 		this.console = console;
 	}
 	
 	/**
 	 * @return The console on which messages must be written to
 	 */
-	public MessageConsole getConsole() {
+	public final MessageConsole getConsole() {
 		return console;
 	}
 }

@@ -35,7 +35,7 @@ public final class ExampleExtension {
 
 	/**
 	 * Looks for all models available for this formalism
-	 * @param formalismName The formalism
+	 * @param formalism The formalism
 	 * @return a map with name and description of each example
 	 */
 	public static Map<String, String> getModelsName(IFormalism formalism) {
@@ -53,6 +53,7 @@ public final class ExampleExtension {
 	/**
 	 * Ask for a example model
 	 * @param modelName name of the wanted model
+	 * @param formalism The formalism
 	 * @return The associated graph object or <code>null</code> if no graph has been found
 	 * @throws CoreException If something went wrong with the extension mechanism
 	 * @throws ColoaneException If something went wrong during the graph building
@@ -66,13 +67,13 @@ public final class ExampleExtension {
 				break;
 			}
 		}
-		
-		// Create the extension instance 
+
+		// Create the extension instance
 		IExample convertInstance = null;
 		if (convertContribution != null) {
 			convertInstance = (IExample) convertContribution.createExecutableExtension(BUILDER);
 		}
-		
+
 		// Execute the instance
 		try {
 			return convertInstance.buildModel(formalism);
