@@ -30,5 +30,6 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.deved.antlride.core.nature</nature>
+		<nature>com.atlassw.tools.eclipse.checkstyle.CheckstyleNature</nature>
 	</natures>
 </projectDescription>
