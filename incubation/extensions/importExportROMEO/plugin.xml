@@ -7,7 +7,7 @@
             class="fr.lip6.move.coloane.extension.importExportRomeo.exportToRomeo.ExportToRomeo"
             extension="xml"
             id="fr.lip6.move.coloane.extensions.exportromeo"
-            reference="fr.lip6.move.coloane.wizard.export.romeo">
+            wizard_id="fr.lip6.move.coloane.wizard.export.romeo">
          <AcceptedFormalism
                id="Time Petri Net">
          </AcceptedFormalism>
@@ -18,7 +18,7 @@
       <Import
             class="fr.lip6.move.coloane.extension.importExportRomeo.importFromRomeo.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importromeo"
-            reference="fr.lip6.move.coloane.wizard.import.romeo">
+            wizard_id="fr.lip6.move.coloane.wizard.import.romeo">
          <AcceptedFormalism
                id="Time Petri Net">
          </AcceptedFormalism>

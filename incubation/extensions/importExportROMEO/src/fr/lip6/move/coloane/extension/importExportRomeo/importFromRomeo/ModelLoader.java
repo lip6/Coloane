@@ -11,13 +11,14 @@ import javax.xml.parsers.SAXParserFactory;
 import org.eclipse.core.resources.IFile;
 import org.xml.sax.SAXException;
 
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 /**
  * Classe regroupant les outils utiles au chargement d'un modèle à partir d'un fichier xml
  */
 public final class ModelLoader {
-	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.extension"); //$NON-NLS-1$
 
 	/**
 	 * Classe ne contenant que des méthode statique.
@@ -26,18 +27,20 @@ public final class ModelLoader {
 
 	/**
 	 * @param xmlFile fichier xml représentant le modèle
+	 * @param formalism formalism read
 	 * @return IGraph construit à partir du fichier XML
 	 */
-	public static IGraph loadFromXML(IFile xmlFile) {
-		return loadFromXML(xmlFile.getLocationURI());
+	public static IGraph loadFromXML(IFile xmlFile, IFormalism formalism) {
+		return loadFromXML(xmlFile.getLocationURI(), formalism);
 	}
 
 	/**
 	 * @param xmlURI URI du fichier XML contenant le modèle à charger
+	 * @param formalism formalism read
 	 * @return IGraph construit à partir du fichier XML
 	 */
-	public static IGraph loadFromXML(URI xmlURI) {
-		ModelHandler modelHandler = new ModelHandler();
+	public static IGraph loadFromXML(URI xmlURI, IFormalism formalism) {
+		ModelHandler modelHandler = new ModelHandler(formalism);
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 
 		try {

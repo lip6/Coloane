@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.extension.importExportRomeo.importFromRomeo;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IImportFrom;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.util.logging.Logger;
@@ -28,15 +29,15 @@ public class ImportFromImpl implements IImportFrom {
 	 * @param formalism The formalism (since CAMI file does not define the model formalism)
 	 * @param monitor A monitor to follow the operation progress
 	 * @return The resulting model {@link IGraph}
-	 * @throws ColoaneException Something went wrong
+	 * @throws ExtensionException Something went wrong
 	 */
-	public final IGraph importFrom(String filePath, String formalism, IProgressMonitor monitor) throws ColoaneException {
+	public final IGraph importFrom(String filePath, IFormalism formalism, IProgressMonitor monitor) throws ExtensionException {
 		IGraph model = null;
 
 		LOGGER.finer("Creation du fichier..."); ////$NON-NLS-1$
 		IPath path = new Path(filePath);
 		IFileStore file = EFS.getLocalFileSystem().getStore(path);
-		model = ModelLoader.loadFromXML(file.toURI());
+		model = ModelLoader.loadFromXML(file.toURI(), formalism);
 
 		return model;
 	}

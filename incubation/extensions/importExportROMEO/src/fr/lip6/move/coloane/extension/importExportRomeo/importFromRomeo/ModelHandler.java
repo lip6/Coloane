@@ -1,12 +1,5 @@
 package fr.lip6.move.coloane.extension.importExportRomeo.importFromRomeo;
 
-import fr.lip6.move.coloane.core.model.GraphModelFactory;
-import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +13,16 @@ import org.eclipse.swt.graphics.Color;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+
+import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * A class to parse a Romeo model from an XML file.
@@ -45,12 +48,31 @@ public class ModelHandler extends DefaultHandler {
 	// true if we have encountered some colors somewhere
 	private boolean hasColors=false;
 
+	private final IFormalism formalism;
+	private final INodeFormalism placeFormalism;
+	private final INodeFormalism transitionFormalism;
+	private final IArcFormalism arcFormalism;
+	private final IArcFormalism resetFormalism;
+	private final IArcFormalism testFormalism;
+	private final IArcFormalism inhibitorFormalism;
+
+	public ModelHandler(IFormalism formalism) {
+		this.formalism = formalism;
+		this.placeFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("place");
+		this.transitionFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("transition");
+		this.arcFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("arc");
+		this.resetFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("reset");
+		this.testFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("test");
+		this.inhibitorFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("inhibitor");
+	}
+
+
 	/** {@inheritDoc} */
 	@Override
 	public final void startElement(String uri, String localName, String baliseName, Attributes attributes) throws SAXException {
 		// Balise MODEL
 		if ("TPN".equals(baliseName)) { //$NON-NLS-1$
-			graph = new GraphModelFactory().createGraph("Time Petri Net");
+			graph = new GraphModelFactory().createGraph(formalism);
 			placeIds = new HashMap<String, INode>();
 			transIds = new HashMap<String, INode>();
 			transColors = new HashMap<String, List<INode>>();
@@ -189,7 +211,7 @@ public class ModelHandler extends DefaultHandler {
 	private INode handlePlace(Attributes attributes) {
 		INode place = null;
 		try {
-			place = graph.createNode("place");
+			place = graph.createNode(placeFormalism);
 			String label = attributes.getValue("label");
 			if (label != null)
 				place.getAttribute("name").setValue(label);
@@ -213,7 +235,7 @@ public class ModelHandler extends DefaultHandler {
 	private INode handleTransition(Attributes attributes) {
 		INode transition = null;
 		try {
-			transition = graph.createNode("transition");
+			transition = graph.createNode(transitionFormalism);
 			String label = attributes.getValue("label");
 			if (label != null)
 				transition.getAttribute("label").setValue(label);
@@ -251,15 +273,15 @@ public class ModelHandler extends DefaultHandler {
 			
 			String type = attributes.getValue("type");			
 			if ("PlaceTransition".equals(type)) {
-				arc = graph.createArc("arc", place, trans);
+				arc = graph.createArc(arcFormalism, place, trans);
 			} else if ("TransitionPlace".equals(type)) {
-				arc = graph.createArc("arc", trans, place);
+				arc = graph.createArc(arcFormalism, trans, place);
 			} else if ("flush".equals(type)) {
-				arc = graph.createArc("reset", place, trans);
+				arc = graph.createArc(resetFormalism, place, trans);
 			} else if ("read".equals(type)) {
-				arc = graph.createArc("test", place, trans);
+				arc = graph.createArc(testFormalism, place, trans);
 			} else if ("logicalInhibitor".equals(type)) {
-				arc = graph.createArc("inhibitor", place, trans);
+				arc = graph.createArc(inhibitorFormalism, place, trans);
 			}
 			IAttribute val = arc.getAttribute("valuation");
 			if (val != null) {
