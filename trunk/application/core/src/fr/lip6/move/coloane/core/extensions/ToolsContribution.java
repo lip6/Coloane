@@ -26,10 +26,10 @@ import org.eclipse.ui.statushandlers.StatusManager;
  */
 public class ToolsContribution extends CompoundContributionItem {
 	
-	String NAME = "name"; //$NON-NLS-1$
-	String ICON = "icon"; //$NON-NLS-1$
-	String DESCRIPTION = "description"; //$NON-NLS-1$
-	String ACTION = "action"; //$NON-NLS-1$
+	private static final String NAME = "name"; //$NON-NLS-1$
+	private static final String ICON = "icon"; //$NON-NLS-1$
+	private static final String DESCRIPTION = "description"; //$NON-NLS-1$
+	private static final String ACTION = "action"; //$NON-NLS-1$
 	
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
@@ -81,7 +81,7 @@ public class ToolsContribution extends CompoundContributionItem {
 		for (int i = 0; i < allContribs.size(); i++) {
 			toReturn[i] = allContribs.get(i);
 		}
-		
+
 		if (toReturn.length == 0) {
 			toReturn = new IContributionItem[1];
 			IAction localAction = new LocalAction("No tool currently available", "", null, null);  //$NON-NLS-1$//$NON-NLS-2$

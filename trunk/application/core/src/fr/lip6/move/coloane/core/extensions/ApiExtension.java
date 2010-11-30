@@ -35,10 +35,10 @@ import org.eclipse.core.runtime.Platform;
  * 
  * @author Jean-Baptiste Voron
  */
-public class ApiExtension {
+public final class ApiExtension {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
+
 	/**
 	 * Extension attributes
 	 */
@@ -51,8 +51,15 @@ public class ApiExtension {
 	private static final String GLOBAL = "global"; //$NON-NLS-1$
 
 	/**
+	 * Utility class, the constructor is forbidden
+	 */
+	private ApiExtension() {
+	}
+
+	/**
 	 * Looks for all available APIs (for a given formalism)
-	 * @param formalism The formalism
+	 * @param session filter on the formalism of the session
+	 * @param globalApis without any filter
 	 * @return a list of available APIs
 	 * @see ApiDescription
 	 */
@@ -64,25 +71,25 @@ public class ApiExtension {
 			// Check if the API is of the right type (GLOBAL, LOCAL)
 			boolean isGlobal = Boolean.parseBoolean(contributions[i].getAttribute(GLOBAL));
 			if (globalApis ^ isGlobal) { continue; }
-			
-			// If the API is local, we have to check the current model formalism against the API accepted formalisms 
+
+			// If the API is local, we have to check the current model formalism against the API accepted formalisms
 			if (!globalApis) {
 				String acceptedFormalism = contributions[i].getAttribute(FORMALISM);
 				if (acceptedFormalism == null) {
 					LOGGER.warning("API not recognized. It does not declare a valid list of accepted formalisms"); //$NON-NLS-1$
 					continue;
 				}
-				
+
 				if (!(acceptedFormalism.equals("*")) && !(acceptedFormalism.equalsIgnoreCase(session.getGraph().getFormalism().getName()))) { //$NON-NLS-1$
 					LOGGER.warning("API not designed for this formalism " + session.getGraph().getFormalism()); //$NON-NLS-1$
 					continue;
 				}
 			}
-			
+
 			try {
 				IApi apiClass = (IApi) contributions[i].createExecutableExtension(CLASS);
 				ApiDescription api = new ApiDescription(apiClass, contributions[i].getAttribute(NAME), contributions[i].getAttribute(DESCRIPTION), contributions[i].getAttribute(ICON));
-						
+
 				// Build the root menu
 				LOGGER.finer("Building the " + api.getName() + " root-menu associated with the session"); //$NON-NLS-1$ //$NON-NLS-2$
 				ColoaneAPIRootMenu apiMenu = MenuManipulation.buildRootMenu(api.getName(), api.getDescription(), api.getIcon());
@@ -92,22 +99,18 @@ public class ApiExtension {
 				if (session != null) {
 					apiClass.addObserver(new ConsoleMessageObserver(session.getConsole()), IApiObserver.MESSAGE_OBSERVER);
 				}
-				
-				try {
-					// Build sub-menus
-					LOGGER.finer("Fetching sub-menus"); //$NON-NLS-1$
-					List<IItemMenu> submenus = api.getApiClass().getInitialApiMenus();
-					for (IItemMenu submenu : submenus) {
-						ColoaneMenuManager newMenu = MenuManipulation.buildSubMenu(apiMenu, submenu);
-						if (newMenu != null) {
-							apiMenu.add(newMenu);
-						}
+
+				// Build sub-menus
+				LOGGER.finer("Fetching sub-menus"); //$NON-NLS-1$
+				List<IItemMenu> submenus = api.getApiClass().getInitialApiMenus();
+				for (IItemMenu submenu : submenus) {
+					ColoaneMenuManager newMenu = MenuManipulation.buildSubMenu(apiMenu, submenu);
+					if (newMenu != null) {
+						apiMenu.add(newMenu);
 					}
-					api.setRootMenu(apiMenu);
-				} catch (Exception e) {
-					e.printStackTrace();
 				}
-					
+				api.setRootMenu(apiMenu);
+
 				// Add the API description to the list of available APi for this formalism
 				availableApis.add(api);
 			} catch (ColoaneException e) {

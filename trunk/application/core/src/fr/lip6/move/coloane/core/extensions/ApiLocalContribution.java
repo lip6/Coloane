@@ -12,15 +12,19 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IContributionItem;
 import org.eclipse.ui.actions.CompoundContributionItem;
 
+/**
+ * Retrieve contribution items of all locals apis filtered on the current session.
+ */
 public class ApiLocalContribution extends CompoundContributionItem {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 	
+	/** {@inheritDoc} */
 	@Override
-	protected IContributionItem[] getContributionItems() {
+	protected final IContributionItem[] getContributionItems() {
 		ISession currentSession = SessionManager.getInstance().getCurrentSession();
 		LOGGER.fine("Browsing available Local APIs");  //$NON-NLS-1$
-		
+
 		if (currentSession == null) {
 			LOGGER.warning("There is no current session... Please open a model first"); //$NON-NLS-1$
 			IContributionItem[] toReturn = new IContributionItem[1];
@@ -29,13 +33,13 @@ public class ApiLocalContribution extends CompoundContributionItem {
 			toReturn[0] = new ActionContributionItem(localAction);
 			return toReturn;
 		}
-				
+
 		List<ApiDescription> availableApis = currentSession.getAvailableApis();
 		IContributionItem[] toReturn = new IContributionItem[availableApis.size()];
 		for (int i = 0; i < availableApis.size(); i++) {
 			toReturn[i] = availableApis.get(i).getRootMenu();
 		}
-		
+
 		if (toReturn.length == 0) {
 			toReturn = new IContributionItem[1];
 			IAction localAction = new LocalAction("No Model Services Platform available yet", "", null, null);  //$NON-NLS-1$//$NON-NLS-2$
@@ -50,12 +54,13 @@ public class ApiLocalContribution extends CompoundContributionItem {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public boolean isDynamic() {
+	public final boolean isDynamic() {
 		return true;
 	}
 	
+	/** {@inheritDoc} */
 	@Override
-	public boolean isDirty() {
+	public final boolean isDirty() {
 		return true;
 	}
 }
