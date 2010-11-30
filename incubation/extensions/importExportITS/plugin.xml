@@ -7,7 +7,7 @@
             class="fr.lip6.move.coloane.extensions.importExportITS.exportToITS.ExportToCompositeITS"
             extension="xml"
             id="fr.lip6.move.coloane.extensions.exportits"
-            reference="fr.lip6.move.coloane.wizard.export.its">
+            wizard_id="fr.lip6.move.coloane.wizard.export.its">
          <AcceptedFormalism
                id="ITS Composite">
          </AcceptedFormalism>
