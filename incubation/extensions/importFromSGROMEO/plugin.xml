@@ -6,7 +6,7 @@
       <Import
             class="fr.lip6.move.coloane.extensions.importFromSGRomeo.parser.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importsgromeo"
-            reference="fr.lip6.move.coloane.wizard.import.sgromeo">
+            wizard_id="fr.lip6.move.coloane.wizard.import.sgromeo">
          <AcceptedFormalism
                id="RG">
          </AcceptedFormalism>

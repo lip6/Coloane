@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.extensions.importFromSGRomeo.parser;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IImportFrom;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.IOException;
@@ -28,16 +29,16 @@ public class ImportFromImpl implements IImportFrom {
 	 * @param formalism the formalism of this file
 	 * @param monitor the progress bar
 	 * @return le model adapte correspondant
-	 * @throws ColoaneException si le fichier n'est pas valide
+	 * @throws ExtensionException si le fichier n'est pas valide
 	 */
-	public final IGraph importFrom(String filePath, String formalism, IProgressMonitor monitor) throws ColoaneException {
+	public final IGraph importFrom(String filePath, IFormalism formalism, IProgressMonitor monitor) throws ExtensionException {
 		LOGGER.finer("Creation du fichier..."); ////$NON-NLS-1$
 
 		SGRomeoLexer lexer;
 		try {
 			lexer = new SGRomeoLexer(new ANTLRFileStream(filePath));
 		} catch (IOException e) {
-			throw new ColoaneException("Problem opening file " + e.getMessage());
+			throw new ExtensionException("Problem opening file " + e.getMessage());
 		}
 
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -47,7 +48,7 @@ public class ImportFromImpl implements IImportFrom {
 		try {
 			graph = parser.romeoSGModel();
 		} catch (RecognitionException e) {
-			throw new ColoaneException("Error parsing prod file " + e.getMessage());
+			throw new ExtensionException("Error parsing prod file " + e.getMessage());
 		}
 		return graph;
 

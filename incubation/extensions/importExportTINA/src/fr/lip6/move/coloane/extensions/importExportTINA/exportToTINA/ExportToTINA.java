@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.extensions.importExportTINA.exportToTINA;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IExportTo;
 import fr.lip6.move.coloane.extensions.importExportTINA.Activator;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -30,14 +30,14 @@ public class ExportToTINA implements IExportTo {
 	 * @param model The model to export
 	 * @param filePath The path of the destination file
 	 * @param monitor A monitor to follow the export progression
-	 * @throws ColoaneException Something wrong has happened.
+	 * @throws ExtensionException Something wrong has happened.
 	 */
-	public final void export(IGraph model, String filePath, IProgressMonitor monitor) throws ColoaneException {
+	public final void export(IGraph model, String filePath, IProgressMonitor monitor) throws ExtensionException {
 		FileOutputStream writer;
 
 		// Filename checks
 		if (filePath.equalsIgnoreCase("") || filePath == null) { //$NON-NLS-1$
-			throw new ColoaneException("The filename is not correct. Please provide a valid filename");
+			throw new ExtensionException("The filename is not correct. Please provide a valid filename");
 		}
 
 		int totalWork = model.getNodes().size() + model.getArcs().size();
@@ -72,10 +72,10 @@ public class ExportToTINA implements IExportTo {
 			writer.close();
 		} catch (FileNotFoundException fe) {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Echec lors de la création du fichier : Nom de fichier invalide");
-			throw new ColoaneException("Invalid filename !");
+			throw new ExtensionException("Invalid filename !");
 		} catch (IOException ioe) {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Erreur lors de l'écriture dans le fichier");
-			throw new ColoaneException("Write error :" + ioe.getMessage());
+			throw new ExtensionException("Write error :" + ioe.getMessage());
 		}
 		monitor.done();
 	}

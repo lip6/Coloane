@@ -1,9 +1,10 @@
 package fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.extensions.IImportFrom;
 import fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaNDRLexer;
 import fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaNDRParser;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.IOException;
@@ -24,16 +25,16 @@ public class ImportFromImplNDR implements IImportFrom {
 	 * Import a PROD format model
 	 * @param filePath nom de fchier a importer
 	 * @return le model adapte correspondant
-	 * @throws ColoaneException si le fichier n'est pas valide
+	 * @throws ExtensionException si le fichier n'est pas valide
 	 */
-	public final IGraph importFrom(String filePath, String formalism, IProgressMonitor monitor) throws ColoaneException {
+	public final IGraph importFrom(String filePath, IFormalism formalism, IProgressMonitor monitor) throws ExtensionException {
 		LOGGER.finer("Creation du fichier..."); ////$NON-NLS-1$
 
 		TinaNDRLexer lexer;
 		try {
 			lexer = new TinaNDRLexer (new ANTLRFileStream(filePath));
 		} catch (IOException e) {
-			throw new ColoaneException("Problem opening file "+ e.getMessage());
+			throw new ExtensionException("Problem opening file "+ e.getMessage());
 		}
 
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -43,7 +44,7 @@ public class ImportFromImplNDR implements IImportFrom {
 		try {
 			graph = parser.tinaGraphicalModel();
 		} catch (RecognitionException e) {
-			throw new ColoaneException("Error parsing Tina graphical (ndr) file " + e.getMessage());
+			throw new ExtensionException("Error parsing Tina graphical (ndr) file " + e.getMessage());
 		}
 		return graph;
 

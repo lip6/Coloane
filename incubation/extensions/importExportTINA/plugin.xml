@@ -7,7 +7,7 @@
             class="fr.lip6.move.coloane.extensions.importExportTINA.exportToTINA.ExportToTINA"
             extension="net"
             id="fr.lip6.move.coloane.extensions.exportTINA"
-            reference="fr.lip6.move.coloane.wizard.export.TINA">
+            wizard_id="fr.lip6.move.coloane.wizard.export.TINA">
          <AcceptedFormalism
                id="Time Petri Net">
          </AcceptedFormalism>
@@ -18,7 +18,7 @@
       <Import
             class="fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importTINA"
-            reference="fr.lip6.move.coloane.wizard.import.TINA">
+            wizard_id="fr.lip6.move.coloane.wizard.import.TINA">
          <AcceptedFormalism
                id="Time Petri Net">
          </AcceptedFormalism>
@@ -55,7 +55,7 @@
       <Import
             class="fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.ImportFromImplNDR"
             id="fr.lip6.move.coloane.extensions.importTINANDR"
-            reference="fr.lip6.move.coloane.wizard.import.TINANDR">
+            wizard_id="fr.lip6.move.coloane.wizard.import.TINANDR">
          <AcceptedFormalism
                id="Time Petri Net">
          </AcceptedFormalism>

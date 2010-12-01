@@ -6,7 +6,7 @@
       <Import
             class="fr.lip6.move.coloane.extensions.importFromPROD.parser.ImportFromImpl"
             id="fr.lip6.move.coloane.extensions.importprod"
-            reference="fr.lip6.move.coloane.wizard.import.prod">
+            wizard_id="fr.lip6.move.coloane.wizard.import.prod">
          <AcceptedFormalism
                id="Time Petri Net">
          </AcceptedFormalism>
