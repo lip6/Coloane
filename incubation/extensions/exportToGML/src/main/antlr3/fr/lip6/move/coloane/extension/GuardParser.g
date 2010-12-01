@@ -8,18 +8,18 @@ options {
 @header {
   package main.antlr3.fr.lip6.move.coloane.extension;
   
-  import java.util.HashMap;
+  import java.util.Map;
 }
 
 @members {
-  HashMap<String,String> symbols;
+  Map<String,String> symbols;
   
   private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
   private boolean is_domain(String id) { return "domain".equals(symbols.get(id)); }
   private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); }
 }
 
-transitionGuard[HashMap<String,String> s,String gap] returns [String value]
+transitionGuard[Map<String,String> s,String gap] returns [String value]
 @init {
   symbols = $s;
   $value = gap + "<attribute name=\"guard\">\n";

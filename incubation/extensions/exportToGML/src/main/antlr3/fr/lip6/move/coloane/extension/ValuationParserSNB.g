@@ -12,14 +12,14 @@ options {
 
 /* copy of ValuationParserSN.g, while the import-header bug is not fixed */
 @members {
-  HashMap<String,String> symbols;
+  Map<String,String> symbols;
   
   private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
   private boolean is_domain(String id) { return "domain".equals(symbols.get(id)); }
   private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); }
 }
 
-arcLabel[HashMap<String,String> s,String gap] returns [String value] 
+arcLabel[Map<String,String> s,String gap] returns [String value] 
 @init {
   symbols = s;
   $value = gap + "<attribute name=\"valuation\">\n";
@@ -168,7 +168,7 @@ varClassElement[String gap] returns [String value]
 
 /* Marking part */
 
-initMarking[HashMap<String,String> s,String gap] returns [String value]
+initMarking[Map<String,String> s,String gap] returns [String value]
 @init { symbols = s; $value = gap+"<attribute name=\"marking\">\n"; }
 @after { $value = $value + gap + "</attribute>\n"; } :
   l=listMarking[$gap+"\t"] { $value = $value + $l.value; } |
