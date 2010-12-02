@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.exporttogml;
+package fr.lip6.move.coloane.extensions.exporttogml;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "fr.lip6.move.coloane.extension.exporttogml";
+	public static final String PLUGIN_ID = "fr.lip6.move.coloane.extensions.exporttogml";
 
 	// The shared instance
 	private static Activator plugin;

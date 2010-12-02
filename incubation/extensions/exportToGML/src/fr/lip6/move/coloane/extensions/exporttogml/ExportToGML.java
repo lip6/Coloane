@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extension.exporttogml;
+package fr.lip6.move.coloane.extensions.exporttogml;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
