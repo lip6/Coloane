@@ -23,11 +23,11 @@ public abstract class Api implements IApi {
 	private boolean authentication;
 	
 	/** Authentication data */
-	private Map<String,String> credentials = new HashMap<String, String>();
+	private Map<String, String> credentials = new HashMap<String, String>();
 
 	/**
 	 * Constructor.<br>
-	 * By default, the authentication status is set to <code>false</code>. 
+	 * By default, the authentication status is set to <code>false</code>.
 	 */
 	public Api() {
 		this.authentication = false;
@@ -36,14 +36,14 @@ public abstract class Api implements IApi {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<IItemMenu> getInitialApiMenus() {
+	public final List<IItemMenu> getInitialApiMenus() {
 		return this.menus;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public void addObserver(IApiObserver observer, int observerType) {
+	public final void addObserver(IApiObserver observer, int observerType) {
 		List<IApiObserver> typedObservers = this.observers.get(Integer.valueOf(observerType));
 		// Create a new list of typedObserver if it does not already exist
 		if (typedObservers == null) {
@@ -68,7 +68,7 @@ public abstract class Api implements IApi {
 	/**
 	 * @return <code>true</code> if some credential information have been stored
 	 */
-	public boolean isAuthenticated() {
+	public final boolean isAuthenticated() {
 		return authentication;
 	}
 	
@@ -76,7 +76,7 @@ public abstract class Api implements IApi {
 	 * Set the authentication status
 	 * @param authentication <code>true</code> if the API is authenticated
 	 */
-	public void setAuthenticated(boolean authentication) {
+	public final void setAuthenticated(boolean authentication) {
 		this.authentication = authentication;
 	}
 	
@@ -85,15 +85,15 @@ public abstract class Api implements IApi {
 	 * @param login The registered login
 	 * @param password The registered password
 	 */
-	public void setAuthenticationCredential(String key, String value) {
-		this.credentials.put(key, value);
+	public final void setAuthenticationCredential(String login, String password) {
+		this.credentials.put(login, password);
 	}
 	
 	/**
 	 * @param key The asked credential
 	 * @return The credential value if is exists or <code>null</code>.
 	 */
-	public String getAuthenticationCredential(String key) {
+	public final String getAuthenticationCredential(String key) {
 		return this.credentials.get(key);
 	}
 }

@@ -10,7 +10,7 @@ public interface IApi {
 		 * @return The initial list of menus associated with the API
 		 */
 		List<IItemMenu> getInitialApiMenus();
-		
+
 		/**
 		 * Add a specific observer to the API
 		 * @param observer The observer object
