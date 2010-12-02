@@ -281,7 +281,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>$BUILDTOOLS/updateManifest.sh</executable>
+							<executable>${env.BUILDTOOLS}/updateManifest.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${buildNumber}</argument>
@@ -297,7 +297,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>$BUILDTOOLS/deployJar.sh</executable>
+							<executable>${env.BUILDTOOLS}/deployJar.sh</executable>
 							<arguments>
 								<argument>${project.version}</argument>
 								<argument>${build.finalName}.${project.packaging}</argument>
@@ -314,7 +314,7 @@
 							<goal>exec</goal>
 						</goals>
 						<configuration>
-							<executable>$BUILDTOOLS/cleanManifest.sh</executable>
+							<executable>${env.BUILDTOOLS}/cleanManifest.sh</executable>
 						</configuration>
 					</execution>
 				</executions>
