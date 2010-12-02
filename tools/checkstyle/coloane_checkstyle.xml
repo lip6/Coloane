@@ -12,22 +12,24 @@
     <property name="localeCountry" value="US"/>
     <property name="localeLanguage" value="en"/>
 
+    <module name="FileLength"/>
+
     <module name="TreeWalker">
         <!--
         Module à migrer en dehors de TreeWalker lors de la mise à jour vers checkstyle
         5.X, GenericIllegalRegexp n'existe plus et est remplacé par RegexpSingleline.
              -->
-        <module name="FileLength"/>
+<!--        <module name="FileLength"/>-->
 
-        <module name="GenericIllegalRegexp">
-            <property name="format" value="[^\*]\s+$"/>
-            <property name="message" value="Line has trailing spaces."/>
-        </module>
-<!--        <module name="RegexpSingleline">-->
+<!--        <module name="GenericIllegalRegexp">-->
 <!--            <property name="format" value="[^\*]\s+$"/>-->
 <!--            <property name="message" value="Line has trailing spaces."/>-->
-<!--            <property name="fileExtensions" value="java"/>-->
 <!--        </module>-->
+        <module name="RegexpSingleline">
+            <property name="format" value="[^\*]\s+$"/>
+            <property name="message" value="Line has trailing spaces."/>
+            <property name="fileExtensions" value="java"/>
+        </module>
 
         <!-- Javadoc -->
         <module name="JavadocStyle">
@@ -56,14 +58,14 @@
             <property name="format" value="^[a-zA-Z_0-9]*$"/>
         </module>
         <module name="TypeName"/>
-        
+
         <!-- Length -->
         <module name="MethodLength"/>
         <!--<module name="LineLength">
             <property name="max" value="120"/>
         </module>-->
         <module name="ParameterNumber"/>
-        
+
         <!-- Whitespace -->
         <module name="EmptyForIteratorPad"/>
         <module name="MethodParamPad"/>
@@ -95,7 +97,7 @@
         <module name="IllegalType"/>
         <module name="DeclarationOrder"/>
         <module name="ParameterAssignment"/>
-        
+
         <!-- Other -->
         <module name="ModifierOrder"/>
         <module name="RedundantModifier"/>
@@ -120,11 +122,11 @@
     <!--<module name="SuppressionFilter">
         <property name="file" value="http://coloane.lip6.fr/resources/suppressions.xml"/>
     </module>-->
-    
+
     <module name="SuppressionCommentFilter">
         <property name="offCommentFormat" value="CHECKSTYLE OFF"/>
         <property name="onCommentFormat" value="CHECKSTYLE ON"/>
     </module>
-    
+
     <module name="NewlineAtEndOfFile"/>
 </module>
