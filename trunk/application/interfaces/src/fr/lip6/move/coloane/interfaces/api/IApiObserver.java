@@ -8,8 +8,8 @@ package fr.lip6.move.coloane.interfaces.api;
  */
 public interface IApiObserver {
 
-	public final int MENU_OBSERVER = 0;
-	public final int MESSAGE_OBSERVER = 1;
+	int MENU_OBSERVER = 0;
+	int MESSAGE_OBSERVER = 1;
 
 	
 	/** 

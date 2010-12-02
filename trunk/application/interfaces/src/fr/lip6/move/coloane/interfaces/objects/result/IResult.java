@@ -84,17 +84,17 @@ public interface IResult {
 	/**
 	 * @return The list of requests to apply on the current graph
 	 */
-	public List<IRequest> getDeltaRequestsList();
+	List<IRequest> getDeltaRequestsList();
 
 	/**
 	 * @return The list of requests to apply on the new graph
 	 */
-	public List<IRequest> getNewComputedGraphDeltaRequestsList();
+	List<IRequest> getNewComputedGraphDeltaRequestsList();
 
 	/**
 	 * @return The new graph attached to this result
 	 */
-	public IGraph getNewComputedGraph();
+	IGraph getNewComputedGraph();
 
 	/**
 	 * @return The list of textual results contained in the result.
