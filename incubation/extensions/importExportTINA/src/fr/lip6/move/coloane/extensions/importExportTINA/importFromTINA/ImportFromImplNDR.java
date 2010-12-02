@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA;
 
-import fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaNDRLexer;
-import fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaNDRParser;
+import main.antlr3.fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaNDRLexer;
+import main.antlr3.fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaNDRParser;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
@@ -40,6 +40,7 @@ public class ImportFromImplNDR implements IImportFrom {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 		TinaNDRParser parser = new TinaNDRParser(tokens);
+		parser.setFormalism(formalism);
 		IGraph graph;
 		try {
 			graph = parser.tinaGraphicalModel();

@@ -1,19 +1,20 @@
 package fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA;
 
-import fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaLexer;
-import fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaParser;
-import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
-import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
-import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-
 import java.io.IOException;
 import java.util.logging.Logger;
+
+import main.antlr3.fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaLexer;
+import main.antlr3.fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser.TinaParser;
 
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.eclipse.core.runtime.IProgressMonitor;
+
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 
 public class ImportFromImpl implements IImportFrom {
@@ -40,6 +41,7 @@ public class ImportFromImpl implements IImportFrom {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 		TinaParser parser = new TinaParser(tokens);
+		parser.setFormalism(formalism);
 		IGraph graph;
 		try {
 			graph = parser.tinaModel();

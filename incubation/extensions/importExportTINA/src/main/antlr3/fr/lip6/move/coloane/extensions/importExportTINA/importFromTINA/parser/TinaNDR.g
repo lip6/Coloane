@@ -1,20 +1,23 @@
 grammar TinaNDR;
 
 @lexer::header {
-package fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser;
+package main.antlr3.fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser;
 
 }
 
 @parser::header {
-package fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser;
+package main.antlr3.fr.lip6.move.coloane.extensions.importExportTINA.importFromTINA.parser;
 
 
-import fr.lip6.move.coloane.core.model.GraphModelFactory;
+import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 
 import org.eclipse.draw2d.geometry.Point;
 
@@ -23,11 +26,29 @@ import java.util.Map;
 }
 
 @parser::members {
-       private IGraph graph = new GraphModelFactory().createGraph("Time Petri Net");
+       private static IFormalism formalism;
+       private static INodeFormalism placeFormalism;
+       private static INodeFormalism transitionFormalism;
+       private static IArcFormalism arcFormalism;
+       private static IArcFormalism readFormalism;
+       private static IArcFormalism inhibitorFormalism;
+
+       private IGraph graph;
        private Map<String,INode> nodes = new HashMap<String, INode>();
        private INode source;
        private INode destination;
        private List<Point> points;
+
+       public void setFormalism(IFormalism formalism) {
+           this.formalism = formalism;
+           this.placeFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("place");
+           this.transitionFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("transition");
+           this.arcFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("arc");
+           this.readFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("read");
+           this.inhibitorFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("inhibitor");
+           
+           graph = new GraphModelFactory().createGraph(formalism);
+       }
 }
 
 
@@ -62,7 +83,7 @@ scope { INode idTrans; }
 {
    INode node = null;
    try {
-            node = graph.createNode("transition");
+            node = graph.createNode(transitionFormalism);
             node.getAttribute("label").setValue(name.getText());
             // add for later reference by name
             nodes.put(name.getText(), node);  
@@ -130,7 +151,7 @@ scope { INode idPlace; }
 {
    INode node = null;
    try {
-            node = graph.createNode("place");
+            node = graph.createNode(placeFormalism);
             node.getAttribute("name").setValue(name.getText());
             // add for later reference by name
             nodes.put(name.getText(), node);  
@@ -214,7 +235,7 @@ pname returns [INode node] : name=NAME
     node = nodes.get($name.getText());
     if (node == null) {
         try {
-                node = graph.createNode("place");
+                node = graph.createNode(placeFormalism);
                 node.getAttribute("name").setValue(name.getText());
                 // add for later reference by name
                 nodes.put(name.getText(), node);                
@@ -229,7 +250,7 @@ tname returns [INode node] : name=NAME
     node = nodes.get($name.getText());
     if (node == null) {
         try {
-                node = graph.createNode("transition");
+                node = graph.createNode(transitionFormalism);
                 node.getAttribute("label").setValue(name.getText());
                 // add for later reference by name
                 nodes.put(name.getText(), node);                
@@ -274,13 +295,13 @@ arc : type=('?'|'?-'|'!'|'!-'|) value=integer
   try {
   if (type==null) {
       // normal arc
-      a = graph.createArc("arc",source,destination);
+      a = graph.createArc(arcFormalism,source,destination);
   } else if ("?".equals(type.getText())) {
       // test arc
-     a = graph.createArc("read",source,destination);
+     a = graph.createArc(readFormalism,source,destination);
   } else if ("?-".equals(type.getText())) {
       // inhibitor arc
-     a = graph.createArc("inhibitor",source,destination);  
+     a = graph.createArc(inhibitorFormalism,source,destination);  
   } else if ("!".equals(type.getText())) {
       // stopwatch arc
     // TODO !!
@@ -304,7 +325,7 @@ arc : type=('?'|'?-'|'!'|'!-'|) value=integer
 | 
 {
  try {
-  IArc a = graph.createArc("arc",source,destination);
+  IArc a = graph.createArc(arcFormalism,source,destination);
   a.getAttribute("valuation").setValue("1");
   }catch (ModelException e) {                
                 e.printStackTrace();
