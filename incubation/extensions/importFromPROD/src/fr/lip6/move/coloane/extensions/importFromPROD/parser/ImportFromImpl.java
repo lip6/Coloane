@@ -8,6 +8,9 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import main.antlr3.fr.lip6.move.coloane.extensions.importFromPROD.parser.ProdLexer;
+import main.antlr3.fr.lip6.move.coloane.extensions.importFromPROD.parser.ProdParser;
+
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -38,6 +41,7 @@ public class ImportFromImpl implements IImportFrom {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 		ProdParser parser = new ProdParser(tokens);
+		parser.setFormalism(formalism);
 		IGraph graph;
 		try {
 			graph = parser.prodModel();

@@ -1,26 +1,47 @@
 grammar Prod;
 
 @lexer::header {
-package fr.lip6.move.coloane.extensions.importFromPROD.parser;
+package main.antlr3.fr.lip6.move.coloane.extensions.importFromPROD.parser;
 
 }
 
 @parser::header {
-package fr.lip6.move.coloane.extensions.importFromPROD.parser;
+package main.antlr3.fr.lip6.move.coloane.extensions.importFromPROD.parser;
 
-import fr.lip6.move.coloane.core.model.GraphModelFactory;
+import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 
 import java.util.HashMap;
 import java.util.Map;
 }
 
 @parser::members {
-       private IGraph graph = new GraphModelFactory().createGraph("Time Petri Net");
+       private static IFormalism formalism;
+       private static INodeFormalism placeFormalism;
+       private static INodeFormalism transitionFormalism;
+       private static IArcFormalism arcFormalism;
+       private static IArcFormalism resetFormalism;
+       private static IArcFormalism inhibitorFormalism;
+
+       private IGraph graph;
        private Map<String,INode> nodes = new HashMap<String, INode>();
+       
+       public void setFormalism(IFormalism formalism) {
+           this.formalism = formalism;
+           this.placeFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("place");
+           this.transitionFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("transition");
+           this.arcFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("arc");
+           this.resetFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("reset");
+           this.inhibitorFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("inhibitor");
+           
+           graph = new GraphModelFactory().createGraph(formalism);
+       }
 }
 
 
@@ -35,7 +56,7 @@ node : place|transition;
 place : lvl=placeLevel pname=VARIABLE mk=initMarquage 
       {
              try {
-                INode node = graph.createNode("place");
+                INode node = graph.createNode(placeFormalism);
                 node.getAttribute("name").setValue($pname.getText());
                 // add for later reference by name
                 nodes.put($pname.getText(), node);
@@ -61,7 +82,7 @@ scope { INode idTrans; }
 : tname=nomtransition 
 {
        try {
-           INode node = graph.createNode("transition");
+           INode node = graph.createNode(transitionFormalism);
            node.getAttribute("label").setValue(tname);
            $transition::idTrans = node ;
        } catch (ModelException e) {                
@@ -87,7 +108,7 @@ pname=VARIABLE ':' ntok=marquage ';'
   INode place = nodes.get($pname.getText());
   INode tr = $transition::idTrans;
   try {
-            IArc a = graph.createArc("arc",place,tr);
+            IArc a = graph.createArc(arcFormalism,place,tr);
             a.getAttribute("valuation").setValue(Integer.toString(ntok));
   } catch (ModelException e) {
             e.printStackTrace();
@@ -101,7 +122,7 @@ pname=VARIABLE ':' ntok=marquage ';'
   INode place = nodes.get($pname.getText());
   INode tr = $transition::idTrans;
   try {
-            IArc a = graph.createArc("reset",place,tr);
+            IArc a = graph.createArc(resetFormalism,place,tr);
   } catch (ModelException e) {
             e.printStackTrace();
   }
@@ -113,7 +134,7 @@ pname=VARIABLE ':' ntok=marquage ';'
   INode place = nodes.get($pname.getText());
   INode tr = $transition::idTrans;
   try {
-            IArc a = graph.createArc("inhibitor",place,tr);
+            IArc a = graph.createArc(inhibitorFormalism,place,tr);
             a.getAttribute("valuation").setValue($ntok2.getText());
   } catch (ModelException e) {
             e.printStackTrace();
@@ -129,7 +150,7 @@ pname=VARIABLE ':' ntok=marquage ';'
   INode place = nodes.get($pname.getText());
   INode tr = $transition::idTrans;
   try {
-            IArc a = graph.createArc("arc",tr,place);
+            IArc a = graph.createArc(arcFormalism,tr,place);
             a.getAttribute("valuation").setValue(Integer.toString(ntok));
   } catch (ModelException e) {
             e.printStackTrace();
