@@ -33,7 +33,7 @@ public final class Noack99 implements IOrderingHeuristic {
 		// grab the set of places = variables in the input model
 		List<INode> places = new ArrayList<INode>();
 
-		IElementFormalism place = graph.getFormalism().getMasterGraph().getElementFormalism("place");
+		IElementFormalism place = graph.getFormalism().getRootGraph().getElementFormalism("place");
 		for (INode node : graph.getNodes()) {
 			if (node.getNodeFormalism().equals(place)) {
 				places.add(node);

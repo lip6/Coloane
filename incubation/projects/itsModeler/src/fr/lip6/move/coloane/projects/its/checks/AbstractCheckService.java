@@ -15,8 +15,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 
-import fr.lip6.move.coloane.core.motor.ProcessController;
-import fr.lip6.move.coloane.core.motor.ProcessController.TimeOutException;
+import fr.lip6.move.coloane.interfaces.utils.ProcessController;
+import fr.lip6.move.coloane.interfaces.utils.ProcessController.TimeOutException;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 

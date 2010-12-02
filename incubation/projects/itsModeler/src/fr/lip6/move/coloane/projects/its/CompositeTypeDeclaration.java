@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.projects.its;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -53,7 +53,7 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected EvaluationContext computeParameters() throws ColoaneException {
+	protected EvaluationContext computeParameters() throws ExtensionException {
 		if (getTypeType().equals("ITSComposite")) {
 			return new EvaluationContext();
 		} else {
@@ -85,7 +85,7 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 	 * Load concepts from graph description.
 	 */
 	private void loadConcepts() {
-		IGraphFormalism formalism = getGraph().getFormalism().getMasterGraph();
+		IGraphFormalism formalism = getGraph().getFormalism().getRootGraph();
 		IElementFormalism inst = formalism.getElementFormalism("instance");
 		Collection<INode> nodes = getGraph().getNodes();
 
@@ -117,7 +117,7 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 
 	@Override
 	protected List<IModelVariable> computeVariables() {
-		IGraphFormalism formalism = getGraph().getFormalism().getMasterGraph();
+		IGraphFormalism formalism = getGraph().getFormalism().getRootGraph();
 		IElementFormalism inst = formalism.getElementFormalism("instance");
 		Collection<INode> nodes = getGraph().getNodes();
 

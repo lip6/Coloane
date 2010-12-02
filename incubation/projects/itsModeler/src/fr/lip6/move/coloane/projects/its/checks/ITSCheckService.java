@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult.Status;
 import fr.lip6.move.coloane.projects.its.io.ITSModelWriter;
 import fr.lip6.move.coloane.projects.its.order.ITSOrderWriter;
@@ -50,7 +50,7 @@ public abstract class ITSCheckService extends AbstractCheckService {
 		ITSOrderWriter ow = new ITSOrderWriter();
 		try {
 			ow.writeOrder(getOrderFileName(), getParent().getType(), o);
-		} catch (ColoaneException e) {
+		} catch (ExtensionException e) {
 			e.printStackTrace();
 			return false;
 		}

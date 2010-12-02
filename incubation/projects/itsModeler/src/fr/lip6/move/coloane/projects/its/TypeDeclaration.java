@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.projects.its;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.model.GraphModelFactory;
+import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -17,13 +17,10 @@ import fr.lip6.move.coloane.projects.its.expression.IVariableBinding;
 import fr.lip6.move.coloane.projects.its.expression.Infinity;
 import fr.lip6.move.coloane.projects.its.expression.IntegerExpression;
 import fr.lip6.move.coloane.projects.its.expression.Variable;
-import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
-import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
 import fr.lip6.move.coloane.projects.its.variables.TransitionClockVariable;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,6 +32,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
+
+import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
+import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -297,7 +297,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			try {
 				context = computeParameters();
 				context.addObserver(this);
-			} catch (ColoaneException e) {
+			} catch (ExtensionException e) {
 				final Logger logger = Logger.getLogger("fr.lip6.move.coloane.its"); //$NON-NLS-1$
 				logger.warning("Model contains syntax errors. Please validate it through syntax check before import. Some model elements were not fully parsed." + e);
 				
@@ -309,9 +309,9 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	/**
 	 * load the attributes that use  int expressions.
 	 * @return an evaluation context
-	 * @throws ColoaneException in case of parse errors.
+	 * @throws ExtensionException in case of parse errors.
 	 */
-	protected EvaluationContext computeParameters() throws ColoaneException {
+	protected EvaluationContext computeParameters() throws ExtensionException {
 		EvaluationContext context = new EvaluationContext();
 		for (INode node : graph.getNodes()) {
 			if ("place".equals(node.getNodeFormalism().getName())) {
@@ -340,9 +340,9 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	 * Do the actual loading of a given attribute value = parse an int expression
 	 * @param attrib attrib to load or null
 	 * @param context the current context (can be updated)
-	 * @throws ColoaneException if syntax errors occur
+	 * @throws ExtensionException if syntax errors occur
 	 */
-	private void parseIntExpression(IAttribute attrib, IEvaluationContext context) throws ColoaneException {
+	private void parseIntExpression(IAttribute attrib, IEvaluationContext context) throws ExtensionException {
 		if (attrib == null) {
 			return;
 		}

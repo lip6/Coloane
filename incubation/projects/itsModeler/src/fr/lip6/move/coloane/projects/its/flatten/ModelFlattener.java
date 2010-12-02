@@ -1,7 +1,7 @@
 package fr.lip6.move.coloane.projects.its.flatten;
 
 
-import fr.lip6.move.coloane.core.model.GraphModelFactory;
+import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
@@ -87,7 +87,7 @@ public final class ModelFlattener {
 
 
 		// grab the appropriate formalism elements to analyze an ITS Composite
-		IGraphFormalism formalism = getGraph(ctd).getFormalism().getMasterGraph();
+		IGraphFormalism formalism = getGraph(ctd).getFormalism().getRootGraph();
 		IElementFormalism inst = formalism.getElementFormalism("instance");
 
 		if (ctd.getTypeType().equals("Scalar Set Composite")) {
@@ -266,7 +266,7 @@ public final class ModelFlattener {
 	private List<List<ResolvedTrans>> cumulateLabelEffect(CompositeTypeDeclaration ctd, String lab,
 			String prefix, List<List<ResolvedTrans>> tset) {
 		// grab the appropriate formalism elements to analyze an ITS Composite
-		IGraphFormalism formalism = getGraph(ctd).getFormalism().getMasterGraph();
+		IGraphFormalism formalism = getGraph(ctd).getFormalism().getRootGraph();
 
 		List<List<ResolvedTrans>> resultSet = new ArrayList<List<ResolvedTrans>>();
 
@@ -464,7 +464,7 @@ public final class ModelFlattener {
 		}
 		// We are now sure this is a TPN
 		// grab the appropriate formalism elements to analyze an ITS Composite
-		IGraphFormalism formalism = getGraph(type).getFormalism().getMasterGraph();
+		IGraphFormalism formalism = getGraph(type).getFormalism().getRootGraph();
 		IElementFormalism trans = formalism.getElementFormalism("transition");
 
 		/** Scan through the Nodes to find all trans bearing this label and collect them in matchingTrans */
@@ -507,7 +507,7 @@ public final class ModelFlattener {
 	private void flatten(TypeDeclaration t, String prefix) throws ModelException {
 
 		// grab the appropriate formalism elements to analyze an ITS Composite
-		IGraphFormalism formalism = getGraph(t).getFormalism().getMasterGraph();
+		IGraphFormalism formalism = getGraph(t).getFormalism().getRootGraph();
 		IElementFormalism place = formalism.getElementFormalism("place");
 		IElementFormalism trans = formalism.getElementFormalism("transition");
 		// to store node mapping of places

@@ -8,12 +8,12 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.logging.Logger;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 
 public class ITSOrderWriter {
 
-	public void writeOrder(String orderFileName, TypeDeclaration td, Ordering order) throws ColoaneException {
+	public void writeOrder(String orderFileName, TypeDeclaration td, Ordering order) throws ExtensionException {
 		try {
 			// test folder existence, create if it does not exist
 			
@@ -37,10 +37,10 @@ public class ITSOrderWriter {
 			writer.close();
 		} catch (FileNotFoundException fe) {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Error when creating file : bad file name."+fe);
-			throw new ColoaneException("Invalid filename !" +fe);
+			throw new ExtensionException("Invalid filename !" +fe);
 		} catch (IOException ioe) {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Error writing in file " + ioe);
-			throw new ColoaneException("Write error :" + ioe.getMessage());
+			throw new ExtensionException("Write error :" + ioe.getMessage());
 		}
 		
 	}

@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.projects.its.syntax.tool;
 
-import fr.lip6.move.coloane.core.extensions.IColoaneAction;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.projects.its.syntax.ISyntaxChecker;

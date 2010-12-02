@@ -1,8 +1,8 @@
 package fr.lip6.move.coloane.projects.its.io;
 
-import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.extension.importExportRomeo.exportToRomeo.ExportToRomeo;
 import fr.lip6.move.coloane.extensions.importExportITS.exportToITS.ExportToCompositeITS;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -46,7 +46,7 @@ public final class ITSModelWriter {
 	 * @param directory the folder to export to
 	 * @throws ColoaneException in case of any IO or instantiation error.
 	 */
-	public void exportITSModel(TypeList types, TypeDeclaration type, String directory) throws ColoaneException {
+	public void exportITSModel(TypeList types, TypeDeclaration type, String directory) throws ExtensionException {
 		// the types which need to be declared.
 
 		List<TypeDeclaration> toProcess = new ArrayList<TypeDeclaration>();
@@ -106,10 +106,10 @@ public final class ITSModelWriter {
 			writer.close();
 		} catch (FileNotFoundException fe) {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Error when creating file : bad file name."+fe);
-			throw new ColoaneException("Invalid filename !" +fe);
+			throw new ExtensionException("Invalid filename !" +fe);
 		} catch (IOException ioe) {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Erreur writing in file " + ioe);
-			throw new ColoaneException("Write error :" + ioe.getMessage());
+			throw new ExtensionException("Write error :" + ioe.getMessage());
 		}
 	}
 

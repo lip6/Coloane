@@ -1,5 +1,12 @@
 package fr.lip6.move.coloane.projects.its.checks.ui.controls;
 
+import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
+import fr.lip6.move.coloane.projects.its.checks.CheckList;
+import fr.lip6.move.coloane.projects.its.ctl.CTLFormula;
+
+import main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserLexer;
+import main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserParser;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -9,12 +16,6 @@ import org.eclipse.swt.custom.StyledText;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
-
-import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
-import fr.lip6.move.coloane.projects.its.checks.CheckList;
-import fr.lip6.move.coloane.projects.its.ctl.CTLFormula;
-import fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserLexer;
-import fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserParser;
 
 public class CTLText extends StyledText {
 

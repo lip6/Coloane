@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.projects.its.flatten;
 
-import fr.lip6.move.coloane.core.model.GraphModelFactory;
+import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
