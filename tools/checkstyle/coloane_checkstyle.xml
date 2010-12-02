@@ -14,6 +14,12 @@
 
     <module name="FileLength"/>
 
+    <module name="RegexpSingleline">
+        <property name="format" value="[^\*]\s+$"/>
+        <property name="message" value="Line has trailing spaces."/>
+        <property name="fileExtensions" value="java"/>
+    </module>
+
     <module name="TreeWalker">
         <!--
         Module à migrer en dehors de TreeWalker lors de la mise à jour vers checkstyle
@@ -25,11 +31,6 @@
 <!--            <property name="format" value="[^\*]\s+$"/>-->
 <!--            <property name="message" value="Line has trailing spaces."/>-->
 <!--        </module>-->
-        <module name="RegexpSingleline">
-            <property name="format" value="[^\*]\s+$"/>
-            <property name="message" value="Line has trailing spaces."/>
-            <property name="fileExtensions" value="java"/>
-        </module>
 
         <!-- Javadoc -->
         <module name="JavadocStyle">
