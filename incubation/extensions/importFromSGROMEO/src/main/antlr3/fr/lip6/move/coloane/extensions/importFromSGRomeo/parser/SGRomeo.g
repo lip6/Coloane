@@ -1,18 +1,21 @@
 grammar SGRomeo;
 
 @lexer::header {
-package fr.lip6.move.coloane.extensions.importFromSGRomeo.parser;
+package main.antlr3.fr.lip6.move.coloane.extensions.importFromSGRomeo.parser;
 
 }
 
 @parser::header {
-package fr.lip6.move.coloane.extensions.importFromSGRomeo.parser;
+package main.antlr3.fr.lip6.move.coloane.extensions.importFromSGRomeo.parser;
 
-import fr.lip6.move.coloane.core.model.GraphModelFactory;
+import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
 
 
 import java.util.HashMap;
@@ -20,20 +23,32 @@ import java.util.Map;
 }
 
 @parser::members {
-       private IGraph graph = new GraphModelFactory().createGraph("Reachability Graph");
+       private static IFormalism formalism;
+       private static INodeFormalism stateFormalism;
+       private static IArcFormalism eventFormalism;
+
+       private IGraph graph;
        private Map<String,INode> nodes = new HashMap<String, INode>();
        
        private INode getNode (String nodeId) {
             INode node = nodes.get(nodeId);
             if (node == null) {
               try {
-                 node = graph.createNode("state");
+                 node = graph.createNode(stateFormalism);
                  nodes.put(nodeId, node);
               } catch (ModelException e) {
                  e.printStackTrace();
               }
             }
             return node;
+       }
+       
+       public void setFormalism(IFormalism formalism) {
+           this.formalism = formalism;
+           this.stateFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("state");
+           this.eventFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("event");
+           
+           graph = new GraphModelFactory().createGraph(formalism);
        }
 }
 
@@ -48,7 +63,7 @@ arc : idSrc=VARIABLE PREARROW trans=label POSTARROW idDest=VARIABLE
   INode src = getNode($idSrc.getText()); 
   INode dest = getNode($idDest.getText()); 
         try {
-        IArc arc = graph.createArc("event",src,dest);
+        IArc arc = graph.createArc(eventFormalism,src,dest);
                 arc.getAttribute("label").setValue(trans);  
         } catch (ModelException e) {
         e.printStackTrace();

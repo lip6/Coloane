@@ -8,6 +8,9 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import java.io.IOException;
 import java.util.logging.Logger;
 
+import main.antlr3.fr.lip6.move.coloane.extensions.importFromSGRomeo.parser.SGRomeoLexer;
+import main.antlr3.fr.lip6.move.coloane.extensions.importFromSGRomeo.parser.SGRomeoParser;
+
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
@@ -44,6 +47,7 @@ public class ImportFromImpl implements IImportFrom {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
 		SGRomeoParser parser = new SGRomeoParser(tokens);
+		parser.setFormalism(formalism);
 		IGraph graph;
 		try {
 			graph = parser.romeoSGModel();
