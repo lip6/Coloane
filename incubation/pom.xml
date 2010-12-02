@@ -41,12 +41,12 @@
 		<repository>
 			<id>forge.releases</id>
 			<name>Internal Release Repository for Coloane</name>
-			<url>http://132.227.64.155:8081/nexus/content/repositories/incubations</url>
+			<url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/incubations</url>
 		</repository>
 		<snapshotRepository>
 			<id>forge.snapshots</id>
 			<name>Internal Snapshot Repository for Coloane</name>
-			<url>http://132.227.64.155:8081/nexus/content/repositories/incubations</url>
+			<url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/incubations</url>
 		</snapshotRepository>
 	</distributionManagement>
 
@@ -198,6 +198,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+                                <version>2.3.2</version>
 				<configuration>
 					<source>1.5</source>
 					<target>1.5</target>
@@ -209,6 +210,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
+                                <version>2.6</version>
 				<configuration>
                                         <configLocation>http://coloane.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
 					<includeTestSourceDirectory>true</includeTestSourceDirectory>
@@ -230,6 +232,7 @@
 				<!-- Calcule la revision courante du dépôt de sources -->
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
+                                <version>1.0-beta-4</version>
 				<configuration>
 					<useLastCommitedRevision>true</useLastCommitedRevision>
 <!--                                        <doUpdate>true</doUpdate>-->
@@ -249,6 +252,7 @@
 			<plugin> 
 				<groupId>org.apache.maven.plugins</groupId> 
 				<artifactId>maven-jar-plugin</artifactId> 
+                                <version>2.3.1</version>
 				<configuration> 
 					<archive> 
 						<manifestFile>META-INF/MANIFEST.MF</manifestFile>
@@ -266,12 +270,13 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
+                                <version>1.2</version>
 				<executions>
 					
 					<!-- Modification du MANIFEST.MF -->
 					<execution>
 						<id>UpdateManifest</id>
-						<phase>generate-sources</phase>        
+						<phase>generate-sources</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
@@ -287,7 +292,7 @@
 					<!-- Déploiement du JAR au bon endroit (snapshot/release)-->
 					<execution>
 						<id>Deploy</id>
-						<phase>deploy</phase>        
+						<phase>deploy</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
@@ -304,7 +309,7 @@
 					<!-- Nettoyage du MANIFEST.MF (retour à la revision de base) -->
 					<execution>
 						<id>CleanManifest</id>
-						<phase>clean</phase>        
+						<phase>clean</phase>
 						<goals>
 							<goal>exec</goal>
 						</goals>
