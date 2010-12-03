@@ -95,7 +95,7 @@ atom[String gap] returns [String value]
   $value = $value + gap + "</attribute>\n";
 } |
   UNIQUE LPAREN id=IDENTIFIER RPAREN { is_variable($id.getText()) }?
-{ $value = $value + gap + "<attribute name=\"unique\">\n";
+{ $value = $value + gap + "<attribute name=\"uniqueGuard\">\n";
   $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
