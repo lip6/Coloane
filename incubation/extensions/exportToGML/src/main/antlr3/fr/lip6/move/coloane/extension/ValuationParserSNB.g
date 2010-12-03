@@ -206,7 +206,7 @@ marking[String gap] returns [String value]
 
 prodElement[String gap] returns [String value]
 @init { $value = ""; } :
-  e=elementaryExpression[true,$gap] { $value = $value.concat($e.value); } |
+  e=elementaryExpression[true,$gap] { $value = $value + $e.value; } |
   (IDENTIFIER)=> v=varClassElement[$gap+"\t"]
 { $value = $value + gap + "<attribute name=\"expr\">\n";
   $value = $value + $v.value;
@@ -238,10 +238,13 @@ recursiveBagOperators[String gap] returns [String value]
 interTerm[String gap] returns [String value]
 @init { $value = gap + "<attribute name=\"bagUnion\">\n"; }
 @after { $value = $value + gap + "</attribute>\n"; } :
-  LPAREN i=interTerm2[$gap+"\t"] { $value = $i.value; } RPAREN | i=interTerm2[$gap+"\t"] { $value = $i.value; } ;
+  LPAREN i=interTerm2[$gap+"\t"] { $value = $value + $i.value; } RPAREN |
+  i=interTerm2[$gap+"\t"] { $value = $value + $i.value; } ;
 
-interTerm2[String gap] returns [String value] :
-  a=atomBag[$gap] { $value = $a.value; } (UNION i=interTerm2[$gap] { $value = $value + $i.value; })? ;
+interTerm2[String gap] returns [String value]
+@init { $value = ""; } :
+  a=atomBag[$gap] { $value = $value + $a.value; }
+  (UNION i=interTerm2[$gap] { $value = $value + $i.value; })? ;
 
 atomBag[String gap] returns [String value]
 @init { $value = gap + "<attribute name=\"bagOperator\">\n"; }
