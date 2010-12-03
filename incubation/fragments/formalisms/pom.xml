@@ -17,6 +17,7 @@
 	<modules>
 		<module>tpn</module>
 		<module>its</module>
+		<module>snbFormalism</module>
 	</modules>
 	
 	<build>
