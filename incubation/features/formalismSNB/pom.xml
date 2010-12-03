@@ -17,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.incubation.fragments.formalisms</groupId>
-			<artifactId>SNB</artifactId>
+			<artifactId>snb</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
