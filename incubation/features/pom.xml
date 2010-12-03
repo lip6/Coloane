@@ -24,6 +24,7 @@
 		<module>importExportTINA</module>
 		<module>projectITSModeler</module>
 		<module>exportToSVG</module>
+		<module>exportToGML</module>
 	</modules>
 
 	<build>
