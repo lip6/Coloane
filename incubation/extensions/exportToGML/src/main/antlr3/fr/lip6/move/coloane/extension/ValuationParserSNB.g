@@ -208,15 +208,11 @@ prodElement[String gap] returns [String value]
 @init { $value = gap + "<attribute name=\"expr\">\n"; }
 @after { $value = $value + gap + "</attribute>\n"; } :
   e=elementaryExpression[true,$gap+"\t"] { $value = $value + $e.value; } |
+  r=recursiveBagOperators[$gap+"\t"]
+{ $value = $value + $r.value;
+} |
   (IDENTIFIER)=> v=varClassElement[$gap+"\t"]
 { $value = $value + $v.value;
-} |
-  r=recursiveBagOperators[$gap+"\t"]
-{ //$value = $value + gap + "<attribute name=\"bagOperator\">\n";
-  //$value = $value + gap + "\t<attribute name=\"bagIntersection\">\n";
-  $value = $value + $r.value;
-  //$value = $value + gap + "\t</attribute>\n"; 
-  //$value = $value + gap + "</attribute>\n";
 } ;
   
 simpleBagOperators[String gap] returns [String value] : LBRACE id=varClassElement[$gap+"\t"] RBRACE
@@ -227,29 +223,39 @@ simpleBagOperators[String gap] returns [String value] : LBRACE id=varClassElemen
 
 atomBag[String gap] returns [String value]
 @init { $value = ""; } :
-  v=varClassElement[gap] { $value = $value + $v.value; } |
+  v=varClassElement[gap+"\t"]
+{ $value = $value + gap + "<attribute name=\"bagOperator\">\n"; 
+  $value = $value + $v.value;
+  $value = $value + gap + "</attribute>\n";
+} |
   LPAREN r=recursiveBagOperators[gap] RPAREN { $value = $value + $r.value; } |
-  s=simpleBagOperators[gap] { $value = $value + $s.value; } |
-  TILDE r=recursiveBagOperators[gap+"\t"]
-{ $value = $value + gap + "<attribute name=\"bagComplementary\">\n";
+  s=simpleBagOperators[gap+"\t"]
+{ $value = $value + gap + "<attribute name=\"bagOperator\">\n";
+  $value = $value + $s.value;
+  $value = $value + gap + "</attribute>\n";
+} |
+  TILDE r=recursiveBagOperators[gap+"\t\t"]
+{ $value = $value + gap + "<attribute name=\"bagOperator\">\n";
+  $value = $value + gap + "\t<attribute name=\"bagComplementary\">\n";
   $value = $value + $r.value;
+  $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } ;
 
 recursiveBagOperators[String gap] returns [String value]
-@init { $value = gap + "<attribute name=\"bagOperator\">\n"; }
-@after { $value = $value + gap + "</attribute>\n"; } :
-  (atomBag[""])=> a=atomBag[gap+"\t"] { $value = $value + $a.value; } |
-  a=atomBag[gap+"\t\t"] r=recBagRest[gap+"\t",$a.value] { $value = $value + $r.value; } ;
+@init { $value = ""; }
+@after {  } :
+  (atomBag[""] recBagRest["",""])=> a=atomBag[gap+"\t\t"] r=recBagRest[gap+"",$a.value] { $value = $value + $r.value; } |
+  a=atomBag[gap+"\t"] { $value = $value + $a.value; } ;
   
 recBagRest[String gap,String leftmember] returns [String value]
-@init { $value = ""; }
-@after {} :
-  (INTER { $value = $value + gap + "<attribute name=\"bagIntersection\">\n"; } |
-   UNION { $value = $value + gap + "<attribute name=\"bagUnion\">\n"; } |
-   DIFF { $value = $value + gap + "<attribute name=\"bagDifference\">\n"; })
-   r1=recursiveBagOperators[gap+"\t\t"] r2=recBagRest[gap+"\t",$r1.value]
+@init { $value = gap + "<attribute name=\"bagOperator\">\n"; }
+@after { $value = $value + gap + "</attribute>\n"; } :
+  (INTER { $value = $value + gap + "\t<attribute name=\"bagIntersection\">\n"; } |
+   UNION { $value = $value + gap + "\t<attribute name=\"bagUnion\">\n"; } |
+   DIFF { $value = $value + gap + "\t<attribute name=\"bagDifference\">\n"; })
+   r1=recursiveBagOperators[gap+"\t"]
 { $value = $value + leftmember;
-  $value = $value + $r2.value;
-  $value = $value + gap + "</attribute>\n";
+  $value = $value + $r1.value;
+  $value = $value + gap + "\t</attribute>\n";
 } ;

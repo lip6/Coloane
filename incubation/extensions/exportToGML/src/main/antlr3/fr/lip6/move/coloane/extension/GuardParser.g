@@ -41,20 +41,19 @@ transitionGuard[Map<String,String> s,String gap] returns [String value]
 
 
 guard[String gap] returns [String value]
-@init { $value = gap + "<attribute name=\"boolExpr\">\n"; }
-@after { $value = $value + gap + "</attribute>\n"; } :
-  (atom[""])=> a=atom[gap+"\t"] { $value = $value + $a.value; } |
-  a=atom[gap+"\t\t"] g=guardRest[gap+"\t",$a.value] { $value = $value + $g.value; } ;
+@init { $value = ""; }
+@after {  } :
+  (atom[""] guardRest["",""])=> a=atom[gap+"\t\t"] g=guardRest[gap,$a.value] { $value = $value + $g.value; } |
+  a=atom[gap] { $value = $value + $a.value; } ;
   
 guardRest[String gap,String leftmember] returns [String value]
-@init { $value = ""; }
-@after {} :
-  ( AND { $value = $value + gap + "<attribute name=\"and\">\n"; } |
-    OR { $value = $value + gap + "<attribute name=\"or\">\n"; } )
-  g1=guard[gap+"\t\t"] g2=guardRest[gap+"\t",$g1.value] 
+@init { $value = gap + "<attribute name=\"boolExpr\">\n"; }
+@after { $value = $value + gap + "</attribute>\n"; } :
+  ( AND { $value = $value + gap + "\t<attribute name=\"and\">\n"; } |
+    OR { $value = $value + gap + "\t<attribute name=\"or\">\n"; } ) g1=guard[gap+"\t\t"]
 { $value = $value + leftmember;
-  $value = $value + $g2.value;
-  $value = $value + gap + "</attribute>\n";
+  $value = $value + $g1.value;
+  $value = $value + gap + "\t</attribute>\n";
 } ;
 
 atom[String gap] returns [String value]
@@ -69,31 +68,40 @@ atom[String gap] returns [String value]
   $value = $value + gap + "\t<attribute name=\"boolValue\">false</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
-  g1=guardOperator[$gap+"\t\t"] op=relOperator[false] g2=guardOperator[$gap+"\t\t"]
-{ $value = $value + gap + "<attribute name\"" + $op.value + "\">\n";
-  $value = $value + gap + "\t<attribute name=\"boolExpr\">\n";
+  g1=guardOperator[$gap+"\t\t\t"] op=relOperator[false] g2=guardOperator[$gap+"\t\t\t"]
+{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
+  $value = $value + gap + "\t<attribute name\"" + $op.value + "\">\n";
+  $value = $value + gap + "\t\t<attribute name=\"boolExpr\">\n";
   $value = $value + $g1.value;
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + $g2.value;
+  $value = $value + gap + "\t\t</attribute>\n";
+  $value = $value + gap + "\t\t<attribute name=\"boolExpr\">\n";
+  $value = $value + $g2.value;
+  $value = $value + gap + "\t\t</attribute>\n";
   $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
   UNIQUE LPAREN id=IDENTIFIER RPAREN { is_variable($id.getText()) }?
-{ $value = $value + gap + "<attribute name=\"uniqueGuard\">\n";
-  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
+{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
+  $value = $value + gap + "\t<attribute name=\"uniqueGuard\">\n";
+  $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
   CARD LPAREN g=IDENTIFIER RPAREN op=relOperator[true] i=INTEGER { is_variable($g.getText()) }?
-{ $value = $value + gap + "<attribute name=\"cardinalExpression\">\n";
-  $value = $value + gap + "\t<attribute name=\"cardinal" + $op.value + "\">\n";
-  $value = $value + gap + "\t<attribute name=\"name\">" + $g.getText() + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
+{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
+  $value = $value + gap + "\t<attribute name=\"cardinalExpression\">\n";
+  $value = $value + gap + "\t\t<attribute name=\"cardinal" + $op.value + "\">\n";
+  $value = $value + gap + "\t\t\t<attribute name=\"name\">" + $g.getText() + "</attribute>\n";
+  $value = $value + gap + "\t\t\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
+  $value = $value + gap + "\t\t</attribute>\n";
+  $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
-  NOT h=guard[gap+"\t"]
-{ $value = $value + gap + "<attribute name=\"not\">\n";
+  NOT h=guard[gap+"\t\t"]
+{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
+  $value = $value + gap + "\t<attribute name=\"not\">\n";
   $value = $value + $h.value;
+  $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
   LPAREN h=guard[gap] RPAREN
