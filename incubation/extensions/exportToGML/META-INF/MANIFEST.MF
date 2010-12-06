@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ExportToGML Plug-in
-Bundle-SymbolicName: fr.lip6.move.coloane.extension.exporttogml;singleton:=true
+Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exporttogml;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Activator: fr.lip6.move.coloane.extensions.exporttogml.Activator
 Require-Bundle: org.eclipse.core.runtime,
