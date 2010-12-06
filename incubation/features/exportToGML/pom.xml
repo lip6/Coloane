@@ -17,7 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>fr.lip6.move.coloane.incubation.extensions</groupId>
-			<artifactId>exporttogml</artifactId>
+			<artifactId>exportToGML</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
