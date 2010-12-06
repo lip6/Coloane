@@ -311,9 +311,9 @@
                         default="ANY"
                         drawable="true"
                         enumerated="true"
+                        fontsize="12"
                         multiline="false"
-                        name="kind"
-                        size="12">
+                        name="kind">
                      <EnumerationValue
                            name="ANY">
                      </EnumerationValue>
