@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import main.antlr3.fr.lip6.move.coloane.extension.DeclarativePartLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.DeclarativePartParserSN;
@@ -33,6 +34,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
  */
 public class ExportToGML implements IExportTo {
 
+	/** The logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.extensions.exporttogml"); //$NON-NLS-1$
+	
 	/** (non-Javadoc)
 	 * @see fr.lip6.move.coloane.core.extensions.IExportTo#export(fr.lip6.move.coloane.interfaces.model.IGraph, java.lang.String, org.eclipse.core.runtime.IProgressMonitor)
 	 */
@@ -47,6 +51,7 @@ public class ExportToGML implements IExportTo {
 	public final void export(IGraph graph, String filePath, IProgressMonitor monitor)
 			throws ExtensionException {
 
+		LOGGER.fine("starting export model");
 		Writer out = null;
 		try {
 			out = new BufferedWriter(new FileWriter(filePath));
@@ -80,6 +85,8 @@ public class ExportToGML implements IExportTo {
 		out.write("<model formalismUrl=\"snb.fml\"\n");
 		out.write("    xmlns=\"http://gml.lip6.fr/model\">\n");
 
+		LOGGER.fine("GML preamble");
+
 		// Export model attributes
 		IAttribute declarativePart = graph.getAttribute("declaration");
 		symbolTable = exportDeclarativePart(declarativePart.getValue(), out, monitor, gap);
@@ -89,16 +96,19 @@ public class ExportToGML implements IExportTo {
 			}
 		}
     	out.write("\n");
+    	LOGGER.fine("graph's attributes : done");
 
     	//Export nodes
     	for (INode node : graph.getNodes()) {
     		exportNode(node, out, monitor, gap, symbolTable);
+    		LOGGER.fine("export node : " + node.getId());
     	}
     	out.write("\n");
 
     	//Export Arcs
     	for (IArc arc : graph.getArcs()) {
     		exportArc(arc, out, monitor, gap, symbolTable);
+    		LOGGER.fine("export arc : " + arc.getId());
     	}
     	out.write("\n");
 
@@ -119,14 +129,19 @@ public class ExportToGML implements IExportTo {
 	private void exportAttribute(IAttribute attr, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
 		if ("domain".equals(attr.getName())) {
 			exportDomain(attr.getValue(), out, monitor, gap, symbols);
+			LOGGER.finer("export domain");
 		} else if ("guard".equals(attr.getName())) {
 			exportGuard(attr.getValue(), out, monitor, gap, symbols);
+			LOGGER.finer("export guard");
 		} else if ("marking".equals(attr.getName())) {
 			exportMarking(attr.getValue(), out, monitor, gap, symbols);
+			LOGGER.finer("export marking");
 		} else if ("valuation".equals(attr.getName())) {
 			exportValuation(attr.getValue(), out, monitor, gap, symbols);
+			LOGGER.finer("export valuation");
 		} else {
 			out.write(gap + "<attribute name=\"" + attr.getName() + "\">" + attr.getValue() + "</attribute>\n");
+			LOGGER.finer("export generic attribute");
 		}
 	}
 	
