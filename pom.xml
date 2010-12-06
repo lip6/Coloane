@@ -394,7 +394,7 @@
             </plugins>
         </pluginManagement>
 
-        <!-- Configuration des plugin de Maven -->
+        <!-- Configuration des plugins de Maven -->
         <plugins>
             <!-- Pour compiler avec le JDK 1.5 -->
             <plugin>
@@ -404,6 +404,7 @@
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
 
