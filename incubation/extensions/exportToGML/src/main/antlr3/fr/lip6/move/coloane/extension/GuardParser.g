@@ -27,7 +27,7 @@ transitionGuard[Map<String,String> s,String gap] returns [String value]
 @after {
   $value = $value + gap + "</attribute>\n";
 } :
-  TRUE
+  (TRUE)?
 { $value = $value + gap + "\t<attribute name=\"boolExpr\">\n";
   $value = $value + gap + "\t\t<attribute name=\"boolValue\">true</attribute>\n";
   $value = $value + gap + "\t</attribute>\n";
@@ -70,7 +70,7 @@ atom[String gap] returns [String value]
 } |
   g1=guardOperator[$gap+"\t\t\t"] op=relOperator[false] g2=guardOperator[$gap+"\t\t\t"]
 { $value = $value + gap + "<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + "\t<attribute name\"" + $op.value + "\">\n";
+  $value = $value + gap + "\t<attribute name=\"" + $op.value + "\">\n";
   $value = $value + gap + "\t\t<attribute name=\"boolExpr\">\n";
   $value = $value + $g1.value;
   $value = $value + gap + "\t\t</attribute>\n";

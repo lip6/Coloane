@@ -8,7 +8,7 @@
     <file-match-pattern match-pattern="." include-pattern="true"/>
     <file-match-pattern match-pattern="Messages.java" include-pattern="false"/>
   </fileset>
-  <filter name="FilesFromPackage" enabled="false">
+  <filter name="FilesFromPackage" enabled="true">
     <filter-data value="src/main"/>
   </filter>
 </fileset-config>

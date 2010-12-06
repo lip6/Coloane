@@ -8,13 +8,15 @@ options {
 
 @header {
   package main.antlr3.fr.lip6.move.coloane.extension;
-
+  
+  import java.util.Map;
 	import java.util.HashMap;
+	import java.util.ArrayList;
 }
 
 @members {
-	HashMap<String,String> symbols = new HashMap<String,String>();
-	public HashMap<String,String> getSymbols() { return symbols; }
+	Map<String,String> symbols = new HashMap<String,String>();
+	public Map<String,String> getSymbols() { return symbols; }
 	
 	private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
   private boolean is_domain(String id) { return "domain".equals(symbols.get(id)); }
@@ -188,7 +190,7 @@ productDefinition[String gap] returns [String value]
 productElementList[String gap] returns [String value]
 @init { $value = ""; } :
   id=IDENTIFIER
-{ $value = $value + gap + "<attribute name\"type\">" + $id.getText() + "</attribute>\n";
+{ $value = $value + gap + "<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
 } (COMA p=productElementList[$gap] { $value = $value.concat($p.value); })? ;
 
 // the variable declaration section
@@ -200,17 +202,23 @@ variableDeclarationList[String gap] returns [String value]
 
 variableDeclaration[String gap] returns [String value]
 @init {
-  $value="";
+  $value = "";
   boolean unique = false;
 } :
-  idv=IDENTIFIER { symbols.get($idv.getText()) == null }? IN (UNIQUE { unique=true; })? idd=IDENTIFIER SEMICOLON { is_domain($idd.getText()) || is_class($idd.getText()) }?
-{
-  symbols.put($idv.getText(),"variable");
-  $value = $value + gap + "<attribute name=\"variableDeclaration\">\n";
-  $value = $value + gap + "\t<attribute name=\"name\">" + $idv.getText() + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + $idd.getText() + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"unique\">";
-  if (unique) $value = $value.concat("true"); else $value = $value.concat("false");
-  $value = $value.concat("</attribute>\n");
-  $value = $value+ gap + "</attribute>\n";
+  lid=listVarIdentifier IN (UNIQUE { unique=true; })? idd=IDENTIFIER SEMICOLON { is_domain($idd.getText()) || is_class($idd.getText()) }?  
+{ for ( String id : $lid.listId ) {
+    symbols.put(id,"variable");
+    $value = $value + gap + "<attribute name=\"variableDeclaration\">\n";
+    $value = $value + gap + "\t<attribute name=\"name\">" + id + "</attribute>\n";
+    $value = $value + gap + "\t<attribute name=\"type\">" + $idd.getText() + "</attribute>\n";
+    $value = $value + gap + "\t<attribute name=\"unique\">";
+    if (unique) $value = $value + "true"; else $value = $value + "false";
+    $value = $value + "</attribute>\n";
+    $value = $value + gap + "</attribute>\n";
+  }
 } ;
+
+listVarIdentifier returns [List<String> listId]
+@init { listId = new ArrayList<String>(); } :
+  id=IDENTIFIER { symbols.get($id.getText()) == null }? (COMA l=listVarIdentifier { listId = $l.listId; })? { listId.add($id.getText()); } ;
+
