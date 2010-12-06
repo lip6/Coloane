@@ -7,6 +7,7 @@
             extension="snb"
             fkname="AMI-Net"
             id="SNB"
+            image="resources/snb.png"
             name="Symmetric Nets with Bags">
          <XmlDescription>
             <Graph
@@ -52,8 +53,8 @@
                       drawable="true"
                       fill="false"
                       height="15"
-                      icon16px="resources/formalisms/cpn/place_16.png"
-                      icon24px="resources/formalisms/cpn/place_24.png"
+                      icon16px="resources/place_16.png"
+                      icon24px="resources/place_24.png"
                       palettable="true"
                       paletteName="Place"
                       width="15">
@@ -89,8 +90,8 @@
                       drawable="true"
                       fill="false"
                       height="7"
-                      icon16px="resources/formalisms/cpn/transition_16.png"
-                      icon24px="resources/formalisms/cpn/transition_24.png"
+                      icon16px="resources/transition_16.png"
+                      icon24px="resources/transition_24.png"
                       palettable="true"
                       paletteName="Transition"
                       width="25">
@@ -127,8 +128,8 @@
                       drawable="true"
                       fill="false"
                       height="7"
-                      icon16px="resources/formalisms/cpn/queue_16.png"
-                      icon24px="resources/formalisms/cpn/queue_24.png"
+                      icon16px="resources/queue_16.png"
+                      icon24px="resources/queue_24.png"
                       palettable="true"
                       paletteName="Queue"
                       width="25">
@@ -161,8 +162,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                       description="Create an arc"
                       drawable="true"
-                      icon16px="resources/formalisms/cpn/arc_16.png"
-                      icon24px="resources/formalisms/cpn/arc_24.png"
+                      icon16px="resources/arc_16.png"
+                      icon24px="resources/arc_24.png"
                       palettable="true"
                       paletteName="Arc">
                 </GraphicInfo>
@@ -179,8 +180,8 @@
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
                       description="Create an inhibitor arc between a place and a transition"
                       drawable="true"
-                      icon16px="resources/formalisms/cpn/inhibitor_16.png"
-                      icon24px="resources/formalisms/cpn/inhibitor_24.png"
+                      icon16px="resources/inhibitor_16.png"
+                      icon24px="resources/inhibitor_24.png"
                       palettable="true"
                       paletteName="Inhibitor Arc">
                 </GraphicInfo>
@@ -195,7 +196,7 @@
             <Constraint
                 link="true"
                 name="PlacePlace"
-                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                type="fr.lip6.move.coloane.interfaces.formalism.constraints.ConnectionConstraint">
              <parameter
                    name="source"
                    value="place">
@@ -208,7 +209,7 @@
           <Constraint
                 link="true"
                 name="TransitionTransition"
-                type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                type="fr.lip6.move.coloane.interfaces.formalism.constraints.ConnectionConstraint">
              <parameter
                    name="source"
                    value="transition">
