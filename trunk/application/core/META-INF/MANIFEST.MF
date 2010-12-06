@@ -18,6 +18,8 @@ Export-Package: fr.lip6.move.coloane.core.main;
    fr.lip6.move.coloane.core.model.interfaces,
    fr.lip6.move.coloane.interfaces.model,
    org.eclipse.draw2d",
+ fr.lip6.move.coloane.core.ui.figures.arcs,
+ fr.lip6.move.coloane.core.ui.figures.nodes,
  fr.lip6.move.coloane.core.ui.files;
   uses:="org.eclipse.osgi.util,
    org.eclipse.jface.resource,
