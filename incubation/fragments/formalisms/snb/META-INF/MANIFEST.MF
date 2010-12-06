@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SNB
-Bundle-SymbolicName: fr.lip6.move.coloane.formalisms.SNB;singleton:=true
+Bundle-SymbolicName: fr.lip6.move.coloane.formalisms.snb;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.formalisms.snb.Activator
 Require-Bundle: org.eclipse.ui,

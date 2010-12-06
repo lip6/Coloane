@@ -30,7 +30,7 @@
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.formalisms.SNB"
+         id="fr.lip6.move.coloane.formalisms.snb"
          download-size="0"
          install-size="0"
          version="0.0.0"
