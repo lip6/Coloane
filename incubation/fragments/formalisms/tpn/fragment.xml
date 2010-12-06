@@ -212,7 +212,7 @@
             <Constraint
                   link="true"
                   name="ArcRulePP"
-                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                  type="fr.lip6.move.coloane.interfaces.formalism.constraints.ConnectionConstraint">
                <parameter
                      name="source"
                      value="place">
@@ -225,7 +225,7 @@
             <Constraint
                   link="true"
                   name="ArcRuleTT"
-                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                  type="fr.lip6.move.coloane.interfaces.formalism.constraints.ConnectionConstraint">
                <parameter
                      name="source"
                      value="transition">
@@ -238,7 +238,7 @@
             <Constraint
                   link="true"
                   name="InhibitorConstraint"
-                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                  type="fr.lip6.move.coloane.interfaces.formalism.constraints.ConnectionConstraint">
                <parameter
                      name="arcType"
                      value="inhibitor">
@@ -255,7 +255,7 @@
             <Constraint
                   link="true"
                   name="TestConstraint"
-                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                  type="fr.lip6.move.coloane.interfaces.formalism.constraints.ConnectionConstraint">
                <parameter
                      name="arcType"
                      value="test">
@@ -272,7 +272,7 @@
             <Constraint
                   link="true"
                   name="ResetConstraint"
-                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+                  type="fr.lip6.move.coloane.interfaces.formalism.constraints.ConnectionConstraint">
                <parameter
                      name="arcType"
                      value="reset">
