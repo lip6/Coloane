@@ -21,7 +21,7 @@
    </license>
 
    <url>
-      <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
+      <update label="Coloane Incubation-Updates Site" url="http://coloane.lip6.fr/incubation-updates/"/>
    </url>
 
    <requires>
@@ -34,7 +34,6 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
-         fragment="true"
          unpack="false"/>
 
 </feature>
