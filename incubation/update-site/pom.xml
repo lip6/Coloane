@@ -11,7 +11,7 @@
 	<artifactId>update-site</artifactId>
 	<packaging>pom</packaging>
 	<name>Incubation Update Site</name>
-	<description>Eclipse Update Site for Coloane Project in Incubation Phase</description>
+	<description>Eclipse Update Site for Coloane Projects in Incubation Phase</description>
 	
 	<build>
 		<plugins>
@@ -35,7 +35,7 @@
 							</arguments>
 						</configuration>
 					</execution>
-					<!-- Déploiement du JAR au bon endroit (snapshot/release) -->
+					<!-- Déploiement du site.xml au bon endroit (snapshot/release) -->
 					<execution>
 						<id>Deploy</id>
 						<phase>deploy</phase>        
