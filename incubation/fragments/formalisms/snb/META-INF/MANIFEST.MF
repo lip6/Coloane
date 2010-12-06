@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: SNB
-Bundle-SymbolicName: fr.lip6.move.coloane.formalisms.snb;singleton:=true
+Bundle-SymbolicName: fr.lip6.move.coloane.fragments.formalisms.snb;singleton:=true
 Bundle-Version: 1.0.0
-Bundle-Activator: fr.lip6.move.coloane.formalisms.snb.Activator
+Bundle-Activator: fr.lip6.move.coloane.fragments.formalisms.snb.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  fr.lip6.move.coloane.interfaces;bundle-version="1.4.0",
