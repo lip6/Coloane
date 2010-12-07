@@ -31,10 +31,10 @@ VAR : 'VAR' ;
 UNIQUE : 'UNIQUE' ;
 
 // whitespaces and identifiers
-fragment LETTER : 'a'..'z' | 'A'..'Z' ;
-IDENTIFIER : (LETTER)+ ;
-
 fragment DIGIT : '0'..'9' ;
 INTEGER : DIGIT+ ;
+
+fragment LETTER : 'a'..'z' | 'A'..'Z' ;
+IDENTIFIER : LETTER (LETTER | DIGIT)* ;
 
 WS : (' ' | '\n' | '\r' | '\t')+ { $channel = HIDDEN; } ;

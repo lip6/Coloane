@@ -34,22 +34,20 @@ declaration[String gap] returns [String value]
 
 // the class declaration section
 classSection[String gap] returns [String value] : CLASS l=classDeclarationList[$gap]
-{
-  $value = $l.value;
+{ $value = $l.value;
 } ;
 
 classDeclarationList[String gap] returns [String value] : 
   e=classDeclaration[$gap] { $value = $e.value; } |
-  e=classDeclaration[$gap] l=classDeclarationList[$gap] { $value = $e.value.concat($l.value); } ;
+  e=classDeclaration[$gap] l=classDeclarationList[$gap] { $value = $e.value + $l.value; } ;
 
 classDeclaration[String gap] returns [String value]
 @init {
   boolean circular=false;
-} 
-: id=IDENTIFIER IS (CIRCULAR { circular=true; })? d=classDescription[$gap+"\t\t"] SEMICOLON { symbols.get($id.getText())==null }?
+  $value = ""; } :
+  id=IDENTIFIER IS (CIRCULAR { circular=true; })? d=classDescription[$gap+"\t\t"] SEMICOLON { symbols.get($id.getText()) == null }?
 { symbols.put($id.getText(),"class");
   
-  $value = "";
   $value = $value + gap + "<attribute name=\"classeDeclaration\">\n";
   // balise name
   $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n"; // fermeture de la balise name
@@ -62,37 +60,37 @@ classDeclaration[String gap] returns [String value]
   if (circular) $value = $value.concat("true"); else $value = $value.concat("false");
   $value = $value.concat("</attribute>\n"); // fermeture de la balise circular
   $value = $value + gap + "</attribute>\n"; // fermeture de la balise classeDeclaration
+  
+  System.out.println("blabla");
 } ;
 
 classDescription[String gap] returns [String value]
 @init { $value=""; } : 
   e=interval[$gap]
-  {
-    $value = $value.concat($e.value);
-  } |
-  c=classEnum[$gap] { $value = $value.concat($c.value); } ;
+{ $value = $value + $e.value;
+} |
+  c=classEnum[$gap] { $value = $value + $c.value; } ;
    
 classEnum[String gap] returns [String value] 
 @init { $value=""; } :
   LHOOK e=listIdentifier[$gap+"\t"] RHOOK 
-{ $value = $value + gap + "<attribute name=\"classEnum\">" + $e.value + "</attribute>\n";
+{ $value = $value + gap + "<attribute name=\"classEnum\">\n" + $e.value + gap + "</attribute>\n";
 } ;
 
-interval[String gap] returns [String value] : e=INTEGER DOUBLEDOT f=INTEGER
-{ $value="";
-  $value = $value + gap + "<attribute name=\"classIntInterval\">\n";
+interval[String gap] returns [String value]
+@init { $value = ""; } : e=INTEGER DOUBLEDOT f=INTEGER
+{ $value = $value + gap + "<attribute name=\"classIntInterval\">\n";
   $value = $value + gap + "\t<attribute name=\"lowerBound\">" + $e.text + "</attribute>\n";
   $value = $value + gap + "\t<attribute name=\"higherBound\">" + $f.text + "</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } ;
 
-listIdentifier[String gap] returns [String value] : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques 
-{
-  $value="";
-  for (Object x : $ids) {
+listIdentifier[String gap] returns [String value]
+@init { $value = ""; } : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques 
+{ for (Object x : $ids) {
     $value = $value + gap + "<attribute name=\"enumValue\">";
-    $value = $value.concat(((Token)x).getText());
-    $value = $value.concat("</attribute>\n");
+    $value = $value + ((Token)x).getText();
+    $value = $value + "</attribute>\n";
   }
 };
 
@@ -100,7 +98,7 @@ listIdentifier[String gap] returns [String value] : ids+=IDENTIFIER (COMA ids+=I
 equivalenceSection[String gap] returns [String value] : EQUIV e=equivalenceDeclarationList[$gap] { $value = $e.value; } ;
 
 equivalenceDeclarationList[String gap] returns [String value] :
-  e=equivalenceDeclaration[$gap] { $value = $e.value; } (l=equivalenceDeclarationList[$gap] { $value = $value.concat($l.value); })? ;
+  e=equivalenceDeclaration[$gap] { $value = $e.value; } (l=equivalenceDeclarationList[$gap] { $value = $value + $l.value ; })? ;
   
 equivalenceDeclaration[String gap] returns [String value]
 @init { $value = ""; } :

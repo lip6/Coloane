@@ -13,6 +13,7 @@ options {
 /* copy of ValuationParserSN.g, while the import-header bug is not fixed */
 @members {
   Map<String,String> symbols;
+  boolean nested = false;
   
   private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
   private boolean is_domain(String id) { return "domain".equals(symbols.get(id)); }
@@ -44,18 +45,22 @@ listElementaryExpr[String gap] returns [String value]
   $value = $value + gap + "\t\t\t<attribute name=\"all\">";
   $value = $value + gap + "\t\t\t\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
   $value = $value + gap + "\t\t\t</attribute>\n";
-  $value = $value.concat($e.value);
+  $value = $value + $e.value;
   $value = $value + gap + "\t\t</attribute>\n";
   $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } ;
 
-elementaryExpression[boolean nested,String gap] returns [String value]
-@init { if (!nested) $value= gap + "<attribute name=\"token\">\n"; else $value="";
+elementaryExpression[boolean n,String gap] returns [String value]
+@init {
+  if (n) nested = true; else nested = false;
+  if (!nested) $value= gap + "<attribute name=\"token\">\n"; else $value="";
   String gap2;
   if (!nested) gap2 = gap + "\t\t"; else gap2 = gap;
 }
-@after { if (!nested) $value = $value + gap + "</attribute>\n"; } :
+@after { if (!nested) $value = $value + gap + "</attribute>\n";
+nested = false;
+} :
   e=elementaryProduct[gap2]
 { if (nested) { 
     $value = $value + $e.value;
@@ -69,7 +74,7 @@ elementaryExpression[boolean nested,String gap] returns [String value]
     $value = $value + gap + "\t</attribute>\n";
   }
 } |
-  { !(nested) }? c=coefficient[$gap + "\t\t"] TIMES p=elementaryProduct[$gap + "\t\t"] // no coefficient allowed inside a cartesian product (it would be better to use a gated predicate here)
+  { !(nested) }?=> c=coefficient[$gap + "\t\t"] TIMES p=elementaryProduct[$gap + "\t\t"] // no coefficient allowed inside a cartesian product (it would be better to use a gated predicate here)
 { $value = $value + gap + "\t<attribute name=\"occurs\">\n";
   $value = $value + $c.value;
   $value = $value + gap + "\t</attribute>\n";
@@ -107,14 +112,14 @@ coefficient[String gap] returns [String value]
   
 elementaryProduct[String gap] returns [String value]
 @init { $value=""; } :
-  LT l=listProdElement[$gap] GT { $value = $value.concat($l.value); } ;
+  LT l=listProdElement[$gap] GT { $value = $value + $l.value; } ;
 
 listProdElement[String gap] returns [String value]
 @init { $value = ""; } :
   e=prodElement[$gap+""]
 { $value = $value + $e.value;
 }
-  (COMA l=listProdElement[$gap+"\t"] { $value = $value.concat($l.value); })? ;
+  (COMA l=listProdElement[$gap+""] { $value = $value + $l.value; })? ;
   
 varClassElement[String gap] returns [String value]
 @init { $value=""; } :
@@ -207,13 +212,14 @@ marking[String gap] returns [String value]
 prodElement[String gap] returns [String value]
 @init { $value = gap + "<attribute name=\"expr\">\n"; }
 @after { $value = $value + gap + "</attribute>\n"; } :
+  (IDENTIFIER)=> v=varClassElement[$gap+"\t"]
+{ $value = $value + $v.value;
+} |
   e=elementaryExpression[true,$gap+"\t"] { $value = $value + $e.value; } |
   r=recursiveBagOperators[$gap+"\t"]
 { $value = $value + $r.value;
-} |
-  (IDENTIFIER)=> v=varClassElement[$gap+"\t"]
-{ $value = $value + $v.value;
 } ;
+  
   
 simpleBagOperators[String gap] returns [String value] : LBRACE id=varClassElement[$gap+"\t"] RBRACE
 { $value = $value + gap + "<attribute name=\"wrap\">\n";
