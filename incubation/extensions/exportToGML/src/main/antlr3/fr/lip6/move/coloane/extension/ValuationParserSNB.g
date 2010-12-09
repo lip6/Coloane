@@ -8,6 +8,7 @@ options {
 
 @header {
   package main.antlr3.fr.lip6.move.coloane.extension;
+  import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 }
 
 /* copy of ValuationParserSN.g, while the import-header bug is not fixed */
@@ -20,7 +21,13 @@ options {
   private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); }
 }
 
-arcLabel[Map<String,String> s,String gap] returns [String value] 
+@rulecatch {
+  catch (RecognitionException re) {
+    throw re;
+  }
+}
+
+arcLabel[Map<String,String> s,String gap] returns [String value]
 @init {
   symbols = s;
   $value = gap + "<attribute name=\"valuation\">\n";

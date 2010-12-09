@@ -19,6 +19,12 @@ options {
   private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); }
 }
 
+@rulecatch {
+  catch (RecognitionException re) {
+    throw re;
+  }
+}
+
 transitionGuard[Map<String,String> s,String gap] returns [String value]
 @init {
   symbols = $s;

@@ -23,6 +23,12 @@ options {
   private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); }
 }
 
+@rulecatch {
+  catch (RecognitionException re) {
+    throw re;
+  }
+}
+
 // the starting rule
 declaration[String gap] returns [String value]
 @init { $value = gap + "<attribute name=\"declaration\">\n"; }
