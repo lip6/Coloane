@@ -29,9 +29,9 @@ FALSE : 'FALSE' ;
 NOT : 'NOT' ;
 AND : 'AND' ;
 OR : 'OR' ;
-UNIQUE : 'UNIQUE' ;
-CARD : 'CARD' ;
-ALL : 'ALL' ;
+UNIQUE : 'UNIQUE' | 'unique' ;
+CARD : 'CARD' | 'card' ;
+ALL : 'ALL' | 'all' ;
 
 // whitespaces and identifiers
 // whitespaces and identifiers

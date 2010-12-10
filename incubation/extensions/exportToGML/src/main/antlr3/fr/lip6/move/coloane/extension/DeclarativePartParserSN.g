@@ -150,36 +150,37 @@ domainSection[String gap] returns [String value] : DOMAIN d=domainDeclarationLis
 
 domainDeclarationList[String gap] returns [String value] 
 @init { $value = ""; } :
-  d=domainDeclaration[$gap] { $value = $value.concat($d.value); } (l=domainDeclarationList[$gap] { $value = $value.concat($l.value); })? ;
+  d=domainDeclaration[$gap] { $value = $value + $d.value; } (l=domainDeclarationList[$gap] { $value = $value + $l.value; })? ;
 
 domainDeclaration[String gap] returns [String value]
-@init { $value=""; } :
+@init { $value = ""; } :
   id=IDENTIFIER IS d=domainDescription[$gap+"\t\t"] SEMICOLON { symbols.get($id.getText())==null }?
 { symbols.put($id.getText(),"domain");
   $value = $value + gap + "<attribute name=\"domainDeclaration\">\n";
   $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
   $value = $value + gap + "\t<attribute name=\"domainType\">\n";
-  $value = $value.concat($d.value);
+  $value = $value + $d.value;
   $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } ;
 
 domainDescription[String gap] returns [String value] 
 @init { $value = ""; } :
-  b=bagDefinition[$gap] { $value = $value.concat($b.value); } |
+  b=bagDefinition[$gap] { $value = $value + $b.value; } |
   s=singleDomain[$gap] 
 { $value = $value + gap + "<attribute name=\"cartesianProduct\">\n";
   $value = $value + gap + "\t<attribute name=\"type\">" + $s.value + "</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
-  p=productDefinition[$gap] { $value = $value.concat($p.value); } ;
+  p=productDefinition[$gap] { $value = $value + $p.value; } ;
 
 singleDomain[String gap] returns [String value] : id=IDENTIFIER { is_domain($id.getText()) || is_class($id.getText()) }?
 { $value = $id.getText(); } ;
 
-bagDefinition[String gap] returns [String value] : BAG LPAREN id=IDENTIFIER RPAREN { is_class($id.getText()) }?
-{ $value = "";
-  $value = $value + gap + "<attribute name=\"domainBag\">\n";
+bagDefinition[String gap] returns [String value]
+@init { $value = ""; } :
+  BAG LPAREN id=IDENTIFIER RPAREN { is_class($id.getText()) }?
+{ $value = $value + gap + "<attribute name=\"domainBag\">\n";
   $value = $value + gap + "\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } ;

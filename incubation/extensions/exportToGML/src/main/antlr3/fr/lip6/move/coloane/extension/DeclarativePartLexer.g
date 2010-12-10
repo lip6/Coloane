@@ -20,15 +20,15 @@ DOT : '.' ;
 LT : '<' ;
 GT : '>' ;
 
-CLASS : 'CLASS' ;
-CIRCULAR : 'CIRCULAR' ;
-IS : 'IS' ;
-IN : 'IN' ;
-DOMAIN : 'DOMAIN' ;
-BAG : 'BAG' ;
-EQUIV : 'EQUIVALENCES' ;
-VAR : 'VAR' ;
-UNIQUE : 'UNIQUE' ;
+CLASS : 'CLASS' | 'Class' ;
+CIRCULAR : 'CIRCULAR' | 'circular' ;
+IS : 'IS' | 'is' ;
+IN : 'IN' | 'in' ;
+DOMAIN : 'DOMAIN' | 'Domain' ;
+BAG : 'BAG' | 'Bag' ;
+EQUIV : 'EQUIVALENCES' | 'Equivalences';
+VAR : 'VAR' | 'Var' ;
+UNIQUE : 'UNIQUE' | 'unique' ;
 
 // whitespaces and identifiers
 fragment DIGIT : '0'..'9' ;

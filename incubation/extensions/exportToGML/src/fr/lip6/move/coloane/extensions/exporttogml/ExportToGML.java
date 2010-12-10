@@ -30,7 +30,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 /**
  * The main class for the export
  * 
- * @author colange
+ * @author Maximilien Colange
  *
  */
 public class ExportToGML implements IExportTo {
@@ -60,8 +60,6 @@ public class ExportToGML implements IExportTo {
 			exportGraph(graph, out, monitor);
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
-		} catch (RecognitionException e) {
-			exc = new ExtensionException(e.toString());
 		} finally {
 			try {
 				out.flush();
@@ -92,9 +90,8 @@ public class ExportToGML implements IExportTo {
 	 * @param monitor monitor the export
 	 * @throws IOException if the writer throw an exception
 	 * @throws ExtensionException if the parser throws an exception
-	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportGraph(IGraph graph, Writer out, IProgressMonitor monitor) throws IOException, ExtensionException, RecognitionException {
+	private void exportGraph(IGraph graph, Writer out, IProgressMonitor monitor) throws IOException, ExtensionException {
 		String gap = "\t";
 		Map<String, String> symbolTable = null;
 
@@ -109,7 +106,14 @@ public class ExportToGML implements IExportTo {
 		symbolTable = exportDeclarativePart(declarativePart.getValue(), out, monitor, gap);
 		for (IAttribute attr : graph.getAttributes()) {
 			if (attr != declarativePart) {
-				exportAttribute(attr, out, monitor, gap, symbolTable);
+				try {
+					exportAttribute(attr, out, monitor, gap, symbolTable);
+				} catch (RecognitionException e) {
+					String s = "Error in unparsed attribute of graph : " + attr.getName() + "\n";
+					s = s + "Unfortunately for you, this error should not occur\n";
+					s = s + "What the hell did you do ?\n";
+					throw new ExtensionException(s);
+				}
 			}
 		}
     	out.write("\n");
@@ -172,18 +176,18 @@ public class ExportToGML implements IExportTo {
 	 * @param monitor monitors the export
 	 * @param gap gap
 	 * @throws IOException if the writer throw an exception
-	 * @throws RecognitionException if ANTLR throws an exception
+	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private Map<String, String> exportDeclarativePart(String value, Writer out, IProgressMonitor monitor, String gap) throws IOException, RecognitionException {
+	private Map<String, String> exportDeclarativePart(String value, Writer out, IProgressMonitor monitor, String gap) throws IOException, ExtensionException {
 		DeclarativePartParserSN parser;
-		//try {
+		try {
 			DeclarativePartLexer lexer = new DeclarativePartLexer(new ANTLRStringStream(value));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			parser = new DeclarativePartParserSN(tokens);
 			out.write(parser.declaration(gap));
-		//} catch (RecognitionException e) {
-		//	throw new ExtensionException("Error parsing prod file " + e.getMessage());
-		//}
+		} catch (RecognitionException e) {
+			throw new ExtensionException("Error in the declarative part at : " + e.token.getText());
+		}
 		return parser.getSymbols();
 	}
 	
@@ -199,14 +203,10 @@ public class ExportToGML implements IExportTo {
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
 	private void exportValuation(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, RecognitionException {
-		//try {
-			ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			ValuationParserSNB parser = new ValuationParserSNB(tokens);
-			out.write(parser.arcLabel(symbols, gap));
-		//} catch (RecognitionException e) {
-		//	throw new ExtensionException("Error parsing prod file " + e.getMessage());
-		//}
+		ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		ValuationParserSNB parser = new ValuationParserSNB(tokens);
+		out.write(parser.arcLabel(symbols, gap));
 	}
 	
 	/**
@@ -219,9 +219,8 @@ public class ExportToGML implements IExportTo {
 	 * @param symbols the table of symbols
 	 * @throws IOException if the writer throws an exception
 	 * @throws ExtensionException if the parser throws an exception
-	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportDomain(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException, RecognitionException {
+	private void exportDomain(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
 		if ("domain".equals(symbols.get(value)) || "class".equals(symbols.get(value)) || "".equals(value)) {
 			out.write(gap + "<attribute name=\"domain\">" + value + "</attribute>\n");
 		} else {
@@ -238,18 +237,13 @@ public class ExportToGML implements IExportTo {
 	 * @param gap gap
 	 * @param symbols the table of symbols
 	 * @throws IOException if the writer throws an exception
-	 * @throws ExtensionException if the parser throws an exception
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportMarking(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException, RecognitionException {
-		try {
-			ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			ValuationParserSNB parser = new ValuationParserSNB(tokens);
-			out.write(parser.initMarking(symbols, gap));
-		} catch (RecognitionException e) {
-			throw new ExtensionException("Error parsing prod file " + e.getMessage());
-		}
+	private void exportMarking(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, RecognitionException {
+		ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		ValuationParserSNB parser = new ValuationParserSNB(tokens);
+		out.write(parser.initMarking(symbols, gap));
 	}
 
 	/**
@@ -262,12 +256,19 @@ public class ExportToGML implements IExportTo {
 	 * @param symbols the table of symbols
 	 * @throws IOException if the writer throw an exception
 	 * @throws ExtensionException if the parser throws an exception
-	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportNode(INode node, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException, RecognitionException {
+	private void exportNode(INode node, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
 		out.write(gap + "<node id=\"" + node.getNodeFormalism().getName() + node.getId() + "\" nodeType=\"" + node.getNodeFormalism().getName() + "\">\n");
 		for (IAttribute attr : node.getAttributes()) {
-			exportAttribute(attr, out, monitor, gap + "\t", symbols);
+			try {
+				exportAttribute(attr, out, monitor, gap + "\t", symbols);
+			} catch (RecognitionException e) {
+				String s;
+				s = "Error in node " + node.getAttribute("name").getValue() + "\n";
+				s = s + "in attribute " + attr.getName() + "\n";
+				s = s + "at " + e.token.getText() + "\n";
+				throw new ExtensionException(s);
+			}
 		}
 		out.write(gap + "</node>\n");
 	}
@@ -284,14 +285,10 @@ public class ExportToGML implements IExportTo {
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
 	private void exportGuard(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, RecognitionException {
-		//try {
-			GuardLexer lexer = new GuardLexer(new ANTLRStringStream(value));
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			GuardParser parser = new GuardParser(tokens);
-			out.write(parser.transitionGuard(symbols, gap));
-		//} catch (RecognitionException e) {
-		//	throw new ExtensionException("Error parsing prod file " + e.getMessage());
-		//}
+		GuardLexer lexer = new GuardLexer(new ANTLRStringStream(value));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		GuardParser parser = new GuardParser(tokens);
+		out.write(parser.transitionGuard(symbols, gap));
 	}
 
 	/**
@@ -304,16 +301,22 @@ public class ExportToGML implements IExportTo {
 	 * @param symbols the table of symbols
 	 * @throws IOException if the writer throws an exception
 	 * @throws ExtensionException if the parser throws an exception
-	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportArc(IArc arc, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException, RecognitionException {
+	private void exportArc(IArc arc, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
 		INode source = arc.getSource();
 		INode target = arc.getTarget();
 		out.write(gap + "<arc id=\"" + arc.getArcFormalism().getName() + arc.getId() + "\" arcType=\"" + arc.getArcFormalism().getName() + "\" "
 				+ "source=\"" + source.getNodeFormalism().getName() + source.getId() + "\" "
 				+ "target=\"" + target.getNodeFormalism().getName() + target.getId() + "\">\n");
-		for (IAttribute attr : arc.getAttributes()) {
-			exportAttribute(attr, out, monitor, gap + "\t", symbols);
+		try {
+			for (IAttribute attr : arc.getAttributes()) {
+				exportAttribute(attr, out, monitor, gap + "\t", symbols);
+			}
+		} catch (RecognitionException e) {
+			String s;
+			s = "Error on arc from " + source.getAttribute("name").getValue() + " to " + target.getAttribute("name").getValue() + "\n";
+			s = s + "at : " + e.token.getText() + "\n";
+			throw new ExtensionException(s);
 		}
 		out.write(gap + "</arc>\n");
 	}
