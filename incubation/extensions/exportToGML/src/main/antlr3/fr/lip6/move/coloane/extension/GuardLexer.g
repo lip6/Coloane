@@ -24,14 +24,14 @@ GEQ : '>=' ;
 LT : '<' ;
 GT : '>' ;
 
-TRUE : 'TRUE' ;
-FALSE : 'FALSE' ;
-NOT : 'NOT' ;
-AND : 'AND' ;
-OR : 'OR' ;
-UNIQUE : 'UNIQUE' | 'unique' ;
-CARD : 'CARD' | 'card' ;
-ALL : 'ALL' | 'all' ;
+TRUE : 'TRUE' | 'True' | 'true' ;
+FALSE : 'FALSE' | 'False' | 'false' ;
+NOT : 'NOT' | 'Not' | 'not' ;
+AND : 'AND' | 'And' | 'and' ;
+OR : 'OR' | 'Or' | 'or' ;
+UNIQUE : 'UNIQUE' | 'Unique' | 'unique' ;
+CARD : 'CARD' | 'Card' | 'card' ;
+ALL : 'ALL' | 'All' | 'all' ;
 
 // whitespaces and identifiers
 // whitespaces and identifiers

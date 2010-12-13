@@ -22,11 +22,11 @@ TIMES : '*' ;
 COMA : ',' ;
 DOT : '.' ;
 TILDE : '~' ;
-ALL : 'ALL' | 'all' ;
-ORD : 'ORD' | 'ord' ;
-UNION : 'UNION' ;
-INTER : 'INTER' ;
-DIFF : 'DIFF' ;
+ALL : 'ALL' | 'All' | 'all' ;
+ORD : 'ORD' | 'Ord' | 'ord' ;
+UNION : 'UNION' | 'Union' | 'union' ;
+INTER : 'INTER' | 'Inter' | 'inter' ;
+DIFF : 'DIFF' | 'Diff' | 'diff' ;
 
 // whitespaces and identifiers
 // whitespaces and identifiers
