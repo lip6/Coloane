@@ -258,7 +258,7 @@ public class ExportToGML implements IExportTo {
 	 * @throws ExtensionException if the parser throws an exception
 	 */
 	private void exportNode(INode node, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
-		out.write(gap + "<node id=\"" + node.getNodeFormalism().getName() + node.getId() + "\" nodeType=\"" + node.getNodeFormalism().getName() + "\">\n");
+		out.write(gap + "<node id=\"" + node.getId() + "\" nodeType=\"" + node.getNodeFormalism().getName() + "\">\n");
 		for (IAttribute attr : node.getAttributes()) {
 			try {
 				exportAttribute(attr, out, monitor, gap + "\t", symbols);
@@ -305,9 +305,9 @@ public class ExportToGML implements IExportTo {
 	private void exportArc(IArc arc, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
 		INode source = arc.getSource();
 		INode target = arc.getTarget();
-		out.write(gap + "<arc id=\"" + arc.getArcFormalism().getName() + arc.getId() + "\" arcType=\"" + arc.getArcFormalism().getName() + "\" "
-				+ "source=\"" + source.getNodeFormalism().getName() + source.getId() + "\" "
-				+ "target=\"" + target.getNodeFormalism().getName() + target.getId() + "\">\n");
+		out.write(gap + "<arc id=\"" + arc.getId() + "\" arcType=\"" + arc.getArcFormalism().getName() + "\" "
+				+ "source=\"" + source.getId() + "\" "
+				+ "target=\"" + target.getId() + "\">\n");
 		try {
 			for (IAttribute attr : arc.getAttributes()) {
 				exportAttribute(attr, out, monitor, gap + "\t", symbols);
