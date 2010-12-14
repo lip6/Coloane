@@ -66,8 +66,6 @@ classDeclaration[String gap] returns [String value]
   if (circular) $value = $value.concat("true"); else $value = $value.concat("false");
   $value = $value.concat("</attribute>\n"); // fermeture de la balise circular
   $value = $value + gap + "</attribute>\n"; // fermeture de la balise classeDeclaration
-  
-  System.out.println("blabla");
 } ;
 
 classDescription[String gap] returns [String value]

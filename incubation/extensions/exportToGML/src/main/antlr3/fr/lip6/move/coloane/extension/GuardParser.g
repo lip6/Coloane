@@ -138,13 +138,13 @@ varClassElement[String gap] returns [String value]
 } |
   idc=IDENTIFIER DOT i=INTEGER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
 { $value = $value + gap + "<attribute name=\"intConst\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"type\">" + $idc.getText() + "</attribute>\n";
   $value = $value + gap + "\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
   idc=IDENTIFIER DOT i=IDENTIFIER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
 { $value = $value + gap + "<attribute name=\"enumConst\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"type\">" + $idc.getText() + "</attribute>\n";
   $value = $value + gap + "\t<attribute name=\"enumValue\">" + $i.getText() + "</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
