@@ -15,8 +15,8 @@ options {
   Map<String,String> symbols;
   
   private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
-  private boolean is_domain(String id) { return "domain".equals(symbols.get(id)); }
-  private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); }
+  private boolean is_domain(String id) { return "domain".equals(symbols.get(id)) || "domain_bag".equals(symbols.get(id)); }
+  private boolean is_variable(String id) { return "variable".equals(symbols.get(id)) || "variable_bag".equals(symbols.get(id)); }
 }
 
 @rulecatch {

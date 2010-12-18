@@ -19,8 +19,9 @@ options {
 	public Map<String,String> getSymbols() { return symbols; }
 	
 	private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
-  private boolean is_domain(String id) { return "domain".equals(symbols.get(id)); }
-  private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); }
+  private boolean is_domain(String id) { return "domain".equals(symbols.get(id)) || "domain_bag".equals(symbols.get(id)); }
+  private boolean is_domain_bag(String id) { return "domain_bag".equals(symbols.get(id)); }
+  private boolean is_variable(String id) { return "variable".equals(symbols.get(id)) || "variable_bag".equals(symbols.get(id)); }
 }
 
 @rulecatch {
@@ -107,8 +108,7 @@ equivalenceDeclarationList[String gap] returns [String value] :
 equivalenceDeclaration[String gap] returns [String value]
 @init { $value = ""; } :
   IN id=IDENTIFIER COLON d=equivalenceDescription[$gap+"\t\t"] SEMICOLON { is_class($id.getText()) }? 
-{ 
-  $value = $value + gap + "<attribute name=\"scsDeclaration\">\n";
+{ $value = $value + gap + "<attribute name=\"scsDeclaration\">\n";
   $value = $value + gap + "\t<attribute name=\"type\">";
   $value = $value.concat($id.getText());
   $value = $value.concat("</attribute>\n");
@@ -125,8 +125,7 @@ equivalenceDescription[String gap] returns [String value]
 intervalDefinition[String gap] returns [String value] 
 @init { $value=""; } :
   i=interval[$gap]
-{
-  $value = $value.concat($i.value); 
+{ $value = $value.concat($i.value); 
 } | 
   e=INTEGER 
 { $value = $value + gap + "<attribute name=\"classIntInterval\">\n";
@@ -152,25 +151,28 @@ domainDeclarationList[String gap] returns [String value]
 
 domainDeclaration[String gap] returns [String value]
 @init { $value = ""; } :
-  id=IDENTIFIER IS d=domainDescription[$gap+"\t\t"] SEMICOLON { symbols.get($id.getText())==null }?
-{ symbols.put($id.getText(),"domain");
-  $value = $value + gap + "<attribute name=\"domainDeclaration\">\n";
+  id=IDENTIFIER IS { symbols.get($id.getText())==null }?
+{ $value = $value + gap + "<attribute name=\"domainDeclaration\">\n";
   $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
   $value = $value + gap + "\t<attribute name=\"domainType\">\n";
-  $value = $value + $d.value;
-  $value = $value + gap + "\t</attribute>\n";
+}
+  ( b=bagDefinition[$gap+"\t\t"] SEMICOLON
+{ symbols.put($id.getText(),"domain_bag");
+  $value = $value + $b.value;
+} |
+  s=singleDomain[$gap+"\t\t"] SEMICOLON
+{ symbols.put($id.getText(),"domain");
+  $value = $value + gap + "\t\t<attribute name=\"cartesianProduct\">\n";
+  $value = $value + gap + "\t\t\t<attribute name=\"type\">" + $s.value + "</attribute>\n";
+  $value = $value + gap + "\t\t</attribute>\n";
+} |
+  p=productDefinition[$gap+"\t\t"] SEMICOLON
+{ symbols.put($id.getText(),"domain");
+  $value = $value + $p.value;
+} )
+{ $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } ;
-
-domainDescription[String gap] returns [String value] 
-@init { $value = ""; } :
-  b=bagDefinition[$gap] { $value = $value + $b.value; } |
-  s=singleDomain[$gap] 
-{ $value = $value + gap + "<attribute name=\"cartesianProduct\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + $s.value + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  p=productDefinition[$gap] { $value = $value + $p.value; } ;
 
 singleDomain[String gap] returns [String value] : id=IDENTIFIER { is_domain($id.getText()) || is_class($id.getText()) }?
 { $value = $id.getText(); } ;
@@ -210,7 +212,10 @@ variableDeclaration[String gap] returns [String value]
 } :
   lid=listVarIdentifier IN (UNIQUE { unique=true; })? idd=IDENTIFIER SEMICOLON { is_domain($idd.getText()) || is_class($idd.getText()) }?  
 { for ( String id : $lid.listId ) {
-    symbols.put(id,"variable");
+    if (is_domain_bag($idd.getText()))
+      symbols.put(id,"variable_bag");
+    else
+      symbols.put(id,"variable");
     $value = $value + gap + "<attribute name=\"variableDeclaration\">\n";
     $value = $value + gap + "\t<attribute name=\"name\">" + id + "</attribute>\n";
     $value = $value + gap + "\t<attribute name=\"type\">" + $idd.getText() + "</attribute>\n";
