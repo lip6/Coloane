@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature.main"
       label="Coloane - Core"
-      version="0.16.2"
+      version="0.16.2.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core"
       os="linux,macosx,win32"
