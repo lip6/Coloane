@@ -4,5 +4,5 @@ Bundle-Name: Coloane Core Language Pack
 Bundle-SymbolicName: fr.lip6.move.coloane.fragments.languagepack
 Bundle-Version: 1.2.0
 Bundle-Vendor: LIP6 / MoVe
-Fragment-Host: fr.lip6.move.coloane.core;bundle-version="0.10"
+Fragment-Host: fr.lip6.move.coloane.core
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
