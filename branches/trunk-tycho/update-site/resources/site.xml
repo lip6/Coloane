@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+  <description url="http://coloane.lip6.fr/night-updates/">Coloane night-updates site</description>
+  <feature id="fr.lip6.move.coloane.feature.main" url="features/fr.lip6.move.coloane.feature.main_0.13.0.r4018.jar" version="0.13.0.r4018">
+    <category name="Modeling Tools"/>
+  </feature>
+  <feature id="fr.lip6.move.coloane.feature.importexport" url="features/fr.lip6.move.coloane.feature.importexport_1.1.0.r4018.jar" version="1.1.0.r4018">
+    <category name="Plugins"/>
+  </feature>
+  <feature id="fr.lip6.move.coloane.feature.languagepack" url="features/fr.lip6.move.coloane.feature.languagepack_1.2.0.r4018.jar" version="1.2.0.r4018">
+    <category name="Plugins"/>
+  </feature>
+  <category-def label="Modeling Tools" name="Modeling Tools">
+    <description>
+         This category groups all products designed to handle models
+      </description>
+  </category-def>
+  <category-def label="Plugins" name="Plugins">
+    <description>
+         This category groups all plugins dedicated to modeler tools. You will find for examples new formalisms or import/export plugins.
+      </description>
+  </category-def>
+</site>

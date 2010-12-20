@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="http://coloane.lip6.fr/night-updates">
+      Coloane Updates site
+   </description>
+   <feature url="features/fr.lip6.move.coloane.feature.main_0.11.0.jar" id="fr.lip6.move.coloane.feature.main" version="0.11.0">
+      <category name="ColoaneCore"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.main.source_0.11.0.jar" id="fr.lip6.move.coloane.feature.main.source" version="0.11.0">
+      <category name="ColoaneCoreSources"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.exportToDOT_1.2.0.jar" id="fr.lip6.move.coloane.feature.exportToDOT" version="1.2.0">
+      <category name="ImportExportWizards"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.exportToPGF_1.2.0.jar" id="fr.lip6.move.coloane.feature.exportToPGF" version="1.2.0">
+      <category name="ImportExportWizards"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.importExportCAMI_1.2.0.jar" id="fr.lip6.move.coloane.feature.importExportCAMI" version="1.2.0">
+      <category name="ImportExportWizards"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.importExportPNML_1.2.0.jar" id="fr.lip6.move.coloane.feature.importExportPNML" version="1.2.0">
+      <category name="ImportExportWizards"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.languagepack_1.2.0.jar" id="fr.lip6.move.coloane.feature.languagepack" version="1.2.0">
+      <category name="Others"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.modelexamples_0.8.0.jar" id="fr.lip6.move.coloane.feature.modelexamples" version="0.8.0">
+      <category name="Others"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.formalisms.dd_0.8.0.jar" id="fr.lip6.move.coloane.feature.formalisms.dd" version="0.8.0">
+      <category name="Formalisms"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.feature.tools.layout_0.8.0.jar" id="fr.lip6.move.coloane.feature.tools.layout" version="0.8.0">
+      <category name="Tools"/>
+   </feature>
+   <category-def name="ColoaneCore" label="Coloane Core (Required)">
+      <description>
+         This category groups all required plugins to run Coloane.
+      </description>
+   </category-def>
+   <category-def name="ColoaneCoreSources" label="Coloane Core Sources (Optional)">
+      <description>
+         This category groups all sources of Coloane. Useful if you want to contribute to the project.
+      </description>
+   </category-def>
+   <category-def name="ImportExportWizards" label="Import/Export Wizards (Optional)">
+      <description>
+         Use these plugins to import and export models under various formats.
+      </description>
+   </category-def>
+   <category-def name="Formalisms" label="Additionnal Formalisms (Optional)">
+      <description>
+         More formalisms for Coloane
+      </description>
+   </category-def>
+   <category-def name="Others" label="Others (Optional)">
+      <description>
+         These plugins add some optional features to Coloane
+      </description>
+   </category-def>
+   <category-def name="Tools" label="Local Tools">
+      <description>
+         You will find a set of tools you can directly connect to the Coloane editor. Syntax checkers, layout managers and some prototype tools...
+      </description>
+   </category-def>
+</site>

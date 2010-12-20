@@ -1,0 +1,25 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent> 
+		<groupId>fr.lip6.move.coloane.features</groupId> 
+		<artifactId>features-parent</artifactId> 
+		<version>0.16.2-SNAPSHOT</version> 
+	</parent>
+
+	<groupId>fr.lip6.move.coloane.features</groupId>
+	<artifactId>formalismGSPN</artifactId>
+	<packaging>jar</packaging>
+	<name>Features :: GSPN Formalism</name>
+	<description>GSPN Formalism</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.fragments.formalisms</groupId>
+			<artifactId>gspn</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

@@ -1,0 +1,751 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="fr.lip6.move.coloane.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="fr.lip6.move.coloane.core" id="formalisms" name="Formalisms"/>
+      </appInfo>
+      <documentation>
+         Describe a formalism that could be handled by Coloane
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Formalism" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Formalism">
+      <annotation>
+         <documentation>
+            A formalism could be described by using either a java class or a xml description. An identifier, a name, a parent id and an extension are required. To allow save and load, a xschema that describe the format is needed too. Finally, you can provide an image that will be displayed near each instance of the formalism.
+         </documentation>
+      </annotation>
+      <complexType>
+         <choice>
+            <element ref="JavaDescription"/>
+            <element ref="XmlDescription"/>
+         </choice>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Formalism&apos;s ID
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Formalism&apos;s name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="fkname" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Parent&apos;s ID. Needed for CPN-AMI purpose. Several formalisms could be considered as the same by FrameKit platform. The parent ID must specify the ID required by the platform to be processed.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="image" type="string">
+            <annotation>
+               <documentation>
+                  Image that will be displayed near each instance of formalism.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="resource"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="extension" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Extension that will be associated with all formalism&apos;s instances
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="JavaDescription">
+      <complexType>
+         <attribute name="Structural" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="Graphical" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="XmlDescription">
+      <annotation>
+         <documentation>
+            XML description of a formalism
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Graph"/>
+            <element ref="Constraint" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+      </complexType>
+   </element>
+
+   <element name="Node">
+      <complexType>
+         <sequence>
+            <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="ComputedAttribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="Graph" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="GraphicInfo" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="NodeChecker" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Node&apos;s name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="container" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Can the node contain a graph ?
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Arc">
+      <annotation>
+         <documentation>
+            Connection between two nodes
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="ComputedAttribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="GraphicInfo"/>
+            <element ref="ArcChecker" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Arc&apos;s name
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Attribute">
+      <annotation>
+         <documentation>
+            Attribute of a formalism element
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="0" maxOccurs="unbounded">
+            <element ref="EnumerationValue"/>
+            <element ref="AttributeChecker"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Attribute&apos;s name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="multiline" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Can the attribute&apos;s value be multine ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="drawable" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Is the attribute&apos;s value drawable (on the graphical editor) ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="default" type="string">
+            <annotation>
+               <documentation>
+                  Default value for the attribute
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayed_default" type="boolean">
+            <annotation>
+               <documentation>
+                  Is the attribute&apos;s default value drawable (on the graphical editor) ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="bold" type="boolean">
+            <annotation>
+               <documentation>
+                  Does the representation (font) of the attribute must be bold ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="italic" type="boolean">
+            <annotation>
+               <documentation>
+                  Does the representation (font) of the attribute must be italic ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="fontsize" type="string">
+            <annotation>
+               <documentation>
+                  Font size for the attribute representation
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="enumerated" type="boolean">
+            <annotation>
+               <documentation>
+                  Defines if the values of the attribute are limited to an enumeration.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="delta_x" type="string">
+            <annotation>
+               <documentation>
+                  Specify the default location (x coordinate) of the attribute according to the parent location (x coordinate). Please choose a value between -200px and 200px. This attribute is valid only for node attribute.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="delta_y" type="string">
+            <annotation>
+               <documentation>
+                  Specify the default location (y coordinate) of the attribute according to the parent location (y coordinate). Please choose a value between -200px and 200px. This attribute is valid only for node attribute.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Graph">
+      <annotation>
+         <documentation>
+            A graph contains several attributes, nodes and arcs (connections). No graphical description is needed... Only a name
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Attribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="ComputedAttribute" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="Node" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="Arc" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="GraphChecker" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Graph&apos;s name
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="GraphicInfo">
+      <annotation>
+         <documentation>
+            All graphical information about the formalism element
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="paletteName" type="string">
+            <annotation>
+               <documentation>
+                  Name that will be used on the tools palette
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="description" type="string">
+            <annotation>
+               <documentation>
+                  Description of the element (will be displayed on the tools palette near the element)
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="palettable" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Indicate wether the figure must be added in the tools palette or not
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="drawable" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Is the figure drawable (displayed on the editor ?)
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="associatedFigure" type="string">
+            <annotation>
+               <documentation>
+                  A class that describes the figure associated with the element
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.ui.figures.IElementFigure"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="icon16px" type="string">
+            <annotation>
+               <documentation>
+                  16px icon associated with the element which will be displayed in the tools palette
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="resource"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="icon24px" type="string">
+            <annotation>
+               <documentation>
+                  24px icon associated with the element which will be displayed in the tools palette
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="resource"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="height" type="string">
+            <annotation>
+               <documentation>
+                  Figure&apos;s height
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="width" type="string">
+            <annotation>
+               <documentation>
+                  Figure&apos;s width
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="fill" type="boolean">
+            <annotation>
+               <documentation>
+                  Indicate wether the figure is filled or not
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Constraint">
+      <annotation>
+         <documentation>
+            A constraint that applies on the formalism. Each constraint needs one or more parameters (depending on the kind of constraint).
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="parameter" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="type" type="string" use="required">
+            <annotation>
+               <documentation>
+                  A class that describes the constraint
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.formalisms.constraints.IConstraint"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  Constraint&apos;s name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="link" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Is the constraint related to connections between elements ?
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="parameter">
+      <annotation>
+         <documentation>
+            Describe a contraint paramter
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The parameter&apos;s name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="value" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The parameter&apos;s value
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="EnumerationValue">
+      <annotation>
+         <documentation>
+            A value for an enumerated attribute.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of this enumeration value.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="ComputedAttribute">
+      <annotation>
+         <documentation>
+            Define an attribute which value is computed at runtime according to the values of one or more attributes. This is a pure graphical attribute. Its value is not stored at any time in the model. This kind of attribute should be used when attributes has to be displayed in very special manner (graphicaly speaking).
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the attribute
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="default" type="string">
+            <annotation>
+               <documentation>
+                  The default value used for this attribute. This value will be displayed unless the displayed_default is set to true.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayed_default" type="boolean">
+            <annotation>
+               <documentation>
+                  Does the default value of the attribute should be displayed ? (default : YES)
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="bold" type="boolean">
+            <annotation>
+               <documentation>
+                  Should the attribute displayed using bold font ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="italic" type="boolean">
+            <annotation>
+               <documentation>
+                  Should the attribute displayed using italic font ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="fontsize" type="string">
+            <annotation>
+               <documentation>
+                  Font size to display this attribute
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="delta_x" type="string">
+            <annotation>
+               <documentation>
+                  Specify the default location (x coordinate) of the attribute according to the parent location (x coordinate). Please choose a value between -200px and 200px. This attribute is valid only for node attribute.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="delta_y" type="string">
+            <annotation>
+               <documentation>
+                  Specify the default location (y coordinate) of the attribute according to the parent location (y coordinate). Please choose a value between -200px and 200px. This attribute is valid only for node attribute.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="formatter" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Class that will be used in order to display the attribute&apos;s value.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.model.IAttributeFormatter"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="AttributeChecker">
+      <annotation>
+         <documentation>
+            Way to check the correctness of an attribute.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Attribute checker name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class_condition" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The class that implements the method which is in charge of 
+                  validating the attrivute value
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="severity" use="required">
+            <annotation>
+               <documentation>
+                  Define the severity of the alert in case of error
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="Error">
+                  </enumeration>
+                  <enumeration value="Warning">
+                  </enumeration>
+                  <enumeration value="Info">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="message" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The message that will be displayed in case of error
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="ArcChecker">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Arc condition name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class_condition" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.formalism.IArcChecker"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="severity" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="Error">
+                  </enumeration>
+                  <enumeration value="Warning">
+                  </enumeration>
+                  <enumeration value="Info">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="message" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="NodeChecker">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Node condition name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class_condition" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.formalism.INodeChecker"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="severity" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="Error">
+                  </enumeration>
+                  <enumeration value="Warning">
+                  </enumeration>
+                  <enumeration value="Info">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="message" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="GraphChecker">
+      <complexType>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Graph condition name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class_condition" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.formalism.IGraphChecker"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="severity" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+            <simpleType>
+               <restriction base="string">
+                  <enumeration value="Error">
+                  </enumeration>
+                  <enumeration value="Warning">
+                  </enumeration>
+                  <enumeration value="Info">
+                  </enumeration>
+               </restriction>
+            </simpleType>
+         </attribute>
+         <attribute name="message" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         Coloane 0.12
+      </documentation>
+   </annotation>
+
+
+
+
+
+</schema>

@@ -1,0 +1,885 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="fr.lip6.move.coloane.core.formalisms">
+      <Formalism
+            extension="gspn"
+            fkname="GreatSPN"
+            id="gspn"
+            image="resources/formalisms/gspn/gspn.png"
+            name="GreatSPN">
+         <XmlDescription>
+            <Graph
+                  name="gspn">
+               <Node
+                     container="false"
+                     name="place">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        description="Place"
+                        drawable="true"
+                        fill="false"
+                        height="15"
+                        icon16px="resources/formalisms/gspn/place_16.png"
+                        icon24px="resources/formalisms/gspn/place_24.png"
+                        palettable="true"
+                        paletteName="Place"
+                        width="15">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Tag">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Color Label">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        default="0"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Marking">
+                  </Attribute>
+               </Node>
+               <Node
+                     container="false"
+                     name="immediate transition">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                        description="Immediate Transition"
+                        drawable="true"
+                        fill="true"
+                        height="7"
+                        icon16px="resources/formalisms/gspn/immediate_16.png"
+                        icon24px="resources/formalisms/gspn/immediate_24.png"
+                        palettable="true"
+                        paletteName="I. Transition"
+                        width="25">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Tag">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Color Label">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Weight">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        default="1"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Priority">
+                  </Attribute>
+               </Node>
+               <Node
+                     container="false"
+                     name="transition (infinite)">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                        description="Transition (Infinite)"
+                        drawable="true"
+                        fill="false"
+                        height="7"
+                        icon16px="resources/formalisms/gspn/transition_16.png"
+                        icon24px="resources/formalisms/gspn/transition_24.png"
+                        palettable="true"
+                        paletteName="Transition (I)"
+                        width="25">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Tag">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Color Label">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Rate">
+                  </Attribute>
+               </Node>
+               <Node
+                     container="false"
+                     name="transition (marking dependent)">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                        description="Transition (Marking Dependent)"
+                        drawable="true"
+                        fill="false"
+                        height="7"
+                        icon16px="resources/formalisms/gspn/transition_16.png"
+                        icon24px="resources/formalisms/gspn/transition_24.png"
+                        palettable="true"
+                        paletteName="Transition (MD)"
+                        width="25">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Tag">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Color Label">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="true"
+                        name="Definition">
+                  </Attribute>
+               </Node>
+               <Node
+                     container="false"
+                     name="transition (server)">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                        description="Transition (Server)"
+                        drawable="true"
+                        fill="false"
+                        height="7"
+                        icon16px="resources/formalisms/gspn/transition_16.png"
+                        icon24px="resources/formalisms/gspn/transition_24.png"
+                        palettable="true"
+                        paletteName="Transition (S)"
+                        width="25">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Tag">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Color Label">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Rate">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        default="1"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Priority">
+                  </Attribute>
+               </Node>
+               <Arc
+                     name="arc">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                        description="Arc"
+                        drawable="true"
+                        icon16px="resources/formalisms/gspn/arc_16.png"
+                        icon24px="resources/formalisms/gspn/arc_24.png"
+                        palettable="true"
+                        paletteName="Arc">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        default="1"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Multiplicity">
+                  </Attribute>
+               </Arc>
+               <Arc
+                     name="broken arc">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                        description="Broken Arc"
+                        drawable="true"
+                        icon16px="resources/formalisms/gspn/broken_arc_16.png"
+                        icon24px="resources/formalisms/gspn/broken_arc_24.png"
+                        palettable="true"
+                        paletteName="B. Arc">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        default="1"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Multiplicity">
+                  </Attribute>
+               </Arc>
+               <Arc
+                     name="colored arc">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                        description="Colored arc"
+                        drawable="true"
+                        icon16px="resources/formalisms/gspn/colored_arc_16.png"
+                        icon24px="resources/formalisms/gspn/colored_arc_24.png"
+                        palettable="true"
+                        paletteName="C. Arc">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Color">
+                  </Attribute>
+               </Arc>
+               <Arc
+                     name="broken colored arc">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                        description="Broken Colored Arc"
+                        drawable="true"
+                        icon16px="resources/formalisms/gspn/broken_colored_arc_16.png"
+                        icon24px="resources/formalisms/gspn/broken_colored_arc_24.png"
+                        palettable="true"
+                        paletteName="B.C. Arc">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Color">
+                  </Attribute>
+               </Arc>
+               <Arc
+                     name="inhibitor arc">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
+                        description="Inhibitor Arc"
+                        drawable="true"
+                        icon16px="resources/formalisms/gspn/inhibitor_arc_16.png"
+                        icon24px="resources/formalisms/gspn/inhibitor_arc_24.png"
+                        palettable="true"
+                        paletteName="I. Arc">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        default="1"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Multiplicity">
+                  </Attribute>
+               </Arc>
+               <Arc
+                     name="broken inhibitor arc">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
+                        description="Broken Inhibitor Arc"
+                        drawable="true"
+                        icon16px="resources/formalisms/gspn/broken_inhibitor_arc_16.png"
+                        icon24px="resources/formalisms/gspn/broken_inhibitor_arc_24.png"
+                        palettable="true"
+                        paletteName="B.I. Arc">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        default="1"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Multiplicity">
+                  </Attribute>
+               </Arc>
+               <Arc
+                     name="colored inhibitor arc">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
+                        description="Colored Inhibitor Arc"
+                        drawable="true"
+                        icon16px="resources/formalisms/gspn/colored_inhibitor_arc_16.png"
+                        icon24px="resources/formalisms/gspn/colored_inhibitor_arc_24.png"
+                        palettable="true"
+                        paletteName="C.I. Arc">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Color">
+                  </Attribute>
+               </Arc>
+               <Arc
+                     name="broken colored inhibitor arc">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
+                        description="Broken Colored Inhibitor Arc"
+                        drawable="true"
+                        icon16px="resources/formalisms/gspn/broken_colored_inhibitor_arc_16.png"
+                        icon24px="resources/formalisms/gspn/broken_colored_inhibitor_arc_24.png"
+                        palettable="true"
+                        paletteName="B.C.I. Arc">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="false"
+                        name="Color">
+                  </Attribute>
+               </Arc>
+               <Attribute
+                     bold="false"
+                     drawable="true"
+                     italic="false"
+                     multiline="true"
+                     name="Color Classes">
+               </Attribute>
+               <Attribute
+                     bold="false"
+                     drawable="true"
+                     italic="false"
+                     multiline="true"
+                     name="Static Subclasses">
+               </Attribute>
+            </Graph>
+            <Constraint
+                  link="true"
+                  name="place-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="immediate transition-immediate transition"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="immediate transition">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="immediate transition-transition (Infinite)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Infinite)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="immediate transition-transition (Marking Dependent)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Marking Dependent)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="immediate transition-transition (Server)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Server)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Infinite)-transition (Infinite)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Infinite)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Infinite)-immediate transition"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="immediate transition">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Infinite)-transition (Marking Dependent)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Marking Dependent)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Infinite)-transition (Server)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Server)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Marking Dependent)-transition (Marking Dependent)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Marking Dependent)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Marking Dependent)-immediate transition"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="immediate transition">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Marking Dependent)-transition (Server)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Server)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Marking Dependent)-transition (Infinite)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Infinite)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Server)-transition (Server)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Server)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Server)-immediate transition"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="immediate transition">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Server)-transition (Infinite)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Infinite)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition (Server)-transition (Marking Dependent)"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition (Marking Dependent)">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="inhibitor arc transition (Infinite)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="inhibitor arc transition (Marking Dependent)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="inhibitor arc transition (Server)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="inhibitor arc immediate transition-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken inhibitor arc transition (Infinite)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken inhibitor arc transition (Marking Dependent)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken inhibitor arc transition (Server)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken inhibitor arc immediate transition-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="colored inhibitor arc transition (Infinite)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="colored inhibitor arc transition (Marking Dependent)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="colored inhibitor arc transition (Server)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="colored inhibitor arc immediate transition-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken colored inhibitor arc transition (Infinite)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Infinite)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken colored inhibitor arc transition (Marking Dependent)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Marking Dependent)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken colored inhibitor arc transition (Server)-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition (Server)">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken colored inhibitor arc">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="broken colored inhibitor arc immediate transition-place"
+                  type="fr.lip6.move.coloane.core.motor.formalisms.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="immediate transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="broken colored inhibitor arc">
+               </parameter>
+            </Constraint>
+         </XmlDescription>
+      </Formalism>
+   </extension>
+
+</fragment>
