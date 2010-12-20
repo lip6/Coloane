@@ -1,24 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent> 
-		<groupId>fr.lip6.move.coloane.features</groupId> 
-		<artifactId>features-parent</artifactId> 
-		<version>0.16.2-SNAPSHOT</version> 
-	</parent>
+    <parent> 
+        <groupId>fr.lip6.move.coloane.features</groupId> 
+        <artifactId>features-parent</artifactId> 
+        <version>0.16.2-SNAPSHOT</version> 
+    </parent>
 
-	<groupId>fr.lip6.move.coloane.features</groupId>
-	<artifactId>coloaneMain</artifactId>
-	<packaging>jar</packaging>
-	<name>Features :: Main</name>
-	<description>Main feature for Coloane project. It groups following plugins : core, api, interfaces</description>
-	
-	<dependencies>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.application</groupId>
-			<artifactId>core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
+    <artifactId>fr.lip6.move.coloane.feature.main</artifactId>
+    <version>0.16.2-SNAPSHOT</version>
+    <packaging>eclipse-feature</packaging>
+    <name>Features :: Main</name>
+    <description>Main feature for Coloane project. It groups following plugins : core, api, interfaces</description>
+
 </project>
