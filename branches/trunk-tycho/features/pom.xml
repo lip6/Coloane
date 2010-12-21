@@ -19,7 +19,7 @@
 <!--        <module>coloaneMainSources</module>-->
         <!-- IMPORT / EXPORT -->
 <!--        <module>exportToDOT</module>-->
-<!--        <module>exportToPGF</module>-->
+        <module>exportToPGF</module>
 <!--        <module>importExportCAMI</module>-->
 <!--        <module>importExportPNML</module>-->
         <!-- EXAMPLES -->

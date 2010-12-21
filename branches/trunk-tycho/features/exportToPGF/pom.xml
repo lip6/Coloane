@@ -1,25 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	
-	<parent> 
-		<groupId>fr.lip6.move.coloane.features</groupId> 
-		<artifactId>features-parent</artifactId> 
-		<version>0.16.2-SNAPSHOT</version> 
-	</parent>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>fr.lip6.move.coloane.features</groupId>
-	<artifactId>exportToPGF</artifactId>
-	<packaging>jar</packaging>
-	<name>Features :: Export To PGF</name>
-	<description>Export Coloane feature that allows to export PGF models</description>
+    <parent>
+        <groupId>fr.lip6.move.coloane.features</groupId>
+        <artifactId>features-parent</artifactId>
+        <version>0.16.2-SNAPSHOT</version>
+    </parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.extensions</groupId>
-			<artifactId>exportToPGF</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
+    <artifactId>fr.lip6.move.coloane.feature.exportToPGF</artifactId>
+    <version>2.1.0-SNAPSHOT</version>
+    <packaging>eclipse-feature</packaging>
+    <name>Features :: Export To PGF</name>
+    <description>Export Coloane feature that allows to export PGF models</description>
 
 </project>

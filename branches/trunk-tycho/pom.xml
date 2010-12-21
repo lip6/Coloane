@@ -12,7 +12,7 @@
 
     <modules>
         <module>application</module>
-<!--        <module>extensions</module>-->
+        <module>extensions</module>
 <!--        <module>tools</module>-->
 <!--        <module>fragments</module>-->
         <module>features</module>
@@ -317,13 +317,6 @@
                 <version>${tycho-version}</version>
                 <configuration>
                     <resolver>p2</resolver>
-<!--                    <target>-->
-<!--                        <artifact>-->
-<!--                            <groupId>${project.groupId}</groupId>-->
-<!--                            <artifactId>${project.artifactId}</artifactId>-->
-<!--                            <version>${project.version}</version>-->
-<!--                        </artifact>-->
-<!--                    </target>-->
                     <environments>
                         <environment>
                             <os>linux</os>
@@ -366,36 +359,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
-                    <compilerVersion>1.5</compilerVersion>
+                    <source>1.5</source>
+                    <target>1.5</target>
                 </configuration>
             </plugin>
-
-<!--            <plugin>-->
-<!--                <groupId>org.codehaus.mojo</groupId>-->
-<!--                <artifactId>exec-maven-plugin</artifactId>-->
-<!--                <version>1.2</version>-->
-<!--                <executions>-->
-
-<!--                     Déploiement du JAR au bon endroit (snapshot/release)-->
-<!--                    <execution>-->
-<!--                        <id>Deploy</id>-->
-<!--                        <phase>deploy</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>exec</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <executable>${env.BUILDTOOLS}/deployJar.sh</executable>-->
-<!--                            <arguments>-->
-<!--                                <argument>${project.version}</argument>-->
-<!--                                <argument>${build.finalName}.${project.packaging}</argument>-->
-<!--                                <argument>${project.deployPath}</argument>-->
-<!--                            </arguments>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-
-<!--                </executions>-->
-<!--            </plugin>-->
 
             <!-- Ajout d'un goal pour la release -->
             <plugin>
@@ -430,7 +399,7 @@
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <useDefaultMapping>true</useDefaultMapping>
                     <properties>
-                        <year>2009</year>
+                        <year>2010</year>
                     </properties>
                     <encoding>UTF-8</encoding>
                 </configuration>
