@@ -15,11 +15,11 @@
     <description>Coloane's extension that provides PGF export feature</description>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>antlr</groupId>-->
-<!--            <artifactId>antlr</artifactId>-->
-<!--            <version>2.7.7</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+            <version>2.7.7</version>
+        </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>stringtemplate</artifactId>
@@ -41,6 +41,13 @@
                         </goals>
                         <configuration>
                             <artifactItems>
+                                <artifactItem>
+                                    <groupId>antlr</groupId>
+                                    <artifactId>antlr</artifactId>
+                                    <version>2.7.7</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                </artifactItem>
                                 <artifactItem>
                                     <groupId>org.antlr</groupId>
                                     <artifactId>stringtemplate</artifactId>
