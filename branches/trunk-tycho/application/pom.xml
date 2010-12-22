@@ -15,8 +15,8 @@
     <description>Application Package</description>
 
     <modules>
-        <module>fr.lip6.move.coloane.core</module>
-        <module>fr.lip6.move.coloane.interfaces</module>
+        <module>core</module>
+        <module>interfaces</module>
     </modules>
 
 </project>
