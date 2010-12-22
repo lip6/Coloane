@@ -15,15 +15,45 @@
     <description>Coloane's extension that provides PGF export feature</description>
 
     <dependencies>
-        <dependency>
-            <groupId>antlr</groupId>
-            <artifactId>antlr</artifactId>
-            <version>2.7.7</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>antlr</groupId>-->
+<!--            <artifactId>antlr</artifactId>-->
+<!--            <version>2.7.7</version>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>stringtemplate</artifactId>
             <version>3.2</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.antlr</groupId>
+                                    <artifactId>stringtemplate</artifactId>
+                                    <version>3.2</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                </artifactItem>
+                            </artifactItems>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
