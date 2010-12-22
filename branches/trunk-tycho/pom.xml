@@ -286,7 +286,6 @@
 <!--            <plugin>-->
 <!--                <groupId>org.apache.maven.plugins</groupId>-->
 <!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
-<!--                <version>2.6</version>-->
 <!--                <configuration>-->
 <!--                    <configLocation>http://coloane.lip6.fr/resources/coloane_checkstyle.xml</configLocation>-->
 <!--                    <includeTestSourceDirectory>true</includeTestSourceDirectory>-->
@@ -311,6 +310,7 @@
                 <version>${tycho-version}</version>
                 <extensions>true</extensions>
             </plugin>
+
             <plugin>
                 <groupId>org.sonatype.tycho</groupId>
                 <artifactId>target-platform-configuration</artifactId>
@@ -356,6 +356,7 @@
                     <target>1.5</target>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -381,7 +382,6 @@
             <plugin>
                 <groupId>com.google.code.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
-                <version>1.4.0</version>
                 <configuration>
                     <basedir>${basedir}</basedir>
                     <header>http://coloane.lip6.fr/resources/header.txt</header>
@@ -395,6 +395,8 @@
                     <excludes>
                         <exclude>target/**</exclude>
                         <exclude>.clover/**</exclude>
+                        <exclude>**/fr/lip6/move/coloane/interfaces/utils/ProcessController.java</exclude>
+                        <exclude>**/fr/lip6/move/coloane/core/ui/figures/RoundedPolylineConnection.java</exclude>
                     </excludes>
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <useDefaultMapping>true</useDefaultMapping>
@@ -406,15 +408,23 @@
                 <executions>
                     <execution>
                         <id>GenerateHeaders</id>
-                        <phase>generate-sources</phase>
+<!--                        <phase>generate-sources</phase>-->
                         <goals>
                             <goal>format</goal>
                         </goals>
                     </execution>
                     <execution>
                         <id>CheckForHeaders</id>
+                        <phase>validate</phase>
                         <goals>
                             <goal>check</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>CleanHeaders</id>
+<!--                        <phase>clean</phase>-->
+                        <goals>
+                            <goal>remove</goal>
                         </goals>
                     </execution>
                 </executions>
