@@ -292,8 +292,8 @@ public final class Exporter {
 	public StringTemplate export(IGraph graph) throws UnknownFormalismException {
 		this.converter = ConverterFactory.createConverter(graph.getFormalism());
 		StringTemplateGroup group = new StringTemplateGroup("pgfexport");
-		StringTemplate query = group.getInstanceOf("templates/TikZ");
-		StringBuffer preamble = new StringBuffer("templates/formalism/");
+		StringTemplate query = group.getInstanceOf("stringtemplates/TikZ");
+		StringBuffer preamble = new StringBuffer("stringtemplates/formalism/");
 		preamble.append(graph.getFormalism().getId());
 		query.setAttribute("preamble", preamble);
 		query.setAttribute("formalism", graph.getFormalism().getId());
