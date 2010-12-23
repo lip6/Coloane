@@ -352,6 +352,7 @@
                     </environments>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.sonatype.tycho</groupId>
                 <artifactId>maven-osgi-compiler-plugin</artifactId>
@@ -370,6 +371,20 @@
                     <source>1.5</source>
                     <target>1.5</target>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.tycho</groupId>
+                <artifactId>maven-osgi-source-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <executions>
+                    <execution>
+                        <id>plugin-source</id>
+                        <goals>
+                            <goal>plugin-source</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <!-- Ajout d'un goal pour la release -->

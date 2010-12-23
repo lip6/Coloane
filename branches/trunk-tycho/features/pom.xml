@@ -2,10 +2,10 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent> 
-        <groupId>fr.lip6.move.coloane</groupId> 
-        <artifactId>coloane-parent</artifactId> 
-        <version>0.16.2-SNAPSHOT</version> 
+    <parent>
+        <groupId>fr.lip6.move.coloane</groupId>
+        <artifactId>coloane-parent</artifactId>
+        <version>0.16.2-SNAPSHOT</version>
     </parent>
 
     <groupId>fr.lip6.move.coloane.features</groupId>
@@ -16,7 +16,7 @@
 
     <modules>
         <module>coloaneMain</module>
-<!--        <module>coloaneMainSources</module>-->
+        <module>coloaneMainSources</module>
         <!-- IMPORT / EXPORT -->
         <module>exportToDOT</module>
         <module>exportToPGF</module>
