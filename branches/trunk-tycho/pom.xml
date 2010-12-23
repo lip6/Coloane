@@ -13,8 +13,8 @@
     <modules>
         <module>application</module>
         <module>extensions</module>
-<!--        <module>tools</module>-->
-<!--        <module>fragments</module>-->
+        <module>tools</module>
+        <module>fragments</module>
         <module>features</module>
         <module>update-site</module>
     </modules>

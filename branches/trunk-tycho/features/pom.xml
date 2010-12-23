@@ -25,11 +25,12 @@
         <!-- EXAMPLES -->
         <module>modelExamples</module>
         <!-- FRAGMENTS -->
-<!--        <module>languagePack</module>-->
+        <module>languagePack</module>
         <!-- FORMALISM -->
-<!--        <module>formalismDD</module>-->
+        <module>formalismDD</module>
+        <module>formalismGSPN</module>
         <!-- ACTIONS -->
-<!--        <module>layoutAction</module>-->
+        <module>layoutAction</module>
     </modules>
 
 <!--    <build>-->

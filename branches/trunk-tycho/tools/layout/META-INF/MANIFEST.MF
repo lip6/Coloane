@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Minimal Graphviz Plug-in
 Bundle-SymbolicName: fr.lip6.move.coloane.tools.layout;singleton:=true
-Bundle-Version: 1.3.0
+Bundle-Version: 1.3.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.tools.graphviz.GraphVizActivator
 Bundle-Vendor: LIP6 / MoVe, Abstratt Technologies, Apache.
 Require-Bundle: org.eclipse.core.runtime,
