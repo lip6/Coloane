@@ -16,11 +16,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>antlr</groupId>
-            <artifactId>antlr</artifactId>
-            <version>2.7.7</version>
-        </dependency>
-        <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>stringtemplate</artifactId>
             <version>3.2</version>
@@ -34,29 +29,16 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>unpack</id>
+                        <id>copy-dependencies</id>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>antlr</groupId>
-                                    <artifactId>antlr</artifactId>
-                                    <version>2.7.7</version>
-                                    <type>jar</type>
-                                    <overWrite>false</overWrite>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.antlr</groupId>
-                                    <artifactId>stringtemplate</artifactId>
-                                    <version>3.2</version>
-                                    <type>jar</type>
-                                    <overWrite>false</overWrite>
-                                </artifactItem>
-                            </artifactItems>
-                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <excludeScope>system</excludeScope>
+                            <excludeGroupIds>junit</excludeGroupIds>
+                            <stripVersion>true</stripVersion>
+                            <outputDirectory>${basedir}/lib</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
