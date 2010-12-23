@@ -12,11 +12,11 @@
 \selectfont
 \begin{tikzpicture}
 $(preamble)()$
-$nodes:templates/generic/node() ; separator="\n"$
-$arcs:templates/generic/arc() ; separator="\n"$
-$attributes:templates/generic/attribute() ; separator="\n"$
-$nodes:templates/generic/nodeAttribute() ; separator="\n"$
-$arcs:templates/generic/arcAttribute() ; separator="\n"$
+$nodes:resources/stringtemplates/generic/node() ; separator="\n"$
+$arcs:resources/stringtemplates/generic/arc() ; separator="\n"$
+$attributes:resources/stringtemplates/generic/attribute() ; separator="\n"$
+$nodes:resources/stringtemplates/generic/nodeAttribute() ; separator="\n"$
+$arcs:resources/stringtemplates/generic/arcAttribute() ; separator="\n"$
 \end{tikzpicture}
 }
 

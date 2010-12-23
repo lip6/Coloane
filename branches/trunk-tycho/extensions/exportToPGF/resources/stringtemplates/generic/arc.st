@@ -3,4 +3,4 @@ $if(it.hasColor)$\definecolor{arccolor}{RGB}{$it.color.red$, $it.color.green$, $
 \path[ $formalism$-$it.formalism$
 $if(it.hasColor)$     , draw=arccolor$else$$endif$
 $if(it.isCurve)$     , rounded corners=10pt$else$$endif$
-     ] (n-$it.source$) $it.inflexions:templates/generic/inflexion()$ -- (n-$it.target$);
+     ] (n-$it.source$) $it.inflexions:resources/stringtemplates/generic/inflexion()$ -- (n-$it.target$);
