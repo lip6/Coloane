@@ -61,7 +61,8 @@ public class ItemMenu implements IItemMenu {
 	}
 	
 
-	public ImageDescriptor getIcon() {
+	/** {@inheritDoc} */
+	public final ImageDescriptor getIcon() {
 		return icon;
 	}
 	

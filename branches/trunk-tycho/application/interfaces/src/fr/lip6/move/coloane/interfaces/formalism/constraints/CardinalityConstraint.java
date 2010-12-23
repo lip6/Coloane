@@ -87,7 +87,7 @@ public class CardinalityConstraint implements IConstraint, IConstraintLink, IExe
 		// Parameters
 		Map<String, String> myParams = new HashMap<String, String>();
 		IConfigurationElement[] parameters = config.getChildren(PARAMETER_ID);
-		
+
 		// Fetch all parameters
 		for (IConfigurationElement param : parameters) {
 			if ((param.getAttribute(PARAMETER_NAME) != null) && (param.getAttribute(PARAMETER_VALUE) != null)) {

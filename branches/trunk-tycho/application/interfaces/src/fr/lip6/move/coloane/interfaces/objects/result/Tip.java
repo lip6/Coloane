@@ -46,21 +46,21 @@ public class Tip implements ITip {
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getIdObject() {
+	public final int getIdObject() {
 		return idObject;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getName() {
+	public final String getName() {
 		return name;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public String getValue() {
+	public final String getValue() {
 		return value;
 	}
 }

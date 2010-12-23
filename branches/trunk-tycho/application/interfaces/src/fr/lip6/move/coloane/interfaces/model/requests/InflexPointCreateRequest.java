@@ -57,28 +57,28 @@ public class InflexPointCreateRequest implements IRequest {
 
 	/**
 	 * The arc to which the new inflex point will be added
-	 * @return
+	 * @return the arc
 	 */
-	public IArc getArc() {
+	public final IArc getArc() {
 		return arc;
 	}
 
 	/**
 	 * @return the index of the new inflex point into the list of already existing point for this arc
 	 */
-	public int getIndex() {
+	public final int getIndex() {
 		return index;
 	}
 
 	/**
 	 * @return the position of the new inflex point
 	 */
-	public Point getPosition() {
+	public final Point getPosition() {
 		return position;
 	}
 	
 	/** {@inheritDoc} */
-	public int getRequestType() {
+	public final int getRequestType() {
 		return IRequest.INFLEXPOINT_CREATE_REQUEST;
 	}
 }

@@ -46,18 +46,19 @@ public class AttributePositionRequest implements IRequest {
 	/**
 	 * @return The considered attribute
 	 */
-	public IAttribute getAttribute() {
+	public final IAttribute getAttribute() {
 		return attribute;
 	}
 	
 	/**
 	 * @return The new (<i>desired</i>) position
 	 */
-	public Point getNewPosition() {
+	public final Point getNewPosition() {
 		return newPosition;
 	}
 
-	public int getRequestType() {
+	/** {@inheritDoc} */
+	public final int getRequestType() {
 		return IRequest.ATTRIBUTE_POSITION_REQUEST;
 	}
 }

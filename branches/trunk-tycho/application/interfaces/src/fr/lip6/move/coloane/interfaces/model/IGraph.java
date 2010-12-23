@@ -44,7 +44,7 @@ public interface IGraph extends IElement {
 
 	/**
 	 * Create a node and add it to the graph
-	 * @param nodeFormalism Formalism used by this node 
+	 * @param nodeFormalism Formalism used by this node
 	 * @return The new node
 	 * @throws ModelException If the type is not correct according to the graph formalism
 	 */
@@ -85,7 +85,7 @@ public interface IGraph extends IElement {
 	Collection<INode> getNodes();
 
 	/**
-	 * Add an existing node to the graph 
+	 * Add an existing node to the graph
 	 * @param node The node to add to the graph
 	 */
 	void addNode(INode node);

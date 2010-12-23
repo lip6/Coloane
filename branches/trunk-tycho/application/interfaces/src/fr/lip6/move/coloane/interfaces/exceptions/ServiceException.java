@@ -29,20 +29,20 @@ package fr.lip6.move.coloane.interfaces.exceptions;
 public class ServiceException extends Exception {
 	
 	/** When the problem is global */
-	final static public int GENERAL_ERROR = 0;
+	public static final int GENERAL_ERROR = 0;
 	/** When the connection to the service provider is not possible */
-	final static public int CONNECTION_ERROR = 1;
+	public static final int CONNECTION_ERROR = 1;
 	/** When the connection is not possible due to an authentication error */
-	final static public int AUTHENTICATION_ERROR = 2;
-	
-	/** The exception type */
-	private int type = -1;
+	public static final int AUTHENTICATION_ERROR = 2;
 	
 	/**
 	 * Serialize
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/** The exception type */
+	private int type = -1;
+	
 	/**
 	 * Constructor
 	 * @param type The exception type
@@ -53,14 +53,17 @@ public class ServiceException extends Exception {
 		this.type = type;
 	}
 	
+	/**
+	 * @param message The message that explains the problem
+	 */
 	public ServiceException(String message) {
 		super(message);
 	}
 	
 	/**
-	 * @return 
+	 * @return The message that explains the problem
 	 */
-	public String getMessage() {
+	public final String getMessage() {
 		switch (this.type) {
 		case GENERAL_ERROR:
 			return "GENERAL ERROR: \n" + super.getMessage();

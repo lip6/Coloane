@@ -54,21 +54,21 @@ public class NodeCreateRequest implements IRequest {
 	/**
 	 * @return The formalism that describes the new node
 	 */
-	public INodeFormalism getFormalism() {
+	public final INodeFormalism getFormalism() {
 		return formalism;
 	}
 
 	/**
 	 * @return The desired initial position for the new node
 	 */
-	public Point getInitialPosition() {
+	public final Point getInitialPosition() {
 		return initialPosition;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getRequestType() {
+	public final int getRequestType() {
 		return IRequest.NODE_CREATE_REQUEST;
 	}
 }

@@ -31,10 +31,9 @@ public class ServiceMenu extends ItemMenu implements IServiceMenu {
 	/**
 	 * Constructor
 	 * @param name The name of the option
-	 * @param visible The visibility of the option
+	 * @param visibility The visibility of the option
 	 * @param helpMessage An help message associated with the option
 	 * @param associatedService The associated service
-	 * @param path The service path
 	 */
 	public ServiceMenu(String name, boolean visibility, String helpMessage, IApiService associatedService) {
 		super(name, visibility, helpMessage);
@@ -44,11 +43,10 @@ public class ServiceMenu extends ItemMenu implements IServiceMenu {
 	/**
 	 * Constructor
 	 * @param name The name of the option
-	 * @param visible The visibility of the option
+	 * @param visibility The visibility of the option
 	 * @param helpMessage An help message associated with the option
 	 * @param associatedService The associated service
-	 * @param serviceIcon An icon associated with the service
-	 * @param path The service path
+	 * @param menuIcon An icon associated with the service
 	 */
 	public ServiceMenu(String name, boolean visibility, String helpMessage, IApiService associatedService, ImageDescriptor menuIcon) {
 		super(name, visibility, helpMessage, menuIcon);

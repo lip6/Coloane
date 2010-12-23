@@ -17,6 +17,12 @@ package fr.lip6.move.coloane.interfaces.formalism;
 
 import org.eclipse.draw2d.geometry.Point;
 
+/**
+ * This interface is the base for all coloane attribute.
+ *
+ * @see IComputedAttributeFormalism
+ * @see IGlobalAttributeFormalism
+ */
 public interface IGlobalAttributeFormalism {
 
 	/** @return Attribute name */

@@ -27,6 +27,7 @@ public interface IExample {
 
 	/**
 	 * Build a Coloane model
+	 * @param formalism a formalism
 	 * @return The resulting model
 	 * @throws PluginException Something went wrong
 	 */

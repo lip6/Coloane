@@ -35,6 +35,7 @@ public interface IService {
 	 * @param model The current session graph model
 	 * @param monitor The progress monitor used to visualize the job progress
 	 * @return A set of commands that will be executed by the core
+	 * @throws ServiceException In case of exception during execution of the service
 	 */
 	List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException;
 }

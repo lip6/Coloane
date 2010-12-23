@@ -40,7 +40,6 @@ public class SubMenu extends ItemMenu implements ISubMenu {
 	 * Constructor
 	 * @param name The name of the sub-menu
 	 * @param visible The visible state of the sub-menu (and all of its children)
-	 * @param path Path
 	 */
 	public SubMenu(String name, boolean visible) {
 		super(name, visible, null);
@@ -53,7 +52,7 @@ public class SubMenu extends ItemMenu implements ISubMenu {
 	 * Constructor
 	 * @param name The name of the sub-menu
 	 * @param visible The visible state of the sub-menu (and all of its children)
-	 * @param path Path
+	 * @param menuIcon The icon for the sub-menu
 	 */
 	public SubMenu(String name, boolean visible, ImageDescriptor menuIcon) {
 		super(name, visible, null, menuIcon);
@@ -65,21 +64,21 @@ public class SubMenu extends ItemMenu implements ISubMenu {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void addOptionMenu(IOptionMenu option) {
+	public final void addOptionMenu(IOptionMenu option) {
 		this.options.add(option);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void addSubMenu(ISubMenu submenu) {
+	public final void addSubMenu(ISubMenu submenu) {
 		this.submenus.add(submenu);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void addServiceMenu(IServiceMenu service) {
+	public final void addServiceMenu(IServiceMenu service) {
 		this.services.add(service);
 	}
 

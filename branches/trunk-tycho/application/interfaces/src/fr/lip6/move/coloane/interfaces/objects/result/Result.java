@@ -29,7 +29,7 @@ import java.util.Map;
  * The result has a tree structure : it can contain {@link SubResult} which will also be able to contain others SubResult.<br>
  * A result can also carries some request to modify the current model or to create a new one.<br>
  * To modify the current model, contribute the <code>deltaRequestsList</code> through the method {@link #addDeltaRequest(IRequest)}.<br>
- * To describe a new model, contribute to the <code>newModelRequestList</code> through the method 
+ * To describe a new model, contribute to the <code>newModelRequestList</code> through the method
  * 
  * @author Florian David
  * @author Jean-Baptiste Voron
@@ -84,14 +84,14 @@ public class Result implements IResult {
 	 * Change the display status of the result
 	 * @param display <code>true</code> is the result should be display to the user
 	 */
-	public void setDisplay(boolean display) {
+	public final void setDisplay(boolean display) {
 		this.display = display;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean shouldBeDisplayed() {
+	public final boolean shouldBeDisplayed() {
 		return display;
 	}
 
@@ -172,21 +172,21 @@ public class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<IRequest> getDeltaRequestsList() {
+	public final List<IRequest> getDeltaRequestsList() {
 		return deltaRequestsList;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<IRequest> getNewComputedGraphDeltaRequestsList() {
+	public final List<IRequest> getNewComputedGraphDeltaRequestsList() {
 		return newComputedGraphRequestsList;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public IGraph getNewComputedGraph() {
+	public final IGraph getNewComputedGraph() {
 		return newComputedGraph;
 	}
 	

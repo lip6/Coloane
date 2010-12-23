@@ -38,8 +38,8 @@ public final class ConsoleMessage {
 	private final String message;
 
 	/**
-	 * The type of the message.<br> 
-	 * This type will determine the color and the font style used to display the message 
+	 * The type of the message.<br>
+	 * This type will determine the color and the font style used to display the message
 	 */
 	private int messageType;
 

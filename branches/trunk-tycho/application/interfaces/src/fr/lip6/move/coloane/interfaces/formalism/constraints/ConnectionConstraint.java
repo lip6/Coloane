@@ -29,7 +29,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
 /**
- * Define a link-constraint between 2 formalism elements.<br> 
+ * Define a link-constraint between 2 formalism elements.<br>
  * This constraint forbids the connection between a <code>source</code> element and a <code>target</code> element.
  * 
  * @author Jean-Baptiste Voron
@@ -67,7 +67,7 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 
 	/** {@inheritDoc} */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
-		// Fetch parameters from the description 
+		// Fetch parameters from the description
 		Map<String, String> myParams = new HashMap<String, String>();
 		IConfigurationElement[] parameters = config.getChildren(PARAMETER_ID);
 		for (IConfigurationElement param : parameters) {

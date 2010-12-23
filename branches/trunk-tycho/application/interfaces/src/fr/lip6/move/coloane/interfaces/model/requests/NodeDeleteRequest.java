@@ -37,14 +37,14 @@ public class NodeDeleteRequest implements IRequest {
 	/**
 	 * @return the element to remove from the model
 	 */
-	public INode getElement() {
+	public final INode getElement() {
 		return element;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getRequestType() {
+	public final int getRequestType() {
 		return IRequest.NODE_DELETE_REQUEST;
 	}
 }

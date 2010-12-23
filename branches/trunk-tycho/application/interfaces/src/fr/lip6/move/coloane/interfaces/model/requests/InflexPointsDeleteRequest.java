@@ -25,10 +25,11 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 public class InflexPointsDeleteRequest implements IRequest {
 
 	/** The arc for which all inflex points should be removed */
-	private IArc arc; 
+	private IArc arc;
 	
 	/**
 	 * Constructor
+	 * @param arc the arc for which all inflex point should be removed
 	 */
 	public InflexPointsDeleteRequest(IArc arc) {
 		this.arc = arc;
@@ -37,12 +38,12 @@ public class InflexPointsDeleteRequest implements IRequest {
 	/**
 	 * @return the arc for which all inflex point should be removed
 	 */
-	public IArc getArc() {
+	public final IArc getArc() {
 		return arc;
 	}
 	
 	/** {@inheritDoc} */
-	public int getRequestType() {
+	public final int getRequestType() {
 		return IRequest.INFLEXPOINTS_DELETE_REQUEST;
 	}
 }

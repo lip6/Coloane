@@ -39,7 +39,7 @@ import java.util.Map;
 public interface IResult {
 	
 	/**
-	 * Add a sub-result in the sub-result list. 
+	 * Add a sub-result in the sub-result list.
 	 * @param subResult The sub-result added to the list.
 	 */
 	void addSubResult(ISubResult subResult);

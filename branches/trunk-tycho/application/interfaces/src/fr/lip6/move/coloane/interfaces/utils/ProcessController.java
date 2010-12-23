@@ -79,7 +79,6 @@ public class ProcessController {
 	 * not time constrained.
 	 * 
 	 * @return the process exit value
-	 * @throws InterruptedException if thread problems
 	 * @throws IOException if file problems
 	 * @throws TimeOutException If the process did not complete in time
 	 */
@@ -106,7 +105,7 @@ public class ProcessController {
 			waitperiods = 1;
 		}
 		try {
-			for (int i=0; i < waitperiods ; ++i) {
+			for (int i = 0; i < waitperiods; ++i) {
 				// join 0 waits indefinitely
 				waiter.join(waittime);
 				forwardStreams();

@@ -15,7 +15,6 @@
  */
 package fr.lip6.move.coloane.interfaces.model.requests;
 
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -45,21 +44,21 @@ public class NodePositionRequest implements IRequest {
 	/**
 	 * @return The element to move
 	 */
-	public INode getElement() {
+	public final INode getElement() {
 		return element;
 	}
 	
 	/**
 	 * @return The new position for the considered object
 	 */
-	public Point getNewPosition() {
+	public final Point getNewPosition() {
 		return newPosition;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getRequestType() {
+	public final int getRequestType() {
 		return IRequest.NODE_POSITION_REQUEST;
 	}
 }

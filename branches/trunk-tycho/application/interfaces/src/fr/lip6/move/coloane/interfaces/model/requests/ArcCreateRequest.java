@@ -46,28 +46,28 @@ public class ArcCreateRequest implements IRequest {
 	/**
 	 * @return the source of the new arc
 	 */
-	public INode getSource() {
+	public final INode getSource() {
 		return source;
 	}
 
 	/**
 	 * @return the target of the new arc
 	 */
-	public INode getTarget() {
+	public final INode getTarget() {
 		return target;
 	}
 
 	/**
 	 * @return The formalism used by the new arc
 	 */
-	public IArcFormalism getFormalism() {
+	public final IArcFormalism getFormalism() {
 		return formalism;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getRequestType() {
+	public final int getRequestType() {
 		return IRequest.ARC_CREATE_REQUEST;
 	}
 }

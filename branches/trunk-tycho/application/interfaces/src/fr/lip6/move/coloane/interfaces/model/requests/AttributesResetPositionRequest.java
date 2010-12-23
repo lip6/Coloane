@@ -39,14 +39,14 @@ public class AttributesResetPositionRequest implements IRequest {
 	/**
 	 * @return The parent object that holds the attributes asked to be reseted
 	 */
-	public IElement getParentObject() {
+	public final IElement getParentObject() {
 		return parentObject;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getRequestType() {
+	public final int getRequestType() {
 		return IRequest.ATTRIBUTE_RESET_POSITION_REQUEST;
 	}
 }

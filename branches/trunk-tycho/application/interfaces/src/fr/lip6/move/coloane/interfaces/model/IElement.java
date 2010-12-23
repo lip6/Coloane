@@ -15,8 +15,6 @@
  */
 package fr.lip6.move.coloane.interfaces.model;
 
-import fr.lip6.move.coloane.interfaces.formalism.IComputedAttributeFormalism;
-
 import java.util.Collection;
 
 /**
