@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.main"
+      id="fr.lip6.move.coloane.features.main"
       label="Coloane - Core"
       version="0.16.2.qualifier"
       provider-name="LIP6 / MoVe"

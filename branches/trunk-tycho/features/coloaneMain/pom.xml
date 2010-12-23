@@ -8,7 +8,7 @@
         <version>0.16.2-SNAPSHOT</version> 
     </parent>
 
-    <artifactId>fr.lip6.move.coloane.feature.main</artifactId>
+    <artifactId>fr.lip6.move.coloane.features.main</artifactId>
     <version>0.16.2-SNAPSHOT</version>
     <packaging>eclipse-feature</packaging>
     <name>Features :: Main</name>

@@ -45,6 +45,11 @@
             <layout>p2</layout>
             <url>http://download.eclipse.org/releases/ganymede</url>
         </repository>
+        <repository>
+            <id>pnml</id>
+            <layout>p2</layout>
+            <url>http://pnml.lip6.fr/pnmlframework/updatesite</url>
+        </repository>
     </repositories>
 
     <!-- L'équipe de développement (actifs)-->
@@ -408,7 +413,6 @@
                 <executions>
                     <execution>
                         <id>GenerateHeaders</id>
-<!--                        <phase>generate-sources</phase>-->
                         <goals>
                             <goal>format</goal>
                         </goals>
@@ -422,7 +426,6 @@
                     </execution>
                     <execution>
                         <id>CleanHeaders</id>
-<!--                        <phase>clean</phase>-->
                         <goals>
                             <goal>remove</goal>
                         </goals>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.exportToPGF"
+      id="fr.lip6.move.coloane.features.exportToPGF"
       label="Coloane - Export to PGF"
       version="2.1.0.qualifier"
       provider-name="LIP6 / MoVe"

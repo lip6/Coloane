@@ -3,30 +3,30 @@
    <description url="http://coloane.lip6.fr/night-updates">
       Coloane Updates site
    </description>
-   <feature url="features/fr.lip6.move.coloane.feature.main_0.0.0.jar" id="fr.lip6.move.coloane.feature.main" version="0.0.0">
+   <feature url="features/fr.lip6.move.coloane.features.main_0.0.0.jar" id="fr.lip6.move.coloane.features.main" version="0.0.0">
       <category name="ColoaneCore"/>
    </feature>
 <!--   <feature url="features/fr.lip6.move.coloane.feature.main.source_0.11.0.jar" id="fr.lip6.move.coloane.feature.main.source" version="0.11.0">-->
 <!--      <category name="ColoaneCoreSources"/>-->
 <!--   </feature>-->
-<!--   <feature url="features/fr.lip6.move.coloane.feature.exportToDOT_1.2.0.jar" id="fr.lip6.move.coloane.feature.exportToDOT" version="1.2.0">-->
-<!--      <category name="ImportExportWizards"/>-->
-<!--   </feature>-->
-   <feature url="features/fr.lip6.move.coloane.feature.exportToPGF_0.0.0.jar" id="fr.lip6.move.coloane.feature.exportToPGF" version="0.0.0">
+   <feature url="features/fr.lip6.move.coloane.features.exportToDOT_0.0.0.jar" id="fr.lip6.move.coloane.features.exportToDOT" version="0.0.0">
       <category name="ImportExportWizards"/>
    </feature>
-<!--   <feature url="features/fr.lip6.move.coloane.feature.importExportCAMI_1.2.0.jar" id="fr.lip6.move.coloane.feature.importExportCAMI" version="1.2.0">-->
-<!--      <category name="ImportExportWizards"/>-->
-<!--   </feature>-->
-<!--   <feature url="features/fr.lip6.move.coloane.feature.importExportPNML_1.2.0.jar" id="fr.lip6.move.coloane.feature.importExportPNML" version="1.2.0">-->
-<!--      <category name="ImportExportWizards"/>-->
-<!--   </feature>-->
+   <feature url="features/fr.lip6.move.coloane.features.exportToPGF_0.0.0.jar" id="fr.lip6.move.coloane.features.exportToPGF" version="0.0.0">
+      <category name="ImportExportWizards"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.features.importExportCAMI_0.0.0.jar" id="fr.lip6.move.coloane.features.importExportCAMI" version="0.0.0">
+      <category name="ImportExportWizards"/>
+   </feature>
+   <feature url="features/fr.lip6.move.coloane.features.importExportPNML_0.0.0.jar" id="fr.lip6.move.coloane.features.importExportPNML" version="0.0.0">
+      <category name="ImportExportWizards"/>
+   </feature>
 <!--   <feature url="features/fr.lip6.move.coloane.feature.languagepack_1.2.0.jar" id="fr.lip6.move.coloane.feature.languagepack" version="1.2.0">-->
 <!--      <category name="Others"/>-->
 <!--   </feature>-->
-<!--   <feature url="features/fr.lip6.move.coloane.feature.modelexamples_0.8.0.jar" id="fr.lip6.move.coloane.feature.modelexamples" version="0.8.0">-->
-<!--      <category name="Others"/>-->
-<!--   </feature>-->
+   <feature url="features/fr.lip6.move.coloane.features.modelexamples_0.0.0.jar" id="fr.lip6.move.coloane.features.modelexamples" version="0.0.0">
+      <category name="Others"/>
+   </feature>
 <!--   <feature url="features/fr.lip6.move.coloane.feature.formalisms.dd_0.8.0.jar" id="fr.lip6.move.coloane.feature.formalisms.dd" version="0.8.0">-->
 <!--      <category name="Formalisms"/>-->
 <!--   </feature>-->

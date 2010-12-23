@@ -18,12 +18,12 @@
         <module>coloaneMain</module>
 <!--        <module>coloaneMainSources</module>-->
         <!-- IMPORT / EXPORT -->
-<!--        <module>exportToDOT</module>-->
+        <module>exportToDOT</module>
         <module>exportToPGF</module>
-<!--        <module>importExportCAMI</module>-->
-<!--        <module>importExportPNML</module>-->
+        <module>importExportCAMI</module>
+        <module>importExportPNML</module>
         <!-- EXAMPLES -->
-<!--        <module>modelExamples</module>-->
+        <module>modelExamples</module>
         <!-- FRAGMENTS -->
 <!--        <module>languagePack</module>-->
         <!-- FORMALISM -->

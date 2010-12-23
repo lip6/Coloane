@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.importExportPNML"
+      id="fr.lip6.move.coloane.features.importExportPNML"
       label="Coloane - Import/Export to PNML"
-      version="2.0.0"
+      version="2.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
@@ -31,13 +31,13 @@
       <import plugin="fr.lip6.move.coloane.core"/>
       <import plugin="fr.lip6.move.coloane.interfaces"/>
       <import plugin="org.eclipse.ui.views"/>
-      <import plugin="fr.lip6.move.pnml.framework.3rdpartimports" version="2.0.2" match="greaterOrEqual"/>
-      <import plugin="fr.lip6.move.pnml.framework.coremodel" version="2.1.6" match="greaterOrEqual"/>
-      <import plugin="fr.lip6.move.pnml.framework.hlpn" version="2.1.6" match="greaterOrEqual"/>
-      <import plugin="fr.lip6.move.pnml.framework.pthlpng" version="2.1.6" match="greaterOrEqual"/>
-      <import plugin="fr.lip6.move.pnml.framework.ptnet" version="2.1.6" match="greaterOrEqual"/>
-      <import plugin="fr.lip6.move.pnml.framework.symmetricnet" version="2.1.6" match="greaterOrEqual"/>
-      <import plugin="fr.lip6.move.pnml.framework.utils" version="2.1.6" match="greaterOrEqual"/>
+      <import plugin="fr.lip6.move.pnml.framework.3rdpartimports" version="2.0.3" match="greaterOrEqual"/>
+      <import plugin="fr.lip6.move.pnml.framework.coremodel" version="2.1.9" match="greaterOrEqual"/>
+      <import plugin="fr.lip6.move.pnml.framework.hlpn" version="2.1.9" match="greaterOrEqual"/>
+      <import plugin="fr.lip6.move.pnml.framework.pthlpng" version="2.1.9" match="greaterOrEqual"/>
+      <import plugin="fr.lip6.move.pnml.framework.ptnet" version="2.1.9" match="greaterOrEqual"/>
+      <import plugin="fr.lip6.move.pnml.framework.symmetricnet" version="2.1.9" match="greaterOrEqual"/>
+      <import plugin="fr.lip6.move.pnml.framework.utils" version="2.1.9" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ocl.ecore"/>
       <import plugin="org.eclipse.emf.ocl"/>
       <import plugin="org.eclipse.emf.codegen"/>

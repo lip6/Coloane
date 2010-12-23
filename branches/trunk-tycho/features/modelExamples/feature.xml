@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.modelexamples"
+      id="fr.lip6.move.coloane.features.modelexamples"
       label="Coloane - Model Examples"
-      version="0.8.0"
+      version="0.8.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      
+      This features add some example models.
    </description>
 
    <copyright url="http://coloane.lip6.fr/">
@@ -28,7 +28,7 @@ For more information, please refer to the Coloane&apos;s copyright.
    </url>
 
    <requires>
-      <import feature="fr.lip6.move.coloane.feature.main" version="0.12.0"/>
+      <import feature="fr.lip6.move.coloane.features.main"/>
    </requires>
 
    <plugin

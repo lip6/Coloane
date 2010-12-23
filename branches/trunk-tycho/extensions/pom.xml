@@ -15,11 +15,11 @@
     <description>Group of Coloane's dedicated extensions</description>
 
     <modules>
-<!--        <module>exportToDOT</module>-->
+        <module>exportToDOT</module>
         <module>exportToPGF</module>
-<!--        <module>importExportCAMI</module>-->
-<!--        <module>importExportPNML</module>-->
-<!--        <module>PNexamples</module>-->
+        <module>importExportCAMI</module>
+        <module>importExportPNML</module>
+        <module>PNexamples</module>
     </modules>
 
 </project>

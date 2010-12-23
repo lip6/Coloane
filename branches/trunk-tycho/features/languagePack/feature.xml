@@ -159,7 +159,7 @@ Inc. in the United States, other countries, or both.
    </url>
 
    <requires>
-      <import feature="fr.lip6.move.coloane.feature.main" version="0.12.0"/>
+      <import feature="fr.lip6.move.coloane.features.main"/>
    </requires>
 
    <plugin
