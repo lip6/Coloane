@@ -15,12 +15,7 @@ Require-Bundle: org.eclipse.core.runtime,
  fr.lip6.move.pnml.framework.pthlpng,
  fr.lip6.move.pnml.framework.ptnet,
  fr.lip6.move.pnml.framework.symmetricnet,
- fr.lip6.move.pnml.framework.utils,
- org.eclipse.ocl.ecore,
- org.eclipse.emf.ocl,
- org.eclipse.emf.codegen,
- org.eclipse.emf.codegen.ecore,
- org.eclipse.emf.ecore.xmi
+ fr.lip6.move.pnml.framework.utils
 Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
 Bundle-ClassPath: .
