@@ -2,14 +2,13 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <parent> 
-        <groupId>fr.lip6.move.coloane.features</groupId> 
-        <artifactId>features-parent</artifactId> 
-        <version>0.16.2-SNAPSHOT</version> 
+    <parent>
+        <groupId>fr.lip6.move.coloane.features</groupId>
+        <artifactId>features-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>fr.lip6.move.coloane.features.importExportCAMI</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
     <packaging>eclipse-feature</packaging>
     <name>Features :: Import/Export To CAMI</name>
     <description>Import and Export Coloane features that allow to import or export CAMI models</description>

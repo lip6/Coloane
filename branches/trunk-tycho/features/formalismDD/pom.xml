@@ -5,11 +5,10 @@
     <parent>
         <groupId>fr.lip6.move.coloane.features</groupId>
         <artifactId>features-parent</artifactId>
-        <version>0.16.2-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>fr.lip6.move.coloane.features.formalisms.dd</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
     <packaging>eclipse-feature</packaging>
     <name>Features :: DD Formalism</name>
     <description>DD Formalism</description>

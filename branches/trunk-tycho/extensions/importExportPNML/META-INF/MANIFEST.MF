@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ImportExportPNML Plug-in
 Bundle-SymbolicName: fr.lip6.move.coloane.extensions.importExportPNML;singleton:=true
-Bundle-Version: 2.0.0.qualifier
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.extension.importExportPNML.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
