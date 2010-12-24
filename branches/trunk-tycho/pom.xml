@@ -387,18 +387,6 @@
                 </executions>
             </plugin>
 
-            <!-- Ajout d'un goal pour la release -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <goals>clean deploy</goals>
-                    <scmCommentPrefix>[Maven-Release]</scmCommentPrefix>
-                    <preparationGoals>clean verify deploy</preparationGoals>
-                </configuration>
-            </plugin>
-
             <plugin>
                 <groupId>com.google.code.maven-license-plugin</groupId>
                 <artifactId>maven-license-plugin</artifactId>
