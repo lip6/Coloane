@@ -221,10 +221,10 @@ public class ExportToGML implements IExportTo {
 	 * @throws ExtensionException if the parser throws an exception
 	 */
 	private void exportDomain(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
-		if ("domain".equals(symbols.get(value)) || "class".equals(symbols.get(value)) || "".equals(value)) {
+		if ("domain".equals(symbols.get(value)) || "domain_bag".equals(symbols.get(value)) || "class".equals(symbols.get(value)) || "".equals(value)) {
 			out.write(gap + "<attribute name=\"domain\">" + value + "</attribute>\n");
 		} else {
-			throw new ExtensionException("Error parsing prod file : " + value + " has not been defined in domain or class declaration part");
+			throw new ExtensionException("Error parsing prod file : " + value + " has not been defined in domain or class declaration part. Its value is " + symbols.get(value));
 		}
 	}
 	
