@@ -49,8 +49,8 @@ listElementaryExpr[String gap] returns [String value]
   id=IDENTIFIER { is_class($id.getText()) }? DOT ALL MINUS e=elementaryExpression[false,gap+"\t\t\t"]
 { $value = $value + gap + "<attribute name=\"token\">\n";
   $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"setDiff\">";
-  $value = $value + gap + "\t\t\t<attribute name=\"all\">";
+  $value = $value + gap + "\t\t<attribute name=\"setDiff\">\n";
+  $value = $value + gap + "\t\t\t<attribute name=\"all\">\n";
   $value = $value + gap + "\t\t\t\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
   $value = $value + gap + "\t\t\t</attribute>\n";
   $value = $value + $e.value;
@@ -86,7 +86,7 @@ nested = false;
 { $value = $value + gap + "\t<attribute name=\"occurs\">\n";
   $value = $value + $c.value;
   $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"tokenProfile\">";
+  $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
   $value = $value + $p.value;
   $value = $value + "\t</attribute>\n";
 } ;
@@ -210,7 +210,7 @@ marking[String gap] returns [String value]
 { $value = $value + gap + "\t<attribute name=\"occurs\">\n";
   $value = $value + gap + "\t\t<attribute name=\"intValue\">" + $i.value + "</attribute>\n";
   $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"tokenProfile\">";
+  $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
   $value = $value + $e.value;
   $value = $value + gap + "\t</attribute>\n";
 } ;
