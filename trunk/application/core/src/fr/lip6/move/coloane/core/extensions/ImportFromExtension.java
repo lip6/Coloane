@@ -1,6 +1,6 @@
 package fr.lip6.move.coloane.core.extensions;
 
-import fr.lip6.move.coloane.core.formalisms.FormalismManager;
+import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
