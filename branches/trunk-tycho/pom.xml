@@ -250,16 +250,20 @@
     </dependencies>
 
     <distributionManagement>
+<!--        <repository>-->
+<!--            <id>forge.releases</id>-->
+<!--            <name>Internal Release Repository for Coloane</name>-->
+<!--            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/releases</url>-->
+<!--        </repository>-->
+<!--        <snapshotRepository>-->
+<!--            <id>forge.snapshots</id>-->
+<!--            <name>Internal Snapshot Repository for Coloane</name>-->
+<!--            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/snapshots</url>-->
+<!--        </snapshotRepository>-->
         <repository>
-            <id>forge.releases</id>
-            <name>Internal Release Repository for Coloane</name>
-            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/releases</url>
+            <id>coloane.updatesite</id>
+            <url>scpexe://coloane.lip6.fr/tmp/test</url>
         </repository>
-        <snapshotRepository>
-            <id>forge.snapshots</id>
-            <name>Internal Snapshot Repository for Coloane</name>
-            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
         <site>
             <id>Coloane-Reports</id>
             <url>file:///data/coloane/reports</url>
