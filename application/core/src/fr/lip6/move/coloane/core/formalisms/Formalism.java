@@ -44,7 +44,7 @@ public class Formalism implements IFormalism {
 	 * @param fkname Formalism ID for FK platform
 	 * @param image Image that describes the formalism
 	 */
-	Formalism(String id, String name, String fkname, String image) {
+	public Formalism(String id, String name, String fkname, String image) {
 		this.id = id;
 		this.name = name;
 		this.fkname = fkname;
@@ -86,7 +86,7 @@ public class Formalism implements IFormalism {
 	 * @see {@link IConstraintLink}
 	 * @see {@link IConstraint}
 	 */
-	final void addConstraintLink(IConstraintLink constraint) {
+	public final void addConstraintLink(IConstraintLink constraint) {
 		if (constraint == null) { return; }
 		this.linkconstraints.add(constraint);
 	}
@@ -141,7 +141,7 @@ public class Formalism implements IFormalism {
 	 * Just use {@link #getMasterGraph()} 
 	 * @param rootGraphFormalism The graph which is at the top level
 	 */
-	final void setRootGraph(IGraphFormalism rootGraphFormalism) {
+	public final void setRootGraph(IGraphFormalism rootGraphFormalism) {
 		this.rootGraphFormalism = rootGraphFormalism;
 	}
 

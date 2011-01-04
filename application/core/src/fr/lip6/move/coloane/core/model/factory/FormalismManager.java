@@ -1,5 +1,6 @@
-package fr.lip6.move.coloane.core.formalisms;
+package fr.lip6.move.coloane.core.model.factory;
 
+import fr.lip6.move.coloane.core.formalisms.Formalism;
 import fr.lip6.move.coloane.core.formalisms.elements.ArcFormalism;
 import fr.lip6.move.coloane.core.formalisms.elements.AttributeFormalism;
 import fr.lip6.move.coloane.core.formalisms.elements.ComputedAttributeFormalism;
