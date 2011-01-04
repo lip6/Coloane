@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>fr.lip6.move.coloane.incubation.extensions</groupId>
+		<artifactId>extensions-parent</artifactId>
+		<version>1.0-INCUBATION</version>
+	</parent>
+	
+	<artifactId>importFromPROD</artifactId>
+	<packaging>jar</packaging>
+	<name>Extensions :: Import PROD</name>
+	<description>Coloane's extension that provides PROD import features</description>
+		
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.antlr</groupId>
+				<artifactId>antlr3-maven-plugin</artifactId>
+				<version>3.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>antlr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr-runtime</artifactId>
+			<version>3.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr</artifactId>
+			<version>3.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.application</groupId>
+			<artifactId>core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.coloane.application</groupId>
+			<artifactId>interfaces</artifactId>
+		</dependency>
+	</dependencies>
+	
+</project>

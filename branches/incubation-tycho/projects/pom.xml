@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent> 
+		<groupId>fr.lip6.move.coloane.incubation</groupId> 
+		<artifactId>coloane-parent</artifactId> 
+		<version>1.0-INCUBATION</version>
+	</parent>
+
+	<groupId>fr.lip6.move.coloane.incubation.projects</groupId>
+	<artifactId>projects-parent</artifactId>
+	<packaging>pom</packaging>
+	<name>Projects</name>
+	<description>Group of side projects using Coloane in order to deal with models</description>
+
+	<modules>
+<!--                <module>itsModeler</module>-->
+	</modules>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>build.properties</include>
+					<include>plugin.xml</include>
+					<include>plugin.properties</include>
+					<include>about.ini</include>
+					<include>about.html</include>
+					<include>about.properties</include>
+					<include>resources/**</include>
+					<include>schema/**</include>
+					<include>lib/**</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+</project>

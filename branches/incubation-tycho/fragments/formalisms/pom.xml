@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent> 
+		<groupId>fr.lip6.move.coloane.incubation.fragments</groupId> 
+		<artifactId>fragments-parent</artifactId> 
+		<version>1.0-INCUBATION</version>
+	</parent>
+
+	<groupId>fr.lip6.move.coloane.incubation.fragments.formalisms</groupId>
+	<artifactId>formalisms-parent</artifactId>
+	<packaging>pom</packaging>
+	<name>Fragments :: Formalisms</name>
+	<description>Group of formalisms in incubation phase dedicated to Coloane</description>
+
+	<modules>
+		<module>tpn</module>
+		<module>its</module>
+		<module>snb</module>
+	</modules>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>.</directory>
+				<includes>
+					<include>build.properties</include>
+					<include>fragment.xml</include>
+					<include>resources/**</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src</directory>
+				<includes>
+					<include>**/*.properties</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+</project>
