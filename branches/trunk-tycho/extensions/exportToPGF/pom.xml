@@ -44,8 +44,6 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-<!--                            <includeScope>compile</includeScope>-->
-<!--                            <excludeScope>system</excludeScope>-->
                             <excludeScope>provided</excludeScope>
                             <excludeGroupIds>junit,p2.eclipse-plugin</excludeGroupIds>
                             <stripVersion>true</stripVersion>
