@@ -52,7 +52,7 @@ classDeclaration[String gap] returns [String value]
 @init {
   boolean circular=false;
   $value = ""; } :
-  id=IDENTIFIER IS (CIRCULAR { circular=true; })? d=classDescription[$gap+"\t\t"] SEMICOLON { symbols.get($id.getText()) == null }?
+  id=IDENTIFIER IS (CIRCULAR { circular=true; })? d=classDescription[$gap+"\t\t",$id.getText()] SEMICOLON { symbols.get($id.getText()) == null }?
 { symbols.put($id.getText(),"class");
   
   $value = $value + gap + "<attribute name=\"classeDeclaration\">\n";
@@ -69,18 +69,33 @@ classDeclaration[String gap] returns [String value]
   $value = $value + gap + "</attribute>\n"; // fermeture de la balise classeDeclaration
 } ;
 
-classDescription[String gap] returns [String value]
+classDescription[String gap,String class_id] returns [String value]
 @init { $value=""; } : 
   e=interval[$gap]
 { $value = $value + $e.value;
 } |
-  c=classEnum[$gap] { $value = $value + $c.value; } ;
+  c=classEnum[$gap,$class_id] { $value = $value + $c.value; } ;
    
-classEnum[String gap] returns [String value] 
+classEnum[String gap,String class_id] returns [String value] 
 @init { $value=""; } :
-  LHOOK e=listIdentifier[$gap+"\t"] RHOOK 
+  LHOOK e=listIdentifier[$gap+"\t",$class_id] RHOOK 
 { $value = $value + gap + "<attribute name=\"classEnum\">\n" + $e.value + gap + "</attribute>\n";
 } ;
+
+classEnum2[String gap] returns [String value] 
+@init { $value=""; } :
+  LHOOK e=listIdentifier2[$gap+"\t"] RHOOK 
+{ $value = $value + gap + "<attribute name=\"classEnum\">\n" + $e.value + gap + "</attribute>\n";
+} ;
+
+listIdentifier2[String gap] returns [String value]
+@init { $value = ""; } : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques 
+{ for (Object x : $ids) {
+    $value = $value + gap + "<attribute name=\"enumValue\">";
+    $value = $value + ((Token)x).getText();
+    $value = $value + "</attribute>\n";
+  }
+};
 
 interval[String gap] returns [String value]
 @init { $value = ""; } : e=INTEGER DOUBLEDOT f=INTEGER
@@ -90,9 +105,12 @@ interval[String gap] returns [String value]
   $value = $value + gap + "</attribute>\n";
 } ;
 
-listIdentifier[String gap] returns [String value]
+listIdentifier[String gap,String class_id] returns [String value]
 @init { $value = ""; } : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques 
 { for (Object x : $ids) {
+    if (symbols.get(((Token)x).getText()) != null) {
+      symbols.put(((Token)x).getText(),$class_id);
+    }
     $value = $value + gap + "<attribute name=\"enumValue\">";
     $value = $value + ((Token)x).getText();
     $value = $value + "</attribute>\n";
@@ -133,7 +151,7 @@ intervalDefinition[String gap] returns [String value]
   $value = $value + gap + "\t<attribute name=\"higherBound\">" + $e.getText() + "</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
-  c=classEnum[$gap]
+  c=classEnum2[$gap]
 { $value = $value.concat($c.value);
 } |
   f=IDENTIFIER
