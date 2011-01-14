@@ -126,8 +126,14 @@ guardOperator[String gap] returns [String value] : v=varClassElement[$gap] { $va
 
 varClassElement[String gap] returns [String value]
 @init { $value=""; } :
-  id=IDENTIFIER { is_variable($id.getText()) }? // variableIdentifier
+  { is_variable(input.LT(1).getText()) }?=> id=IDENTIFIER // variableIdentifier
 { $value = $value + gap + "<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
+} |
+  id=IDENTIFIER { is_class(symbols.get($id.getText())) }? // elementIdentifier
+{ $value = $value + gap + "<attribute name=\"enumConst\">\n";
+  $value = $value + gap + "\t<attribute name=\"type\">" + symbols.get($id.getText()) + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"enumValue\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
 } |
   id=IDENTIFIER DOT ALL { is_class($id.getText()) }? // classIdentifier DOT ALL
 { $value = $value + gap + "<attribute name=\"function\">\n";

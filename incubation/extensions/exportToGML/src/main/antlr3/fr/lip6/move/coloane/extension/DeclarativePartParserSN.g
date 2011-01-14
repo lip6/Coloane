@@ -108,7 +108,7 @@ interval[String gap] returns [String value]
 listIdentifier[String gap,String class_id] returns [String value]
 @init { $value = ""; } : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques 
 { for (Object x : $ids) {
-    if (symbols.get(((Token)x).getText()) != null) {
+    if (symbols.get(((Token)x).getText()) == null) {
       symbols.put(((Token)x).getText(),$class_id);
     }
     $value = $value + gap + "<attribute name=\"enumValue\">";
