@@ -14,3 +14,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: lib/antlr-runtime-3.2.jar,
  .
+Export-Package: fr.lip6.move.coloane.extensions.exporttogml
