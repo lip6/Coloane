@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Crocodile
+Bundle-SymbolicName: Crocodile;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: crocodile.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ fr.lip6.move.coloane.interfaces;bundle-version="1.4.0",
+ fr.lip6.move.coloane.core;bundle-version="0.16.2",
+ fr.lip6.move.coloane.extensions.exporttogml;bundle-version="1.0.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
