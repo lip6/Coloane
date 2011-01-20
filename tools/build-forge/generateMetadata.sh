@@ -18,6 +18,7 @@ update_site_publisher() {
         -source $update_site \
         -repositoryName "$repository_name" \
         -configs gtk.linux.x86 \
+        -compress \
         -publishArtifacts
     )
 }
