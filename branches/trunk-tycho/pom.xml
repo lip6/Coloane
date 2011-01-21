@@ -249,7 +249,7 @@
         </dependency>
     </dependencies>
 
-    <distributionManagement>
+<!--    <distributionManagement>-->
 <!--        <repository>-->
 <!--            <id>forge.releases</id>-->
 <!--            <name>Internal Release Repository for Coloane</name>-->
@@ -260,15 +260,7 @@
 <!--            <name>Internal Snapshot Repository for Coloane</name>-->
 <!--            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/snapshots</url>-->
 <!--        </snapshotRepository>-->
-        <repository>
-            <id>coloane.updatesite</id>
-            <url>scpexe://coloane.lip6.fr/tmp/test</url>
-        </repository>
-        <site>
-            <id>Coloane-Reports</id>
-            <url>file:///data/coloane/reports</url>
-        </site>
-    </distributionManagement>
+<!--    </distributionManagement>-->
 
     <build>
         <sourceDirectory>src</sourceDirectory>
@@ -291,26 +283,6 @@
 
         <!-- Configuration des plugins de Maven -->
         <plugins>
-            <!-- Pour le Checkstyle -->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-checkstyle-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <configLocation>http://coloane.lip6.fr/resources/coloane_checkstyle.xml</configLocation>-->
-<!--                    <includeTestSourceDirectory>true</includeTestSourceDirectory>-->
-<!--                    <failOnViolation>false</failOnViolation>-->
-<!--                    <linkXRef>false</linkXRef>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>Checkstyle</id>-->
-<!--                        <phase>validate</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>check</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
 
             <!-- Build Coloane using tycho -->
             <plugin>
@@ -468,5 +440,6 @@
 <!--                </configuration>-->
 <!--            </plugin>-->
         </plugins>
+
     </build>
 </project>
