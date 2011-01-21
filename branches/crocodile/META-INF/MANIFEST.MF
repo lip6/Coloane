@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Crocodile
 Bundle-SymbolicName: Crocodile;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: crocodile.Activator
+Bundle-Activator: fr.lip6.move.coloane.tools.crocodile.Activator
 Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

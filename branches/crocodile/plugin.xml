@@ -4,7 +4,9 @@
    <extension
          point="fr.lip6.move.coloane.core.tools">
       <Tool
-            action="crocodile.CrocodileAction"
+            action="fr.lip6.move.coloane.tools.crocodile.CrocodileAction"
+            description="Run the SRG generator tool Crocodile"
+            icon="resources/logo-crocodile.png"
             name="Crocodile SRG Generator">
       </Tool>
    </extension>

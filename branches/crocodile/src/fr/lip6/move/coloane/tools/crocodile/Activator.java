@@ -1,4 +1,4 @@
-package crocodile;
+package fr.lip6.move.coloane.tools.crocodile;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
