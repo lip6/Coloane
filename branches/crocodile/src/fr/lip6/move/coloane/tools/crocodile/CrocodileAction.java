@@ -5,15 +5,11 @@ import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
-import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
-import fr.lip6.move.coloane.interfaces.objects.result.Result;
-import fr.lip6.move.coloane.interfaces.objects.result.SubResult;
 import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.OutputStream;
 import java.util.List;
 
 import org.apache.commons.exec.CommandLine;
@@ -23,6 +19,10 @@ import org.apache.commons.exec.ExecuteStreamHandler;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.ui.console.ConsolePlugin;
+import org.eclipse.ui.console.IConsole;
+import org.eclipse.ui.console.IConsoleManager;
+import org.eclipse.ui.console.IOConsole;
 
 /**
  * 
@@ -30,11 +30,15 @@ import org.eclipse.core.runtime.IProgressMonitor;
  *
  */
 public class CrocodileAction implements IService {
-	
+	private static IOConsole myConsole;
 	/**
 	 * Public constructor for the action
 	 */
 	public CrocodileAction() {
+		ConsolePlugin consolePlugin = ConsolePlugin.getDefault();
+		IConsoleManager conMan = consolePlugin.getConsoleManager();
+		myConsole = new IOConsole("Crocodile console", null);
+		conMan.addConsoles(new IConsole[]{myConsole});
 	}
 	
 	/**
@@ -56,45 +60,27 @@ public class CrocodileAction implements IService {
 			exporter.export(model, tmpFile.getAbsolutePath(), monitor);
 
 			String archName = getArchOS();
+			String prefix = Activator.getDefault().getBundle().getLocation().replace("reference:file:", "");
 
-			//CommandLine cmdLine = new CommandLine("./Crocodile-" + archName);
-			//cmdLine.addArgument(tmpFile.getAbsolutePath());
-			CommandLine cmdLine = new CommandLine("echo");
-			cmdLine.addArgument("ceci est un test");
+			CommandLine cmdLine = new CommandLine(prefix + "crocodile-binaries/Crocodile-" + archName);
+			cmdLine.addArgument(tmpFile.getAbsolutePath());
 
 			DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
 
-			ExecuteStreamHandler streamHandler = new PumpStreamHandler();
-			byte[] inputArray = new byte[320000];
-			ByteArrayInputStream inputStream = new ByteArrayInputStream(inputArray);
-			streamHandler.setProcessOutputStream(inputStream);
-			streamHandler.setProcessErrorStream(inputStream);
+			OutputStream outputStream = myConsole.newOutputStream();
+			ExecuteStreamHandler streamHandler = new PumpStreamHandler(outputStream);
 
 			Executor executor = new DefaultExecutor();
 			executor.setExitValue(0);
 			executor.setStreamHandler(streamHandler);
 			executor.execute(cmdLine, resultHandler);
-			executor.execute(cmdLine);
 
 			// some time later the result handler callback was invoked so we
 			// can safely request the exit value
 			resultHandler.waitFor();
-			//int exitValue = resultHandler.getExitValue();
-			IResult crocodileResult = new Result("Crocodile Result");
-			ISubResult crocodileSubResult = new SubResult("Crocodile SubResult");
-			byte[] resultArray = new byte[inputStream.available()];
-			inputStream.read(resultArray, 0, inputStream.available());
-			crocodileSubResult.addTextualResult(new String(resultArray));
-			crocodileResult.addSubResult(crocodileSubResult);
 
-			List<IResult> result = new ArrayList<IResult>();
-			result.add(crocodileResult);
+			return null;
 
-			return result;
-
-//			if (exitValue != 0) {
-//				throw new ServiceException("Crocodile execution has failed !");
-//			}
 		} catch (IOException e) {
 			throw new ServiceException(e.getMessage());
 		} catch (ExtensionException e) {
