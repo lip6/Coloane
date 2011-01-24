@@ -48,8 +48,9 @@ public class CrocodileAction implements IService {
 		toolLocation = prefix + "crocodile-binaries/Crocodile-" + getArchOS();
 
 		File crocExec = new File(toolLocation);
-		crocExec.setExecutable(true);
-		assert (crocExec.canExecute());
+		if (!crocExec.setExecutable(true)) {
+			throw new ServiceException("unable to make the command-line tool executable");
+		}
 	}
 	
 	/**
@@ -104,21 +105,22 @@ public class CrocodileAction implements IService {
 	 * @throws ServiceException if the suffix could not be determined
 	 */
 	private String getArchOS() throws ServiceException {
-		String result;
 		String osName = System.getProperty("os.name").toLowerCase();
 		String archName = System.getProperty("os.arch").toLowerCase();
 		if (osName.contains("mac os x")) {
-			result = "Darwin";
+			return "Darwin";
 		} else if (osName.contains("linux")) {
+			String result;
 			result = "linux";
 			if (archName.contains("64")) {
 				result = result + "64";
-			} else {
+				return result;
+			} else if (archName.contains("86")) {
 				result = result + "32";
+				return result;
 			}
-		} else {
-			throw new ServiceException("System architecture not supported : " + osName + " " + archName);
 		}
-		return result;
+
+		throw new ServiceException("System architecture not supported : " + osName + " " + archName);
 	}
 }
