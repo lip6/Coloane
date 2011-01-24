@@ -39,10 +39,22 @@ public class CrocodileAction implements IService {
 	 * @throws ServiceException if the architecture cannot be determined
 	 */
 	public CrocodileAction() throws ServiceException {
+		String consoleName = "Crocodile console";
+
 		ConsolePlugin consolePlugin = ConsolePlugin.getDefault();
 		IConsoleManager conMan = consolePlugin.getConsoleManager();
-		myConsole = new IOConsole("Crocodile console", null);
-		conMan.addConsoles(new IConsole[]{myConsole});
+		IConsole[] consoleVector = conMan.getConsoles();
+		int i;
+		for (i = 0; i < consoleVector.length; ++i) {
+			if (consoleVector[i].getName().equals(consoleName)) {
+				myConsole = (IOConsole) consoleVector[i];
+				break;
+			}
+		}
+		if (i == consoleVector.length) {
+			myConsole = new IOConsole(consoleName, null);
+			conMan.addConsoles(new IConsole[]{myConsole});
+		}
 
 		String prefix = Activator.getDefault().getBundle().getLocation().replace("reference:file:", "");
 		toolLocation = prefix + "crocodile-binaries/Crocodile-" + getArchOS();
@@ -100,8 +112,8 @@ public class CrocodileAction implements IService {
 	}
 	
 	/**
-	 * A method that returns the correct crocodile executable suffix, depending on the OS and architecture
-	 * @return the suffix of the corresponding crocodile executable
+	 * A method that returns the correct Crocodile executable suffix, depending on the OS and architecture
+	 * @return the suffix of the corresponding Crocodile executable
 	 * @throws ServiceException if the suffix could not be determined
 	 */
 	private String getArchOS() throws ServiceException {
