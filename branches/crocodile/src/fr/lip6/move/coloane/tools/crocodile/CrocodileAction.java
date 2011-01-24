@@ -31,14 +31,25 @@ import org.eclipse.ui.console.IOConsole;
  */
 public class CrocodileAction implements IService {
 	private static IOConsole myConsole;
+	private static String toolLocation;
+
 	/**
 	 * Public constructor for the action
+	 * 
+	 * @throws ServiceException if the architecture cannot be determined
 	 */
-	public CrocodileAction() {
+	public CrocodileAction() throws ServiceException {
 		ConsolePlugin consolePlugin = ConsolePlugin.getDefault();
 		IConsoleManager conMan = consolePlugin.getConsoleManager();
 		myConsole = new IOConsole("Crocodile console", null);
 		conMan.addConsoles(new IConsole[]{myConsole});
+
+		String prefix = Activator.getDefault().getBundle().getLocation().replace("reference:file:", "");
+		toolLocation = prefix + "crocodile-binaries/Crocodile-" + getArchOS();
+
+		File crocExec = new File(toolLocation);
+		crocExec.setExecutable(true);
+		assert (crocExec.canExecute());
 	}
 	
 	/**
@@ -59,10 +70,7 @@ public class CrocodileAction implements IService {
 			// TODO use a sub-monitor instead of monitor
 			exporter.export(model, tmpFile.getAbsolutePath(), monitor);
 
-			String archName = getArchOS();
-			String prefix = Activator.getDefault().getBundle().getLocation().replace("reference:file:", "");
-
-			CommandLine cmdLine = new CommandLine(prefix + "crocodile-binaries/Crocodile-" + archName);
+			CommandLine cmdLine = new CommandLine(toolLocation);
 			cmdLine.addArgument(tmpFile.getAbsolutePath());
 
 			DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
