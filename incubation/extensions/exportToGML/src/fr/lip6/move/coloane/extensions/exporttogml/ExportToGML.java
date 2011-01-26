@@ -57,6 +57,7 @@ public class ExportToGML implements IExportTo {
 		ExtensionException exc = null;
 		try {
 			out = new BufferedWriter(new FileWriter(filePath));
+			monitor.beginTask("export", graph.getArcs().size() + graph.getNodes().size() + 1);
 			exportGraph(graph, out, monitor);
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
@@ -104,6 +105,7 @@ public class ExportToGML implements IExportTo {
 		// Export model attributes
 		IAttribute declarativePart = graph.getAttribute("declaration");
 		symbolTable = exportDeclarativePart(declarativePart.getValue(), out, monitor, gap);
+		monitor.worked(1);
 		for (IAttribute attr : graph.getAttributes()) {
 			if (attr != declarativePart) {
 				try {
@@ -122,6 +124,7 @@ public class ExportToGML implements IExportTo {
     	//Export nodes
     	for (INode node : graph.getNodes()) {
     		exportNode(node, out, monitor, gap, symbolTable);
+    		monitor.worked(1);
     		LOGGER.fine("export node : " + node.getId());
     	}
     	out.write("\n");
@@ -129,11 +132,13 @@ public class ExportToGML implements IExportTo {
     	//Export Arcs
     	for (IArc arc : graph.getArcs()) {
     		exportArc(arc, out, monitor, gap, symbolTable);
+    		monitor.worked(1);
     		LOGGER.fine("export arc : " + arc.getId());
     	}
     	out.write("\n");
 
     	out.write("</model>");
+    	monitor.done();
 	}
 
 	/**
