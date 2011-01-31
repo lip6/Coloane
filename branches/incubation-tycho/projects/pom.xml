@@ -5,7 +5,7 @@
     <parent>
         <groupId>fr.lip6.move.coloane.incubation</groupId>
         <artifactId>coloane-parent</artifactId>
-        <version>1.0-INCUBATION</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <groupId>fr.lip6.move.coloane.incubation.projects</groupId>
@@ -15,6 +15,7 @@
     <description>Group of side projects using Coloane in order to deal with models</description>
 
     <modules>
-<!--                <module>itsModeler</module>-->
+        <module>itsModeler</module>
     </modules>
+
 </project>

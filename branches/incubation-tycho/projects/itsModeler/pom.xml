@@ -1,77 +1,64 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>fr.lip6.move.coloane.incubation.projects</groupId>
-		<artifactId>projects-parent</artifactId>
-		<version>1.0-INCUBATION</version>
-	</parent>
+    <parent>
+        <groupId>fr.lip6.move.coloane.incubation.projects</groupId>
+        <artifactId>projects-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>itsModeler</artifactId>
-	<packaging>jar</packaging>
-	<name>Projects :: ITS Modeler</name>
-	<description>ITS Modeler extension for Coloane</description>
-	
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.antlr</groupId>
-				<artifactId>antlr3-maven-plugin</artifactId>
-				<version>3.2</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>antlr</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <artifactId>fr.lip6.move.coloane.projects.its</artifactId>
+    <packaging>eclipse-plugin</packaging>
+    <name>Projects :: ITS Modeler</name>
+    <description>ITS Modeler extension for Coloane</description>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.antlr</groupId>
-			<artifactId>antlr-runtime</artifactId>
-			<version>3.1.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.antlr</groupId>
-			<artifactId>antlr</artifactId>
-			<version>3.1.3</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.ui</groupId>
-			<artifactId>editors</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.incubation.extensions</groupId>
-			<artifactId>importExportROMEO</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.incubation.extensions</groupId>
-			<artifactId>importExportITS</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.application</groupId>
-			<artifactId>core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.application</groupId>
-			<artifactId>interfaces</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.extensions</groupId>
-			<artifactId>importExportCAMI</artifactId>
-			<version>[0.16,)</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.tools</groupId>
-			<artifactId>layout</artifactId>
-			<version>[0.16,)</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr-runtime</artifactId>
+            <version>3.1.3</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <excludeScope>provided</excludeScope>
+                            <excludeGroupIds>junit,p2.eclipse-plugin</excludeGroupIds>
+                            <stripVersion>true</stripVersion>
+                            <outputDirectory>${basedir}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr3-maven-plugin</artifactId>
+                <version>3.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>antlr</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>target/classes/main/antlr3</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 </project>

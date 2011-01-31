@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature.importExportTINA"
       label="Coloane - Import From TINA"
-      version="1.0.0"
+      version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 

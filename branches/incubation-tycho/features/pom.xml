@@ -1,77 +1,31 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent> 
-		<groupId>fr.lip6.move.coloane.incubation</groupId> 
-		<artifactId>coloane-parent</artifactId> 
-		<version>1.0-INCUBATION</version> 
-	</parent>
+    <parent>
+        <groupId>fr.lip6.move.coloane.incubation</groupId>
+        <artifactId>coloane-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-	<groupId>fr.lip6.move.coloane.incubation.features</groupId>
-	<artifactId>features-parent</artifactId>
-	<packaging>pom</packaging>
-	<name>Features</name>
-	<description>All features in incubation phase related to Coloane project</description>
+    <groupId>fr.lip6.move.coloane.incubation.features</groupId>
+    <artifactId>features-parent</artifactId>
+    <packaging>pom</packaging>
+    <name>Features</name>
+    <description>All features in incubation phase related to Coloane project</description>
 
-	<modules>
-		<module>formalismTPN</module>
-		<module>formalismITS</module>
-		<module>formalismSNB</module>
-		<module>importExportROMEO</module>
-		<module>importFromPROD</module>
-		<module>importFromSGROMEO</module>
-		<module>importExportITS</module>
-		<module>importExportTINA</module>
-		<module>projectITSModeler</module>
-		<module>exportToSVG</module>
-		<module>exportToGML</module>
-	</modules>
-
-	<build>
-		<finalName>${project.artifactId}_${project.version}</finalName>
-		
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>BuildFeatureXML</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<configuration>
-                                                        <executable>${env.BUILDTOOLS}/buildFeatureXML.pl</executable>
-							<arguments>
-								<argument>feature.xml</argument>
-								<argument>${build.finalName}</argument>
-								<argument>${buildNumber}</argument>
-								<argument>${project.deployPath}</argument>
-							</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-
-		<resources>
-			<resource>
-				<directory>.</directory>
-				<includes>
-					<include>build.properties</include>
-					<include>feature.properties</include>
-					<include>*.html</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>resources</directory>
-				<includes>
-					<include>feature.xml</include>
-				</includes>
-			</resource>
-		</resources>
-	</build>
+    <modules>
+        <module>formalismTPN</module>
+        <module>formalismITS</module>
+        <module>formalismSNB</module>
+        <module>importExportROMEO</module>
+        <module>importFromPROD</module>
+        <module>importFromSGROMEO</module>
+        <module>importExportITS</module>
+        <module>importExportTINA</module>
+<!--        <module>projectITSModeler</module>-->
+        <module>exportToSVG</module>
+        <module>exportToGML</module>
+    </modules>
 
 </project>
