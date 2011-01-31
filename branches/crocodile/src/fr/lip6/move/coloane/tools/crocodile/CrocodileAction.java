@@ -19,6 +19,7 @@ import org.apache.commons.exec.ExecuteStreamHandler;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
@@ -73,15 +74,16 @@ public class CrocodileAction implements IService {
 	 * @param monitor a monitor to monitor the generation of the state space
 	 * @throws ServiceException if the generation of the state space fails
 	 */
-	public final List<IResult> run(IGraph model, IProgressMonitor monitor)
-			throws ServiceException {
+	public final List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
+		// TODO define a number of ticks
+		SubMonitor progress = SubMonitor.convert(monitor);
 		try {
 			File tmpFile = File.createTempFile("tmp", ".gml");
 			tmpFile.deleteOnExit();
 
 			ExportToGML exporter = new ExportToGML();
-			// TODO use a sub-monitor instead of monitor
-			exporter.export(model, tmpFile.getAbsolutePath(), monitor);
+			// TODO find an appropriate number of ticks for the sub-monitor
+			exporter.export(model, tmpFile.getAbsolutePath(), progress.newChild(10));
 
 			CommandLine cmdLine = new CommandLine(toolLocation);
 			cmdLine.addArgument(tmpFile.getAbsolutePath());
