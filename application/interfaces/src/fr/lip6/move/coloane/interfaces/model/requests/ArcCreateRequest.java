@@ -1,3 +1,18 @@
+/**
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
+ *   Clément DÉMOULINS (LIP6) - Project Manager
+ *
+ * Official contacts:
+ *   coloane@lip6.fr
+ *   http://coloane.lip6.fr
+ */
 package fr.lip6.move.coloane.interfaces.model.requests;
 
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
@@ -31,28 +46,28 @@ public class ArcCreateRequest implements IRequest {
 	/**
 	 * @return the source of the new arc
 	 */
-	public INode getSource() {
+	public final INode getSource() {
 		return source;
 	}
 
 	/**
 	 * @return the target of the new arc
 	 */
-	public INode getTarget() {
+	public final INode getTarget() {
 		return target;
 	}
 
 	/**
 	 * @return The formalism used by the new arc
 	 */
-	public IArcFormalism getFormalism() {
+	public final IArcFormalism getFormalism() {
 		return formalism;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public int getRequestType() {
+	public final int getRequestType() {
 		return IRequest.ARC_CREATE_REQUEST;
 	}
 }

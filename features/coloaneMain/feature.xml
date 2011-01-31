@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.main"
+      id="fr.lip6.move.coloane.features.main"
       label="Coloane - Core"
-      version="0.16.2"
+      version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core"
       os="linux,macosx,win32"
@@ -50,20 +50,6 @@ Contributors list : https://coloane.lip6.fr/developers
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.ui.console"/>
    </requires>
-
-   <plugin
-         id="fr.lip6.move.coloane.apicami"
-         download-size="29"
-         install-size="29"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.lip6.move.coloane.apiws"
-         download-size="29"
-         install-size="29"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="fr.lip6.move.coloane.interfaces"

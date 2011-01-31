@@ -1,3 +1,18 @@
+/**
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
+ *   Clément DÉMOULINS (LIP6) - Project Manager
+ *
+ * Official contacts:
+ *   coloane@lip6.fr
+ *   http://coloane.lip6.fr
+ */
 package fr.lip6.move.coloane.interfaces.objects.result;
 
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -14,7 +29,7 @@ import java.util.Map;
  * The result has a tree structure : it can contain {@link SubResult} which will also be able to contain others SubResult.<br>
  * A result can also carries some request to modify the current model or to create a new one.<br>
  * To modify the current model, contribute the <code>deltaRequestsList</code> through the method {@link #addDeltaRequest(IRequest)}.<br>
- * To describe a new model, contribute to the <code>newModelRequestList</code> through the method 
+ * To describe a new model, contribute to the <code>newModelRequestList</code> through the method
  * 
  * @author Florian David
  * @author Jean-Baptiste Voron
@@ -69,14 +84,14 @@ public class Result implements IResult {
 	 * Change the display status of the result
 	 * @param display <code>true</code> is the result should be display to the user
 	 */
-	public void setDisplay(boolean display) {
+	public final void setDisplay(boolean display) {
 		this.display = display;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean shouldBeDisplayed() {
+	public final boolean shouldBeDisplayed() {
 		return display;
 	}
 
@@ -157,21 +172,21 @@ public class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<IRequest> getDeltaRequestsList() {
+	public final List<IRequest> getDeltaRequestsList() {
 		return deltaRequestsList;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public List<IRequest> getNewComputedGraphDeltaRequestsList() {
+	public final List<IRequest> getNewComputedGraphDeltaRequestsList() {
 		return newComputedGraphRequestsList;
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public IGraph getNewComputedGraph() {
+	public final IGraph getNewComputedGraph() {
 		return newComputedGraph;
 	}
 	

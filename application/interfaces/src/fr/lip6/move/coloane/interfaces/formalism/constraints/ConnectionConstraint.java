@@ -1,3 +1,18 @@
+/**
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
+ *   Clément DÉMOULINS (LIP6) - Project Manager
+ *
+ * Official contacts:
+ *   coloane@lip6.fr
+ *   http://coloane.lip6.fr
+ */
 package fr.lip6.move.coloane.interfaces.formalism.constraints;
 
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
@@ -14,7 +29,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 
 /**
- * Define a link-constraint between 2 formalism elements.<br> 
+ * Define a link-constraint between 2 formalism elements.<br>
  * This constraint forbids the connection between a <code>source</code> element and a <code>target</code> element.
  * 
  * @author Jean-Baptiste Voron
@@ -52,7 +67,7 @@ public class ConnectionConstraint implements IConstraint, IConstraintLink, IExec
 
 	/** {@inheritDoc} */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
-		// Fetch parameters from the description 
+		// Fetch parameters from the description
 		Map<String, String> myParams = new HashMap<String, String>();
 		IConfigurationElement[] parameters = config.getChildren(PARAMETER_ID);
 		for (IConfigurationElement param : parameters) {
