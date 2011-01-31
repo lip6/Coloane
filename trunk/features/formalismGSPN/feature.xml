@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.formalisms.gspn"
+      id="fr.lip6.move.coloane.features.formalisms.gspn"
       label="Coloane - GSPN Formalism"
-      version="1.0.0"
+      version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 

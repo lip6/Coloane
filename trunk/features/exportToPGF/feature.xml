@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.exportToPGF"
+      id="fr.lip6.move.coloane.features.exportToPGF"
       label="Coloane - Export to PGF"
-      version="2.1.0"
+      version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
-      plugin="fr.lip6.move.coloane.core">
+      plugin="fr.lip6.move.coloane.core"
+      os="linux,macosx,win32"
+      ws="carbon,cocoa,gtk,win32"
+      arch="ppc,x86,x86_64">
 
    <description url="http://coloane.lip6.fr">
       This features brings PGF export to Coloane.

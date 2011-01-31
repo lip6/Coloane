@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.main.source"
+      id="fr.lip6.move.coloane.features.main.source"
       label="Coloane - Core Sources"
-      version="0.16.2"
+      version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core"
       os="linux,macosx,win32"
@@ -62,7 +62,7 @@ Many thanks for their help :
       <import plugin="org.eclipse.ui.views.properties.tabbed"/>
       <import plugin="org.eclipse.core.expressions"/>
       <import plugin="org.eclipse.ui.console"/>
-      <import feature="fr.lip6.move.coloane.feature.main" version="0.16.2"/>
+      <import feature="fr.lip6.move.coloane.features.main"/>
    </requires>
 
    <plugin
@@ -74,20 +74,6 @@ Many thanks for their help :
 
    <plugin
          id="fr.lip6.move.coloane.interfaces.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.lip6.move.coloane.apicami.source"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="fr.lip6.move.coloane.apiws.source"
          download-size="0"
          install-size="0"
          version="0.0.0"

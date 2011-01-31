@@ -1,3 +1,18 @@
+/**
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
+ *   Clément DÉMOULINS (LIP6) - Project Manager
+ *
+ * Official contacts:
+ *   coloane@lip6.fr
+ *   http://coloane.lip6.fr
+ */
 package fr.lip6.move.coloane.interfaces.model.requests;
 
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -42,28 +57,28 @@ public class InflexPointCreateRequest implements IRequest {
 
 	/**
 	 * The arc to which the new inflex point will be added
-	 * @return
+	 * @return the arc
 	 */
-	public IArc getArc() {
+	public final IArc getArc() {
 		return arc;
 	}
 
 	/**
 	 * @return the index of the new inflex point into the list of already existing point for this arc
 	 */
-	public int getIndex() {
+	public final int getIndex() {
 		return index;
 	}
 
 	/**
 	 * @return the position of the new inflex point
 	 */
-	public Point getPosition() {
+	public final Point getPosition() {
 		return position;
 	}
 	
 	/** {@inheritDoc} */
-	public int getRequestType() {
+	public final int getRequestType() {
 		return IRequest.INFLEXPOINT_CREATE_REQUEST;
 	}
 }
