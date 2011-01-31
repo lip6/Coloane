@@ -1,46 +1,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent> 
-		<groupId>fr.lip6.move.coloane.incubation</groupId> 
-		<artifactId>coloane-parent</artifactId> 
-		<version>1.0-INCUBATION</version>
-	</parent>
+    <parent>
+        <groupId>fr.lip6.move.coloane.incubation</groupId>
+        <artifactId>coloane-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-	<groupId>fr.lip6.move.coloane.incubation.extensions</groupId>
-	<artifactId>extensions-parent</artifactId>
-	<packaging>pom</packaging>
-	<name>Extensions</name>
-	<description>Group of extensions in incubation phase dedicated to Coloane</description>
+    <groupId>fr.lip6.move.coloane.incubation.extensions</groupId>
+    <artifactId>extensions-parent</artifactId>
+    <packaging>pom</packaging>
+    <name>Extensions</name>
+    <description>Group of extensions in incubation phase dedicated to Coloane</description>
 
-	<modules>
-		<module>importExportROMEO</module>
-		<module>importFromPROD</module>
-		<module>importFromSGROMEO</module>
-		<module>importExportITS</module>
-		<module>importExportTINA</module>
-		<module>exportToSVG</module>
-		<module>exportToGML</module>
-	</modules>
-	
-	<build>
-		<resources>
-			<resource>
-				<directory>.</directory>
-				<includes>
-					<include>build.properties</include>
-					<include>plugin.xml</include>
-					<include>resources/**</include>
-					<include>lib/**</include>
-				</includes>
-			</resource>
-			<resource>
-				<directory>src</directory>
-				<includes>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-		</resources>
-	</build>
+    <modules>
+        <module>importExportROMEO</module>
+        <module>importFromPROD</module>
+        <module>importFromSGROMEO</module>
+        <module>importExportITS</module>
+        <module>importExportTINA</module>
+        <module>exportToSVG</module>
+        <module>exportToGML</module>
+    </modules>
 </project>

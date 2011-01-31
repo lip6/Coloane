@@ -5,16 +5,44 @@
     <parent>
         <groupId>fr.lip6.move.coloane.incubation.extensions</groupId>
         <artifactId>extensions-parent</artifactId>
-        <version>1.0-INCUBATION</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>exportToGML</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>fr.lip6.move.coloane.extensions.exportToGML</artifactId>
+    <packaging>eclipse-plugin</packaging>
     <name>Extensions :: Export GML</name>
     <description>Coloane's extension that provides GML export feature</description>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr-runtime</artifactId>
+            <version>3.2</version>
+        </dependency>
+    </dependencies>
+
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <excludeScope>provided</excludeScope>
+                            <excludeGroupIds>junit,p2.eclipse-plugin</excludeGroupIds>
+                            <stripVersion>true</stripVersion>
+                            <outputDirectory>${basedir}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.antlr</groupId>
                 <artifactId>antlr3-maven-plugin</artifactId>
@@ -24,30 +52,13 @@
                         <goals>
                             <goal>antlr</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>target/classes/main/antlr3</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr-runtime</artifactId>
-            <version>3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr</artifactId>
-            <version>3.2</version>
-        </dependency>
-        <dependency>
-            <groupId>fr.lip6.move.coloane.application</groupId>
-            <artifactId>core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>fr.lip6.move.coloane.application</groupId>
-            <artifactId>interfaces</artifactId>
-        </dependency>
-    </dependencies>
 </project>
