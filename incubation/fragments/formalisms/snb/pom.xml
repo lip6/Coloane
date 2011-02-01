@@ -5,23 +5,12 @@
     <parent>
         <groupId>fr.lip6.move.coloane.incubation.fragments.formalisms</groupId>
         <artifactId>formalisms-parent</artifactId>
-        <version>1.0-INCUBATION</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>snb</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>fr.lip6.move.coloane.fragments.snb</artifactId>
+    <packaging>eclipse-plugin</packaging>
     <name>Fragments :: Formalisms :: Symmetric Nets with Bags</name>
     <description>Symmetric Net with Bags Formalism</description>
-
-    <dependencies>
-        <dependency>
-            <groupId>fr.lip6.move.coloane.application</groupId>
-            <artifactId>core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>fr.lip6.move.coloane.application</groupId>
-            <artifactId>interfaces</artifactId>
-        </dependency>
-    </dependencies>
 
 </project>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ExportToGML Plug-in
 Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exporttogml;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.extensions.exporttogml.Activator
 Require-Bundle: org.eclipse.core.runtime,
  fr.lip6.move.coloane.interfaces,
@@ -12,6 +12,6 @@ Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ClassPath: lib/antlr-runtime-3.2.jar,
+Bundle-ClassPath: lib/antlr-runtime.jar,
  .
 Export-Package: fr.lip6.move.coloane.extensions.exporttogml

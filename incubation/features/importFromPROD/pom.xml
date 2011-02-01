@@ -1,25 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
-	
-	<parent> 
-		<groupId>fr.lip6.move.coloane.incubation.features</groupId> 
-		<artifactId>features-parent</artifactId> 
-		<version>1.0-INCUBATION</version> 
-	</parent>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>fr.lip6.move.coloane.incubation.features</groupId>
-	<artifactId>importFromPROD</artifactId>
-	<packaging>jar</packaging>
-	<name>Features :: Import From PROD</name>
-	<description>Import Coloane feature that allow to import PROD models</description>
+    <parent>
+        <groupId>fr.lip6.move.coloane.incubation.features</groupId>
+        <artifactId>features-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
 
-	<dependencies>
-		<dependency>
-			<groupId>fr.lip6.move.coloane.incubation.extensions</groupId>
-			<artifactId>importFromPROD</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-	</dependencies>
+    <groupId>fr.lip6.move.coloane.incubation.features</groupId>
+    <artifactId>fr.lip6.move.coloane.feature.importFromPROD</artifactId>
+    <packaging>eclipse-feature</packaging>
+    <name>Features :: Import From PROD</name>
+    <description>Import Coloane feature that allow to import PROD models</description>
 
 </project>

@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.feature.formalisms.snb"
       label="Coloane - SNB Formalism"
-      version="1.0.0"
+      version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
@@ -36,5 +36,5 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
 </feature>

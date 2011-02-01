@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ImportExportTINA Plug-in
 Bundle-SymbolicName: fr.lip6.move.coloane.extensions.importExportTINA;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.extensions.importExportTINA.Activator
 Require-Bundle: fr.lip6.move.coloane.core,
  fr.lip6.move.coloane.interfaces,
@@ -13,5 +13,5 @@ Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: fr.lip6.move.coloane.extensions.importExportTINA.exportToTINA
-Bundle-ClassPath: lib/antlr-runtime-3.1.3.jar,
+Bundle-ClassPath: lib/antlr-runtime.jar,
  .

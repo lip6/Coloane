@@ -2,17 +2,16 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ExportToSVG
 Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exportToSVG;singleton:=true
-Bundle-Version: 1.0.0
+Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.extensions.exporttosvg.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.draw2d,
- fr.lip6.move.coloane.core;bundle-version="0.16.2",
- fr.lip6.move.coloane.interfaces;bundle-version="1.3.0"
+ fr.lip6.move.coloane.core,
+ fr.lip6.move.coloane.interfaces
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ClassPath: lib/batik-anim.jar,
- lib/batik-awt-util.jar,
+Bundle-ClassPath: lib/batik-awt-util.jar,
  lib/batik-css.jar,
  lib/batik-dom.jar,
  lib/batik-ext.jar,
@@ -23,7 +22,6 @@ Bundle-ClassPath: lib/batik-anim.jar,
  lib/batik-svggen.jar,
  lib/batik-util.jar,
  lib/batik-xml.jar,
- lib/xerces_2_5_0.jar,
- lib/xml-apis-ext.jar,
- lib/xml-apis.jar,
+ lib/xercesImpl.jar,
+ lib/xmlParserImpl.jar,
  .

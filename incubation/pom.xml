@@ -5,22 +5,22 @@
     <groupId>fr.lip6.move.coloane.incubation</groupId>
     <artifactId>coloane-parent</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-INCUBATION</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>Coloane Incubation</name>
     <description>Incubation Set of Features for Coloane</description>
     <url>http://coloane.lip6.fr</url>
 
     <modules>
-        <module>fragments</module>
         <module>extensions</module>
+        <module>fragments</module>
         <module>projects</module>
         <module>features</module>
         <module>update-site</module>
     </modules>
 
     <scm>
-        <connection>scm:svn:https://coloane.lip6.fr/svn/incubation</connection>
-        <developerConnection>scm:svn:https://coloane.lip6.fr/svn/incubation</developerConnection>
+        <connection>scm:svn:https://coloane.lip6.fr/svn/trunk</connection>
+        <developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk</developerConnection>
         <url>https://coloane.lip6.fr/trac</url>
     </scm>
 
@@ -32,148 +32,97 @@
     <properties>
         <!-- A changer lors du passage à Maven 2.1 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- Pour le déploiement des artefacts -->
+        <!-- Pour le déploiement (uniquement sur la machine coloane.lip6.fr) -->
         <project.deployPath>/data/coloane</project.deployPath>
+
+        <tycho-version>0.10.0</tycho-version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>ganymede</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/releases/ganymede</url>
+        </repository>
+        <repository>
+            <id>pnml</id>
+            <layout>p2</layout>
+            <url>http://pnml.lip6.fr/pnmlframework/updatesite</url>
+        </repository>
+    </repositories>
+
+    <!-- L'équipe de développement (actifs)-->
+    <developers>
+        <developer>
+            <id>fkordon</id>
+            <name>Fabrice Kordon</name>
+            <email>Fabrice.Kordon@lip6.fr</email>
+            <url>http://pagesperso-systeme.lip6.fr/Fabrice.Kordon/</url>
+            <organization>LIP6</organization>
+            <organizationUrl>http://www.lip6.fr</organizationUrl>
+            <roles>
+                <role>team-leader</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>jbvoron</id>
+            <name>Jean-Baptiste Voron</name>
+            <email>Jean-Baptiste.Voron@lip6.fr</email>
+            <url>http://pagesperso-systeme.lip6.fr/Jean-Baptiste.Voron/</url>
+            <organization>LIP6</organization>
+            <organizationUrl>http://www.lip6.fr</organizationUrl>
+            <roles>
+                <role>project-manager</role>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>cdemoulins</id>
+            <name>Clément Demoulins</name>
+            <email>Clement.Demoulins@lip6.fr</email>
+            <organization>LIP6</organization>
+            <organizationUrl>http://www.lip6.fr</organizationUrl>
+            <roles>
+                <role>project-manager</role>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+        <developer>
+            <id>ythierry</id>
+            <name>Yann Thierry-Mieg</name>
+            <email>Yann.Thierry-Mieg@lip6.fr</email>
+            <organization>LIP6</organization>
+            <organizationUrl>http://www.lip6.fr</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </developer>
+    </developers>
+
+    <!-- Serveur d'integration continue -->
+    <ciManagement>
+        <system>TeamCity</system>
+        <url>https://teamcity-systeme.lip6.fr/</url>
+    </ciManagement>
 
     <distributionManagement>
         <repository>
             <id>forge.releases</id>
             <name>Internal Release Repository for Coloane</name>
-            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/incubations</url>
+            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/releases</url>
         </repository>
         <snapshotRepository>
             <id>forge.snapshots</id>
             <name>Internal Snapshot Repository for Coloane</name>
-            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/incubations</url>
+            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>gef</artifactId>
-                <version>3.4.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>draw2d</artifactId>
-                <version>3.4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.equinox</groupId>
-                <artifactId>app</artifactId>
-                <version>1.1.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.core</groupId>
-                <artifactId>expressions</artifactId>
-                <version>3.4.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>jface</artifactId>
-                <version>3.4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>swt</artifactId>
-                <version>3.4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.core</groupId>
-                <artifactId>commands</artifactId>
-                <version>3.4.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jface</groupId>
-                <artifactId>databinding</artifactId>
-                <version>1.2.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.core</groupId>
-                <artifactId>databinding</artifactId>
-                <version>1.1.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>text</artifactId>
-                <version>3.4.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.equinox</groupId>
-                <artifactId>common</artifactId>
-                <version>3.4.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.ui</groupId>
-                <artifactId>workbench</artifactId>
-                <version>3.4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse</groupId>
-                <artifactId>ui</artifactId>
-                <version>3.4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.core</groupId>
-                <artifactId>net</artifactId>
-                <version>1.1.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.ui</groupId>
-                <artifactId>forms</artifactId>
-                <version>3.3.0-v20070511</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.jface</groupId>
-                <artifactId>text</artifactId>
-                <version>3.4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.ui.workbench</groupId>
-                <artifactId>texteditor</artifactId>
-                <version>3.4.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.ui</groupId>
-                <artifactId>editors</artifactId>
-                <version>3.3.0-v20070606-0010</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.core</groupId>
-                <artifactId>filesystem</artifactId>
-                <version>1.2.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.core</groupId>
-                <artifactId>filebuffers</artifactId>
-                <version>3.3.0-v20070606-0010</version>
-            </dependency>
-            <dependency>
-                <groupId>org.eclipse.core</groupId>
-                <artifactId>variables</artifactId>
-                <version>3.2.0-v20070426</version>
-            </dependency>
-
-            <!-- Local artifacts -->
-            <dependency>
-                <groupId>fr.lip6.move.coloane.application</groupId>
-                <artifactId>core</artifactId>
-                <version>[0.16,)</version>
-            </dependency>
-            <dependency>
-                <groupId>fr.lip6.move.coloane.application</groupId>
-                <artifactId>interfaces</artifactId>
-                <version>[0.16,)</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <build>
-        <finalName>${project.artifactId}_${project.version}-r${buildNumber}</finalName>
         <sourceDirectory>src</sourceDirectory>
         <testSourceDirectory>test</testSourceDirectory>
 
@@ -189,12 +138,70 @@
                     <artifactId>maven-license-plugin</artifactId>
                     <version>1.4.0</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
-        <!-- Configuration des plugins de Maven -->
         <plugins>
-            <!-- Pour compiler avec le JDK 1.5 -->
+            <!-- Build Coloane using tycho -->
+            <plugin>
+                <groupId>org.sonatype.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <extensions>true</extensions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.tycho</groupId>
+                <artifactId>target-platform-configuration</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <resolver>p2</resolver>
+                    <environments>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86</arch>
+                        </environment>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86</arch>
+                        </environment>
+                        <!-- Not available for eclipse 3.4 -->
+<!--                        <environment>-->
+<!--                            <os>win32</os>-->
+<!--                            <ws>win32</ws>-->
+<!--                            <arch>x86_64</arch>-->
+<!--                        </environment>-->
+<!--                        <environment>-->
+<!--                            <os>macosx</os>-->
+<!--                            <ws>cocoa</ws>-->
+<!--                            <arch>x86_64</arch>-->
+<!--                        </environment>-->
+                    </environments>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.sonatype.tycho</groupId>
+                <artifactId>maven-osgi-compiler-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -202,123 +209,115 @@
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
-                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
 
-            <!-- Pour le Checkstyle -->
+            <plugin>
+                <groupId>org.sonatype.tycho</groupId>
+                <artifactId>maven-osgi-source-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <executions>
+                    <execution>
+                        <id>plugin-source</id>
+                        <goals>
+                            <goal>plugin-source</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Signature des jars -->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-jar-plugin</artifactId>-->
+<!--                <version>2.3.1</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>sign</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                    <execution>-->
+<!--                        <id>SignSource</id>-->
+<!--                        <phase>verify</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>sign</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--                <configuration>-->
+<!--                    <keystore>${env.BUILDTOOLS}/coloane.keystore</keystore>-->
+<!--                    <alias>coloane</alias>-->
+<!--                    <storepass>odui2aiF</storepass>-->
+<!--                    <keypass>gu2Ieg2v</keypass>-->
+<!--                    <verify>true</verify>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.6</version>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.1</version>
                 <configuration>
-                    <configLocation>http://coloane.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
-                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                    <failOnViolation>false</failOnViolation>
-                    <linkXRef>false</linkXRef>
+                    <excludeScope>provided</excludeScope>
+                    <excludeGroupIds>junit,p2.eclipse-plugin</excludeGroupIds>
+                    <stripVersion>true</stripVersion>
+                    <outputDirectory>${basedir}/lib</outputDirectory>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.code.maven-license-plugin</groupId>
+                <artifactId>maven-license-plugin</artifactId>
+                <configuration>
+                    <basedir>${basedir}</basedir>
+                    <header>http://coloane.lip6.fr/resources/header-incubation.txt</header>
+                    <validHeaders>
+                        <validHeader>http://coloane.lip6.fr/resources/header.txt</validHeader>
+                    </validHeaders>
+                    <quiet>false</quiet>
+                    <failIfMissing>true</failIfMissing>
+                    <aggregate>false</aggregate>
+                    <includes>
+                        <include>src/**</include>
+                        <include>**/test/**</include>
+                    </includes>
+                    <excludes>
+                        <exclude>target/**</exclude>
+                        <exclude>.clover/**</exclude>
+                        <exclude>**/fr/lip6/move/coloane/interfaces/utils/ProcessController.java</exclude>
+                        <exclude>**/fr/lip6/move/coloane/core/ui/figures/RoundedPolylineConnection.java</exclude>
+                    </excludes>
+                    <useDefaultExcludes>true</useDefaultExcludes>
+                    <useDefaultMapping>true</useDefaultMapping>
+                    <properties>
+                        <year>2010</year>
+                    </properties>
+                    <encoding>UTF-8</encoding>
                 </configuration>
                 <executions>
                     <execution>
-                        <id>Checkstyle</id>
+                        <id>GenerateHeaders</id>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>CheckForHeaders</id>
                         <phase>validate</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
                     </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <!-- Calcule la revision courante du dépôt de sources -->
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.0-beta-4</version>
-                <configuration>
-                    <useLastCommitedRevision>true</useLastCommitedRevision>
-<!--                    <doUpdate>true</doUpdate>-->
-                </configuration>
-                <executions>
                     <execution>
-                        <id>BuildNumber</id>
-                        <phase>validate</phase>
+                        <id>CleanHeaders</id>
                         <goals>
-                            <goal>create</goal>
+                            <goal>remove</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Modification du MANIFEST.MF pour ajouter des informations supplémentaires -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.1</version>
-                <configuration>
-                    <archive>
-                        <manifestFile>META-INF/MANIFEST.MF</manifestFile>
-                        <manifest>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                        </manifest>
-                        <manifestEntries>
-                            <Bundle-Version-Maven>${project.version}-r${buildNumber}</Bundle-Version-Maven>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2</version>
-                <executions>
-
-                    <!-- Modification du MANIFEST.MF -->
-                    <execution>
-                        <id>UpdateManifest</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>${env.BUILDTOOLS}/updateManifest.sh</executable>
-                            <arguments>
-                                <argument>${project.version}</argument>
-                                <argument>${buildNumber}</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-
-                    <!-- Déploiement du JAR au bon endroit (snapshot/release)-->
-                    <execution>
-                        <id>Deploy</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>${env.BUILDTOOLS}/deployJar.sh</executable>
-                            <arguments>
-                                <argument>${project.version}</argument>
-                                <argument>${build.finalName}.${project.packaging}</argument>
-                                <argument>${project.deployPath}</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-
-                    <!-- Nettoyage du MANIFEST.MF (retour à la revision de base) -->
-                    <execution>
-                        <id>CleanManifest</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>${env.BUILDTOOLS}/cleanManifest.sh</executable>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+
 </project>
