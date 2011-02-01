@@ -278,6 +278,11 @@
                     <artifactId>maven-license-plugin</artifactId>
                     <version>1.4.0</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>2.1</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -442,6 +447,18 @@
 <!--                    <verify>true</verify>-->
 <!--                </configuration>-->
 <!--            </plugin>-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <excludeScope>provided</excludeScope>
+                    <excludeGroupIds>junit,p2.eclipse-plugin</excludeGroupIds>
+                    <stripVersion>true</stripVersion>
+                    <outputDirectory>${basedir}/lib</outputDirectory>
+                </configuration>
+            </plugin>
         </plugins>
 
     </build>
