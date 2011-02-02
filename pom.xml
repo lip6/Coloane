@@ -7,7 +7,7 @@
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <name>Coloane</name>
-    <description>Multi-Platform Editor based on Eclipse - Connection to the FrameKit Platform</description>
+    <description>Multi-Platform Model Editor based on Eclipse</description>
     <url>http://coloane.lip6.fr</url>
 
     <modules>

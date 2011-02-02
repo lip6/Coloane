@@ -36,32 +36,32 @@
    <feature url="features/fr.lip6.move.coloane.features.tools.layout_0.0.0.jar" id="fr.lip6.move.coloane.features.tools.layout" version="0.0.0">
       <category name="Tools"/>
    </feature>
-   <category-def name="ColoaneCore" label="Coloane Core (Required)">
+   <category-def name="ColoaneCore" label="[Coloane] Core (Required)">
       <description>
          This category groups all required plugins to run Coloane.
       </description>
    </category-def>
-   <category-def name="ColoaneCoreSources" label="Coloane Core Sources (Optional)">
+   <category-def name="ColoaneCoreSources" label="[Coloane] Core Sources (Optional)">
       <description>
          This category groups all sources of Coloane. Useful if you want to contribute to the project.
       </description>
    </category-def>
-   <category-def name="ImportExportWizards" label="Import/Export Wizards (Optional)">
+   <category-def name="ImportExportWizards" label="[Coloane] Import/Export Wizards (Optional)">
       <description>
          Use these plugins to import and export models under various formats.
       </description>
    </category-def>
-   <category-def name="Formalisms" label="Additionnal Formalisms (Optional)">
+   <category-def name="Formalisms" label="[Coloane] Additionnal Formalisms (Optional)">
       <description>
          More formalisms for Coloane
       </description>
    </category-def>
-   <category-def name="Others" label="Others (Optional)">
+   <category-def name="Others" label="[Coloane] Others (Optional)">
       <description>
          These plugins add some optional features to Coloane
       </description>
    </category-def>
-   <category-def name="Tools" label="Local Tools">
+   <category-def name="Tools" label="[Coloane] Local Tools (Optional)">
       <description>
          You will find a set of tools you can directly connect to the Coloane editor. Syntax checkers, layout managers and some prototype tools...
       </description>
