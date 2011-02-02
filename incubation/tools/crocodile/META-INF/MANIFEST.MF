@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Crocodile
+Bundle-SymbolicName: fr.lip6.move.coloane.tools.crocodile;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: fr.lip6.move.coloane.tools.crocodile.Activator
+Eclipse-BundleShape: dir
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ fr.lip6.move.coloane.interfaces,
+ fr.lip6.move.coloane.core,
+ fr.lip6.move.coloane.extensions.exporttogml,
+ org.eclipse.ui.console
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .,
+ lib/commons-exec.jar
