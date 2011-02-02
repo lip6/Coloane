@@ -110,7 +110,7 @@ public class ExportToGML implements IExportTo {
 	 */
 	private void exportGraph(IGraph graph, Writer out, IProgressMonitor monitor) throws IOException, ExtensionException {
 		String gap = "\t";
-		Map<String, String> symbolTable = null;
+		Map<String, String> symbolTable = new HashMap<String, String>();
 
 		out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n");
 		out.write("<model formalismUrl=\"snb.fml\"\n");

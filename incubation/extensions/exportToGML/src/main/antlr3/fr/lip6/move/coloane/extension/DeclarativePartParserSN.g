@@ -15,8 +15,8 @@ options {
 }
 
 @members {
-	Map<String,String> symbols = new HashMap<String,String>();
-	public Map<String,String> getSymbols() { return symbols; }
+	Map<String, String> symbols = new HashMap<String, String>();
+	public Map<String, String> getSymbols() { return symbols; }
 	
 	private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
   private boolean is_domain(String id) { return "domain".equals(symbols.get(id)) || "domain_bag".equals(symbols.get(id)); }
