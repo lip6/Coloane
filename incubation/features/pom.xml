@@ -26,6 +26,7 @@
 <!--        <module>projectITSModeler</module>-->
         <module>exportToSVG</module>
         <module>exportToGML</module>
+        <module>crocodile</module>
     </modules>
 
 </project>
