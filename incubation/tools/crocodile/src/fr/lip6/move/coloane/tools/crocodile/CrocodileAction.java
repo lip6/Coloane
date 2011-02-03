@@ -27,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecuteResultHandler;
@@ -47,6 +48,9 @@ import org.eclipse.ui.console.IOConsole;
  *
  */
 public class CrocodileAction implements IService {
+	/** Le logger pour la classe */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	private static IOConsole myConsole;
 	private static String toolLocation;
 
@@ -75,9 +79,11 @@ public class CrocodileAction implements IService {
 
 		String prefix = Activator.getDefault().getBundle().getLocation().replace("reference:file:", "");
 		toolLocation = prefix + "crocodile-binaries/Crocodile-" + getArchOS();
+		LOGGER.fine("Location of the binary : " + toolLocation);
 
 		File crocExec = new File(toolLocation);
 		if (!crocExec.setExecutable(true)) {
+			LOGGER.severe("unable to make the command-line tool executable [" + toolLocation + "]");
 			throw new ServiceException("unable to make the command-line tool executable");
 		}
 	}
