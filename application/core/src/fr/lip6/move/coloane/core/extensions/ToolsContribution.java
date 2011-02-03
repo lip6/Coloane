@@ -19,6 +19,7 @@ import fr.lip6.move.coloane.core.ui.actions.LocalAction;
 import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -81,12 +82,13 @@ public class ToolsContribution extends CompoundContributionItem {
 				IAction localAction = new LocalAction(name, description, ImageDescriptor.createFromFile(action.getClass(), icon), action);
 				allContribs.add(new ActionContributionItem(localAction));
 			} catch (CoreException e) {
-				LOGGER.warning("Extension [" + name + "] was unable to be instanciated"); //$NON-NLS-1$ //$NON-NLS-2$
-				IStatus warningStatus = new Status(IStatus.ERROR, "fr.lip6.move.coloane.extensions.tools", "Extension " + name + " was unable to be instanciated");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				LOGGER.warning("Extension [" + name + "] was unable to be instanciated : " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
+				LOGGER.finest(Arrays.toString(e.getStackTrace()));
+				IStatus warningStatus = new Status(IStatus.ERROR, "fr.lip6.move.coloane.extensions.tools", "Extension " + name + " was unable to be instanciated", e);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				StatusManager.getManager().handle(warningStatus);
 			} catch (ClassCastException ce) {
 				LOGGER.warning("Extension [" + name + "] was unable to be instanciated (invalid tool)"); //$NON-NLS-1$ //$NON-NLS-2$
-				IStatus warningStatus = new Status(IStatus.ERROR, "fr.lip6.move.coloane.extensions.tools", "Extension " + name + " was unable to be instanciated");  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				IStatus warningStatus = new Status(IStatus.ERROR, "fr.lip6.move.coloane.extensions.tools", "Extension " + name + " was unable to be instanciated", ce);  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				StatusManager.getManager().handle(warningStatus);
 			}
 		}
