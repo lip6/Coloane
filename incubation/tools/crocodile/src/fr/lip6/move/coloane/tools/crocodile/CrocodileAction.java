@@ -26,6 +26,8 @@ import fr.lip6.move.coloane.interfaces.objects.services.IService;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -35,6 +37,7 @@ import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteStreamHandler;
 import org.apache.commons.exec.Executor;
 import org.apache.commons.exec.PumpStreamHandler;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.ui.console.ConsolePlugin;
@@ -52,14 +55,17 @@ public class CrocodileAction implements IService {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private static IOConsole myConsole;
-	private static String toolLocation;
+
+	private final URI toolUri;
 
 	/**
 	 * Public constructor for the action
 	 * 
 	 * @throws ServiceException if the architecture cannot be determined
+	 * @throws IOException if the tool location cannot be resolved
+	 * @throws URISyntaxException I don't know
 	 */
-	public CrocodileAction() throws ServiceException {
+	public CrocodileAction() throws ServiceException, IOException, URISyntaxException {
 		String consoleName = "Crocodile console";
 
 		ConsolePlugin consolePlugin = ConsolePlugin.getDefault();
@@ -77,13 +83,12 @@ public class CrocodileAction implements IService {
 			conMan.addConsoles(new IConsole[]{myConsole});
 		}
 
-		String prefix = Activator.getDefault().getBundle().getLocation().replace("reference:file:", "");
-		toolLocation = prefix + "crocodile-binaries/Crocodile-" + getArchOS();
-		LOGGER.fine("Location of the binary : " + toolLocation);
+		toolUri = FileLocator.toFileURL(Activator.getDefault().getBundle().getResource("crocodile-binaries/Crocodile-" + getArchOS())).toURI();
+		LOGGER.fine("Location of the binary : " + toolUri);
 
-		File crocExec = new File(toolLocation);
+		File crocExec = new File(toolUri);
 		if (!crocExec.setExecutable(true)) {
-			LOGGER.severe("unable to make the command-line tool executable [" + toolLocation + "]");
+			LOGGER.severe("unable to make the command-line tool executable [" + toolUri + "]");
 			throw new ServiceException("unable to make the command-line tool executable");
 		}
 	}
@@ -107,7 +112,7 @@ public class CrocodileAction implements IService {
 			// TODO find an appropriate number of ticks for the sub-monitor
 			exporter.export(model, tmpFile.getAbsolutePath(), progress.newChild(10));
 
-			CommandLine cmdLine = new CommandLine(toolLocation);
+			CommandLine cmdLine = new CommandLine(toolUri.getPath());
 			cmdLine.addArgument(tmpFile.getAbsolutePath());
 
 			DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
