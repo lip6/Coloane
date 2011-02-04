@@ -67,7 +67,7 @@
                   A class that implements IServices. The run method of this class will be called by Coloane.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.objects.services.IServices"/>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.objects.services.IService"/>
                </appInfo>
             </annotation>
          </attribute>
