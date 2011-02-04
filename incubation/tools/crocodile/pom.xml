@@ -20,4 +20,32 @@
             <version>1.1</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <target>
+                                <echo message="Get Crocodile binairies"/>
+                                <get src="https://teamcity-systeme.lip6.fr/guestAuth/repository/download/bt67/.lastSuccessful/Crocodile" dest="crocodile-binaries/Crocodile-linux32"/>
+                                <get src="https://teamcity-systeme.lip6.fr/guestAuth/repository/download/bt66/.lastSuccessful/Crocodile" dest="crocodile-binaries/Crocodile-linux64"/>
+                                <get src="https://teamcity-systeme.lip6.fr/guestAuth/repository/download/bt63/.lastSuccessful/Crocodile" dest="crocodile-binaries/Crocodile-Darwin"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions> 
+            </plugin>
+        </plugins>
+    </build>
+
 </project>
