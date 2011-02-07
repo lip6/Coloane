@@ -24,7 +24,7 @@ import org.eclipse.gef.rulers.RulerProvider;
 
 /**
  * Define a ruler
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class EditorRuler {
@@ -42,7 +42,7 @@ public class EditorRuler {
 	/** The unit */
 	private int unit;
 
-	/** 
+	/**
 	 * The rule orientation
 	 * @see EditorRulerProvider.#HORIZONTAL_ORIENTATION
 	 * @see EditorRulerProvider.#VERTICAL_ORIENTATION
@@ -118,7 +118,7 @@ public class EditorRuler {
 	 */
 	public final int getGuidesOrientation() {
 		if (getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
-			return EditorRulerProvider.VERTICAL_ORIENTATION; 
+			return EditorRulerProvider.VERTICAL_ORIENTATION;
 		} else {
 			return EditorRulerProvider.HORIZONTAL_ORIENTATION;
 		}

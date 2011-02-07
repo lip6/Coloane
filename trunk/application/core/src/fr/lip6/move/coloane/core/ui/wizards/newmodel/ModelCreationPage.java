@@ -234,7 +234,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 				LOGGER.fine("Create a model based on the example:" + patternsList.getText()); //$NON-NLS-1$
 			}
 
-			// Build the input stream from the string 
+			// Build the input stream from the string
 			inputS = new ByteArrayInputStream(xmlString.getBytes());
 		} catch (CoreException e) {
 			LOGGER.warning("Unable to get the example source"); //$NON-NLS-1$

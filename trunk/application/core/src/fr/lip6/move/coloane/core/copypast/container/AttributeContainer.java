@@ -21,7 +21,7 @@ import org.eclipse.draw2d.geometry.Point;
 /**
  * Class that allow to re-build an attribute.<br>
  * This operation is used when a user copy/cut/paste an element from the model.
- * 
+ *
  * @author Clément Démoulins
  */
 public class AttributeContainer {

@@ -22,7 +22,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Delete an inflex point from an arc
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class InflexDeleteCmd extends Command {

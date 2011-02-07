@@ -37,7 +37,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * This class defines an action associated to a local tool.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

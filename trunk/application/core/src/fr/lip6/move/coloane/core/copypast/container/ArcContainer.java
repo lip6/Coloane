@@ -32,7 +32,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * Class that allow to re-build an arc.<br>
  * This operation is used when a user copy/cut/paste an element from the model.
- * 
+ *
  * @author Clément Démoulins
  */
 public class ArcContainer {
@@ -122,7 +122,7 @@ public class ArcContainer {
 	}
 
 	/**
-	 * @return The ID of the source node 
+	 * @return The ID of the source node
 	 */
 	public final int getIdSource() {
 		return idSource;

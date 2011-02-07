@@ -48,7 +48,7 @@ import org.eclipse.swt.graphics.Font;
 /**
  * This EditPart is in charge of managing attributes.<br>
  * All attributes are attached to the Graph EditPart because they have to be displayed in the graph drawing space.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
@@ -69,7 +69,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	private Font font;
 
 	/**
-	 * Listening state modification from the attribute's parent. 
+	 * Listening state modification from the attribute's parent.
 	 */
 	private EditPartListener editPartListener = new EditPartListener.Stub() {
 		
@@ -133,7 +133,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		if (attribute.getAttributeFormalism().getDefaultValue().equals(attribute.getValue())) {
 			if (!attribute.getAttributeFormalism().isDefaultValueDrawable()) {
 				return false;
-			} 
+			}
 		}
 		return true;
 	}
@@ -157,10 +157,10 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				// Check if a deltaLocation is specified
 				Point deltaLocation = attribute.getAttributeFormalism().getDeltaLocation();
 				if (!deltaLocation.equals(Point.SINGLETON.setLocation(0, 0))) {
-					// Compute a new location given the default GAP according to the node position 
+					// Compute a new location given the default GAP according to the node position
 					attributePosition = new Point(refLocation.x + deltaLocation.x, refLocation.y + deltaLocation.y);					
 
-				// If not, just use the GAP constant to locate attributes near their parent object 
+				// If not, just use the GAP constant to locate attributes near their parent object
 				} else {
 					attributePosition = new Point(refLocation.x + GAP, refLocation.y - GAP);
 				}
@@ -177,7 +177,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			if ((attribute.getGraphicInfo().getLocation().x <= 0) && (attribute.getGraphicInfo().getLocation().y <= 0)) {
 				attributePosition = ((IArc) attribute.getReference()).getGraphicInfo().findMiddlePoint();
 
-			//If the attribute has already some location information 
+			//If the attribute has already some location information
 			} else {
 				attributePosition = new Point(attribute.getGraphicInfo().getLocation().x, attribute.getGraphicInfo().getLocation().y);
 			}
@@ -346,7 +346,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			
 			// Deal with the special case where the location of the attribute has been reseted (-1,-1).
 			// In that case a new location has to be computed again.
-			Point newLocation = (Point) event.getNewValue(); 
+			Point newLocation = (Point) event.getNewValue();
 			if (newLocation.equals(Point.SINGLETON.setLocation(-1, -1))) {
 				IAttribute attribute = (IAttribute) getModel();
 				attribute.getGraphicInfo().setLocation(computeLocation(attribute));

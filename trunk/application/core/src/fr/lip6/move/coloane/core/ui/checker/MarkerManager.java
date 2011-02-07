@@ -42,7 +42,7 @@ import org.eclipse.ui.ide.IDE;
  * 	<li>Delete markers</li>
  *  <li>Provide navigation from the marker to the correct graph element</li>
  * </ul>
- * 
+ *
  * @author Florian David
  */
 public final class MarkerManager {
@@ -79,7 +79,7 @@ public final class MarkerManager {
 		return instance;
 	}
 
-	/** 
+	/**
 	 * Create one marker.
 	 * @param resource the resource file where markers are created.
 	 * @param type kind of marker to create.
@@ -102,7 +102,7 @@ public final class MarkerManager {
 		}
 	}
 
-	/** 
+	/**
 	 * Create one node marker.
 	 * @param resource the resource file where markers are created.
 	 * @param message marker message.
@@ -113,7 +113,7 @@ public final class MarkerManager {
 		createMarker(resource, NODE_MARKER, message, element, severity);
 	}
 
-	/** 
+	/**
 	 * Create one node attribute marker.
 	 * @param resource the resource file where markers are created.
 	 * @param message marker message.
@@ -124,7 +124,7 @@ public final class MarkerManager {
 		createMarker(resource, NODE_ATTRIBUTE_MARKER, message, element, severity);
 	}
 
-	/** 
+	/**
 	 * Create one arc marker.
 	 * @param resource the resource file where markers are created.
 	 * @param message marker message.
@@ -135,7 +135,7 @@ public final class MarkerManager {
 		createMarker(resource, ARC_MARKER, message, element, severity);
 	}
 
-	/** 
+	/**
 	 * Create one arc attribute marker.
 	 * @param resource the resource file where markers are created.
 	 * @param message marker message.
@@ -146,7 +146,7 @@ public final class MarkerManager {
 		createMarker(resource, ARC_ATTRIBUTE_MARKER, message, element, severity);
 	}
 
-	/** 
+	/**
 	 * Create one graph marker.
 	 * @param resource the resource file where markers are created.
 	 * @param message marker message.
@@ -157,7 +157,7 @@ public final class MarkerManager {
 		createMarker(resource, GRAPH_MARKER, message, element, severity);
 	}
 
-	/** 
+	/**
 	 * Create one graph attribute marker.
 	 * @param resource the resource file where markers are created.
 	 * @param message marker message.

@@ -20,7 +20,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 /**
  * Define a menu item.<br>
  * An item describes something (almost every elements) in a menu
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface IItemMenu {

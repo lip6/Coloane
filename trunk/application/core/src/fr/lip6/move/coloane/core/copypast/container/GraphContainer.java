@@ -28,10 +28,10 @@ import java.util.Set;
 /**
  * Class that contains node container and arcs container.<br>
  * This class is created when a copy action is performed by the user.
- * 
+ *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
- * 
+ *
  * @see NodeContainer
  * @see ArcContainer
  */

@@ -32,7 +32,7 @@ import org.eclipse.core.runtime.Platform;
  * 	<li>an extension for exported model</li>
  *  <li>a class that does the job</li>
  * </ul>
- * 
+ *
  * @see Wizard
  */
 public final class ExportToExtension {

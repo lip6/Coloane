@@ -53,9 +53,9 @@ import org.eclipse.gef.requests.ReconnectRequest;
 
 /**
  * Edit part that manages Sticky Notes
- * 
+ *
  * @author Clément Démoulins
- * 
+ *
  * @see StickyNoteModel
  * @see LinkModel
  */
@@ -79,7 +79,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 			}
 		});
 
-		// Connection properties 
+		// Connection properties
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
 			
 			/**

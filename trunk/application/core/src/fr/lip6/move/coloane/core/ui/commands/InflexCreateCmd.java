@@ -22,7 +22,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Create a new <b>inflex point</b> (aka. <i>bendpoint</i>)
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class InflexCreateCmd extends Command {

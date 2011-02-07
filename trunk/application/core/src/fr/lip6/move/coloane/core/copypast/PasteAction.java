@@ -26,7 +26,7 @@ import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * Paste action
- * 
+ *
  * @author Clément Démoulins
  */
 public class PasteAction extends SelectionAction {

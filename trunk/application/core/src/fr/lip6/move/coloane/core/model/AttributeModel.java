@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 
 /**
  * Describe an object model attribute
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class AttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement, ISpecialState {

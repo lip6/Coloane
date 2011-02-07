@@ -31,7 +31,7 @@ import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * Cut action
- * 
+ *
  * @author Clément Démoulins
  */
 public class CutAction extends SelectionAction {

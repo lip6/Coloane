@@ -36,7 +36,7 @@ public class LinkModel implements ILink {
 
 	/**
 	 * Constructor.<br>
-	 * Create a link between two elements. 
+	 * Create a link between two elements.
 	 * This link is not oriented.
 	 * <br><br>
 	 * @param note The sticky note

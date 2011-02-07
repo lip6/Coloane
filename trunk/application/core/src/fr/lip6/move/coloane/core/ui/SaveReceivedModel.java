@@ -30,7 +30,7 @@ import org.eclipse.ui.dialogs.SaveAsDialog;
 
 /**
  * Deal with the backup of a model received from an external source (such as an API)
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class SaveReceivedModel implements Runnable {
@@ -60,7 +60,7 @@ public class SaveReceivedModel implements Runnable {
 	/**
 	 * Display a dialog box to warn the user about the new model to backup.<br>
 	 * Compute a new name for the file.<br>
-	 * Fill the new file, and ask the workspace to update. 
+	 * Fill the new file, and ask the workspace to update.
 	 */
 	public final void run() {
 		// Build a dialog box

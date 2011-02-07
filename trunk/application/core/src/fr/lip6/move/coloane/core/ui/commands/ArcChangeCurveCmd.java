@@ -21,7 +21,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Command that allow to curve a straight arc and to straight a curved arc.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ArcChangeCurveCmd extends Command {

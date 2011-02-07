@@ -26,7 +26,7 @@ import org.eclipse.gef.requests.DirectEditRequest;
 
 /**
  * Rules used when an attributes is edited
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

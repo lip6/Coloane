@@ -325,7 +325,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 			 * When a user click on a start node, the create command {@link ArcCreateCmd} or {@link LinkCreateCmd} is called.
 			 * @return the creation command or <code>null</code> if the connection is not possible from this node
 			 * @see getConnectionCompleteCommand
-			 * 
+			 *
 			 */
 			@Override
 			protected Command getConnectionCreateCommand(CreateConnectionRequest request) {

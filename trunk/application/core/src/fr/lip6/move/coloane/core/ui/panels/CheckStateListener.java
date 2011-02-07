@@ -30,7 +30,7 @@ import org.eclipse.jface.viewers.ICheckStateListener;
 
 /**
  * Listener for the result tree viewer used to display results from external tools.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Demoulins
  * @author Florian David

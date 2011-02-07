@@ -24,7 +24,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Simple file handler that fetches the formalism from an XML file
- * 
+ *
  * @author Clément Démoulins
  */
 public class FormalismHandler extends DefaultHandler {

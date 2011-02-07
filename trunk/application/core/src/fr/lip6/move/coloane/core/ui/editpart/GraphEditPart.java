@@ -57,7 +57,7 @@ import org.eclipse.swt.SWT;
 
 /**
  * EditPart dedicated to the global graph model
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

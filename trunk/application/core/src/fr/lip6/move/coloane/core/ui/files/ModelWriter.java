@@ -30,7 +30,7 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * Utility class that help to write a model to an XML file.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public final class ModelWriter implements IModelHandler {
@@ -202,7 +202,7 @@ public final class ModelWriter implements IModelHandler {
 			// Inflex points
 			sb.append(translateInflexToXML(arc));
 
-			// Arc attributes 
+			// Arc attributes
 			sb.append(translateAttributesToXML(arc));
 
 			// End of the arc
@@ -231,7 +231,7 @@ public final class ModelWriter implements IModelHandler {
 	/**
 	 * Translate the attributes of an element
 	 * @param elt The element
-	 * @return A string that describes all node attributes 
+	 * @return A string that describes all node attributes
 	 */
 	private static String translateAttributesToXML(IElement elt) {
 		StringBuilder sb = new StringBuilder();

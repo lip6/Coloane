@@ -22,7 +22,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
  * Define a sub-menu.<br>
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

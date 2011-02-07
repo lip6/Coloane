@@ -21,7 +21,7 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * Message that will be displayed on a console
- * 
+ *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
  */

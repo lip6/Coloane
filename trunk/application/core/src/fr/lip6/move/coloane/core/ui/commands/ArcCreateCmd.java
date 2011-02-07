@@ -23,7 +23,7 @@ import org.eclipse.gef.commands.Command;
 /**
  * First step of the creation of an arc between two nodes.<br>
  * This command is created when the user click on the source node.<br>
- * 
+ *
  * @see ArcCompleteCmd
  * @author Jean-Baptiste Voron
  */

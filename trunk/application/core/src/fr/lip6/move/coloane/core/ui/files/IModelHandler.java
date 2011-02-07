@@ -17,7 +17,7 @@ package fr.lip6.move.coloane.core.ui.files;
 
 /**
  * Set of constants useful when dealing with XML files that describe models
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface IModelHandler {

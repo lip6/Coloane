@@ -37,7 +37,7 @@ import org.eclipse.gef.commands.Command;
  * If not, the checker won't check these modified, added, deleted ... elements.<br>
  * Just use the {@link CheckableCmd#addCheckableElement(IElement)} method to add the elements to check.<br>
  * For attributes, add the referenced element.
- * 
+ *
  * @author Florian David
  * @author Jean-Baptiste Voron
  */

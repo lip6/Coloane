@@ -36,18 +36,18 @@ import org.eclipse.core.runtime.Platform;
 
 /**
  * The class is able to find all API extensions.<br>
- * 
+ *
  * There exist two kind of APIs;
  * <ul>
  * 	<li>Local API</li>
  * 	<li>Global API</li>
  * </ul>
- * 
+ *
  * A local API provides services which apply on models. Most of APIs are local.
  * A global API provides services that do not require any model to be opened to be executed.
  * Typical example of such APIs is a model provider API (that provide examples of API). In that
  * case no running (active) model is required. The service will just feed Coloane with a new model.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public final class ApiExtension {

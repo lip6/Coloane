@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 
 /**
  * Describe an object model <b>computed</b> attribute
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ComputedAttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement, PropertyChangeListener {
@@ -89,7 +89,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 		return this.formatter.applyFormat(this.value, this.reference);
 	}
 
-	/** 
+	/**
 	 * {@inheritDoc}
 	 *
 	 * Should not be used here...<br>
@@ -155,7 +155,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * Typically, the node has been updated (or one of its standard attributes).
 	 * Thus, computed attributes should be updated too !
 	 */

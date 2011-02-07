@@ -26,7 +26,7 @@ import org.eclipse.ui.console.IConsoleConstants;
  * 	<li>Active views</li>
  * 	<li>View Layout</li>
  * </ul>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ColoanePerspectiveFactory implements IPerspectiveFactory {

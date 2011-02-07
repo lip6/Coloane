@@ -30,7 +30,7 @@ import java.util.Map;
 
 /**
  * Manage the attributes of an IElement.
- * 
+ *
  * @see ICoreElement
  * @author Jean-Baptiste Voron
  */
@@ -51,7 +51,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	/**
 	 * Constructor<br>
 	 * <i>(Call by subclasses)</i>
-	 * 
+	 *
 	 * @param id Identifier
 	 * @param parent Parent model element
 	 * @param attributes Element's attributes

@@ -17,7 +17,7 @@ package fr.lip6.move.coloane.core.model.interfaces;
 
 /**
  * Interface for a sticky link
- * 
+ *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
  */

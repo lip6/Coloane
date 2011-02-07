@@ -14,7 +14,7 @@
  *   http://coloane.lip6.fr
  */
 /**
- * 
+ *
  */
 package fr.lip6.move.coloane.core.ui.actions;
 

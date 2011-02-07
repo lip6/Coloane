@@ -21,7 +21,7 @@ import org.eclipse.core.runtime.CoreException;
 
 /**
  * Modeling Project Type
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public final class ColoaneProjectNature implements IProjectNature {

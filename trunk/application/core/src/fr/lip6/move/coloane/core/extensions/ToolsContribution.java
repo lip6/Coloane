@@ -37,7 +37,7 @@ import org.eclipse.ui.statushandlers.StatusManager;
 
 /**
  * This class browses all tools contributions plugged to Coloane.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ToolsContribution extends CompoundContributionItem {

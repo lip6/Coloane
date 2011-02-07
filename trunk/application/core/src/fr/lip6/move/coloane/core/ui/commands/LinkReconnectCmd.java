@@ -23,7 +23,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Reconnect a link with another source/target
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

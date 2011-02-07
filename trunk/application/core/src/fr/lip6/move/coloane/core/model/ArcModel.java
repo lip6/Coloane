@@ -36,7 +36,7 @@ import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Describe an <b>arc</b> model object
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
@@ -57,7 +57,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	/** List of bend points */
 	private List<AbsoluteBendpoint> inflexPoints = new ArrayList<AbsoluteBendpoint>();
 
-	/** 
+	/**
 	 * Links (used by StickyNote objects)
 	 * @see StickyNoteModel
 	 * @see LinkModel
@@ -66,7 +66,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parent The object that owns the arc (often the graph object)
 	 * @param arcFormalism The formalism that describe the arc
 	 * @param id Arc ID

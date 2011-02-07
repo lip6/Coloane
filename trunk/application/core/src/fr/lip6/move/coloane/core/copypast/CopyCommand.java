@@ -25,7 +25,7 @@ import org.eclipse.gef.ui.actions.Clipboard;
 
 /**
  * Copy Command
- * 
+ *
  * @author Clément Démoulins
  */
 public class CopyCommand extends Command {
@@ -33,7 +33,7 @@ public class CopyCommand extends Command {
 
 	/**
 	 * Constructor
-	 * @param editor The current editor 
+	 * @param editor The current editor
 	 */
 	public CopyCommand(ColoaneEditor editor) {
 		container = new GraphContainer(editor.getGraph().getFormalism());

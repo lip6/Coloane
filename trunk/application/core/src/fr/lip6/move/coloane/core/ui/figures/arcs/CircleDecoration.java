@@ -34,7 +34,7 @@ public class CircleDecoration extends Ellipse implements RotatableDecoration {
 		setSize(diameter, diameter);
 	}
 	
-	/** 
+	/**
 	 * Set the diameter of the circle.
 	 * @param diameter diameter of the circle
 	 */
@@ -42,7 +42,7 @@ public class CircleDecoration extends Ellipse implements RotatableDecoration {
 		super.setSize(diameter, diameter);
 	}
 
-	/** 
+	/**
 	 * Set the diameter of the circle.
 	 * @param w diameter of the circle
 	 * @param h not used !

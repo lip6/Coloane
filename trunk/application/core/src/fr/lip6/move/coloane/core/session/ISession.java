@@ -59,9 +59,9 @@ public interface ISession {
 	Checker getChecker();
 	
 	/**
-	 * @return The list of available APIs 
+	 * @return The list of available APIs
 	 */
-	List<ApiDescription> getAvailableApis(); 
+	List<ApiDescription> getAvailableApis();
 
 	/**
 	 * @return The result manager associated with this session

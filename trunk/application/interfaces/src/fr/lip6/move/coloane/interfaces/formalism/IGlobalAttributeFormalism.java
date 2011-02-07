@@ -58,7 +58,7 @@ public interface IGlobalAttributeFormalism {
 	 */
 	Integer getFontSize();
 
-	/** 
+	/**
 	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
 	 * @return the delta location
 	 */

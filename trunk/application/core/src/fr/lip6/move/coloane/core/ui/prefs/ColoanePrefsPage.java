@@ -40,7 +40,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * <ul>
  * 	<li>Stats Preferences</li>
  * 	<li>Debug Preferences</li>
- * </ul> 
+ * </ul>
  */
 public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPreferencePage {
 	/** Limit size for text field */

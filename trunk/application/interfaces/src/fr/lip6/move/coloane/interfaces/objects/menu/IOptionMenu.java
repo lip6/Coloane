@@ -18,7 +18,7 @@ package fr.lip6.move.coloane.interfaces.objects.menu;
 /**
  * Define an option.<br>
  * An option provide the same features as a <b>checkbox</b> in a form.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface IOptionMenu extends IItemMenu {

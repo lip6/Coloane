@@ -25,7 +25,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Create (finalize) the creation of a link between a model element ({@link ILinkableElement}) and a sticky note ({@link StickyNoteModel})
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

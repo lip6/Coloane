@@ -22,7 +22,7 @@ import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
 /**
  * EditPart that manages links between tips and its element
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

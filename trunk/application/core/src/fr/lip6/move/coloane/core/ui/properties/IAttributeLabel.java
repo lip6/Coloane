@@ -71,7 +71,7 @@ public interface IAttributeLabel {
 	 */
 	void addModifyListener(ModifyListener listener);
 
-	/** 
+	/**
 	 * @return The label of this configuration element.
 	 */
 	String getLabel();

@@ -23,7 +23,7 @@ package fr.lip6.move.coloane.interfaces.exceptions;
  * 	<li>a type</li>
  * 	<li>a message</li>
  * </ul>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ServiceException extends Exception {

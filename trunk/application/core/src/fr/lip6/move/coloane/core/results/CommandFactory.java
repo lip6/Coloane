@@ -71,14 +71,14 @@ public class CommandFactory {
 			AttributeChangeValueRequest attributeChangeValueRequest = (AttributeChangeValueRequest) request;
 			return new AttributeEditCmd(attributeChangeValueRequest.getAttribute(), attributeChangeValueRequest.getNewValue());
 
-		// Reset the position of attributes attached to an object 
+		// Reset the position of attributes attached to an object
 		case IRequest.ATTRIBUTE_RESET_POSITION_REQUEST:
 			AttributesResetPositionRequest attributesResetPositionRequest = (AttributesResetPositionRequest) request;
 			CompoundCommand resetAttributesPositionCommand = new CompoundCommand();
 			for (IAttribute attribute : attributesResetPositionRequest.getParentObject().getAttributes()) {
 				resetAttributesPositionCommand.add(new AttributeSetConstraintCmd(attribute, new Point(-1, -1)));
 			}
-			return resetAttributesPositionCommand; 
+			return resetAttributesPositionCommand;
 		
 		// Create a new inflex point
 		case IRequest.INFLEXPOINT_CREATE_REQUEST:
@@ -103,7 +103,7 @@ public class CommandFactory {
 		// Remove a node
 		case IRequest.NODE_DELETE_REQUEST:
 			NodeDeleteRequest nodeDeleteRequest = (NodeDeleteRequest) request;
-			return new NodeDeleteCmd(graph, nodeDeleteRequest.getElement()); 
+			return new NodeDeleteCmd(graph, nodeDeleteRequest.getElement());
 			
 		// Move a node
 		case IRequest.NODE_POSITION_REQUEST:

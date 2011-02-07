@@ -20,8 +20,8 @@ import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import org.eclipse.draw2d.geometry.Dimension;
 
 /**
- * Sticky note interface 
- * 
+ * Sticky note interface
+ *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
  */

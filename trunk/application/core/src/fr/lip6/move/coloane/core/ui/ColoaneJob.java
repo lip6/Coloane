@@ -33,7 +33,7 @@ import org.eclipse.core.runtime.jobs.Job;
 /**
  * Jobs are action containers.<br>
  * To use with {@link LocalAction}
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ColoaneJob extends Job {

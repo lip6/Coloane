@@ -34,7 +34,7 @@ import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 
 /**
  * Wizard dedicated to new project creation
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class NewProjectWizard extends Wizard implements INewWizard {

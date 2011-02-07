@@ -42,7 +42,7 @@ public class OptionAction extends Action {
 	/**
 	 * Convert a IOptionType to a type understandable by an IAction
 	 * @param style option style
-	 * @return a IAction style 
+	 * @return a IAction style
 	 */
 	private static int convertStyle(int style) {
 		if (style == IOptionMenu.TYPE_CHECKBOX) {

@@ -14,7 +14,7 @@
  *   http://coloane.lip6.fr
  */
 /**
- * 
+ *
  */
 package fr.lip6.move.coloane.core.ui.views;
 
@@ -33,7 +33,7 @@ import org.eclipse.ui.navigator.ICommonViewerWorkbenchSite;
 
 /**
  * Action provider for the models navigator.
- * 
+ *
  * @author Clément Démoulins
  */
 public class NavigatorActionProvider extends CommonActionProvider {

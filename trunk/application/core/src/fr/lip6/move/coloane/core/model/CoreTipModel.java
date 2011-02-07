@@ -28,7 +28,7 @@ import org.eclipse.draw2d.geometry.Point;
 /**
  * Describe a special element : TIP.<br>
  * A tip is like a bubble and is often sticked to an element.
- * 
+ *
  * @author Clément Démoulins
  */
 public class CoreTipModel extends AbstractPropertyChange implements ILocatedElement, ILocationInfo, ICoreTip {

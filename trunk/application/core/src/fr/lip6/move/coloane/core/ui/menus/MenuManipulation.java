@@ -27,7 +27,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
  * Set of methods that handle Coloane menu.<br>
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

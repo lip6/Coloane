@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 /**
  * Describe all properties for a graph.<br>
  * Basically, it contains nodes, arcs and attributes.<br>
- * Every formalism instances have, at least, one instance of this element. 
+ * Every formalism instances have, at least, one instance of this element.
  */
 public class GraphFormalism extends ElementFormalism implements IGraphFormalism {
 	/** Logger */

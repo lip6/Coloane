@@ -25,7 +25,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Find link to public node in models. All link are returned, even the broken links.
- * 
+ *
  * @author Clément Démoulins
  */
 public class NodeLinksHandler extends DefaultHandler {

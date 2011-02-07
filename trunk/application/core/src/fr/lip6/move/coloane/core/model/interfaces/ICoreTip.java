@@ -19,7 +19,7 @@ import fr.lip6.move.coloane.core.model.CoreTipModel.ArcTipModel;
 
 /**
  * Interface for a graphical tip
- * 
+ *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
  */
@@ -41,7 +41,7 @@ public interface ICoreTip extends ILocatedElement {
 	String getName();
 
 	/**
-	 * @return The value of the tip 
+	 * @return The value of the tip
 	 */
 	String getValue();
 }

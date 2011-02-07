@@ -35,7 +35,7 @@ import java.util.logging.Logger;
 /**
  * Describe a tree of results.<br>
  * The first level of this tree is used to show useful information about service that provides those results.<br>
- * You can use details 
+ * You can use details
  *
  * @author Jean-Baptiste Voron
  * @author Clément Demoulins

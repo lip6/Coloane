@@ -36,7 +36,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Move an object (that is supposed to move : {@link ILocatedElement})
- * 
+ *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
  */
@@ -91,7 +91,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 		if (element instanceof INode) {
 			INode node = (INode) element;
 
-			// Deal with incoming arcs. 
+			// Deal with incoming arcs.
 			// Attributes have to be moved too.
 			// Inflex point may be moved too.
 			for (IArc in : node.getIncomingArcs()) {

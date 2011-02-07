@@ -21,7 +21,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * Graphical properties and behaviors of an attribute
  * @see IAttribute
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface IAttributeGraphicInfo extends ILocationInfo {

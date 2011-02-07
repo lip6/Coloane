@@ -19,7 +19,7 @@ import fr.lip6.move.coloane.interfaces.api.services.IApiService;
 
 /**
  * Define a menu that provides access to a service.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface IServiceMenu extends IItemMenu {

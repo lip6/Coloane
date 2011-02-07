@@ -44,9 +44,9 @@ import org.eclipse.core.runtime.Platform;
  * This class handles results {@link IResult} coming from services (<i>local tools</i> or <i>platform tools</i>).<br>
  * Thanks to report classes {@link IReport}, the result is formatted and displayed correctly.<br>
  * <br>
- * Reports are used to deal with strange results coming from <b>old tools</b> or tools that are not aware of the results architecture used by Coloane.<br> 
+ * Reports are used to deal with strange results coming from <b>old tools</b> or tools that are not aware of the results architecture used by Coloane.<br>
  * This class is thread-safe.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Demoulins
  * @author Florian David
@@ -109,7 +109,7 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 			newResult = generic.build(result);
 		}
 
-		// Some basic considerations (top tree position and master name) 
+		// Some basic considerations (top tree position and master name)
 		newResult.setParent(this);
 		newResult.setServiceName(serviceName);
 

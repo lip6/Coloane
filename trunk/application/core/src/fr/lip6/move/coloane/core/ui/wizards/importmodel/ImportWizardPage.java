@@ -59,7 +59,7 @@ import org.eclipse.ui.ide.IDE;
  * 	<li>A list of target projects</li>
  * 	<li>A field to set the model name</li>
  * </ul>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ImportWizardPage extends WizardNewFileCreationPage {

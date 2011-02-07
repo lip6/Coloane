@@ -16,7 +16,7 @@
 package fr.lip6.move.coloane.core.exceptions;
 
 /**
- * Main exception used in case of unrecoverable error. 
+ * Main exception used in case of unrecoverable error.
  */
 public class ColoaneException extends Exception {
 	/** Serialize */

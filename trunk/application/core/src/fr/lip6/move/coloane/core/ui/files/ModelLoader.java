@@ -40,7 +40,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Utility class that help to load a model from an XML file.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

@@ -258,7 +258,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	private static final String CONTRIBUTOR_ID = "fr.lip6.move.coloane.properties.contributor"; //$NON-NLS-1$
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** 
+	/**
 	 * Focus listener.<br>
 	 * This listener is used to detect editor switches.<br>
 	 * In case of switch, it triggers some menus updates and recompute views dedicated to active editor.
@@ -431,7 +431,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	}
 	
 	/**
-	 * Put a particular GEF command on the editor stack  
+	 * Put a particular GEF command on the editor stack 
 	 * @param command The command that will be executed
 	 */
 	public final void executeCommand(Command command) {
@@ -545,7 +545,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 						String xmlString = ModelWriter.translateToXML(graph);
 						InputStream inputS = new ByteArrayInputStream(xmlString.getBytes());
 						try {
-							// If the file already exists, we replace its contents 
+							// If the file already exists, we replace its contents
 							if (file.exists()) {
 								file.setContents(inputS, true, false, monitor);
 							// Otherwise, we create the new file
@@ -559,7 +559,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 					}
 				});
 
-				// Those lines are triggering a strange behavior. 
+				// Those lines are triggering a strange behavior.
 				// setInput(new FileEditorInput(file));
 				// getCommandStack().markSaveLocation();
 				firePropertyChange(PROP_TITLE);

@@ -153,7 +153,7 @@ public class Formalism implements IFormalism {
 	/**
 	 * Set the root graph (the graph described by the formalism).<br>
 	 * This information is used to get the most high level graph object very quickly from any node, arc or attribute.<br>
-	 * Just use {@link #getMasterGraph()} 
+	 * Just use {@link #getMasterGraph()}
 	 * @param rootGraphFormalism The graph which is at the top level
 	 */
 	public final void setRootGraph(IGraphFormalism rootGraphFormalism) {

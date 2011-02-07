@@ -30,7 +30,7 @@ import org.eclipse.core.runtime.Status;
 /**
  * Define a constraint that limits the number that can be contained by a node.<br>
  * This constraint forbids the formalism element {@link GraphFormalism} to contain more than {@link #max} objects
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class CapacityConstraint implements IConstraint, IConstraintNode, IExecutableExtension {
@@ -51,14 +51,14 @@ public class CapacityConstraint implements IConstraint, IConstraintNode, IExecut
 	 */
 	public CapacityConstraint() { }
 
-	/** 
+	/**
 	 * {@inheritDoc}
 	 */
 	public final boolean isSatisfied(INode node) {
 		return (node.getNodeFormalism().getName().equals(element));
 	}
 
-	/** 
+	/**
 	 * {@inheritDoc}
 	 */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {

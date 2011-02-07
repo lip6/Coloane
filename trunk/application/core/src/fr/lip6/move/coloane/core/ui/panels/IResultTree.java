@@ -24,9 +24,9 @@ import java.util.Map;
 
 /**
  * Describe a result tree.<br>
- * Each result has a set of details to specify.<br> 
+ * Each result has a set of details to specify.<br>
  * Each of these details is described in a special column.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Demoulins
  * @author Florian David
@@ -39,7 +39,7 @@ public interface IResultTree {
 	IResultTree getParent();
 	
 	/**
-	 * 
+	 *
 	 * Set the parent of this result tree.<br>
 	 * Be careful! Only the link son -> dad is made.<br>
 	 * Use the method {@link #addChild(IResultTree)} to add some results
@@ -59,7 +59,7 @@ public interface IResultTree {
 	void addChild(IResultTree child);
 
 	/**
-	 * @return the elements that compose this result 
+	 * @return the elements that compose this result
 	 */
 	List<Object> getElement();
 

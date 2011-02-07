@@ -33,7 +33,7 @@ import org.eclipse.swt.widgets.Display;
 
 /**
  * Session Manager.<br>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public final class SessionManager implements ISessionManager {
@@ -63,7 +63,7 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/**
-	 * @return THE (unique) session manager 
+	 * @return THE (unique) session manager
 	 */
 	public static synchronized ISessionManager getInstance() {
 		if (instance == null) { instance = new SessionManager(); }

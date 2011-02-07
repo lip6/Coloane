@@ -55,7 +55,7 @@ public interface ISessionManager {
 	 * Remove session from the session manager.<br>
 	 * Usually, this operation is called when the user close an editor.
 	 * @param sessionId The name of the session to remove from the session manager
-	 * @return The session that has been removed from the session manager or <code>null</code> is something went wrong during the process 
+	 * @return The session that has been removed from the session manager or <code>null</code> is something went wrong during the process
 	 */
 	ISession destroySession(String sessionId);
 

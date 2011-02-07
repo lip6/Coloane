@@ -25,7 +25,7 @@ import org.eclipse.ui.console.MessageConsole;
 /**
  * Describe a connected API.<br>
  * Those information will be useful to build the menus.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ApiDescription {
@@ -45,7 +45,7 @@ public class ApiDescription {
 	/** The API root menu */
 	private ColoaneAPIRootMenu rootMenu;
 	
-	/** 
+	/**
 	 * The associated message console
 	 * Note that several APIs may share the same console.
 	 * That's why the console is provided by the session

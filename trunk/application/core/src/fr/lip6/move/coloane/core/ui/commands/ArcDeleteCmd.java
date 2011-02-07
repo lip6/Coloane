@@ -27,7 +27,7 @@ import java.util.Collection;
 
 /**
  * Delete an arc from the graph
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ArcDeleteCmd extends CheckableCmd {

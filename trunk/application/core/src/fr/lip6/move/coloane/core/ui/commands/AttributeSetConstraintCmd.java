@@ -22,7 +22,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Set a new position for an attribute
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class AttributeSetConstraintCmd extends Command {

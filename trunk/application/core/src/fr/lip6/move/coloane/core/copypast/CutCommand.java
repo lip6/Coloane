@@ -46,7 +46,7 @@ public class CutCommand extends Command {
 
 	/**
 	 * Constructor
-	 * @param editor The current editor 
+	 * @param editor The current editor
 	 */
 	public CutCommand(ColoaneEditor editor) {
 		if (editor.getGraph() != null) {

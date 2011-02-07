@@ -26,16 +26,16 @@ import org.eclipse.swt.SWT;
  * You can use the current state of the associated model element while drawing your figure.<br>
  * Please remember that the drawing of a figure must be quick and uses very low resources.
  * Don't make any strong computations to decide whether your figure should be red or blue...
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
 	
 	/**
-	 * This element can be used to adapt the aspect of the figure according to 
-	 * the current state of the associated model node element. Please be careful 
+	 * This element can be used to adapt the aspect of the figure according to
+	 * the current state of the associated model node element. Please be careful
 	 * when fetching some attributes from the model... Test the value of the property
-	 * before doing any changes to the figure.  
+	 * before doing any changes to the figure. 
 	 */
 	private INode modelElement;
 	
@@ -50,7 +50,7 @@ public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
 	 * {@inheritDoc}
 	 */
 	public final INode getModel() {
-		return this.modelElement; 
+		return this.modelElement;
 	}
 	
 	/**

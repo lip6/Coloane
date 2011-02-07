@@ -38,7 +38,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 
 /**
  * Paste command
- * 
+ *
  * @author Clément Démoulins
  */
 public class PasteCommand extends Command {
@@ -63,7 +63,7 @@ public class PasteCommand extends Command {
 
 	/**
 	 * Constructor
-	 * @param editor The current editor 
+	 * @param editor The current editor
 	 */
 	public PasteCommand(ColoaneEditor editor) {
 		graph = editor.getGraph();

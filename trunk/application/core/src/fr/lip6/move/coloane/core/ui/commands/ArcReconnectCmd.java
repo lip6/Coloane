@@ -22,7 +22,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 /**
  * Command that allows the re-connection of an arc.<br>
  * The aim of this command is to allow to change source <b>or</b> the target of an arc without destroying it.<br>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ArcReconnectCmd extends CheckableCmd {

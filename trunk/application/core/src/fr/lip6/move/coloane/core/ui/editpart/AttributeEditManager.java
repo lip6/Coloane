@@ -60,7 +60,7 @@ public class AttributeEditManager extends DirectEditManager {
 	/**
 	 * @param source Attribute's parent (in graphical hierarchy)
 	 * @param attributeModel Model object associate to the attribute
-	 * @param locator CellEditorLocator 
+	 * @param locator CellEditorLocator
 	 */
 	public AttributeEditManager(GraphicalEditPart source, IAttribute attributeModel, CellEditorLocator locator) {
 		super(source, null, locator);
@@ -103,7 +103,7 @@ public class AttributeEditManager extends DirectEditManager {
 	}
 
 	/**
-	 * Free fonts resources 
+	 * Free fonts resources
 	 */
 	private void disposeScaledFont() {
 		if (scaledFont != null) {

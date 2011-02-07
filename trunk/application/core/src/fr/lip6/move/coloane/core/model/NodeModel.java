@@ -36,7 +36,7 @@ import java.util.logging.Logger;
 
 /**
  * Describe a model node object.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class NodeModel extends AbstractElement implements INode, ILocatedElement, ILinkableElement {

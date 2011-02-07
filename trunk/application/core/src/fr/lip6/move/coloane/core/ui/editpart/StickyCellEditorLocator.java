@@ -38,7 +38,7 @@ public final class StickyCellEditorLocator implements CellEditorLocator {
 		setLabel(stickyNote);
 	}
 
-	/** 
+	/**
 	 * {@inheritDoc}
 	 */
 	public void relocate(CellEditor celleditor) {

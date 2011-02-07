@@ -24,10 +24,10 @@ import java.util.List;
  * <br>
  * Standard Attributes share some properties with Computed Attributes.<br>
  * Those common properties are detailed in Global Attributes definition.
- * 
+ *
  * @see IComputedAttributeFormalism
  * @see IGlobalAttributeFormalism
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface IAttributeFormalism extends IGlobalAttributeFormalism {
