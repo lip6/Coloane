@@ -49,7 +49,7 @@ public class CopyAction extends SelectionAction {
 		// force calculateEnabled() to be called in every context
 		setLazyEnablementCalculation(true);
 	}
-	
+
 	/** {@inheritDoc} */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -74,7 +74,7 @@ public class CopyAction extends SelectionAction {
 
 		// New copy command... to fill
 		CopyCommand copyCommand = new CopyCommand(editor);
-		
+
 		// Browse all selected objects and update the copy command
 		for (Object selectedObject : selectedObjects) {
 			if (selectedObject instanceof EditPart) {

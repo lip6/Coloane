@@ -46,18 +46,18 @@ public interface ISession {
 	 * @return IGraph The graph associated to the session
 	 */
 	IGraph getGraph();
-	
+
 	/**
 	 * Set the checker that will be in charge of checking the correctness of the graph
 	 * @param checker The associated checker
 	 */
 	void setChecker(Checker checker);
-	
+
 	/**
 	 * @return The checker associated with the graph
 	 */
 	Checker getChecker();
-	
+
 	/**
 	 * @return The list of available APIs
 	 */
@@ -92,12 +92,12 @@ public interface ISession {
 	 * @return A list of tips
 	 */
 	Collection<ICoreTip> getTipForObject(int id);
-	
+
 	/**
 	 * @return The console associated with this session
 	 */
 	MessageConsole getConsole();
-	
+
 	/**
 	 * Add a listener to be aware of session changes
 	 * @param listener The listener to add to the session
@@ -111,6 +111,5 @@ public interface ISession {
 	 * @see PropertyChangeSupport
 	 */
 	void removePropertyChangeListener(PropertyChangeListener listener);
-
 
 }

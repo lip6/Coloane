@@ -43,7 +43,6 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	private SelectFormalismPage selectFormalism;
 	private ModelCreationPage createModel;
 
-
 	/** {@inheritDoc} */
 	@Override
 	public final void addPages() {

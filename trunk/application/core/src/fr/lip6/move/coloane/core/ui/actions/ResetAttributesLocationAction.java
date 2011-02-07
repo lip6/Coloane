@@ -91,7 +91,6 @@ public class ResetAttributesLocationAction extends SelectionAction {
 		// Check whether the current selection is empty or not
 		if (attributesToReset == null) { return; }
 
-		
 		for (IAttribute attribute : attributesToReset) {
 			commandsGroup.add(new AttributeSetConstraintCmd(attribute, new Point(-1,-1)));
 		}

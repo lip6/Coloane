@@ -68,7 +68,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 	/** Various data */
 	private StringBuilder data = new StringBuilder();
-	
+
 	/** ElementFormalism Cache */
 	private Map<String,IElementFormalism> formalismCache = new HashMap<String, IElementFormalism>();
 
@@ -123,7 +123,6 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		data.append(this.deformat(new String(ch, start, length)));
 	}
 
-
 	/** {@inheritDoc} */
 	@Override
 	public final void endElement(String uri, String localName, String baliseName) throws SAXException {
@@ -172,12 +171,12 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 			IFormalism formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 			IGraph graph = new GraphModel(formalism);
 			stack.push(graph);
-			
+
 			// build the formalism cache
 			for (IElementFormalism elementFormalism : formalism.getRootGraph().getAllElementFormalism()) {
 				formalismCache.put(elementFormalism.getName(),elementFormalism);
 			}
-			
+
 		} catch (IllegalArgumentException e) {
 			throw new SAXException(e);
 		}

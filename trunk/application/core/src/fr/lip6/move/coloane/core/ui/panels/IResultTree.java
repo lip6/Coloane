@@ -37,7 +37,7 @@ public interface IResultTree {
 	 * @return root Return the parent
 	 */
 	IResultTree getParent();
-	
+
 	/**
 	 *
 	 * Set the parent of this result tree.<br>
@@ -67,7 +67,7 @@ public interface IResultTree {
 	 * @return the elements to highlight when this result is selected
 	 */
 	List<Integer> getHighlighted();
-	
+
 	/**
 	 * Add elements to the list of element to highlight when the result is selected
 	 * @param toHighlight the element to highlight
@@ -78,7 +78,7 @@ public interface IResultTree {
 	 * @return attributes list which must be highlighted.
 	 */
 	Map<Integer, List<String>> getAttributesOutline();
-	
+
 	/**
 	 * Remove the result from the view.
 	 */

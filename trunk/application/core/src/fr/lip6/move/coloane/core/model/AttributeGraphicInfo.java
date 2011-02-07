@@ -74,7 +74,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		if (location == null) { return; }
 		setLocation(location.x, location.y);
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void resetLocation() {
 		setLocation(-1, -1);
@@ -112,4 +112,3 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 		return !attribute.getAttributeFormalism().isDrawable();
 	}
 }
-

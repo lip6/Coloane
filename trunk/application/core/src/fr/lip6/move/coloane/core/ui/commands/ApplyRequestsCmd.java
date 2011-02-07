@@ -36,10 +36,10 @@ import org.eclipse.gef.commands.CompoundCommand;
 public class ApplyRequestsCmd extends CompoundCommand {
 	/** List of request to apply on the graph */
 	List<IRequest> requests;
-	
+
 	/** The graph on which requests will be applied */
 	IGraph graph;
-	
+
 	/**
 	 * Constructor
 	 * @param requests The list of requests to be applied on the graph
@@ -55,7 +55,7 @@ public class ApplyRequestsCmd extends CompoundCommand {
 			add(CommandFactory.createCommand(request, this.graph));
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -102,8 +102,7 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 		arcColorEditor1 = new ColorFieldEditor("COLORARC_HIGHLIGHT", Messages.ColorsPrefs_11, arc); //$NON-NLS-1$
 		arcColorEditor1.setPreferenceStore(getPreferenceStore());
 		arcColorEditor1.load();
-		
-		
+
 		return composite;
 	}
 

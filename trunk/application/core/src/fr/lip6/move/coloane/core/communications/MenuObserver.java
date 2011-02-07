@@ -34,10 +34,10 @@ import java.util.logging.Logger;
 public class MenuObserver implements IApiObserver {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
+
 	/** Session handled by this observer */
 	private ColoaneAPIRootMenu rootMenu;
-	
+
 	public MenuObserver(ColoaneAPIRootMenu rootMenu) {
 		this.rootMenu = rootMenu;
 	}

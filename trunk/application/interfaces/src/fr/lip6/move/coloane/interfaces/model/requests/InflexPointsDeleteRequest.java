@@ -26,7 +26,7 @@ public class InflexPointsDeleteRequest implements IRequest {
 
 	/** The arc for which all inflex points should be removed */
 	private IArc arc;
-	
+
 	/**
 	 * Constructor
 	 * @param arc the arc for which all inflex point should be removed
@@ -34,14 +34,14 @@ public class InflexPointsDeleteRequest implements IRequest {
 	public InflexPointsDeleteRequest(IArc arc) {
 		this.arc = arc;
 	}
-	
+
 	/**
 	 * @return the arc for which all inflex point should be removed
 	 */
 	public final IArc getArc() {
 		return arc;
 	}
-	
+
 	/** {@inheritDoc} */
 	public final int getRequestType() {
 		return IRequest.INFLEXPOINTS_DELETE_REQUEST;

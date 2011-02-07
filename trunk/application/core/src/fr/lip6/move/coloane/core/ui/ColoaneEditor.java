@@ -264,7 +264,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	 * In case of switch, it triggers some menus updates and recompute views dedicated to active editor.
 	 */
 	private static TabListener listener = null;
-	
+
 	/** The check stack manager */
 	private CommandStackListener checkStackManager;
 
@@ -286,15 +286,15 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	protected final void initializeGraphicalViewer() {
 		super.initializeGraphicalViewer();
 		GraphicalViewer viewer = getGraphicalViewer();
-		
+
 		LOGGER.fine("Set the editor contents");  //$NON-NLS-1$
 		viewer.setContents(getGraph()); // Set the contents !
-		
+
 		// Add the command stack event listener for listening to new added Command.
 		checkStackManager = new CommandStackListener();
 		this.getCommandStack().addCommandStackEventListener(checkStackManager);
 	}
-	
+
 	/** {@inheritDoc} */
 	@Override
 	public final void dispose() {
@@ -429,9 +429,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		IPath path = new Path(projectName);
 		return path.append(file.getProjectRelativePath());
 	}
-	
+
 	/**
-	 * Put a particular GEF command on the editor stack 
+	 * Put a particular GEF command on the editor stack
 	 * @param command The command that will be executed
 	 */
 	public final void executeCommand(Command command) {

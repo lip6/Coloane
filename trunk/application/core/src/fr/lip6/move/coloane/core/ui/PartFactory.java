@@ -54,7 +54,7 @@ public class PartFactory implements EditPartFactory {
 			LOGGER.warning("The model element is null. Thus, there is no way to create an EditPart"); //$NON-NLS-1$
 			return null;
 		}
-		
+
 		// The EditPart has to be built according to the model element
 		part = getPartForElement(modelElement);
 		if (part == null) {

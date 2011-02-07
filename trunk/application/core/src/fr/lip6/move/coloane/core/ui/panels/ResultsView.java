@@ -62,7 +62,7 @@ public class ResultsView extends ViewPart {
 
 	/** The SessionManager */
 	private static final ISessionManager MANAGER = SessionManager.getInstance();
-	
+
 	/** Map that stores the special state for each object designed by results */
 	private static Map<ISpecialState, Integer> checkStateMap = new HashMap<ISpecialState, Integer>();
 
@@ -80,7 +80,7 @@ public class ResultsView extends ViewPart {
 
 	/** Action that expands all children */
 	private Action expandAll;
-	
+
 	/** Listener on checkbox */
 	private CheckStateListener checkStateListener;
 
@@ -99,7 +99,7 @@ public class ResultsView extends ViewPart {
 		checkStateMap.clear();
 		super.dispose();
 	}
-	
+
 	/**
 	 * Remove a result from the view and modify the checkMap according to the new state of the view
 	 * @param result The result to remove from the view
@@ -107,8 +107,7 @@ public class ResultsView extends ViewPart {
 	public static void reinitResultView(IResultTree result) {
 		uncheckAllResult(MANAGER.getCurrentSession(), result);
 	}
-	
-	
+
 	/** {@inheritDoc} */
 	@Override
 	public final void createPartControl(final Composite parent) {
@@ -365,7 +364,6 @@ public class ResultsView extends ViewPart {
 			}
 		}
 	}
-	
 
 	/**
 	 * Update the columns width

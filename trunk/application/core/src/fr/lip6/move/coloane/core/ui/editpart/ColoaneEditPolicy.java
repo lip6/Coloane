@@ -140,7 +140,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		// Detecting when an object is attached to a guide (horizontal / vertical)
 		if (child.getModel() instanceof ILocatedElement && (request.getType().equals(REQ_MOVE_CHILDREN) || request.getType().equals(REQ_ALIGN_CHILDREN))) {
 			ILocatedElement locatedElement = (ILocatedElement) child.getModel();
-			
+
 			// If the object is attached to a guide
 			result = chainGuideAttachmentCommand(request, locatedElement, result, EditorRulerProvider.HORIZONTAL_ORIENTATION);
 			result = chainGuideAttachmentCommand(request, locatedElement, result, EditorRulerProvider.VERTICAL_ORIENTATION);
@@ -167,7 +167,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 */
 	protected final Command chainGuideAttachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, int orientation) {
 		Command result = cmd;
-		
+
 		String keyGuide;
 		String keyAnchor;
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
@@ -207,7 +207,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 
 	protected final Command chainGuideDetachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, int orientation) {
 		String key;
-		
+
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			key = SnapToGuides.KEY_HORIZONTAL_GUIDE;
 		} else {
@@ -222,7 +222,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		} else {
 			return cmd;
 		}
-		
+
 		// The new command is not null...
 		// If the current command (cmd) is not null, chain the new one and return.
 		if (cmd != null) {

@@ -51,22 +51,22 @@ import org.eclipse.core.runtime.Platform;
 public final class CheckerManager {
 	/** Core Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
+
 	/** The name of the extension point that contains formalisms definition */
 	private static final String EXTENSION_ID = "fr.lip6.move.coloane.core.formalisms"; //$NON-NLS-1$
-	
+
 	/** The instance */
 	private static CheckerManager instance;
-	
+
 	/** Constructor */
 	private CheckerManager() { }
-	
+
 	/** @return The CheckerManager instance */
 	public static synchronized CheckerManager getInstance() {
 		if (instance == null) { instance = new CheckerManager(); }
 		return instance;
 	}
-	
+
 	/**
 	 * Build a specific checker thanks to its XML definition.
 	 *
@@ -112,7 +112,6 @@ public final class CheckerManager {
 		// Building AttributeCheckers on graph attributes
 		this.buildAttributesCheckers(graph, checker);
 
-
 		// Getting nodes description
 		IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
 		for (IConfigurationElement node : nodes) {
@@ -146,7 +145,6 @@ public final class CheckerManager {
 			// Building AttributeCheckers on node attributes
 			this.buildAttributesCheckers(node, checker);
 		}
-
 
 		// Getting arcs description
 		IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
@@ -236,7 +234,7 @@ public final class CheckerManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * Method call by {@link CheckableCmd} when an arc need to be checked.<br>
 	 * It checks severals others elements of the graph because when an arc need to be check, we don't know the reason.<br>
@@ -364,7 +362,6 @@ public final class CheckerManager {
 		checkIElementAttributes(checker, graph, resource);
 	}
 
-
 	/**
 	 * Apply the node checkers to the specified node.
 	 * @param checker the checker associate to the session which the node belong.
@@ -380,7 +377,6 @@ public final class CheckerManager {
 		}
 	}
 
-
 	/**
 	 * Apply the arc checkers to the specified arc.
 	 * @param checker the checker associate to the session which the arc belong.
@@ -395,7 +391,6 @@ public final class CheckerManager {
 			}
 		}
 	}
-
 
 	/**
 	 * Apply the attributes checkers to the attributes of the specified element.
@@ -429,7 +424,6 @@ public final class CheckerManager {
 		}
 	}
 
-
 	/**
 	 * Check a whole graph.
 	 * @param checker the checker used to check.
@@ -457,7 +451,6 @@ public final class CheckerManager {
 		// Graph checking.
 		checkGraph(checker, resource, graph);
 	}
-
 
 	/**
 	 * Initialize and attach a checker to a session.

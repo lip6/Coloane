@@ -53,7 +53,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	private INode source;
 	/** Target */
 	private INode target;
-	
+
 	/** List of bend points */
 	private List<AbsoluteBendpoint> inflexPoints = new ArrayList<AbsoluteBendpoint>();
 

@@ -39,7 +39,7 @@ public class ServiceMenu extends ItemMenu implements IServiceMenu {
 		super(name, visibility, helpMessage);
 		this.associatedService = associatedService;
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param name The name of the option
@@ -52,7 +52,6 @@ public class ServiceMenu extends ItemMenu implements IServiceMenu {
 		super(name, visibility, helpMessage, menuIcon);
 		this.associatedService = associatedService;
 	}
-
 
 	/**
 	 * {@inheritDoc}

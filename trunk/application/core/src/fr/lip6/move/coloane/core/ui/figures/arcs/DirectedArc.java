@@ -43,7 +43,7 @@ public class DirectedArc extends AbstractArcFigure implements IArcFigure {
 		PolygonDecoration decoration = new PolygonDecoration();
 		decoration.setTemplate(PolygonDecoration.TRIANGLE_TIP);
 		decoration.setScale(3, 3);
-		
+
 		return decoration;
 	}
 }

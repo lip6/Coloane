@@ -38,7 +38,7 @@ public class ArcChecker {
 	private Integer severity;
 	/** The marker severity */
 	private String message;
-	
+
 	/**
 	 * Construct a arc checker.
 	 * @param checker the {@link IArcChecker} condition to create the marker.

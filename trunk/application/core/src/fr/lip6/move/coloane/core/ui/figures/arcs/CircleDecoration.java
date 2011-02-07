@@ -33,7 +33,7 @@ public class CircleDecoration extends Ellipse implements RotatableDecoration {
 	public CircleDecoration(int diameter) {
 		setSize(diameter, diameter);
 	}
-	
+
 	/**
 	 * Set the diameter of the circle.
 	 * @param diameter diameter of the circle

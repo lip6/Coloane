@@ -19,7 +19,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttributeFormatter;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 
 public class DoNothingFormatter implements IAttributeFormatter {
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

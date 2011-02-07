@@ -68,7 +68,6 @@ public class ColoaneActionBarContributor extends ActionBarContributor {
 		addRetargetAction(new AlignmentRetargetAction(PositionConstants.BOTTOM));
 	}
 
-
 	/** {@inheritDoc} */
 	@Override
 	protected final void declareGlobalActionKeys() {

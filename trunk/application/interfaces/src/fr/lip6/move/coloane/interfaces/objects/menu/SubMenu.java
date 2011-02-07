@@ -47,7 +47,7 @@ public class SubMenu extends ItemMenu implements ISubMenu {
 		this.options = new ArrayList<IOptionMenu>();
 		this.submenus = new ArrayList<ISubMenu>();
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param name The name of the sub-menu

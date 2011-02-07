@@ -41,12 +41,12 @@ public interface INodeFigure extends IFigure {
 	 * @return ConnectionAnchor
 	 */
 	ConnectionAnchor getConnectionAnchor();
-	
+
 	/**
 	 * @return the model element that corresponds to the figure
 	 */
 	INode getModel();
-	
+
 	/**
 	 * Set the model element associated to this figure
 	 * @param modelElement the model node element

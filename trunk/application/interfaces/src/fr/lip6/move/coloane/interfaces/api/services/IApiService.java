@@ -30,7 +30,7 @@ public interface IApiService extends IService {
 	 * @return The service name
 	 */
 	String getName();
-	
+
 	/**
 	 * @return A simple description of the service
 	 */

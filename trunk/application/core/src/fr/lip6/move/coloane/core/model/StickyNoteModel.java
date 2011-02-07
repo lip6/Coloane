@@ -43,7 +43,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 
 	/** Location */
 	private Point location;
-	
+
 	/** Dimensions */
 	private Dimension dimension;
 
@@ -94,7 +94,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 		this.location = location.getCopy();
 		firePropertyChange(LOCATION_PROP, oldLocation, getLocation()); // Tells the editor that something has changed
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void resetLocation() {
 		setLocation(new Point(0, 0));
@@ -130,7 +130,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 			this.verticalGuide = guide;
 		}
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {

@@ -86,7 +86,6 @@ public class CheckStateListener implements ICheckStateListener {
 				}
 			}
 
-
 			// On traite ensuite tous les attributs devant être mis en valeur
 			Map<Integer, List<String>> attributesMap = result.getAttributesOutline();
 			Iterator<Integer> it = attributesMap.keySet().iterator();
@@ -144,8 +143,7 @@ public class CheckStateListener implements ICheckStateListener {
 			checkResult(session, child, viewer.getChecked(child), toCheck);
 		}
 	}
-	
-	
+
 	/**
 	 * Forbid to check textual results.
 	 * @param result the checked subResult in the tree.
@@ -174,7 +172,7 @@ public class CheckStateListener implements ICheckStateListener {
 		}
 		return true;
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void checkStateChanged(CheckStateChangedEvent event) {
 		IResultTree result = (IResultTree) event.getElement();
@@ -183,5 +181,3 @@ public class CheckStateListener implements ICheckStateListener {
 		disableTextualResults(result, event.getChecked());
 	}
 }
-
-

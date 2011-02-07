@@ -41,18 +41,18 @@ import org.eclipse.ui.statushandlers.StatusManager;
  * @author Jean-Baptiste Voron
  */
 public class ToolsContribution extends CompoundContributionItem {
-	
+
 	private static final String NAME = "name"; //$NON-NLS-1$
 	private static final String ICON = "icon"; //$NON-NLS-1$
 	private static final String DESCRIPTION = "description"; //$NON-NLS-1$
 	private static final String ACTION = "action"; //$NON-NLS-1$
-	
+
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Extension Point ID */
 	private static final String EXTENSION_ID = "fr.lip6.move.coloane.core.tools"; //$NON-NLS-1$
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

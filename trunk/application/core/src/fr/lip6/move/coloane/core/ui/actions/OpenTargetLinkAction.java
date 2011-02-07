@@ -106,5 +106,4 @@ public class OpenTargetLinkAction extends Action {
 		}
 	}
 
-	
 }

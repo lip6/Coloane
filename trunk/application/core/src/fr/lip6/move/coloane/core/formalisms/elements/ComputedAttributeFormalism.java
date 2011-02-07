@@ -46,7 +46,7 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 
 	/** Font size? */
 	private int size = 10;
-	
+
 	/** Delta Location */
 	private Point delta = new Point(0, 0);
 
@@ -124,7 +124,7 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	public final void setSize(String size) {
 		this.size = Integer.valueOf(size);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -138,7 +138,7 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	public final boolean isDefaultValueDrawable() {
 		return this.isDefaultValueDrawable;
 	}
-	
+
 	/**
 	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
 	 * @param x X coordinate of the Delta Location.
@@ -146,7 +146,7 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	public final void setXDelta(int x) {
 		this.delta.x = x;
 	}
-	
+
 	/**
 	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
 	 * @param y Y coordinate of the Delta Location.
@@ -154,12 +154,12 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	public final void setYDelta(int y) {
 		this.delta.y = y;
 	}
-	
+
 	/** {@inheritDoc} */
 	public final Point getDeltaLocation() {
 		return this.delta;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

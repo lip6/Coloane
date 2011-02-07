@@ -33,10 +33,10 @@ public class GuideMoveCmd extends Command {
 
 	/** Guide move according its axis */
 	private int delta;
-	
+
 	/** Objects that are sticked to the guide have to be moved too */
 	private CompoundCommand moveElementsCommand;
-	
+
 	/**
 	 * Constructor
 	 * @param guide The guide that is moved
@@ -46,7 +46,7 @@ public class GuideMoveCmd extends Command {
 		super(Messages.MoveGuideCommand_0);
 		this.guide = guide;
 		this.delta = delta;
-		
+
 		// Must move all elements... Create commands for all attached nodes
 		moveElementsCommand = new CompoundCommand();
 		for (ILocatedElement attachedElement : guide.getAttachedElements()) {

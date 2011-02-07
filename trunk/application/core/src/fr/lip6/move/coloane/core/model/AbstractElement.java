@@ -102,7 +102,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	public final Collection<IAttribute> getAttributes() {
 		return attributes.values();
 	}
-	
+
 	/**
 	 * @return Collection of the computed attributes
 	 */

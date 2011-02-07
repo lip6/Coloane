@@ -62,7 +62,7 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.reports"; //$NON-NLS-1$
 	private static final String SERVICE_EXTENSION = "service_name"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
-	
+
 	/** The map that associates a service name with its result tree */
 	private final Map<String, IResultTree> map;
 	/** Some object id to highlight */
@@ -261,7 +261,7 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	public final Map<Integer, List<String>> getAttributesOutline() {
 		return null;
 	}
-	
+
 	/** {@inheritDoc} */
 	public final List<ICoreTip> getTips() {
 		throw new UnsupportedOperationException();

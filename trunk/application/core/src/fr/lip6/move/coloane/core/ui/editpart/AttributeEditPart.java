@@ -60,7 +60,6 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	// Default extra space needed to handle correctly some italic fonts (under MacOS)
 	private static final int EXTRA_SPACE = 2;
 
-
 	private boolean select = false;
 	private boolean elementSelect = false;
 	private boolean highlight = false;
@@ -72,7 +71,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	 * Listening state modification from the attribute's parent.
 	 */
 	private EditPartListener editPartListener = new EditPartListener.Stub() {
-		
+
 		// When the state of current attribute's parent has changed...
 		@Override
 		public void selectedStateChanged(EditPart part) {
@@ -122,7 +121,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		figure.setLocation(attributeLocation);
 		return figure;
 	}
-	
+
 	/**
 	 * If the attribute value matches its default value, the attribute should not be displayed (hidden)</br>
 	 * But, the formalism can specify exceptions! In that case, the defaultValueDrawable status has to be checked too.
@@ -206,7 +205,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		// Update graphical representation
 		getFigure().setForegroundColor(attribut.getGraphicInfo().getForeground());
 		getFigure().setBackgroundColor(attribut.getGraphicInfo().getBackground());
-		
+
 		// Select state (attribute only or parent ?)
 		// TODO: Should be set in a property page
 		if (this.select || this.elementSelect) {
@@ -333,7 +332,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		// When the value of the attribute is modified somewhere
 		if (IAttribute.VALUE_PROP.equals(prop)) {
 			IAttribute attribute = (IAttribute) getModel();
-			
+
 			// Compute the visibility of the attribute
 			getFigure().setVisible(computeVisibility(attribute));
 			// Compute new location
@@ -343,7 +342,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 
 		// When the attribute is moved
 		} else if (ILocationInfo.LOCATION_PROP.equals(prop)) {
-			
+
 			// Deal with the special case where the location of the attribute has been reseted (-1,-1).
 			// In that case a new location has to be computed again.
 			Point newLocation = (Point) event.getNewValue();

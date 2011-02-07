@@ -15,7 +15,6 @@
  */
 package fr.lip6.move.coloane.core.ui.panels;
 
-
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 

@@ -30,29 +30,29 @@ import org.eclipse.swt.SWT;
  * @author Jean-Baptiste Voron
  */
 public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
-	
+
 	/**
 	 * This element can be used to adapt the aspect of the figure according to
 	 * the current state of the associated model node element. Please be careful
 	 * when fetching some attributes from the model... Test the value of the property
-	 * before doing any changes to the figure. 
+	 * before doing any changes to the figure.
 	 */
 	private INode modelElement;
-	
+
 	/** {@inheritDoc} */
 	@Override
 	public final void paintFigure(Graphics graphics) {
 		graphics.setAntialias(SWT.ON);
 		super.paintFigure(graphics);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public final INode getModel() {
 		return this.modelElement;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

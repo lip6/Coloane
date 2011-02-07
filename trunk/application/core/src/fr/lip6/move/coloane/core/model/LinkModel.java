@@ -50,7 +50,7 @@ public class LinkModel implements ILink {
 		this.note = note;
 		this.element = element;
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void connect() {
 		LOGGER.finer("Connect the link: " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$

@@ -92,7 +92,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	public final IAttributeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
-	
+
 	/** {@inheritDoc} */
 	public final ILocationInfo getLocationInfo() {
 		return this.graphicInfo;
@@ -125,7 +125,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 			this.verticalGuide = guide;
 		}
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
@@ -135,13 +135,12 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 		}
 	}
 
-
 	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
 		return "Attribute: " + name + "= " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void setSpecialState(boolean state) {
 		firePropertyChange(SPECIAL_STATE_CHANGE, null, state);

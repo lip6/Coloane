@@ -43,7 +43,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 public class NodeLocationSection extends AbstractSection<INode> implements PropertyChangeListener {
 	/** Widgets qui permettent de modifier les coordonnées du noeud. */
 	private Spinner x, y;
-	
+
 	/** Controleurs pour les deux widgets x et y */
 	private SpinnerModifyListener xModifyListener, yModifyListener;
 
@@ -88,7 +88,6 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 			}
 		}
 	}
-
 
 	/** {@inheritDoc} */
 	@Override

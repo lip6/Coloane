@@ -23,7 +23,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.DirectEditPolicy;
 import org.eclipse.gef.requests.DirectEditRequest;
 
-
 /**
  * Rules used when an attributes is edited
  *

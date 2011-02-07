@@ -32,7 +32,7 @@ public class Checker {
 	private Map<String, List<ArcChecker>> arcCheckers;
 	/** List of {@GraphChecker} */
 	private List<GraphChecker> graphCheckers;
-	
+
 	/** Map of {@AttributeChecker} for {@link INode} attributes stored by node formalism and then by attribute name */
 	private Map<String, Map<String, List<AttributeChecker>>> nodeAttributeCheckers;
 	/** Map of {@AttributeChecker} for {@link IArc} attributes stored by arc formalism and then by attribute name */
@@ -46,7 +46,7 @@ public class Checker {
 	private List<NodeChecker> emptyNodeList;
 	/** Empty {@ArcChecker} list */
 	private List<ArcChecker> emptyArcList;
-	
+
 	/**
 	 * Constructor
 	 */

@@ -48,7 +48,7 @@ public class SelectFormalismPage extends WizardPage {
 	/* Graphical components */
 	private Label label = null;
 	private Table tableFormalism = null;
-	
+
 	/** Formalism cache (used to manipulate IFormalism rather than String) */
 	private Map<String, IFormalism> formalismCache = new HashMap<String, IFormalism>();
 

@@ -195,5 +195,5 @@ public class LabelText implements IAttributeLabel {
 	public final void addModifyListener(ModifyListener listener) {
 		text.addModifyListener(listener);
 	}
-	
+
 }

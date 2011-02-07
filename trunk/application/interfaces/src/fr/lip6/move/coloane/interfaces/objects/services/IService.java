@@ -29,7 +29,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
  * @author Jean-Baptiste Voron
  */
 public interface IService {
-	
+
 	/**
 	 * Run the service !
 	 * @param model The current session graph model

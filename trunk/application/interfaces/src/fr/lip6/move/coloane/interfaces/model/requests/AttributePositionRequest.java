@@ -29,7 +29,7 @@ public class AttributePositionRequest implements IRequest {
 
 	/** The considered attribute */
 	private IAttribute attribute;
-	
+
 	/** New position */
 	private Point newPosition;
 
@@ -49,7 +49,7 @@ public class AttributePositionRequest implements IRequest {
 	public final IAttribute getAttribute() {
 		return attribute;
 	}
-	
+
 	/**
 	 * @return The new (<i>desired</i>) position
 	 */

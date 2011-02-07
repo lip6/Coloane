@@ -78,4 +78,3 @@ public class InflexCreateCmd extends Command {
 		this.arc.addInflexPoint(this.position, this.index);
 	}
 }
-

@@ -26,17 +26,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-
 public class AuthenticationDialog extends TitleAreaDialog {
-	
+
 	/** Login **/
 	private String loginValue;
 	private Text login;
-	
+
 	/** Password **/
 	private String passwordValue;
 	private Text password;
-	
 
 	/**
 	 * Constructor
@@ -45,7 +43,7 @@ public class AuthenticationDialog extends TitleAreaDialog {
 	public AuthenticationDialog(Shell parentShell) {
 		super(parentShell);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -56,13 +54,13 @@ public class AuthenticationDialog extends TitleAreaDialog {
 		setMessage("This service requires an authentication.");
 		setTitleImage(ImageDescriptor.createFromFile(this.getClass(), "/resources/dialog_auth.png").createImage());
 	}
-	
+
 	@Override
 	protected final void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 		newShell.setText("Authentication");
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -70,7 +68,7 @@ public class AuthenticationDialog extends TitleAreaDialog {
 	public final boolean isHelpAvailable() {
 		return false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -108,9 +106,7 @@ public class AuthenticationDialog extends TitleAreaDialog {
 
 		return area;
 	}
-	
-	
-	
+
 	@Override
 	protected final void okPressed() {
 		this.loginValue = login.getText();
@@ -128,14 +124,14 @@ public class AuthenticationDialog extends TitleAreaDialog {
 
 		super.okPressed();
 	}
-	
+
 	/**
 	 * @return The login provided by the user
 	 */
 	public final String getLoginValue() {
 		return loginValue;
 	}
-	
+
 	/**
 	 * @return The password provided by the user
 	 */

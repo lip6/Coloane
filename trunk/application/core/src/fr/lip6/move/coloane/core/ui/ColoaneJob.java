@@ -39,13 +39,13 @@ import org.eclipse.core.runtime.jobs.Job;
 public class ColoaneJob extends Job {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
+
 	/** The set of results */
 	List<IResult> results;
-	
+
 	/** The action */
 	IService action;
-	
+
 	/** The graph on which the action has to be performed */
 	IGraph graph;
 
@@ -63,14 +63,14 @@ public class ColoaneJob extends Job {
 		this.action = actionToPerform;
 		this.graph = graph;
 	}
-	
+
 	/**
 	 * @return The result list after the job execution
 	 */
 	public List<IResult> getResults() {
 		return this.results;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

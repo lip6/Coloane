@@ -31,7 +31,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttributeFormatter;
  * @author Jean-Baptiste Voron
  */
 public interface IComputedAttributeFormalism extends IGlobalAttributeFormalism {
-	
+
 	/**
 	 * @return The class that is supposed to format the attribute value
 	 */

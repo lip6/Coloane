@@ -20,7 +20,6 @@ import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.tools.AbstractTool;
 import org.eclipse.gef.ui.palette.PaletteViewer;
 
-
 /**
  * Un ecouteur pour la palette<br>
  * Cet ecouteur permet de detecter l'outil en cours d'utilisation.

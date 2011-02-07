@@ -36,10 +36,10 @@ import org.eclipse.ui.console.MessageConsoleStream;
 public class ConsoleMessageObserver implements IApiObserver {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
+
 	/** Console handled by this observer */
 	private MessageConsole console;
-	
+
 	public ConsoleMessageObserver(MessageConsole console) {
 		this.console = console;
 	}
@@ -53,7 +53,7 @@ public class ConsoleMessageObserver implements IApiObserver {
 
 		final List<ConsoleMessage> messages = (List<ConsoleMessage>) newMessages;
 		final MessageConsole console = this.console;
-		
+
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 

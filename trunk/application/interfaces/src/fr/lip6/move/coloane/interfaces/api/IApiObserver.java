@@ -26,7 +26,6 @@ public interface IApiObserver {
 	int MENU_OBSERVER = 0;
 	int MESSAGE_OBSERVER = 1;
 
-	
 	/**
 	 * Something has been updated on the API
 	 * @param api The API that has been changed

@@ -27,7 +27,7 @@ import org.eclipse.draw2d.geometry.Point;
 public class InflexPointCreateRequest implements IRequest {
 	/** The arc to which the new inflex point will be added */
 	private IArc arc;
-	
+
 	/** The position of the new inflex point */
 	private Point position;
 
@@ -45,7 +45,7 @@ public class InflexPointCreateRequest implements IRequest {
 		this.position = position;
 		this.index = index;
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param arc The arc where to put this new inflex point
@@ -76,7 +76,7 @@ public class InflexPointCreateRequest implements IRequest {
 	public final Point getPosition() {
 		return position;
 	}
-	
+
 	/** {@inheritDoc} */
 	public final int getRequestType() {
 		return IRequest.INFLEXPOINT_CREATE_REQUEST;

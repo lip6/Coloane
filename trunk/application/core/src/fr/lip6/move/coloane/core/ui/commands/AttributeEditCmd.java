@@ -44,7 +44,7 @@ public class AttributeEditCmd extends CheckableCmd {
 		if (value != null) {
 			newValue = value;
 		}
-		
+
 		// Check the attribute locally
 		addCheckableElement(attribute.getReference());
 	}
@@ -55,7 +55,7 @@ public class AttributeEditCmd extends CheckableCmd {
 		this.oldValue = this.attribute.getValue();
 		this.redo();
 	}
-	
+
 	@Override
 	public void redo() {
 		this.attribute.setValue(this.newValue);

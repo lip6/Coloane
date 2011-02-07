@@ -37,7 +37,7 @@ import java.util.Map;
  * @author Florian David
  */
 public interface IResult {
-	
+
 	/**
 	 * Add a sub-result in the sub-result list.
 	 * @param subResult The sub-result added to the list.
@@ -49,7 +49,7 @@ public interface IResult {
 	 * @param tip The special information to add to the list
 	 */
 	void addTip(ITip tip);
-	
+
 	/**
 	 * Add a tip to the tip list.
 	 * @param object the tip will belong to this object.
@@ -57,21 +57,21 @@ public interface IResult {
 	 * @param value the tip value.
 	 */
 	void addTip(IElement object, String name, String value);
-	
+
 	/**
 	 * Add a request to the existing list of delta requests.<br>
 	 * These requests specify the transformation from the current graph to a new one.
 	 * @param request The request to add to the list
 	 */
 	void addDeltaRequest(IRequest request);
-	
+
 	/**
 	 * Add a list of requests to the existing list of delta requests.<br>
 	 * These requests specify the transformation from the current graph to a new one.
 	 * @param requests The list of requests to add to the list
 	 */
 	void addDeltaRequests(List<IRequest> requests);
-	
+
 	/**
 	 * Set a new graph as result.<br>
 	 * This new graph will be displayed in a new editor.
@@ -95,7 +95,7 @@ public interface IResult {
 	 * @return The list of sub-results contained in the result.
 	 */
 	List<ISubResult> getSubResults();
-	
+
 	/**
 	 * @return The list of requests to apply on the current graph
 	 */
@@ -121,7 +121,7 @@ public interface IResult {
 	 * @return The list of special information associated to the result.
 	 */
 	Map<Integer, List<ITip>> getTips();
-	
+
 	/**
 	 * Should the result be displayed to the user
 	 * @return <code>true</code> if the result should be displayed to the user

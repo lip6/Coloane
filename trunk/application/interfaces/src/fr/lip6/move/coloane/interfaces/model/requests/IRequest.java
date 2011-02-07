@@ -15,7 +15,6 @@
  */
 package fr.lip6.move.coloane.interfaces.model.requests;
 
-
 /**
  * When a user want to perform changes on the model, he/she has to use {@link IRequest}.<br>
  * Those objects hold the information about the desired change
@@ -24,7 +23,7 @@ package fr.lip6.move.coloane.interfaces.model.requests;
  * @author Jean-Baptiste Voron
  */
 public interface IRequest {
-	
+
 	int ARC_CREATE_REQUEST = 1;
 	int ATTRIBUTE_CHANGEVALUE_REQUEST = 2;
 	int ATTRIBUTE_POSITION_REQUEST = 3;
@@ -34,7 +33,7 @@ public interface IRequest {
 	int NODE_CREATE_REQUEST = 7;
 	int NODE_DELETE_REQUEST = 8;
 	int NODE_POSITION_REQUEST = 9;
-	
+
 	/**
 	 * Gives the kind of request... <br>
 	 * This method will be used by the core project to transform this request into real commands.<br>

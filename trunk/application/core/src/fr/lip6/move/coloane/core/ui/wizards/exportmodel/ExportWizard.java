@@ -144,7 +144,6 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 		this.exportType = idWizard;
 	}
 
-
 	/** {@inheritDoc} */
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		// Fetch the identifier of the wizard, in order to find the corresponding export extension.

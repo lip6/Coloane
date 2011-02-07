@@ -46,7 +46,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 	private final Point newLocation;
 	/** Old location */
 	private Point oldLocation;
-	
+
 	/** Difference between the new and the old locations */
 	private Dimension delta;
 
@@ -108,7 +108,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 					}
 				}
 			}
-			
+
 			// If the source node is moved... The outgoing arcs will be moved too (but not their attributes)
 			for (IArc out : node.getOutgoingArcs()) {
 				for (IAttribute arcAttr : out.getAttributes()) {
@@ -177,7 +177,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 		for (IArc arc : arcsForPI) {
 			arc.modifyInflexPoints(delta.width, delta.height);
 		}
-		
+
 		// Move arc's attributes
 		for (IAttribute arcAttr : arcsForAttr) {
 			if (arcAttr.getReference() instanceof IArc) {
@@ -188,7 +188,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 				}
 			}
 		}
-		
+
 		// Move node attributes
 		for (IAttribute attr : attributes) {
 			attr.getGraphicInfo().setLocation(attr.getGraphicInfo().getLocation().getTranslated(delta));
@@ -205,7 +205,7 @@ public class LocatedElementSetConstraintCmd extends Command {
 		for (IArc arc : arcsForPI) {
 			arc.modifyInflexPoints(-delta.width, -delta.height);
 		}
-		
+
 		// Arc's attribute
 		for (IAttribute arcAttr : arcsForAttr) {
 			if (arcAttr.getReference() instanceof IArc) {

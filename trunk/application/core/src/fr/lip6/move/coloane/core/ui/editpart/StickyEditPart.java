@@ -81,7 +81,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 
 		// Connection properties
 		installEditPolicy(EditPolicy.GRAPHICAL_NODE_ROLE, new GraphicalNodeEditPolicy() {
-			
+
 			/**
 			 * Create a connection with an sticky link (first step).<br>
 			 */

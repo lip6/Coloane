@@ -59,12 +59,12 @@ public final class MenuManipulation {
 	 */
 	public static ColoaneMenuManager buildSubMenu(ColoaneAPIRootMenu rootMenu, IItemMenu itemDescription) {
 		String menuId = itemDescription.getName().toLowerCase();
-		
+
 		// Deal with SubMenu
 		if (itemDescription instanceof ISubMenu) {
 			ISubMenu menuDescription = (ISubMenu) itemDescription;
 			ColoaneMenuManager item = new ColoaneMenuManager(menuDescription.getName(), menuId, menuDescription.isVisible(), menuDescription.getIcon());
-		
+
 			for (ISubMenu subMenu : menuDescription.getSubMenus()) {
 				item.add(buildSubMenu(rootMenu, subMenu));
 			}
@@ -76,19 +76,19 @@ public final class MenuManipulation {
 			}
 			return item;
 		}
-		
+
 		// Deal with ServiceMenu
 		if (itemDescription instanceof IServiceMenu) {
 			rootMenu.add(buildServiceMenu((IServiceMenu) itemDescription, true));
 			return null;
 		}
-		
+
 		// Deal with OptionMenu
 		if (itemDescription instanceof IOptionMenu) {
 			rootMenu.add(buildOptionMenu((IOptionMenu) itemDescription, true));
 			return null;
 		}
-		
+
 		return null;
 	}
 

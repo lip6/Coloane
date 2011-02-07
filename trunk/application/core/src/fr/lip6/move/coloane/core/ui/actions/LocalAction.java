@@ -44,19 +44,19 @@ import org.eclipse.ui.PlatformUI;
 public class LocalAction extends Action {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
+
 	/** The name of the action */
 	private final String name;
-	
+
 	/** The description of the action */
 	private final String description;
-	
+
 	/** The icon associated to the action */
 	private final ImageDescriptor icon;
-	
+
 	/** The effective ColoaneAction */
 	private final IService action;
-	
+
 	/**
 	 * Constructor
 	 * @param name The action name
@@ -78,7 +78,7 @@ public class LocalAction extends Action {
 	public final String getDescription() {
 		return this.description;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -86,7 +86,7 @@ public class LocalAction extends Action {
 	public final String getToolTipText() {
 		return this.description;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -113,7 +113,7 @@ public class LocalAction extends Action {
 		LOGGER.fine("Building the external coloane job"); //$NON-NLS-1$		
 		ColoaneJob job = new ColoaneJob(this.name, currentGraph, this.action);
 		LOGGER.finer("Executing the external coloane job"); //$NON-NLS-1$
-		
+
 		job.addJobChangeListener(new JobChangeAdapter() {
 			@Override
 	        public void done(IJobChangeEvent event) {
@@ -131,12 +131,12 @@ public class LocalAction extends Action {
 								((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).executeCommand(command);
 							}
 						});
-						
+
 					}
 				}
 			}
 		});
-		
+
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}

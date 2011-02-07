@@ -109,7 +109,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 
 		// Right of bottom folder : Console
 		IFolderLayout consoleFolder = layout.createFolder("CONSOLE", IPageLayout.RIGHT, consoleRatio, "BOTTOM");  //$NON-NLS-1$ //$NON-NLS-2$
-		
+
 		consoleFolder.addView(IPageLayout.ID_PROBLEM_VIEW);
 		consoleFolder.addView(IConsoleConstants.ID_CONSOLE_VIEW);
 	}

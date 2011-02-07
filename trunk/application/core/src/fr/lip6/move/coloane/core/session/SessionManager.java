@@ -51,7 +51,7 @@ public final class SessionManager implements ISessionManager {
 
 	/** Listeners handler */
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-	
+
 	/** List of available (connected) <b>global</b> APIs */
 	private List<ApiDescription> apis = null;
 
@@ -107,10 +107,10 @@ public final class SessionManager implements ISessionManager {
 		ISession newSession = new Session(sessionId, graph);
 		sessions.put(sessionId, newSession);
 		setCurrentSession(newSession); // Set the current session if no session is active yet
-		
+
 		// Before returning the new session, we add it an appropriate checker
 		CheckerManager.getInstance().associateCheckerToSession(newSession);
-		
+
 		return newSession;
 	}
 
@@ -124,14 +124,13 @@ public final class SessionManager implements ISessionManager {
 			// Tells the session that it will be resumed
 			((Session) toResume).resume();
 			setCurrentSession(toResume);
-			
+
 			// Refreshing menu list
 			return toResume;
 		}
 		LOGGER.warning("The session " + sessionId + " is not registered in the session manager"); //$NON-NLS-1$ //$NON-NLS-2$
 		return null;
 	}
-
 
 	/** {@inheritDoc} */
 	public ISession destroySession(String sessionId) {
@@ -161,10 +160,10 @@ public final class SessionManager implements ISessionManager {
 
 		// Refresh views
 		firePropertyChange(PROP_CURRENT_SESSION, previousSession, currentSession);
-		
+
 		return this.currentSession;
 	}
-	
+
 	/** {@inheritDoc} */
 	public List<ApiDescription> getAvailableGlobalApis() {
 		if (apis == null) {

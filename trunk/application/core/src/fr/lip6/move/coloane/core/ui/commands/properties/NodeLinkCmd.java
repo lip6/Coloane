@@ -39,7 +39,7 @@ public class NodeLinkCmd extends Command {
 		this.node = node;
 		this.newLink = link;
 	}
-	
+
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {

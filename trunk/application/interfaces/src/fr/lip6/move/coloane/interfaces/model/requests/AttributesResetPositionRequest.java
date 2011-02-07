@@ -24,7 +24,7 @@ import fr.lip6.move.coloane.interfaces.model.IElement;
  * @author Yann Thierry-Mieg, based on Jean-Baptiste Voron
  */
 public class AttributesResetPositionRequest implements IRequest {
-	
+
 	/** The object that holds the attributes to reset */
 	private IElement parentObject;
 

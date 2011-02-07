@@ -40,12 +40,12 @@ import org.eclipse.gef.commands.Command;
 public abstract class CheckableCmd extends Command {
 	/** List of {@link IElement} to check when the command executed */
 	private List<IElement> checkableElements = new ArrayList<IElement>();
-	
+
 	/** Constructor corresponding to {@link Command#Command()}. */
 	public CheckableCmd() {
 		super();
 	}
-	
+
 	/**
 	 * Constructor corresponding to {@link Command#Command(String)}.
 	 * @param label the CheckableCmd's label.
@@ -53,7 +53,7 @@ public abstract class CheckableCmd extends Command {
 	public CheckableCmd(String label) {
 		super(label);
 	}
-	
+
 	/**
 	 * Add an element which will be check when the command is executed.
 	 * @param element the element to check.
@@ -61,7 +61,7 @@ public abstract class CheckableCmd extends Command {
 	protected final void addCheckableElement(IElement element) {
 		this.checkableElements.add(element);
 	}
-	
+
 	/**
 	 * Call checkers on all elements in the checkableElements list.
 	 */

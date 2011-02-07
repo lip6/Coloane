@@ -40,7 +40,7 @@ public final class LabelCombo implements IAttributeLabel {
 	private Composite parent;
 	/** The combo */
 	private CCombo combo;
-	
+
 	/**
 	 * The public constructor, not meant to be called by clients.
 	 * Use {@link LabelTextFactory} instead.
@@ -58,7 +58,7 @@ public final class LabelCombo implements IAttributeLabel {
 			IAttributeLabel top) {
 		this(parent, factory, label, value, enumeration, new FormAttachment(top.getControl(), 0));
 	}
-	
+
 	/**
 	 * The public constructor, not meant to be called by clients.
 	 * Use {@link LabelTextFactory} instead.
@@ -149,7 +149,7 @@ public final class LabelCombo implements IAttributeLabel {
 			tmp = tmp.getParent();
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -43,7 +43,6 @@ public abstract class AbstractSection<T extends IAbstractPropertyChange> extends
 	private List<T> elements = new ArrayList<T>();
 	private boolean isDisposed = false;
 
-
 	/** {@inheritDoc} */
 	@Override
 	public final void dispose() {

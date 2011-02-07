@@ -84,7 +84,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	protected final void setImportFormat(String idWizard) {
 		LOGGER.finer("Selected wizard: " + idWizard); //$NON-NLS-1$
 		this.importType = idWizard;
-		
+
 		try {
 			// Set up the import builder
 			this.worker = (IImportFrom) ImportFromExtension.createConvertInstance(this.importType);

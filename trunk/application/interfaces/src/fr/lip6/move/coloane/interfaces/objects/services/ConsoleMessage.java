@@ -26,14 +26,14 @@ import org.eclipse.swt.graphics.Color;
  * @author Jean-Baptiste Voron
  */
 public final class ConsoleMessage {
-	
+
 	/** Message Types */
 	public static final int SIMPLE_MESSAGE = 0;
 	public static final int COPYRIGHT_MESSAGE = 1;
 	public static final int ERROR_MESSAGE = 2;
 	public static final int DEBUG_MESSAGE = 3;
 	public static final int WARNING_MESSAGE = 4;
-	
+
 	/** The real message */
 	private final String message;
 
@@ -52,7 +52,7 @@ public final class ConsoleMessage {
 		this.message = message;
 		this.messageType = messageType;
 	}
-	
+
 	/**
 	 * @return The color of the message according to its type
 	 */
@@ -72,7 +72,7 @@ public final class ConsoleMessage {
 			return ColorConstants.black;
 		}
 	}
-	
+
 	/**
 	 * @return The color of the message according to its type
 	 */
@@ -92,7 +92,7 @@ public final class ConsoleMessage {
 			return SWT.NORMAL;
 		}
 	}
-	
+
 	/**
 	 * @return The (real) message
 	 */

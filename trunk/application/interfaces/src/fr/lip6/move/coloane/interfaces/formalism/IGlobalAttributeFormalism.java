@@ -32,7 +32,7 @@ public interface IGlobalAttributeFormalism {
 	 * @return the default value
 	 */
 	String getDefaultValue();
-	
+
 	/**
 	 * @return Drawable status (should the attribute be displayed ?)
 	 * */

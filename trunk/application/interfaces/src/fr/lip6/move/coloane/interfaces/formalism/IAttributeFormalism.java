@@ -39,7 +39,7 @@ public interface IAttributeFormalism extends IGlobalAttributeFormalism {
 	 * @see getEnumeration() for fetching authorized values
 	 */
 	boolean isEnumerated();
-	
+
 	/**
 	 * @return the list of authorized values for the given attribute
 	 */

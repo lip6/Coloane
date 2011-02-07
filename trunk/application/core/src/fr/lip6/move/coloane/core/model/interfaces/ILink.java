@@ -28,13 +28,13 @@ public interface ILink {
 	 * Basically, this method tells the note and the element to add the link to their links list.
 	 */
 	void connect();
-	
+
 	/**
 	 * Disconnect a sticky link from its note and its element.<br>
 	 * Basically, this method tells the note and the element to remove the link from their links list.
 	 */
 	void disconnect();
-	
+
 	/**
 	 * Reconnect the link with a new sticky note or a new element
 	 * @param newNote New sticky note

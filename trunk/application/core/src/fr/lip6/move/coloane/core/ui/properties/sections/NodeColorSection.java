@@ -130,7 +130,6 @@ public class NodeColorSection extends AbstractSection<INode> {
 		label.setLayoutData(data);
 	}
 
-
 	/**
 	 * Création d'un ColorFieldEditor dans un composite car le ColorFieldEditor a besoin d'un GridLayout.
 	 * @param parent parent utilisé pour la construction
