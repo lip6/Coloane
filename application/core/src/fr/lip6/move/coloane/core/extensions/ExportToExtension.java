@@ -59,6 +59,9 @@ public final class ExportToExtension {
 	 * @return <code>true</code> if the export operation is supported by the export extension
 	 */
 	public static boolean canPerform(String exportType, IFormalism formalism) {
+		// If the export extension doesn't specify a formalism, we assume that it's a generic exporter
+		boolean canPerform = true;
+
 		// Fetch all available export extensions
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		for (IConfigurationElement contribution : contributions) {
@@ -69,10 +72,11 @@ public final class ExportToExtension {
 					if (child.getAttribute(FORMALISMS_EXTENSION).equals(formalism.getId())) {
 						return true;
 					}
+					canPerform = false;
 				}
 			}
 		}
-		return false;
+		return canPerform;
 	}
 
 	/**
