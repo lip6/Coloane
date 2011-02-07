@@ -118,7 +118,6 @@
     <!-- Les contributeurs : Anciens développeurs -->
     <contributors>
         <contributor>
-            <id>alinard</id>
             <name>Alban Linard</name>
             <organization>LIP6</organization>
             <organizationUrl>http://www.lip6.fr</organizationUrl>
@@ -128,7 +127,6 @@
             <timezone>+1</timezone>
         </contributor>
         <contributor>
-            <id>ahamez</id>
             <name>Alexandre Hamez</name>
             <organization>LIP6</organization>
             <organizationUrl>http://www.lip6.fr</organizationUrl>
