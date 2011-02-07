@@ -26,7 +26,7 @@ import java.util.Map;
  * This class define a sub-result.<br>
  * A sub-result is always contained in a result or a sub-result.<br>
  * Other sub-results can be added to ensure a tree structure.<br>
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Florian David
  */
@@ -43,13 +43,13 @@ public class SubResult implements ISubResult {
 	/** Tips list */
 	private Map<Integer, List<ITip>> tips;
 
-	/** 
+	/**
 	 * List of objects that will be highlighted in the model if the subresult checkbox is checked.<br>
 	 * Note: These objects will <b>not</b> be displayed in the result tree.
 	 */
 	private List<Integer> objectsDesignation;
 
-	/** 
+	/**
 	 * List of objects that will be highlighted in the model if the sub-result checkbox is checked or if their checkbox is checked.<br>
 	 * Note: These objects will be displayed in the result tree.
 	 */

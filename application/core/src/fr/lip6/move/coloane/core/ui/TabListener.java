@@ -24,7 +24,7 @@ import org.eclipse.ui.IWorkbenchPartReference;
 
 /**
  * Listen for events coming from tabs (open, switch, close)
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class TabListener implements IPartListener2 {

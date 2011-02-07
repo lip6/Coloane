@@ -58,7 +58,7 @@ public class ArcCompleteCmd extends CheckableCmd {
 	 * @param arcFormalism The formalism that describes the arc (its properties)
 	 */
 	public ArcCompleteCmd(INode source, INode target, IArcFormalism arcFormalism) {
-		// Fetch the parent model from the source node... Source and target parent must be the same  
+		// Fetch the parent model from the source node... Source and target parent must be the same 
 		assert(source.getParent().equals(target.getParent()));
 		this.graph = (IGraph) source.getParent();
 		this.source = source;

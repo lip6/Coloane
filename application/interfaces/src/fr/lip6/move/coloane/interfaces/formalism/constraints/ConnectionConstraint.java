@@ -31,7 +31,7 @@ import org.eclipse.core.runtime.Status;
 /**
  * Define a link-constraint between 2 formalism elements.<br>
  * This constraint forbids the connection between a <code>source</code> element and a <code>target</code> element.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ConnectionConstraint implements IConstraint, IConstraintLink, IExecutableExtension {

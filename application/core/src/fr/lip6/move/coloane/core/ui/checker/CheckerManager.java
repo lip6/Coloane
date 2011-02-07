@@ -45,7 +45,7 @@ import org.eclipse.core.runtime.Platform;
  * 	<li>Perform a whole check of an {@link IGraph}.</li>
  *  <li>Perform a check on an {@link INode}, an {@link IArc} or an {@link IGraph}.</li>
  * </ul>
- * 
+ *
  * @author Florian David
  */
 public final class CheckerManager {
@@ -69,7 +69,7 @@ public final class CheckerManager {
 	
 	/**
 	 * Build a specific checker thanks to its XML definition.
-	 * 
+	 *
 	 * @param description Description loads from the extension point.
 	 * @return the constructed checker.
 	 */
@@ -187,7 +187,7 @@ public final class CheckerManager {
 
 	/**
 	 * Build the attribute checkers.
-	 * 
+	 *
 	 * @param description Description loads from the extension point.
 	 * @param checker the checker under construction.
 	 */

@@ -27,7 +27,7 @@ import org.eclipse.swt.graphics.Color;
 
 /**
  * Graphical definition of an arc {@link ArcModel}
- * 
+ *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
  */

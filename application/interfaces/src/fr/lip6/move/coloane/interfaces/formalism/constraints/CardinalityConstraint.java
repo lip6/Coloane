@@ -35,7 +35,7 @@ import org.eclipse.core.runtime.Status;
  * 	<li>more than <code>maxIn</code> incoming arcs</li>
  * 	<li>more than <code>maxOut</code> outgoing arcs</li>
  * </ul>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class CardinalityConstraint implements IConstraint, IConstraintLink, IExecutableExtension {

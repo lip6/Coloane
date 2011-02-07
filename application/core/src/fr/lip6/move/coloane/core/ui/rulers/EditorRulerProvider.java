@@ -31,7 +31,7 @@ import org.eclipse.gef.rulers.RulerProvider;
 /**
  * Rulers and Guides Manager.<br>
  * There is one of such manager for each ruler.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class EditorRulerProvider extends RulerProvider {

@@ -70,7 +70,7 @@ import org.eclipse.gef.requests.ReconnectRequest;
 
 /**
  * EditPart that manages the arcs.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

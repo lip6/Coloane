@@ -30,7 +30,7 @@ import java.util.Map;
  * A result can also carries some request to modify the current model or to create a new one.<br>
  * To modify the current model, contribute the <code>deltaRequestsList</code> through the method {@link #addDeltaRequest(IRequest)}.<br>
  * To describe a new model, contribute to the <code>newModelRequestList</code> through the method
- * 
+ *
  * @author Florian David
  * @author Jean-Baptiste Voron
  */
@@ -47,13 +47,13 @@ public class Result implements IResult {
 	/** A new graph associated to this result. It is built thanks to execution of special requests stored into {@link #newComputedGraphRequestsList} */
 	private IGraph newComputedGraph;
 
-	/** 
+	/**
 	 * Delta requests list describing the changes to apply on the current graph<br>
 	 * Requests are used in order to produce commands that will be used to modify the model in a clean way
 	 */
 	private List<IRequest> deltaRequestsList;
 
-	/** 
+	/**
 	 * Delta requests list describing a new graph !
 	 * Requests are used in order to produce commands that will be used to modify the model in a clean way
 	 */
@@ -80,7 +80,7 @@ public class Result implements IResult {
 		this.display = true;
 	}
 	
-	/** 
+	/**
 	 * Change the display status of the result
 	 * @param display <code>true</code> is the result should be display to the user
 	 */

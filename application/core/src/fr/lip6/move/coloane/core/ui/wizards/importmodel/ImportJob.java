@@ -36,7 +36,7 @@ import org.eclipse.core.runtime.jobs.Job;
 
 /**
  * Dedicated Job for importing models
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ImportJob extends Job {

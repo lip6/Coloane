@@ -29,7 +29,7 @@ import org.eclipse.swt.graphics.Font;
 
 /**
  * Graphical description of an attribute
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

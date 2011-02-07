@@ -52,7 +52,7 @@ import org.eclipse.ui.progress.UIJob;
  * <li>public nodes
  * <li>links to another models
  * </ol>
- * 
+ *
  * @author Clément Démoulins
  */
 public final class ModelContentProvider implements ITreeContentProvider, IResourceChangeListener, IResourceDeltaVisitor {

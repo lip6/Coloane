@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  * The element that implement this interface can be linked to a sticky note.
- * 
+ *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
  */
@@ -32,13 +32,13 @@ public interface ILinkableElement {
 
 	/**
 	 * Remove a sticky link from the element
-	 * @param link The link to remove 
+	 * @param link The link to remove
 	 * @return <code>true</code> if the link has been correctly removed
 	 */
 	boolean removeLink(ILink link);
 
 	/**
-	 * @return A <b>unmodifiable</b> list of sticky links 
+	 * @return A <b>unmodifiable</b> list of sticky links
 	 */
 	List<ILink> getLinks();
 }

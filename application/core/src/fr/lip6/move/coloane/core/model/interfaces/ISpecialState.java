@@ -18,7 +18,7 @@ package fr.lip6.move.coloane.core.model.interfaces;
 /**
  * The elements that implement this interface can be highlighted in a special state.<br>
  * This can be done if and only if the associated edit is able to catch and handle the event {@link #SPECIAL_STATE_CHANGE}
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface ISpecialState {

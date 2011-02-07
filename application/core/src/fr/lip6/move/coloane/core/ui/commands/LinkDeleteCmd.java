@@ -24,9 +24,9 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Delete a link (between a node {@link ILinkableElement} and a note {@link IStickyNote})
- * 
+ *
  * @author Jean-Baptiste Voron
- * @author Clément Démoulins 
+ * @author Clément Démoulins
  */
 public class LinkDeleteCmd extends Command {
 	/** The link to delete */

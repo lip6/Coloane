@@ -41,7 +41,7 @@ import org.eclipse.ui.dialogs.WizardExportResourcesPage;
  * 	<li>A field to set the final destination</li>
  * 	<li>An area with options that concern the export process</li>
  * </ul>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ExportWizardPage extends WizardExportResourcesPage {

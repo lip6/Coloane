@@ -34,7 +34,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 /**
  * Provide formalism icons for models and give a short description.
  * This label provider is use by the models navigator.
- * 
+ *
  * @author Clément Démoulins
  */
 public final class ModelLabelProvider implements ILabelProvider, IDescriptionProvider {

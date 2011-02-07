@@ -31,7 +31,7 @@ import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * Copy action
- * 
+ *
  * @author Clément Démoulins
  */
 public class CopyAction extends SelectionAction {

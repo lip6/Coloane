@@ -21,7 +21,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Command that switches a node figure between the standard one and one of the alternate one.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class AlternateFigureCmd extends Command {

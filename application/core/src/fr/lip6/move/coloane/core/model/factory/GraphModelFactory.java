@@ -29,7 +29,7 @@ import org.eclipse.draw2d.AbsoluteBendpoint;
 
 /**
  * Class that helps to build a new {@link IGraph}
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
@@ -117,7 +117,7 @@ public class GraphModelFactory {
 		copyNodeGraphicInfo(gi, giCopy);
 	}
 	
-	/** 
+	/**
 	 * Copy a node's graphic info
 	 * @param srcGi the source
 	 * @param destGi the destination
@@ -129,7 +129,7 @@ public class GraphModelFactory {
 		destGi.setScale(srcGi.getScale());
 	}
 
-	/** 
+	/**
 	 * Copy an attribute and its graphical description.
 	 * @param src the source attribute
 	 * @param dest the destination attribute

@@ -25,7 +25,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
  * Interface that must be implemented by a <b>local tool</b> provider.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface IService {

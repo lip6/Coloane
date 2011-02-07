@@ -26,7 +26,7 @@ import org.eclipse.gef.requests.DirectEditRequest;
 
 /**
  * Sticky Notes editing policies
- * 
+ *
  * @author Clément Démoulins
  */
 public class LabelDirectEditPolicy extends DirectEditPolicy {

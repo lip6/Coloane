@@ -25,7 +25,7 @@ import java.util.Set;
 
 /**
  * Define a guide
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class EditorGuide {	
@@ -50,7 +50,7 @@ public class EditorGuide {
 	/** Position */
 	private int position;
 
-	/** 
+	/**
 	 * Orientation
 	 * @see #HORIZONTAL_ORIENTATION
 	 * @see #VERTICAL_ORIENTATION
@@ -70,7 +70,7 @@ public class EditorGuide {
 	 * Attach the element to the guide.
 	 * Note that the element is also modified.
 	 * If the element is already attached, it is detached first.
-	 * @param locatedElement The element that is attached to the guide. 
+	 * @param locatedElement The element that is attached to the guide.
 	 * @param alignment The desired alignment
 	 * @see #attachedElements
 	 */

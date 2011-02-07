@@ -19,7 +19,7 @@ import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
 
 /**
  * Use this checker to check if an attribute has a non empty value.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Florian David
  */

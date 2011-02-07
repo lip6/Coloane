@@ -25,7 +25,7 @@ import org.eclipse.draw2d.geometry.Point;
  * A <b>computed attribute</b> which value is computed according to values of other attributes.<br>
  * Each base element has to maintain its own list of computed attributes.
  * This attribute is never stored !
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
@@ -127,7 +127,7 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	
 	/**
 	 * {@inheritDoc}
-	 * 
+	 *
 	 * <b>A computed attribute should always be displayed</b>
 	 */
 	public final boolean isDrawable() {

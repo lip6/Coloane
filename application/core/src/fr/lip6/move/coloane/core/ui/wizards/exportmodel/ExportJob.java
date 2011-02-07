@@ -32,7 +32,7 @@ import org.eclipse.core.runtime.jobs.Job;
 
 /**
  * Dedicated job for exporting models
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ExportJob extends Job {

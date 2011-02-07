@@ -20,7 +20,7 @@ import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
 
 /**
  * Wizard page for new project creation
- * 
+ *
  * @see NewProjectWizard
  * @author Jean-Baptiste Voron
  */

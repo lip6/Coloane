@@ -35,7 +35,7 @@ public class ProcessController {
 		 */
 		public TimeOutException() {
 		}
-		/** 
+		/**
 		 * Constructor
 		 * @param message the message.
 		 */
@@ -57,7 +57,7 @@ public class ProcessController {
 	/**
 	 * Constructs an instance of ProcessController.<br>
 	 * This does not creates an OS process. <code>run()</code> does that.
-	 * 
+	 *
 	 * @param timeout The maximum time the process should take to run
 	 * @param params The parameters to be passed to the controlled process
 	 * @param env The environment vars
@@ -77,7 +77,7 @@ public class ProcessController {
 	 * time to complete, causing a <code>TimedOutException</code> to be
 	 * thrown. Specifying zero as <code>timeout</code> means the process is
 	 * not time constrained.
-	 * 
+	 *
 	 * @return the process exit value
 	 * @throws IOException if file problems
 	 * @throws TimeOutException If the process did not complete in time
@@ -151,14 +151,14 @@ public class ProcessController {
 	/**
 	 * Forwards the process standard output to the given output stream. Must be
 	 * called before execution has started.
-	 * 
+	 *
 	 * @param out An output stream where to forward the process standard output to
 	 */
 	public final void forwardOutput(OutputStream out) {
 		forwardStdOut = out;
 	}
 
-	/** 
+	/**
 	 * Forward the stream, using a thread, with name "name"
 	 * @param name name used to identify this thread
 	 * @param in input
@@ -184,7 +184,7 @@ public class ProcessController {
 		return process;
 	}
 
-	/** 
+	/**
 	 * Test if task is finished
 	 * @return true when it is...
 	 */
@@ -204,7 +204,7 @@ public class ProcessController {
 	}
 
 	/** mark finished state.
-	 * 
+	 *
 	 */
 	private void markFinished() {
 		finished = true;

@@ -42,16 +42,16 @@ import org.eclipse.ui.console.MessageConsole;
 
 /**
  * Session.<br>
- * 
+ *
  * A session holds :
  * <ul>
  * 	<li>a main graph</li>
  * 	<li>a list of results</li>
  * 	<li>a list of tips</li>
  * </ul>
- * 
+ *
  * @see Tip
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class Session implements ISession {

@@ -31,7 +31,7 @@ import org.eclipse.ui.IWorkbench;
  * 	<li>Choose a formalism among available ones</li>
  * 	<li>Choose a filename and a project</li>
  * </ul>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class NewModelWizard extends Wizard implements INewWizard {

@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 /**
  * First page of the creation model wizard: selectf the formalism.
- * 
+ *
  * @see NewModelWizard
  * @author Jean-Baptiste Voron
  */
@@ -98,7 +98,7 @@ public class SelectFormalismPage extends WizardPage {
 		// Fetch the formalisms list
 		List<IFormalism> listOfFormalisms = FormalismManager.getInstance().getListOfFormalisms();
 
-		// Browse and display them into a list with their icon 
+		// Browse and display them into a list with their icon
 		for (IFormalism formalism : listOfFormalisms) {
 			formalismCache.put(formalism.getName().toLowerCase(), formalism);
 			TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Add it into the table

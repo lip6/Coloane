@@ -25,7 +25,7 @@ import org.eclipse.draw2d.geometry.Point;
  * This class represents all the formalism attribute characteristics.<br>
  * An attribute is like a property of a base element.<br>
  * Each base element has to maintain its own list of attributes.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class AttributeFormalism implements IAttributeFormalism {

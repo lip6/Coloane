@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  * Graph Model Object.<br>
  * This object is a container of all other objects (node, arcs, sticky notes...).
  * Moreover, it also contains attributes.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

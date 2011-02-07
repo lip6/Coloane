@@ -49,7 +49,7 @@ import org.eclipse.gef.rulers.RulerProvider;
 
 /**
  * Set of rules that define the graphical behavior of the model
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
@@ -68,7 +68,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	/**
 	 * Model children policy
 	 * @param child The child editpart
-	 * @return a {@link NonResizableEditPolicy} except in case of sticky notes 
+	 * @return a {@link NonResizableEditPolicy} except in case of sticky notes
 	 */
 	@Override
 	protected final EditPolicy createChildEditPolicy(EditPart child) {
@@ -115,7 +115,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 
 	/**
 	 * Handle a node move<br>
-	 * @param request The move request 
+	 * @param request The move request
 	 * @param child The edit part concerned by the move
 	 * @param constraint The new position (it's a rectangle)
 	 * @return A command that specifies the move (to be executed later)
@@ -147,7 +147,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 			// If the object is detach from a guide
 			result = chainGuideDetachmentCommand(request, locatedElement, result, EditorRulerProvider.HORIZONTAL_ORIENTATION);
 			result = chainGuideDetachmentCommand(request, locatedElement, result, EditorRulerProvider.VERTICAL_ORIENTATION);
-		} 
+		}
 		return result;
 	}
 
@@ -169,9 +169,9 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		Command result = cmd;
 		
 		String keyGuide;
-		String keyAnchor; 
+		String keyAnchor;
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
-			// The horizontal guide 
+			// The horizontal guide
 			keyGuide = SnapToGuides.KEY_HORIZONTAL_GUIDE;
 			keyAnchor = SnapToGuides.KEY_HORIZONTAL_ANCHOR;
 		} else {
@@ -235,7 +235,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	/**
 	 * Find the correct guide given a position and an orientation
 	 * @param pos The position
-	 * @param orientation The orientation of the guide 
+	 * @param orientation The orientation of the guide
 	 * @return The guide
 	 */
 	private EditorGuide findGuideAt(int pos, int orientation) {

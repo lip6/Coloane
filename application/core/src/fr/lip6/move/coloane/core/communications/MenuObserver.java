@@ -27,7 +27,7 @@ import java.util.logging.Logger;
 
 /**
  * Handle notifications coming from an API and dedicated to menu updates.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
@@ -52,7 +52,7 @@ public class MenuObserver implements IApiObserver {
 
 		// Build sub-menus
 		LOGGER.finer("Fetching new sub-menus"); //$NON-NLS-1$
-		List<IItemMenu> submenus = (List<IItemMenu>) newMenus; 
+		List<IItemMenu> submenus = (List<IItemMenu>) newMenus;
 		for (IItemMenu submenu : submenus) {
 			ColoaneMenuManager newMenu = MenuManipulation.buildSubMenu(this.rootMenu, submenu);
 			if (newMenu != null) {

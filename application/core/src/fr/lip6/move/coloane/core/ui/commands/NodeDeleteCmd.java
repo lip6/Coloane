@@ -64,7 +64,7 @@ public class NodeDeleteCmd extends CheckableCmd {
 		this.node = node;
 		this.session = SessionManager.getInstance().getCurrentSession();
 		
-		//The node and its associated arcs must be locally checked after the changes 
+		//The node and its associated arcs must be locally checked after the changes
 		addCheckableElement(node);
 		for (IArc arc : node.getIncomingArcs()) {
 			addCheckableElement(arc);

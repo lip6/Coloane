@@ -36,10 +36,10 @@ import org.eclipse.gef.requests.GroupRequest;
 
 /**
  * EditPart that manages sticky links.
- * 
+ *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
- * 
+ *
  * @see ILink
  * @see IStickyNote
  */
@@ -49,7 +49,7 @@ public class LinkEditPart extends AbstractConnectionEditPart {
 	@Override
 	protected final IFigure createFigure() {
 		PolylineConnection arc = new PolylineConnection();
-		// TODO: Must be set in properties 
+		// TODO: Must be set in properties
 		arc.setLineStyle(Graphics.LINE_DOT);
 		arc.setForegroundColor(ColorConstants.gray);
 		return arc;

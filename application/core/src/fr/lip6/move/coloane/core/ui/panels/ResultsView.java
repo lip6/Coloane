@@ -52,7 +52,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Result View
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  * @author Florian David

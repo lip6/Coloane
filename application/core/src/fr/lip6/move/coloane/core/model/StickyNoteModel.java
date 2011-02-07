@@ -33,7 +33,7 @@ import org.eclipse.draw2d.geometry.Point;
 
 /**
  * Sticky Note
- * 
+ *
  * @author Clément Démoulins
  * @author Jean-Baptiste Voron
  */

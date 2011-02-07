@@ -21,7 +21,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Command to change nodeLink of a node.
- * 
+ *
  * @author Clément Démoulins
  */
 public class NodeLinkCmd extends Command {

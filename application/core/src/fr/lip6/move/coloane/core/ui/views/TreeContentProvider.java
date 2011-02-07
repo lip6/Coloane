@@ -20,7 +20,7 @@ import org.eclipse.jface.viewers.Viewer;
 
 /**
  * Content provider for {@link Tree}
- * 
+ *
  * @author Clément Démoulins
  */
 public class TreeContentProvider implements ITreeContentProvider {

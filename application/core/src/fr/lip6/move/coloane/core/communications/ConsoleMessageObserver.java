@@ -29,7 +29,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * Handle console messages display coming from an API.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

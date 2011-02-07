@@ -31,7 +31,7 @@ import org.eclipse.core.runtime.Platform;
 /**
  * Allow plug-ins to define some model examples.<br>
  * Those examples will be used and displayed during the creation wizard.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public final class ExampleExtension {

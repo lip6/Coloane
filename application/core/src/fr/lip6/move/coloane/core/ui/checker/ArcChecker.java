@@ -25,10 +25,10 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
  * <li>the marker message</li>
  * <li>the marker severity</li>
  * </ul>
- * 
+ *
  * The {@link ArcChecker#check(IArc)} method check the given {@link IArc}.
  * If the method return true, a marker has to be created and the marker message is obtained by {@link ArcChecker#getMessage()} and it severity by {@link ArcChecker#getSeverity()}.
- * 
+ *
  * @author Florian David
  */
 public class ArcChecker {

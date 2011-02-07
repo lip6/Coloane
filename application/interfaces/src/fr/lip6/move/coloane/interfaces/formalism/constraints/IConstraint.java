@@ -22,7 +22,7 @@ package fr.lip6.move.coloane.interfaces.formalism.constraints;
  * 	<li>{@link IConstraintLink}</li>
  * 	<li>{@link IConstraintNode}</li>
  * </ul>
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface IConstraint {

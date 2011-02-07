@@ -26,9 +26,9 @@ import org.eclipse.gef.commands.CompoundCommand;
 
 /**
  * Command that handles requests coming from a tool result
- * 
+ *
  * @author Jean-Baptiste Voron
- * 
+ *
  * @see IRequest
  * @see IResult
  */

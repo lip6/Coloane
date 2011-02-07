@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Private graph interface dedicated to core use
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public interface ICoreGraph extends IGraph {

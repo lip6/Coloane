@@ -30,7 +30,7 @@ import org.eclipse.swt.graphics.Color;
 /**
  * Class that allow to re-build a node.<br>
  * This operation is used when a user copy/cut/paste an element from the model.
- * 
+ *
  * @author Clément Démoulins
  */
 public class NodeContainer {

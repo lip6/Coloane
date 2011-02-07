@@ -28,9 +28,9 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Action that moves an element (nodes, note, ...) from one pixel in a direction.<br>
  * The available directions are set by following constants.
- * 
+ *
  * @author Clément Démoulins
- * 
+ *
  * @see ILocatedElement
  */
 public class NodeMoveAction extends SelectionAction {

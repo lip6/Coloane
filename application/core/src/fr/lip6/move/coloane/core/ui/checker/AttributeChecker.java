@@ -24,10 +24,10 @@ import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
  * <li>the marker message</li>
  * <li>the marker severity</li>
  * </ul>
- * 
+ *
  * The {@link AttributeChecker#check(String)} method check the given value of the {@link IAttribute} defined in the extension point.
  * If the method return true, a marker has to be created and the marker message is obtained by {@link AttributeChecker#getMessage()} and it severity by {@link AttributeChecker#getSeverity()}.
- * 
+ *
  * @author Florian David
  */
 public class AttributeChecker {

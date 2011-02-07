@@ -45,10 +45,10 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 
 /**
  * EditPart that manages Tips.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
- * 
+ *
  * @see Tip
  * @see ITip
  */
@@ -107,7 +107,7 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 		}
 
 		// Try to avoid tip overlapping.
-		// The static variable is used to limit the number of attempts. 
+		// The static variable is used to limit the number of attempts.
 		int attemps = 0;
 		while (findUnderlyingFigure(new Rectangle(location, figure.getSize()))) {
 			location.translate(20, 0);

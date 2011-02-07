@@ -36,7 +36,7 @@ import org.eclipse.ui.wizards.datatransfer.FileSystemExportWizard;
 /**
  * Generic wizard dedicated to exporting models.<br/>
  * The wizard ID is used in order to find corresponding export extensions.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ExportWizard extends FileSystemExportWizard implements IExecutableExtension {

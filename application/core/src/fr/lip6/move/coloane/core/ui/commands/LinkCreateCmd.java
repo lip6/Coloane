@@ -21,7 +21,7 @@ import org.eclipse.gef.commands.Command;
 
 /**
  * Begin the creation of a link (virtual link between an object and a note)
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */

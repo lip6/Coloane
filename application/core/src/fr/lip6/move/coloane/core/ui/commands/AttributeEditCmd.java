@@ -19,7 +19,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 /**
  * Change the value of an attribute
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class AttributeEditCmd extends CheckableCmd {

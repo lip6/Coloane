@@ -33,9 +33,9 @@ import org.eclipse.ui.ide.IDE;
 /**
  * This class allows to modify the workspace.<br>
  * It backups an new incoming model file and displays it.
- * 
+ *
  * @author Jean-Baptiste Voron
- * 
+ *
  * @see WorkspaceModifyOperation
  */
 public class ModifyWorkspace extends WorkspaceModifyOperation {

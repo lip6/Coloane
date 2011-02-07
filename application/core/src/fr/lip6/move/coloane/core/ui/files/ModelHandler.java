@@ -49,7 +49,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * How to read an XML file in order to produce a model.
- * 
+ *
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
@@ -57,7 +57,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	/** Object Stack */ 
+	/** Object Stack */
 	private Stack<Object> stack = new Stack<Object>();
 
 	/** Mapping between file ids and new objects ids */
@@ -328,7 +328,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		boolean curved = Boolean.parseBoolean(attributes.getValue(ARC_CURVED_MARKUP));
 		String arcFormalismName = attributes.getValue(ARC_TYPE_MARKUP);
 
-		// Build the arc 
+		// Build the arc
 		IArc arc = graph.createArc((IArcFormalism) formalismCache.get(arcFormalismName),
 				graph.getNode(ids.get(startid)),
 				graph.getNode(ids.get(endid)));

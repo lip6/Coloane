@@ -21,7 +21,7 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
  * Define a menu that provides access to a service.
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ServiceMenu extends ItemMenu implements IServiceMenu {

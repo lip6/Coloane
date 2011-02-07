@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbench;
 
 /**
  * Wizard dedicated to importing files (transform them into models).
- * 
+ *
  * @author Jean-Baptiste Voron
  */
 public class ImportWizard extends Wizard implements IImportWizard, IExecutableExtension {
