@@ -103,22 +103,9 @@
             <timezone>+1</timezone>
         </developer>
         <developer>
-            <id>alinard</id>
-            <name>Alban Linard</name>
-            <email>Alban.Linard@lip6.fr</email>
-            <url>http://pagesperso-systeme.lip6.fr/Alban.Linard/</url>
-            <organization>LIP6</organization>
-            <organizationUrl>http://www.lip6.fr</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <id>ahamez</id>
-            <name>Alexandre Hamez</name>
-            <email>Alexandre.Hamez@lip6.fr</email>
-            <url>http://pagesperso-systeme.lip6.fr/Alexandre.Hamez/</url>
+            <id>mcolange</id>
+            <name>Maximilien Colange</name>
+            <email>maximilien.colange@lip6.fr</email>
             <organization>LIP6</organization>
             <organizationUrl>http://www.lip6.fr</organizationUrl>
             <roles>
@@ -130,6 +117,26 @@
 
     <!-- Les contributeurs : Anciens développeurs -->
     <contributors>
+        <contributor>
+            <id>alinard</id>
+            <name>Alban Linard</name>
+            <organization>LIP6</organization>
+            <organizationUrl>http://www.lip6.fr</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </contributor>
+        <contributor>
+            <id>ahamez</id>
+            <name>Alexandre Hamez</name>
+            <organization>LIP6</organization>
+            <organizationUrl>http://www.lip6.fr</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </contributor>
         <contributor>
             <name>Nicolas Gibelin</name>
             <email>Nicolas.Gibelin@lip6.fr</email>
