@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.TableItem;
 
 /**
  * First page of the creation model wizard: selectf the formalism.
- *
+ * 
  * @see NewModelWizard
  * @author Jean-Baptiste Voron
  */
@@ -81,15 +81,14 @@ public class SelectFormalismPage extends WizardPage {
 		tableFormalism.setHeaderVisible(false);
 		tableFormalism.setLinesVisible(false);
 		tableFormalism.addSelectionListener(new SelectionListener() {
-			public void widgetDefaultSelected(SelectionEvent e) { return; }
+			public void widgetDefaultSelected(SelectionEvent e) {
+				return;
+			}
+
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					TableItem selectedTableItem  = (TableItem) e.item;
-					String selectedFormalism = selectedTableItem.getText();
-					updateStatus(selectedFormalism);
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				TableItem selectedTableItem = (TableItem) e.item;
+				String selectedFormalism = selectedTableItem.getText();
+				updateStatus(selectedFormalism);
 			}
 		});
 
@@ -101,9 +100,14 @@ public class SelectFormalismPage extends WizardPage {
 		// Browse and display them into a list with their icon
 		for (IFormalism formalism : listOfFormalisms) {
 			formalismCache.put(formalism.getName().toLowerCase(), formalism);
-			TableItem item = new TableItem(tableFormalism, SWT.NULL);	// Add it into the table
+			TableItem item = new TableItem(tableFormalism, SWT.NULL); // Add it
+																		// into
+																		// the
+																		// table
 			item.setText(formalism.getName().toUpperCase()); // Set the text
-			item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage()); // Set the picture
+			item.setImage(ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage()); // Set
+																													// the
+																													// picture
 		}
 
 		GridLayout gridLayout = new GridLayout();
@@ -127,6 +131,7 @@ public class SelectFormalismPage extends WizardPage {
 
 	/**
 	 * Update the selected formalism
+	 * @param selectedFormalismName Update to this new value
 	 */
 	private void updateStatus(String selectedFormalismName) {
 		IFormalism selectedFormalism = formalismCache.get(selectedFormalismName.toLowerCase());
