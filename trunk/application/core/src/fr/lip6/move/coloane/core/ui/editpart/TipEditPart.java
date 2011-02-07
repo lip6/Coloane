@@ -113,7 +113,7 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 			location.translate(20, 0);
 			if (++attemps > LOCATION_MAX_ATTEMPTS) {
 				LOGGER.fine("Correct tip location can not be computed"); //$NON-NLS-1$
-				break;				
+				break;
 			}
 		}
 		return location;

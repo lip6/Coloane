@@ -28,7 +28,7 @@ import java.util.Set;
  *
  * @author Jean-Baptiste Voron
  */
-public class EditorGuide {	
+public class EditorGuide {
 	/** Property used to notify listeners when an element is attached/detached to/from the guide */
 	public static final String ELEMENT_PROP = "Guide.Element"; //$NON-NLS-1$
 

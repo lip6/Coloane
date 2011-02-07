@@ -70,7 +70,7 @@ public class ServiceAction extends Action {
 		if (currentSession != null) {
 			currentGraph = currentSession.getGraph();
 		}
-		LOGGER.fine("Building the coloane job"); //$NON-NLS-1$		
+		LOGGER.fine("Building the coloane job"); //$NON-NLS-1$
 		ColoaneJob job = new ColoaneJob(this.serviceDescription.getName(), currentGraph, this.serviceDescription.getAssociatedService());
 		LOGGER.finer("Executing the coloane job"); //$NON-NLS-1$
 
@@ -80,7 +80,7 @@ public class ServiceAction extends Action {
 				if (event.getResult().isOK()) {
 					// Fetch results from the service provider
 					List<IResult> results = ((ColoaneJob) event.getJob()).getResults();
-					LOGGER.fine("Browsing results..."); //$NON-NLS-1$		
+					LOGGER.fine("Browsing results..."); //$NON-NLS-1$
 					for (IResult result : results) {
 						// A session is necessary to add results to the ResultManager
 						if (currentSession != null) {
@@ -93,11 +93,11 @@ public class ServiceAction extends Action {
 							// Deal with modifications of the current graph
 							if (result.getDeltaRequestsList().size() > 0) {
 								// Create a new special command to apply incoming request
-								LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$		
+								LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$
 								final ApplyRequestsCmd command = new ApplyRequestsCmd(result.getDeltaRequestsList(), currentSession.getGraph());
 								Display.getDefault().asyncExec(new Runnable() {
 									public void run() {
-										LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$		
+										LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$
 										((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).executeCommand(command);
 									}
 								});

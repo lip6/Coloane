@@ -87,7 +87,7 @@ public class Session implements ISession {
 		// The name must not be null
 		if (sessionId == null) {
 			throw new ColoaneException("The session name must not be null"); //$NON-NLS-1$
-		}		
+		}
 		// The session name must not be empty
 		if (sessionId.isEmpty()) {
 			throw new ColoaneException("The session name must not be empty"); //$NON-NLS-1$
@@ -97,7 +97,7 @@ public class Session implements ISession {
 		// The graph associated with the session must not be null
 		if (graph == null) {
 			throw new ColoaneException("The session must be associated with a graph"); //$NON-NLS-1$
-		}		
+		}
 		this.graph = graph;
 	}
 
