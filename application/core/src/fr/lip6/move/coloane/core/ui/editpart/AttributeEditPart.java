@@ -157,7 +157,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 				Point deltaLocation = attribute.getAttributeFormalism().getDeltaLocation();
 				if (!deltaLocation.equals(Point.SINGLETON.setLocation(0, 0))) {
 					// Compute a new location given the default GAP according to the node position
-					attributePosition = new Point(refLocation.x + deltaLocation.x, refLocation.y + deltaLocation.y);					
+					attributePosition = new Point(refLocation.x + deltaLocation.x, refLocation.y + deltaLocation.y);
 
 				// If not, just use the GAP constant to locate attributes near their parent object
 				} else {
@@ -349,7 +349,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			if (newLocation.equals(Point.SINGLETON.setLocation(-1, -1))) {
 				IAttribute attribute = (IAttribute) getModel();
 				attribute.getGraphicInfo().setLocation(computeLocation(attribute));
-			}		
+			}
 			// In all cases, the view must be refreshed
 			refreshVisuals();
 		} else if (ISpecialState.SPECIAL_STATE_CHANGE.equals(prop)) {

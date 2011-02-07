@@ -110,7 +110,7 @@ public class LocalAction extends Action {
 	public final void run() {
 		final ISession currentSession = SessionManager.getInstance().getCurrentSession();
 		IGraph currentGraph = currentSession.getGraph();
-		LOGGER.fine("Building the external coloane job"); //$NON-NLS-1$		
+		LOGGER.fine("Building the external coloane job"); //$NON-NLS-1$
 		ColoaneJob job = new ColoaneJob(this.name, currentGraph, this.action);
 		LOGGER.finer("Executing the external coloane job"); //$NON-NLS-1$
 
@@ -119,15 +119,15 @@ public class LocalAction extends Action {
 	        public void done(IJobChangeEvent event) {
 				if (event.getResult().isOK()) {
 					List<IResult> results = ((ColoaneJob) event.getJob()).getResults();
-					LOGGER.fine("Browsing results..."); //$NON-NLS-1$		
+					LOGGER.fine("Browsing results..."); //$NON-NLS-1$
 					for (IResult result : results) {
 						currentSession.getResultManager().add(description, result);
 						// Create a new special command to apply incoming request
-						LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$		
+						LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$
 						final ApplyRequestsCmd command = new ApplyRequestsCmd(result.getDeltaRequestsList(), currentSession.getGraph());
 						Display.getDefault().asyncExec(new Runnable() {
 							public void run() {
-								LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$		
+								LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$
 								((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).executeCommand(command);
 							}
 						});

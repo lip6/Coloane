@@ -144,7 +144,7 @@ public final class SessionManager implements ISessionManager {
 			}
 			return toDestroy;
 		}
-		LOGGER.warning("The session " + sessionId + " is not registered in the session manager"); //$NON-NLS-1$ //$NON-NLS-2$		
+		LOGGER.warning("The session " + sessionId + " is not registered in the session manager"); //$NON-NLS-1$ //$NON-NLS-2$
 		return null;
 	}
 

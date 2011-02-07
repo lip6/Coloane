@@ -79,7 +79,7 @@ public class GuideChangeCmd extends Command {
 	public final void execute() {
 		if ((this.newGuide == null) && (this.oldGuide == null)) { return; }
 		// Cache the old values
-		if (this.oldGuide != null) {	
+		if (this.oldGuide != null) {
 			this.oldAlign = this.oldGuide.getAlignment(this.locatedElement);
 		}
 		redo();

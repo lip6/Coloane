@@ -229,7 +229,7 @@ public final class FormalismManager {
 			boolean defaultValueDrawable = true;
 
 			// Parse the default value
-			if (defaultValue != null) {	
+			if (defaultValue != null) {
 				if (computedAttribute.getAttribute("displayed_default") != null) { //$NON-NLS-1$
 					defaultValueDrawable = Boolean.parseBoolean(computedAttribute.getAttribute("displayed_default")); //$NON-NLS-1$
 				}
