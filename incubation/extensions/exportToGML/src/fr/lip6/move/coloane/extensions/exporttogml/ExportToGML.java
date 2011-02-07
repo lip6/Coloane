@@ -121,8 +121,10 @@ public class ExportToGML implements IExportTo {
 
 		// Export model attributes
 		IAttribute declarativePart = graph.getAttribute("declaration");
-		if (!declarativePart.getValue().equals("")) {
-			symbolTable = exportDeclarativePart(declarativePart.getValue(), out, monitor, gap);
+		if (declarativePart != null) {
+			if (!declarativePart.getValue().equals("")) {
+				symbolTable = exportDeclarativePart(declarativePart.getValue(), out, monitor, gap);
+			}
 		}
 		monitor.worked(1);
 		for (IAttribute attr : graph.getAttributes()) {
