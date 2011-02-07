@@ -65,12 +65,10 @@ public class GraphicalDescription implements IGraphicalDescription {
 		this.drawable = drawable;
 	}
 
-
 	/** {@inheritDoc} */
 	public final String getPaletteName() {
 		return paletteName;
 	}
-
 
 	/**
 	 * Positionne le nom de l'élément de formalisme affiché dans la palette
@@ -80,12 +78,10 @@ public class GraphicalDescription implements IGraphicalDescription {
 		this.paletteName = paletteName;
 	}
 
-
 	/** {@inheritDoc} */
 	public final String getDescription() {
 		return description;
 	}
-
 
 	/**
 	 * Positionne la description de l'élément de formalisme affiché dans la palette
@@ -95,18 +91,15 @@ public class GraphicalDescription implements IGraphicalDescription {
 		this.description = description;
 	}
 
-
 	/** {@inheritDoc} */
 	public final boolean isPalettable() {
 		return palettable;
 	}
 
-
 	/** {@inheritDoc} */
 	public final boolean isDrawable() {
 		return drawable;
 	}
-
 
 	/** {@inheritDoc} */
 	public final IFigure getAssociatedFigure() {
@@ -128,7 +121,6 @@ public class GraphicalDescription implements IGraphicalDescription {
 		return null;
 	}
 
-
 	/**
 	 * Positionne lea figure associée à l'élément de formalisme
 	 * @param c Nom de la classe figure associée à l'élément de formalisme
@@ -137,12 +129,10 @@ public class GraphicalDescription implements IGraphicalDescription {
 		this.associatedFigureClass = c;
 	}
 
-
 	/** {@inheritDoc} */
 	public final String getIcon16px() {
 		return "/" + icon16px; //$NON-NLS-1$
 	}
-
 
 	/**
 	 * Positionne l'icone (16pixels) assicée à l'élément de formalisme
@@ -152,12 +142,10 @@ public class GraphicalDescription implements IGraphicalDescription {
 		this.icon16px = icon16px;
 	}
 
-
 	/** {@inheritDoc} */
 	public final String getIcon24px() {
 		return "/" + icon24px; //$NON-NLS-1$
 	}
-
 
 	/**
 	 * Positionne l'icone (24pixels) assicée à l'élément de formalisme
@@ -172,7 +160,6 @@ public class GraphicalDescription implements IGraphicalDescription {
 		return filled;
 	}
 
-
 	/**
 	 * Indique si la figure doit être remplie (graphiquement parlant)
 	 * @param filled <code>true</code> si la figure doit être pleine. <code>false</code> sinon.
@@ -181,12 +168,10 @@ public class GraphicalDescription implements IGraphicalDescription {
 		this.filled = filled;
 	}
 
-
 	/** {@inheritDoc} */
 	public final Integer getHeight() {
 		return this.height;
 	}
-
 
 	/**
 	 * Positionne la hauteur de l'élément graphique associé à l'élément de formalisme
@@ -196,12 +181,10 @@ public class GraphicalDescription implements IGraphicalDescription {
 		this.height = Integer.valueOf(height);
 	}
 
-
 	/** {@inheritDoc} */
 	public final Integer getWidth() {
 		return this.width;
 	}
-
 
 	/**
 	 * Positionne la largeur de l'élément graphique associé à l'élément de formalisme

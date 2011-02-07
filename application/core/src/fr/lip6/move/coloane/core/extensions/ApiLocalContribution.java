@@ -33,7 +33,7 @@ import org.eclipse.ui.actions.CompoundContributionItem;
 public class ApiLocalContribution extends CompoundContributionItem {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
+
 	/** {@inheritDoc} */
 	@Override
 	protected final IContributionItem[] getContributionItems() {
@@ -64,7 +64,7 @@ public class ApiLocalContribution extends CompoundContributionItem {
 
 		return toReturn;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -72,7 +72,7 @@ public class ApiLocalContribution extends CompoundContributionItem {
 	public final boolean isDynamic() {
 		return true;
 	}
-	
+
 	/** {@inheritDoc} */
 	@Override
 	public final boolean isDirty() {

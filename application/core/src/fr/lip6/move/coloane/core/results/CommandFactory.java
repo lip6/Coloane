@@ -47,14 +47,13 @@ public class CommandFactory {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-	
 	/**
 	 * Produce a GEF command according to the request
 	 * @param request The request coming from the result object
 	 * @return the corresponding command
 	 */
 	public static Command createCommand(IRequest request, IGraph graph) {
-		
+
 		switch (request.getRequestType()) {
 		// New Arc
 		case IRequest.ARC_CREATE_REQUEST:
@@ -79,12 +78,12 @@ public class CommandFactory {
 				resetAttributesPositionCommand.add(new AttributeSetConstraintCmd(attribute, new Point(-1, -1)));
 			}
 			return resetAttributesPositionCommand;
-		
+
 		// Create a new inflex point
 		case IRequest.INFLEXPOINT_CREATE_REQUEST:
 			InflexPointCreateRequest inflexPointCreateRequest = (InflexPointCreateRequest) request;
 			return new InflexCreateCmd(inflexPointCreateRequest.getArc(), inflexPointCreateRequest.getPosition(), inflexPointCreateRequest.getIndex());
-			
+
 		// Remove all inflex points associated to an arc
 		case IRequest.INFLEXPOINTS_DELETE_REQUEST:
 			InflexPointsDeleteRequest inflexPointsDeleteRequest = (InflexPointsDeleteRequest) request;
@@ -94,22 +93,22 @@ public class CommandFactory {
 				deleteInflexPointsCommand.add(new InflexDeleteCmd(inflexPointsDeleteRequest.getArc(), i));
 			}
 			return deleteInflexPointsCommand;
-			
+
 		// Create a node
 		case IRequest.NODE_CREATE_REQUEST:
 			NodeCreateRequest nodeCreateRequest = (NodeCreateRequest) request;
 			return new NodeCreateCmd(graph, nodeCreateRequest.getFormalism(), nodeCreateRequest.getInitialPosition());
-			
+
 		// Remove a node
 		case IRequest.NODE_DELETE_REQUEST:
 			NodeDeleteRequest nodeDeleteRequest = (NodeDeleteRequest) request;
 			return new NodeDeleteCmd(graph, nodeDeleteRequest.getElement());
-			
+
 		// Move a node
 		case IRequest.NODE_POSITION_REQUEST:
 			NodePositionRequest nodePositionRequest = (NodePositionRequest) request;
 			return new LocatedElementSetConstraintCmd((ILocatedElement) nodePositionRequest.getElement(), nodePositionRequest.getNewPosition());
-			
+
 		default:
 			LOGGER.warning("A request has not been recognized by the factory"); //$NON-NLS-1$
 			return null;

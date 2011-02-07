@@ -85,7 +85,6 @@ public class SubResult implements ISubResult {
 		this.tips = new HashMap<Integer, List<ITip>>();
 	}
 
-
 	/**
 	 * {@inheritDoc}
 	 */
@@ -130,7 +129,7 @@ public class SubResult implements ISubResult {
 		}
 		this.textualResults.add(array);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -152,14 +151,14 @@ public class SubResult implements ISubResult {
 			addAttributeOutline(object.getId(), attributeName);
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public final void addObjectDesignation(Integer objectId) {
 		this.objectsDesignation.add(objectId);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -191,7 +190,7 @@ public class SubResult implements ISubResult {
 	public final void addSubResult(ISubResult subResult) {
 		this.subResults.add(subResult);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

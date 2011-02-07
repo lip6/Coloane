@@ -102,7 +102,7 @@ public final class ModelLoader {
 
 		return handler;
 	}
-	
+
 	/**
 	 * Load a model from an XML file
 	 * @param xmlFile IThe file that contains the model description
@@ -115,7 +115,6 @@ public final class ModelLoader {
 		URI modelURI = xmlFile.getLocationURI();
 		return loadFromXML(modelURI, handler);
 	}
-	
 
 	/**
 	 * Load a model from an XML URI.<br>
@@ -127,7 +126,7 @@ public final class ModelLoader {
 	public static IGraph loadGraphFromXML(URI xmlUri) {
 		return loadFromXML(xmlUri, new ModelHandler()).getGraph();
 	}
-	
+
 	/**
 	 * Load a model from an XML file.<br>
 	 * The model is entirely read thanks to {@link ModelHandler}.<br>
@@ -138,7 +137,7 @@ public final class ModelLoader {
 	public static IGraph loadGraphFromXML(IFile xmlFile) {
 		return loadFromXML(xmlFile, new ModelHandler()).getGraph();
 	}
-	
+
 	/**
 	 * Load a model from an XML Java string.<br>
 	 * The model is entirely read thanks to {@link ModelHandler}.<br>
@@ -150,7 +149,7 @@ public final class ModelLoader {
 		try {
 			StreamSource modelSource = new StreamSource(new java.io.StringReader(xmlModel));
 			ModelHandler modelHandler = new ModelHandler();
-		
+
 			// Fetch the XML schema (high level model definition)
 			Schema schema = loadSchema();
 			// Validate the model against the definition

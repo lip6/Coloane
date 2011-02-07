@@ -50,7 +50,7 @@ public interface ILocatedElement {
 	 * @param guide The new guide
 	 */
 	void setGuide(EditorGuide guide);
-	
+
 	/**
 	 * Remove (detach) a guide from this object
 	 * @param guide The guide to remove

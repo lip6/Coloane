@@ -30,7 +30,7 @@ public class Tree {
 
 	private Tree parent = null;
 	private List<Tree> children = new ArrayList<Tree>();
-	
+
 	private String name;
 	private Object element;
 	private ImageDescriptor icon;
@@ -118,7 +118,7 @@ public class Tree {
 		children.add(child);
 		child.setParent(this);
 	}
-	
+
 	/**
 	 * @param child child to remove
 	 * @return <code>true</code> if the child was removed

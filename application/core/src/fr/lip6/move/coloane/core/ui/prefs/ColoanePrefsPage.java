@@ -45,10 +45,10 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPreferencePage {
 	/** Limit size for text field */
 	public static final int TXT_LIMIT = 255;
-	
+
 	// Statistics Field
 	BooleanFieldEditor statsStatus;
-	
+
 	// Debug Field
 	Combo debugLevelCombo;
 
@@ -56,7 +56,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	public final void init(IWorkbench workbench) {
 		setPreferenceStore(Coloane.getInstance().getPreferenceStore());
 	}
-	
+
 	/**
 	 * Creates the composite which contains all the preference controls for this page.
 	 * @param parent the parent composite
@@ -84,7 +84,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		applyDialogFont(composite);
 		return composite;
 	}
-	
+
 	/**
 	 * Create the group of components dedicated to statistics preferences
 	 * @param parent The main composite
@@ -93,7 +93,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		Group statsGroup = new Group(parent, SWT.LEFT);
 		GridLayout layout = new GridLayout();
 		statsGroup.setLayout(layout);
-		
+
 		GridData gridData = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		statsGroup.setLayoutData(gridData);
 		statsGroup.setText(Messages.ColoanePrefsPage_11);
@@ -109,7 +109,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		statsStatus.setPreferenceStore(getPreferenceStore());
 		statsStatus.load();
 	}
-	
+
 	/**
 	 * Create the group of components dedicated to log preferences
 	 * @param parent The main composite
@@ -122,7 +122,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 		GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
 		logGroup.setLayoutData(data);
 		logGroup.setText(Messages.ColoanePrefsPage_5);
-		
+
 		new Label(logGroup, SWT.NULL).setText(Messages.ColoanePrefsPage_6);
 		debugLevelCombo = new Combo(logGroup, SWT.NULL);
 		debugLevelCombo.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -148,10 +148,10 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	public final boolean performOk() {
 		// STATS
 		Coloane.getInstance().setPreference("STATS_STATUS", String.valueOf(statsStatus.getBooleanValue())); //$NON-NLS-1$
-		
+
 		// DEBUG
 		Coloane.getInstance().setPreference("DEBUG_STATUS", String.valueOf(statsStatus.getBooleanValue())); //$NON-NLS-1$
-		
+
 		return super.performOk();
 	}
 }

@@ -22,7 +22,6 @@ public final class Messages extends NLS {
 	public static String ProjectCreationPage_0;
 	public static String ProjectCreationPage_1;
 	public static String NewProjectWizard_1;
-	
 
 	static {
 		// initialize resource bundle

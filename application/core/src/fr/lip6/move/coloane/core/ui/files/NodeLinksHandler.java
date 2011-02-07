@@ -31,10 +31,10 @@ import org.xml.sax.helpers.DefaultHandler;
 public class NodeLinksHandler extends DefaultHandler {
 
 	private final IFile file;
-	
+
 	private List<NodeLink> links = new ArrayList<NodeLink>();
 	private NodeLink current;
-	
+
 	private StringBuilder data;
 
 	/**
@@ -115,7 +115,7 @@ public class NodeLinksHandler extends DefaultHandler {
 	public NodeLinksHandler(IFile file) {
 		this.file = file;
 	}
-	
+
 	/** {@inheritDoc} */
 	@Override
 	public final void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {

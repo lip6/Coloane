@@ -66,13 +66,13 @@ public final class MarkerManager {
 
 	/** ID the marker attribute "ID". Used to keep the IElement id with which the marker is linked. */
 	private static String ID = "id"; //$NON-NLS-1$
-	
+
 	/** The instance */
 	private static MarkerManager instance;
-	
+
 	/** Constructor */
 	private MarkerManager() { }
-	
+
 	/** @return The CheckerManager instance */
 	public static synchronized MarkerManager getInstance() {
 		if (instance == null) { instance = new MarkerManager(); }
@@ -167,7 +167,7 @@ public final class MarkerManager {
 	public void createGraphAttributeMarker(IResource resource, String message, IElement element, Integer severity) {
 		createMarker(resource, GRAPH_ATTRIBUTE_MARKER, message, element, severity);
 	}
-	
+
 	/**
 	 * Delete all markers from a file.
 	 * @param resource file from where markers are deleted.
@@ -179,7 +179,7 @@ public final class MarkerManager {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Delete all markers associated to a specific resource.<br>
 	 * This method is especially useful to clean the problem view when the user closes a model
@@ -191,9 +191,9 @@ public final class MarkerManager {
 		} catch (CoreException e) {
 			LOGGER.warning("The resource " + resource.getName() + "does not exist anymore or has a problem...");  //$NON-NLS-1$//$NON-NLS-2$
 		}
-		
+
 	}
-	
+
 	/**
 	 * Delete markers of a specific type associated to a specific element.
 	 * @param resource the resource file from where markers are deleted.
@@ -204,7 +204,7 @@ public final class MarkerManager {
 		if (element != null) {
 			try {
 				IMarker[] markers = resource.findMarkers(type, false, IResource.DEPTH_ZERO);
-	
+
 				for (IMarker marker : markers) {
 					Integer id = (Integer) marker.getAttribute(ID, -1);
 					if (id == element.getId()) {
@@ -223,7 +223,7 @@ public final class MarkerManager {
 			}
 		}
 	}
-	
+
 	/**
 	 * Delete node markers associated to the node.
 	 * @param resource the resource file from where markers are deleted.
@@ -250,7 +250,7 @@ public final class MarkerManager {
 	public void deleteArcMarkers(IResource resource, IElement element) {
 		deleteMarkers(resource, ARC_MARKER, element);
 	}
-	
+
 	/**
 	 * Delete arc attribute markers associated to the arc.
 	 * @param resource the resource file from where markers are deleted.
@@ -259,7 +259,7 @@ public final class MarkerManager {
 	public void deleteArcAttributeMarkers(IResource resource, IElement element) {
 		deleteMarkers(resource, ARC_ATTRIBUTE_MARKER, element);
 	}
-	
+
 	/**
 	 * Delete graph markers associated to the graph.
 	 * @param resource the resource file from where markers are deleted.
@@ -267,7 +267,7 @@ public final class MarkerManager {
 	public void deleteGraphMarkers(IResource resource) {
 		deleteMarkers(resource, GRAPH_MARKER, null);
 	}
-	
+
 	/**
 	 * Delete graph attribute markers.
 	 * @param resource the resource file from where markers are deleted.
@@ -275,7 +275,7 @@ public final class MarkerManager {
 	public void deleteGraphAttributeMarkers(IResource resource) {
 		deleteMarkers(resource, GRAPH_ATTRIBUTE_MARKER, null);
 	}
-	
+
     /**
      * Sets the cursor and selection state for an editor to reveal the position of the given marker.
      * @param marker the marker.

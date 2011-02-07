@@ -184,7 +184,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			setErrorMessage(Messages.ImportWizardPage_14);
 			return false;
 		}
-		
+
 		// Fetch available formalisms
 		IFormalism inputFormalism = null;
 		List<IFormalism> listOfFormalisms = ImportFromExtension.getFormalisms(importType);
@@ -257,7 +257,6 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			setErrorMessage(Messages.ImportWizardPage_9);
 			return false;
 		}
-
 
 		if (getFileName().equals("")) { //$NON-NLS-1$
 			setErrorMessage(Messages.ImportWizardPage_11);

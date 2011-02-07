@@ -39,7 +39,7 @@ public class AttributeChangeValueRequest implements IRequest {
 		this.attribute = attribute;
 		this.newValue = newValue;
 	}
-	
+
 	/**
 	 * @return The attribute concerned by this request
 	 */
@@ -53,7 +53,7 @@ public class AttributeChangeValueRequest implements IRequest {
 	public final String getNewValue() {
 		return newValue;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

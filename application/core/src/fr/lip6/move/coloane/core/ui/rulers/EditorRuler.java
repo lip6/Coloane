@@ -111,7 +111,7 @@ public class EditorRuler {
 	public final int getOrientation() {
 		return this.orientation;
 	}
-	
+
 	/**
 	 * @return the orientation of guides that are attached to this ruler
 	 * Basically, their orientation is the opposite of the ruler's one.

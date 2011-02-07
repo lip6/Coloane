@@ -36,7 +36,7 @@ import org.eclipse.swt.graphics.Color;
 public class NodeContainer {
 	/** Space used in order to avoid overlapping between old objects and new objects */
 	private static final int DELTA_COPY = 10;
-	
+
 	/** The node ID */
 	private int id;
 
@@ -48,13 +48,13 @@ public class NodeContainer {
 
 	/** The current location of the node */
 	private Point location;
-	
+
 	/** The background color of the node */
 	private Color background;
-	
+
 	/** The foreground color of the node */
 	private Color foreground;
-	
+
 	/** The current scale applied on the node */
 	private int scale;
 
@@ -70,12 +70,12 @@ public class NodeContainer {
 		for (IAttribute attr : node.getAttributes()) {
 			this.attributes.add(new AttributeContainer(attr));
 		}
-		
+
 		this.location = node.getGraphicInfo().getLocation();
 		this.foreground = node.getGraphicInfo().getForeground();
 		this.background = node.getGraphicInfo().getBackground();
 		this.scale = node.getGraphicInfo().getScale();
-		
+
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class NodeContainer {
 		node.getGraphicInfo().setForeground(foreground);
 		node.getGraphicInfo().setBackground(background);
 		node.getGraphicInfo().setScale(scale);
-		
+
 		// Attributes creation
 		for (AttributeContainer ac : attributes) {
 			node.getAttribute(ac.getName()).setValue(ac.getValue());

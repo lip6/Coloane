@@ -63,7 +63,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	private boolean isInterface = false;
 	private String nodeLink;
 
-
 	/**
 	 * Constructor
 	 * @param parent The parent of this node (often the graph itself)
@@ -96,7 +95,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		}
 		outgoingArcs.clear();
 		incomingArcs.clear();
-		
+
 		// The sticky links list should be empty (due to link.disconnect())
 		if (!links.isEmpty()) {
 			LOGGER.warning("The sticky link list is not clean... cleaning it now"); //$NON-NLS-1$
@@ -188,7 +187,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 			this.verticalGuide = guide;
 		}
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
@@ -199,7 +198,6 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 			this.verticalGuide = null;
 		}
 	}
-
 
 	/** {@inheritDoc} */
 	public final void updateTips() {

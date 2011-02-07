@@ -22,7 +22,6 @@ import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Text;
 
-
 /**
  * Compute the best location for the editing zone associated to a sticky note
  * @see CellEditorLocator

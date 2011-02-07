@@ -50,19 +50,19 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 
 	/** Parent, if it exists */
 	private IResultTree parent;
-	
+
 	/** All children */
 	private List<IResultTree> children;
-	
+
 	/** Details associated with this result */
 	private List<Object> details;
-	
+
 	/** Attributes to highlight */
 	private Map<Integer, List<String>> attributesOutline;
-	
+
 	/** Objects to highlight */
 	private final List<Integer> highlights;
-	
+
 	/** Tip list */
 	private List<ICoreTip> tips = Collections.unmodifiableList(new ArrayList<ICoreTip>(0));
 
@@ -89,13 +89,13 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 
 		// Prepare the list of result children
 		children = new ArrayList<IResultTree>();
-		
+
 		// Contribute to result columns (for details)
 		this.details = new ArrayList<Object>();
 		for (String element : details) {
 			this.details.add(element);
 		}
-		
+
 		try {
 			this.sessionManager = this.getSessionManager();
 			if (this.sessionManager != null) {
@@ -134,7 +134,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		if (this.sessionManager != null) {
 			return this.sessionManager;
 		}
-		
+
 		// If this result tree is the child of another result tree, we ask the parent for the session manager
 		if (this.parent != null) {
 			this.sessionManager = parent.getSessionManager();
@@ -169,7 +169,6 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	public final List<Object> getElement() {
 		return details;
 	}
-
 
 	/** {@inheritDoc} */
 	public final void addHighlighted(int... toHighlight) {
@@ -240,7 +239,6 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
 		List<ICoreTip> coreTips = new ArrayList<ICoreTip>();
 
-
 		for (Integer id : objectIds) {
 			IElement element = currentGraph.getObject(id);
 			if (element != null) {
@@ -292,7 +290,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 			}
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

@@ -15,7 +15,6 @@
  */
 package fr.lip6.move.coloane.interfaces.objects.result;
 
-
 /**
  * Describe a special information attached to a model object.<br>
  * This information is usually shown thanks to a red bubble drawn on the model.

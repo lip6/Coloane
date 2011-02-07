@@ -119,7 +119,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 			setDestinationValue(selectedDirectoryName);
 		}
 	}
-	
+
 	/**
 	 * Set the field value
 	 * @param value The new destination value
@@ -127,7 +127,6 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	protected final void setDestinationValue(String value) {
 		destinationNameField.setText(value);
 	}
-
 
 	/**
 	 * Set the focus to the destination field

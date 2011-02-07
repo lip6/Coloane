@@ -37,7 +37,6 @@ public class ArcChangeColorCmd extends Command {
 		this.newColor = color;
 	}
 
-
 	/** {@inheritDoc} */
 	@Override
 	public final void execute() {
@@ -45,13 +44,11 @@ public class ArcChangeColorCmd extends Command {
 		redo();
 	}
 
-
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
 		arc.getGraphicInfo().setColor(newColor);
 	}
-
 
 	/** {@inheritDoc} */
 	@Override

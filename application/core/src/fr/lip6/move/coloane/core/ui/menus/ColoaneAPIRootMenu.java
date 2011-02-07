@@ -19,7 +19,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 public class ColoaneAPIRootMenu extends MenuManager {
-	
+
 	/**
 	 * Constructor
 	 * @param rootMenuName The name of the menu

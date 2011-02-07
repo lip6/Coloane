@@ -21,7 +21,6 @@ import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Text;
 
-
 /**
  * Class used to edit attributes directly into the model.<br>
  * It allow to compute the best location for the cell editor area.

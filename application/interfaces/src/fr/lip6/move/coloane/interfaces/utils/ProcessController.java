@@ -147,7 +147,6 @@ public class ProcessController {
 		forwardStdErr = err;
 	}
 
-
 	/**
 	 * Forwards the process standard output to the given output stream. Must be
 	 * called before execution has started.

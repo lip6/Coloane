@@ -34,7 +34,7 @@ public final class ImportFromExtension {
 	 * Extension attributes
 	 */
 	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.imports"; //$NON-NLS-1$
-	
+
 	private static final String WIZREF_EXTENSION = "wizard_id"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
 	private static final String FORMALISMS_EXTENSION = "id"; //$NON-NLS-1$

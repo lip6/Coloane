@@ -158,7 +158,6 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		setPageComplete(validatePage());
 	}
 
-
 	/** {@inheritDoc} */
 	@Override
 	public final void setVisible(boolean visible) {

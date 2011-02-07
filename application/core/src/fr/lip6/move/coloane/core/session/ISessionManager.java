@@ -42,7 +42,7 @@ public interface ISessionManager {
 	 * @throws ColoaneException If something went wrong during the creation process
 	 */
 	ISession createSession(String sessionId, IGraph graph) throws ColoaneException;
-	
+
 	/**
 	 * Resume the designated session.<br>
 	 * This session is new the current one.
@@ -50,7 +50,7 @@ public interface ISessionManager {
 	 * @return The session that has been resumed or <code>null</code> if something went wring during the process
 	 */
 	ISession resumeSession(String sessionId);
-	
+
 	/**
 	 * Remove session from the session manager.<br>
 	 * Usually, this operation is called when the user close an editor.
@@ -82,7 +82,7 @@ public interface ISessionManager {
 	 * @return The list of all registered session
 	 */
 	Collection<ISession> getSessions();
-	
+
 	/**
 	 * @return The list of available <b>global</b> APIs
 	 */

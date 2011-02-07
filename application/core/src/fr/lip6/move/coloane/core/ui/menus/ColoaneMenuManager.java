@@ -19,7 +19,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 public class ColoaneMenuManager extends MenuManager {
-	
+
 	/**
 	 * Constructor
 	 * @param text

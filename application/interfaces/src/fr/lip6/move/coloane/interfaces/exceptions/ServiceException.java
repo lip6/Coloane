@@ -27,14 +27,14 @@ package fr.lip6.move.coloane.interfaces.exceptions;
  * @author Jean-Baptiste Voron
  */
 public class ServiceException extends Exception {
-	
+
 	/** When the problem is global */
 	public static final int GENERAL_ERROR = 0;
 	/** When the connection to the service provider is not possible */
 	public static final int CONNECTION_ERROR = 1;
 	/** When the connection is not possible due to an authentication error */
 	public static final int AUTHENTICATION_ERROR = 2;
-	
+
 	/**
 	 * Serialize
 	 */
@@ -42,7 +42,7 @@ public class ServiceException extends Exception {
 
 	/** The exception type */
 	private int type = -1;
-	
+
 	/**
 	 * Constructor
 	 * @param type The exception type
@@ -52,14 +52,14 @@ public class ServiceException extends Exception {
 		super(message);
 		this.type = type;
 	}
-	
+
 	/**
 	 * @param message The message that explains the problem
 	 */
 	public ServiceException(String message) {
 		super(message);
 	}
-	
+
 	/**
 	 * @return The message that explains the problem
 	 */

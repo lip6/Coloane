@@ -58,13 +58,13 @@ public class ArcCompleteCmd extends CheckableCmd {
 	 * @param arcFormalism The formalism that describes the arc (its properties)
 	 */
 	public ArcCompleteCmd(INode source, INode target, IArcFormalism arcFormalism) {
-		// Fetch the parent model from the source node... Source and target parent must be the same 
+		// Fetch the parent model from the source node... Source and target parent must be the same
 		assert(source.getParent().equals(target.getParent()));
 		this.graph = (IGraph) source.getParent();
 		this.source = source;
 		this.target = target;
 		this.arcFormalism = arcFormalism;
-		
+
 		// This new arc must be locally checked
 		addCheckableElement(arc);
 		// Its source and its target must be checked too
@@ -88,7 +88,7 @@ public class ArcCompleteCmd extends CheckableCmd {
 		// Build up the arc
 		try {
 			this.arc = this.graph.createArc(arcFormalism, source, target);
-			
+
 			// Handle the special case where the source and the target node of the arc are the same
 			if (source.equals(target)) {
 				// In that case, two inflex points are created

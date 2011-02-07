@@ -15,9 +15,8 @@
  */
 package fr.lip6.move.coloane.interfaces.model;
 
-
 public interface IAttributeFormatter {
-	
+
 	/**
 	 * Apply formatting rules
 	 * @param value The current attribute value. Usually sufficient

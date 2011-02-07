@@ -37,7 +37,7 @@ public class StickyNoteCreateCmd extends Command {
 
 	/** The location of the note */
 	private Point location;
-	
+
 	/** Dimensions of the note */
 	private Dimension dimension;
 

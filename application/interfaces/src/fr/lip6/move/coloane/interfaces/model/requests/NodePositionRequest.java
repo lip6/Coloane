@@ -27,7 +27,7 @@ import org.eclipse.draw2d.geometry.Point;
 public class NodePositionRequest implements IRequest {
 	/** Id of the object to move */
 	private INode element;
-	
+
 	/** the new position for the object*/
 	private Point newPosition;
 
@@ -40,14 +40,14 @@ public class NodePositionRequest implements IRequest {
 		this.element = element;
 		this.newPosition = newPosition;
 	}
-	
+
 	/**
 	 * @return The element to move
 	 */
 	public final INode getElement() {
 		return element;
 	}
-	
+
 	/**
 	 * @return The new position for the considered object
 	 */

@@ -101,7 +101,7 @@ public class GraphModelFactory {
 			destArc.addInflexPoint(inflex);
 		}
 	}
-	
+
 	/**
 	 * Copy a Node, its attributes and its graphical description.
 	 * @param src the source node to copy from
@@ -116,7 +116,7 @@ public class GraphModelFactory {
 		INodeGraphicInfo giCopy = dest.getGraphicInfo();
 		copyNodeGraphicInfo(gi, giCopy);
 	}
-	
+
 	/**
 	 * Copy a node's graphic info
 	 * @param srcGi the source

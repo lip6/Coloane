@@ -35,13 +35,13 @@ import java.util.Map;
  * @author Florian David
  */
 public interface ISubResult {
-	
+
 	/**
 	 * Add a special information the existing list
 	 * @param tip The special information to add to the model
 	 */
 	void addTip(ITip tip);
-	
+
 	/**
 	 * Add a new tip in the subResult.<br>
 	 * This is a convenience way to add a tip without explicitly create it.
@@ -50,22 +50,21 @@ public interface ISubResult {
 	 * @param value the tip value.
 	 */
 	void addTip(IElement object, String name, String value);
-	
+
 	/**
 	 * Add a textual result in the list.
 	 * @param result the textual result to add to the list.<br>
 	 * It's stored in an array for being displayed in the columns of the view.
 	 */
 	void addTextualResult(String... result);
-	
-	
+
 	/**
 	 * Add an attribute (associated with a model object) to the list of attributes to be highlighted.
 	 * @param objectId The object ID to whom belongs the attribute.
 	 * @param attributeName The name of the attribute to be highlighted.
 	 */
 	void addAttributeOutline(Integer objectId, String attributeName);
-	
+
 	/**
 	 * Add an attribute (associated with a model object) to the list of attributes to be highlighted.<br>
 	 * This method uses directly an IElement instead of ElementID.
@@ -85,25 +84,25 @@ public interface ISubResult {
 	 * @param object The object to be added to the list.
 	 */
 	void addObjectDesignation(IElement object);
-	
+
 	/**
 	 * Add an object which to the list of potential highlighted and displayed element.
 	 * @param objectId The object ID to be added to the list.
 	 */
 	void addObjectOutline(Integer objectId);
-	
+
 	/**
 	 * Add an object which to the list of potential highlighted and displayed element.
 	 * @param object The object to be added to the list.
 	 */
 	void addObjectOutline(IElement object);
-	
+
 	/**
 	 * Add a sub-result in the sub-result list.
 	 * @param subResult The sub-result added to the list.
 	 */
 	void addSubResult(ISubResult subResult);
-	
+
 	/**
 	 * @return A name associated to the sub-result (often a category name).
 	 */
@@ -113,7 +112,7 @@ public interface ISubResult {
 	 * @return A description of the sub-result.
 	 */
 	String getInformation();
-	
+
 	/**
 	 * @return A list of sub-results contained into the sub-result.
 	 */
@@ -138,7 +137,7 @@ public interface ISubResult {
 	 * @return The list of textual results
 	 */
 	List<List<String>> getTextualResults();
-	
+
 	/**
 	 * @see ITip
 	 * @return The list of special information

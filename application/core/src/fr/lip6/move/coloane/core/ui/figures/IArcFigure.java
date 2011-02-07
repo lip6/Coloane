@@ -30,12 +30,12 @@ public interface IArcFigure extends IFigure, Connection {
 	 * @see org.eclipse.draw2d.Shape#setLineWidth(int)
 	 */
 	void setLineWidth(int w);
-	
+
 	/**
 	 * @return the model arc element that corresponds to the figure
 	 */
 	IArc getModel();
-	
+
 	/**
 	 * Set the model arc element associated to this figure
 	 * @param modelElement the model arc element

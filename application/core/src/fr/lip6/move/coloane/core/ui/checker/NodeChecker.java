@@ -36,7 +36,7 @@ public class NodeChecker {
 	private Integer severity;
 	/** The marker severity */
 	private String message;
-	
+
 	/**
 	 * Construct a node checker.
 	 * @param checker the {@link INodeChecker} condition to create the marker.
@@ -48,7 +48,7 @@ public class NodeChecker {
 		this.checker = checker;
 		this.message = message;
 	}
-	
+
 	/**
 	 * Getter on marker severity.
 	 * @return the marker severity.

@@ -46,7 +46,7 @@ public class ServiceAction extends Action {
 
 	/** All information about the service */
 	private IServiceMenu serviceDescription;
-	
+
 	final IWorkbenchWindow workbenchWindow;
 
 	/**
@@ -59,7 +59,7 @@ public class ServiceAction extends Action {
 		this.serviceDescription = service;
 		workbenchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 	}
-	
+
 	/** {@inheritDoc} */
 	@Override
 	public final void run() {
@@ -73,7 +73,7 @@ public class ServiceAction extends Action {
 		LOGGER.fine("Building the coloane job"); //$NON-NLS-1$		
 		ColoaneJob job = new ColoaneJob(this.serviceDescription.getName(), currentGraph, this.serviceDescription.getAssociatedService());
 		LOGGER.finer("Executing the coloane job"); //$NON-NLS-1$
-		
+
 		job.addJobChangeListener(new JobChangeAdapter() {
 			@Override
 	        public void done(IJobChangeEvent event) {
@@ -87,7 +87,7 @@ public class ServiceAction extends Action {
 							// Add textual results to the ResultManager
 							currentSession.getResultManager().add(result.getResultName(), result);
 						}
-						
+
 						// A session is necessary to modify the current models
 						if (currentSession != null) {
 							// Deal with modifications of the current graph
@@ -103,7 +103,7 @@ public class ServiceAction extends Action {
 								});
 							}
 						}
-						
+
 						// Deal with a new graph (if existing)
 						if (result.getNewComputedGraph() != null) {
 							Display.getDefault().asyncExec(new SaveReceivedModel(result.getNewComputedGraph(), result.getResultName(), workbenchWindow));
@@ -112,7 +112,7 @@ public class ServiceAction extends Action {
 				}
 			}
 		});
-		
+
 		job.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		job.schedule();
 	}

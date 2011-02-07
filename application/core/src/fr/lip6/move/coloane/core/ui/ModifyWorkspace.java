@@ -40,13 +40,13 @@ import org.eclipse.ui.ide.IDE;
  */
 public class ModifyWorkspace extends WorkspaceModifyOperation {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
+
 	/** The graph that has to be displayed */
 	private IGraph graph;
 
 	/** The workbench window */
 	private IWorkbenchWindow window;
-	
+
 	/** The file to write to the workspace */
 	private IFile file;
 

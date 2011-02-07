@@ -63,7 +63,7 @@ public class NodeDeleteCmd extends CheckableCmd {
 		this.graph = graph;
 		this.node = node;
 		this.session = SessionManager.getInstance().getCurrentSession();
-		
+
 		//The node and its associated arcs must be locally checked after the changes
 		addCheckableElement(node);
 		for (IArc arc : node.getIncomingArcs()) {
@@ -128,7 +128,7 @@ public class NodeDeleteCmd extends CheckableCmd {
 		for (ILink link : this.links) {
 			link.connect();
 		}
-		
+
 		this.session.addAllTips(tips);
 	}
 }

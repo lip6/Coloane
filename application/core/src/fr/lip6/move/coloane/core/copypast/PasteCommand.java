@@ -45,10 +45,9 @@ public class PasteCommand extends Command {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
-
 	/** The graph container */
 	private GraphContainer graphContainer;
-	
+
 	/** Map of all added nodes */
 	private Map<NodeContainer, INode> nodes = new HashMap<NodeContainer, INode>();
 	/** Map of all added arcs */

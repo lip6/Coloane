@@ -29,22 +29,22 @@ import org.eclipse.ui.console.MessageConsole;
  * @author Jean-Baptiste Voron
  */
 public class ApiDescription {
-	
+
 	/** Name of the services API */
 	private String name;
-	
+
 	/** Description of the API */
 	private String description;
-	
+
 	/** Icon associated with the API */
 	private ImageDescriptor icon = null;
-	
+
 	/** The main class of the API */
 	private IApi apiClass;
-	
+
 	/** The API root menu */
 	private ColoaneAPIRootMenu rootMenu;
-	
+
 	/**
 	 * The associated message console
 	 * Note that several APIs may share the same console.
@@ -61,7 +61,7 @@ public class ApiDescription {
 	public ApiDescription(IApi apiClass, String name) throws ColoaneException {
 		this(apiClass, name, ""); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param apiClass The main class of the API
@@ -72,7 +72,7 @@ public class ApiDescription {
 	public ApiDescription(IApi apiClass, String name, String description) throws ColoaneException {
 		this(apiClass, name, description, null);
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param apiClass The main class of the API
@@ -98,42 +98,42 @@ public class ApiDescription {
 			this.icon = ImageDescriptor.createFromFile(this.apiClass.getClass(), "/" + iconPath); //$NON-NLS-1$
 		}
 	}
-	
+
 	/**
 	 * @return the API name
 	 */
 	public final String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * @return the API description
 	 */
 	public final String getDescription() {
 		return description;
 	}
-	
+
 	/**
 	 * @return the icon associated with the API
 	 */
 	public final ImageDescriptor getIcon() {
 		return icon;
 	}
-	
+
 	/**
 	 * @return the main class of the API
 	 */
 	public final IApi getApiClass() {
 		return apiClass;
 	}
-	
+
 	/**
 	 * @return The root menu associated with the API
 	 */
 	public final ColoaneAPIRootMenu getRootMenu() {
 		return rootMenu;
 	}
-	
+
 	/**
 	 * Set the root menu for the API
 	 * @param rootMenu The root menu (including sub-menus) for this API
@@ -141,7 +141,7 @@ public class ApiDescription {
 	public final void setRootMenu(ColoaneAPIRootMenu rootMenu) {
 		this.rootMenu = rootMenu;
 	}
-	
+
 	/**
 	 * Set the console used by the session to which the API is attached to
 	 * @param console The console provided y the session
@@ -150,7 +150,7 @@ public class ApiDescription {
 	public final void setConsole(MessageConsole console) {
 		this.console = console;
 	}
-	
+
 	/**
 	 * @return The console on which messages must be written to
 	 */

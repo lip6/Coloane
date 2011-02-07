@@ -40,7 +40,6 @@ public class EditorRulerProvider extends RulerProvider {
 	/** Vertical guide */
 	public static final int VERTICAL_ORIENTATION = 2;
 
-
 	/** The ruler managed by this manager */
 	private EditorRuler ruler;
 
@@ -54,20 +53,20 @@ public class EditorRulerProvider extends RulerProvider {
 				}
 				return;
 			}
-			
+
 			EditorGuide guide = null;
 			// What to do when a new guide is added to the ruler ?
 			if (evt.getPropertyName().equals(EditorRuler.NEW_GUIDE_PROP)) {
 				guide = (EditorGuide) evt.getNewValue();
 				guide.addPropertyChangeListener(guideListener);
 			}
-			
+
 			// What to do when a new guide is removed from the ruler ?
 			if (evt.getPropertyName().equals(EditorRuler.REMOVE_GUIDE_PROP)) {
 				guide = (EditorGuide) evt.getOldValue();
 				guide.removePropertyChangeListener(guideListener);
 			}
-			
+
 			// For both cases, a message has to be sent to listeners
 			for (int i = 0; i < listeners.size(); i++) {
 				((RulerChangeListener) listeners.get(i)).notifyGuideReparented(guide);

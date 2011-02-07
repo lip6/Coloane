@@ -35,7 +35,7 @@ import org.eclipse.swt.graphics.Color;
  */
 public final class ModelWriter implements IModelHandler {
 	private ModelWriter() {	}
-	
+
 	private static String printOpenMarkup(String type) {
 		return printOpenMarkup(type, true);
 	}
@@ -272,7 +272,6 @@ public final class ModelWriter implements IModelHandler {
 		protectedTxt = protectedTxt.replaceAll(">", "&gt;"); //$NON-NLS-1$ //$NON-NLS-2$
 		return protectedTxt;
 	}
-
 
 	/**
 	 * Empty model description

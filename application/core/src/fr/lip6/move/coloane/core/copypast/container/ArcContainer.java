@@ -44,10 +44,10 @@ public class ArcContainer {
 
 	/** Arc source ID */
 	private int idSource;
-	
+
 	/** Arc target ID */
 	private int idTarget;
-	
+
 	/** Arc formalism */
 	private IArcFormalism arcFormalism;
 
@@ -56,7 +56,7 @@ public class ArcContainer {
 
 	/** Arc foreground color */
 	private Color color;
-	
+
 	/** List of inflex point */
 	private List<Point> pis = new ArrayList<Point>();
 
@@ -94,12 +94,12 @@ public class ArcContainer {
 		for (Point p : pis) {
 			p.translate(DELTA_COPY, DELTA_COPY);
 		}
-		
+
 		// If there is no inflex point, create one to be able to distinguish between the two arcs
 		if (pis.isEmpty()) {
 			pis.add(source.getGraphicInfo().getLocation().getCopy().translate(DELTA_COPY, DELTA_COPY));
 		}
-		
+
 		// Move attributes to avoid overlapping with old attributes
 		for (AttributeContainer ac : attributs) {
 			ac.setLocation(ac.getLocation().translate(DELTA_COPY, DELTA_COPY));

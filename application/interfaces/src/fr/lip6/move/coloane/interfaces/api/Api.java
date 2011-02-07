@@ -27,16 +27,16 @@ public abstract class Api implements IApi {
 
 	/** The logger */
 	protected static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
+
 	/** A list of observers to notify */
 	private Map<Integer, List<IApiObserver>> observers = new HashMap<Integer, List<IApiObserver>>();
-	
+
 	/** A list of menu items that have to be displayed by Coloane */
 	protected List<IItemMenu> menus = new ArrayList<IItemMenu>();
 
 	/** Authentication status */
 	private boolean authentication;
-	
+
 	/** Authentication data */
 	private Map<String, String> credentials = new HashMap<String, String>();
 
@@ -47,14 +47,14 @@ public abstract class Api implements IApi {
 	public Api() {
 		this.authentication = false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public final List<IItemMenu> getInitialApiMenus() {
 		return this.menus;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -67,7 +67,7 @@ public abstract class Api implements IApi {
 		}
 		typedObservers.add(observer);
 	}
-	
+
 	/**
 	 * Notify observers with corresponding type
 	 * @param observerType The type of observers to notify
@@ -79,14 +79,14 @@ public abstract class Api implements IApi {
 			observer.update(this, newValue);
 		}
 	}
-	
+
 	/**
 	 * @return <code>true</code> if some credential information have been stored
 	 */
 	public final boolean isAuthenticated() {
 		return authentication;
 	}
-	
+
 	/**
 	 * Set the authentication status
 	 * @param authentication <code>true</code> if the API is authenticated
@@ -94,7 +94,7 @@ public abstract class Api implements IApi {
 	public final void setAuthenticated(boolean authentication) {
 		this.authentication = authentication;
 	}
-	
+
 	/**
 	 * Set authentication properties
 	 * @param login The registered login
@@ -103,7 +103,7 @@ public abstract class Api implements IApi {
 	public final void setAuthenticationCredential(String login, String password) {
 		this.credentials.put(login, password);
 	}
-	
+
 	/**
 	 * @param key The asked credential
 	 * @return The credential value if is exists or <code>null</code>.

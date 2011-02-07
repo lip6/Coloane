@@ -61,7 +61,7 @@ public class Result implements IResult {
 
 	/** List of textual results */
 	private List<List<String>> textualResults;
-	
+
 	/** Should the result be displayed to the user */
 	private boolean display;
 
@@ -79,7 +79,7 @@ public class Result implements IResult {
 		this.textualResults = new ArrayList<List<String>>();
 		this.display = true;
 	}
-	
+
 	/**
 	 * Change the display status of the result
 	 * @param display <code>true</code> is the result should be display to the user
@@ -87,7 +87,7 @@ public class Result implements IResult {
 	public final void setDisplay(boolean display) {
 		this.display = display;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -125,14 +125,14 @@ public class Result implements IResult {
 			this.addTip(new Tip(object.getId(), name, value));
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public final void addDeltaRequest(IRequest request) {
 		this.deltaRequestsList.add(request);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -140,7 +140,6 @@ public class Result implements IResult {
 		this.deltaRequestsList.addAll(requests);
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -168,29 +167,27 @@ public class Result implements IResult {
 	public final List<ISubResult> getSubResults() {
 		return this.subResults;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public final List<IRequest> getDeltaRequestsList() {
 		return deltaRequestsList;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public final List<IRequest> getNewComputedGraphDeltaRequestsList() {
 		return newComputedGraphRequestsList;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public final IGraph getNewComputedGraph() {
 		return newComputedGraph;
 	}
-	
-	
 
 	/**
 	 * {@inheritDoc}
@@ -205,7 +202,7 @@ public class Result implements IResult {
 	public final List<List<String>> getTextualResults() {
 		return textualResults;
 	}
-	
+
 	/**
 	 * Add a textual result to the existing list
 	 * @param result the textual result to be added to the list.<br>

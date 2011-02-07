@@ -60,7 +60,7 @@ public class Session implements ISession {
 
 	/** The graph */
 	private IGraph graph;
-	
+
 	/** The checker associated with the graph */
 	private Checker checker;
 
@@ -69,7 +69,7 @@ public class Session implements ISession {
 
 	/** The console (lazy loading) */
 	private MessageConsole console;
-	
+
 	/** List of available (connected) <b>local</b> APIs */
 	private List<ApiDescription> apis = null;
 
@@ -100,7 +100,7 @@ public class Session implements ISession {
 		}		
 		this.graph = graph;
 	}
-	
+
 	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
@@ -139,12 +139,12 @@ public class Session implements ISession {
 	public final void setChecker(Checker checker) {
 		this.checker = checker;
 	}
-	
+
 	/** {@inheritDoc} */
 	public Checker getChecker() {
 		return checker;
 	}
-	
+
 	/** {@inheritDoc} */
 	public List<ApiDescription> getAvailableApis() {
 		if (apis == null) {
@@ -152,7 +152,7 @@ public class Session implements ISession {
 		}
 		return apis;
 	}
-	
+
 	/** {@inheritDoc} */
 	public final ResultManager getResultManager() {
 		if (this.resultManager == null) {
@@ -238,7 +238,7 @@ public class Session implements ISession {
 		}
 		return console;
 	}
-	
+
 	/** {@inheritDoc} */
 	public final synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs .addPropertyChangeListener(listener);

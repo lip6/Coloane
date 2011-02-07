@@ -55,7 +55,7 @@ public class Coloane extends AbstractUIPlugin {
 
 	/** Build the plug-in */
 	public Coloane() { instance = this; }
-	
+
 	/**
 	 * Fetch the unique instance of Coloane plug-in
 	 * @return Coloane plug-in instance
@@ -81,7 +81,7 @@ public class Coloane extends AbstractUIPlugin {
 			this.sendProperties();
 		}
 	}
-	
+
 	/**
 	 * To ease the debug of recurrent bugs, some information is very useful for developers.<br>
 	 * Those are sent to the Coloane Dev Center (through Internet).<br>

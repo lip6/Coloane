@@ -32,7 +32,7 @@ public class ItemMenu implements IItemMenu {
 
 	/** The visibility state of the item */
 	private boolean visible;
-	
+
 	/** An icon associated with the menu item */
 	private ImageDescriptor icon;
 
@@ -47,7 +47,7 @@ public class ItemMenu implements IItemMenu {
 		this.helpMessage = helpMessage;
 		this.visible = visible;
 	}
-	
+
 	/**
 	 * Constructor
 	 * @param name The name of the item
@@ -59,13 +59,12 @@ public class ItemMenu implements IItemMenu {
 		this(name, visible, helpMessage);
 		this.icon = menuIcon;
 	}
-	
 
 	/** {@inheritDoc} */
 	public final ImageDescriptor getIcon() {
 		return icon;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -86,7 +85,7 @@ public class ItemMenu implements IItemMenu {
 	public final boolean isVisible() {
 		return this.visible;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

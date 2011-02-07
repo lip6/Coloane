@@ -27,7 +27,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
  */
 
 public abstract class AbstractArcFigure extends RoundedPolylineConnection {
-	
+
 	/**
 	 * This element can be used to adapt the aspect of the figure according to
 	 * the current state of the associated model arc element. Please be careful
@@ -35,19 +35,19 @@ public abstract class AbstractArcFigure extends RoundedPolylineConnection {
 	 * before doing any changes to the figure.
 	 */
 	private IArc modelArc;
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public final IArc getModel() {
 		return this.modelArc;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	public final void setModelElement(IArc modelArc) {
 		this.modelArc = modelArc;
 	}
-	
+
 }

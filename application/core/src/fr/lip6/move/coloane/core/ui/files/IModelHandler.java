@@ -21,7 +21,7 @@ package fr.lip6.move.coloane.core.ui.files;
  * @author Jean-Baptiste Voron
  */
 public interface IModelHandler {
-	
+
 	/** identifier for nodes description */
 	public final static String NODES_LIST_MARKUP = "nodes"; //$NON-NLS-1$
 	/** identifier for arcs description */
@@ -30,7 +30,7 @@ public interface IModelHandler {
 	public final static String STICKYS_LIST_MARKUP = "stickys"; //$NON-NLS-1$
 	/** identifier for attribute name description */
 	public final static String ATTRIBUTES_LIST_MARKUP = "attributes"; //$NON-NLS-1$
-	
+
 	/** identifier for attribute name description */
 	public final static String MODEL_FORMALISM_MARKUP = "formalism"; //$NON-NLS-1$
 
@@ -48,7 +48,7 @@ public interface IModelHandler {
 	public final static String LINK_MARKUP = "link"; //$NON-NLS-1$
 	/** identifier for sticky note description */
 	public final static String STICKY_MARKUP = "sticky"; //$NON-NLS-1$
-	
+
 	/** identifier for attribute name description */
 	public final static String ATTRIBUTE_NAME_MARKUP = "name"; //$NON-NLS-1$
 	/** identifier for attribute value description */
@@ -57,7 +57,7 @@ public interface IModelHandler {
 	public final static String ATTRIBUTE_X_MARKUP = "xposition"; //$NON-NLS-1$
 	/** identifier for attribute y position description */
 	public final static String ATTRIBUTE_Y_MARKUP = "yposition"; //$NON-NLS-1$
-	
+
 	/** identifier for node id description */
 	public final static String NODE_ID_MARKUP = "id"; //$NON-NLS-1$
 	/** identifier for node type description */
@@ -92,7 +92,7 @@ public interface IModelHandler {
 
 	/** identifier for link reference description */
 	public final static String LINK_REFERENCE_MARKUP = "linkId"; //$NON-NLS-1$
-	
+
 	/** identifier for arc id description */
 	public final static String ARC_ID_MARKUP = "id"; //$NON-NLS-1$
 	/** identifier for arc type description */

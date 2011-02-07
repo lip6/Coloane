@@ -36,7 +36,7 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 	/** Guides */
 	private EditorGuide horizontalGuide;
 	private EditorGuide verticalGuide;
-	
+
 	/** Current position */
 	private Point location;
 	/** The description of the tip */
@@ -100,7 +100,7 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 			this.verticalGuide = guide;
 		}
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
@@ -121,7 +121,7 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 		location = newLocation;
 		firePropertyChange(LOCATION_PROP, oldLocation, location);
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void resetLocation() {
 		setLocation(new Point(0, 0));

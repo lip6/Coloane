@@ -188,7 +188,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		return alternativeFigures.get(0);
 	}
 
-
 	/**
 	 * Update the figures thanks to the information contained into the model
 	 */
@@ -228,7 +227,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 */
 	public final void propertyChange(PropertyChangeEvent property) {
 		String prop = property.getPropertyName();
-
 
 		// Event that announce a link change
 		if (INode.INCOMING_ARCS_PROP.equals(prop)) {
@@ -433,8 +431,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		});
 	}
 
-
-
 	/**
 	 * Create anchors to deal with connections
 	 * @return ConnectionAnchor
@@ -489,7 +485,6 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
-
 
 	/** {@inheritDoc} */
 	@Override

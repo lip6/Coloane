@@ -135,7 +135,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		// Fetch the foreground color and the linestyle and apply them
 		getFigure().setForegroundColor(((IArc) getModel()).getGraphicInfo().getColor());
 		((IArcFigure) getFigure()).setLineWidth(1);
-		
+
 		// Special state
 		// TODO: Use preferences to set up the special state color
 		if (special) {
@@ -168,7 +168,6 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 		getConnectionFigure().setRoutingConstraint(modelConstraint);
 	}
 
-
 	/** {@inheritDoc} */
 	@Override
 	protected final void createEditPolicies() {
@@ -185,7 +184,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 				InflexCreateCmd com = new InflexCreateCmd((IArc) getModel(), request.getLocation(), request.getIndex());
 				return com;
 			}
-			
+
 			// Move a bendpoint
 			@Override
 			protected Command getMoveBendpointCommand(BendpointRequest request) {

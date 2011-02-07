@@ -42,7 +42,7 @@ public interface ISubMenu extends IItemMenu {
 	 * @return The list of all sub-menus
 	 */
 	List<ISubMenu> getSubMenus();
-	
+
 	/**
 	 * Add an option to the sub-menu
 	 * @param option The option to add
@@ -54,7 +54,7 @@ public interface ISubMenu extends IItemMenu {
 	 * @param submenu The sub-menu to add
 	 */
 	void addSubMenu(ISubMenu submenu);
-	
+
 	/**
 	 * Add a new service menu to the sub-menu
 	 * @param service The service to add

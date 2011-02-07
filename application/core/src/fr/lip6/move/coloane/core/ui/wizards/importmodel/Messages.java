@@ -31,7 +31,7 @@ public final class Messages extends NLS {
 	public static String ImportWizardPage_7;
 	public static String ImportWizardPage_9;
 	public static String ImportWizardPage_14;
-	
+
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

@@ -52,7 +52,7 @@ public class ArcReconnectCmd extends CheckableCmd {
 		this.arc = arc;
 		this.oldSource = arc.getSource();
 		this.oldTarget = arc.getTarget();
-		
+
 		// Describes elements that must be checked
 		addCheckableElement(arc);
 		addCheckableElement(newSource);
@@ -123,7 +123,7 @@ public class ArcReconnectCmd extends CheckableCmd {
 			}
 			return true;
 		}
-		
+
 		// If the target has changed, check that an arc is not already set up
 		if ((newTarget != null) && (newTarget != oldTarget)) {
 			for (IArc existingConnection : this.newTarget.getIncomingArcs()) {
@@ -133,10 +133,9 @@ public class ArcReconnectCmd extends CheckableCmd {
 			}
 			return true;
 		}
-		
+
 		return true;
 	}
-
 
 	/** {@inheritDoc} */
 	@Override

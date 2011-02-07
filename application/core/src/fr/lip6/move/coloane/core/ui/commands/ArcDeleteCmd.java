@@ -42,7 +42,7 @@ public class ArcDeleteCmd extends CheckableCmd {
 
 	/** List of tips associated to this arc (backup in case of undo) */
 	private Collection<ICoreTip> tips;
-	
+
 	/** The session that holds the graph */
 	private ISession session;
 
@@ -56,7 +56,7 @@ public class ArcDeleteCmd extends CheckableCmd {
 		this.graph = (IGraph) arc.getParent();
 		this.arc = arc;
 		this.session =  SessionManager.getInstance().getCurrentSession();
-		
+
 		// Check for local properties (and around the deleted arc)
 		addCheckableElement(arc);
 		addCheckableElement(arc.getSource());

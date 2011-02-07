@@ -78,7 +78,7 @@ public class ElementFormalism implements IElementFormalism {
 	public final void addAttribute(AttributeFormalism attribute) {
 		this.attributes.add(attribute);
 	}
-	
+
 	/**
 	 * Add a new computed attribute to this element
 	 * @param attribute The additional attribute to be considered for this element

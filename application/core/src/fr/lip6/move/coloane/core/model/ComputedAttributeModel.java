@@ -42,7 +42,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	private IElement reference;
 
 	private IComputedAttributeFormalism computedAttributFormalism;
-	
+
 	/** Attribute Formatter */
 	private IAttributeFormatter formatter = null;
 
@@ -114,7 +114,6 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 		return this.computedAttributFormalism;
 	}
 
-
 	/** {@inheritDoc} */
 	public final EditorGuide getGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
@@ -132,7 +131,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 			this.verticalGuide = guide;
 		}
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
@@ -152,7 +151,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	public final String toString() {
 		return "ComputedAttribute: " + name + "= " + value + " [" + reference + "])"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 *

@@ -40,7 +40,7 @@ public class NodeCreateRequest implements IRequest {
 	public NodeCreateRequest(INodeFormalism formalism) {
 		new NodeCreateRequest(formalism, new Point());
 	}
-	
+
 	/**
 	 * Constructor that proposes to specify an initialPosition for the new node
 	 * @param formalism The formalism that describes the new node

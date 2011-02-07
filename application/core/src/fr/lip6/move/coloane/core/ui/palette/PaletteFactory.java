@@ -117,7 +117,6 @@ public final class PaletteFactory {
 		return componentsNodeDrawer;
 	}
 
-
 	/**
 	 * Creation du groupe des Arcs de la palette
 	 * @param formalism Le formalisme du modele en cours d'edition
@@ -212,7 +211,6 @@ public final class PaletteFactory {
 
 		return toolGroup;
 	}
-
 
 	/**
 	 * @return les FlyoutPreferences utilises pour charger ou sauver

@@ -183,13 +183,13 @@ public final class FormalismManager {
 					a.setDefaultValueDrawable(Boolean.parseBoolean(attribute.getAttribute("displayed_default"))); //$NON-NLS-1$
 				}
 			}
-			
+
 			// Set default location (delta_x and delta_y)
 			if (attribute.getAttribute("delta_x") != null) { //$NON-NLS-1$
 				a.setXDelta(Integer.parseInt(attribute.getAttribute("delta_x"))); //$NON-NLS-1$
 				LOGGER.finer("Add relative location (X) for the attribute : " + a.getName()); //$NON-NLS-1$
 			}
-			
+
 			if (attribute.getAttribute("delta_y") != null) { //$NON-NLS-1$
 				a.setYDelta(Integer.parseInt(attribute.getAttribute("delta_y"))); //$NON-NLS-1$
 				LOGGER.finer("Add relative location (Y) for the attribute : " + a.getName()); //$NON-NLS-1$
@@ -227,14 +227,14 @@ public final class FormalismManager {
 			String attributeName = computedAttribute.getAttribute("name"); //$NON-NLS-1$
 			String defaultValue = computedAttribute.getAttribute("default"); //$NON-NLS-1$
 			boolean defaultValueDrawable = true;
-			
+
 			// Parse the default value
 			if (defaultValue != null) {	
 				if (computedAttribute.getAttribute("displayed_default") != null) { //$NON-NLS-1$
 					defaultValueDrawable = Boolean.parseBoolean(computedAttribute.getAttribute("displayed_default")); //$NON-NLS-1$
 				}
 			}
-			
+
 			// Attribute Formatter
 			Object attributeFormatter = null;
 			ComputedAttributeFormalism ca;
@@ -246,7 +246,7 @@ public final class FormalismManager {
 				LOGGER.warning("Something went wrong when we tried to add the figure to the element : " + element.getName() + " ( " + e.getMessage() + " )"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				ca = new ComputedAttributeFormalism(attributeName, defaultValue, defaultValueDrawable);
 			}
-			
+
 			// Build the Computed Attribute Object
 			LOGGER.finer("Build the computed attribute " + computedAttribute.getName() + " for the element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -255,7 +255,7 @@ public final class FormalismManager {
 				ca.setXDelta(Integer.parseInt(computedAttribute.getAttribute("delta_x"))); //$NON-NLS-1$
 				LOGGER.finer("Add relative location (X) for the computed attribute : " + computedAttribute.getName()); //$NON-NLS-1$
 			}
-			
+
 			if (computedAttribute.getAttribute("delta_y") != null) { //$NON-NLS-1$
 				ca.setYDelta(Integer.parseInt(computedAttribute.getAttribute("delta_y"))); //$NON-NLS-1$
 				LOGGER.finer("Add relative location (Y) for the computed attribute : " + computedAttribute.getName()); //$NON-NLS-1$

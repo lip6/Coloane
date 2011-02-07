@@ -39,10 +39,10 @@ public class SaveReceivedModel implements Runnable {
 
 	/** The new graph */
 	private IGraph graph;
-	
+
 	/** The name of the new graph */
 	private String newName;
-	
+
 	/** The workbench window we will work on */
 	private IWorkbenchWindow window;
 
@@ -56,7 +56,7 @@ public class SaveReceivedModel implements Runnable {
 		this.newName = newName;
 		this.window = window;
 	}
-	
+
 	/**
 	 * Display a dialog box to warn the user about the new model to backup.<br>
 	 * Compute a new name for the file.<br>
@@ -73,7 +73,7 @@ public class SaveReceivedModel implements Runnable {
 		// Add the extension part to the name
 		this.newName = this.newName + "." + Coloane.getParam("MODEL_EXTENSION"); //$NON-NLS-1$ //$NON-NLS-2$
 		LOGGER.fine("New model " + this.newName); //$NON-NLS-1$
-		
+
 		dialog.setOriginalName(this.newName);
         dialog.open();
 

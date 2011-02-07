@@ -87,4 +87,3 @@ public class LabelTextFactory {
 		return lt;
 	}
 }
-

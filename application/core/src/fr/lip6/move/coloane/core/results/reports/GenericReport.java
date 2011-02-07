@@ -67,7 +67,7 @@ public class GenericReport implements IReport {
 
 		return root;
 	}
-	
+
 	/**
 	 * Build a level of the result tree. Call itself recursively to build the whole tree.
 	 * @param subResults the {@link ISubResult} list used to build the level.
@@ -91,7 +91,6 @@ public class GenericReport implements IReport {
 			// in order to build the inferiors levels.
 			root.addChild(node);
 			addResultTreeImpl(sub.getSubResults(), node);
-
 
 			// Getting the attributes map and the tips map from the current subResult.
 			Map<Integer, List<String>> attributesMap = sub.getAttributesOutline();

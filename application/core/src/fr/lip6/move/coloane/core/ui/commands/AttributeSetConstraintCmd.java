@@ -46,7 +46,7 @@ public class AttributeSetConstraintCmd extends Command {
 		// Attribute and NewPosition should not be null
 		assert(attribute != null);
 		assert(newPosition != null);
-		
+
 		this.attribute = attribute;
 		this.newPosition = newPosition.getCopy();
 	}

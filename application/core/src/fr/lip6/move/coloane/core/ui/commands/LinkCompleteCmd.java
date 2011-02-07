@@ -38,7 +38,7 @@ public class LinkCompleteCmd extends Command {
 
 	/** The link */
 	private ILink link;
-	
+
 	/**
 	 * Constructor
 	 * @param graph The current graph
@@ -49,7 +49,7 @@ public class LinkCompleteCmd extends Command {
 		this.note = note;
 		this.element = element;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */

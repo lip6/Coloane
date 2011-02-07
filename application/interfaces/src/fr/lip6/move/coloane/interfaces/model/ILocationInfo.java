@@ -36,7 +36,7 @@ public interface ILocationInfo {
 	 * @param newLocation a single point that designates the new location
 	 */
 	void setLocation(Point newLocation);
-	
+
 	/**
 	 * Reset the location of the current element.<br>
 	 * In fact, the location is set to (-1, -1). <br>

@@ -87,8 +87,6 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 
 		this.addPropertyChangeListener(this);
 	}
-	
-	
 
 	/**
 	 * @return A new and unique identifier.

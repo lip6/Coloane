@@ -37,7 +37,7 @@ public class AttributeChecker {
 	private Integer severity;
 	/** The marker severity. */
 	private String message;
-	
+
 	/**
 	 * Construct an attribute checker.
 	 * @param checker the {@link IAttributeChecker} condition to create the marker.
@@ -49,7 +49,7 @@ public class AttributeChecker {
 		this.checker = checker;
 		this.message = message;
 	}
-	
+
 	/**
 	 * Getter on marker severity.
 	 * @return the marker severity.
@@ -65,7 +65,7 @@ public class AttributeChecker {
 	public final String getMessage() {
 		return message;
 	}
-	
+
 	/**
 	 * Call the {@link IAttributeChecker#performCheck(String)} method of the checker on a given value.
 	 * @param value the value to check. It can be parsed but beware of {@link NumberFormatException}.

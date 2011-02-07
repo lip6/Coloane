@@ -91,7 +91,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		// Fire an event for the node (and thus for its EditPart)
 		node.firePropertyChange(LOCATION_PROP, oldLocation, location.getCopy());
 	}
-	
+
 	/** {@inheritDoc} */
 	public final void resetLocation() {
 		setLocation(new Point(0, 0));
