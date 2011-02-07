@@ -34,21 +34,42 @@ import org.eclipse.swt.graphics.Color;
  * @author Jean-Baptiste Voron
  */
 public final class ModelWriter implements IModelHandler {
+	/**
+	 * Utility class, only static methods
+	 */
 	private ModelWriter() {	}
 
+	/**
+	 * @param type name of the markup
+	 * @return xml markup as string with a new line
+	 */
 	private static String printOpenMarkup(String type) {
 		return printOpenMarkup(type, true);
 	}
 
+	/**
+	 * @param type name of the markup
+	 * @return xml markup as string with a new line
+	 */
 	private static String printCloseMarkup(String type) {
 		return printCloseMarkup(type, true);
 	}
 
+	/**
+	 * @param type name of the markup
+	 * @param newLine if true, add a new line at the end
+	 * @return xml markup
+	 */
 	private static String printOpenMarkup(String type, boolean newLine) {
 		if (newLine) { return "<" + type + ">\n"; } //$NON-NLS-1$ //$NON-NLS-2$
 		return "<" + type + ">"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
+	/**
+	 * @param type name of the markup
+	 * @param newLine if true, add a new line at the end
+	 * @return xml markup
+	 */
 	private static String printCloseMarkup(String type, boolean newLine) {
 		if (newLine) { return "</" + type + ">\n"; } //$NON-NLS-1$ //$NON-NLS-2$
 		return "</" + type + ">"; //$NON-NLS-1$ //$NON-NLS-2$
@@ -65,9 +86,9 @@ public final class ModelWriter implements IModelHandler {
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
 
 		// Formalism
-		line.append("<"+ MODEL_MARKUP + " xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append("<" + MODEL_MARKUP + " xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$ //$NON-NLS-2$
 		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'"); //$NON-NLS-1$
-		line.append(" "+ MODEL_FORMALISM_MARKUP + "='").append(graph.getFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		line.append(" " + MODEL_FORMALISM_MARKUP + "='").append(graph.getFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		line.append(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
 
 		// Graph attributes
@@ -125,17 +146,17 @@ public final class ModelWriter implements IModelHandler {
 		for (INode node : graph.getNodes()) {
 
 			sb.append("<" + NODE_MARKUP + " " + NODE_TYPE_MARKUP + "='").append(node.getNodeFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			sb.append(" "+ NODE_ID_MARKUP + " ='").append(node.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ NODE_X_MARKUP + "='").append(node.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ NODE_Y_MARKUP + "='").append(node.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ NODE_SCALE_MARKUP + "='").append(node.getGraphicInfo().getScale()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ NODE_INTERFACE_MARKUP + "='").append(node.isInterface()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + NODE_ID_MARKUP + " ='").append(node.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + NODE_X_MARKUP + "='").append(node.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + NODE_Y_MARKUP + "='").append(node.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + NODE_SCALE_MARKUP + "='").append(node.getGraphicInfo().getScale()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + NODE_INTERFACE_MARKUP + "='").append(node.isInterface()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			if (node.getNodeLink() != null) {
-				sb.append(" "+ NODE_LINK_MARKUP + "='").append(node.getNodeLink()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				sb.append(" " + NODE_LINK_MARKUP + "='").append(node.getNodeLink()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
-			sb.append(" "+ NODE_ALTERNATE_MARKUP + "='").append(node.getGraphicInfo().getGdIndex()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ NODE_FOREGROUND_MARKUP + "='").append(color2String(node.getGraphicInfo().getForeground())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ NODE_BACKGROUND_MARKUP + "='").append(color2String(node.getGraphicInfo().getBackground())).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + NODE_ALTERNATE_MARKUP + "='").append(node.getGraphicInfo().getGdIndex()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + NODE_FOREGROUND_MARKUP + "='").append(color2String(node.getGraphicInfo().getForeground())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + NODE_BACKGROUND_MARKUP + "='").append(color2String(node.getGraphicInfo().getBackground())).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			// Translate attributes
 			sb.append(translateAttributesToXML(node));
@@ -157,20 +178,20 @@ public final class ModelWriter implements IModelHandler {
 		// For each sticky note
 		for (IStickyNote note : ((GraphModel) graph).getStickyNotes()) {
 
-			sb.append("<"+ STICKY_MARKUP); //$NON-NLS-1$
-			sb.append(" "+ STICKY_X_MARKUP + "='").append(note.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ STICKY_Y_MARKUP + "='").append(note.getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ STICKY_WIDTH_MARKUP + "='").append(note.getSize().width).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ STICKY_HEIGHT_MARKUP + "='").append(note.getSize().height).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append("<" + STICKY_MARKUP); //$NON-NLS-1$
+			sb.append(" " + STICKY_X_MARKUP + "='").append(note.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + STICKY_Y_MARKUP + "='").append(note.getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + STICKY_WIDTH_MARKUP + "='").append(note.getSize().width).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + STICKY_HEIGHT_MARKUP + "='").append(note.getSize().height).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			// Sticky note value
-			sb.append(printOpenMarkup(STICKY_VALUE_MARKUP,false)).append(format(note.getLabelContents())).append(printCloseMarkup(STICKY_VALUE_MARKUP));
+			sb.append(printOpenMarkup(STICKY_VALUE_MARKUP, false)).append(format(note.getLabelContents())).append(printCloseMarkup(STICKY_VALUE_MARKUP));
 
 			// Links
 			for (ILink link : note.getLinks()) {
 				if (link.getElement() instanceof IElement) {
 					int linkId = ((IElement) link.getElement()).getId();
-					sb.append("<"+ LINK_MARKUP + " "+ LINK_REFERENCE_MARKUP + "='").append(linkId).append("' />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					sb.append("<" + LINK_MARKUP + " " + LINK_REFERENCE_MARKUP + "='").append(linkId).append("' />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 				}
 			}
 
@@ -191,12 +212,12 @@ public final class ModelWriter implements IModelHandler {
 		// For each arc
 		for (IArc arc : graph.getArcs()) {
 
-			sb.append("<"+ ARC_MARKUP + " "+ ARC_TYPE_MARKUP + "='").append(arc.getArcFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			sb.append(" "+ ARC_ID_MARKUP + "='").append(arc.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ ARC_STARTID_MARKUP + "='").append(arc.getSource().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ ARC_ENDID_MARKUP + "='").append(arc.getTarget().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ ARC_COLOR_MARKUP + "='").append(color2String(arc.getGraphicInfo().getColor())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ ARC_CURVED_MARKUP + "='").append(arc.getGraphicInfo().getCurve()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append("<" + ARC_MARKUP + " " + ARC_TYPE_MARKUP + "='").append(arc.getArcFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			sb.append(" " + ARC_ID_MARKUP + "='").append(arc.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + ARC_STARTID_MARKUP + "='").append(arc.getSource().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + ARC_ENDID_MARKUP + "='").append(arc.getTarget().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + ARC_COLOR_MARKUP + "='").append(color2String(arc.getGraphicInfo().getColor())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + ARC_CURVED_MARKUP + "='").append(arc.getGraphicInfo().getCurve()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			sb.append(">\n"); //$NON-NLS-1$
 
 			// Inflex points
@@ -206,7 +227,7 @@ public final class ModelWriter implements IModelHandler {
 			sb.append(translateAttributesToXML(arc));
 
 			// End of the arc
-			sb.append("</"+ ARC_MARKUP + ">\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append("</" + ARC_MARKUP + ">\n"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return sb.toString();
 	}
@@ -221,9 +242,9 @@ public final class ModelWriter implements IModelHandler {
 
 		// For each inflex point
 		for (Bendpoint inflex : arc.getInflexPoints()) {
-			sb.append("<"+ PI_MARKUP + ""); //$NON-NLS-1$ //$NON-NLS-2$
-			sb.append(" "+ PI_X_MARKUP + "='").append(inflex.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" "+ PI_Y_MARKUP + "='").append(inflex.getLocation().y).append("'/>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append("<" + PI_MARKUP + ""); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append(" " + PI_X_MARKUP + "='").append(inflex.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + PI_Y_MARKUP + "='").append(inflex.getLocation().y).append("'/>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
 		return sb.toString();
 	}
@@ -244,9 +265,9 @@ public final class ModelWriter implements IModelHandler {
 			// Do not take into account empty attributes
 			if (!att.getValue().equals("")) { //$NON-NLS-1$
 				String balise = att.getName();
-				sb.append("<"+ ATTRIBUTE_MARKUP + " "+ ATTRIBUTE_NAME_MARKUP + "='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				sb.append(" "+ ATTRIBUTE_X_MARKUP + "='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				sb.append(" "+ ATTRIBUTE_Y_MARKUP + "='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				sb.append("<" + ATTRIBUTE_MARKUP + " " + ATTRIBUTE_NAME_MARKUP + "='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				sb.append(" " + ATTRIBUTE_X_MARKUP + "='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				sb.append(" " + ATTRIBUTE_Y_MARKUP + "='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				sb.append(">"); //$NON-NLS-1$
 
 				sb.append(format(att.getValue()));
@@ -283,9 +304,9 @@ public final class ModelWriter implements IModelHandler {
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
 
 		// Headers
-		line.append("<"+ MODEL_MARKUP + " xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append("<" + MODEL_MARKUP + " xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$ //$NON-NLS-2$
 		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'"); //$NON-NLS-1$
-		line.append(" "+ MODEL_FORMALISM_MARKUP + "='").append(formalism.getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		line.append(" " + MODEL_FORMALISM_MARKUP + "='").append(formalism.getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		line.append(">\n"); //$NON-NLS-1$
 
 		// Nodes
