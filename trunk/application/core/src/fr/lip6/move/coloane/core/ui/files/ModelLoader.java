@@ -72,9 +72,9 @@ public final class ModelLoader {
 
 	/**
 	 * Load a model from an XML description
-	 * @param modelSource A {@link StreamSource} of the model
-	 * @param modelString The model under the form of a Java string
-	 * @param <T> Handler The type of handler that can manage the incoming model
+	 * @param modelURI URI of the model
+	 * @param <T> The type of handler that can manage the incoming model
+	 * @param handler The handler used to load the data
 	 * @return handler after parse. Some properties will be set during the process
 	 * @see FormalismHandler
 	 * @see ModelHandler
@@ -106,7 +106,8 @@ public final class ModelLoader {
 	/**
 	 * Load a model from an XML file
 	 * @param xmlFile IThe file that contains the model description
-	 * @param <T> Handler The type of handler that can manage the incoming model
+	 * @param <T> The type of handler that can manage the incoming model
+	 * @param handler The handler used to load the data
 	 * @return handler after parse. Some properties will be set during the process
 	 * @see FormalismHandler
 	 * @see ModelHandler
@@ -120,7 +121,7 @@ public final class ModelLoader {
 	 * Load a model from an XML URI.<br>
 	 * The model is entirely read thanks to {@link ModelHandler}.<br>
 	 * You can use this method as the simple way to load a model from a file
-	 * @param xmlFile The URI that contains the model description
+	 * @param xmlUri The URI that contains the model description
 	 * @return The corresponding {@link IGraph}
 	 */
 	public static IGraph loadGraphFromXML(URI xmlUri) {
