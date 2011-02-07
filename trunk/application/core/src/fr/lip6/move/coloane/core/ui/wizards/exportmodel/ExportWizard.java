@@ -72,7 +72,7 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 			page.setErrorMessage(Messages.ExportWizard_1);
 			return false;
 		}
-		
+
 		// Check that every files can be exported
 		for (IResource res : page.getSelectedRessource()) {
 			// TODO: Use persistent attributes
@@ -83,19 +83,19 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 				return false;
 			}
 		}
-		
+
 		// Check the directory
 		if (page.getSelectedDirectory().isEmpty()) {
 			page.setErrorMessage(Messages.ExportWizard_2);
 			return false;
 		}
-		
+
 		// Check the number of resources to export
 		if (page.getSelectedRessource().size() <= 0) {
 			page.setErrorMessage(Messages.ExportWizard_4);
 			return false;
 		}
-		
+
 		return super.canFinish();
 	}
 

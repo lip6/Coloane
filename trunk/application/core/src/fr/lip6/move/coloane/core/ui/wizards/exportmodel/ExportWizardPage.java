@@ -84,6 +84,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
 		destinationNameField.setLayoutData(data);
 		destinationNameField.setFont(font);
+		destinationNameField.setText(System.getProperty("user.home", "")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// destination browse button
 		destinationBrowseButton = new Button(destinationSelectionGroup, SWT.PUSH);
@@ -155,7 +156,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 
 	/**
 	 * Check that the destination directory is valid
-	 * @param directory The destination directory
+	 * @param targetDirectory The destination directory
 	 * @return <code>true</code> if everything is correct.
 	 */
 	public final boolean ensureTargetIsValid(File targetDirectory) {
@@ -165,8 +166,8 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 			giveFocusToDestination();
 			return false;
 		}
-		
-		// Does the directory exist ? 
+
+		// Does the directory exist ?
 		if (!targetDirectory.exists()) {
 
 			// Ask the user about the creation of this directory...
@@ -174,7 +175,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 				return false;
 			}
 
-			// Is it possible to create this directory ? 
+			// Is it possible to create this directory ?
 			if (!targetDirectory.mkdirs()) {
 				displayErrorDialog(Messages.ExportWizardPage_10);
 				giveFocusToDestination();
