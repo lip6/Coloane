@@ -70,7 +70,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 	private StringBuilder data = new StringBuilder();
 
 	/** ElementFormalism Cache */
-	private Map<String,IElementFormalism> formalismCache = new HashMap<String, IElementFormalism>();
+	private Map<String, IElementFormalism> formalismCache = new HashMap<String, IElementFormalism>();
 
 	/** {@inheritDoc} */
 	@Override
@@ -174,7 +174,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 			// build the formalism cache
 			for (IElementFormalism elementFormalism : formalism.getRootGraph().getAllElementFormalism()) {
-				formalismCache.put(elementFormalism.getName(),elementFormalism);
+				formalismCache.put(elementFormalism.getName(), elementFormalism);
 			}
 
 		} catch (IllegalArgumentException e) {
