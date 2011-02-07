@@ -37,6 +37,7 @@
         <project.deployPath>/data/coloane</project.deployPath>
 
         <tycho-version>0.10.0</tycho-version>
+        <sonar.exclusions>**/Messages.java</sonar.exclusions>
     </properties>
 
     <repositories>
