@@ -59,7 +59,7 @@ public class ArcCompleteCmd extends CheckableCmd {
 	 */
 	public ArcCompleteCmd(INode source, INode target, IArcFormalism arcFormalism) {
 		// Fetch the parent model from the source node... Source and target parent must be the same
-		assert(source.getParent().equals(target.getParent()));
+		assert (source.getParent().equals(target.getParent()));
 		this.graph = (IGraph) source.getParent();
 		this.source = source;
 		this.target = target;
@@ -92,10 +92,10 @@ public class ArcCompleteCmd extends CheckableCmd {
 			// Handle the special case where the source and the target node of the arc are the same
 			if (source.equals(target)) {
 				// In that case, two inflex points are created
-				int x = source.getGraphicInfo().getLocation().x + (source.getGraphicInfo().getSize().width)/2;
+				int x = source.getGraphicInfo().getLocation().x + (source.getGraphicInfo().getSize().width) / 2;
 				int y = source.getGraphicInfo().getLocation().y;
-				arc.addInflexPoint(new Point(x-20,y-20));
-				arc.addInflexPoint(new Point(x+20,y-20));
+				arc.addInflexPoint(new Point(x - 20, y - 20));
+				arc.addInflexPoint(new Point(x + 20, y - 20));
 			}
 		} catch (ModelException e) {
 			LOGGER.warning("Unable to build the arc: " + e.toString()); //$NON-NLS-1$
