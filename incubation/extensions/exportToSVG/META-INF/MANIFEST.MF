@@ -23,5 +23,5 @@ Bundle-ClassPath: lib/batik-awt-util.jar,
  lib/batik-util.jar,
  lib/batik-xml.jar,
  lib/xercesImpl.jar,
- lib/xmlParserImpl.jar,
+ lib/xmlParserAPIs.jar,
  .

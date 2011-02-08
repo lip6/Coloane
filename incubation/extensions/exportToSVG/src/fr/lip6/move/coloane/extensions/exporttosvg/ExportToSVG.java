@@ -16,6 +16,18 @@
  */
 package fr.lip6.move.coloane.extensions.exporttosvg;
 
+import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
+import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
+import fr.lip6.move.coloane.core.ui.figures.RoundedPolylineConnection;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
+import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -34,17 +46,6 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Font;
 
-import fr.lip6.move.coloane.core.ui.figures.IArcFigure;
-import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
-import fr.lip6.move.coloane.core.ui.figures.RoundedPolylineConnection;
-import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
-import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
-import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
-
 /**
  * Class to export IGraph model to a SVG File.
  * 
@@ -60,92 +61,109 @@ public class ExportToSVG implements IExportTo {
 	/**
 	 * {@inheritDoc}
 	 */
-	public void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ExtensionException {
+	public final void export(IGraph graph, String filePath,
+			IProgressMonitor monitor) throws ExtensionException {
 		monitor.beginTask("export model to svg", 7);
-		try {
-			Map<IFigure, IArc> arcs = new HashMap<IFigure, IArc>();
-			List<IFigure> nodes = new ArrayList<IFigure>();
-			List<IFigure> attributes = new ArrayList<IFigure>();
-			
-			SVGGraphics graphics = new SVGGraphics();
+		Map<IFigure, IArc> arcs = new HashMap<IFigure, IArc>();
+		List<IFigure> nodes = new ArrayList<IFigure>();
+		List<IFigure> attributes = new ArrayList<IFigure>();
 
-			// ***************************************************
-			// *** 1 *** Recreate figures associated to this graph
+		SVGGraphics graphics = new SVGGraphics();
 
-			// Create attributes attach to the graph
-			attributes.addAll(createAttributeFigures(graph.getDrawableAttributes()));
-			monitor.worked(1);
-			
-			// Create node's figures
-			for (INode node : graph.getNodes()) {
-				INodeFigure fig = createNodeFigure(node);
-				nodes.add(fig);
+		// ***************************************************
+		// *** 1 *** Recreate figures associated to this graph
 
-				// Create attributes attach to this node
-				attributes.addAll(createAttributeFigures(node.getDrawableAttributes()));
-			}
-			monitor.worked(1);
+		// Create attributes attach to the graph
+		monitor.subTask("Create graph attributes");
+		attributes
+				.addAll(createAttributeFigures(graph.getDrawableAttributes()));
+		monitor.worked(1);
 
-			//Create arc's figures
-			for (IArc arc : graph.getArcs()) {
-				IArcFigure fig = createArcFigure(arc);
-				arcs.put(fig, arc);
+		// Create node's figures
+		monitor.subTask("Create nodes and node attributes");
+		for (INode node : graph.getNodes()) {
+			INodeFigure fig = createNodeFigure(node);
+			nodes.add(fig);
 
-				// Create attributes attach to this arc
-				attributes.addAll(createAttributeFigures(arc.getDrawableAttributes()));
-			}
-			monitor.worked(1);
-
-
-			// ***************************************************
-			// *** 2 *** Simulate a draw to create the svg
-
-			// The order define the layout :
-			// 		1 - Draw arcs
-			for (IFigure fig : arcs.keySet()) {
-				IArc arc = arcs.get(fig);
-				// Calcul the position of the target decoration
-				if (fig instanceof RoundedPolylineConnection) {
-					((RoundedPolylineConnection) fig).layout();
-				} else if (fig instanceof PolylineConnection) {
-					((PolylineConnection) fig).layout();
-				}
-				// Use AWT Cubic curve if curve is set on this arc and bypass RoundedPolylineConnection implementation.
-				graphics.setCurve(arc.getGraphicInfo().getCurve());
-				fig.paint(graphics);
-				graphics.setCurve(false);
-			}
-			monitor.worked(1);
-
-			// 		2 - Draw nodes
-			for (IFigure fig : nodes) {
-				fig.paint(graphics);
-			}
-			monitor.worked(1);
-
-			// 		3 - Draw attributes
-			for (IFigure fig : attributes) {
-				fig.paint(graphics);
-			}
-			monitor.worked(1);
-		
-			// Write the svg document
-			graphics.write(filePath);
-			monitor.worked(1);
-			graphics.dispose();
-		} catch (Exception e) {
-			e.printStackTrace();
+			// Create attributes attach to this node
+			attributes.addAll(createAttributeFigures(node
+					.getDrawableAttributes()));
 		}
+		monitor.worked(1);
+
+		// Create arc's figures
+		monitor.subTask("Create arcs and arc attributes");
+		for (IArc arc : graph.getArcs()) {
+			IArcFigure fig = createArcFigure(arc);
+			arcs.put(fig, arc);
+
+			// Create attributes attach to this arc
+			attributes.addAll(createAttributeFigures(arc
+					.getDrawableAttributes()));
+		}
+		monitor.worked(1);
+
+		// ***************************************************
+		// *** 2 *** Simulate a draw to create the svg
+
+		// The order define the layout :
+		// 1 - Draw arcs
+		monitor.subTask("Draw arcs");
+		for (IFigure fig : arcs.keySet()) {
+			IArc arc = arcs.get(fig);
+			// Calcul the position of the target decoration
+			if (fig instanceof RoundedPolylineConnection) {
+				((RoundedPolylineConnection) fig).layout();
+			} else if (fig instanceof PolylineConnection) {
+				((PolylineConnection) fig).layout();
+			}
+			// Use AWT Cubic curve if curve is set on this arc and bypass
+			// RoundedPolylineConnection implementation.
+			graphics.setCurve(arc.getGraphicInfo().getCurve());
+			fig.paint(graphics);
+			graphics.setCurve(false);
+		}
+		monitor.worked(1);
+
+		// 2 - Draw nodes
+		monitor.subTask("Draw nodes");
+		for (IFigure fig : nodes) {
+			fig.paint(graphics);
+		}
+		monitor.worked(1);
+
+		// 3 - Draw attributes
+		monitor.subTask("Draw attributes");
+		for (IFigure fig : attributes) {
+			fig.paint(graphics);
+		}
+		monitor.worked(1);
+
+		// Write the svg document
+		monitor.subTask("Write the SVG file");
+		try {
+			graphics.write(filePath);
+		} catch (IOException e) {
+			throw new ExtensionException(e.getMessage());
+		} finally {
+			graphics.dispose();
+		}
+		monitor.worked(1);
 		monitor.done();
 	}
 
 	/**
-	 * @param node node
-	 * @return associated figure for this node with all graphical information loaded
+	 * @param node
+	 *            node
+	 * @return associated figure for this node with all graphical information
+	 *         loaded
 	 */
 	private INodeFigure createNodeFigure(INode node) {
-		IGraphicalDescription graphicalDescription = node.getGraphicInfo().getAllNodeFormalismGraphicalDescriptions().get(node.getGraphicInfo().getGdIndex());
-		INodeFigure fig = (INodeFigure) graphicalDescription.getAssociatedFigure();
+		IGraphicalDescription graphicalDescription = node.getGraphicInfo()
+				.getAllNodeFormalismGraphicalDescriptions()
+				.get(node.getGraphicInfo().getGdIndex());
+		INodeFigure fig = (INodeFigure) graphicalDescription
+				.getAssociatedFigure();
 		fig.setLocation(node.getGraphicInfo().getLocation());
 		fig.setSize(node.getGraphicInfo().getSize());
 		fig.setForegroundColor(node.getGraphicInfo().getForeground());
@@ -155,12 +173,16 @@ public class ExportToSVG implements IExportTo {
 	}
 
 	/**
-	 * @param arc arc
-	 * @return associated figure for this arc with all graphical information loaded
+	 * @param arc
+	 *            arc
+	 * @return associated figure for this arc with all graphical information
+	 *         loaded
 	 */
 	private IArcFigure createArcFigure(IArc arc) {
-		IGraphicalDescription graphicalDescription = arc.getArcFormalism().getGraphicalDescription();
-		IArcFigure fig = (IArcFigure) graphicalDescription.getAssociatedFigure();
+		IGraphicalDescription graphicalDescription = arc.getArcFormalism()
+				.getGraphicalDescription();
+		IArcFigure fig = (IArcFigure) graphicalDescription
+				.getAssociatedFigure();
 		fig.setForegroundColor(arc.getGraphicInfo().getColor());
 
 		fig.setConnectionRouter(connectionRouter);
@@ -178,16 +200,20 @@ public class ExportToSVG implements IExportTo {
 		return fig;
 	}
 
-
 	/**
 	 * Create attribute figures
-	 * @param attributes list of attribute
+	 * 
+	 * @param attributes
+	 *            list of attribute
 	 * @return list of figure for each attributes
 	 */
-	private Collection<IFigure> createAttributeFigures(Collection<IAttribute> attributes) {
+	private Collection<IFigure> createAttributeFigures(
+			Collection<IAttribute> attributes) {
 		List<IFigure> list = new ArrayList<IFigure>();
 		for (IAttribute attr : attributes) {
-			if (attr.getAttributeFormalism().isDrawable() && !attr.getValue().equals(attr.getAttributeFormalism().getDefaultValue())) {
+			if (attr.getAttributeFormalism().isDrawable()
+					&& !attr.getValue().equals(
+							attr.getAttributeFormalism().getDefaultValue())) {
 				final Point location = attr.getGraphicInfo().getLocation();
 				Label label = new Label() {
 					@Override
@@ -206,9 +232,11 @@ public class ExportToSVG implements IExportTo {
 
 				Font font = JFaceResources.getDefaultFont();
 				if (attr.getAttributeFormalism().isBold()) {
-					font = JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT);
+					font = JFaceResources.getFontRegistry().getBold(
+							JFaceResources.DEFAULT_FONT);
 				} else if (attr.getAttributeFormalism().isItalic()) {
-					font = JFaceResources.getFontRegistry().getItalic(JFaceResources.DEFAULT_FONT);
+					font = JFaceResources.getFontRegistry().getItalic(
+							JFaceResources.DEFAULT_FONT);
 				}
 				label.setFont(font);
 				label.setBounds(label.getTextBounds());

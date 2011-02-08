@@ -97,6 +97,7 @@ public class SVGGraphics extends Graphics {
 	@Override
 	public final void clipRect(Rectangle r) {
 		LOGGER.warning("clipRect not implemented");
+		svgGenerator.clipRect(r.x, r.y, r.width, r.height);
 	}
 
 	@Override
@@ -407,7 +408,10 @@ public class SVGGraphics extends Graphics {
 		return 0;
 	}
 
-	@Override
+	/**
+	 * Not implemented
+	 * @return 0
+	 */
 	public final float getLineWidthFloat() {
 		LOGGER.warning("getLineWidthFloat not implemented");
 		return 0;
@@ -424,6 +428,9 @@ public class SVGGraphics extends Graphics {
 		LOGGER.warning("popState not implemented");
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.draw2d.Graphics#pushState()
+	 */
 	@Override
 	public final void pushState() {
 		LOGGER.warning("pushState not implemented");
@@ -469,7 +476,10 @@ public class SVGGraphics extends Graphics {
 		svgGenerator.setColor(awtColor);
 	}
 
-	@Override
+	/**
+	 * Not implemented
+	 * @param miterLimit -
+	 */
 	public final void setLineMiterLimit(float miterLimit) {
 		LOGGER.warning("setLineMiterLimit not implemented");
 	}
@@ -484,7 +494,10 @@ public class SVGGraphics extends Graphics {
 		LOGGER.warning("setLineWidth not implemented");
 	}
 
-	@Override
+	/**
+	 * Not implemented
+	 * @param width -
+	 */
 	public final void setLineWidthFloat(float width) {
 		LOGGER.warning("setLineWidthFloat not implemented");
 	}
@@ -502,10 +515,13 @@ public class SVGGraphics extends Graphics {
 
 	@Override
 	public final void setAntialias(int value) {
-		LOGGER.warning("setAntialias not implemented");
+		// No meaning in SVG
 	}
 
-	@Override
+	/**
+	 * Not implemented
+	 * @param attributes -
+	 */
 	public final void setLineAttributes(LineAttributes attributes) {
 		LOGGER.warning("setLineAttributes not implemented");
 	}
