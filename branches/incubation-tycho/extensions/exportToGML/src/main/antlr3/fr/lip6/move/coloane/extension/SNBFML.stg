@@ -1,4 +1,0 @@
-group SNBGML;
-
-openAttribute(name) ::= "\<attribute name=\"<name>\"\>";
-closeAttribute() ::= "\</attribute\>";
