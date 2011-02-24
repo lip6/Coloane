@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/antlr-runtime-3.1.3.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry excluding="main/antlr3/fr/lip6/move/coloane/projects/its/ctl/parser/|main/antlr3/fr/lip6/move/coloane/projects/its/expression/parser/|main/antlr3/fr/lip6/move/coloane/projects/its/order/parser/" kind="src" output="target/classes" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.4"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry excluding="main/antlr/fr/lip6/move/coloane/its/expression/parser/IntegerExpressionParserLexer.java|main/antlr/fr/lip6/move/coloane/its/expression/parser/IntegerExpressionParserParser.java|main/antlr/fr/lip6/move/coloane/projects/its/expression/parser/" kind="src" path="src"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
