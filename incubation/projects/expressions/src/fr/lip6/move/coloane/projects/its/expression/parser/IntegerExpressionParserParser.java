@@ -1,3 +1,19 @@
+/**
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
+ *   Clément DÉMOULINS (LIP6) - Project Manager
+ *   Yann THIERRY-MIEG (LIP6)
+ *
+ * Official contacts:
+ *   coloane@lip6.fr
+ *   http://coloane.lip6.fr
+ */
 // $ANTLR 3.1.3 Mar 17, 2009 19:23:44 C:\\workspace-helios\\fr.lip6.move.coloane.projects.expressions\\src\\fr\\lip6\\move\\coloane\\projects\\its\\expression\\parser\\IntegerExpressionParser.g 2011-02-24 17:32:55
 
 
