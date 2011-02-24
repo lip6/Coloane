@@ -112,7 +112,6 @@ public final class EftBeforeLft implements INodeChecker {
 		return ruleTypes;
 	}
 
-	@Override
 	public ICheckerResult performCheck(INode node) {
 		return check(node);
 	}

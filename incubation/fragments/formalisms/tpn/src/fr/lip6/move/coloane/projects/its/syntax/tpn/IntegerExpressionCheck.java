@@ -103,7 +103,7 @@ public final class IntegerExpressionCheck implements IAttributeChecker {
 	}
 
 
-	@Override
+
 	public ICheckerResult performCheck(IAttribute attribute) {
 		return check(attribute);
 	}
