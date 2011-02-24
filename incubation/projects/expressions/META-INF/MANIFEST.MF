@@ -1,16 +1,18 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ImportFromPROD Plug-in
-Bundle-SymbolicName: fr.lip6.move.coloane.extensions.importFromPROD;singleton:=true
+Bundle-Name: Arithmetic expressions package.
+Bundle-SymbolicName: fr.lip6.move.coloane.projects.expressions;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: fr.lip6.move.coloane.extensions.importFromPROD.Activator
-Require-Bundle: fr.lip6.move.coloane.core,
- fr.lip6.move.coloane.interfaces,
- org.eclipse.ui,
- org.eclipse.core.runtime
+Bundle-Activator: fr.lip6.move.coloane.projects.expression.Activator
 Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: .,
  lib/antlr-runtime.jar
+Export-Package: fr.lip6.move.coloane.projects.its.antlrutil,
+ fr.lip6.move.coloane.projects.its.expression,
+ fr.lip6.move.coloane.projects.its.expression.parser,
+ fr.lip6.move.coloane.projects.its.obs
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui
