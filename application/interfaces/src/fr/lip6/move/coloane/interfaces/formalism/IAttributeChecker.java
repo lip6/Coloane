@@ -15,6 +15,8 @@
  */
 package fr.lip6.move.coloane.interfaces.formalism;
 
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
+
 /**
  * Define a method that checks some conditions defined by the user about an {@link IAttribute}.<br>
  * Only the value of the attribute is given the the method (at runtime).<br>
@@ -24,8 +26,8 @@ package fr.lip6.move.coloane.interfaces.formalism;
 public interface IAttributeChecker {
 	/**
 	 * Method implemented by the user who wants to check some conditions on an {@link IAttribute}.
-	 * @param value the value of the attribute to be checked.
-	 * @return <code>true</code> if a marker must be created, <code>false</code> otherwise.
+	 * @param value the attribute to be checked.
+	 * @return a checker result with <code>hasFailed()</code> if a marker must be created.
 	 */
-	boolean performCheck(String value);
+	ICheckerResult performCheck(IAttribute attribute);
 }
