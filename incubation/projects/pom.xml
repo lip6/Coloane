@@ -15,7 +15,7 @@
     <description>Group of side projects using Coloane in order to deal with models</description>
 
     <modules>
-<!--        <module>itsModeler</module>-->
+        <module>itsModeler</module>
     </modules>
 
 </project>
