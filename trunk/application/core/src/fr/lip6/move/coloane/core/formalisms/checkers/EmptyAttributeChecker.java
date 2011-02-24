@@ -16,6 +16,8 @@
 package fr.lip6.move.coloane.core.formalisms.checkers;
 
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
+import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 /**
  * Use this checker to check if an attribute has a non empty value.
@@ -28,7 +30,7 @@ public class EmptyAttributeChecker implements IAttributeChecker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean performCheck(String value) {
-		return !value.isEmpty();
+	public ICheckerResult performCheck(IAttribute attribute) {		
+		return new CheckerResult(attribute.getValue().isEmpty(), "Attribute "+attribute.getName()+ " should not be empty");
 	}
 }
