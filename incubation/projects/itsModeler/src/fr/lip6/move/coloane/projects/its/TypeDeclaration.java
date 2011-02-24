@@ -33,6 +33,8 @@ import fr.lip6.move.coloane.projects.its.expression.IVariableBinding;
 import fr.lip6.move.coloane.projects.its.expression.Infinity;
 import fr.lip6.move.coloane.projects.its.expression.IntegerExpression;
 import fr.lip6.move.coloane.projects.its.expression.Variable;
+import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
+import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
@@ -48,9 +50,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
-import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -74,7 +73,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	private Set<String> labels = null;
 	private List<IModelVariable> variables = null;
 	private TypeList typeList;
-	private EvaluationContext context;
+	private IEvaluationContext context;
 	private Map<IAttribute, IntegerExpression> attribs = new HashMap<IAttribute, IntegerExpression>();
 
 	/**
@@ -311,8 +310,12 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	public final IEvaluationContext getParameters() {
 		if (context == null) {
 			try {
-				context = computeParameters();
-				context.addObserver(this);
+				IEvaluationContext ct = computeParameters();
+				if (ct instanceof EvaluationContext) {
+					EvaluationContext context = (EvaluationContext) ct;
+					context.addObserver(this);					
+				}
+				this.context = ct;
 			} catch (ExtensionException e) {
 				final Logger logger = Logger.getLogger("fr.lip6.move.coloane.its"); //$NON-NLS-1$
 				logger.warning("Model contains syntax errors. Please validate it through syntax check before import. Some model elements were not fully parsed." + e);
@@ -327,8 +330,8 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	 * @return an evaluation context
 	 * @throws ExtensionException in case of parse errors.
 	 */
-	protected EvaluationContext computeParameters() throws ExtensionException {
-		EvaluationContext context = new EvaluationContext();
+	protected IEvaluationContext computeParameters() throws ExtensionException {
+		IEvaluationContext context = new EvaluationContext();
 		for (INode node : graph.getNodes()) {
 			if ("place".equals(node.getNodeFormalism().getName())) {
 				IAttribute attrib = node.getAttribute("marking");
@@ -431,7 +434,11 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		// free the current data
 		attribs.clear();
 		// force cache clear
-		EvaluationContext oldcontext = context;
+		IEvaluationContext oldcontext = context;
+		if (oldcontext instanceof EvaluationContext) {
+			EvaluationContext ct = (EvaluationContext) oldcontext;
+			ct.deleteObserver(this);
+		}
 		context = null;		
 		labels = null;
 		variables = null;

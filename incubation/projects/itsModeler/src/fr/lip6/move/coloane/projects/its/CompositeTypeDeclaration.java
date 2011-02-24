@@ -24,6 +24,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.expression.EvaluationContext;
+import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.variables.CompositeModelVariable;
 import fr.lip6.move.coloane.projects.its.variables.InstanceVariable;
@@ -69,7 +70,7 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected EvaluationContext computeParameters() throws ExtensionException {
+	protected IEvaluationContext computeParameters() throws ExtensionException {
 		if (getTypeType().equals("ITSComposite")) {
 			return new EvaluationContext();
 		} else {
