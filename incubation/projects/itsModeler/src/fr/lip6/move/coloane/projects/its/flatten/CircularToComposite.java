@@ -16,9 +16,12 @@
  */
 package fr.lip6.move.coloane.projects.its.flatten;
 
+import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -44,7 +47,7 @@ public final class CircularToComposite {
 	 * @return a composite type declaration corresponding to the cicrular type.
 	 */
 	public CompositeTypeDeclaration buildComposite(CompositeTypeDeclaration ctd, int n) {
-		IGraph resultGraph = new GraphModelFactory().createGraph("ITSComposite");
+		IGraph resultGraph = new GraphModelFactory().createGraph(FormalismManager.getInstance().getFormalismByName("ITSComposite"));
 
 		IGraph entry = ctd.getGraph();
 
@@ -61,7 +64,7 @@ public final class CircularToComposite {
 			// first build the $n$ instances of "type" in the result
 			for (int i = 0; i < n; i++) {
 				String instName = "inst_" + i;
-				INode node = resultGraph.createNode("instance");
+				INode node = resultGraph.createNode((INodeFormalism) resultGraph.getFormalism().getRootGraph().getElementFormalism("instance"));
 
 				ids.put(i, node.getId());
 				node.getAttribute("name").setValue(instName);
@@ -71,7 +74,8 @@ public final class CircularToComposite {
 			// build n instances circularly connecting out n instances.
 
 			// grab the "sync" formalism element id
-			IElementFormalism sync = entry.getFormalism().getMasterGraph().getElementFormalism("synchronization");
+			IGraphFormalism graph = entry.getFormalism().getRootGraph();
+			IElementFormalism sync = graph.getElementFormalism("synchronization");
 			for (INode node : entry.getNodes()) {
 				// for each synchronization in the original model,
 				if (node.getNodeFormalism().equals(sync)) {
@@ -81,7 +85,7 @@ public final class CircularToComposite {
 						INode cur = resultGraph.getNode(ids.get(i));
 						INode succ = resultGraph.getNode(ids.get((i + 1) % n));
 
-						INode resSync = resultGraph.createNode("synchronization");
+						INode resSync = resultGraph.createNode((INodeFormalism) graph.getElementFormalism("synchronization"));
 						// copy name label etc...
 						for (IAttribute a : node.getAttributes()) {
 							resSync.getAttribute(a.getName()).setValue(a.getValue());
@@ -90,9 +94,9 @@ public final class CircularToComposite {
 						for (IArc a : node.getIncomingArcs()) {
 							IArc resArc;
 							if ("current".equals(a.getSource().getAttribute("name").getValue())) {
-								resArc = resultGraph.createArc(a.getArcFormalism().getName(), cur, resSync);
+								resArc = resultGraph.createArc(a.getArcFormalism(), cur, resSync);
 							} else {
-								resArc = resultGraph.createArc(a.getArcFormalism().getName(), succ, resSync);
+								resArc = resultGraph.createArc(a.getArcFormalism(), succ, resSync);
 							}
 							// copy name label etc...
 							for (IAttribute att : node.getAttributes()) {
@@ -102,9 +106,9 @@ public final class CircularToComposite {
 						for (IArc a : node.getOutgoingArcs()) {
 							IArc resArc;
 							if ("current".equals(a.getTarget().getAttribute("name").getValue())) {
-								resArc = resultGraph.createArc(a.getArcFormalism().getName(), cur, resSync);
+								resArc = resultGraph.createArc(a.getArcFormalism(), cur, resSync);
 							} else {
-								resArc = resultGraph.createArc(a.getArcFormalism().getName(), succ, resSync);
+								resArc = resultGraph.createArc(a.getArcFormalism(), succ, resSync);
 							}
 							// copy name label etc...
 							for (IAttribute att : node.getAttributes()) {

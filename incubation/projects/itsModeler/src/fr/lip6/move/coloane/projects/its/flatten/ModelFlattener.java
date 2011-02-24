@@ -17,10 +17,12 @@
 package fr.lip6.move.coloane.projects.its.flatten;
 
 
+import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -70,7 +72,7 @@ public final class ModelFlattener {
 	 * @throws ModelException if cannot create TPN graph.
 	 */
 	public void doFlatten(CompositeTypeDeclaration root, boolean shouldInstantiate) throws ModelException {
-		flatModel = new GraphModelFactory().createGraph("Time Petri Net");
+		flatModel = new GraphModelFactory().createGraph(FormalismManager.getInstance().getFormalismByName("Time Petri Net"));
 		idsPerInstance = new HashMap<String, Map<INode, INode>>();
 		typeGraphs = new HashMap<TypeDeclaration, IGraph> ();
 		this.shouldInstantiate = shouldInstantiate;
@@ -201,7 +203,7 @@ public final class ModelFlattener {
 	 */
 	private void buildTransitions(List<List<ResolvedTrans>> tset, String label) throws ModelException {
 		for (List<ResolvedTrans> effectSet : tset) {
-			INode t = flatModel.createNode("transition");
+			INode t = flatModel.createNode((INodeFormalism) flatModel.getFormalism().getRootGraph().getElementFormalism("transition"));
 
 			int eft = 0;
 			int lft = -1;
@@ -250,7 +252,7 @@ public final class ModelFlattener {
 				for (IArc a : rt.getTransition().getIncomingArcs()) {
 					INode place = a.getSource();
 					INode flatPlace = idsPerInstance.get(rt.getInstance()).get(place);
-					IArc resultArc = flatModel.createArc(a.getArcFormalism().getName(), flatPlace, t);
+					IArc resultArc = flatModel.createArc(a.getArcFormalism(), flatPlace, t);
 					// copy arc properties
 					for (IAttribute att : a.getAttributes()) {
 						resultArc.getAttribute(att.getName()).setValue(att.getValue());
@@ -259,7 +261,7 @@ public final class ModelFlattener {
 				for (IArc a : rt.getTransition().getOutgoingArcs()) {
 					INode place = a.getTarget();
 					INode flatPlace = idsPerInstance.get(rt.getInstance()).get(place);
-					IArc resultArc = flatModel.createArc(a.getArcFormalism().getName(), t, flatPlace);
+					IArc resultArc = flatModel.createArc(a.getArcFormalism(), t, flatPlace);
 					// copy arc properties
 					for (IAttribute att : a.getAttributes()) {
 						resultArc.getAttribute(att.getName()).setValue(att.getValue());
@@ -538,7 +540,7 @@ public final class ModelFlattener {
 				String placeName = node.getAttribute("name").getValue();
 				String marking = node.getAttribute("marking").getValue();
 				// create a new place in the flat model
-				INode p = flatModel.createNode("place");
+				INode p = flatModel.createNode((INodeFormalism) place);
 				p.getGraphicInfo().setBackground(ColorConstants.yellow);
 				ids.put(node, p);
 
@@ -560,7 +562,7 @@ public final class ModelFlattener {
 					String transName = node.getAttribute("label").getValue();
 
 					// create a new transition in the flat model
-					INode newt = flatModel.createNode("transition");
+					INode newt = flatModel.createNode((INodeFormalism) trans);
 					newt.getGraphicInfo().setBackground(ColorConstants.lightBlue);
 
 					for (IAttribute att : node.getAttributes()) {
@@ -575,7 +577,7 @@ public final class ModelFlattener {
 						// find the source place mapped in the flat model
 						INode newSource = ids.get(a.getSource());
 						IArc arc;
-						arc = flatModel.createArc(a.getArcFormalism().getName(), newSource, newt);
+						arc = flatModel.createArc(a.getArcFormalism(), newSource, newt);
 						// copy arc properties
 						for (IAttribute att : a.getAttributes()) {
 							arc.getAttribute(att.getName()).setValue(att.getValue());
@@ -586,7 +588,7 @@ public final class ModelFlattener {
 						// find the source place mapped in the flat model
 						INode newSource = ids.get(a.getTarget());
 						IArc arc;
-						arc = flatModel.createArc(a.getArcFormalism().getName(), newt, newSource);
+						arc = flatModel.createArc(a.getArcFormalism(), newt, newSource);
 						// copy arc properties
 						for (IAttribute att : a.getAttributes()) {
 							arc.getAttribute(att.getName()).setValue(att.getValue());
