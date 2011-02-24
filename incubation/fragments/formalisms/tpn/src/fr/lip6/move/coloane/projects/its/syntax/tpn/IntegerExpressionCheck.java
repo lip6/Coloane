@@ -21,8 +21,8 @@ import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
 import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
-import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
-import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
+import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
+import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
