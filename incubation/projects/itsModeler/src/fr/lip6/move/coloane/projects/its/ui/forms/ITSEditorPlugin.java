@@ -17,7 +17,7 @@
 package fr.lip6.move.coloane.projects.its.ui.forms;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.motor.formalisms.FormalismManager;
+import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.io.File;
@@ -138,16 +138,16 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		IFormalism f = FormalismManager.getInstance().getFormalismById("ITS Composite");
 		registry.put(IMG_COMPOSITE, ImageDescriptor.createFromFile(Coloane.class, f.getImageName()));
 
-		String img = f.getMasterGraph().getElementFormalism("instance").getGraphicalDescription().getIcon24px();
+		String img = f.getRootGraph().getElementFormalism("instance").getGraphicalDescription().getIcon24px();
 		registry.put(IMG_INSTANCE, ImageDescriptor.createFromFile(Coloane.class, img));
 		
 		f = FormalismManager.getInstance().getFormalismById("Time Petri Net");
 		registry.put(IMG_TPNFORM, ImageDescriptor.createFromFile(Coloane.class, f.getImageName()));
 	
-		img = f.getMasterGraph().getElementFormalism("transition").getGraphicalDescription().getIcon24px();
+		img = f.getRootGraph().getElementFormalism("transition").getGraphicalDescription().getIcon24px();
 		registry.put(IMG_TRANSITION, ImageDescriptor.createFromFile(Coloane.class, img));
 		
-		img = f.getMasterGraph().getElementFormalism("place").getGraphicalDescription().getIcon24px();
+		img = f.getRootGraph().getElementFormalism("place").getGraphicalDescription().getIcon24px();
 		registry.put(IMG_PLACE, ImageDescriptor.createFromFile(Coloane.class, img));		
 	}
 

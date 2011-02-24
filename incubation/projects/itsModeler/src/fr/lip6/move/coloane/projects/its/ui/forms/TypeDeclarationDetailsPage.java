@@ -211,7 +211,7 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 			} else if (inputElement instanceof TypeDeclaration) {
 				TypeDeclaration td = (TypeDeclaration) inputElement;
 				IGraph graph = td.getGraph();
-				IGraphFormalism formalism = graph.getFormalism().getMasterGraph();
+				IGraphFormalism formalism = graph.getFormalism().getRootGraph();
 				IElementFormalism trans = formalism.getElementFormalism("transition");
 				Collection<INode> nodes = graph.getNodes();
 
