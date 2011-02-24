@@ -28,7 +28,7 @@ public interface IGraphChecker {
 	/**
 	 * Method that has to be implemented by the user who wants to check some conditions on an {@link IGraph}.
 	 * @param graph the graph to be checked.
-	 * @return <code>true</code> if a marker must be created, <code>false</code> otherwise.
+	 * @return a checker result with <code>hasFailed()</code> if a marker must be created.
 	 */
-	boolean performCheck(IGraph graph);
+	ICheckerResult performCheck(IGraph graph);
 }
