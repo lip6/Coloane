@@ -51,6 +51,12 @@
                         italic="false"
                         multiline="false"
                         name="name">
+                     <AttributeChecker
+                           class_condition="fr.lip6.move.coloane.core.formalisms.checkers.EmptyAttributeChecker"
+                           message="Place has no name"
+                           name="Empty name"
+                           severity="Warning">
+                     </AttributeChecker>
                   </Attribute>
                   <Attribute
                         bold="true"
@@ -61,6 +67,12 @@
                         italic="false"
                         multiline="false"
                         name="marking">
+                     <AttributeChecker
+                           class_condition="fr.lip6.move.coloane.projects.its.syntax.tpn.IntegerExpressionCheck"
+                           message="fr.lip6.move.coloane.fragments.formalisms.tpn.AttributeChecker2"
+                           name="Integer expression as marking."
+                           severity="Error">
+                     </AttributeChecker>
                   </Attribute>
                   <Attribute
                         displayed_default="false"
@@ -117,6 +129,12 @@
                         drawable="false"
                         multiline="false"
                         name="earliestFiringTime">
+                     <AttributeChecker
+                           class_condition="fr.lip6.move.coloane.projects.its.syntax.tpn.IntegerExpressionCheck"
+                           message="fr.lip6.move.coloane.fragments.formalisms.tpn.AttributeChecker2"
+                           name="Integer expression as earliestFiringTime."
+                           severity="Error">
+                     </AttributeChecker>
                   </Attribute>
                   <Attribute
                         bold="true"
@@ -125,6 +143,12 @@
                         italic="true"
                         multiline="false"
                         name="latestFiringTime">
+                     <AttributeChecker
+                           class_condition="fr.lip6.move.coloane.projects.its.syntax.tpn.IntegerExpressionCheck"
+                           message="fr.lip6.move.coloane.fragments.formalisms.tpn.AttributeChecker2"
+                           name="Integer expression as latestFiringTime."
+                           severity="Error">
+                     </AttributeChecker>
                   </Attribute>
                   <ComputedAttribute
                         bold="true"
@@ -139,6 +163,12 @@
                         multiline="false"
                         name="component">
                   </Attribute>
+                  <NodeChecker
+                        class_condition="fr.lip6.move.coloane.projects.its.syntax.tpn.EftBeforeLft"
+                        message="Earliest firing time should be higher or equal to latest firing time."
+                        name="Earliest firing time before latest"
+                        severity="Error">
+                  </NodeChecker>
                </Node>
                <Arc
                      name="arc">
@@ -158,6 +188,12 @@
                         italic="false"
                         multiline="false"
                         name="valuation">
+                     <AttributeChecker
+                           class_condition="fr.lip6.move.coloane.projects.its.syntax.tpn.IntegerExpressionCheck"
+                           message="fr.lip6.move.coloane.fragments.formalisms.tpn.AttributeChecker2"
+                           name="Integer expression as arc valuation."
+                           severity="Error">
+                     </AttributeChecker>
                   </Attribute>
                </Arc>
                <Arc
@@ -176,6 +212,12 @@
                         drawable="true"
                         multiline="false"
                         name="valuation">
+                     <AttributeChecker
+                           class_condition="fr.lip6.move.coloane.projects.its.syntax.tpn.IntegerExpressionCheck"
+                           message="fr.lip6.move.coloane.fragments.formalisms.tpn.AttributeChecker2"
+                           name="Integer expression as inhibitor arc value."
+                           severity="Error">
+                     </AttributeChecker>
                   </Attribute>
                </Arc>
                <Arc
@@ -194,6 +236,12 @@
                         drawable="true"
                         multiline="true"
                         name="valuation">
+                     <AttributeChecker
+                           class_condition="fr.lip6.move.coloane.projects.its.syntax.tpn.IntegerExpressionCheck"
+                           message="fr.lip6.move.coloane.fragments.formalisms.tpn.AttributeChecker2"
+                           name="Integer expression as test arc valuation."
+                           severity="Error">
+                     </AttributeChecker>
                   </Attribute>
                </Arc>
                <Arc
