@@ -15,6 +15,7 @@
  */
 package fr.lip6.move.coloane.core.formalisms.checkers;
 
+import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
 import fr.lip6.move.coloane.interfaces.formalism.INodeChecker;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -29,9 +30,13 @@ public class ConnectionChecker implements INodeChecker {
 	/**
 	 * {@inheritDoc}
 	 */
-	public boolean performCheck(INode node) {
+	public ICheckerResult performCheck(INode node) {				
 		// |Incoming| + |Outgoing| arcs must be > 0
-		return (node.getOutgoingArcs().size() + node.getIncomingArcs().size()) > 0;
+		if (node.getOutgoingArcs().size() + node.getIncomingArcs().size() > 0) {
+			return new CheckerResult(true, node.getNodeFormalism().getName() + " is disconnected in your model (no arcs to or from)");
+		} else {
+			return new CheckerResult(false,"");
+		}
 	}
 
 }
