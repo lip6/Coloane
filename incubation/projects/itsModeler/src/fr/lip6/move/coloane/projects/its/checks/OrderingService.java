@@ -42,8 +42,8 @@ import fr.lip6.move.coloane.projects.its.flatten.ModelFlattener;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
-import fr.lip6.move.coloane.projects.its.order.parser.JSONOrderParserLexer;
-import fr.lip6.move.coloane.projects.its.order.parser.JSONOrderParserParser;
+import main.antlr3.fr.lip6.move.coloane.projects.its.order.parser.JSONOrderParserLexer;
+import main.antlr3.fr.lip6.move.coloane.projects.its.order.parser.JSONOrderParserParser;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
 public class OrderingService extends AbstractCheckService implements ISimpleObserver {
