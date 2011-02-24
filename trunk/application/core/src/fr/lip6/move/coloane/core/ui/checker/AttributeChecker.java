@@ -16,6 +16,8 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
+import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 /**
  * Wrapper defining a complete attribute checker.
@@ -71,7 +73,7 @@ public class AttributeChecker {
 	 * @param value the value to check. It can be parsed but beware of {@link NumberFormatException}.
 	 * @return <code>true</code> if a marker must be created, <code>false</code> otherwise.
 	 */
-	public final boolean check(String value) {
+	public final ICheckerResult check(IAttribute value) {
 		return checker.performCheck(value);
 	}
 }

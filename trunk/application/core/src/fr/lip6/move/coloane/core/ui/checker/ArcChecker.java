@@ -16,6 +16,7 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
 import fr.lip6.move.coloane.interfaces.formalism.IArcChecker;
+import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 
 /**
@@ -72,7 +73,7 @@ public class ArcChecker {
 	 * @param arc the {@link IArc} to check.
 	 * @return <code>true</code> if a marker must be created, <code>false</code> otherwise.
 	 */
-	public final boolean check(IArc arc) {
+	public final ICheckerResult check(IArc arc) {
 		return checker.performCheck(arc);
 	}
 }

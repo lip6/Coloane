@@ -19,6 +19,7 @@ import fr.lip6.move.coloane.core.session.ISession;
 import fr.lip6.move.coloane.core.ui.commands.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.formalism.IArcChecker;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
+import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphChecker;
 import fr.lip6.move.coloane.interfaces.formalism.INodeChecker;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -355,8 +356,9 @@ public final class CheckerManager {
 		MarkerManager.getInstance().deleteGraphAttributeMarkers(resource);
 
 		for (GraphChecker graphChecker : checker.getGraphCheckers()) {
-			if (!graphChecker.check(graph)) {
-				MarkerManager.getInstance().createGraphMarker(resource, graphChecker.getMessage(), graph, graphChecker.getSeverity());
+			ICheckerResult r = graphChecker.check(graph);
+			if (r.hasFailed()){
+				MarkerManager.getInstance().createGraphMarker(resource, r.getMessage(), graph, graphChecker.getSeverity());
 			}
 		}
 		checkIElementAttributes(checker, graph, resource);
@@ -371,8 +373,9 @@ public final class CheckerManager {
 	private void checkINode(Checker checker, INode node, IResource resource) {
 		String nodeFormalism = node.getNodeFormalism().getName();
 		for (NodeChecker nodeChecker : checker.getNodeCheckers(nodeFormalism)) {
-			if (!nodeChecker.check(node)) {
-				MarkerManager.getInstance().createNodeMarker(resource, nodeChecker.getMessage(), node, nodeChecker.getSeverity());
+			ICheckerResult r = nodeChecker.check(node);
+			if (r.hasFailed()) {
+				MarkerManager.getInstance().createNodeMarker(resource, r.getMessage(), node, nodeChecker.getSeverity());
 			}
 		}
 	}
@@ -386,8 +389,9 @@ public final class CheckerManager {
 	private void checkIArc(Checker checker, IArc arc, IResource resource) {
 		String arcFormalism = arc.getArcFormalism().getName();
 		for (ArcChecker arcChecker : checker.getArcCheckers(arcFormalism)) {
-			if (!arcChecker.check(arc)) {
-				MarkerManager.getInstance().createArcMarker(resource, arcChecker.getMessage(), arc, arcChecker.getSeverity());
+			ICheckerResult r = arcChecker.check(arc);
+			if (r.hasFailed()) {
+				MarkerManager.getInstance().createArcMarker(resource, r.getMessage(), arc, arcChecker.getSeverity());
 			}
 		}
 	}
@@ -403,21 +407,24 @@ public final class CheckerManager {
 			if (element instanceof INode) {
 				INode node = (INode) element;
 				for (AttributeChecker attributeChecker : checker.getNodeAttributeCheckers(node.getNodeFormalism().getName(), attribute.getName())) {
-					if (!attributeChecker.check(attribute.getValue())) {
-						MarkerManager.getInstance().createNodeAttributeMarker(resource, attributeChecker.getMessage(), element, attributeChecker.getSeverity());
+					ICheckerResult r = attributeChecker.check(attribute);
+					if (r.hasFailed()) {
+						MarkerManager.getInstance().createNodeAttributeMarker(resource, r.getMessage(), element, attributeChecker.getSeverity());
 					}
 				}
 			} else if (element instanceof IArc) {
 				IArc arc = (IArc) element;
 				for (AttributeChecker attributeChecker : checker.getArcAttributeCheckers(arc.getArcFormalism().getName(), attribute.getName())) {
-					if (!attributeChecker.check(attribute.getValue())) {
-						MarkerManager.getInstance().createArcAttributeMarker(resource, attributeChecker.getMessage(), element, attributeChecker.getSeverity());
+					ICheckerResult r = attributeChecker.check(attribute);
+					if (r.hasFailed()) {
+						MarkerManager.getInstance().createNodeAttributeMarker(resource, r.getMessage(), element, attributeChecker.getSeverity());
 					}
 				}
 			} else if (element instanceof IGraph) {
 				for (AttributeChecker attributeChecker : checker.getGraphAttributeCheckers(attribute.getName())) {
-					if (!attributeChecker.check(attribute.getValue())) {
-						MarkerManager.getInstance().createGraphAttributeMarker(resource, attributeChecker.getMessage(), element, attributeChecker.getSeverity());
+					ICheckerResult r = attributeChecker.check(attribute);
+					if (r.hasFailed()) {
+						MarkerManager.getInstance().createNodeAttributeMarker(resource, r.getMessage(), element, attributeChecker.getSeverity());
 					}
 				}
 			}

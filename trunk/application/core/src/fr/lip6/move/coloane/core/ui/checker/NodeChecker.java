@@ -15,6 +15,7 @@
  */
 package fr.lip6.move.coloane.core.ui.checker;
 
+import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
 import fr.lip6.move.coloane.interfaces.formalism.INodeChecker;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -70,7 +71,7 @@ public class NodeChecker {
 	 * @param node the {@link INode} to check.
 	 * @return <code>true</code> if a marker must be created, <code>false</code> otherwise.
 	 */
-	public final boolean check(INode node) {
+	public final ICheckerResult check(INode node) {
 		return checker.performCheck(node);
 	}
 }
