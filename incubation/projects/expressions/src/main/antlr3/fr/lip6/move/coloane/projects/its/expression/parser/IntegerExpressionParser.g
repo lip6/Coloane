@@ -16,13 +16,13 @@ tokens {
 
 @lexer::header {
 
-package fr.lip6.move.coloane.projects.its.expression.parser;
+package main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser;
 
 }
 
 @parser::header {
 
-package fr.lip6.move.coloane.projects.its.expression.parser;
+package main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser;
 
 import fr.lip6.move.coloane.projects.its.expression.*;
 import fr.lip6.move.coloane.projects.its.antlrutil.*;
