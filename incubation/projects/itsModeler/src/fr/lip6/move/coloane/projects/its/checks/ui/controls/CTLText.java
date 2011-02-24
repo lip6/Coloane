@@ -20,8 +20,8 @@ import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.ctl.CTLFormula;
 
-import main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserLexer;
-import main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserParser;
+import fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserLexer;
+import fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserParser;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
