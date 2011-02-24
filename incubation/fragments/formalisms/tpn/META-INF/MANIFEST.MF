@@ -8,3 +8,4 @@ Fragment-Host: fr.lip6.move.coloane.core;bundle-version="0.16.2"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: lib/antlr-runtime.jar,
  .
+Require-Bundle: fr.lip6.move.coloane.projects.expressions;bundle-version="1.0.0"
