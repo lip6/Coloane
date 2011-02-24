@@ -10,9 +10,11 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: .,
  lib/antlr-runtime.jar
-Export-Package: fr.lip6.move.coloane.projects.its.antlrutil,
+Export-Package: fr.lip6.move.coloane.projects.expression,
+ fr.lip6.move.coloane.projects.its.antlrutil,
  fr.lip6.move.coloane.projects.its.expression,
  fr.lip6.move.coloane.projects.its.expression.parser,
- fr.lip6.move.coloane.projects.its.obs
+ fr.lip6.move.coloane.projects.its.obs,
+ main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui
