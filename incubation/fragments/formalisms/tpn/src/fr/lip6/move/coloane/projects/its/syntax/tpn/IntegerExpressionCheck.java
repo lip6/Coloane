@@ -20,12 +20,9 @@ import fr.lip6.move.coloane.core.formalisms.checkers.CheckerResult;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
 import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
 import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
 import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
-import fr.lip6.move.coloane.projects.its.syntax.Result;
-import fr.lip6.move.coloane.projects.its.syntax.SubResult;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -89,14 +86,14 @@ public final class IntegerExpressionCheck implements IAttributeChecker {
 		return new CheckerResult(false, "");
 	}
 
-	void addCheckFail (IElement elt, IAttribute att, String msg, Result result) {
-		SubResult sr = new SubResult();
-		sr.setName(getName());
-		sr.addAttributeOutline(elt.getId(), att.getName());
-		sr.addObjectOutline(elt.getId());
-		sr.addTextualResults("Syntax error parsing integer expression for \""+att.getName()+"\". Use $ to prefix variables, and arithmetic operations only.\n" + msg);
-		result.addChild(sr);
-	}
+//	void addCheckFail (IElement elt, IAttribute att, String msg, Result result) {
+//		SubResult sr = new SubResult();
+//		sr.setName(getName());
+//		sr.addAttributeOutline(elt.getId(), att.getName());
+//		sr.addObjectOutline(elt.getId());
+//		sr.addTextualResults("Syntax error parsing integer expression for \""+att.getName()+"\". Use $ to prefix variables, and arithmetic operations only.\n" + msg);
+//		result.addChild(sr);
+//	}
 
 	/**
 	 * {@inheritDoc}
