@@ -23,10 +23,11 @@
         <module>importFromSGROMEO</module>
         <module>importExportITS</module>
         <module>importExportTINA</module>
-<!--        <module>projectITSModeler</module>-->
+        <module>projectITSModeler</module>
         <module>exportToSVG</module>
         <module>exportToGML</module>
         <module>crocodile</module>
+        <module>expressions</module>
     </modules>
 
 </project>
