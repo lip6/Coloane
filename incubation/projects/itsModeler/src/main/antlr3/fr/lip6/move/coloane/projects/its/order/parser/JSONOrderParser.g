@@ -7,13 +7,13 @@ options {
 
 @lexer::header {
 
-package fr.lip6.move.coloane.projects.its.order.parser;
+package main.antlr3.fr.lip6.move.coloane.projects.its.order.parser;
 
 }
 
 @parser::header {
 
-package fr.lip6.move.coloane.projects.its.order.parser;
+package main.antlr3.fr.lip6.move.coloane.projects.its.order.parser;
 
 import fr.lip6.move.coloane.projects.its.order.*;
 import fr.lip6.move.coloane.projects.its.antlrutil.*;

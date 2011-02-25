@@ -8,13 +8,13 @@ options {
 
 @lexer::header {
 
-package fr.lip6.move.coloane.projects.its.ctl.parser;
+package main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser;
 
 }
 
 @parser::header {
 
-package fr.lip6.move.coloane.projects.its.ctl.parser;
+package main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser;
 
 import fr.lip6.move.coloane.projects.its.checks.*;
 import fr.lip6.move.coloane.projects.its.ctl.*;
