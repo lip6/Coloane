@@ -9,9 +9,9 @@
     </parent>
 
     <groupId>fr.lip6.move.coloane.incubation.features</groupId>
-    <artifactId>fr.lip6.move.coloane.feature.formalisms.its</artifactId>
+    <artifactId>fr.lip6.move.coloane.feature.its.expressions</artifactId>
     <packaging>eclipse-feature</packaging>
-    <name>Features :: ITS Formalism</name>
-    <description>ITS Formalism</description>
+    <name>Features :: ITS Expressions</name>
+    <description>Arithmetic Operations for ITS</description>
 
 </project>
