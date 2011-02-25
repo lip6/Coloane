@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.formalisms.its"
-      label="Coloane - ITS Formalism"
+      id="fr.lip6.move.coloane.feature.its.expressions"
+      label="Coloane - ITS Expressions support"
       version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This Eclipse feature brings the support of ITS formalisms into Coloane
+      This Eclipse feature brings the support of arithmetic expressions as used by ITS and TPN
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -25,16 +25,15 @@
    </url>
 
    <requires>
-      <import plugin="fr.lip6.move.coloane.core" version="0.16.2" match="greaterOrEqual"/>
-      <import plugin="fr.lip6.move.coloane.interfaces"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui"/>
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.fragments.formalisms.its"
+         id="fr.lip6.move.coloane.projects.expressions"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         fragment="true"
          unpack="false"/>
 
 </feature>
