@@ -23,7 +23,7 @@ import org.eclipse.core.runtime.IStatus;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult.Status;
-import fr.lip6.move.coloane.projects.its.io.ITSModelWriter;
+import fr.lip6.move.coloane.projects.its.io.model.ITSModelWriter;
 import fr.lip6.move.coloane.projects.its.order.ITSOrderWriter;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
 

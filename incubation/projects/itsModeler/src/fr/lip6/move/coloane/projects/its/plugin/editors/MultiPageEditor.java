@@ -24,7 +24,7 @@ import fr.lip6.move.coloane.projects.its.actions.AddTypeAction;
 import fr.lip6.move.coloane.projects.its.actions.FlattenModelAction;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.checks.ui.ChecksMasterDetailsPage;
-import fr.lip6.move.coloane.projects.its.io.ITSModelWriter;
+import fr.lip6.move.coloane.projects.its.io.model.ITSModelWriter;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.ui.forms.MasterDetailsPage;
 

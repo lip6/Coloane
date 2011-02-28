@@ -14,7 +14,7 @@
  *   coloane@lip6.fr
  *   http://coloane.lip6.fr
  */
-package fr.lip6.move.coloane.projects.its.io;
+package fr.lip6.move.coloane.projects.its.io.model;
 
 import fr.lip6.move.coloane.extension.importExportRomeo.exportToRomeo.ExportToRomeo;
 import fr.lip6.move.coloane.extensions.importExportITS.exportToITS.ExportToCompositeITS;
