@@ -17,7 +17,6 @@
 package fr.lip6.move.coloane.projects.its.io;
 
 import fr.lip6.move.coloane.projects.its.TypeList;
-import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 
 import java.io.IOException;
 import java.net.URI;
@@ -57,7 +56,7 @@ public final class ModelLoader {
 
 		try {
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Source schemaSource = new StreamSource(MultiPageEditor.class.getResourceAsStream("/resources/its.xsd")); //$NON-NLS-1$
+			Source schemaSource = new StreamSource(ModelLoader.class.getResourceAsStream("/resources/its.xsd")); //$NON-NLS-1$
 			schema = schemaFactory.newSchema(schemaSource);
 			return schema;
 		} catch (SAXException e) {
