@@ -27,6 +27,7 @@ import fr.lip6.move.coloane.projects.its.expression.EvaluationContext;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.variables.CompositeModelVariable;
+import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
 import fr.lip6.move.coloane.projects.its.variables.InstanceVariable;
 import fr.lip6.move.coloane.projects.its.variables.ScalarInstanceVariable;
 

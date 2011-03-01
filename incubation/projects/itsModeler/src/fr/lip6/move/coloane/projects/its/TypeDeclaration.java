@@ -36,6 +36,7 @@ import fr.lip6.move.coloane.projects.its.expression.IntegerExpression;
 import fr.lip6.move.coloane.projects.its.expression.Variable;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
+import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
 import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
 import fr.lip6.move.coloane.projects.its.variables.TransitionClockVariable;
 
