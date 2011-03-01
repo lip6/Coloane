@@ -16,7 +16,6 @@
  */
 package fr.lip6.move.coloane.projects.its.variables;
 
-import fr.lip6.move.coloane.projects.its.IModelVariable;
 
 public abstract class AbstractModelVariable implements IModelVariable {
 

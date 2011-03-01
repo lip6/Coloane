@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.lip6.move.coloane.projects.its.IModelVariable;
 
 public abstract class CompositeModelVariable extends AbstractModelVariable implements IModelVariable {
 
