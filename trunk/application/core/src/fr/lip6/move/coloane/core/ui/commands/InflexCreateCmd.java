@@ -57,7 +57,7 @@ public class InflexCreateCmd extends Command {
 	 * @param location The inflex point location
 	 */
 	public InflexCreateCmd(IArc arc, Point location) {
-		new InflexCreateCmd(arc, location, arc.getInflexPoints().size());
+		this(arc, location, -1);
 	}
 
 	/** {@inheritDoc} */
@@ -69,12 +69,20 @@ public class InflexCreateCmd extends Command {
 	/** {@inheritDoc} */
 	@Override
 	public final void undo() {
-		this.arc.removeInflexPoint(this.index);
+		if (index < 0) {
+			this.arc.removeInflexPoint(this.arc.getInflexPoints().size()-1);			
+		} else {
+			this.arc.removeInflexPoint(this.index);
+		}
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	public final void redo() {
-		this.arc.addInflexPoint(this.position, this.index);
+		if (index < 0) {
+			this.arc.addInflexPoint(this.position, this.arc.getInflexPoints().size());			
+		} else {
+			this.arc.addInflexPoint(this.position, this.index);
+		}
 	}
 }
