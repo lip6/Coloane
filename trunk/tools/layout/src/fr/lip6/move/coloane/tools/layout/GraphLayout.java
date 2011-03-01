@@ -51,32 +51,33 @@ public final class GraphLayout {
 	/**
 	 * The main user function : apply dot layout to the provided Graph instance.
 	 * @param graph the graph to be updated with new positions.
+	 * @param monitor the progress monitor to inform
 	 * @return the list of position commands to execute
 	 */
 	public static List<IRequest> layout(IGraph graph, IProgressMonitor monitor) {
 		monitor.subTask("Rewriting the current graph as a DOT compatible graph");
 		StringBuffer sb = new StringBuffer();
-		Map<String,List<INode>> clusters = new HashMap<String, List<INode>>();
+		Map<String, List<INode>> clusters = new HashMap<String, List<INode>>();
 		sb.append("digraph G {\n");
 		sb.append("   concentrate = true; \n");
 		for (INode node : graph.getNodes()) {
 			// One line per node
 			sb.append("    " + getDotID(node) + " ;\n");
-			addNode(clusters,node);
+			addNode(clusters, node);
 		}
 		for (IArc arc : graph.getArcs()) {
 			// One line per arc
 			sb.append(getDotID(arc.getSource()) + " -> " + getDotID(arc.getTarget()) + "[label=ID" + arc.getId() + " ] ;\n");
 		}
-		if (! clusters.isEmpty()) {
+		if (!clusters.isEmpty()) {
 			for (Entry<String, List<INode> > e : clusters.entrySet()) {
-				sb.append("  subgraph \"cluster"+ e.getKey() + "\" { \n");
+				sb.append("  subgraph \"cluster" + e.getKey() + "\" { \n");
 				for (INode node : e.getValue()) {
 					sb.append("    " + getDotID(node) + " ;\n");
 				}
 				sb.append("  }\n");
 			}
-		}				
+		}
 		sb.append("}");
 		monitor.worked(1);
 
@@ -104,8 +105,8 @@ public final class GraphLayout {
 	/** Defines clusters if possible.
 	 * Relies on an attribute named "component" in the node.
 	 * If it exists, the node will be attached to a cluster bearing that name.
-	 * @param clusters
-	 * @param node
+	 * @param clusters a mapping giving for each cluster its list of nodes
+	 * @param node a node to be added
 	 */
 	private static void addNode(Map<String, List<INode>> clusters, INode node) {
 		IAttribute comp = node.getAttribute("component");
@@ -117,9 +118,9 @@ public final class GraphLayout {
 			return;
 		}
 		List<INode> nodes;
-		if (! clusters.containsKey(cname)) {
+		if (!clusters.containsKey(cname)) {
 			nodes = new ArrayList<INode>();
-			clusters.put(cname,nodes);
+			clusters.put(cname, nodes);
 		} else {
 			nodes = clusters.get(cname);
 		}

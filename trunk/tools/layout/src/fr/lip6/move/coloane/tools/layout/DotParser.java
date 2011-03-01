@@ -152,7 +152,7 @@ public final class DotParser {
 	 * edge ID7 ID11 4 1.4028 4.8856 1.4028 4.7201 1.4028 4.5005 1.4028 4.3122 ID15 1.5972 4.5278 solid black
 	 * @param st to read from
 	 * @param graph to write into
-	 * @param commands the list of commands we are building
+	 * @return a list of commands to be executed to update the model
 	 */
 	private static List<IRequest> parseArc(StringTokenizer st, IGraph graph) {
 		List<IRequest> requests = new ArrayList<IRequest>();
@@ -196,7 +196,7 @@ public final class DotParser {
 	 * node ID3 1.8889 6.3611 0.75 0.5 ID3 solid ellipse black lightgrey
 	 * @param st to read from
 	 * @param graph to write into
-	 * @param commands The list of commands we are building
+	 * @return The list of commands (request) to execute
 	 * @throws IOException in case of problems
 	 */
 	private static List<IRequest> parseNode(StringTokenizer st, IGraph graph) throws IOException {
@@ -205,10 +205,10 @@ public final class DotParser {
 		assert st.countTokens() > 3;
 		int nodeId = parseID(st);
 		Point location = parsePoint(st);
-			
+
 		requests.add(new NodePositionRequest(graph.getNode(nodeId), location));
 		requests.add(new AttributesResetPositionRequest(graph.getObject(nodeId)));
-		
+
 		return requests;
 	}
 
