@@ -120,13 +120,13 @@ public class LocalAction extends Action {
 				if (event.getResult().isOK()) {
 					List<IResult> results = ((ColoaneJob) event.getJob()).getResults();
 					LOGGER.fine("Browsing results..."); //$NON-NLS-1$
-					for (IResult result : results) {
+					for (final IResult result : results) {
 						currentSession.getResultManager().add(description, result);
 						// Create a new special command to apply incoming request
 						LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$
-						final ApplyRequestsCmd command = new ApplyRequestsCmd(result.getDeltaRequestsList(), currentSession.getGraph());
 						Display.getDefault().asyncExec(new Runnable() {
 							public void run() {
+								final ApplyRequestsCmd command = new ApplyRequestsCmd(result.getDeltaRequestsList(), currentSession.getGraph());
 								LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$
 								((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).executeCommand(command);
 							}
@@ -141,3 +141,4 @@ public class LocalAction extends Action {
 		job.schedule();
 	}
 }
+
