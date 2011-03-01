@@ -55,8 +55,8 @@ public class LayoutAction implements IService {
 			result.addDeltaRequests(requests);
 
 			ISubResult subresult = new SubResult("Statistics about the execution");
-			subresult.addTextualResult("Number of nodes", String.valueOf(model.getNodes().size()));
-			subresult.addTextualResult("Number of arcs", String.valueOf(model.getArcs().size()));
+			subresult.addTextualResult("Number of nodes :" + model.getNodes().size());
+			subresult.addTextualResult("Number of arcs :" + model.getArcs().size());
 			result.addSubResult(subresult);
 
 			results.add(result);
