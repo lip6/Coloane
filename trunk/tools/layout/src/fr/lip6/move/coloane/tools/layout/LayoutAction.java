@@ -15,6 +15,7 @@
  */
 package fr.lip6.move.coloane.tools.layout;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.requests.IRequest;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
@@ -23,9 +24,11 @@ import fr.lip6.move.coloane.interfaces.objects.result.Result;
 import fr.lip6.move.coloane.interfaces.objects.result.SubResult;
 import fr.lip6.move.coloane.interfaces.objects.services.IService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
@@ -35,9 +38,17 @@ public class LayoutAction implements IService {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final List<IResult> run(IGraph model, IProgressMonitor monitor) {
+	public final List<IResult> run(IGraph model, IProgressMonitor monitor)
+	throws ServiceException {
 		if (model != null) {
-			List<IRequest> requests = GraphLayout.layout(model, monitor);
+			List<IRequest> requests = null;
+			try {
+				requests = GraphLayout.layout(model, monitor);
+			} catch (CoreException e) {
+				throw new ServiceException(e.getLocalizedMessage());
+			} catch (IOException e) {
+				throw new ServiceException(e.getLocalizedMessage());
+			}
 			List<IResult> results = new ArrayList<IResult>();
 
 			IResult result = new Result("Dot Layout");

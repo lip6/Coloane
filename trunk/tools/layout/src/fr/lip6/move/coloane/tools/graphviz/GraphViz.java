@@ -88,6 +88,7 @@ public final class GraphViz {
 					Logger.getLogger("graphviz").info(status.getMessage());
 					GraphVizActivator.getInstance().getLog().log(result);
 					Coloane.showErrorMsg(result.getMessage());
+					throw new CoreException(result);
 				}
 				// success!
 				return;
@@ -146,7 +147,7 @@ public final class GraphViz {
 			return new Status(
 					IStatus.ERROR,
 					GraphVizActivator.getID(),
-					"dot.exe/dot not found in PATH. Please install it from graphviz.org, update the PATH or specify the absolute path in the preferences.");
+					"dot.exe/dot not found in PATH. Please install it from graphviz.org, update the PATH or specify the absolute path through:  Window->Preferences->Coloane->Layout preferences.");
 		}
 		if (!dotFullPath.toFile().isFile()) {
 			return new Status(IStatus.ERROR, GraphVizActivator.getID(), "Could not find Graphviz dot at \"" + dotFullPath

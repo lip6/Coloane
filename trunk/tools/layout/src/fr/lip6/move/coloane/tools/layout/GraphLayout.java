@@ -42,7 +42,7 @@ import org.eclipse.swt.graphics.Point;
  * @author Yann Thierry-Mieg
  */
 public final class GraphLayout {
-	
+
 	/** 
 	 * Hide constructor : functionality is all static.
 	 */
@@ -53,8 +53,10 @@ public final class GraphLayout {
 	 * @param graph the graph to be updated with new positions.
 	 * @param monitor the progress monitor to inform
 	 * @return the list of position commands to execute
+	 * @throws CoreException if dot file generation failed (typically dot misconfiguration)
+	 * @throws IOException if dot file malformed or inexistant (timeout ?)
 	 */
-	public static List<IRequest> layout(IGraph graph, IProgressMonitor monitor) {
+	public static List<IRequest> layout(IGraph graph, IProgressMonitor monitor) throws CoreException, IOException {
 		monitor.subTask("Rewriting the current graph as a DOT compatible graph");
 		StringBuffer sb = new StringBuffer();
 		Map<String, List<INode>> clusters = new HashMap<String, List<INode>>();
@@ -81,27 +83,20 @@ public final class GraphLayout {
 		sb.append("}");
 		monitor.worked(1);
 
-		try {
-			// Call Graphviz
-			monitor.subTask("Calling DOT tool");
-			InputStream dotOutput = GraphViz.generate(new ByteArrayInputStream(sb.toString().getBytes()),
-								"plain", // format to basic annotated positions
-								new Point(20, 20));
-			monitor.worked(1);
-			monitor.subTask("Parsing graph objects positions");
-			List<IRequest>requests = DotParser.parseGraphPositions(dotOutput, graph);
-			monitor.worked(1);
-			return requests;
 
-		// TODO: Exceptions must be handled more carefully !
-		} catch (CoreException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return new ArrayList<IRequest>();
+		// Call Graphviz
+		monitor.subTask("Calling DOT tool");
+		InputStream dotOutput = GraphViz.generate(new ByteArrayInputStream(sb.toString().getBytes()),
+				"plain", // format to basic annotated positions
+				new Point(20, 20));
+		monitor.worked(1);
+		monitor.subTask("Parsing graph objects positions");
+		List<IRequest>requests = DotParser.parseGraphPositions(dotOutput, graph);
+		monitor.worked(1);
+		return requests;
+
 	}
-	
+
 	/** Defines clusters if possible.
 	 * Relies on an attribute named "component" in the node.
 	 * If it exists, the node will be attached to a cluster bearing that name.
