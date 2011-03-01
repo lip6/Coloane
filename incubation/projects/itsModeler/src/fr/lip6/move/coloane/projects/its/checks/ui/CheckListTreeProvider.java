@@ -16,7 +16,6 @@
  */
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
-import fr.lip6.move.coloane.projects.its.IModelVariable;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLCheckService;
@@ -26,6 +25,7 @@ import fr.lip6.move.coloane.projects.its.checks.OrderingService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
+import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
 
 import java.util.ArrayList;
 import java.util.List;

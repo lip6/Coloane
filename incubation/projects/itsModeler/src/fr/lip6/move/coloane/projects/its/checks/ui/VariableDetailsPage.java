@@ -19,9 +19,9 @@ package fr.lip6.move.coloane.projects.its.checks.ui;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-import fr.lip6.move.coloane.projects.its.IModelVariable;
 import fr.lip6.move.coloane.projects.its.checks.ParameterList;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
+import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
 
 public class VariableDetailsPage extends ITSDetailsPage<IModelVariable> {
 
