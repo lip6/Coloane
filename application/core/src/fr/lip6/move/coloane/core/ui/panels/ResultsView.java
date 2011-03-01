@@ -95,7 +95,10 @@ public class ResultsView extends ViewPart {
 	/** {@inheritDoc} */
 	@Override
 	public final void dispose() {
-		unHighlightAll(MANAGER.getCurrentSession().getGraph());
+		ISession session = MANAGER.getCurrentSession();
+		if (session != null) {
+			unHighlightAll(session.getGraph());
+		}
 		checkStateMap.clear();
 		super.dispose();
 	}
@@ -167,21 +170,23 @@ public class ResultsView extends ViewPart {
 				if (evt.getPropertyName().equals(ISessionManager.PROP_CURRENT_SESSION)) {
 					final ISession previous = (ISession) evt.getOldValue();
 					final ISession current = (ISession) evt.getNewValue();
-					parent.getDisplay().asyncExec(new Runnable() {
-						public void run() {
-							if (previous != null) {
-								previous.getResultManager().deleteObserver(resultObserver);
+					if (!parent.isDisposed() && !parent.getDisplay().isDisposed()) {
+						parent.getDisplay().asyncExec(new Runnable() {
+							public void run() {
+								if (previous != null) {
+									previous.getResultManager().deleteObserver(resultObserver);
+								}
+								if (current != null) {
+									viewer.setInput(current.getResultManager());
+									current.getResultManager().addObserver(resultObserver);
+									viewer.refresh();
+								} else {
+									viewer.setInput(null);
+									viewer.refresh();
+								}
 							}
-							if (current != null) {
-								viewer.setInput(current.getResultManager());
-								current.getResultManager().addObserver(resultObserver);
-								viewer.refresh();
-							} else {
-								viewer.setInput(null);
-								viewer.refresh();
-							}
-						}
-					});
+						});
+					}
 				}
 			}
 		});
