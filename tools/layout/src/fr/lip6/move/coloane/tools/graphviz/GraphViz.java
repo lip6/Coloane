@@ -16,11 +16,10 @@
 package fr.lip6.move.coloane.tools.graphviz;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator.DotAlgo;
 import fr.lip6.move.coloane.interfaces.utils.ProcessController;
 import fr.lip6.move.coloane.interfaces.utils.ProcessController.TimeOutException;
+import fr.lip6.move.coloane.tools.graphviz.GraphVizActivator.DotAlgo;
 import fr.lip6.move.coloane.tools.graphviz.io.IOUtils;
-import fr.lip6.move.coloane.tools.graphviz.io.LogUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -39,14 +38,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.swt.SWTException;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.ImageData;
-import org.eclipse.swt.graphics.ImageLoader;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.widgets.Display;
 
 
 /**
@@ -113,65 +106,6 @@ public final class GraphViz {
 	}
 
 	/**
-	 * Higher-level API for launching a GraphViz transformation.
-	 * 
-	 * @param input to read from
-	 * @param format the dot output format
-	 * @param dimension the size of the graph forwarded to dot.
-	 * @return the resulting image, never <code>null</code>
-	 * @throws CoreException
-	 *             if any error occurs
-	 */
-	public static Image load(final InputStream input, String format, Point dimension) throws CoreException {
-		MultiStatus status = new MultiStatus(GraphVizActivator.getID(), 0, "Errors occurred while running Graphviz", null);
-		File dotInput = null, dotOutput = null;
-		// we keep the input in memory so we can include it in error messages
-		ByteArrayOutputStream dotContents = new ByteArrayOutputStream();
-		try {
-			// determine the temp input and output locations
-			dotInput = File.createTempFile(TMP_FILE_PREFIX, DOT_EXTENSION);
-			dotOutput = File.createTempFile(TMP_FILE_PREFIX, "." + format);
-			// we created the output file just so we would know an output
-			// location to pass to dot
-			dotOutput.delete();
-
-			// dump the contents from the input stream into the temporary file
-			// to be submitted to dot
-			FileOutputStream tmpDotOutputStream = null;
-			try {
-				IOUtils.copy(input, dotContents);
-				tmpDotOutputStream = new FileOutputStream(dotInput);
-				IOUtils.copy(new ByteArrayInputStream(dotContents.toByteArray()), tmpDotOutputStream);
-			} finally {
-				IOUtils.closeQuietly(tmpDotOutputStream);
-			}
-
-			IStatus result = runDot(format, dimension, dotInput, dotOutput);
-
-			status.add(result);
-			status.add(logInput(dotContents));
-			if (dotOutput.isFile()) {
-				if (!result.isOK() && Platform.inDebugMode()) {
-					LogUtils.log(status);
-				}
-				// try to load the resulting image
-				ImageLoader loader = new ImageLoader();
-				ImageData[] imageData = loader.load(dotOutput.getAbsolutePath());
-				return new Image(Display.getDefault(), imageData[0]);
-			}
-		} catch (SWTException e) {
-			status.add(new Status(IStatus.ERROR, GraphVizActivator.getID(), "", e));
-		} catch (IOException e) {
-			status.add(new Status(IStatus.ERROR, GraphVizActivator.getID(), "", e));
-		} finally {
-			dotInput.delete();
-			dotOutput.delete();
-			IOUtils.closeQuietly(input);
-		}
-		throw new CoreException(status);
-	}
-
-	/**
 	 * Runs dot with given parameters.
 	 * @param format dot output format
 	 * @param dimension graph size
@@ -194,15 +128,6 @@ public final class GraphViz {
 		}
 		cmd.add(dotInput.getAbsolutePath());
 		return runDot(cmd.toArray(new String[cmd.size()]));
-	}
-
-	/** 
-	 * log input
-	 * @param dotContents the dot output contents
-	 * @return the status
-	 */
-	private static IStatus logInput(ByteArrayOutputStream dotContents) {
-		return new Status(IStatus.INFO, GraphVizActivator.getID(), "dot input was:\n" + dotContents, null);
 	}
 
 	/**
