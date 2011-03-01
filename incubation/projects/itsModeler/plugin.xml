@@ -31,15 +31,6 @@
       </wizard>
    </extension>
    <extension
-         point="fr.lip6.move.coloane.core.tools">
-      <Tool
-            action="fr.lip6.move.coloane.projects.its.syntax.tool.SyntaxCheckAction"
-            description="Check syntax of Time Petri nets "
-            icon="resources/icons/spellcheck.gif"
-            name="Time PN Syntax Check">
-      </Tool>
-   </extension>
-   <extension
          point="fr.lip6.move.coloane.core.reports">
       <report
             class="fr.lip6.move.coloane.projects.its.syntax.tool.SyntaxCheckReport"
