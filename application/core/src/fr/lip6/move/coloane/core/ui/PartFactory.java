@@ -64,7 +64,7 @@ public class PartFactory implements EditPartFactory {
 
 		// Associate the model element to the EditPart
 		part.setModel(modelElement);
-		LOGGER.fine("Creating a " + part.getClass().getSimpleName()); //$NON-NLS-1$
+		LOGGER.finer("Creating a " + part.getClass().getSimpleName()); //$NON-NLS-1$
 		return part;
 	}
 
@@ -75,7 +75,7 @@ public class PartFactory implements EditPartFactory {
 	 */
 	private EditPart getPartForElement(Object modelElement) {
 		if (modelElement instanceof INode) {
-			return new NodeEditPart();
+			return new NodeEditPart() ;
 		} else if (modelElement instanceof IAttribute) {
 			return new AttributeEditPart();
 		} else if (modelElement instanceof IArc) {
