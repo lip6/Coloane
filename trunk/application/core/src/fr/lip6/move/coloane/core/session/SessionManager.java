@@ -134,17 +134,20 @@ public final class SessionManager implements ISessionManager {
 
 	/** {@inheritDoc} */
 	public ISession destroySession(String sessionId) {
-		LOGGER.fine("Destroying the session " + sessionId); //$NON-NLS-1$
-		ISession toDestroy = sessions.remove(sessionId);
-		if (toDestroy != null) {
-			((Session) toDestroy).destroy();
-			// If the destroyed session is the current one...
-			if (toDestroy.equals(currentSession)) {
-				setCurrentSession(null);
+		if (sessionId != null) {
+			LOGGER.fine("Destroying the session " + sessionId); //$NON-NLS-1$
+
+			ISession toDestroy = sessions.remove(sessionId);
+			if (toDestroy != null) {
+				((Session) toDestroy).destroy();
+				// If the destroyed session is the current one...
+				if (toDestroy.equals(currentSession)) {
+					setCurrentSession(null);
+				}
+				return toDestroy;
 			}
-			return toDestroy;
+			LOGGER.warning("The session " + sessionId + " is not registered in the session manager"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		LOGGER.warning("The session " + sessionId + " is not registered in the session manager"); //$NON-NLS-1$ //$NON-NLS-2$
 		return null;
 	}
 
