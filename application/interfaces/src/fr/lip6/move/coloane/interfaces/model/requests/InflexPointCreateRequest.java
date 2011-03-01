@@ -52,7 +52,7 @@ public class InflexPointCreateRequest implements IRequest {
 	 * @param position The position of the point
 	 */
 	public InflexPointCreateRequest(IArc arc, Point position) {
-		this(arc, position, arc.getInflexPoints().size() - 1);
+		this(arc, position, -1);
 	}
 
 	/**
