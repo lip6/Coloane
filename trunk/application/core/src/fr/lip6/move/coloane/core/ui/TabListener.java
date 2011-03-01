@@ -33,14 +33,18 @@ public class TabListener implements IPartListener2 {
 
 	/** {@inheritDoc} */
 	public final void partActivated(IWorkbenchPartReference partRef) {
-		LOGGER.finer("Tab activated : " + partRef.getPartProperty("session.id")); //$NON-NLS-1$ //$NON-NLS-2$
-		SessionManager.getInstance().resumeSession(partRef.getPartProperty("session.id")); //$NON-NLS-1$
+		String id = partRef.getPartProperty("session.id"); //$NON-NLS-1$
+		if (id != null) {
+			LOGGER.finer("Tab activated : " + id);  //$NON-NLS-1$
+			SessionManager.getInstance().resumeSession(id); 
+		}
 	}
 
 	/** {@inheritDoc} */
 	public final void partClosed(IWorkbenchPartReference partRef) {
-		LOGGER.finer("Tab closed : " + partRef.getPartProperty("session.id")); //$NON-NLS-1$ //$NON-NLS-2$
-		SessionManager.getInstance().destroySession(partRef.getPartProperty("session.id")); //$NON-NLS-1$
+		String sessionId = partRef.getPartProperty("session.id"); //$NON-NLS-1$
+		LOGGER.finer("Tab closed : " + sessionId); //$NON-NLS-1$
+		SessionManager.getInstance().destroySession(sessionId);
 	}
 
 	/** {@inheritDoc} */
