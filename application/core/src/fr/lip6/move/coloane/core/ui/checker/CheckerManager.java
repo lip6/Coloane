@@ -409,7 +409,7 @@ public final class CheckerManager {
 				for (AttributeChecker attributeChecker : checker.getNodeAttributeCheckers(node.getNodeFormalism().getName(), attribute.getName())) {
 					ICheckerResult r = attributeChecker.check(attribute);
 					if (r.hasFailed()) {
-						MarkerManager.getInstance().createNodeAttributeMarker(resource, r.getMessage(), element, attributeChecker.getSeverity());
+						MarkerManager.getInstance().createNodeAttributeMarker(resource, r.getMessage(), element, attributeChecker.getSeverity(), attribute.getName());
 					}
 				}
 			} else if (element instanceof IArc) {
@@ -417,14 +417,14 @@ public final class CheckerManager {
 				for (AttributeChecker attributeChecker : checker.getArcAttributeCheckers(arc.getArcFormalism().getName(), attribute.getName())) {
 					ICheckerResult r = attributeChecker.check(attribute);
 					if (r.hasFailed()) {
-						MarkerManager.getInstance().createNodeAttributeMarker(resource, r.getMessage(), element, attributeChecker.getSeverity());
+						MarkerManager.getInstance().createNodeAttributeMarker(resource, r.getMessage(), element, attributeChecker.getSeverity(), attribute.getName());
 					}
 				}
 			} else if (element instanceof IGraph) {
 				for (AttributeChecker attributeChecker : checker.getGraphAttributeCheckers(attribute.getName())) {
 					ICheckerResult r = attributeChecker.check(attribute);
 					if (r.hasFailed()) {
-						MarkerManager.getInstance().createNodeAttributeMarker(resource, r.getMessage(), element, attributeChecker.getSeverity());
+						MarkerManager.getInstance().createNodeAttributeMarker(resource, r.getMessage(), element, attributeChecker.getSeverity(), attribute.getName());
 					}
 				}
 			}

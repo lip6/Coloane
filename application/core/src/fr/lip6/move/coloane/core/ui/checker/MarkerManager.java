@@ -67,6 +67,9 @@ public final class MarkerManager {
 	/** ID the marker attribute "ID". Used to keep the IElement id with which the marker is linked. */
 	private static String ID = "id"; //$NON-NLS-1$
 
+	/** ATTRIBUTE the marker attribute "ID". Used to keep the IAttribute name with which the marker is linked.(only for attribute markers) */
+	private static String ATTRIBUTE = "attribute"; //$NON-NLS-1$
+
 	/** The instance */
 	private static MarkerManager instance;
 
@@ -87,7 +90,7 @@ public final class MarkerManager {
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
 	 */
-	private static void createMarker(IResource resource, String type, String message, IElement element, Integer severity) {
+	private static IMarker createMarker(IResource resource, String type, String message, IElement element, Integer severity) {
 		try {
 			IMarker marker = resource.createMarker(type);
 
@@ -97,8 +100,10 @@ public final class MarkerManager {
 			markerMap.put(IMarker.SEVERITY, severity);
 			markerMap.put(IMarker.MESSAGE, message);
 			marker.setAttributes(markerMap);
+			return marker;
 		} catch (CoreException e) {
 			e.printStackTrace();
+			return null;
 		}
 	}
 
@@ -120,8 +125,13 @@ public final class MarkerManager {
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
 	 */
-	public void createNodeAttributeMarker(IResource resource, String message, IElement element, Integer severity) {
-		createMarker(resource, NODE_ATTRIBUTE_MARKER, message, element, severity);
+	public void createNodeAttributeMarker(IResource resource, String message, IElement element, Integer severity, String attribute) {
+		IMarker marker = createMarker(resource, NODE_ATTRIBUTE_MARKER, message, element, severity);
+		try {
+			marker.setAttribute(ATTRIBUTE, attribute); 
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -141,9 +151,15 @@ public final class MarkerManager {
 	 * @param message marker message.
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
+	 * @param attribute the attribute that has a problem
 	 */
-	public void createArcAttributeMarker(IResource resource, String message, IElement element, Integer severity) {
-		createMarker(resource, ARC_ATTRIBUTE_MARKER, message, element, severity);
+	public void createArcAttributeMarker(IResource resource, String message, IElement element, Integer severity, String attribute) {
+		IMarker marker = createMarker(resource, ARC_ATTRIBUTE_MARKER, message, element, severity);
+		try {
+			marker.setAttribute(ATTRIBUTE, attribute);
+		} catch (CoreException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -286,7 +302,9 @@ public final class MarkerManager {
 		try {
 			objectId = (Integer) marker.getAttribute(ID);
 		} catch (CoreException e) {
-			e.printStackTrace();
+			// this may happen if markers are not refreshed correctly.
+			// not a problem, no marker to goto anymore !
+			return ;
 		}
 
 		// If the id is still equals to -1, there is no element to highlight in the IGraph
@@ -308,6 +326,11 @@ public final class MarkerManager {
 				GraphicalViewer viewer = (GraphicalViewer) editor.getAdapter(GraphicalViewer.class);
 				viewer.deselectAll();
 				viewer.appendSelection((EditPart) viewer.getEditPartRegistry().get(element));
+				
+				String attribute = marker.getAttribute(ATTRIBUTE, null);
+				if (attribute != null) {
+					
+				}
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}
