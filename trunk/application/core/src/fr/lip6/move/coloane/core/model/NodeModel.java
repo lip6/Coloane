@@ -249,7 +249,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 
 	/** {@inheritDoc} */
 	public final void setInterface(boolean state) {
-		LOGGER.fine(this + " setInterface(" + state + ")"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finest(this + " setInterface(" + state + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		boolean oldValue = isInterface;
 		this.isInterface = state;
 		firePropertyChange(IAttribute.VALUE_PROP, oldValue, state);
