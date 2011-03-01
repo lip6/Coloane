@@ -89,7 +89,7 @@ public class CommandFactory {
 			InflexPointsDeleteRequest inflexPointsDeleteRequest = (InflexPointsDeleteRequest) request;
 			// Build a compound command that delete all inflex points of the considered arc
 			CompoundCommand deleteInflexPointsCommand = new CompoundCommand();
-			for (int i = 0; i < inflexPointsDeleteRequest.getArc().getInflexPoints().size(); i++) {
+			for (int i = inflexPointsDeleteRequest.getArc().getInflexPoints().size()-1; i >=0 ; i--) {
 				deleteInflexPointsCommand.add(new InflexDeleteCmd(inflexPointsDeleteRequest.getArc(), i));
 			}
 			return deleteInflexPointsCommand;
