@@ -20,8 +20,7 @@ import fr.lip6.move.coloane.projects.its.checks.*;
 import fr.lip6.move.coloane.projects.its.ctl.*;
 import fr.lip6.move.coloane.projects.its.antlrutil.*;
 import fr.lip6.move.coloane.projects.its.checks.ui.controls.CTLText;
-import fr.lip6.move.coloane.projects.its.variables.LeafModelVariable;
-import fr.lip6.move.coloane.projects.its.IModelVariable;
+import fr.lip6.move.coloane.projects.its.variables.*;
 
 
 }
