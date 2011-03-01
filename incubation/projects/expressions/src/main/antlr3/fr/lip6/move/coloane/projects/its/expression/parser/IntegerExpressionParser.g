@@ -17,7 +17,8 @@ tokens {
 @lexer::header {
 
 package main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser;
-
+import fr.lip6.move.coloane.projects.its.expression.*;
+import fr.lip6.move.coloane.projects.its.antlrutil.*;
 }
 
 @parser::header {
@@ -26,6 +27,16 @@ package main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser;
 
 import fr.lip6.move.coloane.projects.its.expression.*;
 import fr.lip6.move.coloane.projects.its.antlrutil.*;
+}
+
+@lexer::members {
+    private IErrorReporter errorReporter = null;
+    public void setErrorReporter(IErrorReporter errorReporter) {
+        this.errorReporter = errorReporter;
+    }
+    public void emitErrorMessage(String msg) {
+        errorReporter.reportError(msg);
+    }
 }
 
 @members {
