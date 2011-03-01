@@ -42,7 +42,9 @@ public class DiamondArc extends AbstractArcFigure implements IArcFigure {
 	}
 
 	/**
-	 * Create the decoration that will be used for the target-side of the arc
+	 * Create the decoration that will be used for the
+	 *  target-side of the arc.
+	 *
 	 * @return the decoration
 	 */
 	private PolygonDecoration buildDecoration() {
