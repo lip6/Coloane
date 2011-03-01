@@ -113,7 +113,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 		if (nodeFormalism == null) {
 			throw new ModelException("The formalism does not correctly define the created node type"); //$NON-NLS-1$
 		}
-		LOGGER.fine("Build a new node: " + nodeFormalism.getName()); //$NON-NLS-1$
+		LOGGER.finer("Build a new node: " + nodeFormalism.getName()); //$NON-NLS-1$
 		INode node = new NodeModel(this, nodeFormalism, id);
 		addNode(node);
 		return node;
@@ -122,7 +122,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	/** {@inheritDoc} */
 	public final void deleteNode(INode node) {
 		if (nodes.remove(node.getId()) != null) {
-			LOGGER.fine("Remove node #" + node.getId()); //$NON-NLS-1$
+			LOGGER.finer("Remove node #" + node.getId()); //$NON-NLS-1$
 			for (IArc arc : node.getOutgoingArcs()) {
 				arcs.remove(arc.getId());
 			}
@@ -165,14 +165,14 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 		} else {
 			nodes.put(node.getId(), node);
 			node.addPropertyChangeListener(this);
-			LOGGER.fine("Add an existing  node #" + node.getId()); //$NON-NLS-1$
+			LOGGER.finer("Add an existing  node #" + node.getId()); //$NON-NLS-1$
 			firePropertyChange(NODE_ADDED_PROP, null, node);
 		}
 	}
 
 	/** {@inheritDoc} */
 	public final IStickyNote createStickyNote() {
-		LOGGER.fine("Create a new sticky note"); //$NON-NLS-1$
+		LOGGER.finer("Create a new sticky note"); //$NON-NLS-1$
 		IStickyNote note = new StickyNoteModel();
 		addSticky(note);
 
@@ -206,7 +206,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 
 	/** {@inheritDoc} */
 	public final IArc createArc(IArcFormalism arcFormalism, INode source, INode target, int id) throws ModelException {
-		LOGGER.fine("Build a new arc: " + arcFormalism.getName()); //$NON-NLS-1$
+		LOGGER.finer("Build a new arc: " + arcFormalism.getName()); //$NON-NLS-1$
 		if (!nodes.containsKey(source.getId()) || !nodes.containsKey(target.getId())) {
 			throw new ModelException("Either the source or the target does not exist"); //$NON-NLS-1$
 		}
@@ -220,7 +220,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	/** {@inheritDoc} */
 	public final void deleteArc(IArc arc) {
 		if (arcs.remove(arc.getId()) != null) {
-			LOGGER.fine("Remove the arc #" + arc.getId()); //$NON-NLS-1$
+			LOGGER.finer("Remove the arc #" + arc.getId()); //$NON-NLS-1$
 			((NodeModel) arc.getSource()).removeOutgoingArc(arc);
 			((NodeModel) arc.getTarget()).removeIncomingArc(arc);
 			firePropertyChange(ARC_REMOVED_PROP, null, arc);
@@ -256,7 +256,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 		} else if (!formalism.isLinkAllowed(arc.getSource(), arc.getTarget(), arc.getArcFormalism())) {
 			LOGGER.warning("This arc is not allowed by the formalism"); //$NON-NLS-1$
 		} else {
-			LOGGER.finest("Add an arc #" + arc.getId()); //$NON-NLS-1$
+			LOGGER.finer("Add an arc #" + arc.getId()); //$NON-NLS-1$
 			arcs.put(arc.getId(), arc);
 			((NodeModel) arc.getSource()).addOutgoingArc(arc);
 			((NodeModel) arc.getTarget()).addIncomingArc(arc);
