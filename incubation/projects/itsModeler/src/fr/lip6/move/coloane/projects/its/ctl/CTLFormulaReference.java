@@ -16,12 +16,10 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
-
 public class CTLFormulaReference implements CTLFormula {
 
 	private String formulaName;
-	private CTLFormulaDescription formulaDescription;
+	private String formulaDescription;
 
 	public CTLFormulaReference(String formulaName) {
 		this.formulaName = formulaName; 
@@ -35,14 +33,14 @@ public class CTLFormulaReference implements CTLFormula {
 		return CTLFormula.REFERENCE;
 	}
 
-	public void setFormulaDescription(CTLFormulaDescription cfd) {
-		this.formulaDescription = cfd;
+	public void setFormulaDescription(String subformula) {
+		this.formulaDescription = subformula;
 	}
 	
 	@Override
 	public String toString() {
 		if (formulaDescription != null)
-			return formulaDescription.toString();
+			return "(" + formulaDescription + ")";
 		return "TRUE";
 	}
 

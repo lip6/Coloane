@@ -184,7 +184,7 @@ predicate returns [CTLFormula form] :
                     if (cfd == null) {
                       emitErrorMessage("Token @" + formName + " does not designate an existing CTL formula.", var.getCharPositionInLine());                                               
                     } else { 
-                      ((CTLFormulaReference) form).setFormulaDescription (cfd);
+                      ((CTLFormulaReference) form).setFormulaDescription (cfd.getCtlFormula());
                     }
   
    }   
