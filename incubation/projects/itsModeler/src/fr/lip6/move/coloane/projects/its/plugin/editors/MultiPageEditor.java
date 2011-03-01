@@ -161,7 +161,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	 */
 	public FlattenModelAction getFlattenAction() {
 		if (flattenAction == null)
-			flattenAction = new FlattenModelAction(this);
+			flattenAction = new FlattenModelAction();
 		return flattenAction;
 	}
 
