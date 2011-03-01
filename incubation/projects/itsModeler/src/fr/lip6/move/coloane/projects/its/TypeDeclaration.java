@@ -24,17 +24,16 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
 import fr.lip6.move.coloane.projects.its.expression.Constant;
 import fr.lip6.move.coloane.projects.its.expression.EvaluationContext;
+import fr.lip6.move.coloane.projects.its.expression.ExpressionFactory;
+import fr.lip6.move.coloane.projects.its.expression.ExpressionParseResult;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.projects.its.expression.IVariable;
 import fr.lip6.move.coloane.projects.its.expression.IVariableBinding;
 import fr.lip6.move.coloane.projects.its.expression.Infinity;
 import fr.lip6.move.coloane.projects.its.expression.IntegerExpression;
 import fr.lip6.move.coloane.projects.its.expression.Variable;
-import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
-import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
@@ -51,9 +50,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
 import org.eclipse.core.resources.IFile;
 
 /**
@@ -110,7 +106,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			return expr.evaluate(getParameters());
 		}
 	}
-	
+
 	/**
 	 * Update the type name, notify observers.
 	 * @param typeName the new name
@@ -217,7 +213,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		}
 		return labels;
 	}
-	
+
 	/**
 	 * Handle caching of computeVariables.
 	 * @return the interface (ITS action alphabet) of this type
@@ -228,9 +224,9 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		}
 		return variables;
 	}
-	
-	
-	
+
+
+
 	public IModelVariable findQualifiedVariable (String name) {
 		for (IModelVariable var: getVariables()) {
 			IModelVariable found = findQualifiedVariableRec(var,name);
@@ -267,7 +263,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 							}
 						}
 						variables.add(new TransitionClockVariable(node));
-						
+
 					} catch (NumberFormatException e) {
 						continue;
 					}
@@ -319,7 +315,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			} catch (ExtensionException e) {
 				final Logger logger = Logger.getLogger("fr.lip6.move.coloane.its"); //$NON-NLS-1$
 				logger.warning("Model contains syntax errors. Please validate it through syntax check before import. Some model elements were not fully parsed." + e);
-				
+
 			}
 		}
 		return context;
@@ -368,29 +364,20 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		String mark = attrib.getValue();
 		if (mark != null && !"".equals(mark)) {
 
-			IntegerExpressionParserLexer lexer;
-			lexer = new IntegerExpressionParserLexer(new ANTLRStringStream(mark));
+			ExpressionParseResult epr = ExpressionFactory.parseExpression(mark);
+			int nberr = epr.getErrorCount();
+			if (nberr != 0) {
+				context.declareVariable(new Variable("SYNTAX ERRORS IN MODEL, PLEASE RUN SYNTAX CHECK" + epr.getErrors()));
+			} else {
+				IntegerExpression expr = epr.getExpression();
 
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-			IntegerExpressionParserParser parser = new IntegerExpressionParserParser(tokens);
-			IntegerExpression expr;
-			ErrorReporter report = new ErrorReporter();
-			parser.setErrorReporter(report);
-			try {
-				expr = parser.prog();
-				if (report.iterator().hasNext())
-					throw new RecognitionException();
-			} catch (RecognitionException e) {
-				context.declareVariable(new Variable("SYNTAX ERRORS IN MODEL, PLEASE RUN SYNTAX CHECK"));
-				return;
-			}
-			if (!(expr instanceof Constant) && expr != null && !(expr instanceof Infinity)) {
-				// dont store the mapping for trivial integers
-				attribs.put(attrib, expr);
-				// could be empty for simple expressions, eg 3+ 2
-				for (IVariable var : expr.supportingVariables()) {
-					context.declareVariable(var);
+				if (!(expr instanceof Constant) && expr != null && !(expr instanceof Infinity)) {
+					// dont store the mapping for trivial integers
+					attribs.put(attrib, expr);
+					// could be empty for simple expressions, eg 3+ 2
+					for (IVariable var : expr.supportingVariables()) {
+						context.declareVariable(var);
+					}
 				}
 			}
 		}
@@ -429,7 +416,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		return copy;
 	}
 
-	
+
 	public void reload() throws IOException {
 		// free the current data
 		attribs.clear();
@@ -453,39 +440,39 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			}
 		}
 	}
-	
-//	protected List<INode> computeStateVariables () {
-//		List<INode> vars;
-//		EvaluationContext context = new EvaluationContext();
-//		for (INode node : graph.getNodes()) {
-//			if ("place".equals(node.getNodeFormalism().getName())) {
-//				IAttribute attrib = node.getAttribute("marking");
-//				parseIntExpression(attrib, context);
-//			} else if ("transition".equals(node.getNodeFormalism().getName())) {
-//				IAttribute eft = node.getAttribute("earliestFiringTime");
-//				parseIntExpression(eft, context);
-//				IAttribute lft = node.getAttribute("latestFiringTime");
-//				parseIntExpression(lft, context);
-//			}
-//		}
-//		for (IArc arc : graph.getArcs()) {
-//			// supports null attribute passing: some arcs have no valuation
-//			parseIntExpression(arc.getAttribute("valuation"), context);
-//		}
-//		for (IAttribute att : graph.getAttributes()) {
-//			if (att.getName().equals("size")) {
-//				parseIntExpression(att, context);
-//			}
-//		}
-//		return context;		
-//	}
-//	
-//	public List<INode> getStateVariables () {
-//		if (stateVariables == null) {
-//			
-//		}
-//		return stateVariables;
-//	}
+
+	//	protected List<INode> computeStateVariables () {
+	//		List<INode> vars;
+	//		EvaluationContext context = new EvaluationContext();
+	//		for (INode node : graph.getNodes()) {
+	//			if ("place".equals(node.getNodeFormalism().getName())) {
+	//				IAttribute attrib = node.getAttribute("marking");
+	//				parseIntExpression(attrib, context);
+	//			} else if ("transition".equals(node.getNodeFormalism().getName())) {
+	//				IAttribute eft = node.getAttribute("earliestFiringTime");
+	//				parseIntExpression(eft, context);
+	//				IAttribute lft = node.getAttribute("latestFiringTime");
+	//				parseIntExpression(lft, context);
+	//			}
+	//		}
+	//		for (IArc arc : graph.getArcs()) {
+	//			// supports null attribute passing: some arcs have no valuation
+	//			parseIntExpression(arc.getAttribute("valuation"), context);
+	//		}
+	//		for (IAttribute att : graph.getAttributes()) {
+	//			if (att.getName().equals("size")) {
+	//				parseIntExpression(att, context);
+	//			}
+	//		}
+	//		return context;		
+	//	}
+	//	
+	//	public List<INode> getStateVariables () {
+	//		if (stateVariables == null) {
+	//			
+	//		}
+	//		return stateVariables;
+	//	}
 }
 
 
