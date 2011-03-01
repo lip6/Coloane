@@ -20,13 +20,8 @@ import fr.lip6.move.coloane.core.formalisms.checkers.CheckerResult;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
 import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
-import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
-import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
-import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
-
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
+import fr.lip6.move.coloane.projects.its.expression.ExpressionFactory;
+import fr.lip6.move.coloane.projects.its.expression.ExpressionParseResult;
 
 
 /**
@@ -42,27 +37,10 @@ public final class IntegerExpressionCheck implements IAttributeChecker {
 	public ICheckerResult check(IAttribute att) {
 
 		if (att.getValue() != null && ! att.getValue().equals("")) {
-			//				if (name.equals("marking")
-			//						|| name.equals("earliestFiringTime")
-			//						|| name.equals("latestFiringTime")
-			//						|| name.equals("valuation")
-			//						|| name.equals("size")) {
-			IntegerExpressionParserLexer lexer;
-			lexer = new IntegerExpressionParserLexer(new ANTLRStringStream(att.getValue()));
 
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-			IntegerExpressionParserParser parser = new IntegerExpressionParserParser(tokens);
-			ErrorReporter report = new ErrorReporter();
-			parser.setErrorReporter(report);
-			try {
-				// IntegerExpression expr = 
-					parser.prog();
-				int nberr = 0;
-				for (String err: report) {
-					nberr++;					
-				}
-				String msg="";
+			ExpressionParseResult epr = ExpressionFactory.parseExpression(att.getValue());
+			int nberr = epr.getErrorCount();
+			String msg ="";
 				if (nberr == 0) {
 					return new CheckerResult(false, "");
 				} else if (nberr > 1) {
@@ -71,15 +49,10 @@ public final class IntegerExpressionCheck implements IAttributeChecker {
 					msg = "Syntax error ";
 				}
 				msg += "parsing integer expression for \""+att.getName()+"\". Use $ to prefix variables, and arithmetic operations only.\n";
-				for (String error: report) {
+				for (String error: epr.getErrors()) {
 					msg += error + "\n";
 				}
 				return new CheckerResult(true, msg);
-			} catch (RecognitionException e) {
-				String msg = "Syntax error parsing integer expression for \""+att.getName()+"\". Use $ to prefix variables, and arithmetic operations only.\n";
-				msg += e.getLocalizedMessage();
-				return new CheckerResult(true, msg);
-			}
 		}
 
 
