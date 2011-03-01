@@ -31,13 +31,6 @@
       </wizard>
    </extension>
    <extension
-         point="fr.lip6.move.coloane.core.reports">
-      <report
-            class="fr.lip6.move.coloane.projects.its.syntax.tool.SyntaxCheckReport"
-            service_name="tpn.syntax">
-      </report>
-   </extension>
-   <extension
          point="org.eclipse.ui.preferencePages">
       <page
             category="fr.lip6.move.coloane.ui.prefs.main"
