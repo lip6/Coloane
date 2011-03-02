@@ -21,21 +21,21 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * Check that a {@link INode} is connected to at least one arc.<br>
- *
+ * 
  * @author Jean-Baptiste Voron
  * @author Florian David
  */
-public class ConnectionChecker implements INodeChecker {
+public final class ConnectionChecker implements INodeChecker {
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public ICheckerResult performCheck(INode node) {				
+	public ICheckerResult performCheck(INode node) {
 		// |Incoming| + |Outgoing| arcs must be > 0
 		if (node.getOutgoingArcs().size() + node.getIncomingArcs().size() > 0) {
-			return new CheckerResult(true, node.getNodeFormalism().getName() + " is disconnected in your model (no arcs to or from)");
+			return new CheckerResult(true, node.getNodeFormalism().getName() + " is disconnected in your model (no arcs to or from)"); //$NON-NLS-1$
 		} else {
-			return new CheckerResult(false,"");
+			return new CheckerResult(false, ""); //$NON-NLS-1$
 		}
 	}
 
