@@ -24,7 +24,6 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -55,9 +54,6 @@ public class ExportToGML implements IExportTo {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.extensions.exporttogml"); //$NON-NLS-1$
 	
-	/** (non-Javadoc)
-	 * @see fr.lip6.move.coloane.core.extensions.IExportTo#export(fr.lip6.move.coloane.interfaces.model.IGraph, java.lang.String, org.eclipse.core.runtime.IProgressMonitor)
-	 */
 	/**
 	 * Performs the export
 	 * 
@@ -66,14 +62,28 @@ public class ExportToGML implements IExportTo {
 	 * @param monitor monitors the export
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	public final void export(IGraph graph, String filePath, IProgressMonitor monitor)
-			throws ExtensionException {
-
+	public final void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ExtensionException {
+		try {
+			export(graph, new FileWriter(filePath), monitor);
+		} catch (IOException e) {
+			throw new ExtensionException(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Performs the export
+	 * 
+	 * @param graph the graph to be exported
+	 * @param writer Writer to write the gml model
+	 * @param monitor monitors the export
+	 * @throws ExtensionException if the parser throws an exception
+	 */
+	public final void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException {
 		LOGGER.fine("starting export model");
 		Writer out = null;
 		ExtensionException exc = null;
 		try {
-			out = new BufferedWriter(new FileWriter(filePath));
+			out = new BufferedWriter(writer);
 			monitor.beginTask("export", graph.getArcs().size() + graph.getNodes().size() + 1);
 			exportGraph(graph, out, monitor);
 		} catch (IOException e) {
@@ -88,12 +98,6 @@ public class ExportToGML implements IExportTo {
 			} catch (IOException e) {
 				throw new ExtensionException(e.getMessage());
 			} catch (ExtensionException e) {
-				// delete the export file
-				File f = new File(filePath);
-				boolean success = f.delete();
-				if (!success) {
-					throw new ExtensionException("Delete: deletion failed");
-				}
 				// re-throw the exception
 				throw e;
 			}
