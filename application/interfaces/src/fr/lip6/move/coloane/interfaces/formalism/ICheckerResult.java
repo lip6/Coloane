@@ -18,7 +18,7 @@ package fr.lip6.move.coloane.interfaces.formalism;
 
 
 /**
- * The result of running an Attribute/Node/Arc/Graph checker. 
+ * The result of running an Attribute/Node/Arc/Graph checker.
  * A small data structure bearing a boolean (pass or fail) and a message to display.
  * 
  * @author Yann Thierry-Mieg
