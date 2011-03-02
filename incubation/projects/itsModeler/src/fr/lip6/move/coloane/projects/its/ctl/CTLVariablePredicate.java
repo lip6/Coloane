@@ -16,22 +16,41 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class CTLVariablePredicate implements CTLFormula {
+/**
+ * A variable predicate over a system variable.
+ * "a = 3, a.P1.tab[2].X < 5 etc..."
+ * @author Yann
+ *
+ */
+public final class CTLVariablePredicate implements CTLFormula {
 
 	private String variable;
 	private String comparator;
 	private String value;
 
-	public String getOperator() {
-		return CTLFormula.PREDICATE;
-	}
-
+	/**
+	 * var comp value.
+	 * @param var the variable fully qualified name.
+	 * @param comp the comparison used
+	 * @param value the value to compare against.
+	 */
 	public CTLVariablePredicate(String var, String comp, String value) {
 		this.variable = var;
 		this.comparator = comp;
 		this.value = value;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public String getOperator() {
+		return CTLFormula.PREDICATE;
+	}
+
+	/**
+	 * var comp value.
+	 * {@inheritDoc}
+	 */
 	public String toString() {
 		return variable + " " + comparator + " " + value;
 	}

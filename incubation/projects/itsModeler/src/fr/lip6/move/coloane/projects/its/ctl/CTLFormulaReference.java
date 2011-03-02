@@ -16,31 +16,56 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class CTLFormulaReference implements CTLFormula {
+/**
+ * A reference to an existing formula, syntax : @form.
+ * @author Yann
+ *
+ */
+public final class CTLFormulaReference implements CTLFormula {
 
 	private String formulaName;
 	private String formulaDescription;
 
+	/**
+	 * Referenced formula name.
+	 * @param formulaName the name of the referenced formula.
+	 */
 	public CTLFormulaReference(String formulaName) {
-		this.formulaName = formulaName; 
+		this.formulaName = formulaName;
 	}
 
+	/**
+	 * The name of the referenced formula.
+	 * @return The name of the referenced formula.
+	 */
 	public String getFormulaName() {
 		return formulaName;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.REFERENCE;
 	}
 
+	/**
+	 * Position subformula body text, i.e. contents of subformula.
+	 * @param subformula string of subformula.
+	 */
 	public void setFormulaDescription(String subformula) {
 		this.formulaDescription = subformula;
 	}
 	
+	/**
+	 * Returns the subformula body between braces.
+	 * @return a nicely formatted subformula or true if no formula description found.
+	 */
 	@Override
 	public String toString() {
-		if (formulaDescription != null)
+		if (formulaDescription != null) {
 			return "(" + formulaDescription + ")";
+		}
 		return "TRUE";
 	}
 

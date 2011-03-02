@@ -16,12 +16,25 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class CTLXor extends CTLInfixBinop {
+/**
+ * Logical exclusive or.
+ * @author Yann
+ *
+ */
+public final class CTLXor extends CTLInfixBinop {
 
+	/**
+	 * a XOR b.
+	 * @param left a
+	 * @param right b
+	 */
 	public CTLXor(CTLFormula left, CTLFormula right) {
 		super(left, right);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.XOR;
 	}

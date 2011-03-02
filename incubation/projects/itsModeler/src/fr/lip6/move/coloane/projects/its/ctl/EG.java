@@ -16,12 +16,24 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class EG extends CTLUnaryOp {
+/**
+ * Exists Generally.
+ * @author Yann
+ *
+ */
+public final class EG extends CTLUnaryOp {
 
+	/**
+	 * EG ( p ).
+	 * @param operand p.
+	 */
 	public EG(CTLFormula operand) {
 		super(operand);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.EG;
 	}

@@ -16,21 +16,38 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
+/**
+ * Implement a binary Composite pattern.
+ * @author Yann
+ *
+ */
 public abstract class CTLBinaryOp implements CTLFormula {
 	
 	private CTLFormula left;
 	private CTLFormula right;
 
+	/**
+	 * a OP b
+	 * @param left a
+	 * @param right b
+	 */
 	public CTLBinaryOp(CTLFormula left, CTLFormula right) {
 		this.left = left;
 		this.right = right;
 	}
 	
-	public CTLFormula getLeft () {
+	/**
+	 * The left operand.
+	 * @return left operand
+	 */
+	public final CTLFormula getLeft() {
 		return left;
 	}
-	
-	public CTLFormula getRight () {
+	/**
+	 * The right operand.
+	 * @return right operand
+	 */
+	public final CTLFormula getRight() {
 		return right;
 	}
 }

@@ -16,12 +16,24 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class EF extends CTLUnaryOp {
+/**
+ * Exists Future.
+ * @author Yann
+ *
+ */
+public final class EF extends CTLUnaryOp {
 
+	/**
+	 * EF ( p ).
+	 * @param operand p a subformula
+	 */
 	public EF(CTLFormula operand) {
 		super(operand);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.EF;
 	}

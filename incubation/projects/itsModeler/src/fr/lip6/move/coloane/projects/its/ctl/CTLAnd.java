@@ -16,12 +16,25 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class CTLAnd extends CTLInfixBinop {
+/**
+ * Boolean AND.
+ * @author Yann
+ *
+ */
+public final class CTLAnd extends CTLInfixBinop {
 
+	/**
+	 * a AND b.
+	 * @param left a
+	 * @param right b
+	 */
 	public CTLAnd(CTLFormula left, CTLFormula right) {
 		super(left, right);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.AND;
 	}

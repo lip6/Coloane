@@ -16,20 +16,37 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
+/**
+ * A Composite for unary operators (e.g. NOT).
+ * @author Yann
+ *
+ */
 public abstract class CTLUnaryOp implements CTLFormula {
 	
 	private CTLFormula operand;
 
+	/**
+	 * OP a.
+	 * @param operand a
+	 */
 	public CTLUnaryOp(CTLFormula operand) {
 		this.operand = operand;
 	}
 	
-	public CTLFormula getOperand() {
+	/**
+	 * Returns the operand of this operator.
+	 * @return the operand
+	 */
+	public final CTLFormula getOperand() {
 		return operand;
 	}
 	
+	/**
+	 * Formats : OP (operand).
+	 * {@inheritDoc}
+	 */
 	@Override
-	public String toString() {
+	public final String toString() {
 		return getOperator() + " (" + getOperand() + ")";
 	}
 

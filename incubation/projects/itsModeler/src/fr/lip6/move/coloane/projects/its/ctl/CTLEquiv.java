@@ -16,12 +16,25 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class CTLEquiv extends CTLInfixBinop {
+/**
+ * Boolean a <-> b equivalence.
+ * @author Yann
+ *
+ */
+public final class CTLEquiv extends CTLInfixBinop {
 
+	/**
+	 * a <-> b
+	 * @param left a
+	 * @param right b
+	 */
 	public CTLEquiv(CTLFormula left, CTLFormula right) {
 		super(left, right);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.EQUIV;
 	}

@@ -16,12 +16,24 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class AF extends CTLUnaryOp {
+/**
+ * Always Future.
+ * @author Yann
+ *
+ */
+public final class AF extends CTLUnaryOp {
 
+	/**
+	 * Always Future.
+	 * @param operand AF(operand)
+	 */
 	public AF(CTLFormula operand) {
 		super(operand);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.AF;
 	}

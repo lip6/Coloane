@@ -16,12 +16,24 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class CTLNot extends CTLUnaryOp {
+/**
+ * Boolean logic NOT.
+ * @author Yann
+ *
+ */
+public final class CTLNot extends CTLUnaryOp {
 
+	/**
+	 * NOT a.
+	 * @param operand a
+	 */
 	public CTLNot(CTLFormula operand) {
 		super(operand);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.NOT;
 	}

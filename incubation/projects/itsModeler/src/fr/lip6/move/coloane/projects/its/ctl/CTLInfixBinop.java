@@ -16,15 +16,29 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
+/**
+ * A binary operator that is noted in infix form.
+ * Overloads the toString mechanism.
+ * @author Yann
+ *
+ */
 public abstract class CTLInfixBinop extends CTLBinaryOp {
 
+	/**
+	 * a OP b
+	 * @param left a
+	 * @param right b
+	 */
 	public CTLInfixBinop(CTLFormula left, CTLFormula right) {
 		super(left, right);
 	}
 
-	
+	/**
+	 * Formats the operator between the operands + adds braces to operands.
+	 * {@inheritDoc}
+	 */
 	@Override
-	public String toString() {
-		return "("+ getLeft() + ")" + getOperator()+ "("+ getRight() +")";
+	public final String toString() {
+		return "(" + getLeft() + ")" + getOperator() + "(" + getRight() + ")";
 	}
 }

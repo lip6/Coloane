@@ -16,12 +16,25 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class CTLImply extends CTLInfixBinop {
+/**
+ * Boolean implication a -> b, also noted : not b or a.
+ * @author Yann
+ *
+ */
+public final class CTLImply extends CTLInfixBinop {
 
+	/**
+	 * a -> b.
+	 * @param left a
+	 * @param right b
+	 */
 	public CTLImply(CTLFormula left, CTLFormula right) {
 		super(left, right);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.IMPLY;
 	}

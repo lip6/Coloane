@@ -16,12 +16,24 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class AX extends CTLUnaryOp {
+/**
+ * Always neXt.
+ * @author Yann
+ *
+ */
+public final class AX extends CTLUnaryOp {
 
+	/**
+	 * AX ( p )
+	 * @param operand p
+	 */
 	public AX(CTLFormula operand) {
 		super(operand);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.AX;
 	}

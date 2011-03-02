@@ -16,12 +16,24 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class EX extends CTLUnaryOp {
+/**
+ * Exists neXt.
+ * @author Yann
+ *
+ */
+public final class EX extends CTLUnaryOp {
 
+	/**
+	 * EX (p)
+	 * @param operand p
+	 */
 	public EX(CTLFormula operand) {
 		super(operand);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.EX;
 	}

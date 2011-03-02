@@ -16,12 +16,24 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class AG extends CTLUnaryOp {
+/**
+ * Always Generally
+ * @author Yann
+ *
+ */
+public final class AG extends CTLUnaryOp {
 
+	/**
+	 * AG.
+	 * @param operand subformula
+	 */
 	public AG(CTLFormula operand) {
 		super(operand);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.AG;
 	}

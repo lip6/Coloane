@@ -16,12 +16,25 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class CTLOr extends CTLInfixBinop {
+/**
+ * Boolean logic OR.
+ * @author Yann
+ *
+ */
+public final class CTLOr extends CTLInfixBinop {
 
+	/**
+	 * a OR b.
+	 * @param left a
+	 * @param right b
+	 */
 	public CTLOr(CTLFormula left, CTLFormula right) {
 		super(left, right);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.OR;
 	}

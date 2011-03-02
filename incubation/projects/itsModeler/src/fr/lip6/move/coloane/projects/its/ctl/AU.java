@@ -16,12 +16,25 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class AU extends CTLBinaryOp {
+/**
+ * Always Until.
+ * @author Yann
+ *
+ */
+public final class AU extends CTLBinaryOp {
 
+	/**
+	 * AU ( a, b ).
+	 * @param left a
+	 * @param right b
+	 */
 	public AU(CTLFormula left, CTLFormula right) {
 		super(left, right);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.AU;
 	}

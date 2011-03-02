@@ -16,16 +16,33 @@
  */
 package fr.lip6.move.coloane.projects.its.ctl;
 
-public class EU extends CTLBinaryOp {
+/**
+ * Exists a Until b.
+ * @author Yann
+ *
+ */
+public final class EU extends CTLBinaryOp {
 
+	/**
+	 * E a U b.
+	 * @param left a
+	 * @param right b
+	 */
 	public EU(CTLFormula left, CTLFormula right) {
 		super(left, right);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getOperator() {
 		return CTLFormula.EU;
 	}
 
+	/**
+	 * Manual override to produce : E ( (a) U (b) ).
+	 * {@inheritDoc}
+	 */
 	@Override
 	public String toString() {
 		return "E ( (" + getLeft() + ") U (" + getRight() + ") )";
