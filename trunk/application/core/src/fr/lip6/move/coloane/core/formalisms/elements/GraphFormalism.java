@@ -34,12 +34,15 @@ public class GraphFormalism extends ElementFormalism implements IGraphFormalism 
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** All elements that can be contained inside such a graph */
-	private Map<String,IElementFormalism> children = new HashMap<String,IElementFormalism>();
+	private Map<String, IElementFormalism> children = new HashMap<String, IElementFormalism>();
 
 	/**
 	 * Constructor
-	 * @param name Graph name
-	 * @param formalism The formalism (i.e. constraints and properties)
+	 * 
+	 * @param name
+	 *            Graph name
+	 * @param formalism
+	 *            The formalism (i.e. constraints and properties)
 	 * @see IFormalism
 	 */
 	public GraphFormalism(String name, IFormalism formalism) {
@@ -48,10 +51,14 @@ public class GraphFormalism extends ElementFormalism implements IGraphFormalism 
 
 	/**
 	 * Add an element to the graph definition
-	 * @param element The element to add to the graph
+	 * 
+	 * @param element
+	 *            The element to add to the graph
 	 */
 	public final void addElement(ElementFormalism element) {
-		if (element == null) { return; }
+		if (element == null) {
+			return;
+		}
 		LOGGER.finer("Add an element to the graph formalism : " + element.getName()); //$NON-NLS-1$
 		this.children.put(element.getName(), element);
 	}
