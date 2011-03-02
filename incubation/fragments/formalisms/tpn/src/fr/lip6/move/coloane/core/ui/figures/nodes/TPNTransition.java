@@ -16,12 +16,14 @@
  */
 package fr.lip6.move.coloane.core.ui.figures.nodes;
 
+import fr.lip6.move.coloane.core.ui.figures.AbstractNodeFigure;
+
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Rectangle;
 
-import fr.lip6.move.coloane.core.ui.figures.AbstractNodeFigure;
+
 
 /**
  * A figure that changes its aspect depending on the value of the visibility
