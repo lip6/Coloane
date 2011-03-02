@@ -23,10 +23,10 @@ import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
  * @author Yann.
  *
  */
-public class CheckerResult implements ICheckerResult {
+public final class CheckerResult implements ICheckerResult {
 
 	/** 
-	 * Verdict, true if the test detected a problem. 
+	 * Verdict, true if the test detected a problem.
 	 */
 	private boolean isFailed;
 	/**
