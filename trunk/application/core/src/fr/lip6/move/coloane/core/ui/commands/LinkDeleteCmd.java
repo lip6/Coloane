@@ -16,8 +16,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
-import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
-import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import org.eclipse.gef.commands.Command;

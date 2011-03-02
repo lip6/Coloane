@@ -70,7 +70,7 @@ public class InflexCreateCmd extends Command {
 	@Override
 	public final void undo() {
 		if (index < 0) {
-			this.arc.removeInflexPoint(this.arc.getInflexPoints().size()-1);			
+			this.arc.removeInflexPoint(this.arc.getInflexPoints().size() - 1);
 		} else {
 			this.arc.removeInflexPoint(this.index);
 		}
@@ -80,7 +80,7 @@ public class InflexCreateCmd extends Command {
 	@Override
 	public final void redo() {
 		if (index < 0) {
-			this.arc.addInflexPoint(this.position, this.arc.getInflexPoints().size());			
+			this.arc.addInflexPoint(this.position, this.arc.getInflexPoints().size());
 		} else {
 			this.arc.addInflexPoint(this.position, this.index);
 		}

@@ -44,8 +44,8 @@ public class AttributeSetConstraintCmd extends Command {
 	public AttributeSetConstraintCmd(IAttribute attribute, Point newPosition) {
 		super(Messages.AttributeSetConstraintCmd_0);
 		// Attribute and NewPosition should not be null
-		assert(attribute != null);
-		assert(newPosition != null);
+		assert (attribute != null);
+		assert (newPosition != null);
 
 		this.attribute = attribute;
 		this.newPosition = newPosition.getCopy();

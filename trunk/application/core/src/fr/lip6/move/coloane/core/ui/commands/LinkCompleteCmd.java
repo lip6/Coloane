@@ -16,7 +16,6 @@
 package fr.lip6.move.coloane.core.ui.commands;
 
 import fr.lip6.move.coloane.core.model.LinkModel;
-import fr.lip6.move.coloane.core.model.StickyNoteModel;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
@@ -29,7 +28,7 @@ import org.eclipse.gef.commands.Command;
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
-public class LinkCompleteCmd extends Command {
+public final class LinkCompleteCmd extends Command {
 
 	/** The sticky note */
 	private IStickyNote note = null;
@@ -41,7 +40,6 @@ public class LinkCompleteCmd extends Command {
 
 	/**
 	 * Constructor
-	 * @param graph The current graph
 	 * @param note The sticky note
 	 * @param element the element attached to the note
 	 */
@@ -64,20 +62,20 @@ public class LinkCompleteCmd extends Command {
 
 	/** {@inheritDoc} */
 	@Override
-	public final void execute() {
+	public void execute() {
 		this.link = new LinkModel(note, element);
 		redo();
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public final void redo() {
+	public void redo() {
 		this.link.connect();
 	}
 
 	/** {@inheritDoc} */
 	@Override
-	public final void undo() {
+	public void undo() {
 		this.link.disconnect();
 	}
 }
