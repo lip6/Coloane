@@ -89,6 +89,7 @@ public final class MarkerManager {
 	 * @param message marker message.
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
+	 * @return the newly built marker
 	 */
 	private static IMarker createMarker(IResource resource, String type, String message, IElement element, Integer severity) {
 		try {
@@ -124,11 +125,12 @@ public final class MarkerManager {
 	 * @param message marker message.
 	 * @param element the marker will be associated to this graph element.
 	 * @param severity marker severity.
+	 * @param attribute the attribute name
 	 */
 	public void createNodeAttributeMarker(IResource resource, String message, IElement element, Integer severity, String attribute) {
 		IMarker marker = createMarker(resource, NODE_ATTRIBUTE_MARKER, message, element, severity);
 		try {
-			marker.setAttribute(ATTRIBUTE, attribute); 
+			marker.setAttribute(ATTRIBUTE, attribute);
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
@@ -304,7 +306,7 @@ public final class MarkerManager {
 		} catch (CoreException e) {
 			// this may happen if markers are not refreshed correctly.
 			// not a problem, no marker to goto anymore !
-			return ;
+			return;
 		}
 
 		// If the id is still equals to -1, there is no element to highlight in the IGraph
@@ -326,10 +328,10 @@ public final class MarkerManager {
 				GraphicalViewer viewer = (GraphicalViewer) editor.getAdapter(GraphicalViewer.class);
 				viewer.deselectAll();
 				viewer.appendSelection((EditPart) viewer.getEditPartRegistry().get(element));
-				
+
 				String attribute = marker.getAttribute(ATTRIBUTE, null);
 				if (attribute != null) {
-					
+
 				}
 			} catch (PartInitException e) {
 				e.printStackTrace();
