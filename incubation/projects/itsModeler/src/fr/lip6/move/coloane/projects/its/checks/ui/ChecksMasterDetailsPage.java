@@ -19,10 +19,10 @@ package fr.lip6.move.coloane.projects.its.checks.ui;
 import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
-import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
 import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
@@ -34,17 +34,17 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  */
 public final class ChecksMasterDetailsPage extends FormPage implements ITypeListProvider {
 	private ChecksScrolledPropertiesBlock block;
-	private MultiPageEditor mpe;
+	private ITypeListProvider mpe;
 	private CheckList checkList;
 	/**
 	 * Ctor.
 	 * @param editor the parent editor (for getTypes())
 	 * @param cl 
 	 */
-	public ChecksMasterDetailsPage(MultiPageEditor editor, CheckList cl) {
+	public ChecksMasterDetailsPage(FormEditor editor, ITypeListProvider types, CheckList cl) {
 		super(editor, "treeview", cl.getType().getTypeName()+ " analysis"); //$NON-NLS-1$ //$NON-NLS-2$
 		block = new ChecksScrolledPropertiesBlock(this);
-		this.mpe = editor;
+		this.mpe = types;
 		this.checkList = cl;
 	}
 	/**
@@ -58,12 +58,7 @@ public final class ChecksMasterDetailsPage extends FormPage implements ITypeList
 		form.setBackgroundImage(ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_FORM_BG));
 		block.createContent(managedForm);
 	}
-	/**
-	 * @return the parent editor
-	 */
-	public MultiPageEditor getMpe() {
-		return mpe;
-	}
+	
 	/**
 	 * Refresh display
 	 */

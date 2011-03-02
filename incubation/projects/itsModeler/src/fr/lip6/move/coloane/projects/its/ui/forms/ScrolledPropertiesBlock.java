@@ -194,7 +194,7 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 				try {
 					TreeSelection o = (TreeSelection) event.getSelection();
 					TypeDeclaration td = (TypeDeclaration) o.getFirstElement();
-					page.getMpe().openEditor(td);
+					OpenEditorAction.openEditor(td);
 				} catch (ClassCastException e) {
 					// a concept was double clicked
 					return;
@@ -208,6 +208,8 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 		viewer.addDropSupport(ops, transfers, adapter);
 
 	}
+	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -245,8 +247,8 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 	 */
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(CompositeTypeDeclaration.class, new TypeDeclarationDetailsPage(getPage().getMpe()));
-		detailsPart.registerPage(TypeDeclaration.class, new TypeDeclarationDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(CompositeTypeDeclaration.class, new TypeDeclarationDetailsPage());
+		detailsPart.registerPage(TypeDeclaration.class, new TypeDeclarationDetailsPage());
 		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(this));
 		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
 	}

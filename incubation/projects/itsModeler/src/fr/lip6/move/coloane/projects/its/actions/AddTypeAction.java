@@ -19,7 +19,6 @@ package fr.lip6.move.coloane.projects.its.actions;
 import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.dialogs.AddTypeDialog;
-import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.PlatformUI;
@@ -39,7 +38,7 @@ public final class AddTypeAction extends Action {
 	 * basic ctor
 	 * @param editor the parent editor (contains the type list)
 	 */
-	public AddTypeAction(MultiPageEditor editor) {
+	public AddTypeAction(ITypeListProvider editor) {
 		setTypeListProvider(editor);
 	}
 

@@ -23,7 +23,6 @@ import fr.lip6.move.coloane.projects.its.checks.ITSCheckService;
 import fr.lip6.move.coloane.projects.its.checks.OrderParameter;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
-import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -45,13 +44,6 @@ public class ITSCheckServiceDetailsPage extends CheckServiceDetailsPage {
 
 	private Combo orderSelector;	
 	
-	/**
-	 * Ctor. pass master for openDirectory button action.
-	 * @param master the master page
-	 */
-	public ITSCheckServiceDetailsPage(MultiPageEditor master) {
-		super(master);
-	}
 	
 	/** Overload to refine typing of the input. */
 	@Override

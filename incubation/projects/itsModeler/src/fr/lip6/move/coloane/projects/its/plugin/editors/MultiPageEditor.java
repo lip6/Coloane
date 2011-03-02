@@ -165,22 +165,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		return flattenAction;
 	}
 
-	/**
-	 * open or focus the editor on the file proposed
-	 * @param td current slected type
-	 */
-	public void openEditor(TypeDeclaration td) {
-		if (td != null) {
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-			try {
-				if (td != null) {
-					IDE.openEditor(page, td.getTypeFile());
-				}
-			} catch (PartInitException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+
 
 	/**
 	 * The <code>MultiPageEditorPart</code> implementation of this
@@ -358,7 +343,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		try {
 			int pageIndex ;
 			if (! checkPagesIndex .containsKey(cl.getType())) {
-				ChecksMasterDetailsPage newPage = new ChecksMasterDetailsPage(this,cl);
+				ChecksMasterDetailsPage newPage = new ChecksMasterDetailsPage(this,this,cl);
 				pageIndex = addPage(newPage);
 				this.checkPages.add(newPage);
 				checkPagesIndex.put(cl.getType(),pageIndex);

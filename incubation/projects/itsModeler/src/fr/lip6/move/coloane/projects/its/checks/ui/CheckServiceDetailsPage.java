@@ -17,7 +17,6 @@
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
 import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
-import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
 
 import org.eclipse.core.resources.IFile;
@@ -32,6 +31,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -46,17 +46,9 @@ import org.eclipse.ui.part.FileEditorInput;
 public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService> {
 	private Text serviceNametf;
 	private Text foldertf;
-	private MultiPageEditor mpe;
 	private ParameterSection params;
 	
 	
-	/**
-	 * Ctor. pass master for openDirectory button action.
-	 * @param master the master page
-	 */
-	public CheckServiceDetailsPage(MultiPageEditor master) {
-		this.mpe = master;
-	}
 	/**
 	 * {@inheritDoc}
 	 *  (non-Javadoc)
@@ -115,7 +107,7 @@ public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService
 		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_BEGINNING);
 		browseb.setLayoutData(gd);
 		browseb.addSelectionListener(new SelectionAdapter() {
-			DirectoryDialog dialog = new DirectoryDialog(mpe.getSite().getShell()); 
+			DirectoryDialog dialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()); 
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				dialog.setText("Choose a work folder");
@@ -166,8 +158,13 @@ public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService
 		params.setInput(input.getParameters());
 		// CHECKSTYLE OFF
 		serviceNametf.setText(input != null && input.getName() != null ? input.getName() : "");
-		IFile pos = ((FileEditorInput) mpe.getEditorInput()).getFile();
-		foldertf.setText(input != null && input.getWorkDir(pos) != null ? input.getWorkDir() : "");		
+		try {
+			IFile pos = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile();
+			foldertf.setText(input != null && input.getWorkDir(pos) != null ? input.getWorkDir() : "");		
+		} catch (RuntimeException e) {
+			// it's ok, we didnt find the editor, tough luck.
+			foldertf.setText("");
+		}
 		// CHECKSTYLE ON
 	}
 	

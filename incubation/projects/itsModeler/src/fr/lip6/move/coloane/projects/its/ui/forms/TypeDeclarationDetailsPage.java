@@ -22,7 +22,6 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
-import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 
 
 import java.util.ArrayList;
@@ -59,15 +58,8 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 	private Text typeFormalismtf;
 	private Text typeFiletf;
 	private TableViewer lviewer;
-	private MultiPageEditor mpe;
 
-	/**
-	 * Ctor. pass master for openEditor button action.
-	 * @param master the master page
-	 */
-	public TypeDeclarationDetailsPage(MultiPageEditor master) {
-		this.mpe = master;
-	}
+
 	/**
 	 * {@inheritDoc}
 	 * @see org.eclipse.ui.forms.IDetailsPage#createContents(org.eclipse.swt.widgets.Composite)
@@ -143,7 +135,7 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		oeb.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				mpe.openEditor(getInput());
+				OpenEditorAction.openEditor(getInput());
 			}
 		});
 

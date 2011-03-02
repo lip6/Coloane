@@ -32,6 +32,7 @@ import fr.lip6.move.coloane.projects.its.order.Group;
 import fr.lip6.move.coloane.projects.its.order.Variable;
 import fr.lip6.move.coloane.projects.its.ui.forms.ConceptDetailsPage;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
+import fr.lip6.move.coloane.projects.its.ui.forms.OpenEditorAction;
 import fr.lip6.move.coloane.projects.its.ui.forms.TypeDeclarationDetailsPage;
 import fr.lip6.move.coloane.projects.its.ui.forms.VariableBindingDetailsPage;
 import fr.lip6.move.coloane.projects.its.variables.InstanceVariable;
@@ -120,7 +121,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		breload.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				page.getMpe().getTypes().reload();
+				page.getTypes().reload();
 			}
 		});
 		breload.setImage(ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_REFRESH));
@@ -216,7 +217,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 				try {
 					TreeSelection o = (TreeSelection) event.getSelection();
 					TypeDeclaration td = (TypeDeclaration) o.getFirstElement();
-					page.getMpe().openEditor(td);
+					OpenEditorAction.openEditor(td);
 				} catch (ClassCastException e) {
 					// a concept was double clicked
 					return;
@@ -262,15 +263,15 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 	 */
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(CompositeTypeDeclaration.class, new TypeDeclarationDetailsPage(getPage().getMpe()));
-		detailsPart.registerPage(TypeDeclaration.class, new TypeDeclarationDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(CompositeTypeDeclaration.class, new TypeDeclarationDetailsPage());
+		detailsPart.registerPage(TypeDeclaration.class, new TypeDeclarationDetailsPage());
 		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(this));
 		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
 		//checks
-		detailsPart.registerPage(CheckService.class, new ITSCheckServiceDetailsPage(getPage().getMpe()));
-		detailsPart.registerPage(CTLCheckService.class, new CTLCheckServiceDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(CheckService.class, new ITSCheckServiceDetailsPage());
+		detailsPart.registerPage(CTLCheckService.class, new CTLCheckServiceDetailsPage());
 		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage());
-		detailsPart.registerPage(OrderingService.class, new CheckServiceDetailsPage(getPage().getMpe()));
+		detailsPart.registerPage(OrderingService.class, new CheckServiceDetailsPage());
 		// orders
 		detailsPart.registerPage(Group.class, new OrderingDetailsPage());
 		detailsPart.registerPage(Variable.class, new OrderingDetailsPage());

@@ -23,12 +23,10 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 import fr.lip6.move.coloane.projects.its.checks.CTLCheckService;
-import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 
 public class CTLCheckServiceDetailsPage extends ITSCheckServiceDetailsPage {
 
-	public CTLCheckServiceDetailsPage(MultiPageEditor master) {
-		super(master);
+	public CTLCheckServiceDetailsPage() {
 		setShowRunButton(false);
 	}
 
