@@ -21,16 +21,16 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 /**
  * Use this checker to check if an attribute has a non empty value.
- *
+ * 
  * @author Jean-Baptiste Voron
  * @author Florian David
  */
-public class EmptyAttributeChecker implements IAttributeChecker {
+public final class EmptyAttributeChecker implements IAttributeChecker {
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public ICheckerResult performCheck(IAttribute attribute) {		
-		return new CheckerResult(attribute.getValue().isEmpty(), "Attribute "+attribute.getName()+ " should not be empty");
+	public ICheckerResult performCheck(IAttribute attribute) {
+		return new CheckerResult(attribute.getValue().isEmpty(), "Attribute " + attribute.getName() + " should not be empty");  //$NON-NLS-1$//$NON-NLS-2$
 	}
 }
