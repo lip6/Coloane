@@ -74,8 +74,7 @@ public class AttributeContainer {
 
 	/**
 	 * Set the attribute container position
-	 * @param x The new x position
-	 * @param y The new y position
+	 * @param newLocation  The new x,y position
 	 */
 	public final void setLocation(Point newLocation) {
 		this.location = newLocation;
