@@ -47,7 +47,7 @@ public class ServiceAction extends Action {
 	/** All information about the service */
 	private IServiceMenu serviceDescription;
 
-	final IWorkbenchWindow workbenchWindow;
+	private final IWorkbenchWindow workbenchWindow;
 
 	/**
 	 * Constructor
