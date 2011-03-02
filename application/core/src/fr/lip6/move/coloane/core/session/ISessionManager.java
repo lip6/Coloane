@@ -20,7 +20,6 @@ import fr.lip6.move.coloane.core.extensions.ApiDescription;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.Collection;
 import java.util.List;
 
