@@ -60,7 +60,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	/** Constructor */
 	StickyNoteModel() {
 		LOGGER.finest("Build a sticky note with default values"); //$NON-NLS-1$
-		this.location = new Point(0,0);
+		this.location = new Point(0, 0);
 		this.dimension = new Dimension(100, 70);
 	}
 
@@ -164,3 +164,5 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 		return "Sticky Note {" + text + "}"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 }
+
+
