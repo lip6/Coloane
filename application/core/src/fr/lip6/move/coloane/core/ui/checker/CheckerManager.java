@@ -16,7 +16,6 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
 import fr.lip6.move.coloane.core.session.ISession;
-import fr.lip6.move.coloane.core.ui.commands.CheckableCmd;
 import fr.lip6.move.coloane.interfaces.formalism.IArcChecker;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeChecker;
 import fr.lip6.move.coloane.interfaces.formalism.ICheckerResult;
@@ -239,7 +238,7 @@ public final class CheckerManager {
 	/**
 	 * Method call by {@link CheckableCmd} when an arc need to be checked.<br>
 	 * It checks severals others elements of the graph because when an arc need to be check, we don't know the reason.<br>
-	 * <u>Example :</u><br>
+	 * Example :<br>
 	 * If an arc is added, we need to check the arc itself and the source and target of the arc.
 	 * @param checker the checker used to check.
 	 * @param resource the resource file where markers are created.
@@ -276,7 +275,7 @@ public final class CheckerManager {
 	/**
 	 * Method call by {@link CheckableCmd} when a node need to be checked.<br>
 	 * It checks severals others elements of the graph because when a node need to be check, we don't know the reason.<br>
-	 * <u>Example :</u><br>
+	 * Example :<br>
 	 * If a node is deleted, we need to check incoming arcs and it source and outgoing arcs and it target.
 	 * @param checker the checker used to check.
 	 * @param resource the resource file where markers are created.
@@ -357,7 +356,7 @@ public final class CheckerManager {
 
 		for (GraphChecker graphChecker : checker.getGraphCheckers()) {
 			ICheckerResult r = graphChecker.check(graph);
-			if (r.hasFailed()){
+			if (r.hasFailed()) {
 				MarkerManager.getInstance().createGraphMarker(resource, r.getMessage(), graph, graphChecker.getSeverity());
 			}
 		}
