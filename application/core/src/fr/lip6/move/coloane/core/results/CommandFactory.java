@@ -43,13 +43,21 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
 
-public class CommandFactory {
+/**
+ * A factory for commands, to be built from REquest objects.
+ * @author JBV
+ *
+ */
+public abstract class CommandFactory {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
 	 * Produce a GEF command according to the request
-	 * @param request The request coming from the result object
+	 * 
+	 * @param request
+	 *            The request coming from the result object
+	 * @param graph the graph to apply the request on.
 	 * @return the corresponding command
 	 */
 	public static Command createCommand(IRequest request, IGraph graph) {
@@ -60,17 +68,17 @@ public class CommandFactory {
 			ArcCreateRequest arcCreateRequest = (ArcCreateRequest) request;
 			return new ArcCompleteCmd(arcCreateRequest.getSource(), arcCreateRequest.getTarget(), arcCreateRequest.getFormalism());
 
-		// Change attribute position
+			// Change attribute position
 		case IRequest.ATTRIBUTE_POSITION_REQUEST:
 			AttributePositionRequest attributePositionRequest = (AttributePositionRequest) request;
 			return new AttributeSetConstraintCmd(attributePositionRequest.getAttribute(), attributePositionRequest.getNewPosition());
 
-		// Change attribute value
+			// Change attribute value
 		case IRequest.ATTRIBUTE_CHANGEVALUE_REQUEST:
 			AttributeChangeValueRequest attributeChangeValueRequest = (AttributeChangeValueRequest) request;
 			return new AttributeEditCmd(attributeChangeValueRequest.getAttribute(), attributeChangeValueRequest.getNewValue());
 
-		// Reset the position of attributes attached to an object
+			// Reset the position of attributes attached to an object
 		case IRequest.ATTRIBUTE_RESET_POSITION_REQUEST:
 			AttributesResetPositionRequest attributesResetPositionRequest = (AttributesResetPositionRequest) request;
 			CompoundCommand resetAttributesPositionCommand = new CompoundCommand();
@@ -79,35 +87,38 @@ public class CommandFactory {
 			}
 			return resetAttributesPositionCommand;
 
-		// Create a new inflex point
+			// Create a new inflex point
 		case IRequest.INFLEXPOINT_CREATE_REQUEST:
 			InflexPointCreateRequest inflexPointCreateRequest = (InflexPointCreateRequest) request;
-			return new InflexCreateCmd(inflexPointCreateRequest.getArc(), inflexPointCreateRequest.getPosition(), inflexPointCreateRequest.getIndex());
+			return new InflexCreateCmd(inflexPointCreateRequest.getArc(), inflexPointCreateRequest.getPosition(),
+					inflexPointCreateRequest.getIndex());
 
-		// Remove all inflex points associated to an arc
+			// Remove all inflex points associated to an arc
 		case IRequest.INFLEXPOINTS_DELETE_REQUEST:
 			InflexPointsDeleteRequest inflexPointsDeleteRequest = (InflexPointsDeleteRequest) request;
-			// Build a compound command that delete all inflex points of the considered arc
+			// Build a compound command that delete all inflex points of the
+			// considered arc
 			CompoundCommand deleteInflexPointsCommand = new CompoundCommand();
-			for (int i = inflexPointsDeleteRequest.getArc().getInflexPoints().size()-1; i >=0 ; i--) {
+			for (int i = inflexPointsDeleteRequest.getArc().getInflexPoints().size() - 1; i >= 0; i--) {
 				deleteInflexPointsCommand.add(new InflexDeleteCmd(inflexPointsDeleteRequest.getArc(), i));
 			}
 			return deleteInflexPointsCommand;
 
-		// Create a node
+			// Create a node
 		case IRequest.NODE_CREATE_REQUEST:
 			NodeCreateRequest nodeCreateRequest = (NodeCreateRequest) request;
 			return new NodeCreateCmd(graph, nodeCreateRequest.getFormalism(), nodeCreateRequest.getInitialPosition());
 
-		// Remove a node
+			// Remove a node
 		case IRequest.NODE_DELETE_REQUEST:
 			NodeDeleteRequest nodeDeleteRequest = (NodeDeleteRequest) request;
 			return new NodeDeleteCmd(graph, nodeDeleteRequest.getElement());
 
-		// Move a node
+			// Move a node
 		case IRequest.NODE_POSITION_REQUEST:
 			NodePositionRequest nodePositionRequest = (NodePositionRequest) request;
-			return new LocatedElementSetConstraintCmd((ILocatedElement) nodePositionRequest.getElement(), nodePositionRequest.getNewPosition());
+			return new LocatedElementSetConstraintCmd((ILocatedElement) nodePositionRequest.getElement(),
+					nodePositionRequest.getNewPosition());
 
 		default:
 			LOGGER.warning("A request has not been recognized by the factory"); //$NON-NLS-1$
