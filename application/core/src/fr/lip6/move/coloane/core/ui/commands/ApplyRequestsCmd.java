@@ -18,7 +18,6 @@ package fr.lip6.move.coloane.core.ui.commands;
 import fr.lip6.move.coloane.core.results.CommandFactory;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.requests.IRequest;
-import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 
 import java.util.List;
 
@@ -33,12 +32,12 @@ import org.eclipse.gef.commands.CompoundCommand;
  * @see IResult
  */
 
-public class ApplyRequestsCmd extends CompoundCommand {
+public final class ApplyRequestsCmd extends CompoundCommand {
 	/** List of request to apply on the graph */
-	List<IRequest> requests;
+	private List<IRequest> requests;
 
 	/** The graph on which requests will be applied */
-	IGraph graph;
+	private IGraph graph;
 
 	/**
 	 * Constructor
