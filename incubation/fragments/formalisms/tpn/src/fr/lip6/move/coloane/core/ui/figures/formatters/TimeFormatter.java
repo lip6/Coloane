@@ -21,11 +21,22 @@ import fr.lip6.move.coloane.interfaces.model.IElement;
 
 import java.text.DecimalFormatSymbols;
 
-public class TimeFormatter implements IAttributeFormatter {
+/**
+ * A formatter to make pretty display of Eft and Lft including infinity symbol.
+ *
+ * @author Yann
+ *
+ */
+public final class TimeFormatter implements IAttributeFormatter {
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String applyFormat(String value, IElement parentElement) {
-		String earlyValue = parentElement.getAttribute("earliestFiringTime").getValue();
-		String latestValue = parentElement.getAttribute("latestFiringTime").getValue();
+		String earlyValue = parentElement.getAttribute("earliestFiringTime")
+				.getValue();
+		String latestValue =
+			parentElement.getAttribute("latestFiringTime").getValue();
 		String paren = "]";
 		if (latestValue.equalsIgnoreCase("inf")) {
 			if ("0".equalsIgnoreCase(earlyValue)) {
@@ -35,9 +46,9 @@ public class TimeFormatter implements IAttributeFormatter {
 			latestValue = new DecimalFormatSymbols().getInfinity();
 			paren = "[";
 		}
-		
+
 		if (!earlyValue.equals("") && !latestValue.equals("")) {
-			return "[" + earlyValue + "," + latestValue + paren; 
+			return "[" + earlyValue + "," + latestValue + paren;
 		}
 		return null;
 	}
