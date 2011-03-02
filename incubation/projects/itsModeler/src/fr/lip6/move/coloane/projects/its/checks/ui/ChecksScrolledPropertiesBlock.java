@@ -21,7 +21,6 @@ import fr.lip6.move.coloane.projects.its.Concept;
 import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
-import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
 import fr.lip6.move.coloane.projects.its.checks.CheckService;
