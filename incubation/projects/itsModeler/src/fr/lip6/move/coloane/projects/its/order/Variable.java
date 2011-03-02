@@ -19,35 +19,68 @@ package fr.lip6.move.coloane.projects.its.order;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class Variable implements Ordering {
+/**
+ * A basic variable, leaf in the ordering scheme.
+ * @author Yann
+ *
+ */
+public final class Variable implements Ordering {
 
 	private String name;
 
+	/**
+	 * Sets the variable's name.
+	 * @param name the name of this basic variable.
+	 */
 	public Variable(String name) {
 		this.name = name;
 	}
 	
+	/**
+	 * Basic variables have integer domain.
+	 * {@inheritDoc}
+	 */
 	public Domain getDomain() {
 		return Domain.Integer;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Children iterator : no children.
+	 * @return the empty list iterator
+	 */
 	@SuppressWarnings("unchecked")
 	public Iterator<Ordering> iterator() {
 		return Collections.EMPTY_LIST.iterator();
 	}
 
+	/**
+	 * No children, always return 0.
+	 * {@inheritDoc}
+	 * @return 0
+	 */
 	public int getVarIndex(String value) {
 		return 0;
 	}
 
+	/**
+	 * Unsupported Operation Exception thrown.
+	 * {@inheritDoc}
+	 */
 	public void insertVarAtIndex(String value, int index) {
 		throw new UnsupportedOperationException();
 	}
 	
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}

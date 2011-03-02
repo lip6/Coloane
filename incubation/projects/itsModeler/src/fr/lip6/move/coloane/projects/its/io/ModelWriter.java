@@ -38,10 +38,15 @@ public final class ModelWriter {
 	/**
 	 * No instance of utility class.
 	 */
-	private ModelWriter() { }
-	
-	/** Compute an xml string representing the TypeList for serialization purposes.
-	 * @param types the types to export
+	private ModelWriter() {
+	}
+
+	/**
+	 * Compute an xml string representing the TypeList for serialization
+	 * purposes.
+	 * 
+	 * @param types
+	 *            the types to export
 	 * @return a string containing the file
 	 */
 	public static String translateToXML(TypeList types) {
@@ -49,7 +54,8 @@ public final class ModelWriter {
 		ids = new HashMap<Object, Integer>();
 		nextID = 7000;
 		// XML header
-		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
+		StringBuilder line = new StringBuilder(
+				"<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
 
 		// Ecriture des attributs relatifs au formalisme et positions
 		line.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$
@@ -78,8 +84,7 @@ public final class ModelWriter {
 		line.append("<checks>\n"); //$NON-NLS-1$
 		line.append(translateChecksToXML(types));
 		line.append("</checks>\n"); //$NON-NLS-1$
-		
-		
+
 		line.append("</model>"); //$NON-NLS-1$
 
 		// explicit free of memory + clear
@@ -88,8 +93,13 @@ public final class ModelWriter {
 		return line.toString();
 	}
 
-
-
+	/**
+	 * Builds a String for XML representation of a TypeList.
+	 * 
+	 * @param types
+	 *            to export
+	 * @return XML String
+	 */
 	private static String translateChecksToXML(TypeList types) {
 		StringBuilder sb = new StringBuilder();
 		// foreach check list
@@ -105,7 +115,7 @@ public final class ModelWriter {
 				sb.append(" description='").append(cfd.getComments()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 				sb.append(" formula='").append(cfd.getCtlFormula()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 				// Fin du noeud
-				sb.append("/>\n"); //$NON-NLS-1$				
+				sb.append("/>\n"); //$NON-NLS-1$
 			}
 			sb.append("</formulas>\n");
 			sb.append("</check>\n"); //$NON-NLS-1$
@@ -115,7 +125,9 @@ public final class ModelWriter {
 
 	/**
 	 * Traduction des noeuds du modele en format XML
-	 * @param types Le modele
+	 * 
+	 * @param types
+	 *            Le modele
 	 * @return Une chaine de caracteres decrivant en XML les noeuds du modele
 	 */
 	private static String translateTypesToXML(TypeList types) {
@@ -134,9 +146,12 @@ public final class ModelWriter {
 		}
 		return sb.toString();
 	}
+
 	/**
 	 * Traduction des noeuds du modele en format XML
-	 * @param types Le modele
+	 * 
+	 * @param types
+	 *            Le modele
 	 * @return Une chaine de caracteres decrivant en XML les noeuds du modele
 	 */
 	private static String translateConceptsToXML(TypeList types) {
@@ -162,9 +177,12 @@ public final class ModelWriter {
 		}
 		return sb.toString();
 	}
+
 	/**
 	 * Traduction des noeuds du modele en format XML
-	 * @param types Le modele
+	 * 
+	 * @param types
+	 *            Le modele
 	 * @return Une chaine de caracteres decrivant en XML les noeuds du modele
 	 */
 	private static String translateParametersToXML(TypeList types) {
@@ -191,5 +209,3 @@ public final class ModelWriter {
 	}
 
 }
-
-

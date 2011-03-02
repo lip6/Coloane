@@ -16,20 +16,35 @@
  */
 package fr.lip6.move.coloane.projects.its.order;
 
+import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 
-public class Orders extends SimpleObservable implements Iterable<Ordering> {
+/**
+ * A hierarchical variable order, carries Ordering objects.
+ * @author Yann
+ *
+ */
+public final class Orders extends SimpleObservable implements Iterable<Ordering> {
 
 	private List<Ordering> orders = new ArrayList<Ordering>();
 	
+	/**
+	 * Iterator over children.
+	 * @return children iterator
+	 */
 	public Iterator<Ordering> iterator() {
 		return orders.iterator();
 	}
 
+	/**
+	 * Adds a child Ordering object.
+	 * @param name name for this order
+	 * @param order order to be added
+	 */
 	public void addOrder(String name, Ordering order) {
 		Group parent = new Group(name);
 		parent.addChild(order);

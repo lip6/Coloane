@@ -27,7 +27,6 @@ import fr.lip6.move.coloane.projects.its.Concept;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
 
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -40,29 +39,33 @@ import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 
-
-/** This class handles all that is necessary to convert a given **resolved** ITS type
- * to the input format used by SDD-ITS (the C++ model-checking component).
- * Essentially responsibility is:
- * * find all dependent types + sort them to have an easy declaration order.
- * * Replace any concepts or parameters of the type with their resolved values
- * * then export each type in a separate file
- * * create the ITSModel file (=> a list of types)
- * * add the "main instance" line
+/**
+ * This class handles all that is necessary to convert a given **resolved** ITS
+ * type to the input format used by SDD-ITS (the C++ model-checking component).
+ * Essentially responsibility is: * find all dependent types + sort them to have
+ * an easy declaration order. * Replace any concepts or parameters of the type
+ * with their resolved values * then export each type in a separate file *
+ * create the ITSModel file (=> a list of types) * add the "main instance" line
  * 
  * @author Yann
- *
+ * 
  */
 public final class ITSModelWriter {
 
 	/**
 	 * The main export function.
-	 * @param types The set of types
-	 * @param type the type to export
-	 * @param directory the folder to export to
-	 * @throws ColoaneException in case of any IO or instantiation error.
+	 * 
+	 * @param types
+	 *            The set of types
+	 * @param type
+	 *            the type to export
+	 * @param directory
+	 *            the folder to export to
+	 * @throws ExtensionException
+	 *             in case of any IO or instantiation error.
 	 */
-	public void exportITSModel(TypeList types, TypeDeclaration type, String directory) throws ExtensionException {
+	public void exportITSModel(TypeList types, TypeDeclaration type,
+			String directory) throws ExtensionException {
 		// the types which need to be declared.
 
 		List<TypeDeclaration> toProcess = new ArrayList<TypeDeclaration>();
@@ -70,10 +73,12 @@ public final class ITSModelWriter {
 
 		try {
 			// test folder existence, create if it does not exist
-			
+
 			// File creation
-			FileOutputStream writer = new FileOutputStream(new File(directory + "/modelMain.xml")); //$NON-NLS-1$
-			BufferedWriter sb = new BufferedWriter(new OutputStreamWriter(writer));
+			FileOutputStream writer = new FileOutputStream(new File(directory
+					+ "/modelMain.xml")); //$NON-NLS-1$
+			BufferedWriter sb = new BufferedWriter(new OutputStreamWriter(
+					writer));
 
 			sb.append("<?xml version='1.0' encoding='UTF-8'?>\n");
 			sb.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'>\n");
@@ -85,29 +90,42 @@ public final class ITSModelWriter {
 				// handle parameter instantiation
 				IGraph satGraph = td.getInstantiatedGraph();
 
-
 				// composite case
 				if (td instanceof CompositeTypeDeclaration) {
 					CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) td;
 					assert ctd.isSatisfied();
 
-					// replace the instance types by their corresponding concept name
+					// replace the instance types by their corresponding concept
+					// name
 					for (INode node : satGraph.getNodes()) {
-						if ("instance".equals(node.getNodeFormalism().getName())) {
+						if ("instance"
+								.equals(node.getNodeFormalism().getName())) {
 							IAttribute instType = node.getAttribute("type");
-							instType.setValue(ctd.getConcept(instType.getValue()).getEffective().getTypeName());
+							instType.setValue(ctd
+									.getConcept(instType.getValue())
+									.getEffective().getTypeName());
 						}
 					}
 					// export the composite ITS to simple xml format.
-					new ExportToCompositeITS().export(satGraph, directory + "/" + ctd.getTypeName() + ".xml", new NullProgressMonitor());
-					sb.append("<type name='" + ctd.getTypeName() + "' formalism='" + ctd.getTypeType() + "' format='Composite' path='./" + ctd.getTypeName() + ".xml' />\n");
+					new ExportToCompositeITS().export(satGraph, directory + "/"
+							+ ctd.getTypeName() + ".xml",
+							new NullProgressMonitor());
+					sb.append("<type name='" + ctd.getTypeName()
+							+ "' formalism='" + ctd.getTypeType()
+							+ "' format='Composite' path='./"
+							+ ctd.getTypeName() + ".xml' />\n");
 				} else {
 					// Basic case
 					// currently no parameters to instantiate
 
 					// export the TPN to Romeo xml format.
-					new ExportToRomeo().export(satGraph, directory + "/" + td.getTypeName() + ".xml", new NullProgressMonitor());
-					sb.append("<type name='" + td.getTypeName() + "' formalism='Time Petri Net' format='Romeo' path='./" + td.getTypeName() + ".xml' />\n");
+					new ExportToRomeo().export(satGraph,
+							directory + "/" + td.getTypeName() + ".xml",
+							new NullProgressMonitor());
+					sb.append("<type name='"
+							+ td.getTypeName()
+							+ "' formalism='Time Petri Net' format='Romeo' path='./"
+							+ td.getTypeName() + ".xml' />\n");
 				}
 			}
 
@@ -121,21 +139,28 @@ public final class ITSModelWriter {
 			sb.close();
 			writer.close();
 		} catch (FileNotFoundException fe) {
-			Logger.getLogger("fr.lip6.move.coloane.core").warning("Error when creating file : bad file name."+fe);
-			throw new ExtensionException("Invalid filename !" +fe);
+			Logger.getLogger("fr.lip6.move.coloane.core").warning(
+					"Error when creating file : bad file name." + fe);
+			throw new ExtensionException("Invalid filename !" + fe);
 		} catch (IOException ioe) {
-			Logger.getLogger("fr.lip6.move.coloane.core").warning("Erreur writing in file " + ioe);
+			Logger.getLogger("fr.lip6.move.coloane.core").warning(
+					"Erreur writing in file " + ioe);
 			throw new ExtensionException("Write error :" + ioe.getMessage());
 		}
 	}
 
 	/**
 	 * Construct the list of types that need to be exported, in a correct order.
-	 * @param types the type list
-	 * @param type the type to export
-	 * @param todo used in recursive calls
+	 * 
+	 * @param types
+	 *            the type list
+	 * @param type
+	 *            the type to export
+	 * @param todo
+	 *            used in recursive calls
 	 */
-	private void getDependentTypes(TypeList types, TypeDeclaration type, List<TypeDeclaration> todo) {
+	private void getDependentTypes(TypeList types, TypeDeclaration type,
+			List<TypeDeclaration> todo) {
 
 		if (type instanceof CompositeTypeDeclaration) {
 			CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) type;

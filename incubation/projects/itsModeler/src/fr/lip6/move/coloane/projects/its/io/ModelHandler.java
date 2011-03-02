@@ -131,14 +131,17 @@ public class ModelHandler extends DefaultHandler {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
 		readString = new String(arg0, arg1, arg2);
 	}
 	
 	/**
-	 * Parse a concept description
-	 * @param attributes the attributes of the concept in XML
+	 * Parse a check description :type declaration field.
+	 * @param typeid the type name
 	 * @throws SAXException any parse error
 	 */
 	private CheckList handleCheck(String typeid) throws SAXException {

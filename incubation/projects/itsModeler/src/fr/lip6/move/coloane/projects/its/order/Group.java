@@ -20,32 +20,68 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Group implements Ordering {
+/**
+ * A Group or Composite variable in an ordering.
+ * 
+ * @author Yann
+ * 
+ */
+public final class Group implements Ordering {
 
 	private String name;
-	
-	private List<Ordering> children = new ArrayList<Ordering> ();
 
+	private List<Ordering> children = new ArrayList<Ordering>();
+
+	/**
+	 * Sets this group's or composite variable name.
+	 * 
+	 * @param name name of this variable
+	 */
 	public Group(String name) {
 		this.name = name;
 	}
-	
+
+	/**
+	 * Composite variables have SDD domain. {@inheritDoc}
+	 */
 	public Domain getDomain() {
 		return Domain.SDD;
 	}
 
+	/**
+	 * Name accessor.
+	 * 
+	 * @return this variable's non-qualified name.
+	 */
 	public String getName() {
 		return name;
 	}
-	
-	public void addChild (Ordering o)  {
+
+	/**
+	 * Composite DP : add a child Ordering object.
+	 * 
+	 * @param o
+	 *            child to be added
+	 */
+	public void addChild(Ordering o) {
 		children.add(o);
 	}
 
+	/**
+	 * Accessor for children of this Ordering.
+	 * 
+	 * @return iterator over children.
+	 */
 	public Iterator<Ordering> iterator() {
 		return children.iterator();
 	}
 
+	/**
+	 * Return index of variable queried for in children table.
+	 * {@inheritDoc}
+	 * @return 0 if not found, the index otherwise.
+	 * 
+	 */
 	public int getVarIndex(String value) {
 		for (int i = 0; i < children.size(); i++) {
 			if (children.get(i).getName().equals(value)) {
@@ -55,10 +91,22 @@ public class Group implements Ordering {
 		return 0;
 	}
 
+	/**
+	 * Add a variable at the provided index.
+	 * 
+	 * @param value
+	 *            the variable name
+	 * @param index
+	 *            the index to be set
+	 */
 	public void insertVarAtIndex(String value, int index) {
 		children.add(index, new Variable(value));
 	}
-	
+
+	/**
+	 * Sets the name for this Group object.
+	 * {@inheritDoc}
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}

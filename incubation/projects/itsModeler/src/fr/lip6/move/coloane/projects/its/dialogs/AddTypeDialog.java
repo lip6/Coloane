@@ -20,6 +20,9 @@ import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 
+import java.io.IOException;
+
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -197,7 +200,7 @@ public final class AddTypeDialog extends TitleAreaDialog {
 		}
 		try {
 			type = TypeDeclaration.create(typeName, file, types);
-		} catch (Exception ex) {
+		} catch (IOException ex) {
 			setErrorMessage("Error loading model file: "
 					+ "Your file does not seem to contain a recognized Coloane model. Details:\n" + ex.getMessage());
 			return;
