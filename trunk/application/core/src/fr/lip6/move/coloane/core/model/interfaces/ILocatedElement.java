@@ -15,8 +15,6 @@
  */
 package fr.lip6.move.coloane.core.model.interfaces;
 
-import fr.lip6.move.coloane.core.model.AttributeModel;
-import fr.lip6.move.coloane.core.model.NodeModel;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
@@ -39,9 +37,11 @@ public interface ILocatedElement {
 	ILocationInfo getLocationInfo();
 
 	/**
-	 * @return the guide to which this object is attached
+	 * Return the objects's vertical/horizontal guide.
 	 * @see EditorGuide.#HORIZONTAL_ORIENTATION
 	 * @see EditorGuide.#VERTICAL_ORIENTATION
+	 * @param orientation vertical or horizontal
+	 * @return the guide to which this object is attached
 	 */
 	EditorGuide getGuide(int orientation);
 
@@ -52,8 +52,9 @@ public interface ILocatedElement {
 	void setGuide(EditorGuide guide);
 
 	/**
-	 * Remove (detach) a guide from this object
-	 * @param guide The guide to remove
+	 * Remove (detach) a guide from this object.
+	 * 
+	 * @param orientation The guide orientation to remove
 	 */
 	void removeGuide(int orientation);
 }
