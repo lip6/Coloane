@@ -15,7 +15,6 @@
  */
 package fr.lip6.move.coloane.core.ui;
 
-import fr.lip6.move.coloane.core.ui.actions.LocalAction;
 import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
@@ -36,18 +35,18 @@ import org.eclipse.core.runtime.jobs.Job;
  *
  * @author Jean-Baptiste Voron
  */
-public class ColoaneJob extends Job {
+public final class ColoaneJob extends Job {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** The set of results */
-	List<IResult> results;
+	private List<IResult> results;
 
 	/** The action */
-	IService action;
+	private IService action;
 
 	/** The graph on which the action has to be performed */
-	IGraph graph;
+	private IGraph graph;
 
 	/**
 	 * Constructor
@@ -77,7 +76,7 @@ public class ColoaneJob extends Job {
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
 		try {
-			this.results = this.action.run(this.graph,monitor);
+			this.results = this.action.run(this.graph, monitor);
 			if (this.results == null) {
 				return Status.CANCEL_STATUS;
 			}
@@ -90,7 +89,7 @@ public class ColoaneJob extends Job {
 
 	/** {@inheritDoc} */
 	@Override
-	protected final void canceling() {
+	protected void canceling() {
 		LOGGER.warning("The job " + this.getName() + " has received an INTERRUPT request : "); //$NON-NLS-1$//$NON-NLS-2$
 		getThread().interrupt();
 		super.canceling();
