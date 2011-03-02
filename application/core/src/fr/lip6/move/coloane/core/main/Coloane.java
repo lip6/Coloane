@@ -68,6 +68,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * This is the first called method when the Coloane perspective is loaded
 	 * @param context System parameters
 	 * @see AbstractUIPlugin
+	 * @exception Exception if super.start() does not work.
 	 */
 	@Override
 	public final void start(BundleContext context) throws Exception {
@@ -127,6 +128,7 @@ public class Coloane extends AbstractUIPlugin {
 	/**
 	 * What to do when Coloane plug-in is stopped ?
 	 * @param context System parameters
+	 * @exception Exception if super.stop() fails
 	 */
 	@Override
 	public final void stop(BundleContext context) throws Exception {
@@ -156,8 +158,9 @@ public class Coloane extends AbstractUIPlugin {
 	public static void showErrorMsg(String msg) {
 		LOGGER.warning("Affichage d'un message d'erreur : " + msg); //$NON-NLS-1$
 		IWorkbenchWindow activeWorkbenchWindow = instance.getWorkbench().getActiveWorkbenchWindow();
-		if (activeWorkbenchWindow != null)
+		if (activeWorkbenchWindow != null) {
 			MessageDialog.openError(activeWorkbenchWindow.getShell(), "Coloane Error", msg); //$NON-NLS-1$
+		}
 	}
 
 	/**
@@ -187,7 +190,7 @@ public class Coloane extends AbstractUIPlugin {
 	private void initializeLogger() {
 		LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 		// TODO: Should be defined in a property page...
-		LOGGER.setLevel(Level.ALL); // All messages are logged
+		LOGGER.setLevel(Level.FINE); // Finer/Finest messages are discarded
 
 		// Log messages are displayed in the system console
 		LOGGER.addHandler(new ConsoleHandler());
