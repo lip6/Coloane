@@ -24,7 +24,6 @@ import fr.lip6.move.coloane.core.ui.checker.Checker;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.objects.result.Tip;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -54,7 +53,7 @@ import org.eclipse.ui.console.MessageConsole;
  *
  * @author Jean-Baptiste Voron
  */
-public class Session implements ISession {
+public final class Session implements ISession {
 	/** Session identifier */
 	private String sessionId;
 
@@ -80,8 +79,10 @@ public class Session implements ISession {
 	private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	/**
-	 * Constructor<br>
-	 * @param sessionId The session name
+	 * Constructor.
+	 * @param sessionId The session name, non null and non empty
+	 * @param graph The graph, non null.
+	 * @throws ColoaneException if arguments are null or empty
 	 */
 	Session(String sessionId, IGraph graph) throws ColoaneException {
 		// The name must not be null
@@ -103,14 +104,14 @@ public class Session implements ISession {
 
 	/** {@inheritDoc} */
 	@Override
-	public final String toString() {
+	public String toString() {
 		return this.sessionId;
 	}
 
 	/**
 	 * Resume the session
 	 */
-	public final void resume() {
+	public void resume() {
 		if (console != null) {
 			ConsolePlugin.getDefault().getConsoleManager().showConsoleView(console);
 		}
@@ -119,24 +120,24 @@ public class Session implements ISession {
 	/**
 	 * Destroy the session
 	 */
-	public final void destroy() {
+	public void destroy() {
 		if (console != null) {
 			ConsolePlugin.getDefault().getConsoleManager().removeConsoles(new IConsole[] {console});
 		}
 	}
 
 	/** {@inheritDoc} */
-	public final String getSessionId() {
+	public String getSessionId() {
 		return this.sessionId;
 	}
 
 	/** {@inheritDoc} */
-	public final IGraph getGraph() {
+	public IGraph getGraph() {
 		return this.graph;
 	}
 
 	/** {@inheritDoc} */
-	public final void setChecker(Checker checker) {
+	public void setChecker(Checker checker) {
 		this.checker = checker;
 	}
 
@@ -154,7 +155,7 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final ResultManager getResultManager() {
+	public ResultManager getResultManager() {
 		if (this.resultManager == null) {
 			this.resultManager = new ResultManager();
 		}
@@ -162,7 +163,7 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final Collection<ICoreTip> getTips() {
+	public Collection<ICoreTip> getTips() {
 		List<ICoreTip> list = new ArrayList<ICoreTip>();
 		for (List<ICoreTip> values : tips.values()) {
 			list.addAll(values);
@@ -171,7 +172,7 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final Collection<ICoreTip> getTipForObject(int id) {
+	public Collection<ICoreTip> getTipForObject(int id) {
 		List<ICoreTip> list = tips.get(id);
 		if (list == null) {
 			// Return an empty list
@@ -200,7 +201,7 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final void addAllTips(Collection<ICoreTip> tips) {
+	public void addAllTips(Collection<ICoreTip> tips) {
 		for (ICoreTip tip : tips) {
 			List<ICoreTip> values = this.tips.get(tip.getIdObject());
 			if (values == null) {
@@ -213,7 +214,7 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final void removeTips(Collection<ICoreTip> tips) {
+	public void removeTips(Collection<ICoreTip> tips) {
 		for (ICoreTip tip : tips) {
 			List<ICoreTip> values = this.tips.get(tip.getIdObject());
 
@@ -240,12 +241,12 @@ public class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
-	public final synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
+	public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs .addPropertyChangeListener(listener);
 	}
 
 	/** {@inheritDoc} */
-	public final synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
+	public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
 
@@ -255,7 +256,7 @@ public class Session implements ISession {
 	 * @param oldValue The old property value
 	 * @param newValue The new property value
 	 */
-	protected final void firePropertyChange(final String property, final Object oldValue, final Object newValue) {
+	protected void firePropertyChange(final String property, final Object oldValue, final Object newValue) {
 		Display.getDefault().asyncExec(new Runnable() {
 			public void run() {
 				if (pcs.hasListeners(property)) {
