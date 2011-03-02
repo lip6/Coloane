@@ -92,7 +92,7 @@ public class ResetAttributesLocationAction extends SelectionAction {
 		if (attributesToReset == null) { return; }
 
 		for (IAttribute attribute : attributesToReset) {
-			commandsGroup.add(new AttributeSetConstraintCmd(attribute, new Point(-1,-1)));
+			commandsGroup.add(new AttributeSetConstraintCmd(attribute, new Point(-1, -1)));
 		}
 		execute(commandsGroup);
 	}
