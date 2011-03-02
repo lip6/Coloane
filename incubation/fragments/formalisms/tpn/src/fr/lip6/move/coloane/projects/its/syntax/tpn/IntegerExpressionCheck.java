@@ -23,11 +23,11 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.projects.its.expression.ExpressionFactory;
 import fr.lip6.move.coloane.projects.its.expression.ExpressionParseResult;
 
-
 /**
  * A syntax rule to check the EFT is before LFT.
+ * 
  * @author Yann
- *
+ * 
  */
 public final class IntegerExpressionCheck implements IAttributeChecker {
 
@@ -36,37 +36,41 @@ public final class IntegerExpressionCheck implements IAttributeChecker {
 	 */
 	public ICheckerResult check(IAttribute att) {
 
-		if (att.getValue() != null && ! att.getValue().equals("")) {
+		if (att.getValue() != null && !att.getValue().equals("")) {
 
-			ExpressionParseResult epr = ExpressionFactory.parseExpression(att.getValue());
+			ExpressionParseResult epr = ExpressionFactory.parseExpression(att
+					.getValue());
 			int nberr = epr.getErrorCount();
-			String msg ="";
-				if (nberr == 0) {
-					return new CheckerResult(false, "");
-				} else if (nberr > 1) {
-					msg = "Multiple syntax errors ";
-				} else {
-					msg = "Syntax error ";
-				}
-				msg += "parsing integer expression for \""+att.getName()+"\". Use $ to prefix variables, and arithmetic operations only.\n";
-				for (String error: epr.getErrors()) {
-					msg += error + "\n";
-				}
-				return new CheckerResult(true, msg);
+			String msg = "";
+			if (nberr == 0) {
+				return new CheckerResult(false, "");
+			} else if (nberr > 1) {
+				msg = "Multiple syntax errors ";
+			} else {
+				msg = "Syntax error ";
+			}
+			msg += "parsing integer expression for \""
+					+ att.getName()
+					+ "\". Use $ to prefix variables, and arithmetic operations only.\n";
+			for (String error : epr.getErrors()) {
+				msg += error + "\n";
+			}
+			return new CheckerResult(true, msg);
 		}
-
 
 		return new CheckerResult(false, "");
 	}
 
-//	void addCheckFail (IElement elt, IAttribute att, String msg, Result result) {
-//		SubResult sr = new SubResult();
-//		sr.setName(getName());
-//		sr.addAttributeOutline(elt.getId(), att.getName());
-//		sr.addObjectOutline(elt.getId());
-//		sr.addTextualResults("Syntax error parsing integer expression for \""+att.getName()+"\". Use $ to prefix variables, and arithmetic operations only.\n" + msg);
-//		result.addChild(sr);
-//	}
+	// void addCheckFail (IElement elt, IAttribute att, String msg, Result
+	// result) {
+	// SubResult sr = new SubResult();
+	// sr.setName(getName());
+	// sr.addAttributeOutline(elt.getId(), att.getName());
+	// sr.addObjectOutline(elt.getId());
+	// sr.addTextualResults("Syntax error parsing integer expression for \""+att.getName()+"\". Use $ to prefix variables, and arithmetic operations only.\n"
+	// + msg);
+	// result.addChild(sr);
+	// }
 
 	/**
 	 * {@inheritDoc}
@@ -75,8 +79,9 @@ public final class IntegerExpressionCheck implements IAttributeChecker {
 		return "Integer expressions syntax check.";
 	}
 
-
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public ICheckerResult performCheck(IAttribute attribute) {
 		return check(attribute);
 	}
