@@ -16,7 +16,16 @@
  */
 package fr.lip6.move.coloane.projects.its;
 
+/**
+ * An object that carries a list of ITS types, a.k.a ITSModel.
+ * @author Yann
+ *
+ */
 public interface ITypeListProvider {
 	
+	/**
+	 * Obtain the list of ITS types in this referential.
+	 * @return a TypeList object.
+	 */
 	TypeList getTypes();
 }

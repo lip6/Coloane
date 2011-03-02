@@ -54,15 +54,15 @@ import java.util.logging.Logger;
 import org.eclipse.core.resources.IFile;
 
 /**
- * A type declaration, base class for {@link CompositeTypeDeclaration}.
- * Handles :
- * * load from XML of a graph (factory style)
- * * parameters (variables in the models)
- * * model role : notification of updates
+ * A type declaration, base class for {@link CompositeTypeDeclaration}. Handles
+ * : * load from XML of a graph (factory style) * parameters (variables in the
+ * models) * model role : notification of updates
+ * 
  * @author Yann
- *
+ * 
  */
-public class TypeDeclaration extends SimpleObservable implements ISimpleObserver {
+public class TypeDeclaration extends SimpleObservable implements
+		ISimpleObserver {
 	private String typeName;
 	private IFile typeFile;
 	/** The underlying coloane Graph */
@@ -75,12 +75,18 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * Protected ctor used to initialize a td.
-	 * @param typeName name of type
-	 * @param modelFile file (resource) holding the model
-	 * @param graph graph loaded from file
-	 * @param types types to add to (parent)
+	 * 
+	 * @param typeName
+	 *            name of type
+	 * @param modelFile
+	 *            file (resource) holding the model
+	 * @param graph
+	 *            graph loaded from file
+	 * @param types
+	 *            types to add to (parent)
 	 */
-	protected TypeDeclaration(String typeName, IFile modelFile, IGraph graph, TypeList types) {
+	protected TypeDeclaration(String typeName, IFile modelFile, IGraph graph,
+			TypeList types) {
 		this.typeName = typeName;
 		typeFile = modelFile;
 		this.graph = graph;
@@ -89,13 +95,21 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * Accessor, return the (unique in the types list) name of this type.
+	 * 
 	 * @return the name of this type
 	 */
 	public final String getTypeName() {
 		return typeName;
 	}
 
-	public int getIntegerAttributeValue (IAttribute a) {
+	/**
+	 * Compute the resulting value of the attribute, when substituting variables
+	 * by their values.
+	 * 
+	 * @param a the attribute whose value should be an IntegerExpression
+	 * @return the integer value post-substitution
+	 */
+	public final int getIntegerAttributeValue(IAttribute a) {
 		IntegerExpression expr = attribs.get(a);
 		if (expr == null) {
 			try {
@@ -110,7 +124,9 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * Update the type name, notify observers.
-	 * @param typeName the new name
+	 * 
+	 * @param typeName
+	 *            the new name
 	 */
 	public final void setTypeName(String typeName) {
 		if (!this.typeName.equals(typeName)) {
@@ -121,20 +137,25 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * Workspace path to file resource.
+	 * 
 	 * @return path to the resource
 	 */
 	public final String getTypePath() {
 		return typeFile.getFullPath().toString();
 	}
+
 	/**
 	 * The resource this type is built upon.
+	 * 
 	 * @return the file resource of the coloane model
 	 */
 	public final IFile getTypeFile() {
 		return typeFile;
 	}
+
 	/**
 	 * The formalism name of this type's graph.
+	 * 
 	 * @return qualified formalism name
 	 */
 	public final String getTypeType() {
@@ -143,18 +164,25 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * The graph of the underlying coloane model.
+	 * 
 	 * @return the graph
 	 */
 	public final IGraph getGraph() {
 		return graph;
 	}
-	/**  Load a IGraph from a file
-	 * @param typePath the file to load from
-	 * @return 	the coloane graph model
-	 * @throws IOException if any problems during parse or file load.
+
+	/**
+	 * Load a IGraph from a file
+	 * 
+	 * @param typePath
+	 *            the file to load from
+	 * @return the coloane graph model
+	 * @throws IOException
+	 *             if any problems during parse or file load.
 	 */
 	private static IGraph loadGraph(IFile typePath) throws IOException {
-		// Construction d'un modele en memoire a partir de se representation en XML
+		// Construction d'un modele en memoire a partir de se representation en
+		// XML
 		IGraph graph = ModelLoader.loadGraphFromXML(typePath);
 
 		// Si le chargement a �chou�, on annule l'ouverture de l'�diteur
@@ -166,13 +194,19 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * Factory operation to build concrete TypeDescriptions
-	 * @param name name of the resulting type
-	 * @param file the base file containing a coloane model
-	 * @param types the types to load into
+	 * 
+	 * @param name
+	 *            name of the resulting type
+	 * @param file
+	 *            the base file containing a coloane model
+	 * @param types
+	 *            the types to load into
 	 * @return an initialized type declaration instance
-	 * @throws IOException in case of XML read/file open problems
+	 * @throws IOException
+	 *             in case of XML read/file open problems
 	 */
-	public static TypeDeclaration create(String name, IFile file, TypeList types) throws IOException {
+	public static TypeDeclaration create(String name, IFile file, TypeList types)
+			throws IOException {
 		IGraph graph = loadGraph(file);
 		String form = graph.getFormalism().getName();
 		if (form.equals("ITSComposite") || form.equals("Scalar Set Composite")) {
@@ -184,6 +218,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * Compute the interface of a type.
+	 * 
 	 * @return the set of public labels of this type (ITS action alphabet)
 	 * 
 	 */
@@ -206,6 +241,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * Handle caching of computeLabels.
+	 * 
 	 * @return the interface (ITS action alphabet) of this type
 	 */
 	public final Collection<String> getLabels() {
@@ -217,6 +253,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * Handle caching of computeVariables.
+	 * 
 	 * @return the interface (ITS action alphabet) of this type
 	 */
 	public final Collection<IModelVariable> getVariables() {
@@ -226,28 +263,47 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		return variables;
 	}
 
-
-
-	public IModelVariable findQualifiedVariable (String name) {
-		for (IModelVariable var: getVariables()) {
-			IModelVariable found = findQualifiedVariableRec(var,name);
-			if (found != null)
+	/**
+	 * Attempt to resolve a name as a qualified variable. 
+	 * e.g. V1.V2.X
+	 * @param name the variable fully qualified name
+	 * @return the corresponding variable or null if it could not be resolved.
+	 */
+	public final IModelVariable findQualifiedVariable(String name) {
+		for (IModelVariable var : getVariables()) {
+			IModelVariable found = findQualifiedVariableRec(var, name);
+			if (found != null) {
 				return found;
+			}
 		}
 		return null;
 	}
 
-	private IModelVariable findQualifiedVariableRec(IModelVariable var, String name) {
-		if (var.getQualifiedName().equals(name)) 
+	/**
+	 * Private recursive part of resolve variable behavior.
+	 * @param var a variable, could have children variables.
+	 * @param name the name we are trying to resolve.
+	 * @return the variable or null if not found.
+	 */
+	private IModelVariable findQualifiedVariableRec(IModelVariable var,
+			String name) {
+		if (var.getQualifiedName().equals(name)) {
 			return var;
+		}
 		for (IModelVariable child : var) {
-			IModelVariable found = findQualifiedVariableRec(child,name);
-			if (found != null)
+			IModelVariable found = findQualifiedVariableRec(child, name);
+			if (found != null) {
 				return found;
+			}
 		}
 		return null;
 	}
 
+	/** 
+	 * Computes the set of variables of this model.
+	 * This version tests for Time Petri net and returns all clocks and places.
+	 * @return the list of model variables.
+	 */
 	protected List<IModelVariable> computeVariables() {
 		List<IModelVariable> variables = new ArrayList<IModelVariable>();
 		if (graph.getFormalism().getName().equals("Time Petri Net")) {
@@ -257,8 +313,9 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 					IAttribute early = node.getAttribute("earliestFiringTime");
 					try {
 						if (0 == Integer.parseInt(early.getValue())) {
-							String late = node.getAttribute("latestFiringTime").getValue();
-							if ( "inf".equalsIgnoreCase(late)
+							String late = node.getAttribute("latestFiringTime")
+									.getValue();
+							if ("inf".equalsIgnoreCase(late)
 									|| 0 == Integer.parseInt(late)) {
 								continue;
 							}
@@ -276,7 +333,9 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		return variables;
 	}
 
-	/** Specifies if all the concepts of this type have an effective realization.
+	/**
+	 * Specifies if all the concepts of this type have an effective realization.
+	 * 
 	 * @return true for a basic type declaration
 	 */
 	public boolean isSatisfied() {
@@ -285,6 +344,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * Return the parent types list.
+	 * 
 	 * @return the parent types instance
 	 */
 	public final TypeList getTypeList() {
@@ -293,15 +353,19 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 
 	/**
 	 * Clear any references to this type (see behavior in composite type decl.
-	 * @param t the type to be removed
+	 * 
+	 * @param t
+	 *            the type to be removed
 	 */
 	public void unsetTypeDeclaration(TypeDeclaration t) {
 		// NOP
 	}
 
 	/**
-	 * Return the evaluation context that allow to resolve all integer expressions in the model.
-	 * side effect: load the attributes that use these int expressions if not done already.
+	 * Return the evaluation context that allow to resolve all integer
+	 * expressions in the model. side effect: load the attributes that use these
+	 * int expressions if not done already.
+	 * 
 	 * @return the integer parameters of this type
 	 */
 	public final IEvaluationContext getParameters() {
@@ -310,12 +374,14 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 				IEvaluationContext ct = computeParameters();
 				if (ct instanceof EvaluationContext) {
 					EvaluationContext context = (EvaluationContext) ct;
-					context.addObserver(this);					
+					context.addObserver(this);
 				}
 				this.context = ct;
 			} catch (ExtensionException e) {
-				final Logger logger = Logger.getLogger("fr.lip6.move.coloane.its"); //$NON-NLS-1$
-				logger.warning("Model contains syntax errors. Please validate it through syntax check before import. Some model elements were not fully parsed." + e);
+				final Logger logger = Logger
+						.getLogger("fr.lip6.move.coloane.its"); //$NON-NLS-1$
+				logger.warning("Model contains syntax errors. Please validate it through syntax check before import. Some model elements were not fully parsed."
+						+ e);
 
 			}
 		}
@@ -323,9 +389,11 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	}
 
 	/**
-	 * load the attributes that use  int expressions.
+	 * load the attributes that use int expressions.
+	 * 
 	 * @return an evaluation context
-	 * @throws ExtensionException in case of parse errors.
+	 * @throws ExtensionException
+	 *             in case of parse errors.
 	 */
 	protected IEvaluationContext computeParameters() throws ExtensionException {
 		IEvaluationContext context = new EvaluationContext();
@@ -353,12 +421,18 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	}
 
 	/**
-	 * Do the actual loading of a given attribute value = parse an int expression
-	 * @param attrib attrib to load or null
-	 * @param context the current context (can be updated)
-	 * @throws ExtensionException if syntax errors occur
+	 * Do the actual loading of a given attribute value = parse an int
+	 * expression
+	 * 
+	 * @param attrib
+	 *            attrib to load or null
+	 * @param context
+	 *            the current context (can be updated)
+	 * @throws ExtensionException
+	 *             if syntax errors occur
 	 */
-	private void parseIntExpression(IAttribute attrib, IEvaluationContext context) throws ExtensionException {
+	private void parseIntExpression(IAttribute attrib,
+			IEvaluationContext context) throws ExtensionException {
 		if (attrib == null) {
 			return;
 		}
@@ -368,11 +442,14 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			ExpressionParseResult epr = ExpressionFactory.parseExpression(mark);
 			int nberr = epr.getErrorCount();
 			if (nberr != 0) {
-				context.declareVariable(new Variable("SYNTAX ERRORS IN MODEL, PLEASE RUN SYNTAX CHECK" + epr.getErrors()));
+				context.declareVariable(new Variable(
+						"SYNTAX ERRORS IN MODEL, PLEASE RUN SYNTAX CHECK"
+								+ epr.getErrors()));
 			} else {
 				IntegerExpression expr = epr.getExpression();
 
-				if (!(expr instanceof Constant) && expr != null && !(expr instanceof Infinity)) {
+				if (!(expr instanceof Constant) && expr != null
+						&& !(expr instanceof Infinity)) {
 					// dont store the mapping for trivial integers
 					attribs.put(attrib, expr);
 					// could be empty for simple expressions, eg 3+ 2
@@ -385,19 +462,21 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 	}
 
 	/**
-	 * Notify a model change has occurred.
-	 * {@inheritDoc}
+	 * Notify a model change has occurred. {@inheritDoc}
 	 */
 	public final void update() {
 		notifyObservers();
 	}
 
 	/**
-	 * Build a new graph by replacing attribute values with int expressions by their concrete values.
+	 * Build a new graph by replacing attribute values with int expressions by
+	 * their concrete values.
+	 * 
 	 * @return the new graph
 	 */
 	public final IGraph getInstantiatedGraph() {
-		// first build a copy of the graph in fr.lip6.move.coloane.its original state
+		// first build a copy of the graph in fr.lip6.move.coloane.its original
+		// state
 		IGraph copy = new GraphModelFactory().copyGraph(graph);
 		// ensure attribs and context is up to date
 		getParameters();
@@ -409,7 +488,8 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			if (graph.getId() == parent.getId()) {
 				toupd = copy.getAttribute(att.getName());
 			} else {
-				toupd = copy.getObject(parent.getId()).getAttribute(att.getName());
+				toupd = copy.getObject(parent.getId()).getAttribute(
+						att.getName());
 			}
 			String newval = Integer.toString(it.getValue().evaluate(context));
 			toupd.setValue(newval);
@@ -417,7 +497,11 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		return copy;
 	}
 
-
+	/**
+	 * Force to reload all model types from their respective files, ensuring
+	 * that we are up to date w.r.t. changes outside this program.
+	 * @throws IOException if any model files have disappeared, are corrupted etc...
+	 */
 	public void reload() throws IOException {
 		// free the current data
 		attribs.clear();
@@ -427,7 +511,7 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 			EvaluationContext ct = (EvaluationContext) oldcontext;
 			ct.deleteObserver(this);
 		}
-		context = null;		
+		context = null;
 		labels = null;
 		variables = null;
 		graph = loadGraph(typeFile);
@@ -437,43 +521,42 @@ public class TypeDeclaration extends SimpleObservable implements ISimpleObserver
 		// copy old valuations back in
 		for (IVariableBinding vb : oldcontext.getBindings()) {
 			if (context.containsVariable(vb.getVariable())) {
-				context.setVariableValue(vb.getVariable(), vb.getVariableValue());
+				context.setVariableValue(vb.getVariable(),
+						vb.getVariableValue());
 			}
 		}
 	}
 
-	//	protected List<INode> computeStateVariables () {
-	//		List<INode> vars;
-	//		EvaluationContext context = new EvaluationContext();
-	//		for (INode node : graph.getNodes()) {
-	//			if ("place".equals(node.getNodeFormalism().getName())) {
-	//				IAttribute attrib = node.getAttribute("marking");
-	//				parseIntExpression(attrib, context);
-	//			} else if ("transition".equals(node.getNodeFormalism().getName())) {
-	//				IAttribute eft = node.getAttribute("earliestFiringTime");
-	//				parseIntExpression(eft, context);
-	//				IAttribute lft = node.getAttribute("latestFiringTime");
-	//				parseIntExpression(lft, context);
-	//			}
-	//		}
-	//		for (IArc arc : graph.getArcs()) {
-	//			// supports null attribute passing: some arcs have no valuation
-	//			parseIntExpression(arc.getAttribute("valuation"), context);
-	//		}
-	//		for (IAttribute att : graph.getAttributes()) {
-	//			if (att.getName().equals("size")) {
-	//				parseIntExpression(att, context);
-	//			}
-	//		}
-	//		return context;		
-	//	}
-	//	
-	//	public List<INode> getStateVariables () {
-	//		if (stateVariables == null) {
-	//			
-	//		}
-	//		return stateVariables;
-	//	}
+	// protected List<INode> computeStateVariables () {
+	// List<INode> vars;
+	// EvaluationContext context = new EvaluationContext();
+	// for (INode node : graph.getNodes()) {
+	// if ("place".equals(node.getNodeFormalism().getName())) {
+	// IAttribute attrib = node.getAttribute("marking");
+	// parseIntExpression(attrib, context);
+	// } else if ("transition".equals(node.getNodeFormalism().getName())) {
+	// IAttribute eft = node.getAttribute("earliestFiringTime");
+	// parseIntExpression(eft, context);
+	// IAttribute lft = node.getAttribute("latestFiringTime");
+	// parseIntExpression(lft, context);
+	// }
+	// }
+	// for (IArc arc : graph.getArcs()) {
+	// // supports null attribute passing: some arcs have no valuation
+	// parseIntExpression(arc.getAttribute("valuation"), context);
+	// }
+	// for (IAttribute att : graph.getAttributes()) {
+	// if (att.getName().equals("size")) {
+	// parseIntExpression(att, context);
+	// }
+	// }
+	// return context;
+	// }
+	//
+	// public List<INode> getStateVariables () {
+	// if (stateVariables == null) {
+	//
+	// }
+	// return stateVariables;
+	// }
 }
-
-

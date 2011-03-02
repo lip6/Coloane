@@ -98,6 +98,12 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 		notifyObservers();
 	}
 
+	/**
+	 * Attempts to reload all models from their respective files, ensuring we
+	 * are up to date w.r.t. modifications outside the program. <br>
+	 * NB: any potential exceptions are caught, but the model may contain
+	 * problems post reload.
+	 */
 	public void reload() {
 		for (TypeDeclaration td : this) {
 			try {
@@ -109,11 +115,20 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 		notifyObservers();
 	}
 	
+	/**
+	 * A type list may be associated to a check list.
+	 * TODO: bad dependency orientation.
+	 * @return the checks defined on this typelist
+	 */
 	public List<CheckList> getChecks() {
 		return checks;
 	}
 	
-	public void addCheckList (CheckList cl) {
+	/**
+	 * Create a new CheckList for this TypeList.
+	 * @param cl the check to add
+	 */
+	public void addCheckList(CheckList cl) {
 		checks.add(cl);
 	}
 }

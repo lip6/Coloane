@@ -151,19 +151,26 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 				if (getTypeType().equals("Scalar Set Composite")) {
 					IAttribute sizeAtt = getGraph().getAttribute("size");
 					int size = getIntegerAttributeValue(sizeAtt);
-					for (int i = 0 ; i < size ; ++i) {
-						CompositeModelVariable var = new ScalarInstanceVariable(node,concept.getEffective().getTypeType() + " "+ concept.getEffective().getTypeName(),i);
+					for (int i = 0; i < size; ++i) {
+						CompositeModelVariable var = new ScalarInstanceVariable(
+								node, concept.getEffective().getTypeType()
+										+ " "
+										+ concept.getEffective().getTypeName(),
+								i);
 
-						List<IModelVariable> subvars = concept.getEffective().computeVariables();
+						List<IModelVariable> subvars = concept.getEffective()
+								.computeVariables();
 						for (IModelVariable v : subvars) {
 							var.addChild(v);
 						}
 						vars.add(var);
-						
+
 					}
 
 				} else {
-					CompositeModelVariable var = new InstanceVariable(node,concept.getEffective().getTypeType() + " "+ concept.getEffective().getTypeName());
+					CompositeModelVariable var = new InstanceVariable(node,
+							concept.getEffective().getTypeType() + " "
+									+ concept.getEffective().getTypeName());
 
 					List<IModelVariable> subvars = concept.getEffective().computeVariables();
 					for (IModelVariable v : subvars) {
