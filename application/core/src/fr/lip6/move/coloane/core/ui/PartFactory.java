@@ -75,7 +75,7 @@ public class PartFactory implements EditPartFactory {
 	 */
 	private EditPart getPartForElement(Object modelElement) {
 		if (modelElement instanceof INode) {
-			return new NodeEditPart() ;
+			return new NodeEditPart();
 		} else if (modelElement instanceof IAttribute) {
 			return new AttributeEditPart();
 		} else if (modelElement instanceof IArc) {
