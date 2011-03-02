@@ -15,7 +15,6 @@
  */
 package fr.lip6.move.coloane.core.ui.editpart;
 
-import fr.lip6.move.coloane.core.formalisms.elements.GraphicalDescription;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
@@ -134,7 +133,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * @return IFigure
 	 */
 	@Override
-	protected final IFigure createFigure() {
+	protected IFigure createFigure() {
 		// In fact, the figure is a container with a stacklayout manager to be able to switch between alternate figures
 		IFigure nodeContainer = new Figure();
 		nodeContainer.setLayoutManager(new StackLayout());
@@ -192,28 +191,28 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * Update the figures thanks to the information contained into the model
 	 */
 	@Override
-	protected final void refreshVisuals() {
+	protected void refreshVisuals() {
 		// If the node has no more parent, that means that it has been deleted.
 		// There is no more reason to draw it again
 		if (getParent() == null) {
 			return;
 		}
-
+		INodeFigure visibleFigure = getRealFigure();
 		// Update the figure
-		getRealFigure().setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
-		getRealFigure().setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
-		getRealFigure().setLineWidth(1);
+		visibleFigure.setForegroundColor(((INode) getModel()).getGraphicInfo().getForeground());
+		visibleFigure.setBackgroundColor(((INode) getModel()).getGraphicInfo().getBackground());
+		visibleFigure.setLineWidth(1);
 
 		if (select) {
-			getRealFigure().setForegroundColor(ColorsPrefs.getColor("COLORNODE")); //$NON-NLS-1$
-			getRealFigure().setLineWidth(3);
+			visibleFigure.setForegroundColor(ColorsPrefs.getColor("COLORNODE")); //$NON-NLS-1$
+			visibleFigure.setLineWidth(3);
 		} else if (special) {
-			getRealFigure().setForegroundColor(ColorConstants.red);
-			getRealFigure().setLineWidth(3);
+			visibleFigure.setForegroundColor(ColorConstants.red);
+			visibleFigure.setLineWidth(3);
 		} else if (attributeSelect) {
-			getRealFigure().setBackgroundColor(ColorsPrefs.getColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
+			visibleFigure.setBackgroundColor(ColorsPrefs.getColor("COLORNODE_HIGHLIGHT")); //$NON-NLS-1$
 		} else if (highlight) {
-			getRealFigure().setBackgroundColor(ColorsPrefs.getColor("COLORNODE_MOUSE")); //$NON-NLS-1$
+			visibleFigure.setBackgroundColor(ColorsPrefs.getColor("COLORNODE_MOUSE")); //$NON-NLS-1$
 		}
 
 		INode nodeModel = (INode) getModel();
