@@ -38,7 +38,7 @@ public class ImportFromImplNDR implements IImportFrom {
 
 
 	/**
-	 * Import a PROD format model
+	 * Import a TINA .net format model
 	 * @param filePath nom de fchier a importer
 	 * @return le model adapte correspondant
 	 * @throws ExtensionException si le fichier n'est pas valide
