@@ -24,12 +24,12 @@ import java.util.Map;
 }
 
 @parser::members {
-       private static IFormalism formalism;
-       private static INodeFormalism placeFormalism;
-       private static INodeFormalism transitionFormalism;
-       private static IArcFormalism arcFormalism;
-       private static IArcFormalism readFormalism;
-       private static IArcFormalism inhibitorFormalism;
+       private IFormalism formalism;
+       private INodeFormalism placeFormalism;
+       private INodeFormalism transitionFormalism;
+       private IArcFormalism arcFormalism;
+       private IArcFormalism readFormalism;
+       private IArcFormalism inhibitorFormalism;
 
        private IGraph graph;
        private Map<String,INode> nodes = new HashMap<String, INode>();
