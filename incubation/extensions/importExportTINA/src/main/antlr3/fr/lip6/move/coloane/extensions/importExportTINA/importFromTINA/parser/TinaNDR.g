@@ -26,12 +26,12 @@ import java.util.Map;
 }
 
 @parser::members {
-       private static IFormalism formalism;
-       private static INodeFormalism placeFormalism;
-       private static INodeFormalism transitionFormalism;
-       private static IArcFormalism arcFormalism;
-       private static IArcFormalism readFormalism;
-       private static IArcFormalism inhibitorFormalism;
+       private IFormalism formalism;
+       private INodeFormalism placeFormalism;
+       private INodeFormalism transitionFormalism;
+       private IArcFormalism arcFormalism;
+       private IArcFormalism readFormalism;
+       private IArcFormalism inhibitorFormalism;
 
        private IGraph graph;
        private Map<String,INode> nodes = new HashMap<String, INode>();
@@ -289,14 +289,14 @@ pinput: (node=tname
   }
   arc)*;
 
-arc : type=('?'|'?-'|'!'|'!-'|) value=integer  
+arc : 
 {
   IArc a = null;
+}
+ (type=('?'|'?-'|'!'|'!-') 
+{
   try {
-  if (type==null) {
-      // normal arc
-      a = graph.createArc(arcFormalism,source,destination);
-  } else if ("?".equals(type.getText())) {
+  if ("?".equals(type.getText())) {
       // test arc
      a = graph.createArc(readFormalism,source,destination);
   } else if ("?-".equals(type.getText())) {
@@ -312,6 +312,18 @@ arc : type=('?'|'?-'|'!'|'!-'|) value=integer
   }catch (ModelException e) {                
                 e.printStackTrace();
   }  
+} |   
+{
+  try {
+      // normal arc
+      a = graph.createArc(arcFormalism,source,destination);
+      }catch (ModelException e) {                
+                e.printStackTrace();
+  }  
+} )
+
+value=integer  
+  {
   if (a != null) {
     a.getAttribute("valuation").setValue(Integer.toString(value));
     if (points != null && ! points.isEmpty()) {
