@@ -14,7 +14,7 @@
  *   coloane@lip6.fr
  *   http://coloane.lip6.fr
  */
-package fr.lip6.move.coloane.projects.its.actions;
+package fr.lip6.move.coloane.projects.its.dialogs;
 
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObservable;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;

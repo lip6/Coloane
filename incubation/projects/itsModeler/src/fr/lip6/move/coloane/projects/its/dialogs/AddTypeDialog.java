@@ -18,7 +18,6 @@ package fr.lip6.move.coloane.projects.its.dialogs;
 
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
-import fr.lip6.move.coloane.projects.its.actions.FileBrowserField;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 
 import org.eclipse.core.resources.IFile;

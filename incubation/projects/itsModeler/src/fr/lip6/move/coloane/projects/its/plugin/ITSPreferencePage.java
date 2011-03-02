@@ -16,7 +16,7 @@
  */
 package fr.lip6.move.coloane.projects.its.plugin;
 
-import fr.lip6.move.coloane.projects.its.actions.FileBrowserField;
+import fr.lip6.move.coloane.projects.its.dialogs.FileBrowserField;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
