@@ -21,8 +21,11 @@ import fr.lip6.move.coloane.projects.its.Concept;
 import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
+import fr.lip6.move.coloane.projects.its.actions.AddTypeAction;
+import fr.lip6.move.coloane.projects.its.actions.FlattenModelAction;
 import fr.lip6.move.coloane.projects.its.actions.RemoveTypeAction;
 import fr.lip6.move.coloane.projects.its.expression.VariableBinding;
+import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -118,10 +121,11 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 		Button b = toolkit.createButton(buttonZone, "Add a type", SWT.PUSH); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		b.setLayoutData(gd);
+		final AddTypeAction add = new AddTypeAction(page);
 		b.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				page.getMpe().getAddAction().run();
+				add.run();
 			}
 		});
 
@@ -145,12 +149,14 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 		Button b3 = toolkit.createButton(buttonZone, "Flatten Model", SWT.PUSH); //$NON-NLS-1$
 		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		b3.setLayoutData(gd);
+		final FlattenModelAction flat = new FlattenModelAction();
 		b3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				try {
 					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
-					page.getMpe().flatten(td);
+					flat.setTypeDeclaration(td);
+					flat.run();
 				} catch (ClassCastException e) {
 					System.err.println("Select a type");
 				}
@@ -165,7 +171,7 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 			public void widgetSelected(SelectionEvent event) {
 				try {
 					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
-					page.getMpe().createCheckPage(td);
+					((MultiPageEditor) page.getEditor()).createCheckPage(td);
 				} catch (ClassCastException e) {
 					System.err.println("Select a type");
 				}

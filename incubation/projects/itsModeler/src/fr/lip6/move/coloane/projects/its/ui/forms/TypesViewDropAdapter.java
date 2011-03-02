@@ -26,6 +26,8 @@ import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.ui.part.ResourceTransfer;
 
+import fr.lip6.move.coloane.projects.its.actions.AddTypeAction;
+
 /**
  * A drag and drop "drop" adapter to allow drop of files onto tree view.
  * @author Yann
@@ -33,7 +35,7 @@ import org.eclipse.ui.part.ResourceTransfer;
  */
 public final class TypesViewDropAdapter extends ViewerDropAdapter {
 
-	private ScrolledPropertiesBlock master;
+	private AddTypeAction action;
 
 	/**
 	 * Constructor.
@@ -42,7 +44,7 @@ public final class TypesViewDropAdapter extends ViewerDropAdapter {
 	 */
 	public TypesViewDropAdapter(Viewer viewer, ScrolledPropertiesBlock master) {
 		super(viewer);
-		this.master = master;
+		this.action = new AddTypeAction(master.getPage());
 	}
 	/**
 	 * {@inheritDoc}
@@ -63,8 +65,8 @@ public final class TypesViewDropAdapter extends ViewerDropAdapter {
 		if (data instanceof String[]) {
 			final String[] strings = (String[]) data;
 			for (String string : strings) {
-				master.getPage().getMpe().getAddAction().setHint(string);
-				master.getPage().getMpe().getAddAction().run();
+				getAddAction().setHint(string);
+				getAddAction().run();
 			}
 			return true;
 		} else if (data instanceof TreeSelection) {
@@ -72,12 +74,15 @@ public final class TypesViewDropAdapter extends ViewerDropAdapter {
 			for (Object element : tsel.toArray()) {
 				if (element instanceof IFile) {
 					IFile file = (IFile) element;
-					master.getPage().getMpe().getAddAction().setHint(file.getLocation().toString());
-					master.getPage().getMpe().getAddAction().run();
+					getAddAction().setHint(file.getLocation().toString());
+					getAddAction().run();
 				}
 			}
 		}
 		return false;
+	}
+	private AddTypeAction getAddAction() {
+		return action;
 	}
 
 

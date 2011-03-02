@@ -315,7 +315,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		}
 		setTypes(tmptypes);
 		try {
-			treePage = new MasterDetailsPage(this);
+			treePage = new MasterDetailsPage(this,this);
 			addPage(treePage);
 			for (CheckList cl : types.getChecks()) {
 				addCheckPage(cl);
