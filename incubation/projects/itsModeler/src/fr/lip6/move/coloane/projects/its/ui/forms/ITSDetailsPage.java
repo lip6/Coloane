@@ -26,16 +26,33 @@ import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
+/**
+ * An abstract class carrying implementations of many required but unused
+ * features of IDetailsPage. This class carries the notion of input model object
+ * and reflects any changes it is notified of through an observer DP.
+ * 
+ * @author Yann
+ * 
+ * @param <T> The model input type.
+ */
 public abstract class ITSDetailsPage<T> implements IDetailsPage {
 
 	private IManagedForm mform;
 
 	private T input;
 
+	/**
+	 * Set the input model object.
+	 * @param input new input
+	 */
 	public void setInput(T input) {
 		this.input = input;
 	}
 	
+	/**
+	 * Returns the current input model object.
+	 * @return the current input.
+	 */
 	public T getInput() {
 		return input;
 	}
@@ -45,11 +62,11 @@ public abstract class ITSDetailsPage<T> implements IDetailsPage {
 	 *  (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#initialize(org.eclipse.ui.forms.IManagedForm)
 	 */
-	public void initialize(IManagedForm mform) {
+	public final void initialize(IManagedForm mform) {
 		this.mform = mform;
 	}
 
-	protected FormToolkit getToolkit() {
+	protected final FormToolkit getToolkit() {
 		return mform.getToolkit();
 	}
 
@@ -59,7 +76,7 @@ public abstract class ITSDetailsPage<T> implements IDetailsPage {
 	 * @see org.eclipse.ui.forms.IDetailsPage#inputChanged(org.eclipse.jface.viewers.IStructuredSelection)
 	 */
 	@SuppressWarnings("unchecked")
-	public void selectionChanged(IFormPart part, ISelection selection) {
+	public final void selectionChanged(IFormPart part, ISelection selection) {
 		IStructuredSelection ssel = (IStructuredSelection) selection;
 		if (ssel.size() == 1) {
 			setInput((T) ssel.getFirstElement());
@@ -74,28 +91,28 @@ public abstract class ITSDetailsPage<T> implements IDetailsPage {
 	 *  (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#commit()
 	 */
-	public void commit(boolean onSave) {
+	public final void commit(boolean onSave) {
 	}
 	/**
 	 * {@inheritDoc}
 	 *  (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#setFocus()
 	 */
-	public void setFocus() {
+	public final void setFocus() {
 	}
 	/**
 	 * {@inheritDoc}
 	 *  (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#dispose()
 	 */
-	public void dispose() {
+	public final void dispose() {
 	}
 	/**
 	 * {@inheritDoc}
 	 *  (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#isDirty()
 	 */
-	public boolean isDirty() {
+	public final boolean isDirty() {
 		return false;
 	}
 	/**
@@ -103,7 +120,7 @@ public abstract class ITSDetailsPage<T> implements IDetailsPage {
 	 *  (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#isStale()
 	 */
-	public boolean isStale() {
+	public final boolean isStale() {
 		return false;
 	}
 	/**
@@ -111,17 +128,20 @@ public abstract class ITSDetailsPage<T> implements IDetailsPage {
 	 *  (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#refresh()
 	 */
-	public void refresh() {
+	public final void refresh() {
 		update();
 	}
 	
+	/**
+	 * This is the only place the user is supposed to extend this class.
+	 */
 	protected abstract void update() ;
 	/**
 	 * {@inheritDoc}
 	 *  (non-Javadoc)
 	 * @see org.eclipse.ui.forms.IDetailsPage#setFormInput()
 	 */
-	public boolean setFormInput(Object input) {
+	public final boolean setFormInput(Object input) {
 		return false;
 	}
 

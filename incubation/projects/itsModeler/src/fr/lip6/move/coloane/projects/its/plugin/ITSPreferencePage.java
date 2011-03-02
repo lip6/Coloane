@@ -36,20 +36,23 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
  * The preferences page contributed by the plugin.
+ * 
  * @author Yann Thierry-Mieg
  */
-public final class ITSPreferencePage
-extends PreferencePage
-implements IWorkbenchPreferencePage {
+public final class ITSPreferencePage extends PreferencePage implements
+		IWorkbenchPreferencePage {
 
 	private FileBrowserField reachField;
 	private FileBrowserField ctlField;
 	private FileBrowserField orderField;
 	private FileBrowserField pythonField;
+
 	/**
-	 * Creates the composite which will contain all the preference controls for this page.
+	 * Creates the composite which will contain all the preference controls for
+	 * this page.
 	 * 
-	 * @param parent the parent composite
+	 * @param parent
+	 *            the parent composite
 	 * @return the composite for this page
 	 */
 	private Composite createComposite(Composite parent) {
@@ -58,93 +61,107 @@ implements IWorkbenchPreferencePage {
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		composite.setLayout(layout);
-		composite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
+		composite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL
+				| GridData.HORIZONTAL_ALIGN_FILL));
 		return composite;
 	}
 
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see org.eclipse.jface.preference.PreferencePage
 	 */
 	@Override
-	protected final Control createContents(Composite parent) {
+	protected Control createContents(Composite parent) {
 		Composite composite = createComposite(parent);
 		createOpenModeGroup(composite);
 		applyDialogFont(composite);
 		return composite;
 	}
 
-
 	/**
 	 * Build the area with dot detection options.
-	 * @param composite the parent in which we add stuff.
+	 * 
+	 * @param composite
+	 *            the parent in which we add stuff.
 	 */
 	private void createOpenModeGroup(Composite composite) {
 		{
 			Group buttonComposite = new Group(composite, SWT.LEFT);
 			GridLayout layout = new GridLayout();
 			buttonComposite.setLayout(layout);
-			GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+			GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+					| GridData.GRAB_HORIZONTAL);
 			buttonComposite.setLayoutData(data);
 			buttonComposite.setText("its-reach executable to use");
 			reachField = new FileBrowserField(buttonComposite);
 			IPath path = ITSEditorPlugin.getDefault().getITSReachPath();
-			if (path != null) 
+			if (path != null) {
 				reachField.setText(path.toOSString());
+			}
 			reachField.setToolTipText("Select its-reach executable.");
 			reachField.setLayoutData(data);
 
 			reachField.addObserver(new ISimpleObserver() {
 				public void update() {
-					browserChanged(reachField.getText(), ITSEditorPlugin.ITS_REACH_NAME);
+					browserChanged(reachField.getText(),
+							ITSEditorPlugin.ITS_REACH_NAME);
 				}
 			});
 		}
-		
+
 		{
 			Group buttonComposite = new Group(composite, SWT.LEFT);
 			GridLayout layout = new GridLayout();
 			buttonComposite.setLayout(layout);
-			GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+			GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+					| GridData.GRAB_HORIZONTAL);
 			buttonComposite.setLayoutData(data);
-			data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+			data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+					| GridData.GRAB_HORIZONTAL);
 			buttonComposite.setLayoutData(data);
 			buttonComposite.setText("its-ctl executable to use");
 
 			ctlField = new FileBrowserField(buttonComposite);
 			ctlField.setToolTipText("Select its-reach executable.");
 			IPath path = ITSEditorPlugin.getDefault().getITSCTLPath();
-			if (path != null) 
+			if (path != null) {
 				ctlField.setText(path.toOSString());
+			}
 			ctlField.setLayoutData(data);
 
 			ctlField.addObserver(new ISimpleObserver() {
 				public void update() {
-					browserChanged(ctlField.getText(), ITSEditorPlugin.ITS_CTL_NAME);
+					browserChanged(ctlField.getText(),
+							ITSEditorPlugin.ITS_CTL_NAME);
 				}
 			});
 		}
-		
+
 		{
 			Group buttonComposite = new Group(composite, SWT.LEFT);
 			GridLayout layout = new GridLayout();
 			buttonComposite.setLayout(layout);
-			GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+			GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+					| GridData.GRAB_HORIZONTAL);
 			buttonComposite.setLayoutData(data);
-			data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+			data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+					| GridData.GRAB_HORIZONTAL);
 			buttonComposite.setLayoutData(data);
 			buttonComposite.setText("IGenerateOrder.py executable to use");
 
 			orderField = new FileBrowserField(buttonComposite);
 			IPath path = ITSEditorPlugin.getDefault().getOrderingPath();
-			if (path != null) 
+			if (path != null) {
 				orderField.setText(path.toOSString());
+			}
 			orderField.setToolTipText("Select IGenerateOrder.py executable.");
 			orderField.setLayoutData(data);
 
 			orderField.addObserver(new ISimpleObserver() {
 				public void update() {
-					browserChanged(orderField.getText(), ITSEditorPlugin.ORDERING_NAME);
+					browserChanged(orderField.getText(),
+							ITSEditorPlugin.ORDERING_NAME);
 				}
 			});
 		}
@@ -152,22 +169,26 @@ implements IWorkbenchPreferencePage {
 			Group buttonComposite = new Group(composite, SWT.LEFT);
 			GridLayout layout = new GridLayout();
 			buttonComposite.setLayout(layout);
-			GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+			GridData data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+					| GridData.GRAB_HORIZONTAL);
 			buttonComposite.setLayoutData(data);
-			data = new GridData(GridData.HORIZONTAL_ALIGN_FILL | GridData.GRAB_HORIZONTAL);
+			data = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+					| GridData.GRAB_HORIZONTAL);
 			buttonComposite.setLayoutData(data);
 			buttonComposite.setText("python executable to use");
 
 			pythonField = new FileBrowserField(buttonComposite);
 			IPath path = ITSEditorPlugin.getDefault().getPythonPath();
-			if (path != null) 
-				pythonField.setText(path.toOSString());			
+			if (path != null) {
+				pythonField.setText(path.toOSString());
+			}
 			pythonField.setToolTipText("Select python executable.");
 			pythonField.setLayoutData(data);
 
 			pythonField.addObserver(new ISimpleObserver() {
 				public void update() {
-					browserChanged(pythonField.getText(), ITSEditorPlugin.PYTHON_PATH);
+					browserChanged(pythonField.getText(),
+							ITSEditorPlugin.PYTHON_PATH);
 				}
 			});
 		}
@@ -176,8 +197,12 @@ implements IWorkbenchPreferencePage {
 
 	/**
 	 * Called when user has done something. Grab the path text.
-	 * @param exeName 
-	 * @param txt the new text
+	 * 
+	 * @param newText
+	 *            the new text that is supposed to refer to a file with
+	 *            compatible name
+	 * @param exeName
+	 *            expected name for executable we seek.
 	 */
 	public final void browserChanged(String newText, String exeName) {
 		setErrorMessage(null);
@@ -200,19 +225,21 @@ implements IWorkbenchPreferencePage {
 			setErrorMessage(newText + " is a directory");
 			setValid(false);
 		} else if (!ITSEditorPlugin.isExecutable(exeFile)) {
-			setMessage(newText + " is not executable!", IMessageProvider.WARNING);
+			setMessage(newText + " is not executable!",
+					IMessageProvider.WARNING);
 			setValid(false);
 		} else if (!exeName.equalsIgnoreCase(fileName)) {
-			setMessage("The file name should be " +  exeName, IMessageProvider.WARNING);
+			setMessage("The file name should be " + exeName,
+					IMessageProvider.WARNING);
 			setValid(false);
 		} else {
 			setValid(true);
 		}
 	}
 
-
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see IWorkbenchPreferencePage
 	 */
 	public void init(IWorkbench workbench) {
@@ -220,6 +247,7 @@ implements IWorkbenchPreferencePage {
 
 	/**
 	 * The user has pressed OK or Apply. Store this page's values.
+	 * 
 	 * @return true
 	 */
 	@Override

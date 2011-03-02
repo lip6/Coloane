@@ -26,55 +26,71 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The "New" wizard page allows setting the container for the new file as well
  * as the file name. The page will only accept file name without the extension
- * OR with the extension that matches the expected one (fr.lip6.move.coloane.its).
+ * OR with the extension that matches the expected one
+ * (fr.lip6.move.coloane.its).
  */
 public final class FlattenNewWizardPage extends AbstractNewWizardPage {
 
 	private boolean shouldInstantiate = false;
-	
+
 	/**
 	 * Constructor for ITSNewWizardPage.
 	 * 
-	 * @param selection the workspace item currently selected (should be a folder)
+	 * @param selection
+	 *            the workspace item currently selected (should be a folder)
 	 */
 	public FlattenNewWizardPage(ISelection selection) {
 		super(selection);
 	}
 
+	/**
+	 * Sets whether the variables in integer expressions should be resolved to
+	 * their full values or not.
+	 * 
+	 * @return
+	 */
 	public boolean shouldInstantiate() {
 		return shouldInstantiate;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected String getWizardDescription() {
 		return "This wizard creates a new Coloane model by flattening the hierarchical ITS description.";
 	}
 
+	/**
+	 * Extension is "model". {@inheritDoc}
+	 */
 	@Override
 	protected String getWizardFileExtension() {
 		return "model";
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected String getWizardTitle() {
 		return "Flatten an ITS Model";
 	}
-	
+
 	@Override
 	protected void addContent(Composite container) {
 		Button b = new Button(container, SWT.CHECK);
 		b.setText("Instantiate Variables");
 		b.setToolTipText("Instantiate parameters of the model, i.e. $Variable in attributes replaced by their effective value.");
 		b.addSelectionListener(new SelectionListener() {
-			
+
 			public void widgetSelected(SelectionEvent e) {
-				boolean b = ((Button)e.getSource()).getSelection();
+				boolean b = ((Button) e.getSource()).getSelection();
 				shouldInstantiate = b;
 			}
-			
+
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
 		});
 	}
 }
-

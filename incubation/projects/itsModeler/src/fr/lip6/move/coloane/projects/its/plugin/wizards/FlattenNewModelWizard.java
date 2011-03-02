@@ -21,6 +21,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 
+import fr.lip6.move.coloane.core.ui.files.ModelWriter;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
+import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.flatten.ModelFlattener;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -43,12 +50,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import fr.lip6.move.coloane.core.ui.files.ModelWriter;
-import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
-import fr.lip6.move.coloane.projects.its.flatten.ModelFlattener;
 
 /**
  * This is a sample new wizard. Its role is to create a new file

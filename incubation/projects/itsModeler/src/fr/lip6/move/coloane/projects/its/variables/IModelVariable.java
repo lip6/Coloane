@@ -34,7 +34,7 @@ public interface IModelVariable extends Iterable<IModelVariable> {
 	
 	/**
 	 * The Children of this ModelVariable, in the composite case.
-	 * 
+	 * {@inheritDoc}
 	 */
 	Iterator<IModelVariable> iterator();
 	
@@ -51,7 +51,7 @@ public interface IModelVariable extends Iterable<IModelVariable> {
 	IModelVariable getParent();
 	
 	/** The ITS id of this object, for SDD tools interaction.
-	 * 
+	 * @return the id
 	 */
 	String getId();
 	
@@ -61,5 +61,9 @@ public interface IModelVariable extends Iterable<IModelVariable> {
 	 */
 	String getDescription();
 
+	/**
+	 * Define the parent object.
+	 * @param parent new parent.
+	 */
 	void setParent(IModelVariable parent);
 }

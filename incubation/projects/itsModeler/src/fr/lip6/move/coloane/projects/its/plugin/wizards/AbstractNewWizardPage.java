@@ -61,9 +61,27 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 		this.selection = selection;
 	}
 
+	/**
+	 * Implement to provide the wizard title.
+	 * @return a name to put in the wizard's title bar
+	 */
 	abstract protected String getWizardTitle() ;
+	/**
+	 * Implement to provide a helping text on the role of this wizard.
+	 * @return a wizard description for end users.
+	 */
 	abstract protected String getWizardDescription() ;
+	/**
+	 * Implement to provide the file extension this wizard manipulates.
+	 * @return a file extension
+	 */
 	abstract protected String getWizardFileExtension() ;
+	
+	/**
+	 * Defines the contents (SWT widgets) of this wizard.
+	 * Defaults to empty wizard.
+	 * @param container the parent container.
+	 */
 	protected void addContent(Composite container) {};
 	
 	/**
@@ -116,7 +134,6 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 	/**
 	 * Tests if the current workbench selection is a suitable container to use.
 	 */
-
 	private void initialize() {
 		if (selection != null && !selection.isEmpty()
 				&& selection instanceof IStructuredSelection) {
@@ -207,14 +224,14 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 	 * Obtain the folder to create the file in
 	 * @return the container path
 	 */
-	public String getContainerName() {
+	public final String getContainerName() {
 		return containerText.getText();
 	}
 	/**
 	 * Obtain the name chosen for the new file
 	 * @return the file name without path
 	 */
-	public String getFileName() {
+	public final String getFileName() {
 		return fileText.getText();
 	}
 }

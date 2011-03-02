@@ -36,6 +36,7 @@ public final class MasterDetailsPage extends FormPage implements ITypeListProvid
 	/**
 	 * Ctor.
 	 * @param editor the parent editor (for getTypes())
+	 * @param types the TypeList provider we depende upon.
 	 */
 	public MasterDetailsPage(FormEditor editor, ITypeListProvider types) {
 		super(editor, "treeview", "Types Editor"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -65,6 +66,10 @@ public final class MasterDetailsPage extends FormPage implements ITypeListProvid
 	public void refresh() {
 		block.refresh();
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public TypeList getTypes() {
 		return mpe.getTypes();
 	}

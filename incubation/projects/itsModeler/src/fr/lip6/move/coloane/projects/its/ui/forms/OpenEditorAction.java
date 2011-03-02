@@ -16,27 +16,31 @@
  */
 package fr.lip6.move.coloane.projects.its.ui.forms;
 
+import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
-
 /**
  * A utility class that opens the editor.
+ * 
  * @author Yann
- *
+ * 
  */
 public abstract class OpenEditorAction {
-	
+
 	/**
 	 * open or focus the editor on the file proposed
-	 * @param td current slected type
+	 * 
+	 * @param td
+	 *            current slected type
 	 */
 	public static void openEditor(TypeDeclaration td) {
 		if (td != null) {
-			IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+			IWorkbenchPage page = PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage();
 			try {
 				if (td != null) {
 					IDE.openEditor(page, td.getTypeFile());

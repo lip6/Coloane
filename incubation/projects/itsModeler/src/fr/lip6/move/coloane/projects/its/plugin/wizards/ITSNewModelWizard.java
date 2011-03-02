@@ -53,7 +53,6 @@ import org.eclipse.ui.ide.IDE;
  * as a template) is registered for the same extension, it will
  * be able to open it.
  */
-
 public final class ITSNewModelWizard extends Wizard implements INewWizard {
 	private ITSNewWizardPage page;
 	private ISelection selection;

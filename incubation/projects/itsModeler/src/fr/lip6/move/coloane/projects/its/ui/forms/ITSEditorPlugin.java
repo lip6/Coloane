@@ -45,6 +45,8 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
+
+
 /**
  * The main plugin class to be used in the desktop.
  */
@@ -72,18 +74,16 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_TRANSITION = "transition";
 	public static final String IMG_PLACE = "place";
 
-	
 	public static final String ITS_REACH_NAME = "its-reach";
 	public static final String ITS_CTL_NAME = "its-ctl";
 	public static final String ORDERING_NAME = "IGenerateOrder";
 	public static final String PYTHON_PATH = "python";
 
-	
 	private static String ID = ITSEditorPlugin.class.getPackage().getName();
 
-	//The shared instance.
+	// The shared instance.
 	private static ITSEditorPlugin plugin;
-	//Resource bundle.
+	// Resource bundle.
 	private ResourceBundle resourceBundle;
 	private FormColors formColors;
 
@@ -95,19 +95,18 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		System.out.println("<<<< ITS >>>>");
 		try {
 			resourceBundle = ResourceBundle
-			.getBundle("org.eclipse.ui.forms.examples.internal.ExamplesPluginResources"); //$NON-NLS-1$
+					.getBundle("org.eclipse.ui.forms.examples.internal.ExamplesPluginResources"); //$NON-NLS-1$
 		} catch (MissingResourceException x) {
 			resourceBundle = null;
 		}
 	}
-	
+
 	/**
 	 * @return the ID
 	 */
 	public static String getID() {
 		return ID;
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -130,32 +129,49 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_RESULTOK, "success_check.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_RESULTNOK, "error_check.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_RESULTFAIL, "problem_check.gif"); //$NON-NLS-1$
-		
+
 		// images stolen from other plugins
-		registry.put(IMG_REACH_SERVICE, AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif")); //$NON-NLS-1$ //$NON-NLS-2$
+		registry.put(
+				IMG_REACH_SERVICE,
+				AbstractUIPlugin
+						.imageDescriptorFromPlugin(
+								"org.eclipse.ui", "$nl$/icons/full/elcl16/progress_rem.gif")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// images grabbed from coloane formalisms
-		IFormalism f = FormalismManager.getInstance().getFormalismById("ITS Composite");
-		registry.put(IMG_COMPOSITE, ImageDescriptor.createFromFile(Coloane.class, f.getImageName()));
+		IFormalism f = FormalismManager.getInstance().getFormalismById(
+				"ITS Composite");
+		registry.put(IMG_COMPOSITE,
+				ImageDescriptor.createFromFile(Coloane.class, f.getImageName()));
 
-		String img = f.getRootGraph().getElementFormalism("instance").getGraphicalDescription().getIcon24px();
-		registry.put(IMG_INSTANCE, ImageDescriptor.createFromFile(Coloane.class, img));
-		
+		String img = f.getRootGraph().getElementFormalism("instance")
+				.getGraphicalDescription().getIcon24px();
+		registry.put(IMG_INSTANCE,
+				ImageDescriptor.createFromFile(Coloane.class, img));
+
 		f = FormalismManager.getInstance().getFormalismById("Time Petri Net");
-		registry.put(IMG_TPNFORM, ImageDescriptor.createFromFile(Coloane.class, f.getImageName()));
-	
-		img = f.getRootGraph().getElementFormalism("transition").getGraphicalDescription().getIcon24px();
-		registry.put(IMG_TRANSITION, ImageDescriptor.createFromFile(Coloane.class, img));
-		
-		img = f.getRootGraph().getElementFormalism("place").getGraphicalDescription().getIcon24px();
-		registry.put(IMG_PLACE, ImageDescriptor.createFromFile(Coloane.class, img));		
+		registry.put(IMG_TPNFORM,
+				ImageDescriptor.createFromFile(Coloane.class, f.getImageName()));
+
+		img = f.getRootGraph().getElementFormalism("transition")
+				.getGraphicalDescription().getIcon24px();
+		registry.put(IMG_TRANSITION,
+				ImageDescriptor.createFromFile(Coloane.class, img));
+
+		img = f.getRootGraph().getElementFormalism("place")
+				.getGraphicalDescription().getIcon24px();
+		registry.put(IMG_PLACE,
+				ImageDescriptor.createFromFile(Coloane.class, img));
 	}
 
 	/**
 	 * Add an image to registry
-	 * @param registry the referential
-	 * @param key the image id
-	 * @param fileName the image file path
+	 * 
+	 * @param registry
+	 *            the referential
+	 * @param key
+	 *            the image id
+	 * @param fileName
+	 *            the image file path
 	 */
 	private void registerImage(ImageRegistry registry, String key,
 			String fileName) {
@@ -167,12 +183,16 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 				registry.put(key, desc);
 			}
 		} catch (Exception e) {
+			warning("An error occured while loading image for plugin:"
+					+ e.getLocalizedMessage());
 		}
 	}
 
 	/**
 	 * returns form colors of a display (singleton factory)
-	 * @param display the display
+	 * 
+	 * @param display
+	 *            the display
 	 * @return the new formcolors or existing one
 	 */
 	public FormColors getFormColors(Display display) {
@@ -182,28 +202,36 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		}
 		return formColors;
 	}
+
 	/**
 	 * Returns the shared instance.
+	 * 
 	 * @return sole instance
 	 */
 	public static ITSEditorPlugin getDefault() {
 		return plugin;
 	}
+
 	/**
 	 * Returns the workspace instance.
+	 * 
 	 * @return sole instance
 	 */
 	public static IWorkspace getWorkspace() {
 		return ResourcesPlugin.getWorkspace();
 	}
+
 	/**
 	 * Returns the string from the plugin's resource bundle, or 'key' if not
 	 * found.
-	 * @param key to the bundle
+	 * 
+	 * @param key
+	 *            to the bundle
 	 * @return the id of a bundle
 	 */
 	public static String getResourceString(String key) {
-		ResourceBundle bundle = ITSEditorPlugin.getDefault().getResourceBundle();
+		ResourceBundle bundle = ITSEditorPlugin.getDefault()
+				.getResourceBundle();
 		try {
 			// CHECKSTYLE OFF
 			return (bundle != null ? bundle.getString(key) : key);
@@ -212,13 +240,16 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 			return key;
 		}
 	}
+
 	/**
 	 * Returns the plugin's resource bundle
+	 * 
 	 * @return my own resource bundle
 	 */
 	public ResourceBundle getResourceBundle() {
 		return resourceBundle;
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -233,28 +264,35 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 			super.stop(context);
 		}
 	}
+
 	/**
 	 * Great user API to get icons
-	 * @param key uri of the image
+	 * 
+	 * @param key
+	 *            uri of the image
 	 * @return an image
 	 */
 	public Image getImage(String key) {
 		return getImageRegistry().get(key);
 	}
-	
+
 	/**
 	 * Great user API to get icons
-	 * @param key uri of the image
+	 * 
+	 * @param key
+	 *            uri of the image
 	 * @return an image
 	 */
 	public ImageDescriptor getImageDescriptor(String key) {
 		return getImageRegistry().getDescriptor(key);
 	}
-	
+
 	/**
 	 * Returns whether the given file is executable. Depending on the platform
 	 * we might not get this right.
-	 * @param file the file to test
+	 * 
+	 * @param file
+	 *            the file to test
 	 * @return true if executable is detected with certitude
 	 */
 	public static boolean isExecutable(File file) {
@@ -272,83 +310,121 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		}
 		return store.fetchInfo().getAttribute(EFS.ATTRIBUTE_EXECUTABLE);
 	}
-
+	/**
+	 * Position the path.
+	 * @param text new path.
+	 */
 	public void setITSReachPath(String text) {
-		setPreference(ITS_REACH_NAME,text);
+		setPreference(ITS_REACH_NAME, text);
 	}
+	/**
+	 * Position the path.
+	 * @param text new path.
+	 */
 	public void setITSCTLPath(String text) {
-		setPreference(ITS_CTL_NAME,text);		
-	}
-	public void setOrderingPath(String text) {
-		setPreference(ORDERING_NAME,text);		
-	}
-	public void setPythonPath(String text) {
-		setPreference(PYTHON_PATH,text);		
+		setPreference(ITS_CTL_NAME, text);
 	}
 
-	
-	/** Grab the its-reach path from prefs.
+	/**
+	 * Position the path.
+	 * @param text new path.
+	 */
+	public void setOrderingPath(String text) {
+		setPreference(ORDERING_NAME, text);
+	}
+
+	/**
+	 * Position the path.
+	 * @param text new path.
+	 */
+	public void setPythonPath(String text) {
+		setPreference(PYTHON_PATH, text);
+	}
+
+	/**
+	 * Grab the its-reach path from prefs.
 	 * 
 	 * @return the path
 	 */
-	public final IPath getITSReachPath() {
+	public IPath getITSReachPath() {
 		return makePath(getPreference(ITS_REACH_NAME));
 	}
 
+	/**
+	 * Returns a path built from preference value.
+	 * @param preference path name
+	 * @return Path object
+	 */
 	private IPath makePath(String preference) {
-		if (preference == null)
+		if (preference == null) {
 			return null;
-		else
+		} else {
 			return new Path(preference);
+		}
 	}
 
+	/**
+	 * Return currently set path in preferences.
+	 * @return current its-ctl designated path.
+	 */
 	public IPath getITSCTLPath() {
 		return makePath(getPreference(ITS_CTL_NAME));
 	}
-
-	
+	/**
+	 * Return currently set path for Ordering.py script in preferences.
+	 * @return path to Silien Hong NEOPPOD Order script.
+	 */
 	public IPath getOrderingPath() {
 		return makePath(getPreference(ORDERING_NAME));
 	}
+	
+	/**
+	 * Path to python executable.
+	 * @return yep it's necessary on windows.
+	 */
 	public IPath getPythonPath() {
 		return makePath(getPreference(PYTHON_PATH));
 	}
-	
-	/** Returns the preference with the given name
-	 * @param preferenceName the pref
-	 * @return the value */
-	public final String getPreference(String preferenceName) {
-		Preferences node =
-						Platform.getPreferencesService().getRootNode().node(InstanceScope.SCOPE).node(
-										ITSEditorPlugin.ID);
+
+	/**
+	 * Returns the preference with the given name
+	 * 
+	 * @param preferenceName
+	 *            the pref
+	 * @return the value
+	 */
+	public String getPreference(String preferenceName) {
+		Preferences node = Platform.getPreferencesService().getRootNode()
+				.node(InstanceScope.SCOPE).node(ITSEditorPlugin.ID);
 		return node.get(preferenceName, null);
 	}
 
-	
 	/**
 	 * Sets the given preference to the given value.
-	 * @param preferenceName the preference
-	 * @param value the value to set
+	 * 
+	 * @param preferenceName
+	 *            the preference
+	 * @param value
+	 *            the value to set
 	 */
 	private void setPreference(String preferenceName, String value) {
-		IEclipsePreferences root = Platform.getPreferencesService().getRootNode();
+		IEclipsePreferences root = Platform.getPreferencesService()
+				.getRootNode();
 		Preferences node = root.node(InstanceScope.SCOPE).node(ID);
 		node.put(preferenceName, value);
 		try {
 			node.flush();
 		} catch (BackingStoreException e) {
-			warning("Error updating preferences."+e);
+			warning("Error updating preferences." + e);
 		}
 	}
 
+	/**
+	 * Emit a warning with the appropriate logger.
+	 * @param e Warning message
+	 */
 	public static void warning(String e) {
-		Logger.getLogger(ID).warning(e);		
+		Logger.getLogger(ID).warning(e);
 	}
-
-
-
-
-
-
 
 }
