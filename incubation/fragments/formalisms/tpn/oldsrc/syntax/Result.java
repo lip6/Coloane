@@ -27,13 +27,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-/** 
+/**
  * An adapter for a syntax error result.
  * @author Yann
  */
 public final class Result implements IResult {
 
-	private List<ISubResult> subResults = new ArrayList<ISubResult>();
+    private List<ISubResult> subResults = new ArrayList<ISubResult>();
 
 	/**
 	 * {@inheritDoc}
@@ -73,77 +73,96 @@ public final class Result implements IResult {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void addChild(SubResult sr) {
 		subResults.add(sr);
 	}
 
-	public void addSubResult(ISubResult subResult) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * {@inheritDoc}
+	 */
+	public void addSubResult(ISubResult) {
 	}
 
-	public void addTip(ITip tip) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * {@inheritDoc}
+	 */
+	public void addTip(ITip) {
 	}
 
-	public void addTip(IElement object, String name, String value) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * {@inheritDoc}
+	 */
+	public void addTip(IElement , String , String ) {
 	}
 
-	public void addDeltaRequest(IRequest request) {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * {@inheritDoc}
+	 */
+	public void addDeltaRequest(IRequest ) {
 	}
-
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void addDeltaRequests(List<IRequest> requests) {
-		// TODO Auto-generated method stub
-		
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setNewGraph(IGraph newGraph) {
-		// TODO Auto-generated method stub
-		
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public void addNewGraphDeltaRequest(List<IRequest> requests) {
-		// TODO Auto-generated method stub
-		
 	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public String getResultName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<IRequest> getDeltaRequestsList() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<IRequest> getNewComputedGraphDeltaRequestsList() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public IGraph getNewComputedGraph() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public List<List<String>> getTextualResults() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public Map<Integer, List<ITip>> getTips() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public boolean shouldBeDisplayed() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
