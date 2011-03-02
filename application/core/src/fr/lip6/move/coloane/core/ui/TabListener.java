@@ -36,7 +36,7 @@ public class TabListener implements IPartListener2 {
 		String id = partRef.getPartProperty("session.id"); //$NON-NLS-1$
 		if (id != null) {
 			LOGGER.finer("Tab activated : " + id);  //$NON-NLS-1$
-			SessionManager.getInstance().resumeSession(id); 
+			SessionManager.getInstance().resumeSession(id);
 		}
 	}
 
