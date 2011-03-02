@@ -17,6 +17,8 @@
 package fr.lip6.move.coloane.projects.its.plugin.editors;
 
 
+import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
@@ -51,7 +53,6 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.editors.text.TextEditor;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.ide.IDE;
@@ -82,7 +83,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	/** The checks pages */
 	private List<ChecksMasterDetailsPage> checkPages = new LinkedList<ChecksMasterDetailsPage>();
 
-	private Map<TypeDeclaration,Integer> checkPagesIndex = new HashMap<TypeDeclaration, Integer>();
+	private Map<TypeDeclaration, Integer> checkPagesIndex = new HashMap<TypeDeclaration, Integer>();
 
 	private FlattenModelAction flattenAction;
 
@@ -132,15 +133,14 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	 */
 	public void exportToSDD(TypeDeclaration td) {
 		ITSModelWriter mw = new ITSModelWriter();
-		try {
-			DirectoryDialog dialog = new DirectoryDialog(getSite().getShell());
-			String directory = dialog.open();
-			mw.exportITSModel(types, td, directory);
+			try {
+				DirectoryDialog dialog = new DirectoryDialog(getSite().getShell());
+				String directory = dialog.open();
+				mw.exportITSModel(types, td, directory);
+			} catch (ExtensionException e) {
+				e.printStackTrace();
+			}
 
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	/**
@@ -149,8 +149,9 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	 * @return the add action.
 	 */
 	public AddTypeAction getAddAction() {
-		if (addAction == null)
+		if (addAction == null) {
 			addAction = new AddTypeAction(this);
+		}
 		return addAction;
 	}
 
@@ -160,8 +161,9 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	 * @return the add action.
 	 */
 	public FlattenModelAction getFlattenAction() {
-		if (flattenAction == null)
+		if (flattenAction == null) {
 			flattenAction = new FlattenModelAction();
+		}
 		return flattenAction;
 	}
 
@@ -188,8 +190,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		try {
 			((FileEditorInput) getEditorInput()).getFile().setContents(is, false, false, null);
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Coloane.showWarningMsg("Could not save file ! " + e.getMessage());
 		}
 		setDirty(false);
 	}
@@ -315,7 +316,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		}
 		setTypes(tmptypes);
 		try {
-			treePage = new MasterDetailsPage(this,this);
+			treePage = new MasterDetailsPage(this, this);
 			addPage(treePage);
 			for (CheckList cl : types.getChecks()) {
 				addCheckPage(cl);
@@ -325,11 +326,16 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
-		createPageTextEditor();		
+		createPageTextEditor();
 	}
 
-	public void createCheckPage (TypeDeclaration td) {
-		if (! checkPagesIndex .containsKey(td)) {
+	/**
+	 * Add a new "checks" page for a type declaration.
+	 * Tests are performed to only create one check page per main type.
+	 * @param td the main type to analyze.
+	 */
+	public void createCheckPage(TypeDeclaration td) {
+		if (!checkPagesIndex .containsKey(td)) {
 			CheckList cl = new CheckList(td);
 			cl.addObserver(this);
 			types.addCheckList(cl);
@@ -339,14 +345,19 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		}
 	}
 
-	public void addCheckPage (CheckList cl) {
+	/**
+	 * Add a new "checks" page for a given CheckList.
+	 * Tests are performed to only create one check page per main type.
+	 * @param cl the checklist model object
+	 */
+	private void addCheckPage(CheckList cl) {
 		try {
-			int pageIndex ;
-			if (! checkPagesIndex .containsKey(cl.getType())) {
-				ChecksMasterDetailsPage newPage = new ChecksMasterDetailsPage(this,this,cl);
+			int pageIndex;
+			if (!checkPagesIndex .containsKey(cl.getType())) {
+				ChecksMasterDetailsPage newPage = new ChecksMasterDetailsPage(this, this, cl);
 				pageIndex = addPage(newPage);
 				this.checkPages.add(newPage);
-				checkPagesIndex.put(cl.getType(),pageIndex);
+				checkPagesIndex.put(cl.getType(), pageIndex);
 			} else {
 				pageIndex = checkPagesIndex.get(cl.getType());
 			}
@@ -355,13 +366,6 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 			e.printStackTrace();
 		}
 	}
-
-	public void flatten(TypeDeclaration td) {
-		FlattenModelAction action = getFlattenAction();
-		action.setTypeDeclaration(td);
-		action.run();
-	}
-
 
 }
 
