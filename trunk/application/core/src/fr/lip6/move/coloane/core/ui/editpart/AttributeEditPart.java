@@ -98,9 +98,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	};
 
 	/**
-	 * Creates the associated figure</br>
+	 * Creates the associated figure.
 	 * For the attributes, the figure is, in fact, a <b>label</b>.
-	 * @return IFigure
+	 * @return IFigure the associated figure.
 	 */
 	@Override
 	protected final IFigure createFigure() {
@@ -123,8 +123,9 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	}
 
 	/**
-	 * If the attribute value matches its default value, the attribute should not be displayed (hidden)</br>
+	 * If the attribute value matches its default value, the attribute should not be displayed (hidden).
 	 * But, the formalism can specify exceptions! In that case, the defaultValueDrawable status has to be checked too.
+	 * @param attribute the attribute to query
 	 * @return <code>true</code> if the attribute has to be displayed; <code>false</code> otherwise
 	 */
 	private boolean computeVisibility(IAttribute attribute) {
@@ -140,6 +141,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	/**
 	 * Compute the location of an attribute considering its parent type (arc, node or graph...).<br>
 	 * If the attribute has already some location information, they have to be used instead !
+	 * @param attribute the attribute to query
 	 * @return the better location (try to avoid overlaps between attributes)
 	 */
 	private Point computeLocation(IAttribute attribute) {

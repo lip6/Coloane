@@ -162,7 +162,7 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 * @param request the attachment request
 	 * @param locatedElement the subpart to attach
 	 * @param cmd the command to chain
-	 * @param horizontal indicates whether the guide is horizontal
+	 * @param orientation indicates whether the guide is horizontal or vertical
 	 * @return the command representing the chaining
 	 */
 	protected final Command chainGuideAttachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, int orientation) {
@@ -201,10 +201,9 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 	 * @param request the detachment request
 	 * @param locatedElement the subpart to detach
 	 * @param cmd the command to chain
-	 * @param horizontal indicates whether the guide is horizontal
+	 * @param orientation indicates whether the guide is horizontal or vertical
 	 * @return the command representing the chaining
 	 */
-
 	protected final Command chainGuideDetachmentCommand(Request request, ILocatedElement locatedElement, Command cmd, int orientation) {
 		String key;
 

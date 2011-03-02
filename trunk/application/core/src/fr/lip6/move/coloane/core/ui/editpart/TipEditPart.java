@@ -24,7 +24,6 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.coloane.interfaces.objects.result.Tip;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -54,7 +53,7 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
  */
 public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPart, PropertyChangeListener {
 	/** Logger */
-	private final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Maximum number of attempts for positioning a tip near its elements without overlapping with another figure */
 	private static final int LOCATION_MAX_ATTEMPTS = 3;
