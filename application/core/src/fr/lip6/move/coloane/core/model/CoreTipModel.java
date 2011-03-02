@@ -19,7 +19,6 @@ import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.objects.result.ITip;
 
@@ -127,3 +126,4 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 		setLocation(new Point(0, 0));
 	}
 }
+
