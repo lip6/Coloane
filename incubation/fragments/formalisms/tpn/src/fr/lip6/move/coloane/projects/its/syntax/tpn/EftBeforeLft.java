@@ -28,9 +28,9 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * A syntax rule to check the EFT is before LFT.
+ *
  * @author Yann
  *
  */
@@ -43,7 +43,8 @@ public final class EftBeforeLft implements INodeChecker {
 	 */
 	public EftBeforeLft() {
 		ruleTypes = new ArrayList<IElementFormalism>();
-		IGraphFormalism tpn = FormalismManager.getInstance().getFormalismByName("Time Petri Net").getRootGraph();
+		IGraphFormalism tpn = FormalismManager.getInstance()
+				.getFormalismByName("Time Petri Net").getRootGraph();
 		ruleTypes.add(tpn.getElementFormalism("transition"));
 	}
 
@@ -58,13 +59,13 @@ public final class EftBeforeLft implements INodeChecker {
 			eftv = Integer.parseInt(eft);
 		} catch (NumberFormatException e) {
 			String msg = "The attribute earliest firing time \"eft\" is not an integer.\n"
-				+ "It is set to value \"" + eft + "\".";
+					+ "It is set to value \"" + eft + "\".";
 
-//			SubResult sr = new SubResult();
-//			sr.addAttributeOutline(elt.getId(), "earliestFiringTime");
-//			sr.addObjectOutline(elt.getId());
-//			sr.addTextualResults(msg);
-//			result.addChild(sr);			
+			// SubResult sr = new SubResult();
+			// sr.addAttributeOutline(elt.getId(), "earliestFiringTime");
+			// sr.addObjectOutline(elt.getId());
+			// sr.addTextualResults(msg);
+			// result.addChild(sr);
 
 			return new CheckerResult(true, msg);
 		}
@@ -75,23 +76,23 @@ public final class EftBeforeLft implements INodeChecker {
 		try {
 			lftv = Integer.parseInt(lft);
 		} catch (NumberFormatException e) {
-//			SubResult sr = new SubResult();
-//			sr.addAttributeOutline(elt.getId(), "earliestFiringTime");
-//			sr.addAttributeOutline(elt.getId(), "latestFiringTime");
-//			sr.addObjectOutline(elt.getId());
-//			result.addChild(sr);
-			
-			String msg = "Latest firing time for transition should be an integer";			
+			// SubResult sr = new SubResult();
+			// sr.addAttributeOutline(elt.getId(), "earliestFiringTime");
+			// sr.addAttributeOutline(elt.getId(), "latestFiringTime");
+			// sr.addObjectOutline(elt.getId());
+			// result.addChild(sr);
+
+			String msg = "Latest firing time for transition should be an integer";
 			return new CheckerResult(true, msg);
 		}
 		if (eftv > lftv) {
-//			SubResult sr = new SubResult();
-//			sr.addAttributeOutline(elt.getId(),  "earliestFiringTime");
-//			sr.addAttributeOutline(elt.getId(), "latestFiringTime");
-//			sr.addObjectOutline(elt.getId());
-//			result.addChild(sr);
+			// SubResult sr = new SubResult();
+			// sr.addAttributeOutline(elt.getId(), "earliestFiringTime");
+			// sr.addAttributeOutline(elt.getId(), "latestFiringTime");
+			// sr.addObjectOutline(elt.getId());
+			// result.addChild(sr);
 
-			String msg = "Earliest firing time should be lesser or equal to Latest firing time.";			
+			String msg = "Earliest firing time should be lesser or equal to Latest firing time.";
 			return new CheckerResult(true, msg);
 		}
 
@@ -112,6 +113,9 @@ public final class EftBeforeLft implements INodeChecker {
 		return ruleTypes;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public ICheckerResult performCheck(INode node) {
 		return check(node);
 	}
