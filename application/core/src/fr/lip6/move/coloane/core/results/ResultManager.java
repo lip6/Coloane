@@ -180,9 +180,8 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	}
 
 	/** {@inheritDoc} */
-	@SuppressWarnings("unchecked")
-	public final List getElement() {
-		return new ArrayList(map.values());
+	public final List<Object> getElement() {
+		return new ArrayList<Object>(map.values());
 	}
 
 	/** {@inheritDoc} */
