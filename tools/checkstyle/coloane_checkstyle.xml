@@ -21,16 +21,6 @@
     </module>
 
     <module name="TreeWalker">
-        <!--
-        Module à migrer en dehors de TreeWalker lors de la mise à jour vers checkstyle
-        5.X, GenericIllegalRegexp n'existe plus et est remplacé par RegexpSingleline.
-             -->
-<!--        <module name="FileLength"/>-->
-
-<!--        <module name="GenericIllegalRegexp">-->
-<!--            <property name="format" value="[^\*]\s+$"/>-->
-<!--            <property name="message" value="Line has trailing spaces."/>-->
-<!--        </module>-->
 
         <!-- Javadoc -->
         <module name="JavadocStyle">
@@ -129,5 +119,7 @@
         <property name="onCommentFormat" value="CHECKSTYLE ON"/>
     </module>
 
-    <module name="NewlineAtEndOfFile"/>
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="lf"/>
+    </module>
 </module>
