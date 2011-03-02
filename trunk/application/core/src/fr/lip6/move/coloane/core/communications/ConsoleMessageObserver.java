@@ -33,13 +33,17 @@ import org.eclipse.ui.console.MessageConsoleStream;
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
-public class ConsoleMessageObserver implements IApiObserver {
+public final class ConsoleMessageObserver implements IApiObserver {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Console handled by this observer */
 	private MessageConsole console;
 
+	/**
+	 * Build a console.
+	 * @param console nested console.
+	 */
 	public ConsoleMessageObserver(MessageConsole console) {
 		this.console = console;
 	}
