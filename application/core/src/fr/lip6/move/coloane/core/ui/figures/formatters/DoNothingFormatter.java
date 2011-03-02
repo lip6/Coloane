@@ -18,7 +18,12 @@ package fr.lip6.move.coloane.core.ui.figures.formatters;
 import fr.lip6.move.coloane.interfaces.model.IAttributeFormatter;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 
-public class DoNothingFormatter implements IAttributeFormatter {
+/**
+ * A default formatter that does nothing.
+ * @author JBV
+ *
+ */
+public final class DoNothingFormatter implements IAttributeFormatter {
 
 	/**
 	 * {@inheritDoc}
