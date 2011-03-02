@@ -265,3 +265,5 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 		this.nodeLink = link;
 	}
 }
+
+
