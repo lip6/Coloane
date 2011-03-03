@@ -54,7 +54,7 @@ public final class ChecksMasterDetailsPage extends FormPage implements ITypeList
 	protected void createFormContent(final IManagedForm managedForm) {
 		final ScrolledForm form = managedForm.getForm();
 		//FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("Tree view"); //$NON-NLS-1$
+		form.setText("Analysis available"); //$NON-NLS-1$
 		form.setBackgroundImage(ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_FORM_BG));
 		block.createContent(managedForm);
 	}
