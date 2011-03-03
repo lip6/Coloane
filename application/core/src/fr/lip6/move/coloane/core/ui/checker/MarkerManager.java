@@ -16,6 +16,7 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
 import fr.lip6.move.coloane.core.session.SessionManager;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
@@ -48,6 +49,9 @@ import org.eclipse.ui.ide.IDE;
 public final class MarkerManager {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
+	/** The id of the eclipse property view (to force focus on gotoMarker) */
+	private static final String PROPERTY_VIEW_ID = "org.eclipse.ui.views.PropertySheet"; //$NON-NLS-1$
 
 	/** ID of the root marker. */
 	private static String ROOT_MARKER = "fr.lip6.move.coloane.core.ui.checker.rootMarker"; //$NON-NLS-1$
@@ -294,10 +298,10 @@ public final class MarkerManager {
 		deleteMarkers(resource, GRAPH_ATTRIBUTE_MARKER, null);
 	}
 
-    /**
-     * Sets the cursor and selection state for an editor to reveal the position of the given marker.
-     * @param marker the marker.
-     */
+	/**
+	 * Sets the cursor and selection state for an editor to reveal the position of the given marker.
+	 * @param marker the marker.
+	 */
 	public void doGotoMarker(IMarker marker) {
 		// We get the IElement id associated to the marker
 		Integer objectId = -1;
@@ -320,19 +324,34 @@ public final class MarkerManager {
 		if (element == null) {
 			element = currentGraph.getNode(objectId);
 		}
-
 		// If the IElement isn't null, it will be highlight in the IGraph
 		if (element != null) {
 			try {
 				IEditorPart editor = IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), (IFile) marker.getResource());
 				GraphicalViewer viewer = (GraphicalViewer) editor.getAdapter(GraphicalViewer.class);
 				viewer.deselectAll();
-				viewer.appendSelection((EditPart) viewer.getEditPartRegistry().get(element));
 
+				// See if we can refine to attribute selection
 				String attribute = marker.getAttribute(ATTRIBUTE, null);
+				EditPart toFocus = null;
 				if (attribute != null) {
-
+					IAttribute attView = element.getAttribute(attribute);
+					// Focus on attribute
+					// Could return null if this attribute is not visible as an EditPArt
+					toFocus = (EditPart) viewer.getEditPartRegistry().get(attView) ;					
+				} 
+				
+				if (toFocus == null) {
+					// not resolved as an attribute, resolve to IModelElement
+					// default to focus on the Node, Arc or Graph part
+					// Should never be null, all nodes have a corresponding EditPart.
+					toFocus = (EditPart) viewer.getEditPartRegistry().get(element);
 				}
+				viewer.appendSelection(toFocus);
+				
+				// Force display of Property page, unfortunately, not sure how to focus on a field of it.
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(PROPERTY_VIEW_ID);
+
 			} catch (PartInitException e) {
 				e.printStackTrace();
 			}
