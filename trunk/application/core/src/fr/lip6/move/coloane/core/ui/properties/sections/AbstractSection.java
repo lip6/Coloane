@@ -16,6 +16,7 @@
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
 import fr.lip6.move.coloane.interfaces.model.IAbstractPropertyChange;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -81,7 +82,14 @@ public abstract class AbstractSection<T extends IAbstractPropertyChange> extends
 		Iterator<Object> it = (Iterator<Object>) ((IStructuredSelection) getSelection()).iterator();
 		while (it.hasNext()) {
 			EditPart editPart = (EditPart) it.next();
-			T element = (T) editPart.getModel();
+			T element;
+			Object elt = editPart.getModel();
+			if (elt instanceof IAttribute) {
+				IAttribute att = (IAttribute) elt;
+				element = (T) att.getReference();
+			} else {
+				element = (T) elt;
+			}
 			element.addPropertyChangeListener(this);
 			elements.add(element);
 		}
