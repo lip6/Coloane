@@ -62,7 +62,9 @@ place : lvl=placeLevel pname=VARIABLE mk=initMarquage
                 nodes.put($pname.getText(), node);
                 if (mk != 0)
                   node.getAttribute("marking").setValue(Integer.toString(mk));
-                // TODO : handle the place level
+                
+                node.getAttribute("component").setValue(Integer.toString(lvl));
+                
               } catch (ModelException e) {                
                 e.printStackTrace();
               }       
