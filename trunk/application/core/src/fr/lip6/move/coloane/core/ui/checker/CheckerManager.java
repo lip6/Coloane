@@ -247,9 +247,6 @@ public final class CheckerManager {
 	 */
 	public void checkArc(Checker checker, IResource resource, IGraph graph, IArc arc) {
 		// First we check the arc itself.
-		// Deleting its markers.
-		MarkerManager.getInstance().deleteArcMarkers(resource, arc);
-		MarkerManager.getInstance().deleteArcAttributeMarkers(resource, arc);
 
 		// If the arc still belongs to the graph, we check it.
 		if (graph.getArc(arc.getId()) != null) {
@@ -261,9 +258,6 @@ public final class CheckerManager {
 		List<INode> arcNodes = new ArrayList<INode>(2);
 		arcNodes.add(arc.getSource());
 		arcNodes.add(arc.getTarget());
-
-		MarkerManager.getInstance().deleteNodeMarkers(resource, arc.getSource());
-		MarkerManager.getInstance().deleteNodeMarkers(resource, arc.getTarget());
 
 		for (INode node : arcNodes) {
 			if (graph.getNode(node.getId()) != null) {
@@ -286,24 +280,6 @@ public final class CheckerManager {
 		List<IArc> inArcs = node.getIncomingArcs();
 		List<IArc> outArcs = node.getOutgoingArcs();
 
-		// We delete the node markers and its attributes markers,
-		MarkerManager.getInstance().deleteNodeMarkers(resource, node);
-		MarkerManager.getInstance().deleteNodeAttributeMarkers(resource, node);
-
-		for (IArc arc : inArcs) {
-			// all attributes markers and arcs markers of its incoming arcs
-			MarkerManager.getInstance().deleteArcMarkers(resource, arc);
-			MarkerManager.getInstance().deleteArcAttributeMarkers(resource, arc);
-			// and node markers of incoming arc node source
-			MarkerManager.getInstance().deleteNodeMarkers(resource, arc.getSource());
-		}
-		for (IArc arc : outArcs) {
-			// all attributes markers and arcs markers of its outgoing arcs
-			MarkerManager.getInstance().deleteArcMarkers(resource, arc);
-			MarkerManager.getInstance().deleteArcAttributeMarkers(resource, arc);
-			// and node markers of outgoing arc node target.
-			MarkerManager.getInstance().deleteNodeMarkers(resource, arc.getSource());
-		}
 
 		// If the node still belongs to the graph,
 		if (graph.getNode(node.getId()) != null) {
@@ -351,8 +327,8 @@ public final class CheckerManager {
 	 * @param graph the graph to check.
 	 */
 	public void checkGraph(Checker checker, IResource resource, IGraph graph) {
-		MarkerManager.getInstance().deleteGraphMarkers(resource);
-		MarkerManager.getInstance().deleteGraphAttributeMarkers(resource);
+		MarkerManager.getInstance().deleteElementMarkers(resource,graph);
+		MarkerManager.getInstance().deleteElementAttributeMarkers(resource,graph);
 
 		for (GraphChecker graphChecker : checker.getGraphCheckers()) {
 			ICheckerResult r = graphChecker.check(graph);
@@ -370,6 +346,7 @@ public final class CheckerManager {
 	 * @param resource the resource file where markers are created.
 	 */
 	private void checkINode(Checker checker, INode node, IResource resource) {
+		MarkerManager.getInstance().deleteElementMarkers(resource, node);
 		String nodeFormalism = node.getNodeFormalism().getName();
 		for (NodeChecker nodeChecker : checker.getNodeCheckers(nodeFormalism)) {
 			ICheckerResult r = nodeChecker.check(node);
@@ -386,6 +363,7 @@ public final class CheckerManager {
 	 * @param resource the resource file where markers are created.
 	 */
 	private void checkIArc(Checker checker, IArc arc, IResource resource) {
+		MarkerManager.getInstance().deleteElementMarkers(resource, arc);		
 		String arcFormalism = arc.getArcFormalism().getName();
 		for (ArcChecker arcChecker : checker.getArcCheckers(arcFormalism)) {
 			ICheckerResult r = arcChecker.check(arc);
@@ -402,6 +380,8 @@ public final class CheckerManager {
 	 * @param resource the resource file where markers are created.
 	 */
 	private void checkIElementAttributes(Checker checker, IElement element, IResource resource) {
+		MarkerManager.getInstance().deleteElementAttributeMarkers(resource, element);
+		
 		for (IAttribute attribute : element.getAttributes()) {
 			if (element instanceof INode) {
 				INode node = (INode) element;
