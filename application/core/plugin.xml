@@ -324,27 +324,21 @@
           contributorId="fr.lip6.move.coloane.properties.contributor">
        <propertySection
              class="fr.lip6.move.coloane.core.ui.properties.sections.NodeSection"
+             filter="fr.lip6.move.coloane.core.ui.properties.sections.NodeFilter"
              id="fr.lip6.move.coloane.core.section.NodeSection"
              tab="fr.lip6.move.coloane.core.properties.element">
-            <input
-                  type="fr.lip6.move.coloane.interfaces.model.INode">
-            </input>
        </propertySection>
        <propertySection
              class="fr.lip6.move.coloane.core.ui.properties.sections.ArcSection"
+             filter="fr.lip6.move.coloane.core.ui.properties.sections.ArcFilter"
              id="fr.lip6.move.coloane.core.section.ArcSection"
              tab="fr.lip6.move.coloane.core.properties.element">
-          <input
-                type="fr.lip6.move.coloane.interfaces.model.IArc">
-          </input>
        </propertySection>
        <propertySection
              class="fr.lip6.move.coloane.core.ui.properties.sections.ModelSection"
+             filter="fr.lip6.move.coloane.core.ui.properties.sections.GraphFilter"
              id="fr.lip6.move.coloane.core.section.ModelSection"
              tab="fr.lip6.move.coloane.core.properties.element">
-          <input
-                type="fr.lip6.move.coloane.interfaces.model.IGraph">
-          </input>
        </propertySection>
        <propertySection
              class="fr.lip6.move.coloane.core.ui.properties.sections.NodeColorSection"
