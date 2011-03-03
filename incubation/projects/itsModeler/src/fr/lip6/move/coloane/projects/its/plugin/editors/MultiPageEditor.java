@@ -228,6 +228,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 			throw new PartInitException("Invalid Input: Must be IFileEditorInput");
 		}
 		super.init(site, editorInput);
+		setPartName(editorInput.getName());
 	}
 	/**
 	 * {@inheritDoc}
