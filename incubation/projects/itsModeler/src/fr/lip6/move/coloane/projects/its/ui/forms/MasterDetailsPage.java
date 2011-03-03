@@ -50,7 +50,7 @@ public final class MasterDetailsPage extends FormPage implements ITypeListProvid
 	protected void createFormContent(final IManagedForm managedForm) {
 		final ScrolledForm form = managedForm.getForm();
 		//FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("Tree view"); //$NON-NLS-1$
+		form.setText("Models loaded as ITS"); //$NON-NLS-1$
 		form.setBackgroundImage(ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_FORM_BG));
 		block.createContent(managedForm);
 	}
