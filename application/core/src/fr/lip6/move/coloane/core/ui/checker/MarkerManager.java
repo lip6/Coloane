@@ -16,9 +16,11 @@
 package fr.lip6.move.coloane.core.ui.checker;
 
 import fr.lip6.move.coloane.core.session.SessionManager;
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -246,56 +248,36 @@ public final class MarkerManager {
 		}
 	}
 
+
 	/**
-	 * Delete node markers associated to the node.
+	 * Delete IElement attribute markers associated to the IElement.
+	 * @param resource the resource file from where markers are deleted.
+	 * @param element marker associated to this element's attributes will be deleted.
+	 */
+	public void deleteElementAttributeMarkers(IResource resource, IElement element) {
+		if (element instanceof INode) {
+			deleteMarkers(resource, NODE_ATTRIBUTE_MARKER, element);
+		} else if (element instanceof IArc) {
+			deleteMarkers(resource, ARC_ATTRIBUTE_MARKER, element);
+		} else if (element instanceof IGraph) {
+			deleteMarkers(resource, GRAPH_ATTRIBUTE_MARKER, element);
+		}
+		
+	}
+
+	/**
+	 * Delete markers associated to the IElement.
 	 * @param resource the resource file from where markers are deleted.
 	 * @param element marker associated to this element will be deleted.
 	 */
-	public void deleteNodeMarkers(IResource resource, IElement element) {
-		deleteMarkers(resource, NODE_MARKER, element);
-	}
-
-	/**
-	 * Delete node attribute markers associated to the node.
-	 * @param resource the resource file from where markers are deleted.
-	 * @param element marker associated to this element will be deleted.
-	 */
-	public void deleteNodeAttributeMarkers(IResource resource, IElement element) {
-		deleteMarkers(resource, NODE_ATTRIBUTE_MARKER, element);
-	}
-
-	/**
-	 * Delete arc markers associated to the arc.
-	 * @param resource the resource file from where markers are deleted.
-	 * @param element marker associated to this element will be deleted.
-	 */
-	public void deleteArcMarkers(IResource resource, IElement element) {
-		deleteMarkers(resource, ARC_MARKER, element);
-	}
-
-	/**
-	 * Delete arc attribute markers associated to the arc.
-	 * @param resource the resource file from where markers are deleted.
-	 * @param element marker associated to this element will be deleted.
-	 */
-	public void deleteArcAttributeMarkers(IResource resource, IElement element) {
-		deleteMarkers(resource, ARC_ATTRIBUTE_MARKER, element);
-	}
-
-	/**
-	 * Delete graph markers associated to the graph.
-	 * @param resource the resource file from where markers are deleted.
-	 */
-	public void deleteGraphMarkers(IResource resource) {
-		deleteMarkers(resource, GRAPH_MARKER, null);
-	}
-
-	/**
-	 * Delete graph attribute markers.
-	 * @param resource the resource file from where markers are deleted.
-	 */
-	public void deleteGraphAttributeMarkers(IResource resource) {
-		deleteMarkers(resource, GRAPH_ATTRIBUTE_MARKER, null);
+	public void deleteElementMarkers(IResource resource, IElement element) {
+		if (element instanceof INode) {
+			deleteMarkers(resource, NODE_MARKER, element);
+		} else if (element instanceof IArc) {
+			deleteMarkers(resource, ARC_MARKER, element);
+		} else if (element instanceof IGraph) {
+			deleteMarkers(resource, GRAPH_MARKER, null);
+		}
 	}
 
 	/**
