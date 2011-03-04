@@ -47,12 +47,26 @@ import org.eclipse.core.runtime.IProgressMonitor;
  * The main class for the export
  * 
  * @author Maximilien Colange
- *
  */
 public class ExportToGML implements IExportTo {
 
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.extensions.exporttogml"); //$NON-NLS-1$
+	
+	/**
+	 * Map to convert Coloane formalism names to FML url.
+	 */
+	private final Map<String, String> formalismMap = new HashMap<String, String>();
+
+	/**
+	 * Initialize the formalismMap
+	 */
+	public ExportToGML() {
+		// TODO: Put the associated FML URL into Coloane Formalism extension
+		formalismMap.put("PT-Net", "http://alligator.lip6.fr/pt-net.fml");
+		formalismMap.put("CPN", "http://alligator.lip6.fr/s-net.fml");
+		formalismMap.put("SNB", "http://alligator.lip6.fr/snb.fml");
+	}
 	
 	/**
 	 * Performs the export
@@ -117,8 +131,15 @@ public class ExportToGML implements IExportTo {
 		String gap = "\t";
 		Map<String, String> symbolTable = new HashMap<String, String>();
 
+		String fmlUrl;
+		if (formalismMap.containsKey(graph.getFormalism().getId())) {
+			fmlUrl = formalismMap.get(graph.getFormalism().getId());
+		} else {
+			fmlUrl = "http://alligator.lip6.fr/unknown";
+		}
+
 		out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n");
-		out.write("<model formalismUrl=\"snb.fml\"\n");
+		out.write("<model formalismUrl=\"" + fmlUrl + "\"\n");
 		out.write("    xmlns=\"http://gml.lip6.fr/model\">\n");
 
 		LOGGER.fine("GML preamble");
@@ -252,7 +273,7 @@ public class ExportToGML implements IExportTo {
 	 */
 	private void exportDomain(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
 		if ("domain".equals(symbols.get(value)) || "domain_bag".equals(symbols.get(value)) || "class".equals(symbols.get(value)) || "".equals(value)) {
-			out.write(gap + "<attribute name=\"domain\">" + value + "</attribute>\n");
+			out.write(gap + "<attribute name=\"domain\"><attribute name=\"type\">" + value + "</attribute></attribute>\n");
 		} else {
 			throw new ExtensionException("Error parsing prod file : " + value + " has not been defined in domain or class declaration part. Its value is " + symbols.get(value));
 		}
