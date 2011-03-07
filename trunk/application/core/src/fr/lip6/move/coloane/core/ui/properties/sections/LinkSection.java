@@ -94,11 +94,15 @@ public class LinkSection extends AbstractSection<INode> {
 	private IResourceChangeListener resourceChangeListener = new IResourceChangeListener() {
 		/** Update the list of the public node */
 		private void update() {
-			Display.getCurrent().asyncExec(new Runnable() {
-				public void run() {
-					refresh();
-				}
-			});
+			Display display = Display.getCurrent();
+			if (display != null) {
+				display.asyncExec(new Runnable() {
+
+					public void run() {
+						refresh();
+					}
+				});
+			}
 		}
 
 		/** Looking for content changing in model */
