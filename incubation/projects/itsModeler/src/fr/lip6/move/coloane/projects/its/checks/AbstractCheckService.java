@@ -72,7 +72,6 @@ public abstract class AbstractCheckService extends SimpleObservable implements
 				Integer.toString(DEFAULT_TIMEOUT));
 	}
 
-	@Override
 	public void addResult(ServiceResult serviceResult) {
 		results.add(serviceResult);
 		notifyObservers();
@@ -125,7 +124,6 @@ public abstract class AbstractCheckService extends SimpleObservable implements
 		return new Path(workdir);
 	}
 
-	@Override
 	public Iterator<ServiceResult> iterator() {
 		return results.iterator();
 	}

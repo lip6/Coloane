@@ -20,21 +20,23 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * The integer variable representing a TPN transition clock.
+ * 
  * @author Yann
- *
+ * 
  */
 public class TransitionClockVariable extends LeafModelVariable {
 
-	private String id;
 	private String clock;
 
 	/**
 	 * The integer variable representing a TPN transition clock.
-	 * @param transition the owner transition.
+	 * 
+	 * @param transition
+	 *            the owner transition.
 	 */
 	public TransitionClockVariable(INode transition) {
 		super(transition.getAttribute("label").getValue());
-		id = "__clock_T_" + transition.getId() + getName();
+		setId("__clock_T_" + transition.getId() + getName());
 		clock = "[ " + transition.getAttribute("earliestFiringTime").getValue()
 				+ ", " + transition.getAttribute("latestFiringTime").getValue()
 				+ " ]";
@@ -43,16 +45,7 @@ public class TransitionClockVariable extends LeafModelVariable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getDescription() {
+	public final String getDescription() {
 		return "An integer representing a transition clock value " + clock
 				+ ".";
 	}

@@ -20,14 +20,17 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * An integer representing the marking of a Time Petri net place.
+ * 
  * @author Yann
- *
+ * 
  */
 public class PlaceMarkingVariable extends LeafModelVariable {
 
 	/**
 	 * An integer representing the marking of a Time Petri net place.
-	 * @param node the place node
+	 * 
+	 * @param node
+	 *            the place node
 	 */
 	public PlaceMarkingVariable(INode node) {
 		super(node.getAttribute("name").getValue());
@@ -37,8 +40,7 @@ public class PlaceMarkingVariable extends LeafModelVariable {
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
-	public String getDescription() {
+	public final String getDescription() {
 		return "An integer representing the marking of a Time Petri net place";
 	}
 

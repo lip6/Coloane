@@ -20,8 +20,9 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 /**
  * An SDD variable representing a type instance.
+ * 
  * @author Yann
- *
+ * 
  */
 public class InstanceVariable extends CompositeModelVariable {
 
@@ -32,8 +33,11 @@ public class InstanceVariable extends CompositeModelVariable {
 
 	/**
 	 * Build a variable based on its owning instance node and type.
-	 * @param inst the instance
-	 * @param type its type
+	 * 
+	 * @param inst
+	 *            the instance
+	 * @param type
+	 *            its type
 	 */
 	public InstanceVariable(INode inst, String type) {
 		super(inst.getAttribute("name").getValue());
@@ -45,16 +49,16 @@ public class InstanceVariable extends CompositeModelVariable {
 	 * Compose the name UML style as: name:Type.
 	 * {@inheritDoc}
 	 */
-	@Override
-	public String getDescription() {
+	public final String getDescription() {
 		return "Instance " + getInstanceName();
 	}
 
 	/**
 	 * Compose the name UML style as: name:Type.
+	 * 
 	 * @return a pretty name
 	 */
-	public String getInstanceName() {
+	public final String getInstanceName() {
 		return getName() + ":" + type;
 	}
 

@@ -17,8 +17,9 @@
 package fr.lip6.move.coloane.projects.its.variables;
 
 /**
- * Carries common properties of all variables.
- * Most abstract implementation of a IModelVariable.
+ * Carries common properties of all variables. Most abstract implementation of a
+ * IModelVariable.
+ *
  * @author Yann
  *
  */
@@ -33,13 +34,14 @@ public abstract class AbstractModelVariable implements IModelVariable {
 	 */
 	private IModelVariable parent;
 	/**
-	 * Fully qualified name. 
+	 * Fully qualified name.
 	 */
 	private String id;
 
 	/**
 	 * Name the variable.
-	 * @param name
+	 * 
+	 * @param name its name
 	 */
 	public AbstractModelVariable(String name) {
 		this.name = name;
@@ -47,7 +49,9 @@ public abstract class AbstractModelVariable implements IModelVariable {
 
 	/**
 	 * Position the id. Call during construction.
-	 * @param id the new id.
+	 * 
+	 * @param id
+	 *            the new id.
 	 */
 	protected final void setId(String id) {
 		this.id = id;
@@ -55,17 +59,17 @@ public abstract class AbstractModelVariable implements IModelVariable {
 
 	/**
 	 * Return this variable's name.
+	 * @return the name
 	 */
-	@Override
 	public final String getName() {
 		return name;
 	}
 
 	/**
 	 * Parent relationship, per the DP.
+	 * 
 	 * @return the parent, or "this" at root level.
 	 */
-	@Override
 	public final IModelVariable getParent() {
 		if (parent != null) {
 			return parent;
@@ -75,9 +79,9 @@ public abstract class AbstractModelVariable implements IModelVariable {
 
 	/**
 	 * Builds the fully qalified name of this variable.
+	 * 
 	 * @return a unique hierarchical identifier for this variable.
 	 */
-	@Override
 	public final String getQualifiedName() {
 		String s = "";
 		if (getParent() != this) {
@@ -92,17 +96,16 @@ public abstract class AbstractModelVariable implements IModelVariable {
 	 * @param parent
 	 *            the parent in the tree or null to designate this is a root.
 	 */
-	@Override
-	public void setParent(IModelVariable parent) {
+	public final void setParent(IModelVariable parent) {
 		this.parent = parent;
 	}
 
 	/**
-	 * Builds a fully qualified id for this variable.
+	 * Builds a fully qualified id for this variable. {@inheritDoc}
+	 * 
 	 * @return the unique hierarchical Id.
 	 */
-	@Override
-	public String getId() {
+	public final String getId() {
 		String s = "";
 		if (getParent() != this) {
 			s = getParent().getId() + ".";

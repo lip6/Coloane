@@ -36,7 +36,6 @@ public interface IModelVariable extends Iterable<IModelVariable> {
 	/**
 	 * The Children of this ModelVariable, in the composite case. {@inheritDoc}
 	 */
-	@Override
 	Iterator<IModelVariable> iterator();
 
 	/**
