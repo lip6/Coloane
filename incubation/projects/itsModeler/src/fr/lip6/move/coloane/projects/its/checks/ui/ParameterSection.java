@@ -48,11 +48,11 @@ public class ParameterSection {
 	private boolean isEditable;
 	private String title;
 
-
-	public ParameterSection(String title, final FormToolkit formToolkit, Composite parent, boolean isEditable) {
+	public ParameterSection(String title, final FormToolkit formToolkit,
+			Composite parent, boolean isEditable) {
 		toolkit = formToolkit;
 		this.parent = parent;
-		this.isEditable= isEditable;
+		this.isEditable = isEditable;
 		this.title = title;
 	}
 
@@ -61,8 +61,7 @@ public class ParameterSection {
 	}
 
 	public void setInput(ParameterList input) {
-		if (input != this.input)
-		{
+		if (input != this.input) {
 			this.input = input;
 			createDetails(parent);
 		}
@@ -71,30 +70,35 @@ public class ParameterSection {
 
 	public void update() {
 		for (Entry<Text, String> entry : params.entrySet()) {
-			String s = (input != null && input.getParameterValue(entry.getValue()) != null) ?
-					getInput().getParameterValue(entry.getValue()) : "";
-					entry.getKey().setText(s);
+			String s = (input != null && input.getParameterValue(entry
+					.getValue()) != null) ? getInput().getParameterValue(
+					entry.getValue()) : "";
+			entry.getKey().setText(s);
 		}
 		for (Entry<Button, String> entry : bparams.entrySet()) {
-			Boolean val = (input != null && input.getBoolParameterValue(entry.getValue()) != null) ?
-					getInput().getBoolParameterValue(entry.getValue()) : true;
-					entry.getKey().setSelection(val);
+			Boolean val = (input != null && input.getBoolParameterValue(entry
+					.getValue()) != null) ? getInput().getBoolParameterValue(
+					entry.getValue()) : true;
+			entry.getKey().setSelection(val);
 		}
 	}
 
-	protected void createDetails(Composite parent) {		
+	protected void createDetails(Composite parent) {
 		if (section != null) {
 			section.dispose();
 			params.clear();
 			bparams.clear();
 			section = null;
 		}
-		if (! input.getParameters().isEmpty()) {
-			section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+		if (!input.getParameters().isEmpty()) {
+			section = toolkit.createSection(parent,
+					ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE
+							| ExpandableComposite.EXPANDED);
 			section.marginWidth = 4;
 			section.marginHeight = 4;
 			section.setText(title); //$NON-NLS-1$
-			TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
+			TableWrapData td = new TableWrapData(TableWrapData.FILL,
+					TableWrapData.TOP);
 			td.grabHorizontal = true;
 			section.setLayoutData(td);
 			Composite client = toolkit.createComposite(section);
@@ -107,7 +111,8 @@ public class ParameterSection {
 				toolkit.createLabel(client, param); //$NON-NLS-1$
 				Text tf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
 				tf.setEditable(isEditable);
-				GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+				GridData gd = new GridData(GridData.FILL_HORIZONTAL
+						| GridData.VERTICAL_ALIGN_BEGINNING);
 				gd.widthHint = 10;
 				tf.setLayoutData(gd);
 				// store this param
@@ -117,14 +122,14 @@ public class ParameterSection {
 			}
 			for (String param : input.getBoolParameters()) {
 				//toolkit.createLabel(client, param); //$NON-NLS-1$
-				Button b = toolkit.createButton(client, param, SWT.CHECK);				
+				Button b = toolkit.createButton(client, param, SWT.CHECK);
 				b.setEnabled(isEditable);
 				// store this param
 				bparams.put(b, param);
 				if (isEditable)
 					b.addSelectionListener(new BoolParamListener(param));
 			}
-			
+
 			toolkit.paintBordersFor(section);
 			toolkit.paintBordersFor(client);
 			section.setClient(client);
@@ -141,7 +146,7 @@ public class ParameterSection {
 		}
 
 		public void widgetDefaultSelected(SelectionEvent e) {
-			
+
 		}
 
 		public void widgetSelected(SelectionEvent e) {
@@ -155,9 +160,9 @@ public class ParameterSection {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	private class ParamListener implements ModifyListener {
 
 		private String param;
@@ -178,6 +183,5 @@ public class ParameterSection {
 			}
 		}
 	}
-
 
 }

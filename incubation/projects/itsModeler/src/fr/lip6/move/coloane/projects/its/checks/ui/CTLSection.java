@@ -37,18 +37,15 @@ import fr.lip6.move.coloane.projects.its.checks.ui.controls.CTLText;
 
 public class CTLSection {
 
-
 	private FormToolkit toolkit;
 	private Composite parent;
 	private CTLFormulaDescription input;
 	private Section section;
 
-
 	private Text nameField;
 	private Text commentsField;
 	private CTLText ctlField;
 	private Section helpSection;
-
 
 	public CTLSection(final FormToolkit formToolkit, Composite parent) {
 		toolkit = formToolkit;
@@ -60,15 +57,12 @@ public class CTLSection {
 	}
 
 	public void setInput(CTLFormulaDescription input) {
-		if (input != this.input)
-		{
+		if (input != this.input) {
 			this.input = input;
 			createDetails(parent);
 		}
 		update();
 	}
-
-
 
 	private void createDetails(Composite parent2) {
 
@@ -79,11 +73,14 @@ public class CTLSection {
 			helpSection = null;
 		}
 		{
-			section = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
+			section = toolkit.createSection(parent,
+					ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE
+							| ExpandableComposite.EXPANDED);
 			section.marginWidth = 4;
 			section.marginHeight = 4;
 			section.setText("CTL Formula description"); //$NON-NLS-1$
-			TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
+			TableWrapData td = new TableWrapData(TableWrapData.FILL,
+					TableWrapData.TOP);
 			td.grabHorizontal = true;
 			section.setLayoutData(td);
 			Composite client = toolkit.createComposite(section);
@@ -95,14 +92,15 @@ public class CTLSection {
 
 			// settings for text fields
 			GridData gd;
-			gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+			gd = new GridData(GridData.FILL_HORIZONTAL
+					| GridData.VERTICAL_ALIGN_BEGINNING);
 			gd.widthHint = 10;
 
 			toolkit.createLabel(client, "Formula Title");
 			nameField = toolkit.createText(client, "");
 			nameField.setLayoutData(gd);
 			nameField.addModifyListener(new ModifyListener() {
-				
+
 				public void modifyText(ModifyEvent e) {
 					if (getInput() != null) {
 						getInput().setName(nameField.getText());
@@ -112,12 +110,13 @@ public class CTLSection {
 
 			toolkit.createLabel(client, "Formula Description");
 			commentsField = toolkit.createText(client, "", SWT.MULTI);
-			GridData gdhigh = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+			GridData gdhigh = new GridData(GridData.FILL_HORIZONTAL
+					| GridData.VERTICAL_ALIGN_BEGINNING);
 			gdhigh.widthHint = 10;
 			gdhigh.heightHint = 50;
 			commentsField.setLayoutData(gdhigh);
 			commentsField.addModifyListener(new ModifyListener() {
-				
+
 				public void modifyText(ModifyEvent e) {
 					if (getInput() != null) {
 						getInput().setComments(commentsField.getText());
@@ -125,14 +124,13 @@ public class CTLSection {
 				}
 			});
 
-			
 			toolkit.createLabel(client, "CTL formula"); //$NON-NLS-1$
 
 			ctlField = new CTLText(client, SWT.SINGLE);
 			gd.heightHint = 25;
 			ctlField.setLayoutData(gd);
 			ctlField.addModifyListener(new ModifyListener() {
-				
+
 				public void modifyText(ModifyEvent e) {
 					if (getInput() != null) {
 						getInput().setParsedFormula(ctlField.getFormula());
@@ -140,14 +138,16 @@ public class CTLSection {
 					}
 				}
 			});
-	
+
 			Button runb = toolkit.createButton(client, "Run check", SWT.PUSH);
-			gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END);
+			gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING
+					| GridData.HORIZONTAL_ALIGN_END);
 			runb.setLayoutData(gd);
 			runb.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent event) {
-					getInput().getParent().run(ctlField.getFormula().toString()+";", getInput());
+					getInput().getParent().run(
+							ctlField.getFormula().toString() + ";", getInput());
 				}
 			});
 
@@ -156,12 +156,15 @@ public class CTLSection {
 			section.setClient(client);
 		}
 		{
-			helpSection = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED );
+			helpSection = toolkit.createSection(parent,
+					ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE
+							| ExpandableComposite.EXPANDED);
 			helpSection.marginWidth = 4;
 			helpSection.marginHeight = 4;
 			helpSection.setText("CTL syntax help"); //$NON-NLS-1$
 			//		s1.setDescription(Messages.getString("TypeOneDetailsPage.name")); //$NON-NLS-1$
-			TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
+			TableWrapData td = new TableWrapData(TableWrapData.FILL,
+					TableWrapData.TOP);
 			td.grabHorizontal = true;
 			helpSection.setLayoutData(td);
 			Composite client = toolkit.createComposite(helpSection);
@@ -171,13 +174,14 @@ public class CTLSection {
 			glayout.numColumns = 1;
 			client.setLayout(glayout);
 
-//			toolkit.createLabel(client, "CTL syntax"); //$NON-NLS-1$
+			//			toolkit.createLabel(client, "CTL syntax"); //$NON-NLS-1$
 
 			Browser helpField = new Browser(client, SWT.NONE);
 			helpField.setText(getHelpText());
 
 			GridData gd;
-			gd = new GridData(GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_BEGINNING);
+			gd = new GridData(GridData.FILL_BOTH
+					| GridData.VERTICAL_ALIGN_BEGINNING);
 			gd.widthHint = 10;
 			gd.heightHint = 200;
 			helpField.setLayoutData(gd);
@@ -190,9 +194,6 @@ public class CTLSection {
 		parent.pack();
 	}
 
-
-
-
 	public void update() {
 		if (input != null) {
 			nameField.setText(input.getName());
@@ -204,18 +205,17 @@ public class CTLSection {
 
 	private String getHelpText() {
 		return "<strong>CTL (Computation Tree Logic)</strong> is a language used to describe properties of systems.<br>For the semantics of CTL, the reader should refer to the following paper<br><blockquote>E. M. Clarke, E. A. Emerson and A. P. Sistla,<br><em>Automatic Verification of Finite-State Concurrent Systems Using Temporal Logic Specifications</em>,<br>ACM Transactions on Programming Languages and Systems,<br>vol 8-2, pages 244-263, April, 1986<br></blockquote>"
-		+" This syntax should be followed when VIS users create CTL files <br>and  fairness  constraint  files  for  the  commands <tt>model_check</tt>, <tt><br>approximate_model_check</tt>, and <tt>read_fairness</tt>, respectively.<br>"
-		+"The syntax for CTL is:"
-		+"<blockquote>	TRUE,  FALSE, and <em>var-name=value</em>  are CTL formulas,<br>    where  <em>var-name</em>  is  the  full  hierarchical  name of a<br>    variable ,  and <em>value</em> is a legal  value in  the  domain <br>    of the variable. <em>var-name1 == var-name2</em> is  the  atomic <br>    formula that is true if <em>var-name1</em> has  the  same  value <br>    as<em>  var-name2</em>. Currently  it can be used  only  in  the <br>    Boolean  domain. ( It cannot  be used for variables  of <br>    enumerated  types. )<em>  var-name1</em>[i:j] == <em> var-name2</em>[k:l] <br>    can be used if  the  lengths  of  vectors are the  same. <br>    Vector variables, the syntax of hierarchical names, and<br>    macro definition are described later in this document.<br></blockquote>"
-		+"<blockquote>The following character set may be used for variable names and values:<br></blockquote>"
-		+"<pre>	A-Z a-z 0-9 ^ ? | / [ ] + * $ &lt; &gt; ~ @ _ # % :  .<br></pre>"
-		+"<blockquote>If f and g are CTL formulas, then so are the following:<br></blockquote>"
-		+"<pre>	(f), f * g, f + g, f ^ g, !f, f -&gt; g, f &lt;-&gt; g, AG f,<br>	AF f, AX f, EG f, EF f, EX f, A(f U g) and E(f U g).<br></pre>"
-		+"<blockquote><br>Binary operators must  be surrounded by  spaces, i.e.  <tt>f + g</tt> is a CTL <br>formula while<tt> f+g</tt> is  not. The  same is true  for <tt>U</tt> in until formulas. Once  parentheses are <br>inserted, the spaces  can be omitted, i.e. (f)+(g) is a valid formula. <br>Unary  temporal  operators  and  their arguments must be separated by <br>spaces unless parentheses are used.<br><br><br>The symbols have the following meanings.<br></blockquote>"
-		+"<pre>	* -- AND, + -- OR, ^ -- XOR, ! -- NOT, -&gt; -- IMPLY, &lt;-&gt; -- EQUIV</pre>"
-		+"<blockquote><u>Operator Precedence for CTL:</u><br><br>High<br></blockquote><pre>    	!<br><br>    	AG, AF, AX, EG, EF, EX<br><br>    	*<br><br>    	+<br><br>    	^<br><br>    	&lt;-&gt;<br><br>    	-&gt;<br><br>    	U<br><br>      Low<br>&gt;</pre>"
-		+"     An entire formula should be followed by a semicolon.  All text from <tt>#</tt> to<br> the end of a line is treated as a comment. The model checker (<tt>mc</tt>) package is<br> used to decide whether or not a given FSM satisfies a given CTL formula. See <br> the help files for the <tt>model_check</tt> and <tt>approximate_model_check</tt> commands  for <br> more details.<br><br>"
-		;	
+				+ " This syntax should be followed when VIS users create CTL files <br>and  fairness  constraint  files  for  the  commands <tt>model_check</tt>, <tt><br>approximate_model_check</tt>, and <tt>read_fairness</tt>, respectively.<br>"
+				+ "The syntax for CTL is:"
+				+ "<blockquote>	TRUE,  FALSE, and <em>var-name=value</em>  are CTL formulas,<br>    where  <em>var-name</em>  is  the  full  hierarchical  name of a<br>    variable ,  and <em>value</em> is a legal  value in  the  domain <br>    of the variable. <em>var-name1 == var-name2</em> is  the  atomic <br>    formula that is true if <em>var-name1</em> has  the  same  value <br>    as<em>  var-name2</em>. Currently  it can be used  only  in  the <br>    Boolean  domain. ( It cannot  be used for variables  of <br>    enumerated  types. )<em>  var-name1</em>[i:j] == <em> var-name2</em>[k:l] <br>    can be used if  the  lengths  of  vectors are the  same. <br>    Vector variables, the syntax of hierarchical names, and<br>    macro definition are described later in this document.<br></blockquote>"
+				+ "<blockquote>The following character set may be used for variable names and values:<br></blockquote>"
+				+ "<pre>	A-Z a-z 0-9 ^ ? | / [ ] + * $ &lt; &gt; ~ @ _ # % :  .<br></pre>"
+				+ "<blockquote>If f and g are CTL formulas, then so are the following:<br></blockquote>"
+				+ "<pre>	(f), f * g, f + g, f ^ g, !f, f -&gt; g, f &lt;-&gt; g, AG f,<br>	AF f, AX f, EG f, EF f, EX f, A(f U g) and E(f U g).<br></pre>"
+				+ "<blockquote><br>Binary operators must  be surrounded by  spaces, i.e.  <tt>f + g</tt> is a CTL <br>formula while<tt> f+g</tt> is  not. The  same is true  for <tt>U</tt> in until formulas. Once  parentheses are <br>inserted, the spaces  can be omitted, i.e. (f)+(g) is a valid formula. <br>Unary  temporal  operators  and  their arguments must be separated by <br>spaces unless parentheses are used.<br><br><br>The symbols have the following meanings.<br></blockquote>"
+				+ "<pre>	* -- AND, + -- OR, ^ -- XOR, ! -- NOT, -&gt; -- IMPLY, &lt;-&gt; -- EQUIV</pre>"
+				+ "<blockquote><u>Operator Precedence for CTL:</u><br><br>High<br></blockquote><pre>    	!<br><br>    	AG, AF, AX, EG, EF, EX<br><br>    	*<br><br>    	+<br><br>    	^<br><br>    	&lt;-&gt;<br><br>    	-&gt;<br><br>    	U<br><br>      Low<br>&gt;</pre>"
+				+ "     An entire formula should be followed by a semicolon.  All text from <tt>#</tt> to<br> the end of a line is treated as a comment. The model checker (<tt>mc</tt>) package is<br> used to decide whether or not a given FSM satisfies a given CTL formula. See <br> the help files for the <tt>model_check</tt> and <tt>approximate_model_check</tt> commands  for <br> more details.<br><br>";
 	}
 
 }
