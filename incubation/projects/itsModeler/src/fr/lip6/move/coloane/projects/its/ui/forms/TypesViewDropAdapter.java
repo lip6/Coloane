@@ -17,6 +17,8 @@
 package fr.lip6.move.coloane.projects.its.ui.forms;
 
 
+import fr.lip6.move.coloane.projects.its.actions.AddTypeAction;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.TreeSelection;
@@ -25,8 +27,6 @@ import org.eclipse.jface.viewers.ViewerDropAdapter;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.ui.part.ResourceTransfer;
-
-import fr.lip6.move.coloane.projects.its.actions.AddTypeAction;
 
 /**
  * A drag and drop "drop" adapter to allow drop of files onto tree view.
@@ -81,6 +81,10 @@ public final class TypesViewDropAdapter extends ViewerDropAdapter {
 		}
 		return false;
 	}
+	/**
+	 * singleton action.
+	 * @return the action
+	 */
 	private AddTypeAction getAddAction() {
 		return action;
 	}

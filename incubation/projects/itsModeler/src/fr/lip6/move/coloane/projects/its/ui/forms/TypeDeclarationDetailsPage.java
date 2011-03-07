@@ -23,7 +23,6 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -90,7 +89,6 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		glayout.numColumns = 2;
 		client.setLayout(glayout);
 
-		
 		toolkit.createLabel(client, "Type Name"); //$NON-NLS-1$
 		typeNametf = toolkit.createText(client, "", SWT.SINGLE | SWT.BORDER); //$NON-NLS-1$
 		typeNametf.addModifyListener(new ModifyListener() {
@@ -105,7 +103,7 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		typeNametf.setLayoutData(gd);
 
 		toolkit.createLabel(client, "Model File"); //$NON-NLS-1$
-		typeFiletf = toolkit.createText(client, "", SWT.SINGLE ); //$NON-NLS-1$
+		typeFiletf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
 		typeFiletf.setEditable(false);
 		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.widthHint = 10;
@@ -176,9 +174,6 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		//				}
 		//			}
 		//		});
-
-		
-		
 		toolkit.paintBordersFor(s1);
 		toolkit.paintBordersFor(client);
 		s1.setClient(client);

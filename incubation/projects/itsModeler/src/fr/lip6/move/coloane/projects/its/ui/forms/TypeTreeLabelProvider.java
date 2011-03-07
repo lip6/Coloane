@@ -21,7 +21,6 @@ import fr.lip6.move.coloane.projects.its.Concept;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.expression.IVariableBinding;
 
-
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
@@ -80,18 +79,24 @@ public class TypeTreeLabelProvider
 	@Override
 	public Image getImage(Object element) {
 		if (element instanceof CompositeTypeDeclaration) {
-			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_COMPOSITE);
+			return ITSEditorPlugin.getDefault().getImage(
+					ITSEditorPlugin.IMG_COMPOSITE);
 		}
 		if (element instanceof TypeDeclaration) {
-			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_TPNFORM);			
+			return ITSEditorPlugin.getDefault().getImage(
+					ITSEditorPlugin.IMG_TPNFORM);
 		} else if (element instanceof Concept) {
-			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_INSTANCE);
+			return ITSEditorPlugin.getDefault().getImage(
+					ITSEditorPlugin.IMG_INSTANCE);
 		} else if (element instanceof IVariableBinding) {
 			IVariableBinding vb = (IVariableBinding) element;
-			if (vb.getVariableValue() != null)
-				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_SETVAR);
-			else
-				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_USETVAR);				
+			if (vb.getVariableValue() != null) {
+				return ITSEditorPlugin.getDefault().getImage(
+						ITSEditorPlugin.IMG_SETVAR);
+			} else {
+				return ITSEditorPlugin.getDefault().getImage(
+						ITSEditorPlugin.IMG_USETVAR);
+			}
 		}
 		return null;
 	}
