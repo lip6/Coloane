@@ -18,22 +18,42 @@ package fr.lip6.move.coloane.projects.its.variables;
 
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+/**
+ * A variable representing an instance within a Scalar/Circular type.
+ * @author Yann
+ *
+ */
 public class ScalarInstanceVariable extends CompositeModelVariable {
 
 	private String type;
 
+	/**
+	 * A variable representing an instance within a Scalar/Circular type.
+	 * 
+	 * @param inst the instance node
+	 * @param type its type
+	 * @param index the index of the target
+	 */
 	public ScalarInstanceVariable(INode inst, String type, int index) {
-		super(""+index);
+		super("" + index);
 		setId(getName());
-		this.type = inst.getAttribute("type").getValue() +  " (" + type + ")";
-	}
-	
-	public String getDescription() {
-		return "Scalar instance "+ getInstanceName();
+		this.type = inst.getAttribute("type").getValue() + " (" + type + ")";
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getDescription() {
+		return "Scalar instance " + getInstanceName();
+	}
+
+	/**
+	 * Builds a name for the instance of the form tab[i]
+	 * @return a pretty name
+	 */
 	public String getInstanceName() {
-		return "tab[ " + getName()+ " ]:" + type;
+		return "tab[ " + getName() + " ]:" + type;
 	}
 
 }

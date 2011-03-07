@@ -16,46 +16,94 @@
  */
 package fr.lip6.move.coloane.projects.its.variables;
 
-
+/**
+ * Carries common properties of all variables.
+ * Most abstract implementation of a IModelVariable.
+ * @author Yann
+ *
+ */
 public abstract class AbstractModelVariable implements IModelVariable {
 
+	/**
+	 * Variables are named.
+	 */
 	private String name;
+	/**
+	 * Parent relationship, per DP.
+	 */
 	private IModelVariable parent;
+	/**
+	 * Fully qualified name. 
+	 */
 	private String id;
 
-	
+	/**
+	 * Name the variable.
+	 * @param name
+	 */
 	public AbstractModelVariable(String name) {
 		this.name = name;
 	}
 
-	protected void setId(String id) {
+	/**
+	 * Position the id. Call during construction.
+	 * @param id the new id.
+	 */
+	protected final void setId(String id) {
 		this.id = id;
 	}
-	
-	public String getName() {
+
+	/**
+	 * Return this variable's name.
+	 */
+	@Override
+	public final String getName() {
 		return name;
 	}
 
-	public IModelVariable getParent() {
-		if (parent != null)
+	/**
+	 * Parent relationship, per the DP.
+	 * @return the parent, or "this" at root level.
+	 */
+	@Override
+	public final IModelVariable getParent() {
+		if (parent != null) {
 			return parent;
+		}
 		return this;
 	}
 
-	public String getQualifiedName() {
-		String s="";
+	/**
+	 * Builds the fully qalified name of this variable.
+	 * @return a unique hierarchical identifier for this variable.
+	 */
+	@Override
+	public final String getQualifiedName() {
+		String s = "";
 		if (getParent() != this) {
 			s = getParent().getQualifiedName() + ".";
 		}
 		return s + name;
 	}
 
+	/**
+	 * Setter for parent. This operation should only be called internally.
+	 * 
+	 * @param parent
+	 *            the parent in the tree or null to designate this is a root.
+	 */
+	@Override
 	public void setParent(IModelVariable parent) {
 		this.parent = parent;
 	}
 
+	/**
+	 * Builds a fully qualified id for this variable.
+	 * @return the unique hierarchical Id.
+	 */
+	@Override
 	public String getId() {
-		String s="";
+		String s = "";
 		if (getParent() != this) {
 			s = getParent().getId() + ".";
 		}

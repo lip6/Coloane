@@ -18,15 +18,26 @@ package fr.lip6.move.coloane.projects.its.variables;
 
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+/**
+ * An integer representing the marking of a Time Petri net place.
+ * @author Yann
+ *
+ */
 public class PlaceMarkingVariable extends LeafModelVariable {
 
-
-	
+	/**
+	 * An integer representing the marking of a Time Petri net place.
+	 * @param node the place node
+	 */
 	public PlaceMarkingVariable(INode node) {
 		super(node.getAttribute("name").getValue());
-		setId("P_"+ node.getId() + getName()); 		
+		setId("P_" + node.getId() + getName());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public String getDescription() {
 		return "An integer representing the marking of a Time Petri net place";
 	}

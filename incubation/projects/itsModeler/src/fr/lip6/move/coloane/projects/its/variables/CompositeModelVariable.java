@@ -20,21 +20,40 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * A SDD variable representing a composite per the DP.
+ * @author Yann
+ *
+ */
+public abstract class CompositeModelVariable extends AbstractModelVariable
+		implements IModelVariable {
 
-public abstract class CompositeModelVariable extends AbstractModelVariable implements IModelVariable {
-
+	/**
+	 * Variables are named.
+	 * @param name
+	 */
 	public CompositeModelVariable(String name) {
 		super(name);
 	}
 
+	/**
+	 * children per Composite DP.
+	 */
 	private List<IModelVariable> children = new ArrayList<IModelVariable>();
 
+	/**
+	 * Iterable interface for children per DP.
+	 */
+	@Override
 	public Iterator<IModelVariable> iterator() {
 		return children.iterator();
 	}
 
-	
-	public void addChild (IModelVariable var) {
+	/**
+	 * Write accessor to add children.
+	 * @param var a subvariable child.
+	 */
+	public void addChild(IModelVariable var) {
 		children.add(var);
 		var.setParent(this);
 	}

@@ -19,16 +19,30 @@ package fr.lip6.move.coloane.projects.its.variables;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ * A terminal node per Composite DP.
+ * @author Yann
+ *
+ */
+public abstract class LeafModelVariable extends AbstractModelVariable implements
+		IModelVariable {
 
-public abstract class LeafModelVariable extends AbstractModelVariable implements IModelVariable {
-
+	/**
+	 * Any variable has a name.
+	 * @param name the name of this leaf variable.
+	 */
 	public LeafModelVariable(String name) {
 		super(name);
 	}
 
+	/**
+	 * A leaf has no children.
+	 * @return empty list iterator
+	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	public Iterator<IModelVariable> iterator() {
 		return Collections.EMPTY_LIST.iterator();
 	}
-	
+
 }
