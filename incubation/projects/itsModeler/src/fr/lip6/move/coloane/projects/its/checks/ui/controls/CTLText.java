@@ -37,17 +37,16 @@ public class CTLText extends StyledText {
 
 	private CheckList cl;
 
-
 	public CTLText(Composite parent, int style) {
-		super(parent, style | SWT.BORDER );
+		super(parent, style | SWT.BORDER);
 		addModifyListener(new GrammarListener());
 	}
-	
+
 	private CTLText getSubject() {
 		return this;
 	}
-	
-	public void setCheckList (CheckList cl) {
+
+	public void setCheckList(CheckList cl) {
 		this.cl = cl;
 	}
 
@@ -56,20 +55,20 @@ public class CTLText extends StyledText {
 	private void setExpr(CTLFormula expr) {
 		this.expr = expr;
 	}
-	
+
 	public CTLFormula getFormula() {
 		return expr;
 	}
-	
+
 	class GrammarListener implements ModifyListener {
-		String previousCTL = "";
+		private String previousCTL = "";
+
 		public void modifyText(ModifyEvent e) {
 			String ctl = getText();
 			if (ctl != null && !ctl.equals(previousCTL)) {
-				
+
 				clearErrors();
-				
-				
+
 				previousCTL = ctl;
 				CTLParserLexer lexer;
 				lexer = new CTLParserLexer(new ANTLRStringStream(ctl));
@@ -83,27 +82,27 @@ public class CTLText extends StyledText {
 				parser.setCheckList(cl);
 				try {
 					setExpr(parser.ctlformula());
-					
-					for (String error: report) {
+
+					for (String error : report) {
 						System.err.println(error);
-//						addCheckFail(elt, att, error, result);
-//						testok = false;							
+						// addCheckFail(elt, att, error, result);
+						// testok = false;
 					}
 				} catch (RecognitionException ee) {
-					System.err.println(ee+ee.getMessage());
+					System.err.println(ee + ee.getMessage());
 					ee.printStackTrace();
-//					addCheckFail(elt, att, e.getLocalizedMessage(), result);
-//					testok = false;
+					// addCheckFail(elt, att, e.getLocalizedMessage(), result);
+					// testok = false;
 				}
 
-			}			
+			}
 		}
-		
+
 	}
 
 	private void clearErrors() {
 		setToolTipText("");
-//		setStyleRange(null);
+		// setStyleRange(null);
 		StyleRange sr = new StyleRange();
 		sr.start = 0;
 		sr.length = getText().length();
@@ -111,18 +110,15 @@ public class CTLText extends StyledText {
 		setStyleRange(sr);
 	}
 
-	
 	public void reportError(String msg, int charAt) {
-		setToolTipText(getToolTipText()+msg+"\n");
+		setToolTipText(getToolTipText() + msg + "\n");
 		StyleRange sr = new StyleRange();
-		sr.start = charAt == -1 ? getText().length()-1 : charAt;
-		sr.length = Math.min(2,getText().length()-sr.start);
+		sr.start = charAt == -1 ? getText().length() - 1 : charAt;
+		sr.length = Math.min(2, getText().length() - sr.start);
 		sr.underline = true;
-//		sr.underlineStyle =  SWT.UNDERLINE_SINGLE;//SWT.UNDERLINE_SQUIGGLE;
-//		sr.underlineColor = getDisplay().getSystemColor(SWT.COLOR_RED);
+		// sr.underlineStyle = SWT.UNDERLINE_SINGLE;//SWT.UNDERLINE_SQUIGGLE;
+		// sr.underlineColor = getDisplay().getSystemColor(SWT.COLOR_RED);
 		setStyleRange(sr);
 	}
 
-	
-	
 }
