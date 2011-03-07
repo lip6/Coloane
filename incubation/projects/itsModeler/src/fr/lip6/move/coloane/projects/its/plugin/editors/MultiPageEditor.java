@@ -30,7 +30,6 @@ import fr.lip6.move.coloane.projects.its.io.model.ITSModelWriter;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.ui.forms.MasterDetailsPage;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
