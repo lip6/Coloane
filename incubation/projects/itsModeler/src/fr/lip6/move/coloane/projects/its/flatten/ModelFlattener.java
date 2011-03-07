@@ -16,15 +16,6 @@
  */
 package fr.lip6.move.coloane.projects.its.flatten;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.StringTokenizer;
-
-import org.eclipse.draw2d.ColorConstants;
-
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
@@ -38,6 +29,15 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.Concept;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
+
+import org.eclipse.draw2d.ColorConstants;
 
 /**
  * A class to flatten an ITS model once its links are resolved. Produces a new
@@ -195,8 +195,8 @@ public final class ModelFlattener {
 	 * graph if shouldInstantiate is false, otherwise it is the instantiated
 	 * graph.
 	 * 
-	 * @param ctd
-	 * @return
+	 * @param td the type
+	 * @return a flat graph
 	 */
 	private IGraph getGraph(TypeDeclaration td) {
 		if (shouldInstantiate) {
