@@ -514,7 +514,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 		INode node = (INode) getModel();
 
 		// Double click on the node : follow the link (if exist)
-		if (req.getType().equals(RequestConstants.REQ_OPEN)) {
+		if (req.getType().equals(RequestConstants.REQ_OPEN) && node.getNodeLink() != null) {
 			String path = node.getNodeLink().replaceAll("(.*)@.*", "$1"); //$NON-NLS-1$ //$NON-NLS-2$
 			IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(path);
 			if (res instanceof IFile) {
