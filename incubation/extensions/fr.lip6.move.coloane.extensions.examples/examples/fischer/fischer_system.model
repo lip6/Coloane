@@ -46,7 +46,7 @@
 </arc>
 <arc arctype='arc' id='11' startid='7' endid='3' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='87' yposition='200'>Reset,MyTurn</attribute>
+<attribute name='labels' xposition='87' yposition='200'>Reset;MyTurn</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='12' startid='3' endid='6' color='#000000' curved='true'>

@@ -1,8 +1,24 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/fr.lip6.move.coloane.its.xsd'>
 <types>
+<type name='fischer_process' id='7000' formalism='Time Petri Net' path='/fr.lip6.move.coloane.examples.tpn.fischer/fischer_process.model'/>
+<type name='proc_group' id='7001' formalism='Scalar Set Composite' path='/fr.lip6.move.coloane.examples.tpn.fischer/proc_group.model'/>
+<type name='resource' id='7002' formalism='Time Petri Net' path='/fr.lip6.move.coloane.examples.tpn.fischer/resource.model'/>
+<type name='fischer_system' id='7003' formalism='ITSComposite' path='/fr.lip6.move.coloane.examples.tpn.fischer/fischer_system.model'/>
 </types>
 <concepts>
+<concept name='Process' id='7004' effective='7000' parent='7001'/>
+<concept name='ProcessGroup' id='7005' effective='7001' parent='7003'/>
+<concept name='Resource' id='7006' effective='7002' parent='7003'/>
 </concepts>
+<parameters>
+<parameter name='$SIZE' id='7007' parent='7001' value='5'/>
+</parameters>
+<checks>
+<check>
+<typeid>7003</typeid>
+<formulas>
+</formulas>
+</check>
+</checks>
 </model>
-
