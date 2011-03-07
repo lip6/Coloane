@@ -40,7 +40,8 @@ import org.eclipse.ui.dialogs.ContainerSelectionDialog;
 /**
  * The "New" wizard page allows setting the container for the new file as well
  * as the file name. The page will only accept file name without the extension
- * OR with the extension that matches the expected one (fr.lip6.move.coloane.its).
+ * OR with the extension that matches the expected one
+ * (fr.lip6.move.coloane.its).
  */
 public abstract class AbstractNewWizardPage extends WizardPage {
 	private Text containerText;
@@ -52,7 +53,8 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 	/**
 	 * Constructor for ITSNewWizardPage.
 	 * 
-	 * @param selection the workspace item currently selected (should be a folder)
+	 * @param selection
+	 *            the workspace item currently selected (should be a folder)
 	 */
 	public AbstractNewWizardPage(ISelection selection) {
 		super("wizardPage");
@@ -63,32 +65,41 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 
 	/**
 	 * Implement to provide the wizard title.
+	 * 
 	 * @return a name to put in the wizard's title bar
 	 */
-	abstract protected String getWizardTitle() ;
+	protected abstract String getWizardTitle();
+
 	/**
 	 * Implement to provide a helping text on the role of this wizard.
+	 * 
 	 * @return a wizard description for end users.
 	 */
-	abstract protected String getWizardDescription() ;
+	protected abstract String getWizardDescription();
+
 	/**
 	 * Implement to provide the file extension this wizard manipulates.
+	 * 
 	 * @return a file extension
 	 */
-	abstract protected String getWizardFileExtension() ;
-	
+	protected abstract String getWizardFileExtension();
+
 	/**
-	 * Defines the contents (SWT widgets) of this wizard.
-	 * Defaults to empty wizard.
-	 * @param container the parent container.
+	 * Defines the contents (SWT widgets) of this wizard. Defaults to empty
+	 * wizard.
+	 * 
+	 * @param container
+	 *            the parent container.
 	 */
-	protected void addContent(Composite container) {};
-	
+	protected void addContent(Composite container) {
+	};
+
 	/**
 	 * {@inheritDoc}
+	 * 
 	 * @see IDialogPage#createControl(Composite)
 	 */
-	public void createControl(Composite parent) {
+	public final void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 		GridLayout layout = new GridLayout();
 		container.setLayout(layout);
@@ -152,7 +163,7 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 				containerText.setText(container.getFullPath().toString());
 			}
 		}
-		fileText.setText("new_file."+ getWizardFileExtension());
+		fileText.setText("new_file." + getWizardFileExtension());
 	}
 
 	/**
@@ -161,8 +172,9 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 	 */
 
 	private void handleBrowse() {
-		ContainerSelectionDialog dialog = new ContainerSelectionDialog(getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
-		"Select new file container");
+		ContainerSelectionDialog dialog = new ContainerSelectionDialog(
+				getShell(), ResourcesPlugin.getWorkspace().getRoot(), false,
+				"Select new file container");
 		if (dialog.open() == Window.OK) {
 			Object[] result = dialog.getResult();
 			if (result.length == 1) {
@@ -177,7 +189,7 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 
 	private void dialogChanged() {
 		IResource container = ResourcesPlugin.getWorkspace().getRoot()
-		.findMember(new Path(getContainerName()));
+				.findMember(new Path(getContainerName()));
 		String fileName = getFileName();
 
 		if (getContainerName().length() == 0) {
@@ -205,7 +217,8 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 		if (dotLoc != -1) {
 			String ext = fileName.substring(dotLoc + 1);
 			if (!ext.equalsIgnoreCase(getWizardFileExtension())) {
-				updateStatus("File extension must be \""+getWizardFileExtension()+"\"");
+				updateStatus("File extension must be \""
+						+ getWizardFileExtension() + "\"");
 				return;
 			}
 		}
@@ -214,21 +227,27 @@ public abstract class AbstractNewWizardPage extends WizardPage {
 
 	/**
 	 * Set the current status + error message
-	 * @param message the message to display or null for ok status
+	 * 
+	 * @param message
+	 *            the message to display or null for ok status
 	 */
 	private void updateStatus(String message) {
 		setErrorMessage(message);
 		setPageComplete(message == null);
 	}
+
 	/**
 	 * Obtain the folder to create the file in
+	 * 
 	 * @return the container path
 	 */
 	public final String getContainerName() {
 		return containerText.getText();
 	}
+
 	/**
 	 * Obtain the name chosen for the new file
+	 * 
 	 * @return the file name without path
 	 */
 	public final String getFileName() {
