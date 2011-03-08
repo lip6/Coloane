@@ -18,6 +18,7 @@ package fr.lip6.move.coloane.projects.its.checks.ui;
 
 import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
+import fr.lip6.move.coloane.projects.its.checks.IServiceResultProvider;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
@@ -32,19 +33,26 @@ import fr.lip6.move.coloane.projects.its.variables.TransitionClockVariable;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.swt.graphics.Image;
 
-public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
+/**
+ * The tree label provider for checklists.
+ * @author Yann
+ *
+ */
+public final class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 		IBaseLabelProvider {
-	
+
 	/**
-	 * Return a nice formatted text for this element.
-	 * The text includes some markers of being unsatisfied (per the model)
-	 * @param element to display (TypeDeclaration, concept or VariableBinding)
+	 * Return a nice formatted text for this element. The text includes some
+	 * markers of being unsatisfied (per the model)
+	 * 
+	 * @param element
+	 *            to display (TypeDeclaration, concept or VariableBinding)
 	 * @return a nice formatted string
 	 */
 	@Override
 	public String getText(Object element) {
 		if (element instanceof AbstractCheckService) {
-			AbstractCheckService cs = (AbstractCheckService) element;
+			IServiceResultProvider cs = (IServiceResultProvider) element;
 			return cs.getName();
 		} else if (element instanceof ServiceResult) {
 			ServiceResult sr = (ServiceResult) element;
@@ -52,7 +60,7 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 		} else if (element instanceof Orders) {
 			return "Variable Orders";
 		} else if (element instanceof Ordering) {
-			return ((Ordering)element).getName();
+			return ((Ordering) element).getName();
 		} else if (element instanceof CTLFormulaDescription) {
 			CTLFormulaDescription ctl = (CTLFormulaDescription) element;
 			return ctl.getName();
@@ -71,7 +79,9 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 
 	/**
 	 * Return a nice graphic for the item.
-	 * @param element to get an icon from
+	 * 
+	 * @param element
+	 *            to get an icon from
 	 * @return an image (uniquely) loaded from the Resources
 	 */
 	@Override
@@ -79,29 +89,39 @@ public class CheckListTreeLabelProvider extends TypeTreeLabelProvider implements
 		if (element instanceof AbstractCheckService) {
 			// CheckService cs = (CheckService) element;
 			// TODO : an icon per service
-			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_REACH_SERVICE);
+			return ITSEditorPlugin.getDefault().getImage(
+					ITSEditorPlugin.IMG_REACH_SERVICE);
 		} else if (element instanceof ServiceResult) {
 			ServiceResult sr = (ServiceResult) element;
 			switch (sr.getSuccess()) {
-			case OK :
-				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_RESULTOK);
-			case NOK :
-				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_RESULTNOK);
-			case FAIL :
-				return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_RESULTFAIL);
-			}				
+			case OK:
+				return ITSEditorPlugin.getDefault().getImage(
+						ITSEditorPlugin.IMG_RESULTOK);
+			case NOK:
+				return ITSEditorPlugin.getDefault().getImage(
+						ITSEditorPlugin.IMG_RESULTNOK);
+			case FAIL:
+				return ITSEditorPlugin.getDefault().getImage(
+						ITSEditorPlugin.IMG_RESULTFAIL);
+			}
 		} else if (element instanceof Orders) {
-			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_COMPOSITE);
+			return ITSEditorPlugin.getDefault().getImage(
+					ITSEditorPlugin.IMG_COMPOSITE);
 		} else if (element instanceof TransitionClockVariable) {
-			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_TRANSITION);			
+			return ITSEditorPlugin.getDefault().getImage(
+					ITSEditorPlugin.IMG_TRANSITION);
 		} else if (element instanceof PlaceMarkingVariable) {
-			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_PLACE);						
-		} else if (element instanceof InstanceVariable || element instanceof ScalarInstanceVariable) {
-			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_INSTANCE);						
+			return ITSEditorPlugin.getDefault().getImage(
+					ITSEditorPlugin.IMG_PLACE);
+		} else if (element instanceof InstanceVariable
+				|| element instanceof ScalarInstanceVariable) {
+			return ITSEditorPlugin.getDefault().getImage(
+					ITSEditorPlugin.IMG_INSTANCE);
 		} else if (element instanceof CTLFormulaDescription) {
-			return ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_VARIABLE);
+			return ITSEditorPlugin.getDefault().getImage(
+					ITSEditorPlugin.IMG_VARIABLE);
 		}
 		return super.getImage(element);
 	}
-	
+
 }

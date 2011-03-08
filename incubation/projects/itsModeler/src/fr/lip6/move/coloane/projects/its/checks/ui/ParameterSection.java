@@ -16,6 +16,8 @@
  */
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
+import fr.lip6.move.coloane.projects.its.checks.ParameterList;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,8 +36,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-
-import fr.lip6.move.coloane.projects.its.checks.ParameterList;
 
 public class ParameterSection {
 
@@ -96,7 +96,7 @@ public class ParameterSection {
 							| ExpandableComposite.EXPANDED);
 			section.marginWidth = 4;
 			section.marginHeight = 4;
-			section.setText(title); //$NON-NLS-1$
+			section.setText(title);
 			TableWrapData td = new TableWrapData(TableWrapData.FILL,
 					TableWrapData.TOP);
 			td.grabHorizontal = true;
@@ -108,7 +108,7 @@ public class ParameterSection {
 			glayout.numColumns = 2;
 			client.setLayout(glayout);
 			for (String param : input.getParameters()) {
-				toolkit.createLabel(client, param); //$NON-NLS-1$
+				toolkit.createLabel(client, param);
 				Text tf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
 				tf.setEditable(isEditable);
 				GridData gd = new GridData(GridData.FILL_HORIZONTAL
@@ -117,8 +117,9 @@ public class ParameterSection {
 				tf.setLayoutData(gd);
 				// store this param
 				params.put(tf, param);
-				if (isEditable)
+				if (isEditable) {
 					tf.addModifyListener(new ParamListener(param));
+				}
 			}
 			for (String param : input.getBoolParameters()) {
 				//toolkit.createLabel(client, param); //$NON-NLS-1$
@@ -126,8 +127,9 @@ public class ParameterSection {
 				b.setEnabled(isEditable);
 				// store this param
 				bparams.put(b, param);
-				if (isEditable)
+				if (isEditable) {
 					b.addSelectionListener(new BoolParamListener(param));
+				}
 			}
 
 			toolkit.paintBordersFor(section);

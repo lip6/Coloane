@@ -16,28 +16,38 @@
  */
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
-
 import fr.lip6.move.coloane.projects.its.checks.ParameterList;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
 import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
 
-public class VariableDetailsPage extends ITSDetailsPage<IModelVariable> {
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
+
+/**
+ * Details about a Variable in a n Order and its name(s).
+ * @author Yann
+ *
+ */
+public final class VariableDetailsPage extends ITSDetailsPage<IModelVariable> {
 
 	private static final String VARNAME = "Variable Name";
 	private static final String VARDESC = "Description";
 	private static final String VARID = "ITS ID";
 	private static final String VARQUAL = "Qualified name";
-	
+
 	private ParameterSection params;
-	
+
 	@Override
 	protected void update() {
 		IModelVariable input = getInput();
-		params.setInput(getParameters(input));		
+		params.setInput(getParameters(input));
 	}
 
+	/**
+	 * Builds the parameters.
+	 * @param input a variable
+	 * @return appropriate params.
+	 */
 	private ParameterList getParameters(IModelVariable input) {
 		ParameterList pl = new ParameterList();
 		pl.addParameter(VARNAME);
@@ -51,11 +61,16 @@ public class VariableDetailsPage extends ITSDetailsPage<IModelVariable> {
 		return pl;
 	}
 
+	/**
+	 * Just a parameter section.
+	 * {@inheritDoc}
+	 */
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();
 		parent.setLayout(layout);
-				
-		params = new ParameterSection("Variable Description", getToolkit(), parent, false);
+
+		params = new ParameterSection("Variable Description", getToolkit(),
+				parent, false);
 	}
 
 }

@@ -63,15 +63,20 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+
 /**
  * A page to hold a check list in a tree view + hookup to details pages.
  */
-public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock implements ITypeListProvider {
+public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock
+		implements ITypeListProvider {
 	private ChecksMasterDetailsPage page;
 	private TreeViewer viewer;
+
 	/**
 	 * Ctor.
-	 * @param page parent page
+	 * 
+	 * @param page
+	 *            parent page
 	 */
 	public ChecksScrolledPropertiesBlock(ChecksMasterDetailsPage page) {
 		this.page = page;
@@ -83,12 +88,12 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 	@Override
 	protected void createMasterPart(final IManagedForm managedForm,
 			Composite parent) {
-		//final ScrolledForm form = managedForm.getForm();
+		// final ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		Section section = toolkit.createSection(parent, Section.DESCRIPTION
+				| ExpandableComposite.TITLE_BAR);
 		section.setText("Type Declarations"); //$NON-NLS-1$
-		section
-		.setDescription("Models imported into the ITS referential."); //$NON-NLS-1$
+		section.setDescription("Models imported into the ITS referential."); //$NON-NLS-1$
 		section.marginWidth = 10;
 		section.marginHeight = 5;
 		Composite client = toolkit.createComposite(section, SWT.WRAP);
@@ -97,11 +102,12 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		layout.marginWidth = 2;
 		layout.marginHeight = 2;
 		client.setLayout(layout);
-		GridData gd = new GridData(GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_BEGINNING);
+		GridData gd = new GridData(GridData.FILL_BOTH
+				| GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.heightHint = 20;
 		gd.widthHint = 30;
 
-		//		Table t = toolkit.createTable(client, SWT.NULL);
+		// Table t = toolkit.createTable(client, SWT.NULL);
 		Tree tree = toolkit.createTree(client, SWT.NULL);
 		tree.setLayoutData(gd);
 
@@ -123,78 +129,71 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 				page.getTypes().reload();
 			}
 		});
-		breload.setImage(ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_REFRESH));
+		breload.setImage(ITSEditorPlugin.getDefault().getImage(
+				ITSEditorPlugin.IMG_REFRESH));
 
-/**
-		Button b = toolkit.createButton(buttonZone, "Reachability", SWT.PUSH); //$NON-NLS-1$
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		b.setLayoutData(gd);
-		b.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				CheckService cs = new CheckService(page.getCheckList());
-				cs.setWorkdir("");
-				page.getCheckList().addCheck(cs);
-			}
-		});
-
-		Button b2 = toolkit.createButton(buttonZone, "CTL Properties", SWT.PUSH); //$NON-NLS-1$
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		b2.setLayoutData(gd);
-		b2.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				AbstractCheckService cs = new CTLCheckService(page.getCheckList());
-				cs.setWorkdir("");
-				page.getCheckList().addCheck(cs);
-			}
-		});
-
-		Button b3 = toolkit.createButton(buttonZone, "Variable Ordering", SWT.PUSH); //$NON-NLS-1$
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		b3.setLayoutData(gd);
-		b3.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				AbstractCheckService cs = new OrderingService(page.getCheckList());
-				cs.setWorkdir("");
-				page.getCheckList().addCheck(cs);
-			}
-		});
-	*/	
-//		Button b2 = toolkit.createButton(buttonZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
-//		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-//		b2.setLayoutData(gd);
-//		b2.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent event) {
-//				try {
-//					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
-//					new RemoveTypeAction(page.getMpe().getTypes(), td).run();
-//				} catch (ClassCastException e) {
-//					System.err.println("Select a type");
-//				}
-//			}
-//		});
-//
-//
-//		Button b3 = toolkit.createButton(buttonZone, "Export to SDD", SWT.PUSH); //$NON-NLS-1$
-//		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-//		b3.setLayoutData(gd);
-//		b3.addSelectionListener(new SelectionAdapter() {
-//			@Override
-//			public void widgetSelected(SelectionEvent event) {
-//				try {
-//					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
-//					page.getMpe().exportToSDD(td);
-//				} catch (ClassCastException e) {
-//					System.err.println("Select a type");
-//				}
-//			}
-//		});
+		/**
+		 * Button b = toolkit.createButton(buttonZone, "Reachability",
+		 * SWT.PUSH); //$NON-NLS-1$ gd = new GridData(GridData.FILL_HORIZONTAL);
+		 * b.setLayoutData(gd); b.addSelectionListener(new SelectionAdapter() {
+		 * 
+		 * @Override public void widgetSelected(SelectionEvent event) {
+		 *           CheckService cs = new CheckService(page.getCheckList());
+		 *           cs.setWorkdir(""); page.getCheckList().addCheck(cs); } });
+		 * 
+		 *           Button b2 = toolkit.createButton(buttonZone,
+		 *           "CTL Properties", SWT.PUSH); //$NON-NLS-1$ gd = new
+		 *           GridData(GridData.FILL_HORIZONTAL); b2.setLayoutData(gd);
+		 *           b2.addSelectionListener(new SelectionAdapter() {
+		 * @Override public void widgetSelected(SelectionEvent event) {
+		 *           AbstractCheckService cs = new
+		 *           CTLCheckService(page.getCheckList()); cs.setWorkdir("");
+		 *           page.getCheckList().addCheck(cs); } });
+		 * 
+		 *           Button b3 = toolkit.createButton(buttonZone,
+		 *           "Variable Ordering", SWT.PUSH); //$NON-NLS-1$ gd = new
+		 *           GridData(GridData.FILL_HORIZONTAL); b3.setLayoutData(gd);
+		 *           b3.addSelectionListener(new SelectionAdapter() {
+		 * @Override public void widgetSelected(SelectionEvent event) {
+		 *           AbstractCheckService cs = new
+		 *           OrderingService(page.getCheckList()); cs.setWorkdir("");
+		 *           page.getCheckList().addCheck(cs); } });
+		 */
+		//		Button b2 = toolkit.createButton(buttonZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
+		// // gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		// b2.setLayoutData(gd);
+		// b2.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent event) {
+		// try {
+		// TypeDeclaration td = (TypeDeclaration) ((TreeSelection)
+		// viewer.getSelection()).getFirstElement();
+		// new RemoveTypeAction(page.getMpe().getTypes(), td).run();
+		// } catch (ClassCastException e) {
+		// System.err.println("Select a type");
+		// }
+		// }
+		// });
+		//
+		//
+		//		Button b3 = toolkit.createButton(buttonZone, "Export to SDD", SWT.PUSH); //$NON-NLS-1$
+		// // gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		// b3.setLayoutData(gd);
+		// b3.addSelectionListener(new SelectionAdapter() {
+		// @Override
+		// public void widgetSelected(SelectionEvent event) {
+		// try {
+		// TypeDeclaration td = (TypeDeclaration) ((TreeSelection)
+		// viewer.getSelection()).getFirstElement();
+		// page.getMpe().exportToSDD(td);
+		// } catch (ClassCastException e) {
+		// System.err.println("Select a type");
+		// }
+		// }
+		// });
 
 		toolkit.paintBordersFor(client);
-		
+
 		viewer = new TreeViewer(tree);
 		viewer.setContentProvider(new CheckListTreeProvider());
 		viewer.setLabelProvider(new CheckListTreeLabelProvider());
@@ -225,6 +224,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		});
 
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -257,39 +257,55 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		form.getToolBarManager().add(haction);
 		form.getToolBarManager().add(vaction);
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(CompositeTypeDeclaration.class, new TypeDeclarationDetailsPage());
-		detailsPart.registerPage(TypeDeclaration.class, new TypeDeclarationDetailsPage());
+		detailsPart.registerPage(CompositeTypeDeclaration.class,
+				new TypeDeclarationDetailsPage());
+		detailsPart.registerPage(TypeDeclaration.class,
+				new TypeDeclarationDetailsPage());
 		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(this));
-		detailsPart.registerPage(VariableBinding.class, new VariableBindingDetailsPage());
-		//checks
-		detailsPart.registerPage(CheckService.class, new ITSCheckServiceDetailsPage());
-		detailsPart.registerPage(CTLCheckService.class, new CTLCheckServiceDetailsPage());
-		detailsPart.registerPage(ServiceResult.class, new ServiceResultDetailsPage());
-		detailsPart.registerPage(OrderingService.class, new CheckServiceDetailsPage());
+		detailsPart.registerPage(VariableBinding.class,
+				new VariableBindingDetailsPage());
+		// checks
+		detailsPart.registerPage(CheckService.class,
+				new ITSCheckServiceDetailsPage());
+		detailsPart.registerPage(CTLCheckService.class,
+				new CTLCheckServiceDetailsPage());
+		detailsPart.registerPage(ServiceResult.class,
+				new ServiceResultDetailsPage());
+		detailsPart.registerPage(OrderingService.class,
+				new CheckServiceDetailsPage());
 		// orders
 		detailsPart.registerPage(Group.class, new OrderingDetailsPage());
 		detailsPart.registerPage(Variable.class, new OrderingDetailsPage());
 		// CTL formula
-		detailsPart.registerPage(CTLFormulaDescription.class, new CTLFormulaDescriptionDetailsPage());
+		detailsPart.registerPage(CTLFormulaDescription.class,
+				new CTLFormulaDescriptionDetailsPage());
 		// Variables
-		detailsPart.registerPage(PlaceMarkingVariable.class, new VariableDetailsPage());
-		detailsPart.registerPage(TransitionClockVariable.class, new VariableDetailsPage());
-		detailsPart.registerPage(InstanceVariable.class, new VariableDetailsPage());
-		detailsPart.registerPage(ScalarInstanceVariable.class, new VariableDetailsPage());		
+		detailsPart.registerPage(PlaceMarkingVariable.class,
+				new VariableDetailsPage());
+		detailsPart.registerPage(TransitionClockVariable.class,
+				new VariableDetailsPage());
+		detailsPart.registerPage(InstanceVariable.class,
+				new VariableDetailsPage());
+		detailsPart.registerPage(ScalarInstanceVariable.class,
+				new VariableDetailsPage());
 	}
+
 	/**
 	 * refresh the view
 	 */
 	public void refresh() {
 		viewer.refresh();
 	}
+
 	/**
 	 * accessor to get the master page.
+	 * 
 	 * @return parent page
 	 */
 	public ChecksMasterDetailsPage getPage() {
@@ -300,4 +316,3 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock impl
 		return page.getTypes();
 	}
 }
-

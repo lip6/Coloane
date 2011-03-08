@@ -21,6 +21,7 @@ import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
+import fr.lip6.move.coloane.projects.its.checks.IServiceResultProvider;
 import fr.lip6.move.coloane.projects.its.checks.OrderingService;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult;
 import fr.lip6.move.coloane.projects.its.order.Ordering;
@@ -33,13 +34,13 @@ import java.util.List;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 
-public class CheckListTreeProvider implements
-		ITreeContentProvider {
+public class CheckListTreeProvider implements ITreeContentProvider {
 
-	
 	/**
 	 * Root elements are the type declarations.
-	 * @param inputElement a type list
+	 * 
+	 * @param inputElement
+	 *            a type list
 	 * @return the types in the list
 	 * 
 	 */
@@ -47,33 +48,32 @@ public class CheckListTreeProvider implements
 		CheckList cl = (CheckList) inputElement;
 		List<Object> al = new ArrayList<Object>();
 		al.add(cl.getType());
-		for (AbstractCheckService cs : cl) {
+		for (IServiceResultProvider cs : cl) {
 			al.add(cs);
-		}		
+		}
 		return al.toArray();
 	}
-	
+
 	/**
-	 * Children of type = parameters
-	 * + concepts for composite type
-	 * + effective type for concept
-	 * @param element a type declaration or other tree view object
+	 * Children of type = parameters + concepts for composite type + effective
+	 * type for concept
+	 * 
+	 * @param element
+	 *            a type declaration or other tree view object
 	 * @return children of this tree node
 	 */
 	public Object[] getChildren(Object element) {
 		List<Object> children = new ArrayList<Object>();
-		addChildren(element,children);
+		addChildren(element, children);
 		return children.toArray();
 	}
 
-	
 	/**
 	 * {@inheritDoc}
 	 */
 	public boolean hasChildren(Object element) {
 		return getChildren(element).length > 0;
 	}
-
 
 	protected void addChildren(Object element, List<Object> children) {
 		if (element instanceof OrderingService) {
@@ -86,7 +86,7 @@ public class CheckListTreeProvider implements
 				children.add(form);
 			}
 		} else if (element instanceof AbstractCheckService) {
-			AbstractCheckService cs = (AbstractCheckService) element;
+			IServiceResultProvider cs = (IServiceResultProvider) element;
 			for (ServiceResult sr : cs) {
 				children.add(sr);
 			}
@@ -107,20 +107,19 @@ public class CheckListTreeProvider implements
 			}
 		} else if (element instanceof TypeDeclaration) {
 			TypeDeclaration td = (TypeDeclaration) element;
-			for (IModelVariable v: td.getVariables()) {
+			for (IModelVariable v : td.getVariables()) {
 				children.add(v);
 			}
 		} else if (element instanceof IModelVariable) {
 			IModelVariable var = (IModelVariable) element;
-			for (IModelVariable v2:var) {
+			for (IModelVariable v2 : var) {
 				children.add(v2);
 			}
 		}
 	}
-	
+
 	/**
-	 * Implemented where possible per the contract of TreeProvider
-	 * {@inheritDoc}
+	 * Implemented where possible per the contract of TreeProvider {@inheritDoc}
 	 */
 	public Object getParent(Object element) {
 		if (element instanceof ServiceResult) {
@@ -143,7 +142,5 @@ public class CheckListTreeProvider implements
 
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
-	
-	
 
 }

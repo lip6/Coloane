@@ -41,30 +41,34 @@ import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * A details page for a variable binding.
+ * 
  * @author Yann
  */
-public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService> {
+public class CheckServiceDetailsPage extends
+		ITSDetailsPage<AbstractCheckService> {
 	private Text serviceNametf;
 	private Text foldertf;
 	private ParameterSection params;
-	
-	
+
 	/**
-	 * {@inheritDoc}
-	 *  (non-Javadoc)
+	 * {@inheritDoc} (non-Javadoc)
+	 * 
 	 * @see org.eclipse.ui.forms.IDetailsPage#createContents(org.eclipse.swt.widgets.Composite)
 	 */
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();
 		parent.setLayout(layout);
-		
+
 		FormToolkit toolkit = getToolkit();
-		Section s1 = toolkit.createSection(parent, ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED );
+		Section s1 = toolkit.createSection(parent,
+				ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE
+						| ExpandableComposite.EXPANDED);
 		s1.marginWidth = 4;
 		s1.marginHeight = 4;
 		s1.setText("Check Service Description"); //$NON-NLS-1$
 		//		s1.setDescription(Messages.getString("TypeOneDetailsPage.name")); //$NON-NLS-1$
-		TableWrapData td = new TableWrapData(TableWrapData.FILL, TableWrapData.TOP);
+		TableWrapData td = new TableWrapData(TableWrapData.FILL,
+				TableWrapData.TOP);
 		td.grabHorizontal = true;
 		s1.setLayoutData(td);
 		Composite client = toolkit.createComposite(s1);
@@ -78,7 +82,8 @@ public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService
 		toolkit.createLabel(client, "Service Name"); //$NON-NLS-1$
 		serviceNametf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
 		serviceNametf.setEditable(false);
-		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+		gd = new GridData(GridData.FILL_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_BEGINNING);
 		gd.widthHint = 10;
 		serviceNametf.setLayoutData(gd);
 
@@ -88,11 +93,14 @@ public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService
 		glayout = new GridLayout();
 		glayout.numColumns = 1;
 		folderzone.setLayout(glayout);
-		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+		gd = new GridData(GridData.FILL_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_BEGINNING);
 		folderzone.setLayoutData(gd);
-		
-		foldertf = toolkit.createText(folderzone, "", SWT.SINGLE | SWT.H_SCROLL); //$NON-NLS-1$
-		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+
+		foldertf = toolkit
+				.createText(folderzone, "", SWT.SINGLE | SWT.H_SCROLL); //$NON-NLS-1$
+		gd = new GridData(GridData.FILL_HORIZONTAL
+				| GridData.VERTICAL_ALIGN_BEGINNING);
 		foldertf.setLayoutData(gd);
 		foldertf.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
@@ -103,25 +111,31 @@ public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService
 			}
 		});
 
-		Button browseb = toolkit.createButton(folderzone, "Browse...", SWT.PUSH);
-		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_BEGINNING);
+		Button browseb = toolkit
+				.createButton(folderzone, "Browse...", SWT.PUSH);
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING
+				| GridData.HORIZONTAL_ALIGN_BEGINNING);
 		browseb.setLayoutData(gd);
 		browseb.addSelectionListener(new SelectionAdapter() {
-			DirectoryDialog dialog = new DirectoryDialog(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell()); 
+			DirectoryDialog dialog = new DirectoryDialog(PlatformUI
+					.getWorkbench().getActiveWorkbenchWindow().getShell());
+
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				dialog.setText("Choose a work folder");
-				dialog.setMessage("Choose a work folder for service "+getInput().getName()+". This folder will hold intermediate files and run results.");
+				dialog.setMessage("Choose a work folder for service "
+						+ getInput().getName()
+						+ ". This folder will hold intermediate files and run results.");
 				String directory = dialog.open();
 				foldertf.setText(directory);
 			}
 		});
 
-		
 		createSpacer(toolkit, client, 2);
 		if (showRunButton) {
 			Button runb = toolkit.createButton(client, "Run service", SWT.PUSH);
-			gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END);
+			gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING
+					| GridData.HORIZONTAL_ALIGN_END);
 			runb.setLayoutData(gd);
 			runb.addSelectionListener(new SelectionAdapter() {
 				@Override
@@ -129,43 +143,44 @@ public class CheckServiceDetailsPage extends ITSDetailsPage<AbstractCheckService
 					getInput().run();
 				}
 			});
-		}		
+		}
 
 		toolkit.paintBordersFor(s1);
 		toolkit.paintBordersFor(client);
 		s1.setClient(client);
-		
 
-		///// ADD THE PARAMS HERE
-		params = new ParameterSection("Tool Settings",getToolkit(), parent, true);
+		// /// ADD THE PARAMS HERE
+		params = new ParameterSection("Tool Settings", getToolkit(), parent,
+				true);
 	}
 
-
-
-	private boolean showRunButton=true;	
+	private boolean showRunButton = true;
 
 	protected void setShowRunButton(boolean b) {
 		showRunButton = b;
 	}
 
-
 	/**
 	 * refresh the state
 	 */
-	 @Override
+	@Override
 	protected void update() {
 		AbstractCheckService input = getInput();
 		params.setInput(input.getParameters());
 		// CHECKSTYLE OFF
-		serviceNametf.setText(input != null && input.getName() != null ? input.getName() : "");
+		serviceNametf.setText(input != null && input.getName() != null ? input
+				.getName() : "");
 		try {
-			IFile pos = ((FileEditorInput) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor().getEditorInput()).getFile();
-			foldertf.setText(input != null && input.getWorkDir(pos) != null ? input.getWorkDir() : "");		
+			IFile pos = ((FileEditorInput) PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage()
+					.getActiveEditor().getEditorInput()).getFile();
+			foldertf.setText(input != null && input.getWorkDir(pos) != null ? input
+					.getWorkDir() : "");
 		} catch (RuntimeException e) {
 			// it's ok, we didnt find the editor, tough luck.
 			foldertf.setText("");
 		}
 		// CHECKSTYLE ON
 	}
-	
+
 }

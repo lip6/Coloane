@@ -16,6 +16,9 @@
  */
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
+import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
+import fr.lip6.move.coloane.projects.its.checks.ui.controls.CTLText;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.ModifyEvent;
@@ -31,9 +34,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-
-import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
-import fr.lip6.move.coloane.projects.its.checks.ui.controls.CTLText;
 
 public class CTLSection {
 

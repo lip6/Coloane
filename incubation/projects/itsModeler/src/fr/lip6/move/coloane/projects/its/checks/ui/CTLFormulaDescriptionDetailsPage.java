@@ -16,17 +16,17 @@
  */
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
-
 import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
 
-public class CTLFormulaDescriptionDetailsPage extends ITSDetailsPage<CTLFormulaDescription> {
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-	
+public class CTLFormulaDescriptionDetailsPage extends
+		ITSDetailsPage<CTLFormulaDescription> {
+
 	private CTLSection ctl;
-	
+
 	@Override
 	protected void update() {
 		ctl.setInput(getInput());

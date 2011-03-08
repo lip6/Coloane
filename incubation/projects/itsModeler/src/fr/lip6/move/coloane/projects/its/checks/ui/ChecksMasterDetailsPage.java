@@ -26,51 +26,58 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
-
 /**
- * Hold a Master/Details GUI design pattern Forms based ui.
- * Master is a TypeList tree view, details show all relevant data.
+ * Hold a Master/Details GUI design pattern Forms based ui. Master is a TypeList
+ * tree view, details show all relevant data.
+ * 
  * @author Yann
  */
-public final class ChecksMasterDetailsPage extends FormPage implements ITypeListProvider {
+public final class ChecksMasterDetailsPage extends FormPage implements
+		ITypeListProvider {
 	private ChecksScrolledPropertiesBlock block;
 	private ITypeListProvider mpe;
 	private CheckList checkList;
+
 	/**
 	 * Ctor.
-	 * @param editor the parent editor (for getTypes())
-	 * @param cl 
+	 * 
+	 * @param editor
+	 *            the parent editor (for getTypes())
+	 * @param cl
 	 */
-	public ChecksMasterDetailsPage(FormEditor editor, ITypeListProvider types, CheckList cl) {
-		super(editor, "treeview", cl.getType().getTypeName()+ " analysis"); //$NON-NLS-1$ //$NON-NLS-2$
+	public ChecksMasterDetailsPage(FormEditor editor, ITypeListProvider types,
+			CheckList cl) {
+		super(editor, "treeview", cl.getType().getTypeName() + " analysis"); //$NON-NLS-1$ //$NON-NLS-2$
 		block = new ChecksScrolledPropertiesBlock(this);
 		this.mpe = types;
 		this.checkList = cl;
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	protected void createFormContent(final IManagedForm managedForm) {
 		final ScrolledForm form = managedForm.getForm();
-		//FormToolkit toolkit = managedForm.getToolkit();
+		// FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Analysis available"); //$NON-NLS-1$
-		form.setBackgroundImage(ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_FORM_BG));
+		form.setBackgroundImage(ITSEditorPlugin.getDefault().getImage(
+				ITSEditorPlugin.IMG_FORM_BG));
 		block.createContent(managedForm);
 	}
-	
+
 	/**
 	 * Refresh display
 	 */
 	public void refresh() {
 		block.refresh();
 	}
+
 	public TypeList getTypes() {
 		return mpe.getTypes();
 	}
-	
+
 	public CheckList getCheckList() {
 		return checkList;
 	}
 }
-
