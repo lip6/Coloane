@@ -24,7 +24,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -34,14 +36,18 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
+
+import fr.lip6.move.coloane.extensions.examples.plugin.ColoaneExamplesPlugin;
 
 
 /**
@@ -148,19 +154,6 @@ implements INewWizard {
 		return true;
 	}
 
-	protected abstract void log(Exception e);
-
-	/**
-	 * The subclass provides the specific project descriptors for the
-	 *  projects that should be unzipped into the workspace. Note that
-	 *  any projects that already exist in the workspace will not be
-	 *  overwritten as they may contain changes made by the user.
-	 *  
-	 * @return The collection of project descriptors that should be
-	 *  unzipped into the workspace.
-	 */
-	protected abstract Collection<ProjectDescriptor> getProjectDescriptors();
-
 	private void unzipProject(ProjectDescriptor descriptor, IProgressMonitor monitor) {
 		String bundleName = descriptor.getBundleName();
 		String zipLocation = descriptor.getZipLocation();
@@ -243,5 +236,27 @@ implements INewWizard {
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		// No code is necessary.
+	}
+
+	protected void log(Exception e) {
+		if (e instanceof CoreException) {
+			ColoaneExamplesPlugin.getDefault().getLog().log(((CoreException)e).getStatus());
+		} else {
+			ColoaneExamplesPlugin.getDefault().getLog().log(new Status(IStatus.ERROR, ColoaneExamplesPlugin.getDefault().getBundle().getSymbolicName(),IStatus.ERROR, e.getMessage(),e));
+		}
+	}
+
+	public abstract String getZipFile();
+
+	public abstract String getProjectName();
+
+	private Collection<ProjectDescriptor> getProjectDescriptors() {
+		// We need the adapter example to be unzipped along with the
+		// EMF library example model, edit and editor examples
+		List<ProjectDescriptor> projects = new ArrayList<ProjectDescriptor>();
+		projects.add(new ProjectDescriptor("fr.lip6.move.coloane.extensions.examples", getZipFile(), getProjectName()));  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+		// can add more projects if so desired
+		
+		return projects;
 	}
 }

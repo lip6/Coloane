@@ -21,19 +21,18 @@ package fr.lip6.move.coloane.extensions.examples.wizard;
 
 
 
-public class FischerExampleWizard
+public class TrainExampleWizard
 	extends AbstractExampleWizard {
-	
 	
 	@Override
 	public String getProjectName() {
-		return "fr.lip6.move.coloane.examples.tpn.fischer";
+		return "fr.lip6.move.coloane.examples.tpn.train";
 	}
 
 
 
 	@Override
 	public String getZipFile() {
-		return "zips/fischer.zip";
+		return "zips/train.zip";
 	}
 }
