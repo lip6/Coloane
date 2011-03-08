@@ -13,4 +13,33 @@
     <name>Extensions :: Coloane Examples</name>
     <description>"New->Example" models for Coloane</description>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                <![CDATA[
+                                log.info('Zip examples…')
+                                def dir = new File(project.basedir, 'examples')
+                                for (def exampleDir : dir.listFiles()) {
+                                    if (exampleDir.getName().startsWith('.'))
+                                        continue
+                                    ant.zip(destfile:"zips/"+exampleDir.getName()+".zip", basedir:"examples/"+exampleDir.getName(), excludes:".svn", update:true)
+                                }
+                                ]]>
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
