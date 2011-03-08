@@ -18,6 +18,7 @@
             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
+                <version>1.0</version>
                 <executions>
                     <execution>
                         <phase>generate-resources</phase>
@@ -26,15 +27,17 @@
                         </goals>
                         <configuration>
                             <source>
-                                <![CDATA[
+<!--                                <![CDATA[-->
                                 log.info('Zip examples…')
-                                def dir = new File(project.basedir, 'examples')
+                                def currentPath = project.basedir.getAbsolutePath()
+                                def dir = new File(project.basedir, '/examples')
                                 for (def exampleDir : dir.listFiles()) {
-                                    if (exampleDir.getName().startsWith('.'))
+                                    if (exampleDir.getName().startsWith('.')) {
                                         continue
-                                    ant.zip(destfile:"zips/"+exampleDir.getName()+".zip", basedir:"examples/"+exampleDir.getName(), excludes:".svn", update:true)
+                                    }
+                                    ant.zip(destfile:currentPath+"/zips/"+exampleDir.getName()+".zip", basedir:currentPath+"/examples/"+exampleDir.getName(), excludes:".svn", update:true)
                                 }
-                                ]]>
+<!--                                ]]>-->
                             </source>
                         </configuration>
                     </execution>
