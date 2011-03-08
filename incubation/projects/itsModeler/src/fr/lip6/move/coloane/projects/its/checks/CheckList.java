@@ -26,11 +26,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class CheckList extends SimpleObservable implements Iterable<AbstractCheckService>, ISimpleObserver {
+public class CheckList extends SimpleObservable implements
+		Iterable<AbstractCheckService>, ISimpleObserver {
 
 	private TypeDeclaration type;
 	private List<AbstractCheckService> services;
-	
+
 	public CheckList(TypeDeclaration td) {
 		type = td;
 		services = new ArrayList<AbstractCheckService>();
@@ -57,9 +58,8 @@ public class CheckList extends SimpleObservable implements Iterable<AbstractChec
 		notifyObservers();
 	}
 
-
 	public Orders getOrders() {
-		for (AbstractCheckService asc : this) {
+		for (IServiceResultProvider asc : this) {
 			if (asc instanceof OrderingService) {
 				OrderingService os = (OrderingService) asc;
 				return os.getOrders();
@@ -69,21 +69,22 @@ public class CheckList extends SimpleObservable implements Iterable<AbstractChec
 	}
 
 	public CTLFormulaDescription findCtlFormula(String formName) {
-		for (AbstractCheckService asc : this) {
+		for (IServiceResultProvider asc : this) {
 			if (asc instanceof CTLCheckService) {
 				CTLCheckService os = (CTLCheckService) asc;
-				for (CTLFormulaDescription cfd: os.getFormulae()) {
-					if (cfd.getName().equals(formName))
+				for (CTLFormulaDescription cfd : os.getFormulae()) {
+					if (cfd.getName().equals(formName)) {
 						return cfd;
+					}
 				}
 				return null;
 			}
 		}
 		return null;
 	}
-	
-	public void addCTLFormula (String name, String formula, String comments) { 
-		for (AbstractCheckService asc : this) {
+
+	public void addCTLFormula(String name, String formula, String comments) {
+		for (IServiceResultProvider asc : this) {
 			if (asc instanceof CTLCheckService) {
 				CTLCheckService os = (CTLCheckService) asc;
 				os.addFormula(name, formula, comments);
@@ -91,10 +92,10 @@ public class CheckList extends SimpleObservable implements Iterable<AbstractChec
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public List<CTLFormulaDescription> getCTLFormulas () { 
-		for (AbstractCheckService asc : this) {
+	public List<CTLFormulaDescription> getCTLFormulas() {
+		for (IServiceResultProvider asc : this) {
 			if (asc instanceof CTLCheckService) {
 				CTLCheckService os = (CTLCheckService) asc;
 				return os.getFormulae();
@@ -102,6 +103,5 @@ public class CheckList extends SimpleObservable implements Iterable<AbstractChec
 		}
 		return Collections.EMPTY_LIST;
 	}
-	
-	
+
 }

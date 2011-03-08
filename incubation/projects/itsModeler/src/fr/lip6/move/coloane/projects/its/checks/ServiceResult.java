@@ -24,14 +24,16 @@ import java.util.GregorianCalendar;
 
 public class ServiceResult extends SimpleObservable {
 
-	public enum Status { FAIL, OK, NOK };
-	
+	public enum Status {
+		FAIL, OK, NOK
+	};
+
 	private Status success;
 	private String report;
 	private Calendar date;
-	private AbstractCheckService cs;
-	private ParameterList parameters ;
-	
+	private IServiceResultProvider cs;
+	private ParameterList parameters;
+
 	public ServiceResult(Status success, String report, AbstractCheckService cs) {
 		this.success = success;
 		this.report = report;
@@ -40,15 +42,14 @@ public class ServiceResult extends SimpleObservable {
 		this.parameters = new ParameterList(cs.getParameters());
 	}
 
-	
-	public ParameterList getParameters () {
+	public ParameterList getParameters() {
 		return parameters;
 	}
-		
+
 	public String getReport() {
 		return report;
 	}
-	
+
 	public Status getSuccess() {
 		return success;
 	}
@@ -58,11 +59,11 @@ public class ServiceResult extends SimpleObservable {
 		return formatter.format(date.getTime());
 	}
 
-	public AbstractCheckService getParent() {
+	public IServiceResultProvider getParent() {
 		return cs;
 	}
-	
-	/** a nice short label describing this result, used in tree label provider.*/
+
+	/** a nice short label describing this result, used in tree label provider. */
 	@Override
 	public String toString() {
 		String ret = success.toString();

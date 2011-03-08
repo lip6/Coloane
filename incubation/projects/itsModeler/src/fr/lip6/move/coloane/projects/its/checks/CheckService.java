@@ -22,11 +22,9 @@ import org.eclipse.core.runtime.IPath;
 
 public class CheckService extends ITSCheckService {
 
-
 	public CheckService(CheckList parent) {
 		super(parent, "ITS Reachability");
 	}
-
 
 	@Override
 	protected IPath getToolPath() {

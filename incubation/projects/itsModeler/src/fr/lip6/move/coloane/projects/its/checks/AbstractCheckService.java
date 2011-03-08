@@ -36,12 +36,34 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 
-
+/**
+ * A basic implementation of a Check Service.
+ * @author Yann
+ *
+ */
 public abstract class AbstractCheckService extends SimpleObservable implements
 		IServiceResultProvider {
 
 	private static final int DEFAULT_TIMEOUT = 60;
 	private static final String TIMEOUT_DURATION = "Maximum execution time";
+
+
+	private String name;
+	private ParameterList parameters = new ParameterList();
+	private CheckList parent;
+	private String reportText;
+
+	private List<ServiceResult> results = new LinkedList<ServiceResult>();
+
+	private String workdir;
+
+	public AbstractCheckService(CheckList parent, String serviceName) {
+		this.parent = parent;
+		this.name = serviceName;
+		parameters.addParameter(TIMEOUT_DURATION);
+		parameters.setParameterValue(TIMEOUT_DURATION,
+				Integer.toString(DEFAULT_TIMEOUT));
+	}
 	/**
 	 * format error message
 	 * 
@@ -54,22 +76,6 @@ public abstract class AbstractCheckService extends SimpleObservable implements
 			return "";
 		}
 		return " Process produced the following error output: \n" + errorOutput;
-	}
-
-	protected String name;
-
-	private ParameterList parameters = new ParameterList();
-
-	protected CheckList parent;
-	private String reportText;
-	private List<ServiceResult> results = new LinkedList<ServiceResult>();
-	private String workdir;
-	public AbstractCheckService(CheckList parent, String serviceName) {
-		this.parent = parent;
-		this.name = serviceName;
-		parameters.addParameter(TIMEOUT_DURATION);
-		parameters.setParameterValue(TIMEOUT_DURATION,
-				Integer.toString(DEFAULT_TIMEOUT));
 	}
 
 	public void addResult(ServiceResult serviceResult) {
@@ -202,5 +208,7 @@ public abstract class AbstractCheckService extends SimpleObservable implements
 			notifyObservers();
 		}
 	}
+	
+	
 
 }
