@@ -287,8 +287,10 @@
                     <excludes>
                         <exclude>target/**</exclude>
                         <exclude>.clover/**</exclude>
-                        <exclude>**/fr/lip6/move/coloane/interfaces/utils/ProcessController.java</exclude>
-                        <exclude>**/fr/lip6/move/coloane/core/ui/figures/RoundedPolylineConnection.java</exclude>
+                        <exclude>**/src/fr/lip6/move/coloane/extensions/examples/plugin/ColoaneExamplesPlugin.java</exclude>
+                        <exclude>**/src/fr/lip6/move/coloane/extensions/examples/wizard/AbstractExampleWizard.java</exclude>
+                        <exclude>**/src/fr/lip6/move/coloane/extensions/examples/wizard/FischerExampleWizard.java</exclude>
+                        <exclude>**/src/fr/lip6/move/coloane/extensions/examples/wizard/TrainExampleWizard.java</exclude>
                     </excludes>
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <useDefaultMapping>true</useDefaultMapping>
