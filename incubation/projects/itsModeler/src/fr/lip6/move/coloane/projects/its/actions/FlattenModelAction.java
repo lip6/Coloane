@@ -19,10 +19,11 @@ package fr.lip6.move.coloane.projects.its.actions;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.plugin.wizards.FlattenNewModelWizard;
 
-
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.ui.IActionDelegate;
 import org.eclipse.ui.PlatformUI;
 
 
