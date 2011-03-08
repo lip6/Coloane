@@ -37,6 +37,20 @@
             project="true">
          <description>This example is a composite Time Petri Net modelling Fischer&apos;s mutual exclusion algorithm for a ring of process.</description>
       </wizard>
+      <wizard
+            canFinishEarly="true"
+            category="org.eclipse.ui.Examples/fr.lip6.move.coloane.examples.category"
+            class="fr.lip6.move.coloane.extensions.examples.wizard.TrainExampleWizard"
+            finalPerspective="fr.lip6.move.coloane.perspective"
+            hasPages="false"
+            icon="icons/clock.png"
+            id="fr.lip6.move.coloane.extensions.examples.tpn.train"
+            name="Train crossing"
+            project="true">
+         <description>
+            This example is a composite Time Petri Net modelling an N railtrack train crossing problem by Berthomieu et. al.
+         </description>
+      </wizard>
    </extension>
 
 </plugin>
