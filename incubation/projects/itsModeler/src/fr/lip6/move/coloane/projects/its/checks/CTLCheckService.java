@@ -64,7 +64,7 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 		currentFormula = ctlFormulaDescription;
 		try {
 			File file = new File(getWorkDir() + "/" + CTL_FILE_NAME);
-			FileOutputStream writer = new FileOutputStream(file); 
+			FileOutputStream writer = new FileOutputStream(file);
 			BufferedWriter sb = new BufferedWriter(new OutputStreamWriter(
 					writer));
 			file.createNewFile();
