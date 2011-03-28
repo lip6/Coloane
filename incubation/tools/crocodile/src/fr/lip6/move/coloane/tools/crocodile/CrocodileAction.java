@@ -40,6 +40,9 @@ import org.apache.commons.exec.PumpStreamHandler;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsoleManager;
@@ -68,6 +71,17 @@ public class CrocodileAction implements IService {
 	public CrocodileAction() throws ServiceException, IOException, URISyntaxException {
 		String consoleName = "Crocodile console";
 
+		int reponse = 0;
+		InputDialog inputDialog = new InputDialog(Display.getCurrent().getActiveShell(), 
+				   "Reachability formulae", 
+				   "Enter a reachability formula to be checked", "", null);
+		reponse = inputDialog.open();
+		if (reponse == Window.OK) {
+			System.out.println("Valeur saisie = " + inputDialog.getValue());
+		} else {
+			System.out.println("Operation annulée");
+		}
+		
 		ConsolePlugin consolePlugin = ConsolePlugin.getDefault();
 		IConsoleManager conMan = consolePlugin.getConsoleManager();
 		IConsole[] consoleVector = conMan.getConsoles();
