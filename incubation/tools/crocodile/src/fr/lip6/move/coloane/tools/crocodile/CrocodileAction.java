@@ -71,17 +71,6 @@ public class CrocodileAction implements IService {
 	public CrocodileAction() throws ServiceException, IOException, URISyntaxException {
 		String consoleName = "Crocodile console";
 
-		int reponse = 0;
-		InputDialog inputDialog = new InputDialog(Display.getCurrent().getActiveShell(), 
-				   "Reachability formulae", 
-				   "Enter a reachability formula to be checked", "", null);
-		reponse = inputDialog.open();
-		if (reponse == Window.OK) {
-			System.out.println("Valeur saisie = " + inputDialog.getValue());
-		} else {
-			System.out.println("Operation annulée");
-		}
-		
 		ConsolePlugin consolePlugin = ConsolePlugin.getDefault();
 		IConsoleManager conMan = consolePlugin.getConsoleManager();
 		IConsole[] consoleVector = conMan.getConsoles();
@@ -119,6 +108,17 @@ public class CrocodileAction implements IService {
 		// TODO define a number of ticks
 		SubMonitor progress = SubMonitor.convert(monitor);
 		try {
+			int reponse = 0;
+			InputDialog inputDialog = new InputDialog(Display.getCurrent().getActiveShell(),
+					"Reachability formulae",
+					"Enter a reachability formula to be checked", "", null);
+			reponse = inputDialog.open();
+			if (reponse == Window.OK) {
+				System.out.println("Valeur saisie = " + inputDialog.getValue());
+			} else {
+				System.out.println("Operation annulée");
+			}
+
 			File tmpFile = File.createTempFile("tmp", ".gml");
 			tmpFile.deleteOnExit();
 
