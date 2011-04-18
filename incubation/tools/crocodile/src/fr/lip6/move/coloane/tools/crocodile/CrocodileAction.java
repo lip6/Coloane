@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -89,7 +90,10 @@ public class CrocodileAction implements IService {
 			conMan.addConsoles(new IConsole[]{myConsole});
 		}
 
-		toolUri = FileLocator.toFileURL(Activator.getDefault().getBundle().getResource("crocodile-binaries/Crocodile-" + getArchOS())).toURI();
+		URL tmpURL = FileLocator.toFileURL(Activator.getDefault().getBundle().getResource("crocodile-binaries/Crocodile-" + getArchOS()));
+
+		// use of the multi-argument constructor for URI in order to escape appropriately illegal characters
+		toolUri = new URI(tmpURL.getProtocol(), tmpURL.getPath(), null);
 		LOGGER.fine("Location of the binary : " + toolUri);
 
 		File crocExec = new File(toolUri);
