@@ -60,6 +60,9 @@ public class CrocodileAction implements IService {
 	private static IOConsole myConsole;
 
 	private final URI toolUri;
+	
+	private final InputDialog inputDialog;
+	private final Display display;
 
 	/**
 	 * Public constructor for the action
@@ -94,6 +97,11 @@ public class CrocodileAction implements IService {
 			LOGGER.severe("unable to make the command-line tool executable [" + toolUri + "]");
 			throw new ServiceException("unable to make the command-line tool executable");
 		}
+
+		display = Display.getCurrent();
+		inputDialog = new InputDialog(display.getActiveShell(),
+				"Reachability formulae",
+				"Enter a reachability formula to be checked", "", null);
 	}
 	
 	/**
@@ -108,16 +116,19 @@ public class CrocodileAction implements IService {
 		// TODO define a number of ticks
 		SubMonitor progress = SubMonitor.convert(monitor);
 		try {
-			int reponse = 0;
-			InputDialog inputDialog = new InputDialog(Display.getCurrent().getActiveShell(),
-					"Reachability formulae",
-					"Enter a reachability formula to be checked", "", null);
-			reponse = inputDialog.open();
-			if (reponse == Window.OK) {
-				System.out.println("Valeur saisie = " + inputDialog.getValue());
-			} else {
-				System.out.println("Operation annulée");
-			}
+			display.syncExec(
+					  new Runnable() {
+					    public void run() {
+					    	int reponse = 0;
+					    	reponse = inputDialog.open();
+					    	if (reponse == Window.OK) {
+								System.out.println("Valeur saisie = " + inputDialog.getValue());
+							} else {
+								System.out.println("Operation annulée");
+							}
+					    }
+					  }
+					  );
 
 			File tmpFile = File.createTempFile("tmp", ".gml");
 			tmpFile.deleteOnExit();
