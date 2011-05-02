@@ -41,8 +41,6 @@ import org.apache.commons.exec.PumpStreamHandler;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
@@ -55,15 +53,17 @@ import org.eclipse.ui.console.IOConsole;
  *
  */
 public class CrocodileAction implements IService {
-	/** Le logger pour la classe */
+	/** The logger for the class */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	private static IOConsole myConsole;
 
 	private final URI toolUri;
 	
-	private final InputDialog inputDialog;
+	private FormulaDialog inputDialog;
 	private final Display display;
+	
+	private int choice = FormulaDialog.SRG_ID;
 
 	/**
 	 * Public constructor for the action
@@ -103,9 +103,7 @@ public class CrocodileAction implements IService {
 		}
 
 		display = Display.getDefault();
-		inputDialog = new InputDialog(display.getActiveShell(),
-				"Reachability formulae",
-				"Enter a reachability formula to be checked", "", null);
+		inputDialog = new FormulaDialog(display.getActiveShell());
 	}
 	
 	/**
@@ -118,31 +116,34 @@ public class CrocodileAction implements IService {
 	 */
 	public final List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
 		// TODO define a number of ticks
+
 		SubMonitor progress = SubMonitor.convert(monitor);
 		try {
 			display.syncExec(
 					  new Runnable() {
 					    public void run() {
+					    	/// TODO : simplify this method when input for formulae is implemented
 					    	int reponse = 0;
 					    	reponse = inputDialog.open();
-					    	if (reponse == Window.OK) {
-								System.out.println("Valeur saisie = " + inputDialog.getValue());
-							} else {
-								System.out.println("Operation annulée");
-							}
+					    	setChoice(reponse);
+					    	switch (reponse) {
+					    	case FormulaDialog.SRG_ID:
+					    		System.out.println("Choice : state space generation");
+					    		break;
+					    	case FormulaDialog.FORM_ID:
+					    		System.out.println("Choice : input a formula");
+					    		break;
+					    	case FormulaDialog.FILE_ID:
+					    		System.out.println("Choice : input a file for formulae");
+					    		break;
+					    	default:
+					    	}
 					    }
 					  }
 					  );
 
-			File tmpFile = File.createTempFile("tmp", ".gml");
-			tmpFile.deleteOnExit();
-
-			ExportToGML exporter = new ExportToGML();
-			// TODO find an appropriate number of ticks for the sub-monitor
-			exporter.export(model, tmpFile.getAbsolutePath(), progress.newChild(10));
-
 			CommandLine cmdLine = new CommandLine(toolUri.getPath());
-			cmdLine.addArgument(tmpFile.getAbsolutePath());
+			cmdLine.addArgument(exportModel(model, progress));
 
 			DefaultExecuteResultHandler resultHandler = new DefaultExecuteResultHandler();
 
@@ -192,5 +193,34 @@ public class CrocodileAction implements IService {
 		}
 
 		throw new ServiceException("System architecture not supported : " + osName + " " + archName);
+	}
+	
+	/**
+	 * Sets the choice attribute
+	 * 
+	 * @param c the new value for <code>choice</code>
+	 */
+	private void setChoice(int c) {
+		choice = c;
+	}
+	
+	/**
+	 * Exports the model (in GML format) to a temp file, and returns the absolute path to this file.
+	 * 
+	 * @param model the model to export
+	 * @param monitor the monitor
+	 * @return the absolute path to a temp file that contains the GML export of the model
+	 * @throws IOException if a problem occurs with the temp file
+	 * @throws ExtensionException if a problem occurs during the export to GML
+	 */
+	private String exportModel(IGraph model, SubMonitor monitor) throws IOException, ExtensionException {
+		File tmpFile = File.createTempFile("tmp", ".gml");
+		tmpFile.deleteOnExit();
+
+		ExportToGML exporter = new ExportToGML();
+		/// TODO find an appropriate number of ticks for the sub-monitor
+		exporter.export(model, tmpFile.getAbsolutePath(), monitor.newChild(10));
+
+		return tmpFile.getAbsolutePath();
 	}
 }
