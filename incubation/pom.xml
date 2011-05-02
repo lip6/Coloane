@@ -36,7 +36,7 @@
         <!-- Pour le déploiement (uniquement sur la machine coloane.lip6.fr) -->
         <project.deployPath>/data/coloane</project.deployPath>
 
-        <tycho-version>0.10.0</tycho-version>
+        <tycho-version>0.11.1</tycho-version>
         <sonar.exclusions>**/Messages.java</sonar.exclusions>
     </properties>
 
@@ -259,13 +259,22 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.1</version>
-                <configuration>
-                    <excludeScope>provided</excludeScope>
-                    <excludeGroupIds>junit,p2.eclipse-plugin</excludeGroupIds>
-                    <stripVersion>true</stripVersion>
-                    <outputDirectory>${basedir}/lib</outputDirectory>
-                </configuration>
+                <version>2.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <excludeScope>provided</excludeScope>
+                            <excludeGroupIds>junit,p2.eclipse-plugin</excludeGroupIds>
+                            <stripVersion>true</stripVersion>
+                            <outputDirectory>${basedir}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
