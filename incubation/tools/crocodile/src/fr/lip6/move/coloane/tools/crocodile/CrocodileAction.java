@@ -102,7 +102,7 @@ public class CrocodileAction implements IService {
 			throw new ServiceException("unable to make the command-line tool executable");
 		}
 
-		display = Display.getCurrent();
+		display = Display.getDefault();
 		inputDialog = new InputDialog(display.getActiveShell(),
 				"Reachability formulae",
 				"Enter a reachability formula to be checked", "", null);
