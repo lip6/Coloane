@@ -275,7 +275,7 @@ public class ExportToGML implements IExportTo {
 		if ("domain".equals(symbols.get(value)) || "domain_bag".equals(symbols.get(value)) || "class".equals(symbols.get(value)) || "".equals(value)) {
 			out.write(gap + "<attribute name=\"domain\"><attribute name=\"type\">" + value + "</attribute></attribute>\n");
 		} else {
-			throw new ExtensionException("Error parsing prod file : " + value + " has not been defined in domain or class declaration part. Its value is " + symbols.get(value));
+			throw new ExtensionException("Error parsing model : the domain \"" + value + "\" has not been defined in domain or class declaration part. Its value is " + symbols.get(value));
 		}
 	}
 	
