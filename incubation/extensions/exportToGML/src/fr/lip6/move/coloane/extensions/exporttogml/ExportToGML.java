@@ -291,6 +291,7 @@ public class ExportToGML implements IExportTo {
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
 	private void exportMarking(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, RecognitionException {
+		System.err.println("@@@@ " + value);
 		ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		ValuationParserSNB parser = new ValuationParserSNB(tokens);
@@ -315,7 +316,7 @@ public class ExportToGML implements IExportTo {
 				exportAttribute(attr, out, monitor, gap + "\t", symbols);
 			} catch (RecognitionException e) {
 				String s;
-				s = "Error in node " + node.getAttribute("name").getValue() + "\n";
+				s = "Error in node " + node.getId() + "\n";
 				s = s + "in attribute " + attr.getName() + "\n";
 				s = s + "at " + e.token.getText() + "\n";
 				throw new ExtensionException(s);
@@ -365,7 +366,7 @@ public class ExportToGML implements IExportTo {
 			}
 		} catch (RecognitionException e) {
 			String s;
-			s = "Error on arc from " + source.getAttribute("name").getValue() + " to " + target.getAttribute("name").getValue() + "\n";
+			s = "Error on arc from " + source.getId() + " to " + target.getId() + "\n";
 			s = s + "at : " + e.token.getText() + "\n";
 			throw new ExtensionException(s);
 		}
