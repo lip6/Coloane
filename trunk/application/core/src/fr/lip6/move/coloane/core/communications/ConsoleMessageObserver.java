@@ -16,11 +16,11 @@
 package fr.lip6.move.coloane.core.communications;
 
 import fr.lip6.move.coloane.interfaces.api.IApi;
-import fr.lip6.move.coloane.interfaces.api.IApiObserver;
 import fr.lip6.move.coloane.interfaces.objects.services.ConsoleMessage;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.swt.widgets.Display;
@@ -33,7 +33,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
-public final class ConsoleMessageObserver implements IApiObserver {
+public final class ConsoleMessageObserver implements PropertyChangeListener {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -48,20 +48,16 @@ public final class ConsoleMessageObserver implements IApiObserver {
 		this.console = console;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	public void update(IApi api, Object newMessages) {
-		LOGGER.warning("Console messages should be updated"); //$NON-NLS-1$
+	/** {@inheritDoc} */
+	public void propertyChange(PropertyChangeEvent evt) {
+		if (IApi.API_MESSAGE.equals(evt.getPropertyName())) {
+			LOGGER.info("Console messages should be updated"); //$NON-NLS-1$
 
-		final List<ConsoleMessage> messages = (List<ConsoleMessage>) newMessages;
-		final MessageConsole console = this.console;
+			final ConsoleMessage message = (ConsoleMessage) evt.getNewValue();
+			final MessageConsole console = this.console;
 
-		Display.getDefault().asyncExec(new Runnable() {
-			public void run() {
-
-				for (ConsoleMessage message : messages) {
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
 					MessageConsoleStream consoleStream = console.newMessageStream();
 					consoleStream.setColor(message.getColor());
 					consoleStream.setFontStyle(message.getFontType());
@@ -70,10 +66,10 @@ public final class ConsoleMessageObserver implements IApiObserver {
 						consoleStream.flush();
 						consoleStream.close();
 					} catch (IOException e) {
-						LOGGER.warning("Something went wrong with the MessageConsole"); //$NON-NLS-1$
+						LOGGER.warning("Something went wrong with the MessageConsole: " + e.getMessage()); //$NON-NLS-1$
 					}
 				}
-			}
-		});
+			});
+		}
 	}
 }

@@ -188,7 +188,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * Init the log manager
 	 */
 	private void initializeLogger() {
-		LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+		LOGGER = Logger.getLogger("fr.lip6.move.coloane"); //$NON-NLS-1$
 		// TODO: Should be defined in a property page...
 		LOGGER.setLevel(Level.FINE); // Finer/Finest messages are discarded
 
@@ -209,6 +209,8 @@ public class Coloane extends AbstractUIPlugin {
 			System.err.println("FileHandler cannot be instanciated... Please contact the Dev Team"); //$NON-NLS-1$
 			showErrorMsg("Error while creating the log file. Please report this error to the DevTeam"); //$NON-NLS-1$
 		}
+
+		LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 	}
 
 	/**

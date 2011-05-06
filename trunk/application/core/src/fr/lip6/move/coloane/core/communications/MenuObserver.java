@@ -19,9 +19,10 @@ import fr.lip6.move.coloane.core.ui.menus.ColoaneAPIRootMenu;
 import fr.lip6.move.coloane.core.ui.menus.ColoaneMenuManager;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.interfaces.api.IApi;
-import fr.lip6.move.coloane.interfaces.api.IApiObserver;
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -31,32 +32,36 @@ import java.util.logging.Logger;
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
-public class MenuObserver implements IApiObserver {
+public class MenuObserver implements PropertyChangeListener {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Session handled by this observer */
 	private ColoaneAPIRootMenu rootMenu;
 
+	/**
+	 * @param rootMenu Coloane root menu, the apis menus will be added as child of this menu.
+	 */
 	public MenuObserver(ColoaneAPIRootMenu rootMenu) {
 		this.rootMenu = rootMenu;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@SuppressWarnings("unchecked")
-	public void update(IApi api, Object newMenus) {
-		LOGGER.warning("Menu should be updated"); //$NON-NLS-1$
-		this.rootMenu.removeAll();
+	/** {@inheritDoc} */
+	public final void propertyChange(PropertyChangeEvent evt) {
+		Object newValue = evt.getNewValue();
+		if (IApi.API_MENU.equals(evt.getPropertyName())) {
+			LOGGER.info("Menu should be updated"); //$NON-NLS-1$
+			this.rootMenu.removeAll();
 
-		// Build sub-menus
-		LOGGER.finer("Fetching new sub-menus"); //$NON-NLS-1$
-		List<IItemMenu> submenus = (List<IItemMenu>) newMenus;
-		for (IItemMenu submenu : submenus) {
-			ColoaneMenuManager newMenu = MenuManipulation.buildSubMenu(this.rootMenu, submenu);
-			if (newMenu != null) {
-				this.rootMenu.add(newMenu);
+			// Build sub-menus
+			LOGGER.finer("Fetching new sub-menus"); //$NON-NLS-1$
+			@SuppressWarnings("unchecked") // I can't check a type with generic
+			List<IItemMenu> submenus = (List<IItemMenu>) newValue;
+			for (IItemMenu submenu : submenus) {
+				ColoaneMenuManager newMenu = MenuManipulation.buildSubMenu(this.rootMenu, submenu);
+				if (newMenu != null) {
+					this.rootMenu.add(newMenu);
+				}
 			}
 		}
 	}
