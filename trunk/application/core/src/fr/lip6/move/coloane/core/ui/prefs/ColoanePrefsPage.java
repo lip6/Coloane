@@ -46,11 +46,11 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	/** Limit size for text field */
 	public static final int TXT_LIMIT = 255;
 
-	// Statistics Field
-	BooleanFieldEditor statsStatus;
+	/** Statistics Field */
+	private BooleanFieldEditor statsStatus;
 
-	// Debug Field
-	Combo debugLevelCombo;
+	/** Debug Field */
+	private Combo debugLevelCombo;
 
 	/** {@inheritDoc} */
 	public final void init(IWorkbench workbench) {
