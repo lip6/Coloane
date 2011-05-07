@@ -17,19 +17,52 @@ package fr.lip6.move.coloane.interfaces.api;
 
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 
+import java.beans.PropertyChangeListener;
 import java.util.List;
 
+/**
+ * To use extension point 'fr.lip6.move.coloane.apis', this interface must be implemented to provide the Api menu.
+ * To update the menu or send messages, you can use fire a property change event on the listeners with appropriate data.
+ *
+ * For update the menu, you need to send as new value an updated <code>List&lt;IItemMenu&gt;</code>.
+ * For send a message, set the new value of the PropertyChangeEvent as a ConsoleMessage.
+ *
+ * @author Clément Démoulins
+ * @author Jean-Baptiste Voron
+ */
 public interface IApi {
 
-		/**
-		 * @return The initial list of menus associated with the API
-		 */
-		List<IItemMenu> getInitialApiMenus();
+	String API_MENU = "property.api.menu";
+	String API_MESSAGE = "property.api.message";
 
-		/**
-		 * Add a specific observer to the API
-		 * @param observer The observer object
-		 * @param observerType The kind of observer
-		 */
-		void addObserver(IApiObserver observer, int observerType);
+	/**
+	 * @return The initial list of menus associated with the API
+	 */
+	List<IItemMenu> getInitialApiMenus();
+
+	/**
+	 * Add a listener.
+	 * @param listener the listener to add
+	 */
+	void addPropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * Add a listener for a specified property.
+	 * @param propertyName property listened
+	 * @param listener the listener to add
+	 */
+	void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
+
+	/**
+	 * Remove a listener.
+	 * @param listener the listener to remove
+	 */
+	void removePropertyChangeListener(PropertyChangeListener listener);
+
+	/**
+	 * Remove a listener for a specified property.
+	 * @param propertyName property concerned
+	 * @param listener the listener to remove
+	 */
+	void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
 }

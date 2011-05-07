@@ -34,13 +34,18 @@ public class ConsoleHandler extends Handler {
 	/** {@inheritDoc} */
 	@Override
 	public final void publish(LogRecord record) {
-		String level = "[" + record.getLevel() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
-		String source;
-		if (record.getSourceClassName().startsWith("fr.lip6.move.coloane.")) { //$NON-NLS-1$
-			source = record.getSourceClassName().substring(21) + "." + record.getSourceMethodName(); //$NON-NLS-1$
-		} else  {
-			source = record.getSourceClassName() + "." + record.getSourceMethodName(); //$NON-NLS-1$
+		Throwable t = record.getThrown();
+		if (t != null) {
+			t.printStackTrace();
+		} else {
+			String level = "[" + record.getLevel() + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+			String source;
+			if (record.getSourceClassName().startsWith("fr.lip6.move.coloane.")) { //$NON-NLS-1$
+				source = record.getSourceClassName().substring(21) + "." + record.getSourceMethodName(); //$NON-NLS-1$
+			} else  {
+				source = record.getSourceClassName() + "." + record.getSourceMethodName(); //$NON-NLS-1$
+			}
+			System.out.println(String.format("%-10s%-70s (%s)", level, record.getMessage(), source)); //$NON-NLS-1$
 		}
-		System.out.println(String.format("%-10s%-70s (%s)", level, record.getMessage(), source)); //$NON-NLS-1$
 	}
 }
