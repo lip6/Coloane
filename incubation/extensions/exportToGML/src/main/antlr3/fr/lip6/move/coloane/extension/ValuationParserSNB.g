@@ -37,7 +37,9 @@ arcLabel[Map<String,String> s,String gap] returns [String value]
   l=listElementaryExpr[$gap+"\t"] { $value = $value.concat($l.value); } |
   i=positiveInteger
 { $value = $value + gap + "\t<attribute name=\"token\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"occurs\">" + $i.value + "</attribute>\n";
+  $value = $value + gap + "\t\t<attribute name=\"occurs\">\n";
+  $value = $value + gap + "\t\t\t<attribute name=\"intValue\">" + $i.value + "</attribute>\n";
+  $value = $value + gap + "\t\t</attribute>\n";
   $value = $value + gap + "\t</attribute>\n";
 } ;
 
