@@ -193,10 +193,13 @@ initMarking[Map<String,String> s,String gap] returns [String value]
 @init { symbols = s; $value = gap+"<attribute name=\"marking\">\n"; }
 @after { $value = $value + gap + "</attribute>\n"; } :
   l=listMarking[$gap+"\t"] { $value = $value + $l.value; } |
-  i=INTEGER { $value = $value + gap + "\t" + $i.getText() + "\n";
-//{ $value = $value + gap + "\t<attribute name=\"token\">\n";
-//  $value = $value + gap + "\t\t<attribute name=\"occurs\">" + $i.getText() + "</attribute>\n";
-//  $value = $value + gap + "\t</attribute>\n";
+  i=INTEGER //{ $value = $value + gap + "\t" + $i.getText() + "\n";
+  {
+    $value = $value + gap + "\t<attribute name=\"token\">\n";
+    $value = $value + gap + "\t\t<attribute name=\"occurs\">\n";
+    $value = $value + gap + "\t\t\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
+    $value = $value + gap + "\t\t</attribute>\n";
+    $value = $value + gap + "\t</attribute>\n";
 } | ;
   
 listMarking[String gap] returns [String value]
