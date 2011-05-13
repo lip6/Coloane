@@ -237,7 +237,7 @@ public class ExportToGML implements IExportTo {
 			parser = new DeclarativePartParserSN(tokens);
 			out.write(parser.declaration(gap));
 		} catch (RecognitionException e) {
-			throw new ExtensionException("Error in the declarative part at : " + e.token.getText());
+			throw new ExtensionException("Error in the declarative part at : " + value.split("\n")[e.line - 1]);
 		}
 		return parser.getSymbols();
 	}
