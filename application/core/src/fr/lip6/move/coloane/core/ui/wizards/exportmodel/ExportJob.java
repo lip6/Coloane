@@ -93,7 +93,7 @@ public class ExportJob extends Job {
 			LOGGER.finer("Exporting..."); //$NON-NLS-1$
 			worker.export(model, targetDirectory + "/" + newName, monitor); //$NON-NLS-1$
 		} catch (ExtensionException e) {
-			return new Status(IStatus.ERROR, "coloane", "export " + file + " to " + targetDirectory + "/" + newName + "failed", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			return new Status(IStatus.ERROR, "Coloane", "Export " + file + " to " + targetDirectory + "/" + newName + " failed", e); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		}
 		LOGGER.finer("Done..."); //$NON-NLS-1$
 		return Status.OK_STATUS;
