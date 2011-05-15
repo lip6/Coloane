@@ -368,6 +368,12 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 	private void startAttribute(String name, Attributes attributes) {
 		IElement element = (IElement) stack.peek();
 		IAttribute attribute = element.getAttribute(name);
+		
+		if (attribute == null) {
+			String message = "Attribute with name \""+name+"\" found for element " + element + " but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+			LOGGER.severe(message);			
+		}
+		
 		int x = Integer.parseInt(attributes.getValue(ATTRIBUTE_X_MARKUP));
 		int y = Integer.parseInt(attributes.getValue(ATTRIBUTE_Y_MARKUP));
 		Point location = new Point(x, y);
@@ -406,8 +412,10 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		Point location = (Point) stack.pop();
 		IAttribute attribute = (IAttribute) stack.pop();
 		String value = data.toString();
-		attribute.setValue(value);
-		attribute.getGraphicInfo().setLocation(location);
+		if (attribute != null) {
+			attribute.setValue(value);
+			attribute.getGraphicInfo().setLocation(location);
+		}
 	}
 
 	/** End of a sticky note value, assign it to the top stack sticky note */
