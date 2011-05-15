@@ -66,10 +66,10 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 	public void createContents(Composite parent) {
 		TableWrapLayout layout = new TableWrapLayout();
 		GridData gd;
-//		layout.topMargin = 5;
-//		layout.leftMargin = 5;
-//		layout.rightMargin = 2;
-//		layout.bottomMargin = 2;
+		//		layout.topMargin = 5;
+		//		layout.leftMargin = 5;
+		//		layout.rightMargin = 2;
+		//		layout.bottomMargin = 2;
 		parent.setLayout(layout);
 
 		FormToolkit toolkit = getToolkit();
@@ -178,7 +178,7 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		toolkit.paintBordersFor(client);
 		s1.setClient(client);
 	}
-	
+
 	/**
 	 * Provider class to display the interface of a type declaration
 	 * @author Yann
@@ -199,16 +199,18 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 				TypeDeclaration td = (TypeDeclaration) inputElement;
 				IGraph graph = td.getGraph();
 				IGraphFormalism formalism = graph.getFormalism().getRootGraph();
-				IElementFormalism trans = formalism.getElementFormalism("transition");
-				Collection<INode> nodes = graph.getNodes();
-
 				List<String> toret = new ArrayList<String>();
-				for (INode node : nodes) {
-					if (node.getNodeFormalism().equals(trans)) {
-						if (node.getAttribute("visibility").getValue().equals("public")) {
-							toret.add(node.getAttribute("label").getValue() + " [ "
-									+ node.getAttribute("earliestFiringTime").getValue() + ", "
-									+ node.getAttribute("latestFiringTime").getValue() + " ]");
+				if (formalism.getFormalism().getName().equals("Time Petri Net")) {
+					IElementFormalism trans = formalism.getElementFormalism("transition");
+					Collection<INode> nodes = graph.getNodes();
+
+					for (INode node : nodes) {
+						if (node.getNodeFormalism().equals(trans)) {
+							if (node.getAttribute("visibility").getValue().equals("public")) {
+								toret.add(node.getAttribute("label").getValue() + " [ "
+										+ node.getAttribute("earliestFiringTime").getValue() + ", "
+										+ node.getAttribute("latestFiringTime").getValue() + " ]");
+							}
 						}
 					}
 				}
