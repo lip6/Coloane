@@ -276,14 +276,14 @@
                      name="delegator">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
-                        description="Create a Synchronization"
+                        description="Create a Delegator"
                         drawable="true"
                         fill="true"
                         height="4"
                         icon16px="resources/formalisms/its/transition_16.png"
                         icon24px="resources/formalisms/its/transition_24.png"
                         palettable="true"
-                        paletteName="Synchronization"
+                        paletteName="Delegator"
                         width="20">
                   </GraphicInfo>
                   <Attribute
