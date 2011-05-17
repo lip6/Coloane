@@ -88,10 +88,14 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 		Collection<INode> nodes = getGraph().getNodes();
 		// Composite case
 		for (INode node : nodes) {
-			if ("synchronization".equals(node.getNodeFormalism().getName())
-					|| "delegator".equals(node.getNodeFormalism().getName())) {
+			if ("synchronization".equals(node.getNodeFormalism().getName())) {
 				IAttribute atts = node.getAttribute("label");
 				if (atts != null && (!"".equals(atts.getValue()))) {
+					labels.add(atts.getValue());
+				}
+			} else if ("delegator".equals(node.getNodeFormalism().getName())) {
+				IAttribute atts = node.getAttribute("visibility");
+				if (atts != null && (!"PRIVATE".equals(atts.getValue()))) {
 					labels.add(atts.getValue());
 				}
 			}
