@@ -96,7 +96,10 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 			} else if ("delegator".equals(node.getNodeFormalism().getName())) {
 				IAttribute atts = node.getAttribute("visibility");
 				if (atts != null && (!"PRIVATE".equals(atts.getValue()))) {
-					labels.add(atts.getValue());
+					IAttribute atts2 = node.getAttribute("label");
+					if (atts2 != null && (!"".equals(atts2.getValue()))) {
+						labels.add(atts2.getValue());
+					}
 				}
 			}
 		}
