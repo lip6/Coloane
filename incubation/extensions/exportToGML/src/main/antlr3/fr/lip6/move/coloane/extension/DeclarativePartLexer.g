@@ -34,7 +34,7 @@ UNIQUE : 'UNIQUE' | 'Unique' | 'unique' ;
 fragment DIGIT : '0'..'9' ;
 INTEGER : DIGIT+ ;
 
-fragment LETTER : 'a'..'z' | 'A'..'Z' ;
+fragment LETTER : 'a'..'z' | 'A'..'Z' | '_' ;
 IDENTIFIER : LETTER (LETTER | DIGIT)* ;
 
 WS : (' ' | '\n' | '\r' | '\t')+ { $channel = HIDDEN; } ;
