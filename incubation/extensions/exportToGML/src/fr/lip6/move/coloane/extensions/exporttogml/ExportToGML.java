@@ -128,6 +128,8 @@ public class ExportToGML implements IExportTo {
 	 * @throws ExtensionException if the parser throws an exception
 	 */
 	private void exportGraph(IGraph graph, Writer out, IProgressMonitor monitor) throws IOException, ExtensionException {
+		monitor.beginTask("Export to GML", 1 + graph.getNodes().size() + graph.getArcs().size());
+
 		String gap = "\t";
 		Map<String, String> symbolTable = new HashMap<String, String>();
 
@@ -138,6 +140,7 @@ public class ExportToGML implements IExportTo {
 			fmlUrl = "http://alligator.lip6.fr/unknown";
 		}
 
+		monitor.setTaskName("Create preamble");
 		out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n");
 		out.write("<model formalismUrl=\"" + fmlUrl + "\"\n");
 		out.write("    xmlns=\"http://gml.lip6.fr/model\">\n");
@@ -145,13 +148,13 @@ public class ExportToGML implements IExportTo {
 		LOGGER.fine("GML preamble");
 
 		// Export model attributes
+		monitor.setTaskName("Export model attributes");
 		IAttribute declarativePart = graph.getAttribute("declaration");
 		if (declarativePart != null) {
 			if (!declarativePart.getValue().equals("")) {
 				symbolTable = exportDeclarativePart(declarativePart.getValue(), out, monitor, gap);
 			}
 		}
-		monitor.worked(1);
 		for (IAttribute attr : graph.getAttributes()) {
 			if (!attr.getName().equals("declaration")) {
 				try {
@@ -165,9 +168,11 @@ public class ExportToGML implements IExportTo {
 			}
 		}
     	out.write("\n");
+		monitor.worked(1);
     	LOGGER.fine("graph's attributes : done");
 
     	//Export nodes
+    	monitor.setTaskName("Export nodes");
     	for (INode node : graph.getNodes()) {
     		exportNode(node, out, monitor, gap, symbolTable);
     		monitor.worked(1);
@@ -176,6 +181,7 @@ public class ExportToGML implements IExportTo {
     	out.write("\n");
 
     	//Export Arcs
+    	monitor.setTaskName("Export arcs");
     	for (IArc arc : graph.getArcs()) {
     		exportArc(arc, out, monitor, gap, symbolTable);
     		monitor.worked(1);
@@ -291,7 +297,6 @@ public class ExportToGML implements IExportTo {
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
 	private void exportMarking(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, RecognitionException {
-		System.err.println("@@@@ " + value);
 		ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		ValuationParserSNB parser = new ValuationParserSNB(tokens);
