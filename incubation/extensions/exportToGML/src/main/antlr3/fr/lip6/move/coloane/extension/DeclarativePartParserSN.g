@@ -55,7 +55,7 @@ classDeclaration[String gap] returns [String value]
   id=IDENTIFIER IS (CIRCULAR { circular=true; })? d=classDescription[$gap+"\t\t",$id.getText()] SEMICOLON { symbols.get($id.getText()) == null }?
 { symbols.put($id.getText(),"class");
   
-  $value = $value + gap + "<attribute name=\"classeDeclaration\">\n";
+  $value = $value + gap + "<attribute name=\"classDeclaration\">\n";
   // balise name
   $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n"; // fermeture de la balise name
   // balise classType
