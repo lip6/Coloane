@@ -132,7 +132,7 @@ listProdElement[String gap] returns [String value]
   (COMA l=listProdElement[$gap+""] { $value = $value + $l.value; })? ;
   
 varClassElement[String gap] returns [String value]
-@init { $value=""; } :
+@init { $value=""; int nbToken = 1; } :
   { is_variable(input.LT(1).getText()) }?=> id=IDENTIFIER // variableIdentifier
 { $value = $value + gap + "<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
 } |
@@ -161,28 +161,20 @@ varClassElement[String gap] returns [String value]
   $value = $value + gap + "\t<attribute name=\"enumValue\">" + $i.getText() + "</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
-  id=IDENTIFIER PLUSPLUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier ++ n
-  { Integer.parseInt($n.getText()) > 0 }?
+  id=IDENTIFIER PLUSPLUS (n=INTEGER { nbToken = Integer.parseInt($n.getText()); })? { is_variable($id.getText()) }? // variableIdentifier ++ n
 { $value = $value + gap + "<attribute name=\"function\">\n";
-  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value + gap + "\t<attribute name=\"++\">\n";
-  }
+  $value = $value + gap + "\t<attribute name=\"++\">\n";
   $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value + gap + "\t</attribute>\n";
-  }
+  $value = $value + gap + "\t\t<attribute name=\"intValue\">" + nbToken + "</attribute>\n";
+  $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
-  id=IDENTIFIER MINUSMINUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier -- n
-  { Integer.parseInt($n.getText()) > 0 }?
+  id=IDENTIFIER MINUSMINUS (n=INTEGER { nbToken = Integer.parseInt($n.getText()); })? { is_variable($id.getText()) }? // variableIdentifier -- n
 { $value = $value + gap + "<attribute name=\"function\">\n";
-  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value + gap + "\t<attribute name=\"--\">\n";
-  }
+  $value = $value + gap + "\t<attribute name=\"--\">\n";
   $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value + gap + "\t</attribute>\n";
-  }
+  $value = $value + gap + "\t\t<attribute name=\"intValue\">" + nbToken + "</attribute>\n";
+  $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } ;
 /* end of the copy */
