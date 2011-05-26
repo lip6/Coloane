@@ -300,6 +300,7 @@
                         <exclude>**/src/fr/lip6/move/coloane/extensions/examples/wizard/AbstractExampleWizard.java</exclude>
                         <exclude>**/src/fr/lip6/move/coloane/extensions/examples/wizard/FischerExampleWizard.java</exclude>
                         <exclude>**/src/fr/lip6/move/coloane/extensions/examples/wizard/TrainExampleWizard.java</exclude>
+                        <exclude>**/src/fr/lip6/move/coloane/extensions/examples/wizard/SharedMemoryExampleWizard.java</exclude>
                     </excludes>
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <useDefaultMapping>true</useDefaultMapping>
