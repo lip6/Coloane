@@ -110,7 +110,7 @@
                         default="private"
                         delta_x="-40"
                         delta_y="0"
-                        drawable="true"
+                        drawable="false"
                         enumerated="true"
                         italic="true"
                         multiline="false"
