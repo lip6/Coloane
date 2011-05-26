@@ -32,7 +32,7 @@
                      container="false"
                      name="instance">
                   <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.InstanceNode"
                         description="Create a type instance"
                         drawable="true"
                         fill="false"
@@ -45,15 +45,16 @@
                   </GraphicInfo>
                   <Attribute
                         bold="false"
-                        default="i"
-                        drawable="true"
+                        default="o"
+                        drawable="false"
                         italic="false"
                         multiline="false"
                         name="name">
                   </Attribute>
                   <Attribute
                         bold="true"
-                        drawable="true"
+                        default="Type"
+                        drawable="false"
                         italic="false"
                         multiline="false"
                         name="type">
@@ -75,13 +76,25 @@
                         width="20">
                   </GraphicInfo>
                   <Attribute
+                        bold="false"
+                        delta_x="20"
+                        delta_y="20"
+                        displayed_default="false"
                         drawable="true"
+                        enumerated="false"
+                        italic="true"
                         multiline="true"
                         name="name">
                   </Attribute>
                   <Attribute
+                        bold="true"
+                        delta_x="20"
+                        delta_y="0"
+                        displayed_default="false"
                         drawable="true"
-                        multiline="true"
+                        enumerated="false"
+                        italic="false"
+                        multiline="false"
                         name="label">
                   </Attribute>
                </Node>
@@ -98,7 +111,7 @@
                   </GraphicInfo>
                   <Attribute
                         drawable="true"
-                        multiline="true"
+                        multiline="false"
                         name="labels">
                   </Attribute>
                </Arc>
