@@ -51,6 +51,10 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	private int x;
 	private int y;
 
+	/** The current computed size */
+	private int height=0;
+	private int width=0;
+	
 	/** Scaling factor */
 	private int scale = 100;
 
@@ -102,7 +106,11 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @return The width of the node
 	 */
 	private int getWidth() {
-		return (this.getCurrentGraphicalDescription().getWidth() * scale) / 100;
+		if (width==0) {
+			return (this.getCurrentGraphicalDescription().getWidth() * scale) / 100;
+		} else {
+			return width;
+		}
 	}
 
 	/**
@@ -110,7 +118,11 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @return The height of the node
 	 */
 	private int getHeight() {
-		return (this.getCurrentGraphicalDescription().getHeight() * scale) / 100;
+		if (height==0) {
+			return (this.getCurrentGraphicalDescription().getHeight() * scale) / 100;
+		} else {
+			return height;
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -157,6 +169,18 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		Dimension newSize = new Dimension();
 		newSize.height = getHeight();
 		newSize.width = getWidth();
+		node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);
+	}
+	
+	/** {@inheritDoc} */
+	public final void setSize(Dimension size) {
+		Dimension oldSize = new Dimension();
+		oldSize.height = getHeight();
+		oldSize.width = getWidth();
+		
+		Dimension newSize = size;
+		this.height = size.height;
+		this.width = size.width;
 		node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);
 	}
 
