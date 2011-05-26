@@ -73,9 +73,16 @@ public interface INodeGraphicInfo extends ILocationInfo {
 	int getScale();
 
 	/**
+	 * Set a new scale factor for this node
+	 * @param scale The scale applied to the node (100 = normal size)
+	 * @see #getScale()
+	 */
+	void setSize(Dimension size);
+	
+	/**
 	 * Returns the dimensions of the node according to the scale factor currently set
 	 * @return The dimensions of the node
-	 * @see #setScale(int)
+	 * @see #setSize(Dimension)
 	 */
 	Dimension getSize();
 
