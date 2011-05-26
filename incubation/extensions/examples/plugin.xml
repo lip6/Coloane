@@ -51,6 +51,20 @@
             This example is a composite Time Petri Net modelling an N railtrack train crossing problem by Berthomieu et. al.
          </description>
       </wizard>
+      <wizard
+            canFinishEarly="true"
+            category="org.eclipse.ui.Examples/fr.lip6.move.coloane.examples.category"
+            class="fr.lip6.move.coloane.extensions.examples.wizard.SharedMemoryExampleWizard"
+            finalPerspective="fr.lip6.move.coloane.perspective"
+            hasPages="false"
+            icon="icons/clock.png"
+            id="fr.lip6.move.coloane.extensions.examples.tpn.SharedMemory"
+            name="Shared Memory"
+            project="true">
+         <description>
+            This example is a composite Petri Net modelling a shared memory model using a BUS. It features a scalar set and some pretty complex synchronizations.
+         </description>
+      </wizard>
    </extension>
 
 </plugin>
