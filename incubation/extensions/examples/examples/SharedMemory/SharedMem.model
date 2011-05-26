@@ -23,12 +23,12 @@ Note that only the process/memory pair that engaged in communication during the 
 <attribute name='type' xposition='443' yposition='255'>Bus</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='5' xposition='347' yposition='186' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='synchronization' id ='5' xposition='347' yposition='186' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='367' yposition='166'>Begin_Ext_Acc</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='6' xposition='350' yposition='324' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='synchronization' id ='6' xposition='350' yposition='324' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='319' yposition='337'>End_Ext_Acc</attribute>
 </attributes>
