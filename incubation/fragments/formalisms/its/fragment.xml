@@ -63,11 +63,11 @@
                      container="false"
                      name="synchronization">
                   <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.CompositeSynchronization"
                         description="Create a Synchronization"
                         drawable="true"
-                        fill="true"
-                        height="4"
+                        fill="false"
+                        height="10"
                         icon16px="resources/formalisms/its/transition_16.png"
                         icon24px="resources/formalisms/its/transition_24.png"
                         palettable="true"
