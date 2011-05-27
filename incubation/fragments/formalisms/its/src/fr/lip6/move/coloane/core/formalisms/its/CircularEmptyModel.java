@@ -16,8 +16,6 @@
  */
 package fr.lip6.move.coloane.core.formalisms.its;
 
-import org.eclipse.draw2d.geometry.Point;
-
 import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.exceptions.PluginException;
@@ -26,6 +24,8 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+
+import org.eclipse.draw2d.geometry.Point;
 
 public class CircularEmptyModel implements IExample {
 
