@@ -3,27 +3,27 @@
 <attributes>
 </attributes>
 <nodes>
-<node nodetype='instance' id ='3' xposition='35' yposition='183' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='instance' id ='3' xposition='30' yposition='183' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='55' yposition='163'>procs</attribute>
 <attribute name='type' xposition='5' yposition='163'>ProcessGroup</attribute>
 </attributes>
 </node>
-<node nodetype='instance' id ='4' xposition='228' yposition='183' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='instance' id ='4' xposition='277' yposition='191' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='248' yposition='163'>lock</attribute>
 <attribute name='type' xposition='248' yposition='163'>Resource</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='5' xposition='166' yposition='125' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='synchronization' id ='5' xposition='199' yposition='118' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='6' xposition='166' yposition='281' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='synchronization' id ='6' xposition='199' yposition='333' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='7' xposition='166' yposition='196' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='synchronization' id ='7' xposition='199' yposition='244' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 </attributes>
 </node>
@@ -31,32 +31,34 @@
 <arcs>
 <arc arctype='arc' id='8' startid='5' endid='3' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='116' yposition='154'>WantCS</attribute>
+<attribute name='labels' xposition='133' yposition='138'>WantCS</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='9' startid='5' endid='4' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='199' yposition='154'>Read</attribute>
+<attribute name='labels' xposition='233' yposition='138'>Test</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='10' startid='4' endid='7' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='190' yposition='200'>Reset</attribute>
+<attribute name='labels' xposition='231' yposition='222'>Reset</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='11' startid='7' endid='3' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='87' yposition='200'>Reset;MyTurn</attribute>
+<attribute name='labels' xposition='116' yposition='222'>Reset;MyTurn</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='12' startid='3' endid='6' color='#000000' curved='true'>
+<pi xposition='107' yposition='289'/>
 <attributes>
-<attribute name='labels' xposition='105' yposition='244'>EndCS</attribute>
+<attribute name='labels' xposition='92' yposition='287'>EndCS</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='13' startid='4' endid='6' color='#000000' curved='true'>
+<pi xposition='275' yposition='299'/>
 <attributes>
-<attribute name='labels' xposition='204' yposition='238'>Put</attribute>
+<attribute name='labels' xposition='267' yposition='287'>Set</attribute>
 </attributes>
 </arc>
 </arcs>

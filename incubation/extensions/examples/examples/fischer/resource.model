@@ -1,36 +1,38 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='Time Petri Net' xposition='0' yposition='0'>
 <attributes>
+<attribute name='authors' xposition='0' yposition='0'>Yann</attribute>
+<attribute name='comments' xposition='0' yposition='0'>A basic lock : with test, reset, and set</attribute>
 </attributes>
 <nodes>
-<node nodetype='place' id ='3' xposition='158' yposition='174' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='place' id ='3' xposition='158' yposition='176' scale='140' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='121' yposition='176'>lock</attribute>
-<attribute name='marking' xposition='162' yposition='176'>1</attribute>
+<attribute name='name' xposition='121' yposition='178'>lock</attribute>
+<attribute name='marking' xposition='166' yposition='180'>1</attribute>
 </attributes>
 </node>
-<node nodetype='transition' id ='4' xposition='231' yposition='125' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='transition' id ='4' xposition='242' yposition='108' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='latestFiringTime' xposition='0' yposition='0'>inf</attribute>
 <attribute name='earliestFiringTime' xposition='0' yposition='0'>0</attribute>
 <attribute name='visibility' xposition='257' yposition='125'>public</attribute>
-<attribute name='label' xposition='251' yposition='125'>Reset</attribute>
+<attribute name='label' xposition='269' yposition='104'>Reset</attribute>
 </attributes>
 </node>
-<node nodetype='transition' id ='5' xposition='236' yposition='174' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='transition' id ='5' xposition='242' yposition='174' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='latestFiringTime' xposition='0' yposition='0'>inf</attribute>
 <attribute name='earliestFiringTime' xposition='0' yposition='0'>0</attribute>
 <attribute name='visibility' xposition='258' yposition='172'>public</attribute>
-<attribute name='label' xposition='256' yposition='174'>Read</attribute>
+<attribute name='label' xposition='267' yposition='170'>Test</attribute>
 </attributes>
 </node>
-<node nodetype='transition' id ='6' xposition='231' yposition='235' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='transition' id ='6' xposition='242' yposition='237' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='latestFiringTime' xposition='0' yposition='0'>inf</attribute>
 <attribute name='earliestFiringTime' xposition='0' yposition='0'>0</attribute>
 <attribute name='visibility' xposition='257' yposition='233'>public</attribute>
-<attribute name='label' xposition='258' yposition='233'>Put</attribute>
+<attribute name='label' xposition='269' yposition='235'>Set</attribute>
 </attributes>
 </node>
 </nodes>
