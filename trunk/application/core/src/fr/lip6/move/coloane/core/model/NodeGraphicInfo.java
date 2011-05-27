@@ -179,9 +179,12 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		oldSize.width = getWidth();
 
 		Dimension newSize = size;
-		this.height = size.height;
-		this.width = size.width;
-		node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);
+
+		if (! oldSize.equals(newSize) ){
+			this.height = size.height;
+			this.width = size.width;
+			node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);
+		}
 	}
 
 	/** {@inheritDoc} */
