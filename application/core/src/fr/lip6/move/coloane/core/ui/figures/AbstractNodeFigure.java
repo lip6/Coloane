@@ -57,6 +57,18 @@ public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
 	 * {@inheritDoc}
 	 */
 	public final void setModelElement(INode modelElement) {
+		INode oldModelElement = this.modelElement;
 		this.modelElement = modelElement;
+		if (oldModelElement != modelElement) {
+			modelElementChanged(oldModelElement, modelElement);
+		}
+	}
+	
+	/**
+	 * Called when model element changed. Implementers should remove any listeners from old model element.
+	 * @param oldModelElement old model element, null if first call of method setModelElement.
+	 * @param newModelElement new model element
+	 */
+	protected void modelElementChanged(INode oldModelElement, INode newModelElement) {
 	}
 }

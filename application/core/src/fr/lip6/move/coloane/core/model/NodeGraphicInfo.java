@@ -52,8 +52,8 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	private int y;
 
 	/** The current computed size */
-	private int height=0;
-	private int width=0;
+	private int height = 0;
+	private int width = 0;
 	
 	/** Scaling factor */
 	private int scale = 100;
@@ -106,10 +106,10 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @return The width of the node
 	 */
 	private int getWidth() {
-		if (width==0) {
+		if (width == 0) {
 			return (this.getCurrentGraphicalDescription().getWidth() * scale) / 100;
 		} else {
-			return width;
+			return (width * scale) / 100;
 		}
 	}
 
@@ -118,10 +118,10 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @return The height of the node
 	 */
 	private int getHeight() {
-		if (height==0) {
+		if (height == 0) {
 			return (this.getCurrentGraphicalDescription().getHeight() * scale) / 100;
 		} else {
-			return height;
+			return (height * scale) / 100;
 		}
 	}
 
@@ -177,7 +177,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 		Dimension oldSize = new Dimension();
 		oldSize.height = getHeight();
 		oldSize.width = getWidth();
-		
+
 		Dimension newSize = size;
 		this.height = size.height;
 		this.width = size.width;
