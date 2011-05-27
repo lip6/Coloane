@@ -79,7 +79,6 @@ public class InstanceNode extends AbstractNodeFigure implements PropertyChangeLi
 	 * We update the String toshow and the size here if necessary to reflect model changes.
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		
 		String name = getModel().getAttribute("name").getValue();
