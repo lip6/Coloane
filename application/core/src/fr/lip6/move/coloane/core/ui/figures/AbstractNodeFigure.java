@@ -19,7 +19,9 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Shape;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Font;
 
 /**
  * Basic abstract class used by all figure node classes.<br>
@@ -70,5 +72,21 @@ public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
 	 * @param newModelElement new model element
 	 */
 	protected void modelElementChanged(INode oldModelElement, INode newModelElement) {
+	}
+	
+	
+	/**
+	 * Solves an issue related to Figure instances with no font set: if this is the case, return system default font.
+	 * Note that in Shape implementation, if there is no "local" font asks the parent shape to provide one. 
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Font getFont() {
+		Font f = super.getFont();
+		if (f != null) {
+			return f;
+		} else {
+			return JFaceResources.getDefaultFont();
+		}
 	}
 }
