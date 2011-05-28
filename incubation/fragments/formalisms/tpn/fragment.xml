@@ -32,7 +32,7 @@
                      container="false"
                      name="place">
                   <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.PlaceNode"
                         description="Create a place"
                         drawable="true"
                         fill="false"
@@ -63,7 +63,7 @@
                         default="0"
                         delta_x="0"
                         delta_y="0"
-                        drawable="true"
+                        drawable="false"
                         italic="false"
                         multiline="false"
                         name="marking">
@@ -80,6 +80,16 @@
                         multiline="false"
                         name="component">
                   </Attribute>
+                  <ComputedAttribute
+                        bold="true"
+                        default="0"
+                        delta_x="20"
+                        delta_y="12"
+                        displayed_default="false"
+                        formatter="fr.lip6.move.coloane.core.ui.figures.formatters.MarkingFormatter"
+                        italic="false"
+                        name="markingVisual">
+                  </ComputedAttribute>
                </Node>
                <Node
                      container="false"
