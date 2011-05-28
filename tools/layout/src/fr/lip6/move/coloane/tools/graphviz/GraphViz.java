@@ -88,7 +88,9 @@ public final class GraphViz {
 					Logger.getLogger("graphviz").info(status.getMessage());
 					GraphVizActivator.getInstance().getLog().log(result);
 					Coloane.showErrorMsg(result.getMessage());
-					throw new CoreException(result);
+					if (result.getSeverity() > IStatus.WARNING) {
+						throw new CoreException(result);
+					}
 				}
 				// success!
 				return;
