@@ -37,6 +37,9 @@
          <AcceptedFormalism
                id="RG">
          </AcceptedFormalism>
+         <AcceptedFormalism
+               id="Time Petri Net">
+         </AcceptedFormalism>
       </Import>
    </extension>
    <extension
