@@ -191,6 +191,13 @@ public class ImportFromImpl implements IImportFrom {
 		INode node = model.getNode(this.ids.get(ref));
 		if (node != null) {
 			IAttribute attribute = node.getAttribute(name);
+			/** Special case to allow import of CAMI P/T nets into Time PEtri nets: 
+			 * "name" attribute is the transition "label" in TPN.
+			 */
+			if (attribute==null && name.equals("name")) {
+				attribute = node.getAttribute("label");
+			}
+
 			if (attribute != null) {
 				attribute.setValue(value);
 				LOGGER.finest("Attribut " + name + " = " + value + " pour le noeud " + this.ids.get(ref));
@@ -249,6 +256,12 @@ public class ImportFromImpl implements IImportFrom {
 		INode node = model.getNode(this.ids.get(ref));
 		if (node != null) {
 			IAttribute attribute = node.getAttribute(name);
+			/** Special case to allow import of CAMI P/T nets into Time PEtri nets: 
+			 * "name" attribute is the transition "label" in TPN.
+			 */
+			if (attribute==null && name.equals("name")) {
+				attribute = node.getAttribute("label");
+			}
 			if (attribute != null) {
 				if (line == 1) { attribute.setValue(value); } else { attribute.setValue(attribute.getValue() + "\n" + value); }
 				LOGGER.finest("Attribut " + name + " = " + attribute.getValue() + " pour l'arc " + this.ids.get(ref));
