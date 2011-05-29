@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='ITSComposite' xposition='0' yposition='0'>
+<attributes>
+</attributes>
+<nodes>
+<node nodetype='instance' id ='3' xposition='117' yposition='192' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='0' yposition='0'>c</attribute>
+<attribute name='type' xposition='0' yposition='0'>Counter</attribute>
+</attributes>
+</node>
+<node nodetype='instance' id ='4' xposition='275' yposition='192' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='0' yposition='0'>g</attribute>
+<attribute name='type' xposition='0' yposition='0'>Gate</attribute>
+</attributes>
+</node>
+<node nodetype='synchronization' id ='5' xposition='206' yposition='116' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='191' yposition='94'>triggerOpenGate</attribute>
+<attribute name='label' xposition='226' yposition='116'>DetectApp</attribute>
+</attributes>
+</node>
+<node nodetype='synchronization' id ='8' xposition='98' yposition='116' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='66' yposition='94'>dontTriggerOpen</attribute>
+<attribute name='label' xposition='118' yposition='116'>DetectApp</attribute>
+</attributes>
+</node>
+<node nodetype='synchronization' id ='10' xposition='98' yposition='272' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='80' yposition='290'>dontTriggerClose</attribute>
+<attribute name='label' xposition='118' yposition='272'>DetectExit</attribute>
+</attributes>
+</node>
+<node nodetype='synchronization' id ='11' xposition='225' yposition='270' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='245' yposition='290'>triggerCloseGate</attribute>
+<attribute name='label' xposition='245' yposition='270'>DetectExit</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='arc' id='6' startid='5' endid='3' color='#000000' curved='true'>
+<attributes>
+<attribute name='labels' xposition='154' yposition='150'>empty;inc;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='7' startid='5' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='labels' xposition='240' yposition='154'>Open</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='9' startid='8' endid='3' color='#000000' curved='true'>
+<attributes>
+<attribute name='labels' xposition='98' yposition='150'>test;inc;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='12' startid='10' endid='3' color='#000000' curved='true'>
+<attributes>
+<attribute name='labels' xposition='111' yposition='229'>dec;test;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='13' startid='11' endid='3' color='#000000' curved='true'>
+<attributes>
+<attribute name='labels' xposition='171' yposition='231'>dec;empty;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='14' startid='11' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='labels' xposition='250' yposition='231'>Close</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>
