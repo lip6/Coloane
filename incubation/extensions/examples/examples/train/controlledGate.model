@@ -24,26 +24,26 @@ In other cases of a sensor being triggered (App or Exit) no control signal is tr
 </node>
 <node nodetype='synchronization' id ='5' xposition='221' yposition='266' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='255' yposition='262'>triggerGateClose</attribute>
-<attribute name='label' xposition='222' yposition='276'>Exit</attribute>
+<attribute name='name' xposition='201' yposition='278'>triggerGateClose</attribute>
+<attribute name='label' xposition='249' yposition='264'>DetectExit</attribute>
 </attributes>
 </node>
 <node nodetype='synchronization' id ='6' xposition='236' yposition='113' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='259' yposition='105'>triggerGateOpen</attribute>
-<attribute name='label' xposition='236' yposition='93'>App</attribute>
+<attribute name='name' xposition='221' yposition='90'>triggerGateOpen</attribute>
+<attribute name='label' xposition='266' yposition='111'>DetectApp</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='7' xposition='174' yposition='113' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='synchronization' id ='7' xposition='138' yposition='113' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='111' yposition='109'>AppOther</attribute>
-<attribute name='label' xposition='174' yposition='90'>App</attribute>
+<attribute name='name' xposition='117' yposition='90'>AppOther</attribute>
+<attribute name='label' xposition='68' yposition='111'>DetectApp</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='8' xposition='174' yposition='266' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='synchronization' id ='8' xposition='138' yposition='266' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='111' yposition='262'>ExitOther</attribute>
-<attribute name='label' xposition='171' yposition='278'>Exit</attribute>
+<attribute name='name' xposition='124' yposition='278'>ExitOther</attribute>
+<attribute name='label' xposition='68' yposition='264'>DetectExit</attribute>
 </attributes>
 </node>
 </nodes>
@@ -70,12 +70,12 @@ In other cases of a sensor being triggered (App or Exit) no control signal is tr
 </arc>
 <arc arctype='arc' id='13' startid='5' endid='4' color='#000000' curved='false'>
 <attributes>
-<attribute name='labels' xposition='318' yposition='236'>Exit</attribute>
+<attribute name='labels' xposition='318' yposition='236'>Close</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='14' startid='4' endid='6' color='#000000' curved='false'>
 <attributes>
-<attribute name='labels' xposition='333' yposition='152'>App</attribute>
+<attribute name='labels' xposition='333' yposition='152'>Open</attribute>
 </attributes>
 </arc>
 </arcs>

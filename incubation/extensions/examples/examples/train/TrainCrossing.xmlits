@@ -21,7 +21,7 @@
 </concepts>
 <parameters>
 <parameter name='$N' id='7015' parent='7000' value='5'/>
-<parameter name='$SIZE' id='7016' parent='7005' value='5'/>
+<parameter name='$SIZE' id='7016' parent='7005' value='8'/>
 </parameters>
 <checks>
 <check>

@@ -7,10 +7,10 @@ and then 2 to 4 time units to leave this zone.
 When the train has "left" the danger zone "on", it (immediately due to [0,0] time bound) triggers the Exit sensor.</attribute>
 </attributes>
 <nodes>
-<node nodetype='place' id ='3' xposition='331' yposition='182' scale='140' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='place' id ='3' xposition='334' yposition='180' scale='120' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='358' yposition='186'>far</attribute>
-<attribute name='marking' xposition='339' yposition='186'>1</attribute>
+<attribute name='name' xposition='361' yposition='184'>far</attribute>
+<attribute name='marking' xposition='365' yposition='164'>1</attribute>
 </attributes>
 </node>
 <node nodetype='place' id ='4' xposition='257' yposition='121' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
@@ -36,7 +36,7 @@ When the train has "left" the danger zone "on", it (immediately due to [0,0] tim
 <attribute name='latestFiringTime' xposition='0' yposition='0'>inf</attribute>
 <attribute name='earliestFiringTime' xposition='0' yposition='0'>0</attribute>
 <attribute name='visibility' xposition='353' yposition='124'>public</attribute>
-<attribute name='label' xposition='353' yposition='104'>App</attribute>
+<attribute name='label' xposition='361' yposition='123'>SendApp</attribute>
 </attributes>
 </node>
 <node nodetype='transition' id ='8' xposition='190' yposition='124' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
@@ -60,49 +60,49 @@ When the train has "left" the danger zone "on", it (immediately due to [0,0] tim
 <attribute name='latestFiringTime' xposition='353' yposition='273'>0</attribute>
 <attribute name='earliestFiringTime' xposition='0' yposition='0'>0</attribute>
 <attribute name='visibility' xposition='361' yposition='251'>public</attribute>
-<attribute name='label' xposition='353' yposition='233'>Exit</attribute>
+<attribute name='label' xposition='361' yposition='252'>SendExit</attribute>
 </attributes>
 </node>
 </nodes>
 <arcs>
-<arc arctype='arc' id='17' startid='8' endid='5' color='#000000' curved='false'>
-<attributes>
-<attribute name='valuation' xposition='191' yposition='155'>1</attribute>
-</attributes>
-</arc>
-<arc arctype='arc' id='16' startid='4' endid='8' color='#000000' curved='false'>
-<attributes>
-<attribute name='valuation' xposition='223' yposition='122'>1</attribute>
-</attributes>
-</arc>
-<arc arctype='arc' id='18' startid='5' endid='9' color='#000000' curved='false'>
-<attributes>
-<attribute name='valuation' xposition='191' yposition='219'>1</attribute>
-</attributes>
-</arc>
-<arc arctype='arc' id='11' startid='6' endid='10' color='#000000' curved='false'>
-<attributes>
-<attribute name='valuation' xposition='295' yposition='251'>1</attribute>
-</attributes>
-</arc>
-<arc arctype='arc' id='12' startid='9' endid='6' color='#000000' curved='false'>
-<attributes>
-<attribute name='valuation' xposition='223' yposition='251'>1</attribute>
-</attributes>
-</arc>
-<arc arctype='arc' id='13' startid='10' endid='3' color='#000000' curved='false'>
-<attributes>
-<attribute name='valuation' xposition='334' yposition='219'>1</attribute>
-</attributes>
-</arc>
-<arc arctype='arc' id='14' startid='3' endid='7' color='#000000' curved='false'>
+<arc arctype='arc' id='17' startid='3' endid='7' color='#000000' curved='false'>
 <attributes>
 <attribute name='valuation' xposition='334' yposition='155'>1</attribute>
 </attributes>
 </arc>
-<arc arctype='arc' id='15' startid='7' endid='4' color='#000000' curved='false'>
+<arc arctype='arc' id='16' startid='9' endid='6' color='#000000' curved='false'>
+<attributes>
+<attribute name='valuation' xposition='223' yposition='251'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='18' startid='10' endid='3' color='#000000' curved='false'>
+<attributes>
+<attribute name='valuation' xposition='334' yposition='219'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='11' startid='8' endid='5' color='#000000' curved='false'>
+<attributes>
+<attribute name='valuation' xposition='191' yposition='155'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='12' startid='7' endid='4' color='#000000' curved='false'>
 <attributes>
 <attribute name='valuation' xposition='295' yposition='122'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='13' startid='4' endid='8' color='#000000' curved='false'>
+<attributes>
+<attribute name='valuation' xposition='223' yposition='122'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='14' startid='6' endid='10' color='#000000' curved='false'>
+<attributes>
+<attribute name='valuation' xposition='295' yposition='251'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='15' startid='5' endid='9' color='#000000' curved='false'>
+<attributes>
+<attribute name='valuation' xposition='191' yposition='219'>1</attribute>
 </attributes>
 </arc>
 </arcs>
