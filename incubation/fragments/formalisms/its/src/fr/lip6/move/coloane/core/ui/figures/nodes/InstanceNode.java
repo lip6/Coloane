@@ -17,17 +17,25 @@
 package fr.lip6.move.coloane.core.ui.figures.nodes;
 
 import fr.lip6.move.coloane.core.ui.figures.AbstractNodeFigure;
+import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.FigureUtilities;
+import org.eclipse.draw2d.FrameBorder;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.jface.resource.JFaceResources;
 
 /**
  * Description of a Scalar Set figure : a box with some suggestion of nested boxes inside.
@@ -35,8 +43,9 @@ import org.eclipse.draw2d.geometry.Dimension;
  * @author Y. Thierry-Mieg, based on C. Demoulins RectangleNode class
  */
 public class InstanceNode extends AbstractNodeFigure implements PropertyChangeListener {
-	private String toshow = ":";
-
+	private String instanceName = ":";
+	private String interfaces = "";
+	private List<IArc> edges = new ArrayList<IArc>();
 	/**
 	 * {@inheritDoc}
 	 */
@@ -54,7 +63,7 @@ public class InstanceNode extends AbstractNodeFigure implements PropertyChangeLi
 		if (oldModelElement != null) {
 			oldModelElement.removePropertyChangeListener(this);
 		}
-		newModelElement.addPropertyChangeListener(this);
+		newModelElement.addPropertyChangeListener(this);		
 		// trigger an update.
 		propertyChange(null);
 	}
@@ -64,30 +73,87 @@ public class InstanceNode extends AbstractNodeFigure implements PropertyChangeLi
 	 */
 	@Override
 	protected final void outlineShape(Graphics graphics) {
-		graphics.drawString(toshow, getBounds().getTopLeft().translate(5, 3));
-		setBorder(new LineBorder(2));
+		
+		
+		drawInterface(graphics);
+	}
+
+	private void setTitle() {
+		FrameBorder tb = new FrameBorder(instanceName);
+//		Display display = Display.getCurrent(); 
+//		Color bg = display.getSystemColor(SWT.COLOR_WHITE); 
+//		Color fg = display.getSystemColor(SWT.COLOR_BLACK); 
+		
+				
+//		tb.setBackgroundColor(bg);
+//		tb.setTextColor(fg);
+		tb.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
+		setBorder(tb);
+	}
+
+	private void drawInterface(Graphics graphics) {
+		Insets inset = getBorder().getInsets(this);
+		graphics.drawText(interfaces , getBounds().getTopLeft().translate(inset.left+3, inset.top+3));
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new ChopboxAnchor(this);
 	}
 
 	/**
-	 * We update the String toshow and the size here if necessary to reflect model changes.
+	 * We update the String instanceName and the size here if necessary to reflect model changes.
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void propertyChange(PropertyChangeEvent event) {
+		
+		for (IArc a : edges) {
+			a.removePropertyChangeListener(this);
+		}
+		edges.clear();
 		
 		String name = getModel().getAttribute("name").getValue();
 		String type = getModel().getAttribute("type").getValue();
 		String toshow2 = name + " : " + type;
-		if (! toshow2.equals(toshow) ) {
-			toshow = toshow2;
-			Dimension textsize = FigureUtilities.getStringExtents(toshow, getFont());
-			getModel().getGraphicInfo().setSize(textsize.expand(10,15));
+		
+		Set<String> ops = new TreeSet<String>();
+		for (IArc a : getModel().getIncomingArcs()) {
+			handleArc(a,ops);
 		}
+		for (IArc a : getModel().getOutgoingArcs()) {
+			handleArc(a,ops);
+		}
+		StringBuilder sb = new StringBuilder();
+		for (String op : ops) {
+			sb.append(op+"\n");
+		}
+		String interfaces2 = sb.toString();
+		
+		if (! (toshow2.equals(instanceName) && interfaces2.equals(interfaces)) ) {
+			instanceName = toshow2;
+			interfaces = interfaces2;
+			setTitle();
+			Dimension bordersize = getBorder().getPreferredSize(this);
+			Dimension isize = FigureUtilities.getTextExtents(interfaces, getFont());
+			Dimension maxsize = new Dimension(Math.max(bordersize.width, isize.width), 
+						bordersize.height + isize.height );
+			getModel().getGraphicInfo().setSize(maxsize.expand(10,15));
+		}
+	}
+
+	private void handleArc(IArc a, Set<String> ops) {		
+		a.addPropertyChangeListener(this);
+		IAttribute att = a.getAttribute("labels");
+		if (att != null) {
+			String [] labs = att.getValue().split(";");
+			for (String lab : labs) {
+				ops.add(lab);
+			}
+		}
+		edges.add(a);
 	}
 }
