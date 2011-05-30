@@ -99,7 +99,6 @@ public class InstanceNode extends AbstractNodeFigure implements PropertyChangeLi
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new ChopboxAnchor(this);
 	}
@@ -108,7 +107,6 @@ public class InstanceNode extends AbstractNodeFigure implements PropertyChangeLi
 	 * We update the String instanceName and the size here if necessary to reflect model changes.
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		
 		for (IArc a : edges) {
