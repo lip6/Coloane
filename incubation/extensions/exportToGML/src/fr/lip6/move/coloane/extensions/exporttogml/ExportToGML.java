@@ -52,11 +52,13 @@ public class ExportToGML implements IExportTo {
 
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.extensions.exporttogml"); //$NON-NLS-1$
-	
+
 	/**
 	 * Map to convert Coloane formalism names to FML url.
 	 */
 	private final Map<String, String> formalismMap = new HashMap<String, String>();
+
+	private String formalism;
 
 	/**
 	 * Initialize the formalismMap
@@ -67,7 +69,7 @@ public class ExportToGML implements IExportTo {
 		formalismMap.put("CPN", "http://alligator.lip6.fr/s-net.fml");
 		formalismMap.put("SNB", "http://alligator.lip6.fr/snb.fml");
 	}
-	
+
 	/**
 	 * Performs the export
 	 * 
@@ -83,7 +85,7 @@ public class ExportToGML implements IExportTo {
 			throw new ExtensionException(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * Performs the export
 	 * 
@@ -134,8 +136,9 @@ public class ExportToGML implements IExportTo {
 		Map<String, String> symbolTable = new HashMap<String, String>();
 
 		String fmlUrl;
-		if (formalismMap.containsKey(graph.getFormalism().getId())) {
-			fmlUrl = formalismMap.get(graph.getFormalism().getId());
+		formalism = graph.getFormalism().getId();
+		if (formalismMap.containsKey(formalism)) {
+			fmlUrl = formalismMap.get(formalism);
 		} else {
 			fmlUrl = "http://alligator.lip6.fr/unknown";
 		}
@@ -167,30 +170,30 @@ public class ExportToGML implements IExportTo {
 				}
 			}
 		}
-    	out.write("\n");
+		out.write("\n");
 		monitor.worked(1);
-    	LOGGER.fine("graph's attributes : done");
+		LOGGER.fine("graph's attributes : done");
 
-    	//Export nodes
-    	monitor.setTaskName("Export nodes");
-    	for (INode node : graph.getNodes()) {
-    		exportNode(node, out, monitor, gap, symbolTable);
-    		monitor.worked(1);
-    		LOGGER.fine("export node : " + node.getId());
-    	}
-    	out.write("\n");
+		//Export nodes
+		monitor.setTaskName("Export nodes");
+		for (INode node : graph.getNodes()) {
+			exportNode(node, out, monitor, gap, symbolTable);
+			monitor.worked(1);
+			LOGGER.fine("export node : " + node.getId());
+		}
+		out.write("\n");
 
-    	//Export Arcs
-    	monitor.setTaskName("Export arcs");
-    	for (IArc arc : graph.getArcs()) {
-    		exportArc(arc, out, monitor, gap, symbolTable);
-    		monitor.worked(1);
-    		LOGGER.fine("export arc : " + arc.getId());
-    	}
-    	out.write("\n");
+		//Export Arcs
+		monitor.setTaskName("Export arcs");
+		for (IArc arc : graph.getArcs()) {
+			exportArc(arc, out, monitor, gap, symbolTable);
+			monitor.worked(1);
+			LOGGER.fine("export arc : " + arc.getId());
+		}
+		out.write("\n");
 
-    	out.write("</model>");
-    	monitor.done();
+		out.write("</model>");
+		monitor.done();
 	}
 
 	/**
@@ -223,7 +226,7 @@ public class ExportToGML implements IExportTo {
 			LOGGER.finer("export generic attribute");
 		}
 	}
-	
+
 	/**
 	 * Export the declarative part
 	 * 
@@ -247,7 +250,7 @@ public class ExportToGML implements IExportTo {
 		}
 		return parser.getSymbols();
 	}
-	
+
 	/**
 	 * Export the valuation of an arc
 	 * 
@@ -260,12 +263,22 @@ public class ExportToGML implements IExportTo {
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
 	private void exportValuation(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, RecognitionException {
-		ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		ValuationParserSNB parser = new ValuationParserSNB(tokens);
-		out.write(parser.arcLabel(symbols, gap));
+		if ("PT-Net".equals(formalism)) { // Not a clean way to resolve this issue
+			int valuation;
+			try {
+				valuation = Integer.valueOf(value);
+				out.write(gap + "<attribute name=\"valuation\">" + valuation + "</attribute>\n");
+			} catch (NumberFormatException e) {
+				LOGGER.warning("Cannot parse valuation: " + value);
+			}
+		} else {
+			ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			ValuationParserSNB parser = new ValuationParserSNB(tokens);
+			out.write(parser.arcLabel(symbols, gap));
+		}
 	}
-	
+
 	/**
 	 * Export the domain of a place
 	 * 
@@ -284,7 +297,7 @@ public class ExportToGML implements IExportTo {
 			throw new ExtensionException("Error parsing model : the domain \"" + value + "\" has not been defined in domain or class declaration part. Its value is " + symbols.get(value));
 		}
 	}
-	
+
 	/**
 	 * Export a marking
 	 * 
@@ -297,10 +310,20 @@ public class ExportToGML implements IExportTo {
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
 	private void exportMarking(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, RecognitionException {
-		ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		ValuationParserSNB parser = new ValuationParserSNB(tokens);
-		out.write(parser.initMarking(symbols, gap));
+		if ("PT-Net".equals(formalism)) { // Not a clean way to resolve this issue
+			int marking;
+			try {
+				marking = Integer.valueOf(value);
+				out.write(gap + "<attribute name=\"marking\">" + marking + "</attribute>\n");
+			} catch (NumberFormatException e) {
+				LOGGER.warning("Cannot parse marking: " + value);
+			}
+		} else {
+			ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			ValuationParserSNB parser = new ValuationParserSNB(tokens);
+			out.write(parser.initMarking(symbols, gap));
+		}
 	}
 
 	/**
@@ -329,7 +352,7 @@ public class ExportToGML implements IExportTo {
 		}
 		out.write(gap + "</node>\n");
 	}
-	
+
 	/**
 	 * Export a guard
 	 * 
