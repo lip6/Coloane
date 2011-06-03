@@ -161,7 +161,7 @@ varClassElement[String gap] returns [String value]
   $value = $value + gap + "\t<attribute name=\"enumValue\">" + $i.getText() + "</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
-  id=IDENTIFIER PLUSPLUS (n=INTEGER { nbToken = Integer.parseInt($n.getText()); })? { is_variable($id.getText()) }? // variableIdentifier ++ n
+  id=IDENTIFIER PLUSPLUS n=INTEGER { nbToken = Integer.parseInt($n.getText()); } { is_variable($id.getText()) }? // variableIdentifier ++ n
 { $value = $value + gap + "<attribute name=\"function\">\n";
   $value = $value + gap + "\t<attribute name=\"++\">\n";
   $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
@@ -169,7 +169,7 @@ varClassElement[String gap] returns [String value]
   $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
-  id=IDENTIFIER MINUSMINUS (n=INTEGER { nbToken = Integer.parseInt($n.getText()); })? { is_variable($id.getText()) }? // variableIdentifier -- n
+  id=IDENTIFIER MINUSMINUS n=INTEGER { nbToken = Integer.parseInt($n.getText()); } { is_variable($id.getText()) }? // variableIdentifier -- n
 { $value = $value + gap + "<attribute name=\"function\">\n";
   $value = $value + gap + "\t<attribute name=\"--\">\n";
   $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
