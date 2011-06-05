@@ -30,6 +30,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -42,7 +43,9 @@ public class ParameterSection {
 
 	ParameterList input;
 	private Map<Text, String> params = new HashMap<Text, String>();
-	private Map<Button, String> bparams = new HashMap<Button, String>();
+	private Map<Combo, String> eparams = new HashMap<Combo, String>();
+	
+	private Map<Button, String> bparams = new HashMap<Button, String>();	
 	private FormToolkit toolkit;
 	private Section section;
 	private Composite parent;
@@ -81,6 +84,21 @@ public class ParameterSection {
 					.getValue()) != null) ? getInput().getBoolParameterValue(
 					entry.getValue()) : true;
 			entry.getKey().setSelection(val);
+		}
+		for (Entry<Combo, String> entry : eparams.entrySet()) {
+			String s = (input != null && input.getEnumParameterValue(entry
+					.getValue()) != null) ? getInput().getEnumParameterValue(
+					entry.getValue()) : "";
+			
+			String[] items = input.getEnumParameterPotentialValue(entry.getValue());
+			entry.getKey().setItems(items);
+			for (int i = 0; i < items.length; i++) {
+				if (s != null
+						&& items[i].equals(s)) {
+					entry.getKey().select(i);
+					break;
+				}
+			}			
 		}
 	}
 
@@ -136,6 +154,27 @@ public class ParameterSection {
 				}
 			}
 
+			for (String param : input.getEnumParameters()) {
+				Label lab = toolkit.createLabel(client, param);
+				lab.setToolTipText(input.getToolTip(param));
+				
+				Combo b = new Combo(client, SWT.DROP_DOWN);
+				
+				GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING);
+				gd.widthHint = 10;
+				b.setLayoutData(gd);
+				
+				b.setEnabled(isEditable);
+				b.setToolTipText(input.getToolTip(param));
+				// store this param
+				eparams.put(b, param);
+				if (isEditable) {
+					b.addModifyListener(new EnumListener(param));
+				}
+			}
+
+			
 			toolkit.paintBordersFor(section);
 			toolkit.paintBordersFor(client);
 			section.setClient(client);
@@ -183,6 +222,36 @@ public class ParameterSection {
 					if (entry.getValue().equals(param)) {
 						String s = entry.getKey().getText();
 						getInput().setParameterValue(param, s);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	
+	private class EnumListener implements ModifyListener {
+
+		private String param;
+
+		public EnumListener(String param) {
+			this.param = param;
+		}
+
+		public void modifyText(ModifyEvent e) {
+			if (getInput() != null) {
+				
+				for (Entry<Combo, String> entry : eparams.entrySet()) {
+					if (entry.getValue().equals(param)) {
+						int n = entry.getKey().getSelectionIndex();
+						if (n == -1) {
+							return;
+						}
+						
+						String[] suggs = entry.getKey().getItems();
+						
+						String s = suggs[n];
+						getInput().setEnumParameterValue(param, s);
 						break;
 					}
 				}
