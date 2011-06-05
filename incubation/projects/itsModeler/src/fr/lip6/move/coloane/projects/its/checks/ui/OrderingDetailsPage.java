@@ -38,10 +38,8 @@ public class OrderingDetailsPage extends ITSDetailsPage<Ordering> {
 
 	private ParameterList getParameters(Ordering input) {
 		ParameterList pl = new ParameterList();
-		pl.addParameter(VARNAME);
-		pl.setParameterValue(VARNAME, input.getName());
-		pl.addParameter(VARTYPE);
-		pl.setParameterValue(VARTYPE, input.getDomain().toString());
+		pl.addParameter(VARNAME, input.getName(), "The name of this variable, to use in atomic propositions.");
+		pl.addParameter(VARTYPE, input.getDomain().toString(), "The domain of this variable, might be a nested type or an integer range.");
 		return pl;
 	}
 

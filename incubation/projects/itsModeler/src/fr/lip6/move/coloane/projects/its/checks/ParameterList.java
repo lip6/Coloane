@@ -32,6 +32,7 @@ import java.util.Set;
 public class ParameterList extends SimpleObservable {
 
 	private Map<String, String> parameters = new HashMap<String, String>();
+	private Map<String, String> helpers = new HashMap<String, String>();
 	private Map<String, Boolean> bParameters = new HashMap<String, Boolean>();
 
 	/**
@@ -86,9 +87,12 @@ public class ParameterList extends SimpleObservable {
 	/**
 	 * Add a String type parameter, with default initial value "".
 	 * @param paramName the name of the parameter.
+	 * @param initial default initial value
+	 * @param help some tooltip to guide the user
 	 */
-	public void addParameter(String paramName) {
-		parameters.put(paramName, "");
+	public void addParameter(String paramName, String initial, String help) {
+		parameters.put(paramName, initial);
+		helpers.put(paramName,help);
 	}
 
 	/**
@@ -132,9 +136,11 @@ public class ParameterList extends SimpleObservable {
 	 * Add a boolean parameter with the specified default value.
 	 * @param bparam name of the new parameter
 	 * @param initial default initial value
+	 * @param help the help tooltip
 	 */
-	public void addBooleanParameter(String bparam, boolean initial) {
+	public void addBooleanParameter(String bparam, boolean initial, String help) {
 		bParameters.put(bparam, initial);
+		helpers.put(bparam,help);
 	}
 
 	/**
@@ -143,5 +149,13 @@ public class ParameterList extends SimpleObservable {
 	@Override
 	public String toString() {
 		return parameters.toString() + bParameters.toString();
+	}
+
+	public String getToolTip(String param) {
+		String ret = helpers.get(param);
+		if (ret != null) {
+			return ret;
+		}
+		return "";
 	}
 }

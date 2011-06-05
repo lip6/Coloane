@@ -36,7 +36,7 @@ public abstract class ITSCheckService extends AbstractCheckService {
 	public ITSCheckService(CheckList parent, String serviceName) {
 		super(parent, serviceName);
 		order = new OrderParameter(parent.getOrders());
-		getParameters().addBooleanParameter(QUIET_PARAMETER, true);
+		getParameters().addBooleanParameter(QUIET_PARAMETER, true, "Lower the verbosity of output. On verbose mode, the tool will print the model's internal representation as well as more traces on what is going on.");
 	}
 
 	@Override

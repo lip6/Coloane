@@ -60,9 +60,7 @@ public abstract class AbstractCheckService extends SimpleObservable implements
 	public AbstractCheckService(CheckList parent, String serviceName) {
 		this.parent = parent;
 		this.name = serviceName;
-		parameters.addParameter(TIMEOUT_DURATION);
-		parameters.setParameterValue(TIMEOUT_DURATION,
-				Integer.toString(DEFAULT_TIMEOUT));
+		parameters.addParameter(TIMEOUT_DURATION, Integer.toString(DEFAULT_TIMEOUT), "Maximum time allowed for process execution before the \"Failed due to timeout\" message is produced.");
 	}
 	/**
 	 * format error message

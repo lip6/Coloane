@@ -62,8 +62,8 @@ public class OrderingService extends AbstractCheckService implements
 
 	public OrderingService(CheckList parent) {
 		super(parent, ORDER_NAME);
-		getParameters().addParameter(ORDER_HEURISTIC_PARAM);
-		getParameters().addBooleanParameter(FLAT_ORDER_PARAM, false);
+		getParameters().addParameter(ORDER_HEURISTIC_PARAM,"","Choose a heruristic to compute a variable order used in subsequent model-checking.");
+		getParameters().addBooleanParameter(FLAT_ORDER_PARAM, false,"Force to use a flat ordering scheme (no SDD hierarchy used).");
 		orders = new Orders();
 		orders.addObserver(this);
 	}

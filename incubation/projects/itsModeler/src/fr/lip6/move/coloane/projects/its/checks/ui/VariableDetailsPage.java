@@ -50,14 +50,10 @@ public final class VariableDetailsPage extends ITSDetailsPage<IModelVariable> {
 	 */
 	private ParameterList getParameters(IModelVariable input) {
 		ParameterList pl = new ParameterList();
-		pl.addParameter(VARNAME);
-		pl.setParameterValue(VARNAME, input.getName());
-		pl.addParameter(VARDESC);
-		pl.setParameterValue(VARDESC, input.getDescription());
-		pl.addParameter(VARQUAL);
-		pl.setParameterValue(VARQUAL, input.getQualifiedName());
-		pl.addParameter(VARID);
-		pl.setParameterValue(VARID, input.getId());
+		pl.addParameter(VARNAME, input.getName(), "The name of this variable, without its full qualification.");
+		pl.addParameter(VARDESC, input.getDescription(), "The type of this variable, might be a marking or a clock or an instance.");
+		pl.addParameter(VARQUAL, input.getQualifiedName(), "The fully qualified name of this variable, for use in atomic propositions.");
+		pl.addParameter(VARID, input.getId(), "The internal unique identifier of this variable, used internally to discriminate against duplicate names used. This field is mostly for debugging.");
 		return pl;
 	}
 

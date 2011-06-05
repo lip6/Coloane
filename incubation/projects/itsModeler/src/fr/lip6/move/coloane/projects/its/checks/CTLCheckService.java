@@ -37,7 +37,7 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 
 	public CTLCheckService(CheckList parent) {
 		super(parent, CTL_NAME);
-		getParameters().addBooleanParameter(CTL_FORWARD_PARAM, true);
+		getParameters().addBooleanParameter(CTL_FORWARD_PARAM, true, "Use forward CTL model-checking. This is usually faster and more efficient than traditional backward model-checking.");
 	}
 
 	@Override

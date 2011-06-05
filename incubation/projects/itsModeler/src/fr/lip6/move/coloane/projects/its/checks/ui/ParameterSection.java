@@ -31,6 +31,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -108,13 +109,15 @@ public class ParameterSection {
 			glayout.numColumns = 2;
 			client.setLayout(glayout);
 			for (String param : input.getParameters()) {
-				toolkit.createLabel(client, param);
+				Label lab = toolkit.createLabel(client, param);
+				lab.setToolTipText(input.getToolTip(param));
 				Text tf = toolkit.createText(client, "", SWT.SINGLE); //$NON-NLS-1$
 				tf.setEditable(isEditable);
 				GridData gd = new GridData(GridData.FILL_HORIZONTAL
 						| GridData.VERTICAL_ALIGN_BEGINNING);
 				gd.widthHint = 10;
 				tf.setLayoutData(gd);
+				tf.setToolTipText(input.getToolTip(param));
 				// store this param
 				params.put(tf, param);
 				if (isEditable) {
@@ -125,6 +128,7 @@ public class ParameterSection {
 				//toolkit.createLabel(client, param); //$NON-NLS-1$
 				Button b = toolkit.createButton(client, param, SWT.CHECK);
 				b.setEnabled(isEditable);
+				b.setToolTipText(input.getToolTip(param));
 				// store this param
 				bparams.put(b, param);
 				if (isEditable) {
