@@ -93,14 +93,15 @@ public class CheckServiceDetailsPage extends
 		glayout = new GridLayout();
 		glayout.numColumns = 1;
 		folderzone.setLayout(glayout);
-		gd = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+		gd = new GridData( GridData.VERTICAL_ALIGN_BEGINNING);
+		gd.widthHint = 400;
 		folderzone.setLayoutData(gd);
 
 		foldertf = toolkit
-				.createText(folderzone, "", SWT.SINGLE | SWT.H_SCROLL); //$NON-NLS-1$
-		gd = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.VERTICAL_ALIGN_BEGINNING);
+				.createText(folderzone, "", SWT.SINGLE | SWT.WRAP | SWT.H_SCROLL); //$NON-NLS-1$		
+
+
+	    gd = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
 		foldertf.setLayoutData(gd);
 		foldertf.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
