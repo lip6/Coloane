@@ -31,12 +31,33 @@ public abstract class ITSCheckService extends AbstractCheckService {
 
 	private static final String ORDER_FILE_NAME = "model.ord";
 	private static final String QUIET_PARAMETER = "Low Verbosity";
+	private static final String DDDSDD_PARAMETER = "Privilege SDD encoding";
+	private static final String SCALAR_PARAMETER = "Use recursive encodings for scalar";
+	private static final String DEPTH2 = "Depth2";
+	private static final String DEPTHREC = "DepthRec";
+	private static final String DEPTHSHALLOW = "DepthShallow";
+	
+	private static final String [] SCALAR_POTENTIAL = {DEPTH2,DEPTHREC,DEPTHSHALLOW};
+	private static final String BLOCK_SIZE_PARAMETER = "Block size in Scalar encoding";
+	
 	private OrderParameter order;
 
 	public ITSCheckService(CheckList parent, String serviceName) {
 		super(parent, serviceName);
 		order = new OrderParameter(parent.getOrders());
 		getParameters().addBooleanParameter(QUIET_PARAMETER, true, "Lower the verbosity of output. On verbose mode, the tool will print the model's internal representation as well as more traces on what is going on.");
+		getParameters()
+				.addBooleanParameter(
+						DDDSDD_PARAMETER,
+						true,
+						"Primarily use SDD to encode variables. Sometimes (but rarely overall) less efficient than DDD (i.e. leave unchecked) for models with large marking values.");
+		getParameters()
+				.addEnumParameter(
+						SCALAR_PARAMETER,
+						DEPTH2,
+						"Set a recursive encoding strategy for scalar sets. \n Depth2 : (depth 2 levels) use 2 level depth for scalar sets. Integer provided defines level 2 block size. [DEFAULT: Depth2, with blocks size 1] \n   -depthRec INT : (depth recursive) use recursive encoding for scalar sets. Integer provided defines number of blocks at highest levels. \n    -DepthShallow INT : (depth shallow recursive) use alternative recursive encoding for scalar sets. Integer provided defines number of blocks at lowest level.",
+						SCALAR_POTENTIAL);
+		getParameters().addParameter(BLOCK_SIZE_PARAMETER, "1", "Sets the block size used as additional setting for encoding of Scalar set.");
 	}
 
 	@Override
@@ -55,9 +76,25 @@ public abstract class ITSCheckService extends AbstractCheckService {
 			cmd.add("--load-order");
 			cmd.add(getOrderFileName());
 		}
-
+		if (getParameters().getBoolParameterValue(DDDSDD_PARAMETER)) {
+			cmd.add("--sdd");
+		} else {
+			cmd.add("--ddd");
+		}
+		
+		String strat = getParameters().getEnumParameterValue(SCALAR_PARAMETER);
+		if (strat.equals(DEPTH2)) {
+			cmd.add("-ssD2");			
+		} else if (strat.equals(DEPTHREC)) {
+			cmd.add("-ssDR");
+		} else if (strat.equals(DEPTHSHALLOW)) {
+			cmd.add("-ssDS");
+		}
+		cmd.add(getParameters().getEnumParameterValue(BLOCK_SIZE_PARAMETER));
+		
 		return cmd;
 	}
+	
 
 	private boolean buildOrderFile() {
 		Ordering o = order.getSelection();
