@@ -34,6 +34,7 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 	private static final String CTL_NAME = "CTL Check";
 	private static final String CTL_FILE_NAME = "formula.ctl";
 	private static final String CTL_FORWARD_PARAM = "Use Forward CTL model-checking (faster)";
+	private String ctlForm;
 
 	public CTLCheckService(CheckList parent) {
 		super(parent, CTL_NAME);
@@ -44,7 +45,11 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 	protected List<String> buildCommandArguments() {
 		List<String> cmd = super.buildCommandArguments();
 		cmd.add("-ctl");
-		cmd.add(CTL_FILE_NAME);
+		if (!isDeadlock()) {
+			cmd.add(CTL_FILE_NAME);
+		} else {
+			cmd.add("DEADLOCK");			
+		}
 		cmd.add("--legend");
 		if (!getParameters().getBoolParameterValue(CTL_FORWARD_PARAM)) {
 			cmd.add("--backward");
@@ -52,6 +57,10 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 			cmd.add("--forward");
 		}
 		return cmd;
+	}
+
+	private boolean isDeadlock() {
+		return "DEADLOCK;".equals(ctlForm);
 	}
 
 	@Override
@@ -62,6 +71,7 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 	public String run(String ctlFormula,
 			IServiceResultProvider ctlFormulaDescription) {
 		currentFormula = ctlFormulaDescription;
+		ctlForm = ctlFormula;
 		try {
 			File file = new File(getWorkDir() + "/" + CTL_FILE_NAME);
 			FileOutputStream writer = new FileOutputStream(file);
@@ -85,7 +95,14 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 	@Override
 	protected Status interpretResult(String report) {
 		// Now interpret the result
-		if (report.contains("Formula is TRUE !")) {
+		if (isDeadlock()) {
+			if (report.contains("System contains 0 deadlocks")) {
+				return Status.OK;
+			} else {
+				return Status.NOK;
+			}
+			
+		} else if (report.contains("Formula is TRUE !") ) {		
 			return Status.OK;
 		} else if (report.contains("Formula is FALSE !")) {
 			return Status.NOK;
