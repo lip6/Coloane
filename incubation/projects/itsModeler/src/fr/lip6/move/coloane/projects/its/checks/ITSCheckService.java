@@ -90,7 +90,7 @@ public abstract class ITSCheckService extends AbstractCheckService {
 		} else if (strat.equals(DEPTHSHALLOW)) {
 			cmd.add("-ssDS");
 		}
-		cmd.add(getParameters().getEnumParameterValue(BLOCK_SIZE_PARAMETER));
+		cmd.add(getParameters().getParameterValue(BLOCK_SIZE_PARAMETER));
 		
 		return cmd;
 	}
