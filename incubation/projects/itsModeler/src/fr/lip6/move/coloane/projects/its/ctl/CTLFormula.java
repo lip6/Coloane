@@ -49,6 +49,8 @@ public interface  CTLFormula {
 	String getOperator();
 	
 	// Singleton constant instances
-	CTLFormula TRUE = new CTLConstant(true);
-	CTLFormula FALSE = new CTLConstant(true);
+	CTLFormula TRUE = new CTLConstant(CTLConstant.TRUE);
+	CTLFormula FALSE = new CTLConstant(CTLConstant.FALSE);
+	CTLFormula DEAD = new CTLConstant(CTLConstant.DEAD);
+	
 }

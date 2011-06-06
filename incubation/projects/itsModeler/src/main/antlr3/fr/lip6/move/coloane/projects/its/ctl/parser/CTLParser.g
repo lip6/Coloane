@@ -52,6 +52,10 @@ formula returns [CTLFormula form] :
   {
   form = f;
   }
+  | 'DEADLOCK'
+  {
+  form = CTLFormula.DEAD;
+  }
 ;
 
 uformula returns [CTLFormula form] :
@@ -100,7 +104,7 @@ xorformula returns [CTLFormula form] :
 orformula returns [CTLFormula form] :
  f=andformula 
  { form = f ;}
- ('+' g=andformula 
+ (('+'|'||') g=andformula 
      { form = new CTLOr (form,g); }
  )?
 ;
@@ -108,7 +112,7 @@ orformula returns [CTLFormula form] :
 andformula returns [CTLFormula form] :
  f=timeformula 
  { form = f ;}
- ('*' g=timeformula 
+ ( ('*'|'&&') g=timeformula 
  { form = new CTLAnd (form,g); }
  )?
 ;

@@ -23,13 +23,17 @@ package fr.lip6.move.coloane.projects.its.ctl;
  */
 public final class CTLConstant implements CTLFormula {
 	
-	private boolean value;
+	private int value;
 
+	public static final int FALSE = 0;	
+	public static final int TRUE = 1;
+	public static final int DEAD = 2;
+	
 	/**
 	 * TRUE or FALSE.
 	 * @param b value
 	 */
-	CTLConstant(boolean b) {
+	CTLConstant(int b) {
 		this.value = b;
 	}
 
@@ -44,10 +48,15 @@ public final class CTLConstant implements CTLFormula {
 	 * {@inheritDoc}
 	 */
 	public String toString() {
-		if (value) {
-			return "TRUE";
-		} else {
-			return "FALSE";
+		switch (value) {
+		case TRUE:
+			return "TRUE";			
+		case FALSE:
+			return "FALSE";			
+		case DEAD:
+			return "DEADLOCK";
+		default:
+			return "??Constant??";
 		}
 	}
 }
