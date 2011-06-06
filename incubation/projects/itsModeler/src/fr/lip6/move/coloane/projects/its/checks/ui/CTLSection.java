@@ -204,18 +204,28 @@ public class CTLSection {
 	}
 
 	private String getHelpText() {
-		return "<strong>CTL (Computation Tree Logic)</strong> is a language used to describe properties of systems.<br>For the semantics of CTL, the reader should refer to the following paper<br><blockquote>E. M. Clarke, E. A. Emerson and A. P. Sistla,<br><em>Automatic Verification of Finite-State Concurrent Systems Using Temporal Logic Specifications</em>,<br>ACM Transactions on Programming Languages and Systems,<br>vol 8-2, pages 244-263, April, 1986<br></blockquote>"
-				+ " This syntax should be followed when VIS users create CTL files <br>and  fairness  constraint  files  for  the  commands <tt>model_check</tt>, <tt><br>approximate_model_check</tt>, and <tt>read_fairness</tt>, respectively.<br>"
-				+ "The syntax for CTL is:"
-				+ "<blockquote>	TRUE,  FALSE, and <em>var-name=value</em>  are CTL formulas,<br>    where  <em>var-name</em>  is  the  full  hierarchical  name of a<br>    variable ,  and <em>value</em> is a legal  value in  the  domain <br>    of the variable. <em>var-name1 == var-name2</em> is  the  atomic <br>    formula that is true if <em>var-name1</em> has  the  same  value <br>    as<em>  var-name2</em>. Currently  it can be used  only  in  the <br>    Boolean  domain. ( It cannot  be used for variables  of <br>    enumerated  types. )<em>  var-name1</em>[i:j] == <em> var-name2</em>[k:l] <br>    can be used if  the  lengths  of  vectors are the  same. <br>    Vector variables, the syntax of hierarchical names, and<br>    macro definition are described later in this document.<br></blockquote>"
-				+ "<blockquote>The following character set may be used for variable names and values:<br></blockquote>"
-				+ "<pre>	A-Z a-z 0-9 ^ ? | / [ ] + * $ &lt; &gt; ~ @ _ # % :  .<br></pre>"
+		return "<strong>Computation Tree Logic (CTL)</strong> <br>"
+				+ "Some syntax examples <br>"
+				+ "AF (procs.0.cs=1);<br>"
+				+ "DEADLOCK;<br><br>"
+				+ "Note that there is syntax help built into the text field for the formula, hover with the mouse over your formula to see syntax check result.<br>"
+				+ "DEADLOCK;  is a special formula to ask for deadlock states. <br>" 
 				+ "<blockquote>If f and g are CTL formulas, then so are the following:<br></blockquote>"
 				+ "<pre>	(f), f * g, f + g, f ^ g, !f, f -&gt; g, f &lt;-&gt; g, AG f,<br>	AF f, AX f, EG f, EF f, EX f, A(f U g) and E(f U g).<br></pre>"
-				+ "<blockquote><br>Binary operators must  be surrounded by  spaces, i.e.  <tt>f + g</tt> is a CTL <br>formula while<tt> f+g</tt> is  not. The  same is true  for <tt>U</tt> in until formulas. Once  parentheses are <br>inserted, the spaces  can be omitted, i.e. (f)+(g) is a valid formula. <br>Unary  temporal  operators  and  their arguments must be separated by <br>spaces unless parentheses are used.<br><br><br>The symbols have the following meanings.<br></blockquote>"
+				+ "<br>The symbols have the following meanings.<br>"
 				+ "<pre>	* -- AND, + -- OR, ^ -- XOR, ! -- NOT, -&gt; -- IMPLY, &lt;-&gt; -- EQUIV</pre>"
+				+ "<br>The syntax for atomic propositions is :"
+				+ "<ul>" 
+				+ "<li>	TRUE,  FALSE are the usual Boolean constants</li>"
+				+ "<li><em>var-name=value</em> where  <em>var-name</em>  is  the  fully qualified name of a variable (unfold the model at the top of the tree view to the left to display them),  and <em>value</em> is an integer.</li>"
+				+ "</ul>"
+				+ "<br>An entire formula should be followed by a semicolon."
+				+ "All text from <tt>#</tt> to the end of a line is treated as a comment. <br>"
+				+ "<br>Binary operators must  be surrounded by  spaces, i.e.  <tt>f + g</tt> is a CTL formula while<tt> f+g</tt> is  not. The  same is true  for <tt>U</tt> in until formulas. Once  parentheses are inserted, the spaces  can be omitted, i.e. (f)+(g) is a valid formula. "
+				+ "<br>Unary  temporal  operators  and  their arguments must be separated by spaces unless parentheses are used."				
+				+ "<br><em>For more examples have a look at those provided in \"New->Example->Coloane Example\" (available if you have installed the Examples plugin).</em><br>"				
 				+ "<blockquote><u>Operator Precedence for CTL:</u><br><br>High<br></blockquote><pre>    	!<br><br>    	AG, AF, AX, EG, EF, EX<br><br>    	*<br><br>    	+<br><br>    	^<br><br>    	&lt;-&gt;<br><br>    	-&gt;<br><br>    	U<br><br>      Low<br>&gt;</pre>"
-				+ "     An entire formula should be followed by a semicolon.  All text from <tt>#</tt> to<br> the end of a line is treated as a comment. The model checker (<tt>mc</tt>) package is<br> used to decide whether or not a given FSM satisfies a given CTL formula. See <br> the help files for the <tt>model_check</tt> and <tt>approximate_model_check</tt> commands  for <br> more details.<br><br>";
+				+ "For the semantics of CTL and more information on the language, you might visit the <a href=\"http://en.wikipedia.org/wiki/Computation_tree_logic\">wikipedia page on CTL</a>.<br>";
 	}
 
 }
