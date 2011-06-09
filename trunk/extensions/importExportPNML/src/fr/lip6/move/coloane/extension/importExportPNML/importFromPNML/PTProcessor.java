@@ -82,7 +82,7 @@ public class PTProcessor extends Processor {
 
 		this.placeFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("place");
 		this.transitionFormalism = (INodeFormalism) formalism.getRootGraph().getElementFormalism("transition");
-		this.arcFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("arch");
+		this.arcFormalism = (IArcFormalism) formalism.getRootGraph().getElementFormalism("arc");
 
 		nodesIds = new HashMap<String, Integer>();
 		for (PetriNetHLAPI iterableElement : root.getNetsHLAPI()) {
