@@ -17,7 +17,7 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.import.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.importmodel.ImportWizard"
-            id="fr.lip6.move.coloane.wizard.import.gml"
+            id="fr.lip6.move.coloane.extensions.import.gml"
             name="GML File">
       </wizard>
    </extension>
