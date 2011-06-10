@@ -65,7 +65,7 @@
                   
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.extensions.IImportFrom"/>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.extensions.IImportFrom"/>
                </appInfo>
             </annotation>
          </attribute>
