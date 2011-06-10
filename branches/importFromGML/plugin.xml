@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="fr.lip6.move.coloane.core.imports">
+      <Import
+            class="fr.lip6.move.coloane.extensions.importfromgml.ImportFromGML"
+            id="fr.lip6.move.coloane.extensions.importgml"
+            wizard_id="fr.lip6.move.coloane.extensions.import.gml">
+         <AcceptedFormalism
+               id="PT-Net">
+         </AcceptedFormalism>
+      </Import>
+   </extension>
+   <extension
+         point="org.eclipse.ui.importWizards">
+      <wizard
+            category="fr.lip6.move.coloane.wizard.import.coloane"
+            class="fr.lip6.move.coloane.core.ui.wizards.importmodel.ImportWizard"
+            id="fr.lip6.move.coloane.wizard.import.gml"
+            name="GML File">
+      </wizard>
+   </extension>
+
+</plugin>
