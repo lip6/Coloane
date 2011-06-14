@@ -63,7 +63,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 		if (attributes != null) {
 			// Browse all attributes defined by the formalism
 			for (IAttributeFormalism attr : attributes) {
-				IAttribute attributeModel = new AttributeModel(this, attr);
+				IAttribute attributeModel = new AttributeModel(this, null, attr);
 				attributeModel.addPropertyChangeListener(this);
 				this.attributes.put(attr.getName(), attributeModel);
 			}

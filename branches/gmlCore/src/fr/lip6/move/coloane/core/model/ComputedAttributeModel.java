@@ -27,6 +27,7 @@ import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Collection;
 import java.util.logging.Logger;
 
 /**
@@ -40,6 +41,11 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 
 	/** The reference model element */
 	private IElement reference;
+	
+	/** The parent */
+	private IAttribute parent;
+	
+	private boolean isLeaf;
 
 	private IComputedAttributeFormalism computedAttributFormalism;
 
@@ -161,5 +167,29 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	public final void propertyChange(PropertyChangeEvent evt) {
 		// We want to update the AttributeEditPart (the view associated to this attribute)
 		firePropertyChange(IAttribute.VALUE_PROP, evt.getOldValue(), evt.getNewValue());
+	}
+
+	public boolean isLeaf() {
+		return isLeaf;
+	}
+
+	public Collection<IAttribute> getAttributes() {
+		return null;
+	}
+
+	public IAttribute getAttribute(String attName) {
+		return null;
+	}
+
+	public void setAttributes(Collection<IAttribute> values) {
+		
+	}
+
+	public void addAttribute(IAttribute value) {
+		
+	}
+
+	public IAttribute getParent() {
+		return parent;
 	}
 }

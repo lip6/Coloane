@@ -31,7 +31,7 @@ public class FormalismHandler extends DefaultHandler {
 	/** The formalism */
 	private IFormalism formalism;
 
-	/** @return the formalisme */
+	/** @return the formalism */
 	public final IFormalism getFormalism() {
 		return this.formalism;
 	}

@@ -78,13 +78,12 @@
 	</xs:complexType>
 	
 	<!-- Definition d'un attribut -->
-	<xs:complexType name="tattribute">
-		<xs:simpleContent>
-	 		<xs:extension base="xs:string">
-				<xs:attribute name="name" type="xs:string" use="required"/>
-				<xs:attributeGroup ref="graph" />
-			</xs:extension>
-		</xs:simpleContent>
+	<xs:complexType name="tattribute" mixed="true">
+		<xs:sequence>
+			<xs:element name="attributes" type="tattributes" minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attributeGroup ref="graph" />
 	</xs:complexType>
 	
 	<!-- ============================================ -->

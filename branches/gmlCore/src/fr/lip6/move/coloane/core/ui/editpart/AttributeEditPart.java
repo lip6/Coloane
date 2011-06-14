@@ -18,6 +18,7 @@ package fr.lip6.move.coloane.core.ui.editpart;
 import fr.lip6.move.coloane.core.model.AbstractPropertyChange;
 import fr.lip6.move.coloane.core.model.AttributeModel;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
+import fr.lip6.move.coloane.core.ui.files.IModelHandler;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -51,7 +52,7 @@ import org.eclipse.swt.graphics.Font;
  *
  * @author Jean-Baptiste Voron
  */
-public class AttributeEditPart extends AbstractGraphicalEditPart implements ISelectionEditPartListener, PropertyChangeListener {
+public class AttributeEditPart extends AbstractGraphicalEditPart implements IModelHandler, ISelectionEditPartListener, PropertyChangeListener {
 	/** Core Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -236,7 +237,19 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 		}
 
 		// The label is filled with the attribute value !
-		attributeFigure.setText(attribut.getValue());
+		if (!attribut.isLeaf()){
+			String val = ""; //$NON-NLS-1$
+			for(IAttribute att: attribut.getAttributes()){
+				String balise = att.getName();
+				val+="<" + ATTRIBUTE_MARKUP + " " + ATTRIBUTE_NAME_MARKUP + "='"+balise+"'";  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				val+=" " + ATTRIBUTE_X_MARKUP + "='"+att.getGraphicInfo().getLocation().x+"'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				val+=" " + ATTRIBUTE_Y_MARKUP + "='"+att.getGraphicInfo().getLocation().y+"'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				val+=">"; //$NON-NLS-1$
+			}
+			attributeFigure.setText(val);
+		} else {
+			attributeFigure.setText(attribut.getValue());
+		}
 
 		// Graphical space (i.e. bounds) for the attribute is set here.
 		Rectangle bounds = new Rectangle(attribut.getGraphicInfo().getLocation(), new Dimension(attributeFigure.getTextBounds().width + EXTRA_SPACE, attributeFigure.getTextBounds().height));

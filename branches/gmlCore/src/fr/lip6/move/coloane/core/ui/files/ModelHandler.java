@@ -15,6 +15,7 @@
  */
 package fr.lip6.move.coloane.core.ui.files;
 
+import fr.lip6.move.coloane.core.model.AttributeModel;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.LinkModel;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
@@ -24,6 +25,7 @@ import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
@@ -366,11 +368,19 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 	 * @param attributes Set of attributes attached to the current element
 	 */
 	private void startAttribute(String name, Attributes attributes) {
-		IElement element = (IElement) stack.peek();
-		IAttribute attribute = element.getAttribute(name);
+		Object o = stack.peek();
+		IAttribute attribute = null;
+		if (o instanceof IElement) {
+			IElement element = (IElement) o;
+			attribute = element.getAttribute(name);
+		} else if (o instanceof IAttribute){
+			IAttribute attr = (IAttribute) o;
+			attribute = new AttributeModel(attr.getReference(), attr, (IAttributeFormalism)attr.getAttributeFormalism());
+			attr.addAttribute(attribute);
+		}
 		
 		if (attribute == null) {
-			String message = "Attribute with name \""+name+"\" found for element " + element + " but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+			String message = "Attribute with name \""+name+"\" found but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$
 			LOGGER.severe(message);			
 		}
 		
@@ -378,8 +388,8 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		int y = Integer.parseInt(attributes.getValue(ATTRIBUTE_Y_MARKUP));
 		Point location = new Point(x, y);
 
-		stack.push(attribute);
 		stack.push(location);
+		stack.push(attribute);
 	}
 
 	/** When the parse is done, the graph is set */
@@ -409,8 +419,8 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 	/** End of an attribute (assigned its value) */
 	private void endAttribute() {
-		Point location = (Point) stack.pop();
 		IAttribute attribute = (IAttribute) stack.pop();
+		Point location = (Point) stack.pop();
 		String value = data.toString();
 		if (attribute != null) {
 			attribute.setValue(value);

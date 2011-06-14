@@ -261,22 +261,40 @@ public final class ModelWriter implements IModelHandler {
 
 		// For each attribute
 		for (IAttribute att : elt.getAttributes()) {
-
-			// Do not take into account empty attributes
-			if (!att.getValue().equals("")) { //$NON-NLS-1$
-				String balise = att.getName();
-				sb.append("<" + ATTRIBUTE_MARKUP + " " + ATTRIBUTE_NAME_MARKUP + "='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				sb.append(" " + ATTRIBUTE_X_MARKUP + "='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				sb.append(" " + ATTRIBUTE_Y_MARKUP + "='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				sb.append(">"); //$NON-NLS-1$
-
-				sb.append(format(att.getValue()));
-
-				sb.append(printCloseMarkup(ATTRIBUTE_MARKUP));
-			}
+			sb.append(translateSubAttributeToXML(att));
 		}
 
 		sb.append(printCloseMarkup(ATTRIBUTES_LIST_MARKUP));
+
+		return sb.toString();
+	}
+	
+	/**
+	 * Translate an attribute
+	 * @param att The attribute
+	 * @return A string that describes the attribute
+	 */
+	private static String translateSubAttributeToXML(IAttribute att) {
+		StringBuilder sb = new StringBuilder();
+
+		// Do not take into account empty attributes
+		if (!att.getValue().equals("")) { //$NON-NLS-1$
+			String balise = att.getName();
+			sb.append("<" + ATTRIBUTE_MARKUP + " " + ATTRIBUTE_NAME_MARKUP + "='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			sb.append(" " + ATTRIBUTE_X_MARKUP + "='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + ATTRIBUTE_Y_MARKUP + "='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(">"); //$NON-NLS-1$
+
+			if (att.isLeaf()){
+				sb.append(format(att.getValue()));
+			} else {
+				for (IAttribute a : att.getAttributes()){
+					sb.append(translateSubAttributeToXML(a));
+				}
+			}
+
+			sb.append(printCloseMarkup(ATTRIBUTE_MARKUP));
+		}
 
 		return sb.toString();
 	}
