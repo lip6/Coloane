@@ -25,9 +25,13 @@ import javax.xml.ws.Service;
 import javax.xml.ws.WebServiceException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.swt.widgets.Display;
 
 
 /**
@@ -51,6 +55,20 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 		}
 		@Override
 		public String getName() { return "Disconnected"; }
+		@Override
+		public String getDescription() { return ""; }
+	}));
+
+	/**
+	 * Default menu returned if the connection with an Alligator server is not established.
+	 */
+	private static final List<IItemMenu> EMPTY_MENU = Arrays.asList((IItemMenu) new ServiceMenu("Connecting", true, "", new IApiService() {
+		@Override
+		public List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
+			throw new ServiceException("The platform is not connected");
+		}
+		@Override
+		public String getName() { return "Connecting"; }
 		@Override
 		public String getDescription() { return ""; }
 	}));
@@ -117,7 +135,22 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 	@Override
 	public final List<IItemMenu> getInitialApiMenus() {
 		LOGGER.fine("Load initial alligator menu");
-		return updatedMenu();
+		Job job = new Job("Connection to Alligator") {
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				final List<IItemMenu> menu = updatedMenu();
+				Display.getDefault().asyncExec(new Runnable() {
+					@Override
+					public void run() {
+						firePropertyChange(IApi.API_MENU, null, menu);
+					}
+				});
+				return Status.OK_STATUS;
+			}
+		};
+		job.setUser(false);
+		job.schedule();
+		return EMPTY_MENU;
 	}
 
 	/** {@inheritDoc}
