@@ -17,6 +17,8 @@ package fr.lip6.move.coloane.interfaces.model;
 
 import fr.lip6.move.coloane.interfaces.formalism.IGlobalAttributeFormalism;
 
+import java.util.Collection;
+
 /**
  * Describe an attribute object (always attached to a model object).<br>
  * An attribute can be attached to numerous kind of model objects:
@@ -44,20 +46,45 @@ public interface IAttribute extends IAbstractPropertyChange {
 	String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate"; //$NON-NLS-1$
 
 	/**
+	 * @return is a leaf or not
+	 */
+	boolean isLeaf();
+	
+	/**
+	 * @return the attribute name
+	 */
+	String getName();
+	
+	/**
 	 * @return the attribute value
 	 */
 	String getValue();
 
 	/**
-	 * @return the attribute name
+	 * @return the contained attributes
 	 */
-	String getName();
+	Collection<IAttribute> getAttributes();
+	
+	/**
+	 * @return the attribute
+	 */
+	IAttribute getAttribute(String attName);
 
+	/**
+	 * @param value set a new list of values for this attribute
+	 */
+	void setAttributes(Collection<IAttribute> values);
+
+	/**
+	 * @param value add a new value for this attribute
+	 */
+	void addAttribute(IAttribute value);
+	
 	/**
 	 * @param value set a new value for this attribute
 	 */
 	void setValue(String value);
-
+	
 	/**
 	 * Fetch the object that describe all graphical properties for this attribute.<br>
 	 * @return IAttributeGraphicInfo
@@ -66,9 +93,14 @@ public interface IAttribute extends IAbstractPropertyChange {
 	IAttributeGraphicInfo getGraphicInfo();
 
 	/**
-	 * @return The element to which the attribute is related to
+	 * @return The element to which the attribute is related
 	 */
 	IElement getReference();
+
+	/**
+	 * @return The element to which the attribute is related
+	 */
+	IAttribute getParent();
 
 	/**
 	 * @return The attribute description given by the formalism
