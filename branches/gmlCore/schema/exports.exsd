@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="fr.lip6.move.coloane.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="fr.lip6.move.coloane.core" id="exports" name="Exports"/>
+      </appInfo>
+      <documentation>
+         This extension point allows new export feature contributions.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Export" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Export">
+      <complexType>
+         <sequence>
+            <element ref="AcceptedFormalism" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Unique ID used to identify the extension. This ID should use the prefix fr.lip6.move.coloane.extensions.xxxxx where xxxx is the name of your extension.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="wizard_id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  This attribute tells what is the wizard ID used to choose the destination of the exported file. 
+This is the ID of the org.eclipse.wizard you have declared in your plug-in extension.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  This is the class where the work is done. 
+We recommend to choose / create a class inside your extension.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.extensions.IExportTo"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="extension" type="string" use="required">
+            <annotation>
+               <documentation>
+                  This is the filename extension used to build the exported file. To be as compatible as possible, try to define an filename extension limited to 3 characters.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="AcceptedFormalism">
+      <annotation>
+         <documentation>
+            You must define the set of formalisms that can be hendled by your extension. If you can handle all formalisms, you can leave this branch empty.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Use this exact (case sensitive) id of the formalism you are able to handle.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         0.11.1
+      </documentation>
+   </annotation>
+
+
+
+
+
+</schema>
