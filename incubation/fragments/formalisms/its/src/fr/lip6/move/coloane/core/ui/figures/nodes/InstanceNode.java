@@ -129,7 +129,10 @@ public class InstanceNode extends AbstractNodeFigure implements PropertyChangeLi
 		for (String op : ops) {
 			sb.append(op+"\n");
 		}
-		String interfaces2 = sb.substring(0, sb.length()-1);
+		String interfaces2 = "";
+		if (sb.length() > 0) {
+			interfaces2 = sb.substring(0, sb.length()-1);
+		}
 		
 		if (! (toshow2.equals(instanceName) && interfaces2.equals(interfaces)) ) {
 			instanceName = toshow2;
