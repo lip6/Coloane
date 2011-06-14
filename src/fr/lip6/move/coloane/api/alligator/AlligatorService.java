@@ -1,10 +1,27 @@
+/**
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
+ *   Clément DÉMOULINS (LIP6) - Project Manager
+ *
+ * Official contacts:
+ *   coloane@lip6.fr
+ *   http://coloane.lip6.fr
+ */
 package fr.lip6.move.coloane.api.alligator;
 
 import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.alligator.interfaces.ServiceDescription;
 import fr.lip6.move.alligator.interfaces.ServiceManager;
+import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.extensions.exporttogml.ExportToGML;
+import fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
@@ -14,6 +31,10 @@ import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.Result;
 import fr.lip6.move.coloane.interfaces.objects.result.SubResult;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +42,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 
 /**
  * Implementation of IApiService to manage Alligator service.
@@ -66,8 +88,24 @@ public class AlligatorService implements IApiService {
 			LOGGER.fine("Get " + resultItems.size() + " result items.");
 			IResult result = new Result(service.getName());
 			for (Item item : resultItems) {
-				ISubResult sub = new SubResult(item.getName(), item.getValue());
-				result.addSubResult(sub);
+				if (item.getType() == ItemType.CAMI_MODEL) {
+					try {
+						ISubResult sub = new SubResult(item.getName(), item.getValue());
+						result.addSubResult(sub);
+						File tmp = File.createTempFile("alligator", ".cami");
+						BufferedWriter writer = new BufferedWriter(new FileWriter(tmp));
+						writer.append(item.getValue());
+						writer.close();
+						ImportFromImpl camiImport = new ImportFromImpl();
+						IGraph newGraph = camiImport.importFrom(tmp.getAbsolutePath(), FormalismManager.getInstance().getFormalismById("PT-Net"), SubMonitor.convert(null));
+						result.setNewGraph(newGraph);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				} else {
+					ISubResult sub = new SubResult(item.getName(), item.getValue());
+					result.addSubResult(sub);
+				}
 //				if (item.getType() == ItemType.STRING) {
 //					StringBuilder sb = new StringBuilder();
 //					sb.append("---- " + item.getName() + " ----\n");

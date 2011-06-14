@@ -15,11 +15,6 @@
     
     <dependencies>
         <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2.1</version>
-        </dependency>
-        <dependency>
             <groupId>fr.lip6.move.alligator</groupId>
             <artifactId>interfaces</artifactId>
             <version>0.1-SNAPSHOT</version>
