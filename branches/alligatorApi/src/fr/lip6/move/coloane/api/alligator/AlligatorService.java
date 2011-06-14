@@ -87,11 +87,13 @@ public class AlligatorService implements IApiService {
 			List<Item> resultItems = manager.invoke(service.getId(), Arrays.asList(modelItem));
 			LOGGER.fine("Get " + resultItems.size() + " result items.");
 			IResult result = new Result(service.getName());
+
+			// For all result items give the better feedback to the user
 			for (Item item : resultItems) {
+
+				// Create a new model from CAMI
 				if (item.getType() == ItemType.CAMI_MODEL) {
 					try {
-						ISubResult sub = new SubResult(item.getName(), item.getValue());
-						result.addSubResult(sub);
 						File tmp = File.createTempFile("alligator", ".cami");
 						BufferedWriter writer = new BufferedWriter(new FileWriter(tmp));
 						writer.append(item.getValue());
@@ -100,19 +102,14 @@ public class AlligatorService implements IApiService {
 						IGraph newGraph = camiImport.importFrom(tmp.getAbsolutePath(), FormalismManager.getInstance().getFormalismById("PT-Net"), SubMonitor.convert(null));
 						result.setNewGraph(newGraph);
 					} catch (IOException e) {
-						e.printStackTrace();
+						LOGGER.warning(e.getMessage());
 					}
+
+				// Add a textual result in the result view
 				} else {
 					ISubResult sub = new SubResult(item.getName(), item.getValue());
 					result.addSubResult(sub);
 				}
-//				if (item.getType() == ItemType.STRING) {
-//					StringBuilder sb = new StringBuilder();
-//					sb.append("---- " + item.getName() + " ----\n");
-//					sb.append(item.getValue()).append('\n');
-//					sb.append("-----").append(item.getName().replaceAll(".", "-")).append("-----\n");
-//					api.sendConsoleMessage(sb.toString(), ConsoleMessage.SIMPLE_MESSAGE);
-//				}
 			}
 			results.add(result);
 		} catch (ExtensionException e) {
