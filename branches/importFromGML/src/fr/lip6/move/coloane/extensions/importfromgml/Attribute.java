@@ -1,16 +1,22 @@
 package fr.lip6.move.coloane.extensions.importfromgml;
 
+
+/**
+ * Manipulate two associated String values
+ *
+ * @author Elodie Banel
+ */
 public class Attribute {
-	private String type;
+	private String key;
 	private String value;
 	
-	public Attribute(String type, String value){
-		this.type = type;
+	public Attribute(String key, String value){
+		this.key = key;
 		this.value = value;
 	}
 	
-	public String getType(){
-		return type;
+	public String getKey(){
+		return key;
 	}
 	
 	public String getValue(){

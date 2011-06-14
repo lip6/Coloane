@@ -29,7 +29,7 @@ public class ImportFromGML implements IImportFrom {
 		
 		try {
 			reader = new BufferedReader( new FileReader(f) );
-			parser.parseLine(reader, null);
+			parser.parseXML(reader);
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
