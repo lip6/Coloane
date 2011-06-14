@@ -10,7 +10,9 @@ import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
-import fr.lip6.move.coloane.interfaces.objects.services.ConsoleMessage;
+import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
+import fr.lip6.move.coloane.interfaces.objects.result.Result;
+import fr.lip6.move.coloane.interfaces.objects.result.SubResult;
 
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -62,15 +64,19 @@ public class AlligatorService implements IApiService {
 			LOGGER.info("Invoke the service: " + service.getId());
 			List<Item> resultItems = manager.invoke(service.getId(), Arrays.asList(modelItem));
 			LOGGER.fine("Get " + resultItems.size() + " result items.");
-			for (Item r : resultItems) {
-				if (r.getType() == ItemType.STRING) {
-					StringBuilder sb = new StringBuilder();
-					sb.append("---- " + r.getName() + " ----\n");
-					sb.append(r.getValue()).append('\n');
-					sb.append("-----").append(r.getName().replaceAll(".", "-")).append("-----\n");
-					api.sendConsoleMessage(sb.toString(), ConsoleMessage.SIMPLE_MESSAGE);
-				}
+			IResult result = new Result(service.getName());
+			for (Item item : resultItems) {
+				ISubResult sub = new SubResult(item.getName(), item.getValue());
+				result.addSubResult(sub);
+//				if (item.getType() == ItemType.STRING) {
+//					StringBuilder sb = new StringBuilder();
+//					sb.append("---- " + item.getName() + " ----\n");
+//					sb.append(item.getValue()).append('\n');
+//					sb.append("-----").append(item.getName().replaceAll(".", "-")).append("-----\n");
+//					api.sendConsoleMessage(sb.toString(), ConsoleMessage.SIMPLE_MESSAGE);
+//				}
 			}
+			results.add(result);
 		} catch (ExtensionException e) {
 			throw new ServiceException(e.getMessage());
 		}
