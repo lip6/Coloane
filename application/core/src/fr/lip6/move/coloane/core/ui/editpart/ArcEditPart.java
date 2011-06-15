@@ -34,6 +34,7 @@ import fr.lip6.move.coloane.core.ui.figures.RoundedPolyline;
 import fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc;
 import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
@@ -349,7 +350,8 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	@Override
 	protected final List<Object> getModelTargetConnections() {
 		List<Object> targets = new ArrayList<Object>();
-		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTipForObject(((IArc) getModel()).getId())) {
+		IGraph graph = (IGraph) ((IArc) getModel()).getParent();
+		for (ICoreTip tip : SessionManager.getInstance().getSession(graph).getTipForObject(((IArc) getModel()).getId())) {
 			targets.add(((ICoreTip) tip).getArcModel());
 		}
 		return targets;
