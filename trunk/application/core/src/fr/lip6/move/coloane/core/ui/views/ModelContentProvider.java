@@ -77,11 +77,14 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof IFile && ((IFile) parentElement).getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
 			IFile file = (IFile) parentElement;
+			if (!file.exists()) {
+				return null;
+			}
 			List<Tree> children = new ArrayList<Tree>();
 
 			// Construct public nodes tree
 			InterfacesHandler interfaces = ModelLoader.loadFromXML(file, new InterfacesHandler(file));
-			if (interfaces.getInterfaces().size() > 0) {
+			if (interfaces != null && interfaces.getInterfaces().size() > 0) {
 				Tree interfaceTree = new Tree(Messages.ModelContentProvider_0);
 				interfaceTree.setIcon(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/interfaces.png")); //$NON-NLS-1$
 				for (NodeInterface nodeInterface : interfaces.getInterfaces()) {
@@ -94,7 +97,7 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 
 			// Construct links tree
 			NodeLinksHandler nodeLinks = ModelLoader.loadFromXML(file, new NodeLinksHandler(file));
-			if (nodeLinks.getNodeLinks().size() > 0) {
+			if (nodeLinks != null && nodeLinks.getNodeLinks().size() > 0) {
 				Tree nodeLinkTree = new Tree(Messages.ModelContentProvider_1);
 				nodeLinkTree.setIcon(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/node_links.png")); //$NON-NLS-1$
 				for (NodeLink nl : nodeLinks.getNodeLinks()) {
@@ -109,11 +112,13 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 
 						// Look for the interface
 						InterfacesHandler interfacesOfLink = ModelLoader.loadFromXML(targetFile, new InterfacesHandler(file));
-						for (NodeInterface nodeInterface : interfacesOfLink.getInterfaces()) {
-							if (nodeInterface.getId() == nl.getTargetId()) {
-								linkIsValid = true;
-								targetInterface = nodeInterface.getName();
-								break;
+						if (interfacesOfLink != null) {
+							for (NodeInterface nodeInterface : interfacesOfLink.getInterfaces()) {
+								if (nodeInterface.getId() == nl.getTargetId()) {
+									linkIsValid = true;
+									targetInterface = nodeInterface.getName();
+									break;
+								}
 							}
 						}
 					}
@@ -179,11 +184,11 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 	/** {@inheritDoc} */
 	public boolean visit(IResourceDelta delta) throws CoreException {
 		IResource source = delta.getResource();
-		switch (source.getType()) {
 
-		case IResource.FILE:
+		if (source.getType() == IResource.FILE) {
 			final IFile file = (IFile) source;
-			if (file.getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
+
+			if ((delta.getFlags() & IResourceDelta.CONTENT) == IResourceDelta.CONTENT && file.getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
 				new UIJob("Update Models navigator") {  //$NON-NLS-1$
 					@Override
 					public IStatus runInUIThread(IProgressMonitor monitor) {
@@ -193,12 +198,10 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 						return Status.OK_STATUS;
 					}
 				} .schedule();
+				return false;
 			}
-			return false;
-
-		default:
-			return true;
 		}
+		return true;
 	}
 
 }
