@@ -93,6 +93,8 @@ public final class ModelLoader {
 			saxParser.parse(modelURI.toString(), handler);
 		} catch (SAXException e) {
 			Coloane.showWarningMsg("Unable to parse the model file: " + modelURI.toString() + e.getMessage()); //$NON-NLS-1$
+			LOGGER.warning("Unable to parse the model file: " + modelURI.toString() + e.getMessage()); //$NON-NLS-1$
+			e.printStackTrace();
 		} catch (IOException e) {
 			LOGGER.warning("I/O error: " + e.getMessage()); //$NON-NLS-1$
 			e.printStackTrace();
