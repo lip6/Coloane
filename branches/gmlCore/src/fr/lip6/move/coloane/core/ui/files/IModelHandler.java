@@ -32,7 +32,7 @@ public interface IModelHandler {
 	String ATTRIBUTES_LIST_MARKUP = "attributes"; //$NON-NLS-1$
 
 	/** identifier for attribute name description */
-	String MODEL_FORMALISM_MARKUP = "formalism"; //$NON-NLS-1$
+	String MODEL_FORMALISM_MARKUP = "formalismUrl"; //$NON-NLS-1$
 
 	/** identifier for model description */
 	String MODEL_MARKUP = "model"; //$NON-NLS-1$
@@ -61,7 +61,7 @@ public interface IModelHandler {
 	/** identifier for node id description */
 	String NODE_ID_MARKUP = "id"; //$NON-NLS-1$
 	/** identifier for node type description */
-	String NODE_TYPE_MARKUP = "nodetype"; //$NON-NLS-1$
+	String NODE_TYPE_MARKUP = "nodeType"; //$NON-NLS-1$
 	/** identifier for node x position description */
 	String NODE_X_MARKUP = "xposition"; //$NON-NLS-1$
 	/** identifier for node y position description */
@@ -96,11 +96,11 @@ public interface IModelHandler {
 	/** identifier for arc id description */
 	String ARC_ID_MARKUP = "id"; //$NON-NLS-1$
 	/** identifier for arc type description */
-	String ARC_TYPE_MARKUP = "arctype"; //$NON-NLS-1$
+	String ARC_TYPE_MARKUP = "arcType"; //$NON-NLS-1$
 	/** identifier for arc start element id description */
-	String ARC_STARTID_MARKUP = "startid"; //$NON-NLS-1$
+	String ARC_STARTID_MARKUP = "source"; //$NON-NLS-1$
 	/** identifier for arc end element id description */
-	String ARC_ENDID_MARKUP = "endid"; //$NON-NLS-1$
+	String ARC_ENDID_MARKUP = "target"; //$NON-NLS-1$
 	/** identifier for arc curved status description */
 	String ARC_CURVED_MARKUP = "curved"; //$NON-NLS-1$
 	/** identifier for arc color description */

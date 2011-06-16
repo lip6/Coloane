@@ -43,14 +43,6 @@ public final class ModelWriter implements IModelHandler {
 	 * @param type name of the markup
 	 * @return xml markup as string with a new line
 	 */
-	private static String printOpenMarkup(String type) {
-		return printOpenMarkup(type, true);
-	}
-
-	/**
-	 * @param type name of the markup
-	 * @return xml markup as string with a new line
-	 */
 	private static String printCloseMarkup(String type) {
 		return printCloseMarkup(type, true);
 	}
@@ -86,29 +78,21 @@ public final class ModelWriter implements IModelHandler {
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
 
 		// Formalism
-		line.append("<" + MODEL_MARKUP + " xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$ //$NON-NLS-2$
-		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'"); //$NON-NLS-1$
-		line.append(" " + MODEL_FORMALISM_MARKUP + "='").append(graph.getFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		line.append(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
+		line.append("<" + MODEL_MARKUP + " xmlns='http://gml.lip6.fr/model'"); //$NON-NLS-1$ //$NON-NLS-2$
+		line.append(" " + MODEL_FORMALISM_MARKUP + "='").append(graph.getFormalism().getName()).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		// Graph attributes
 		line.append(translateAttributesToXML(graph));
 
 		// Nodes
-		line.append(printOpenMarkup(NODES_LIST_MARKUP));
 		line.append(translateNodesToXML(graph));
-		line.append(printCloseMarkup(NODES_LIST_MARKUP));
 
 		// Arcs
-		line.append(printOpenMarkup(ARCS_LIST_MARKUP));
 		line.append(translateArcsToXML(graph));
-		line.append(printCloseMarkup(ARCS_LIST_MARKUP));
 
 		// Sticky notes
-		line.append(printOpenMarkup(STICKYS_LIST_MARKUP));
 		line.append(translateStickyNotesToXML(graph));
-		line.append(printCloseMarkup(STICKYS_LIST_MARKUP));
-
+		
 		line.append("</model>"); //$NON-NLS-1$
 		return line.toString();
 	}
@@ -257,14 +241,10 @@ public final class ModelWriter implements IModelHandler {
 	private static String translateAttributesToXML(IElement elt) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(printOpenMarkup(ATTRIBUTES_LIST_MARKUP));
-
 		// For each attribute
 		for (IAttribute att : elt.getAttributes()) {
 			sb.append(translateSubAttributeToXML(att));
 		}
-
-		sb.append(printCloseMarkup(ATTRIBUTES_LIST_MARKUP));
 
 		return sb.toString();
 	}
@@ -288,11 +268,9 @@ public final class ModelWriter implements IModelHandler {
 			if (att.isLeaf()){
 				sb.append(format(att.getValue()));
 			} else {
-				sb.append("<attributes>"); //$NON-NLS-1$
 				for (IAttribute a : att.getAttributes()){
 					sb.append(translateSubAttributeToXML(a));
 				}
-				sb.append("</attributes>"); //$NON-NLS-1$
 			}
 
 			sb.append(printCloseMarkup(ATTRIBUTE_MARKUP));
@@ -302,7 +280,7 @@ public final class ModelWriter implements IModelHandler {
 	}
 
 	/**
-	 * Deals with special charatacters (protect)
+	 * Deals with special characters (protect)
 	 * @param txt The text to protect
 	 * @return The protected text
 	 */
@@ -324,18 +302,13 @@ public final class ModelWriter implements IModelHandler {
 		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
 
 		// Headers
-		line.append("<" + MODEL_MARKUP + " xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$ //$NON-NLS-2$
-		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'"); //$NON-NLS-1$
+		line.append("<" + MODEL_MARKUP + " xmlns='http://gml.lip6.fr/model'"); //$NON-NLS-1$ //$NON-NLS-2$
 		line.append(" " + MODEL_FORMALISM_MARKUP + "='").append(formalism.getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		line.append(">\n"); //$NON-NLS-1$
 
 		// Nodes
-		line.append(printOpenMarkup(NODES_LIST_MARKUP));
-		line.append(printCloseMarkup(NODES_LIST_MARKUP));
 
 		// Arcs
-		line.append(printOpenMarkup(ARCS_LIST_MARKUP));
-		line.append(printCloseMarkup(ARCS_LIST_MARKUP));
 
 		line.append(printCloseMarkup(MODEL_MARKUP));
 
