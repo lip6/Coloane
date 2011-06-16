@@ -278,7 +278,7 @@ public final class ModelWriter implements IModelHandler {
 		StringBuilder sb = new StringBuilder();
 
 		// Do not take into account empty attributes
-		if (!att.getValue().equals("")) { //$NON-NLS-1$
+		if (!(att.getValue().equals("") && att.getAttributes().isEmpty())) { //$NON-NLS-1$
 			String balise = att.getName();
 			sb.append("<" + ATTRIBUTE_MARKUP + " " + ATTRIBUTE_NAME_MARKUP + "='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			sb.append(" " + ATTRIBUTE_X_MARKUP + "='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -288,9 +288,11 @@ public final class ModelWriter implements IModelHandler {
 			if (att.isLeaf()){
 				sb.append(format(att.getValue()));
 			} else {
+				sb.append("<attributes>"); //$NON-NLS-1$
 				for (IAttribute a : att.getAttributes()){
 					sb.append(translateSubAttributeToXML(a));
 				}
+				sb.append("</attributes>"); //$NON-NLS-1$
 			}
 
 			sb.append(printCloseMarkup(ATTRIBUTE_MARKUP));

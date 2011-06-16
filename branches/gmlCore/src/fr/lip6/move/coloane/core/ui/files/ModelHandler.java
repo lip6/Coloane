@@ -372,16 +372,20 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		IAttribute attribute = null;
 		if (o instanceof IElement) {
 			IElement element = (IElement) o;
-			attribute = element.getAttribute(name);
+			attribute = new AttributeModel(element,element.getElemFormalism(),name);
+			if (attribute.getAttributeFormalism() == null) {
+				String message = "Attribute with name \""+name+"\" found but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$
+				LOGGER.severe(message);	
+				attribute = null;
+			} else element.putAttribute(name, attribute);
 		} else if (o instanceof IAttribute){
 			IAttribute attr = (IAttribute) o;
-			attribute = new AttributeModel(attr.getReference(), attr, (IAttributeFormalism)attr.getAttributeFormalism());
-			attr.addAttribute(attribute);
-		}
-		
-		if (attribute == null) {
-			String message = "Attribute with name \""+name+"\" found but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$
-			LOGGER.severe(message);			
+			attribute = new AttributeModel(attr.getReference(), attr, (IAttributeFormalism)attr.getAttributeFormalism(),name);
+			if (attribute.getAttributeFormalism() == null) {
+				String message = "Attribute with name \""+name+"\" found but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$
+				LOGGER.severe(message);	
+				attribute = null;
+			} else attr.addAttribute(attribute);
 		}
 		
 		int x = Integer.parseInt(attributes.getValue(ATTRIBUTE_X_MARKUP));
@@ -423,7 +427,11 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		Point location = (Point) stack.pop();
 		String value = data.toString();
 		if (attribute != null) {
-			attribute.setValue(value);
+			if (attribute.getAttributes().isEmpty()){
+				attribute.setValue(value);
+			} else {
+				attribute.initialiseValue();
+			}
 			attribute.getGraphicInfo().setLocation(location);
 		}
 	}
