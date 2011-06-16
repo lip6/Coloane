@@ -466,6 +466,15 @@
                          name="Place name checker"
                          severity="Error">
                    </AttributeChecker>
+                   <Attribute
+                         bold="false"
+                         delta_x="10"
+                         delta_y="-5"
+                         drawable="true"
+                         italic="false"
+                         multiline="false"
+                         name="type">
+                   </Attribute>
                 </Attribute>
                 <Attribute
                       bold="false"
