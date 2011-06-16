@@ -151,13 +151,9 @@ public final class FormalismManager {
 		this.formalisms.add(form);
 	}
 
-	/**
-	 * Extract all elements attributes and add them to the parent description
-	 * @param element Formalism element that is currently parsed. (considered as the parent)
-	 * @param description Element description. This description may contains attributes
-	 */
-	private void buildAttributes(ElementFormalism element, IConfigurationElement description) {
+	private ArrayList<AttributeFormalism> buildAttributeList(IConfigurationElement description) {
 		// Browse all attributes from the element description
+		ArrayList<AttributeFormalism> list = new ArrayList<AttributeFormalism>();
 		IConfigurationElement[] attributes = description.getChildren("Attribute"); //$NON-NLS-1$
 		for (IConfigurationElement attribute : attributes) {
 
@@ -173,7 +169,6 @@ public final class FormalismManager {
 			// Now either !isEnum, or enumValues is not null.
 
 			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), Boolean.parseBoolean(attribute.getAttribute("drawable")), Boolean.parseBoolean(attribute.getAttribute("multiline")), isEnum, enumValues);  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-			LOGGER.finer("Build the attribute " + a.getName() + " for the element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
 
 			// Parse the default value
 			if (attribute.getAttribute("default") != null) { //$NON-NLS-1$
@@ -208,7 +203,28 @@ public final class FormalismManager {
 				a.setSize(attribute.getAttribute("size")); //$NON-NLS-1$
 				LOGGER.finer("Add bold state for the attribute : " + a.getName()); //$NON-NLS-1$
 			}
+			
+			// Parse the contained attributes 
+			ArrayList<AttributeFormalism> listinner = buildAttributeList(attribute);
+			for (AttributeFormalism att: listinner) {
+				// Add the attribute to the parent's list
+				a.addAttribute(att);
+			}
 
+			// Add the attribute to the parent's list
+			list.add(a);
+		}
+		return list;
+	}
+	
+	/**
+	 * Extract all elements attributes and add them to the parent description
+	 * @param element Formalism element that is currently parsed. (considered as the parent)
+	 * @param description Element description. This description may contains attributes
+	 */
+	private void buildAttributes(ElementFormalism element, IConfigurationElement description) {
+		ArrayList<AttributeFormalism> list = buildAttributeList(description);
+		for (AttributeFormalism a: list) {
 			// Add the attribute to the parent's list
 			element.addAttribute(a);
 		}

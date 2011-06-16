@@ -169,6 +169,9 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 		firePropertyChange(IAttribute.VALUE_PROP, evt.getOldValue(), evt.getNewValue());
 	}
 
+	//These functions apply to imbricated attributes; supposing there are no imbricated attributes in
+	//computed attributes, these don't do much. Do not call them as is!
+	
 	public boolean isLeaf() {
 		return isLeaf;
 	}
@@ -191,5 +194,11 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 
 	public IAttribute getParent() {
 		return parent;
+	}
+
+	public void setLeaf() {
+	}
+
+	public void initialiseValue() {
 	}
 }

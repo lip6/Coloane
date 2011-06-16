@@ -78,8 +78,8 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */
 	public GraphModel(IFormalism formalism) throws IllegalArgumentException {
-		super(1, null, formalism.getRootGraph().getAttributes() , formalism.getRootGraph().getComputedAttributes());
-		LOGGER.fine("Build a graph model using formalism:" + formalism.getName() + ""); //$NON-NLS-1$ //$NON-NLS-2$
+		super(1, null, formalism.getRootGraph());
+		LOGGER.fine("Build a graph model using formalism:" + formalism.getName() + "");  //$NON-NLS-1$ //$NON-NLS-2$
 		this.formalism = formalism;
 
 		// Create graphical properties
@@ -151,6 +151,13 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	/** {@inheritDoc} */
 	public final Collection<INode> getNodes() {
 		return nodes.values();
+	}
+	
+	/** {@inheritDoc} */
+	public final void addAttribut(IAttribute attr) {
+		attr.addPropertyChangeListener(this);
+		LOGGER.finer("Add an attribute."); //$NON-NLS-1$
+		firePropertyChange(ATTRIBUTE_ADDED_PROP, null, attr);
 	}
 
 	/** {@inheritDoc} */
@@ -330,6 +337,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 
 		if (NODE_ADDED_PROP.equals(prop)
 				|| NODE_REMOVED_PROP.equals(prop)
+				|| ATTRIBUTE_ADDED_PROP.equals(prop)
 				|| INode.INCOMING_ARCS_PROP.equals(prop)
 				|| INode.OUTGOING_ARCS_PROP.equals(prop)
 				|| INode.PUBLIC_PROP.equals(prop)

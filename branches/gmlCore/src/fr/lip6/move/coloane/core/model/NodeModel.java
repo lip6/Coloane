@@ -71,7 +71,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @see {@link GraphModel#getId()} to get a new unique ID
 	 */
 	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id) {
-		super(id, parent, nodeFormalism.getAttributes(), nodeFormalism.getComputedAttributes());
+		super(id, parent, nodeFormalism);
 		LOGGER.finest("Build a node: " + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.nodeFormalism = nodeFormalism;
 		this.graphicInfos = new NodeGraphicInfo(this);

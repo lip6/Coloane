@@ -672,7 +672,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// If the building process has failed
 		if (paletteRoot == null) {
-			LOGGER.warning("Something went wring during the palette building process"); //$NON-NLS-1$
+			LOGGER.warning("Something went wrong during the palette building process"); //$NON-NLS-1$
 		}
 
 		return paletteRoot;

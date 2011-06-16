@@ -17,7 +17,7 @@ package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.IComputedAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 
@@ -36,14 +36,17 @@ import java.util.Map;
  */
 public abstract class AbstractElement extends AbstractPropertyChange implements IElement, ISpecialState, PropertyChangeListener {
 
-	/** Map of attributes, the key is the name of the attributes. */
+	/** Map of attributes, the key is the name of the attribute. */
 	private Map<String, IAttribute> attributes = new HashMap<String, IAttribute>();
 
-	/** Map of computed attributes, the key is the name of the attributes. */
+	/** Map of computed attributes, the key is the name of the attribute. */
 	private Map<String, IAttribute> computedAttributes = new HashMap<String, IAttribute>();
 
 	/** Unique identifier */
 	private int id;
+	
+	/** Formalism of the element*/
+	private IElementFormalism formalism;
 
 	/** Parent model element (often GraphModel... But could be another element in case of hierarchy)*/
 	private IElement parent;
@@ -57,10 +60,13 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	 * @param attributes Element's attributes
 	 * @param computedAttributes Computed attributes
 	 */
-	AbstractElement(int id, IElement parent, List<IAttributeFormalism> attributes, List<IComputedAttributeFormalism> computedAttributes) {
+	AbstractElement(int id, IElement parent, IElementFormalism formalism) {
 		this.id = id;
 		this.parent = parent;
-		if (attributes != null) {
+		this.formalism = formalism;
+		// THERE ARE NO MORE COMPUTED ATTRIBUTES in this version, since I have not figured out
+		// how to create them "as needed" yet.
+		/* if (attributes != null) {
 			// Browse all attributes defined by the formalism
 			for (IAttributeFormalism attr : attributes) {
 				IAttribute attributeModel = new AttributeModel(this, null, attr);
@@ -78,7 +84,12 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 					this.computedAttributes.put(attr.getName(), attributeModel);
 				}
 			}
-		}
+		}*/
+	}
+	
+	/** {@inheritDoc} */
+	public final IElementFormalism getElemFormalism() {
+		return formalism;
 	}
 
 	/** {@inheritDoc} */
