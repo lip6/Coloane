@@ -15,8 +15,12 @@
  */
 package fr.lip6.move.coloane.core.formalisms.elements;
 
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IComputedAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttributeFormatter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
 
@@ -52,6 +56,9 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 
 	/** The Java class used to format the attribute value */
 	private Class< ? > formatter = null;
+
+	/** Attributes list */
+	private List<IAttributeFormalism> attributes = new ArrayList<IAttributeFormalism>();
 
 	/**
 	 * Build an attribute
@@ -172,4 +179,15 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 		}
 		return null;
 	}
+	
+	/**
+	 * Add a new attribute to this attribute
+	 * @param attribute The additional attribute to be considered for this element
+	 */
+	public final void addAttribute(AttributeFormalism attribute) {
+		this.attributes.add(attribute);
+	}
+
+	/** {@inheritDoc} */
+	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
 }

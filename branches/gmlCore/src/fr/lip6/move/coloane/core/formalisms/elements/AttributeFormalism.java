@@ -17,6 +17,7 @@ package fr.lip6.move.coloane.core.formalisms.elements;
 
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.draw2d.geometry.Point;
@@ -61,6 +62,9 @@ public class AttributeFormalism implements IAttributeFormalism {
 
 	/** Defines the set of legal values for this attribute */
 	private List<String> enumeration;
+
+	/** Attributes list */
+	private List<IAttributeFormalism> attributes = new ArrayList<IAttributeFormalism>();
 
 	/**
 	 * Build an attribute
@@ -198,4 +202,15 @@ public class AttributeFormalism implements IAttributeFormalism {
 	public final Point getDeltaLocation() {
 		return this.delta;
 	}
+	
+	/**
+	 * Add a new attribute to this attribute
+	 * @param attribute The additional attribute to be considered for this element
+	 */
+	public final void addAttribute(AttributeFormalism attribute) {
+		this.attributes.add(attribute);
+	}
+
+	/** {@inheritDoc} */
+	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
 }
