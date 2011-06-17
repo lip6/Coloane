@@ -75,7 +75,6 @@ public class AlligatorService implements IApiService {
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.interfaces.objects.services.IService#run(fr.lip6.move.coloane.interfaces.model.IGraph, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	@Override
 	public final List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
 		List<IResult> results = new ArrayList<IResult>();
 		try {
@@ -142,7 +141,6 @@ public class AlligatorService implements IApiService {
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.interfaces.api.services.IApiService#getName()
 	 */
-	@Override
 	public final String getName() {
 		return service.getName();
 	}
@@ -150,7 +148,6 @@ public class AlligatorService implements IApiService {
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.interfaces.api.services.IApiService#getDescription()
 	 */
-	@Override
 	public final String getDescription() {
 		return service.getShortDescription();
 	}
