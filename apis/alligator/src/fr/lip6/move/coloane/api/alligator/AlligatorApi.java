@@ -64,13 +64,10 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 	 * Default menu returned if the connection with an Alligator server is not established.
 	 */
 	private static final List<IItemMenu> DISCONNECTED_MENU = Arrays.asList((IItemMenu) new ServiceMenu("Disconnected", true, "", new IApiService() {
-		@Override
 		public List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
 			throw new ServiceException("The platform is not connected");
 		}
-		@Override
 		public String getName() { return "Disconnected"; }
-		@Override
 		public String getDescription() { return ""; }
 	}));
 
@@ -78,13 +75,10 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 	 * Default menu returned if the connection with an Alligator server is not established.
 	 */
 	private static final List<IItemMenu> EMPTY_MENU = Arrays.asList((IItemMenu) new ServiceMenu("Connecting", true, "", new IApiService() {
-		@Override
 		public List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
 			throw new ServiceException("The platform is not connected");
 		}
-		@Override
 		public String getName() { return "Connecting"; }
-		@Override
 		public String getDescription() { return ""; }
 	}));
 	
@@ -147,7 +141,6 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.interfaces.api.IApi#getInitialApiMenus()
 	 */
-	@Override
 	public final List<IItemMenu> getInitialApiMenus() {
 		LOGGER.fine("Load initial alligator menu");
 		Job job = new Job("Connection to Alligator") {
@@ -155,7 +148,6 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 			protected IStatus run(IProgressMonitor monitor) {
 				final List<IItemMenu> menu = updatedMenu();
 				Display.getDefault().asyncExec(new Runnable() {
-					@Override
 					public void run() {
 						firePropertyChange(IApi.API_MENU, null, menu);
 					}
@@ -171,7 +163,6 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 	/** {@inheritDoc}
 	 * @see org.eclipse.jface.util.IPropertyChangeListener#propertyChange(org.eclipse.jface.util.PropertyChangeEvent)
 	 */
-	@Override
 	public final void propertyChange(PropertyChangeEvent event) {
 		LOGGER.fine("Receive property change: " + event.getProperty());
 		if (event.getProperty().equals(PreferenceConstants.P_ALLIGATOR_URL)) {
