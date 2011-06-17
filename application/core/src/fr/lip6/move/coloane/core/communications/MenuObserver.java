@@ -26,6 +26,8 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.swt.widgets.Display;
+
 /**
  * Handle notifications coming from an API and dedicated to menu updates.
  *
@@ -37,7 +39,7 @@ public class MenuObserver implements PropertyChangeListener {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Session handled by this observer */
-	private ColoaneAPIRootMenu rootMenu;
+	private final ColoaneAPIRootMenu rootMenu;
 
 	/**
 	 * @param rootMenu Coloane root menu, the apis menus will be added as child of this menu.
@@ -63,6 +65,12 @@ public class MenuObserver implements PropertyChangeListener {
 					this.rootMenu.add(newMenu);
 				}
 			}
+			this.rootMenu.markDirty();
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					rootMenu.updateAll(true);
+				}
+			});
 		}
 	}
 }
