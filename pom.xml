@@ -11,6 +11,7 @@
     <url>http://coloane.lip6.fr</url>
 
     <modules>
+        <module>apis</module>
         <module>application</module>
         <module>extensions</module>
         <module>tools</module>
