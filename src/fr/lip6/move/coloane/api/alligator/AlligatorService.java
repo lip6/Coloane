@@ -15,6 +15,7 @@
  */
 package fr.lip6.move.coloane.api.alligator;
 
+import fr.lip6.move.alligator.interfaces.DescriptionItem;
 import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.alligator.interfaces.ServiceDescription;
@@ -37,12 +38,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Implementation of IApiService to manage Alligator service.
@@ -76,15 +79,33 @@ public class AlligatorService implements IApiService {
 	public final List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
 		List<IResult> results = new ArrayList<IResult>();
 		try {
-			StringWriter stringModel = new StringWriter();
-			GRAPH_TO_GML.export(model, stringModel, monitor);
-			Item modelItem = new Item(ItemType.MODEL, model.getFormalism().getName(), stringModel.toString());
 			ServiceManager manager = api.getServerManager();
 			if (manager == null) {
 				throw new ServiceException("The connection is not available.");
 			}
+
+			List<DescriptionItem> dItems = service.getDescriptionItems();
+			final List<Item> params = new ArrayList<Item>();
+			for (final DescriptionItem dItem : dItems) {
+				if (dItem.getType() == ItemType.MODEL) {
+					StringWriter stringModel = new StringWriter();
+					GRAPH_TO_GML.export(model, stringModel, monitor);
+					params.add(new Item(ItemType.MODEL, model.getFormalism().getName(), stringModel.toString()));
+				} else if (dItem.getType() == ItemType.STRING) {
+					Display.getDefault().syncExec(new Runnable() {
+						public void run() {
+							final InputDialog dialog = new InputDialog(Display.getDefault().getActiveShell(), "String parameter", dItem.getName(), "", null);
+							dialog.setBlockOnOpen(true);
+							if (dialog.open() == Dialog.OK) {
+								params.add(new Item(dItem.getType(), dItem.getName(), dialog.getValue()));
+							}
+						}
+					});
+				}
+			}
+
 			LOGGER.info("Invoke the service: " + service.getId());
-			List<Item> resultItems = manager.invoke(service.getId(), Arrays.asList(modelItem));
+			List<Item> resultItems = manager.invoke(service.getId(), params);
 			LOGGER.fine("Get " + resultItems.size() + " result items.");
 			IResult result = new Result(service.getName());
 
