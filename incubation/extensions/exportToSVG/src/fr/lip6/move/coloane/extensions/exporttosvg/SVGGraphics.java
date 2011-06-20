@@ -16,6 +16,7 @@
  */
 package fr.lip6.move.coloane.extensions.exporttosvg;
 
+import java.awt.AWTError;
 import java.awt.Polygon;
 import java.awt.font.TextLayout;
 import java.awt.geom.QuadCurve2D;
@@ -97,7 +98,7 @@ public class SVGGraphics extends Graphics {
 	@Override
 	public final void clipRect(Rectangle r) {
 		LOGGER.warning("clipRect not implemented");
-		svgGenerator.clipRect(r.x, r.y, r.width, r.height);
+//		svgGenerator.clipRect(r.x, r.y, r.width, r.height);
 	}
 
 	@Override
