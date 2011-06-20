@@ -16,6 +16,7 @@
 
     <modules>
         <module>coloaneMain</module>
+        <module>alligatorApi</module>
         <module>coloaneMainSources</module>
         <!-- IMPORT / EXPORT -->
         <module>exportToDOT</module>
