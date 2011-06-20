@@ -6,6 +6,9 @@
    <feature url="features/fr.lip6.move.coloane.features.main_0.0.0.jar" id="fr.lip6.move.coloane.features.main" version="0.0.0">
       <category name="ColoaneCore"/>
    </feature>
+   <feature url="features/fr.lip6.move.coloane.features.alligator_0.0.0.jar" id="fr.lip6.move.coloane.features.alligator" version="0.0.0">
+      <category name="ExternalPlatforms"/>
+   </feature>
    <feature url="features/fr.lip6.move.coloane.features.main.source_0.0.0.jar" id="fr.lip6.move.coloane.features.main.source" version="0.0.0">
       <category name="ColoaneCoreSources"/>
    </feature>
@@ -46,12 +49,17 @@
          This category groups all sources of Coloane. Useful if you want to contribute to the project.
       </description>
    </category-def>
+   <category-def name="ExternalPlatforms" label="[Coloane] External Platforms (Optional)">
+      <description>
+         Use these plugins to import and export models under various formats.
+      </description>
+   </category-def>
    <category-def name="ImportExportWizards" label="[Coloane] Import/Export Wizards (Optional)">
       <description>
          Use these plugins to import and export models under various formats.
       </description>
    </category-def>
-   <category-def name="Formalisms" label="[Coloane] Additionnal Formalisms (Optional)">
+   <category-def name="Formalisms" label="[Coloane] Additional Formalisms (Optional)">
       <description>
          More formalisms for Coloane
       </description>
