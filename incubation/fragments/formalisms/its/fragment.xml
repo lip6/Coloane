@@ -271,14 +271,15 @@
                   <Attribute
                         bold="false"
                         default="i"
-                        drawable="true"
+                        drawable="false"
                         italic="false"
                         multiline="false"
                         name="name">
                   </Attribute>
                   <Attribute
                         bold="true"
-                        drawable="true"
+                        default="Type"
+                        drawable="false"
                         italic="false"
                         multiline="false"
                         name="type">
@@ -288,26 +289,32 @@
                      container="false"
                      name="delegator">
                   <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
-                        description="Create a Delegator"
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.ScalarDelegate"
+                        description="Create a Delegate"
                         drawable="true"
-                        fill="true"
-                        height="4"
+                        fill="false"
+                        height="20"
                         icon16px="resources/formalisms/its/transition_16.png"
                         icon24px="resources/formalisms/its/transition_24.png"
                         palettable="true"
-                        paletteName="Delegator"
-                        width="20">
+                        paletteName="Delegate"
+                        width="30">
                   </GraphicInfo>
                   <Attribute
+                        bold="true"
+                        delta_x="40"
+                        delta_y="0"
+                        displayed_default="false"
                         drawable="true"
+                        italic="false"
                         multiline="true"
                         name="label">
                   </Attribute>
                   <Attribute
                         bold="false"
                         default="private"
-                        drawable="true"
+                        displayed_default="false"
+                        drawable="false"
                         enumerated="true"
                         italic="true"
                         multiline="false"
@@ -322,7 +329,8 @@
                   <Attribute
                         bold="true"
                         default="ANY"
-                        drawable="true"
+                        displayed_default="false"
+                        drawable="false"
                         enumerated="true"
                         fontsize="12"
                         multiline="false"
