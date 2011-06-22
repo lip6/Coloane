@@ -32,6 +32,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -135,6 +137,11 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 			serviceItem = new ServiceMenu(service.getName(), true, service.getShortDescription(), apiService);
 			menu.add(serviceItem);
 		}
+		Collections.sort(menu, new Comparator<IItemMenu>() {
+			public int compare(IItemMenu o1, IItemMenu o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
 		return menu;
 	}
 
