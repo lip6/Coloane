@@ -101,7 +101,6 @@ public class ScalarSetNode extends AbstractNodeFigure implements PropertyChangeL
 	 * We update the String instanceName and the size here if necessary to reflect model changes.
 	 * {@inheritDoc}
 	 */
-	@Override
 	public void propertyChange(PropertyChangeEvent event) {
 		
 		for (INode a : delegates) {
