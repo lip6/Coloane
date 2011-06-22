@@ -92,7 +92,6 @@ public class ScalarSetNode extends AbstractNodeFigure implements PropertyChangeL
 	/**
 	 * {@inheritDoc}
 	 */
-	@Override
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new ChopboxAnchor(this);
 	}
