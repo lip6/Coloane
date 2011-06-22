@@ -38,9 +38,9 @@ import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.jface.resource.JFaceResources;
 
 /**
- * Description of a Scalar Set figure : a box with some suggestion of nested boxes inside.
+ * Description of a Instance Node figure : a box with a required interface.
  *
- * @author Y. Thierry-Mieg, based on C. Demoulins RectangleNode class
+ * @author Y. Thierry-Mieg
  */
 public class InstanceNode extends AbstractNodeFigure implements PropertyChangeListener {
 	private String instanceName = ":";
@@ -73,20 +73,11 @@ public class InstanceNode extends AbstractNodeFigure implements PropertyChangeLi
 	 */
 	@Override
 	protected final void outlineShape(Graphics graphics) {
-		
-		
 		drawInterface(graphics);
 	}
 
 	private void setTitle() {
 		FrameBorder tb = new FrameBorder(instanceName);
-//		Display display = Display.getCurrent(); 
-//		Color bg = display.getSystemColor(SWT.COLOR_WHITE); 
-//		Color fg = display.getSystemColor(SWT.COLOR_BLACK); 
-		
-				
-//		tb.setBackgroundColor(bg);
-//		tb.setTextColor(fg);
 		tb.setFont(JFaceResources.getFontRegistry().getBold(JFaceResources.DEFAULT_FONT));
 		setBorder(tb);
 	}
@@ -138,12 +129,16 @@ public class InstanceNode extends AbstractNodeFigure implements PropertyChangeLi
 			instanceName = toshow2;
 			interfaces = interfaces2;
 			setTitle();
-			Dimension bordersize = getBorder().getPreferredSize(this);
-			Dimension isize = FigureUtilities.getTextExtents(interfaces, getFont());
-			Dimension maxsize = new Dimension(Math.max(bordersize.width, isize.width), 
-						bordersize.height + isize.height );
-			getModel().getGraphicInfo().setSize(maxsize.expand(10,15));
+			getModel().getGraphicInfo().setSize(computeSize());
 		}
+	}
+
+	private Dimension computeSize() {
+		Dimension bordersize = getBorder().getPreferredSize(this);
+		Dimension isize = FigureUtilities.getTextExtents(interfaces, getFont());
+		Dimension maxsize = new Dimension(Math.max(bordersize.width, isize.width), 
+					bordersize.height + isize.height );
+		return maxsize.expand(10,15);
 	}
 
 	private void handleArc(IArc a, Set<String> ops) {		
