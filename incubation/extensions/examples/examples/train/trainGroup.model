@@ -4,23 +4,23 @@
 <attribute name='size' xposition='0' yposition='0'>$SIZE</attribute>
 </attributes>
 <nodes>
-<node nodetype='instance' id ='3' xposition='279' yposition='203' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='instance' id ='3' xposition='201' yposition='137' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='299' yposition='243'>t_i</attribute>
 <attribute name='type' xposition='299' yposition='263'>Train</attribute>
 </attributes>
 </node>
-<node nodetype='delegator' id ='4' xposition='228' yposition='143' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='delegator' id ='4' xposition='376' yposition='193' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='visibility' xposition='248' yposition='143'>public</attribute>
-<attribute name='label' xposition='248' yposition='123'>SendExit</attribute>
+<attribute name='label' xposition='417' yposition='196'>SendExit</attribute>
 <attribute name='kind' xposition='248' yposition='123'>ANY</attribute>
 </attributes>
 </node>
-<node nodetype='delegator' id ='5' xposition='347' yposition='138' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='delegator' id ='5' xposition='376' yposition='134' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='visibility' xposition='367' yposition='138'>public</attribute>
-<attribute name='label' xposition='367' yposition='118'>SendApp</attribute>
+<attribute name='label' xposition='417' yposition='137'>SendApp</attribute>
 <attribute name='kind' xposition='367' yposition='118'>ANY</attribute>
 </attributes>
 </node>

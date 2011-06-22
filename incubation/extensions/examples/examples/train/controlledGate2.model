@@ -3,72 +3,72 @@
 <attributes>
 </attributes>
 <nodes>
-<node nodetype='instance' id ='3' xposition='117' yposition='192' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='instance' id ='3' xposition='140' yposition='179' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='0' yposition='0'>c</attribute>
 <attribute name='type' xposition='0' yposition='0'>Counter</attribute>
 </attributes>
 </node>
-<node nodetype='instance' id ='4' xposition='275' yposition='192' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='instance' id ='4' xposition='356' yposition='192' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='0' yposition='0'>g</attribute>
 <attribute name='type' xposition='0' yposition='0'>Gate</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='5' xposition='206' yposition='116' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='synchronization' id ='5' xposition='288' yposition='110' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='191' yposition='94'>triggerOpenGate</attribute>
-<attribute name='label' xposition='226' yposition='116'>DetectApp</attribute>
+<attribute name='name' xposition='273' yposition='88'>triggerOpenGate</attribute>
+<attribute name='label' xposition='308' yposition='110'>DetectApp</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='8' xposition='98' yposition='116' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='synchronization' id ='6' xposition='59' yposition='112' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='66' yposition='94'>dontTriggerOpen</attribute>
-<attribute name='label' xposition='118' yposition='116'>DetectApp</attribute>
+<attribute name='name' xposition='27' yposition='90'>dontTriggerOpen</attribute>
+<attribute name='label' xposition='79' yposition='112'>DetectApp</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='10' xposition='98' yposition='272' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='synchronization' id ='7' xposition='59' yposition='326' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='80' yposition='290'>dontTriggerClose</attribute>
-<attribute name='label' xposition='118' yposition='272'>DetectExit</attribute>
+<attribute name='name' xposition='41' yposition='344'>dontTriggerClose</attribute>
+<attribute name='label' xposition='79' yposition='326'>DetectExit</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='11' xposition='225' yposition='270' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='synchronization' id ='8' xposition='288' yposition='326' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='245' yposition='290'>triggerCloseGate</attribute>
-<attribute name='label' xposition='245' yposition='270'>DetectExit</attribute>
+<attribute name='name' xposition='270' yposition='344'>triggerCloseGate</attribute>
+<attribute name='label' xposition='308' yposition='326'>DetectExit</attribute>
 </attributes>
 </node>
 </nodes>
 <arcs>
-<arc arctype='arc' id='6' startid='5' endid='3' color='#000000' curved='true'>
+<arc arctype='arc' id='9' startid='5' endid='3' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='154' yposition='150'>empty;inc;</attribute>
+<attribute name='labels' xposition='225' yposition='150'>empty;inc;</attribute>
 </attributes>
 </arc>
-<arc arctype='arc' id='7' startid='5' endid='4' color='#000000' curved='true'>
+<arc arctype='arc' id='10' startid='5' endid='4' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='240' yposition='154'>Open</attribute>
+<attribute name='labels' xposition='325' yposition='150'>Close</attribute>
 </attributes>
 </arc>
-<arc arctype='arc' id='9' startid='8' endid='3' color='#000000' curved='true'>
+<arc arctype='arc' id='11' startid='6' endid='3' color='#000000' curved='true'>
 <attributes>
 <attribute name='labels' xposition='98' yposition='150'>test;inc;</attribute>
 </attributes>
 </arc>
-<arc arctype='arc' id='12' startid='10' endid='3' color='#000000' curved='true'>
+<arc arctype='arc' id='12' startid='7' endid='3' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='111' yposition='229'>dec;test;</attribute>
+<attribute name='labels' xposition='85' yposition='279'>dec;test;</attribute>
 </attributes>
 </arc>
-<arc arctype='arc' id='13' startid='11' endid='3' color='#000000' curved='true'>
+<arc arctype='arc' id='13' startid='8' endid='3' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='171' yposition='231'>dec;empty;</attribute>
+<attribute name='labels' xposition='218' yposition='279'>dec;empty;</attribute>
 </attributes>
 </arc>
-<arc arctype='arc' id='14' startid='11' endid='4' color='#000000' curved='true'>
+<arc arctype='arc' id='14' startid='8' endid='4' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='250' yposition='231'>Close</attribute>
+<attribute name='labels' xposition='325' yposition='279'>Open</attribute>
 </attributes>
 </arc>
 </arcs>

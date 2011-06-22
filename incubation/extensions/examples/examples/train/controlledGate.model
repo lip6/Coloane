@@ -10,72 +10,72 @@ In other cases of a sensor being triggered (App or Exit) no control signal is tr
 </attribute>
 </attributes>
 <nodes>
-<node nodetype='instance' id ='3' xposition='141' yposition='187' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='instance' id ='3' xposition='150' yposition='152' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='185' yposition='227'>c</attribute>
 <attribute name='type' xposition='185' yposition='247'>Controller</attribute>
 </attributes>
 </node>
-<node nodetype='instance' id ='4' xposition='365' yposition='187' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='instance' id ='4' xposition='391' yposition='165' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='354' yposition='227'>g</attribute>
 <attribute name='type' xposition='354' yposition='247'>Gate</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='5' xposition='221' yposition='266' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='synchronization' id ='5' xposition='303' yposition='266' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='201' yposition='278'>triggerGateClose</attribute>
-<attribute name='label' xposition='249' yposition='264'>DetectExit</attribute>
+<attribute name='name' xposition='283' yposition='278'>triggerGateClose</attribute>
+<attribute name='label' xposition='331' yposition='264'>DetectExit</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='6' xposition='236' yposition='113' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='synchronization' id ='6' xposition='303' yposition='113' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='221' yposition='90'>triggerGateOpen</attribute>
-<attribute name='label' xposition='266' yposition='111'>DetectApp</attribute>
+<attribute name='name' xposition='288' yposition='90'>triggerGateOpen</attribute>
+<attribute name='label' xposition='333' yposition='111'>DetectApp</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='7' xposition='138' yposition='113' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='synchronization' id ='7' xposition='98' yposition='113' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='117' yposition='90'>AppOther</attribute>
-<attribute name='label' xposition='68' yposition='111'>DetectApp</attribute>
+<attribute name='name' xposition='77' yposition='90'>AppOther</attribute>
+<attribute name='label' xposition='28' yposition='111'>DetectApp</attribute>
 </attributes>
 </node>
-<node nodetype='synchronization' id ='8' xposition='138' yposition='266' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='synchronization' id ='8' xposition='98' yposition='266' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='124' yposition='278'>ExitOther</attribute>
-<attribute name='label' xposition='68' yposition='264'>DetectExit</attribute>
+<attribute name='name' xposition='84' yposition='278'>ExitOther</attribute>
+<attribute name='label' xposition='28' yposition='264'>DetectExit</attribute>
 </attributes>
 </node>
 </nodes>
 <arcs>
 <arc arctype='arc' id='9' startid='8' endid='3' color='#000000' curved='false'>
 <attributes>
-<attribute name='labels' xposition='156' yposition='227'>Exit</attribute>
+<attribute name='labels' xposition='117' yposition='237'>Exit</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='10' startid='7' endid='3' color='#000000' curved='false'>
 <attributes>
-<attribute name='labels' xposition='148' yposition='152'>Enter</attribute>
+<attribute name='labels' xposition='131' yposition='128'>Enter</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='11' startid='3' endid='5' color='#000000' curved='false'>
 <attributes>
-<attribute name='labels' xposition='206' yposition='227'>ExitLast</attribute>
+<attribute name='labels' xposition='254' yposition='237'>ExitLast</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='12' startid='3' endid='6' color='#000000' curved='false'>
 <attributes>
-<attribute name='labels' xposition='201' yposition='152'>EnterFirst</attribute>
+<attribute name='labels' xposition='245' yposition='140'>EnterFirst</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='13' startid='5' endid='4' color='#000000' curved='false'>
 <attributes>
-<attribute name='labels' xposition='318' yposition='236'>Close</attribute>
+<attribute name='labels' xposition='333' yposition='237'>Open</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='14' startid='4' endid='6' color='#000000' curved='false'>
 <attributes>
-<attribute name='labels' xposition='333' yposition='152'>Open</attribute>
+<attribute name='labels' xposition='343' yposition='140'>Close</attribute>
 </attributes>
 </arc>
 </arcs>
