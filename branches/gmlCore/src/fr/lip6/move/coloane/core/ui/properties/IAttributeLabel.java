@@ -61,9 +61,14 @@ public interface IAttributeLabel {
 	Composite getParent();
 
 	/**
-	 * @return The control (Text or Combo) used to anchor the position of the next element.
+	 * @return The control (Text, Combo or Canvas) used to anchor the position of the next element.
 	 */
 	Control getControl();
+	
+	/**
+	 * @return The control (Text or Combo) used to identify the element.
+	 */
+	Control getControlText();
 
 	/**
 	 * Allows to register a listener for modifications.

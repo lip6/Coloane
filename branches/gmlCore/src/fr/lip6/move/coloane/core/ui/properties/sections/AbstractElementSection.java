@@ -15,17 +15,15 @@
  */
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
-import fr.lip6.move.coloane.core.model.AttributeModel;
 import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
 import fr.lip6.move.coloane.core.ui.properties.IAttributeLabel;
 import fr.lip6.move.coloane.core.ui.properties.LabelTextFactory;
+import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
-import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,18 +60,20 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			
 			// Recherche du LabelText modifié
 			for (IAttributeLabel lt : getMap().get(getCurrentType())) {
-				if (lt.getControl() == text) {
+				if (lt.getControlText() == text) {
 
 					// Recherche de l'attribut modifié
 					IAttribute attr = getElements().get(0).getAttribute(lt.getLabel());
 					String newValue = lt.getText();
 					// If the attribute did not exist yet, create it
 					if (attr == null) {
-						AttributeModel a = new AttributeModel(getElements().get(0), getElements().get(0).getElemFormalism(), lt.getLabel());
-						a.addPropertyChangeListener((PropertyChangeListener) getElements().get(0));
-						getElements().get(0).putAttribute(lt.getLabel(), a);
-						attr = a;
-						((IGraph)getElements().get(0).getParent()).addAttribut(a);
+						try {
+							attr = getElements().get(0).getGraph().createAttribute(getElements().get(0), getElements().get(0).getElemFormalism(), lt.getLabel());
+						} catch (ModelException e1) {
+							//Should not pass here -- only attributes associated to labels are created
+							//and labels are initialised according to the formalism... so only "correct"
+							//attributes can be created.
+						}
 					}
 					if (!attr.getValue().equals(newValue)) {
 						getCommandStack().execute(new ChangeAttributeCmd(attr, newValue));
@@ -118,7 +118,8 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			}
 			sc = (ScrolledComposite) tmp;
 		}
-		sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		//sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		sc.setMinSize(200,200);
 		Composite tmp = composite;
 		for (int i = 0; i < 20 && tmp != null; i++) {
 			tmp.layout();
@@ -159,20 +160,28 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		if (list == null) {
 			list = new ArrayList<IAttributeLabel>();
 			LabelTextFactory factory = new LabelTextFactory(composite, getWidgetFactory());
-
+			
 			for (IAttributeFormalism attr : attributes) {
 				IAttributeLabel lt;
+				
 				if (attr.isEnumerated()) {
 					lt = factory.create(
 							attr.getName(),
 							attr.getDefaultValue(),
 							attr.getEnumeration());
+				} else if (attr.getParser() != null) {
+					lt = factory.create(
+						attr.getName(),
+						attr.getDefaultValue(),
+						attr.getParser(),
+						getSWTStyle(attr.isMultiLine()));
 				} else {
 					lt = factory.create(
 						attr.getName(),
 						attr.getDefaultValue(),
 						getSWTStyle(attr.isMultiLine()));
 				}
+				
 				lt.getParent().redraw();
 				lt.addModifyListener(listener);
 				list.add(lt);

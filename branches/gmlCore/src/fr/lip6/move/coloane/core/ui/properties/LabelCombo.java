@@ -188,4 +188,11 @@ public final class LabelCombo implements IAttributeLabel {
 		return label.getText();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
+	public Control getControlText() {
+		return getControl();
+	}
+
 }

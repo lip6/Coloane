@@ -15,6 +15,8 @@
  */
 package fr.lip6.move.coloane.core.ui.properties;
 
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeParser;
+
 import java.util.List;
 
 import org.eclipse.swt.widgets.Composite;
@@ -82,6 +84,24 @@ public class LabelTextFactory {
 			lt = new LabelCombo(parent, factory, label, value, enumeration);
 		} else {
 			lt = new LabelCombo(parent, factory, label, value, enumeration, last);
+		}
+		last = lt;
+		return lt;
+	}
+	
+	/**
+	 * Creation d'un widget attribut muni d'un editeur xtext
+	 * @param label le nom de l'attribut
+	 * @param value sa valeur initiale
+	 * @param 
+	 * @return an attribute label
+	 */
+	public IAttributeLabel create(String label, String value, IAttributeParser p, int style) {
+		IAttributeLabel lt;
+		if (last == null) {
+			lt = new LabelEditor(parent, factory, label, value, style);
+		} else {
+			lt = new LabelEditor(parent, factory, label, value, style, last);
 		}
 		last = lt;
 		return lt;

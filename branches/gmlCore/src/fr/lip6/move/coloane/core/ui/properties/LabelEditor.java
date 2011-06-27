@@ -1,19 +1,8 @@
-/**
- * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6).
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
- *   Clément DÉMOULINS (LIP6) - Project Manager
- *
- * Official contacts:
- *   coloane@lip6.fr
- *   http://coloane.lip6.fr
- */
 package fr.lip6.move.coloane.core.ui.properties;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.util.Modules;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
@@ -21,27 +10,29 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
+import org.eclipselabs.xtfo.demo.rcp.partialEditing.EmbeddedXtextEditor;
+import org.eclipselabs.xtfo.demo.rcp.partialEditing.EmbeddedXtextEditorModule;
 
-/**
- * Classe englobant un Label et un Text avec une gestion des Text en multi-ligne
- * (agrandissement automatique).<br>
- * Pour rafraichir un LabelText, il y a la méthode redraw().
- */
-public class LabelText implements IAttributeLabel {
+import test.MylanguageRuntimeModule;
+import test.ui.MylanguageUiModule;
+import test.ui.internal.MylanguageActivator;
+
+public class LabelEditor implements IAttributeLabel {
 	/** Nombre de ligne à afficher pour les Text multi-lignes */
-	public static final int MAX_TEXT_HEIGHT = 5;
+	public static final int MAX_TEXT_HEIGHT = 4;
 
-	private Text text;
+	private EmbeddedXtextEditor text;
 	private CLabel label;
 	private Composite parent;
 	private ScrolledComposite sc;
-
 	private int nbDelimiters = -1;
 
 	// listener pour modifier la taille des champs de texte multiligne
@@ -50,7 +41,7 @@ public class LabelText implements IAttributeLabel {
 			redraw();
 		}
 	};
-
+	
 	/**
 	 * Constructeur de LabelText, il est appelé par tous les constructeur public
 	 * @param parent Composite parent
@@ -60,7 +51,7 @@ public class LabelText implements IAttributeLabel {
 	 * @param style style SWT
 	 * @param top indicateur de positionnement utilisé par le FormLayout
 	 */
-	private LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, FormAttachment top) {
+	private LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, FormAttachment top) {
 		FormData data;
 		this.parent = parent;
 
@@ -71,20 +62,26 @@ public class LabelText implements IAttributeLabel {
 		data.top = top;
 		this.label.setLayoutData(data);
 
-		this.text = factory.createText(parent, value, style | SWT.V_SCROLL);
+		Injector injector = getDslInjectorForEmbedded();
+		text = new EmbeddedXtextEditor(parent, injector);
 		data = new FormData();
 		data.left = new FormAttachment(this.label, 5);
 		data.right = new FormAttachment(100, -5);
 		data.top = top;
-		data.height = 15;
-		text.setLayoutData(data);
+		text.getViewer().getControl().setLayoutData(data);
 
-		if ((style & SWT.MULTI) != 0) { //text.getVerticalBar() != null) {
-			text.addModifyListener(listener);
-			text.getVerticalBar().setVisible(false);
-		}
+		text.getViewer().getTextWidget().addModifyListener(listener);
+		text.getViewer().getTextWidget().getVerticalBar().setVisible(true);
 
 		redraw();
+	}
+	
+	private Injector getDslInjectorForEmbedded() {
+		return Guice.createInjector(Modules.override(
+				Modules.override(
+						Modules.override(new MylanguageRuntimeModule()).with(
+								new MylanguageUiModule(MylanguageActivator.getInstance()))).with(
+						new org.eclipse.xtext.ui.shared.SharedStateModule())).with(new EmbeddedXtextEditorModule()));
 	}
 
 	/**
@@ -94,7 +91,7 @@ public class LabelText implements IAttributeLabel {
 	 * @param value valeur
 	 * @param style style SWT
 	 */
-	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style) {
+	public LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style) {
 		this(parent, factory, label, value, style, new FormAttachment(0, 0));
 	}
 
@@ -106,27 +103,22 @@ public class LabelText implements IAttributeLabel {
 	 * @param style style SWT
 	 * @param top indicateur de positionnement utilisé par le FormLayout
 	 */
-	public LabelText(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, IAttributeLabel top) {
+	public LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, IAttributeLabel top) {
 		this(parent, factory, label, value, style, new FormAttachment(top.getControl(), 0));
 	}
 
 	/** {@inheritDoc} */
-	public final void redraw() {
-		// En cas de texte multiligne, on limite l'agrandissement
+	public final void redraw() {		// En cas de texte multiligne, on limite l'agrandissement
 		
-		int newNbDelimiters = text.getText().split("["+Text.DELIMITER+"\n]", -1).length;  //$NON-NLS-1$//$NON-NLS-2$
-		if (text.getVerticalBar() != null && newNbDelimiters != nbDelimiters) {
+		int newNbDelimiters = this.getText().split("["+Text.DELIMITER+"\n]", -1).length;  //$NON-NLS-1$//$NON-NLS-2$
+		if (newNbDelimiters != nbDelimiters) {
 			nbDelimiters = newNbDelimiters;
-			
-			if (nbDelimiters <= MAX_TEXT_HEIGHT) {
-				text.getVerticalBar().setVisible(false);
-			} else {
-				text.getVerticalBar().setVisible(true);
-			}
-			
-			int height = text.getLineHeight()*MAX_TEXT_HEIGHT;
+			int height = text.getViewer().getTextWidget().getLineHeight()*MAX_TEXT_HEIGHT;
+			height += text.getViewer().getTextWidget().getTopMargin()+text.getViewer().getTextWidget().getBottomMargin();
 
-			((FormData) text.getLayoutData()).height = nbDelimiters > MAX_TEXT_HEIGHT ? height : text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y ;
+			height = text.getViewer().getTextWidget().computeTrim(0, 0, 0, height).height;
+
+			((FormData) text.getViewer().getControl().getLayoutData()).height = nbDelimiters > MAX_TEXT_HEIGHT ? height : text.getViewer().getTextWidget().computeSize(SWT.DEFAULT, SWT.DEFAULT).y ;
 		}
 
 		// Récupération du ScrolledComposite
@@ -148,26 +140,27 @@ public class LabelText implements IAttributeLabel {
 
 	/** {@inheritDoc} */
 	public final boolean isVisible() {
-		Assert.isTrue(text.isVisible() == label.isVisible());
-		return text.isVisible();
+		Assert.isTrue(text.getControl().isVisible() == label.isVisible());
+		return text.getControl().isVisible();
 	}
 
 	/** {@inheritDoc} */
 	public final void setVisible(boolean visible) {
-		text.setVisible(visible);
+		text.getControl().setVisible(visible);
 		label.setVisible(visible);
-		text.redraw();
+		text.getControl().redraw();
 		label.redraw();
 	}
 
 	/** {@inheritDoc} */
 	public final String getText() {
-		return text.getText();
+		String val = text.getDocument().get();
+		return val;
 	}
 
 	/** {@inheritDoc} */
 	public final void setText(String string) {
-		text.setText(string);
+		text.update(string);
 	}
 
 	/**
@@ -186,21 +179,18 @@ public class LabelText implements IAttributeLabel {
 	 * {@inheritDoc}
 	 */
 	public final Control getControl() {
-		return text;
+		return text.getViewer().getControl();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public final void addModifyListener(ModifyListener listener) {
-		text.addModifyListener(listener);
+		text.getViewer().getTextWidget().addModifyListener(listener);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	public Control getControlText() {
-		return getControl();
+		return text.getViewer().getTextWidget();
 	}
 
 }
