@@ -6,3 +6,5 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: LIP6 / MoVe
 Fragment-Host: fr.lip6.move.coloane.core;bundle-version="0.16.2"
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Require-Bundle: org.xtext.example.mydsl;bundle-version="1.0.0",
+ org.xtext.example.mydsl.ui;bundle-version="1.0.0"

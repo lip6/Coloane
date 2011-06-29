@@ -20,7 +20,15 @@
              <Attribute
                    drawable="true"
                    multiline="true"
-                   name="authors">
+                   name="authors"
+                   parser="parser.AuthorParser"
+                   xtext_injector="parser.XTextProvider"
+                   >
+                <InnerAttribute
+                      drawable="true"
+                      multiline="true"
+                      name="best author">
+                </InnerAttribute>
              </Attribute>
              <Attribute
                    default="0,0"
