@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>fr.lip6.move.coloane.incubation.features</groupId>
+        <groupId>fr.lip6.move.coloane.features</groupId>
         <artifactId>features-parent</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>fr.lip6.move.coloane.incubation.features</groupId>
+    <groupId>fr.lip6.move.coloane.features</groupId>
     <artifactId>fr.lip6.move.coloane.feature.exportToGML</artifactId>
     <packaging>eclipse-feature</packaging>
     <name>Features :: Export To GML</name>

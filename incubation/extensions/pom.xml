@@ -21,7 +21,6 @@
         <module>importExportITS</module>
         <module>importExportTINA</module>
         <module>exportToSVG</module>
-        <module>exportToGML</module>
         <module>examples</module>
     </modules>
 </project>

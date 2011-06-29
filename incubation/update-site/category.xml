@@ -36,9 +36,6 @@
     <feature url="" id="fr.lip6.move.coloane.feature.exportToSVG"  version="0.0.0">
         <category name="ImportExportWizards"/>
     </feature>
-    <feature url="" id="fr.lip6.move.coloane.feature.exportToGML"  version="0.0.0">
-        <category name="ImportExportWizards"/>
-    </feature>
     <feature url="" id="fr.lip6.move.coloane.feature.crocodile"  version="0.0.0">
         <category name="Tools"/>
     </feature>
