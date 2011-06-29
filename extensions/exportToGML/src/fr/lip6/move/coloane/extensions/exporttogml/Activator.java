@@ -8,7 +8,6 @@
  * Contributors:
  *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
  *   Clément DÉMOULINS (LIP6) - Project Manager
- *   Yann THIERRY-MIEG (LIP6)
  *
  * Official contacts:
  *   coloane@lip6.fr
