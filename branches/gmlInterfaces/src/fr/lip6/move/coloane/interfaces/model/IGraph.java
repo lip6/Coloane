@@ -17,6 +17,8 @@ package fr.lip6.move.coloane.interfaces.model;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 
@@ -49,6 +51,27 @@ public interface IGraph extends IElement {
 	 * @throws ModelException If the type is not correct according to the graph formalism
 	 */
 	INode createNode(INodeFormalism nodeFormalism) throws ModelException;
+	
+	/**
+	 * Create an attribute and add it to the reference
+	 * @param reference
+	 * @param elementFormalism
+	 * @param name
+	 * @return
+	 * @throws ModelException
+	 */
+	IAttribute createAttribute(IElement reference, IElementFormalism elementFormalism, String name) throws ModelException;
+	
+	/**
+	 * Create an attribute and add it to the reference
+	 * @param reference
+	 * @param parent
+	 * @param attributeFormalism
+	 * @param name
+	 * @return
+	 * @throws ModelException
+	 */
+	IAttribute createAttribute(IElement reference, IAttribute parent, IAttributeFormalism attributeFormalism, String name) throws ModelException;
 
 	/**
 	 * Create a node and add it to the graph
@@ -89,6 +112,20 @@ public interface IGraph extends IElement {
 	 * @param node The node to add to the graph
 	 */
 	void addNode(INode node);
+	
+	/**
+	 * Add an existing attribute to the graph
+	 * @param attr the attribute to add
+	 * @param parent the attribute parent of this attribute
+	 */
+	void addAttribute(IAttribute attr, IAttribute parent);
+	
+	/**
+	 * Add an existing attribute to the graph
+	 * @param attr the attribute to add
+	 * @param parent the attribute parent of this attribute
+	 */
+	void addAttribute(IAttribute attr, IElement parent);
 
 	/**
 	 * Create an arc that links a source and a target

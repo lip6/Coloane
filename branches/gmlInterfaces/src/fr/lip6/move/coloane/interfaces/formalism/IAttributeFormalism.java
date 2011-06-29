@@ -16,6 +16,7 @@
 package fr.lip6.move.coloane.interfaces.formalism;
 
 import java.util.List;
+import com.google.inject.Injector;
 
 /**
  * This class represents dedicated formalism (standard) attribute characteristics.<br>
@@ -44,4 +45,24 @@ public interface IAttributeFormalism extends IGlobalAttributeFormalism {
 	 * @return the list of authorized values for the given attribute
 	 */
 	List<String> getEnumeration();
+	
+	/**
+	 * @return The parser for this attribute's value
+	 */
+	IAttributeParser getParser();
+	
+	/**
+	 * @param parser The parser to use to parse this attribute's value
+	 */
+	void setParser(IAttributeParser parser);
+	
+	/**
+	 * @return the xtext setup class for this attribute
+	 */
+	Injector getInjector();
+	
+	/**
+	 * @param setup  The xtext setup class for this attribute
+	 */
+	void setInjector(Injector injector);
 }

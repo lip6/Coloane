@@ -15,6 +15,8 @@
  */
 package fr.lip6.move.coloane.interfaces.model;
 
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
+
 import java.util.Collection;
 
 /**
@@ -36,6 +38,11 @@ public interface IElement extends IAbstractPropertyChange {
 	 * @return parent of this IElement.
 	 */
 	IElement getParent();
+
+	/**
+	 * @return graph containing this IElement.
+	 */
+	IGraph getGraph();
 
 	/**
 	 * @param name name of the attribute.
@@ -60,4 +67,10 @@ public interface IElement extends IAbstractPropertyChange {
 	 * @param attribute L'objet décrivant l'attribut
 	 */
 	void putAttribute(String name, IAttribute attribute);
+
+	/**
+	 * @return The formalism of the element.
+	 */
+	IElementFormalism getElemFormalism();
+
 }

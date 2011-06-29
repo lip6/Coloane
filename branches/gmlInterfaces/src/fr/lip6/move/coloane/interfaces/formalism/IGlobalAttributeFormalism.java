@@ -15,6 +15,8 @@
  */
 package fr.lip6.move.coloane.interfaces.formalism;
 
+import java.util.List;
+
 import org.eclipse.draw2d.geometry.Point;
 
 /**
@@ -63,4 +65,15 @@ public interface IGlobalAttributeFormalism {
 	 * @return the delta location
 	 */
 	Point getDeltaLocation();
+
+	/**
+	 * @return The list of {@link AttributeFormalism} attached to this element.
+	 */
+	List<IAttributeFormalism> getAttributes();
+
+	/**
+	 * @return The parent of this element, or null if it does ot exist.
+	 */
+	IAttributeFormalism getParent();
+
 }

@@ -46,9 +46,15 @@ public interface IAttribute extends IAbstractPropertyChange {
 	String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate"; //$NON-NLS-1$
 
 	/**
-	 * @return is a leaf or not
+	 * @return Whether the current attribute is a leaf or not.
 	 */
 	boolean isLeaf();
+	
+	/**
+	 * Sets the attribute as a leaf.  The opposite is achieved by adding
+	 * child attributes to the attribute.
+	 */
+	void setLeaf();
 	
 	/**
 	 * @return the attribute name
@@ -59,29 +65,40 @@ public interface IAttribute extends IAbstractPropertyChange {
 	 * @return the attribute value
 	 */
 	String getValue();
+	
+	/**
+	 * Initialises the value of the attribute based on the children attributes
+	 */
+	void initialiseValue();
 
 	/**
-	 * @return the contained attributes
+	 * Fetch the full list of children of the attribute
+	 * @return The children of the attribute
 	 */
 	Collection<IAttribute> getAttributes();
 	
 	/**
-	 * @return the attribute
+	 * Fetch a child attribute based on its name.
+	 * @param attName The name of the child attribute to fetch.
+	 * @return The attribute, or null if it does not exist.
 	 */
 	IAttribute getAttribute(String attName);
 
 	/**
-	 * @param value set a new list of values for this attribute
+	 * Replace the current children attributes of the element.
+	 * @param values The list of new attributes.
 	 */
 	void setAttributes(Collection<IAttribute> values);
 
 	/**
-	 * @param value add a new value for this attribute
+	 * Add a child attribute to the element.
+	 * @param value The child attribute
 	 */
 	void addAttribute(IAttribute value);
 	
 	/**
-	 * @param value set a new value for this attribute
+	 * Set a new value for the attribute.
+	 * @param value The new value
 	 */
 	void setValue(String value);
 	
