@@ -1,0 +1,10 @@
+group SNBGML;
+
+open_attribute(name) ::= "\<attribute name=\"<name>\"\>"
+close_attribute() ::= "\</attribute\>"
+
+balise(name,content) ::= "<open_attribute(<name>)> <content> <close_attribute()>"
+
+dummy(name) ::= "<name>"
+
+;
