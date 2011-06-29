@@ -22,6 +22,7 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IArcGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.beans.PropertyChangeEvent;
@@ -73,8 +74,8 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	 * @param source Arc source
 	 * @param target Arc target
 	 */
-	ArcModel(IElement parent, IArcFormalism arcFormalism, int id, INode source, INode target) {
-		super(id, parent, arcFormalism);
+	ArcModel(IElement parent, IArcFormalism arcFormalism, int id, INode source, INode target, IGraph graph) {
+		super(id, parent, arcFormalism, graph);
 		LOGGER.finest("Build an arc: " + arcFormalism.getName() + ", #" + source.getId() + " -> #" + target.getId()); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		if (source == null || target == null) {
 			throw new NullPointerException("Source and target nodes must be not null");  //$NON-NLS-1$

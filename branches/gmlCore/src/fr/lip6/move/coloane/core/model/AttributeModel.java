@@ -21,23 +21,16 @@ import fr.lip6.move.coloane.core.ui.files.IModelHandler;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 import java.beans.PropertyChangeListener;
-import java.io.StringReader;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.xml.sax.InputSource;
 
 /**
  * Describe an object model attribute
@@ -72,32 +65,6 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	
 	/** All the graphical information about this attribute */
 	private IAttributeGraphicInfo graphicInfo = new AttributeGraphicInfo(this);
-
-	/**
-	 * Constructor
-	 *
-	 * @param reference The element to which this attribute is associated
-	 * @param elementFormalism The properties of the element which will contain this attribute
-	 */
-	public AttributeModel(IElement reference, IElementFormalism elementFormalism, String name) {
-		this.reference = reference;
-		this.parent = null;
-		this.addPropertyChangeListener((PropertyChangeListener) reference);
-		
-		for (IAttributeFormalism a: elementFormalism.getAttributes()){
-			if (a.getName().equals(name)) {
-				this.attributFormalism = a;
-				break;
-			}
-		}
-		
-		if (attributFormalism == null) {
-			this.name = ""; //$NON-NLS-1$
-		} else {
-			this.name = attributFormalism.getName();
-		}
-
-	}
 	
 	/**
 	 * Constructor
@@ -105,24 +72,13 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * @param reference The element to which this attribute is associated
 	 * @param attributeFormalism The properties of the attribute which will contain this attribute (given by the formalism)
 	 */
-	public AttributeModel(IElement reference, IAttribute parent, IAttributeFormalism attributeFormalism, String name) {
+	public AttributeModel(IElement reference, IAttribute parent, IAttributeFormalism attributeFormalism) {
 		LOGGER.finest("Build an attribute: " + attributeFormalism.getName() + " for #" + reference.getId()); //$NON-NLS-1$ //$NON-NLS-2$
 		this.reference = reference;
 		this.parent = parent;	
 		this.addPropertyChangeListener((PropertyChangeListener) reference);
-		
-		for (IAttributeFormalism a: attributeFormalism.getAttributes()){
-			if (a.getName().equals(name)) {
-				this.attributFormalism = a;
-				break;
-			}
-		}
-		
-		if (attributFormalism == null) {
-			this.name = ""; //$NON-NLS-1$
-		} else {
-			this.name = attributFormalism.getName();
-		}
+		this.attributFormalism = attributeFormalism;
+		this.name = attributFormalism.getName();
 	}
 
 	/** {@inheritDoc} */
@@ -208,23 +164,6 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 		return value;
 	}
 	
-	/**
-	 * Parses the value attribute and, if it contains a properly formed description
-	 * of acceptable inner attributes, adds them to the current attribute
-	 * If the syntax for entering attributes is to be modified, change this function and the InnerAttributeParser function
-	 */
-	private void parseValue(){
-		try {
-			// Build the parsing factory & Parse
-			SAXParserFactory factory = SAXParserFactory.newInstance();
-			SAXParser saxParser = factory.newSAXParser();
-			saxParser.parse(new InputSource(new StringReader(this.getValue())), new InnerAttributeParser(this));
-		} catch (Exception e) {
-			//this will empty the attribute list
-			this.setLeaf();
-		}
-	}
-	
 	/** {@inheritDoc} */
 	public final void setValue(String value) {
 		String oldValue = this.value;
@@ -232,7 +171,14 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 		if (!oldValue.equals(value)) {
 			this.value = value;
 			//parse the value to see if there are contained attributes
-			parseValue();
+			boolean parsed = false;
+			if (this.attributFormalism.getParser() != null){
+				children.clear();
+				if (this.attributFormalism.getParser().parseLine(this.value, this)){
+					parsed = true;
+				}
+			}
+			if (!parsed) this.setLeaf();
 			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
 		}
 	}
@@ -266,10 +212,10 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	/** {@inheritDoc} */
 	public void initialiseValue() {
 		String oldValue = value;
-		value = ""; //$NON-NLS-1$
-		for (IAttribute a : children.values())
-			value += buildXMLString(a);
-		firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
+		if (this.attributFormalism.getParser() != null){
+			value = this.attributFormalism.getParser().toString(this);
+			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
+		}
 	}
 	
 	/**

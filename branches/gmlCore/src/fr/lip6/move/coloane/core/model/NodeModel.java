@@ -24,6 +24,7 @@ import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
@@ -70,8 +71,8 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @param id The identifier (unique) of the node
 	 * @see {@link GraphModel#getId()} to get a new unique ID
 	 */
-	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id) {
-		super(id, parent, nodeFormalism);
+	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id, IGraph graph) {
+		super(id, parent, nodeFormalism, graph);
 		LOGGER.finest("Build a node: " + nodeFormalism.getName() + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		this.nodeFormalism = nodeFormalism;
 		this.graphicInfos = new NodeGraphicInfo(this);

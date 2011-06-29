@@ -1,8 +1,6 @@
 package fr.lip6.move.coloane.core.ui.properties;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.google.inject.util.Modules;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.SWT;
@@ -10,8 +8,6 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
@@ -19,15 +15,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 import org.eclipselabs.xtfo.demo.rcp.partialEditing.EmbeddedXtextEditor;
-import org.eclipselabs.xtfo.demo.rcp.partialEditing.EmbeddedXtextEditorModule;
-
-import test.MylanguageRuntimeModule;
-import test.ui.MylanguageUiModule;
-import test.ui.internal.MylanguageActivator;
 
 public class LabelEditor implements IAttributeLabel {
 	/** Nombre de ligne à afficher pour les Text multi-lignes */
-	public static final int MAX_TEXT_HEIGHT = 4;
+	public static final int MAX_TEXT_HEIGHT = 10;
 
 	private EmbeddedXtextEditor text;
 	private CLabel label;
@@ -51,7 +42,7 @@ public class LabelEditor implements IAttributeLabel {
 	 * @param style style SWT
 	 * @param top indicateur de positionnement utilisé par le FormLayout
 	 */
-	private LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, FormAttachment top) {
+	private LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, FormAttachment top, Injector injector) {
 		FormData data;
 		this.parent = parent;
 
@@ -62,7 +53,6 @@ public class LabelEditor implements IAttributeLabel {
 		data.top = top;
 		this.label.setLayoutData(data);
 
-		Injector injector = getDslInjectorForEmbedded();
 		text = new EmbeddedXtextEditor(parent, injector);
 		data = new FormData();
 		data.left = new FormAttachment(this.label, 5);
@@ -75,14 +65,6 @@ public class LabelEditor implements IAttributeLabel {
 
 		redraw();
 	}
-	
-	private Injector getDslInjectorForEmbedded() {
-		return Guice.createInjector(Modules.override(
-				Modules.override(
-						Modules.override(new MylanguageRuntimeModule()).with(
-								new MylanguageUiModule(MylanguageActivator.getInstance()))).with(
-						new org.eclipse.xtext.ui.shared.SharedStateModule())).with(new EmbeddedXtextEditorModule()));
-	}
 
 	/**
 	 * @param parent Composite parent
@@ -91,8 +73,8 @@ public class LabelEditor implements IAttributeLabel {
 	 * @param value valeur
 	 * @param style style SWT
 	 */
-	public LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style) {
-		this(parent, factory, label, value, style, new FormAttachment(0, 0));
+	public LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, Injector injector) {
+		this(parent, factory, label, value, new FormAttachment(0, 0), injector);
 	}
 
 	/**
@@ -103,8 +85,8 @@ public class LabelEditor implements IAttributeLabel {
 	 * @param style style SWT
 	 * @param top indicateur de positionnement utilisé par le FormLayout
 	 */
-	public LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, int style, IAttributeLabel top) {
-		this(parent, factory, label, value, style, new FormAttachment(top.getControl(), 0));
+	public LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, Injector injector, IAttributeLabel top) {
+		this(parent, factory, label, value, new FormAttachment(top.getControl(), 0), injector);
 	}
 
 	/** {@inheritDoc} */
@@ -148,7 +130,7 @@ public class LabelEditor implements IAttributeLabel {
 	public final void setVisible(boolean visible) {
 		text.getControl().setVisible(visible);
 		label.setVisible(visible);
-		text.getControl().redraw();
+		text.getViewer().getTextWidget().redraw();
 		label.redraw();
 	}
 

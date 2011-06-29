@@ -15,7 +15,7 @@
  */
 package fr.lip6.move.coloane.core.ui.properties;
 
-import fr.lip6.move.coloane.interfaces.formalism.IAttributeParser;
+import com.google.inject.Injector;
 
 import java.util.List;
 
@@ -96,12 +96,12 @@ public class LabelTextFactory {
 	 * @param 
 	 * @return an attribute label
 	 */
-	public IAttributeLabel create(String label, String value, IAttributeParser p, int style) {
+	public IAttributeLabel create(String label, String value, Injector injector) {
 		IAttributeLabel lt;
 		if (last == null) {
-			lt = new LabelEditor(parent, factory, label, value, style);
+			lt = new LabelEditor(parent, factory, label, value, injector);
 		} else {
-			lt = new LabelEditor(parent, factory, label, value, style, last);
+			lt = new LabelEditor(parent, factory, label, value, injector, last);
 		}
 		last = lt;
 		return lt;

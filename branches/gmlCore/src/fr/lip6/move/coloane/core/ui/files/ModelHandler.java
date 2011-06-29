@@ -15,7 +15,6 @@
  */
 package fr.lip6.move.coloane.core.ui.files;
 
-import fr.lip6.move.coloane.core.model.AttributeModel;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.LinkModel;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
@@ -173,6 +172,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 			IFormalism formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 			IGraph graph = new GraphModel(formalism);
 			stack.push(graph);
+			this.graph = graph;
 
 			// build the formalism cache
 			for (IElementFormalism elementFormalism : formalism.getRootGraph().getAllElementFormalism()) {
@@ -372,20 +372,24 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		IAttribute attribute = null;
 		if (o instanceof IElement) {
 			IElement element = (IElement) o;
-			attribute = new AttributeModel(element,element.getElemFormalism(),name);
-			if (attribute.getAttributeFormalism() == null) {
+			try {
+				attribute = graph.createAttribute(element,element.getElemFormalism(),name);
+				element.putAttribute(name, attribute);
+			} catch (ModelException e) {
 				String message = "Attribute with name \""+name+"\" found but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$
 				LOGGER.severe(message);	
 				attribute = null;
-			} else element.putAttribute(name, attribute);
+			}
 		} else if (o instanceof IAttribute){
 			IAttribute attr = (IAttribute) o;
-			attribute = new AttributeModel(attr.getReference(), attr, (IAttributeFormalism)attr.getAttributeFormalism(),name);
-			if (attribute.getAttributeFormalism() == null) {
+			try {
+				attribute = graph.createAttribute(attr.getReference(), attr, (IAttributeFormalism)attr.getAttributeFormalism(),name);
+				attr.addAttribute(attribute);
+			} catch (ModelException e) {
 				String message = "Attribute with name \""+name+"\" found but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$
 				LOGGER.severe(message);	
 				attribute = null;
-			} else attr.addAttribute(attribute);
+			}
 		}
 		
 		int x = Integer.parseInt(attributes.getValue(ATTRIBUTE_X_MARKUP));

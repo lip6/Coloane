@@ -39,7 +39,7 @@ import org.eclipse.core.runtime.Platform;
 
 /**
  * Checkers manager.
- * It managed all operations with checkers :
+ * It manages all operations with checkers :
  * <ul>
  * 	<li>Build a checker and attach it to an {@link ISession}.</li>
  * 	<li>Perform a whole check of an {@link IGraph}.</li>

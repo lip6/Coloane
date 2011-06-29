@@ -19,6 +19,8 @@ import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -78,7 +80,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */
 	public GraphModel(IFormalism formalism) throws IllegalArgumentException {
-		super(1, null, formalism.getRootGraph());
+		super(1, null, formalism.getRootGraph(),null);
 		LOGGER.fine("Build a graph model using formalism:" + formalism.getName() + "");  //$NON-NLS-1$ //$NON-NLS-2$
 		this.formalism = formalism;
 
@@ -114,7 +116,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			throw new ModelException("The formalism does not correctly define the created node type"); //$NON-NLS-1$
 		}
 		LOGGER.finer("Build a new node: " + nodeFormalism.getName()); //$NON-NLS-1$
-		INode node = new NodeModel(this, nodeFormalism, id);
+		INode node = new NodeModel(this, nodeFormalism, id, this);
 		addNode(node);
 		return node;
 	}
@@ -154,7 +156,16 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 	
 	/** {@inheritDoc} */
-	public final void addAttribut(IAttribute attr) {
+	public final void addAttribute(IAttribute attr, IAttribute parent) {
+		parent.addAttribute(attr);
+		attr.addPropertyChangeListener(this);
+		LOGGER.finer("Add an attribute."); //$NON-NLS-1$
+		firePropertyChange(ATTRIBUTE_ADDED_PROP, null, attr);
+	}
+	
+	/** {@inheritDoc} */
+	public final void addAttribute(IAttribute attr, IElement parent) {
+		parent.putAttribute(attr.getName(), attr);
 		attr.addPropertyChangeListener(this);
 		LOGGER.finer("Add an attribute."); //$NON-NLS-1$
 		firePropertyChange(ATTRIBUTE_ADDED_PROP, null, attr);
@@ -218,7 +229,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			throw new ModelException("Either the source or the target does not exist"); //$NON-NLS-1$
 		}
 
-		IArc arc = new ArcModel(this, arcFormalism, id, source, target);
+		IArc arc = new ArcModel(this, arcFormalism, id, source, target,this);
 		addArc(arc);
 
 		return arc;
@@ -372,5 +383,44 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 		for (IStickyNote sticky : stickys) {
 			addSticky(sticky);
 		}
+	}
+
+	public IAttribute createAttribute(IElement reference, IElementFormalism elementFormalism, String name) throws ModelException {
+		LOGGER.finer("Build a new attribute: " + name); //$NON-NLS-1$
+		
+		IAttributeFormalism newFormalism = null;
+		for (IAttributeFormalism a: elementFormalism.getAttributes()){
+			if (a.getName().equals(name)) {
+				newFormalism = a;
+				break;
+			}
+		}
+		if (newFormalism == null) throw new ModelException("Trying to build an attribute that is not acceptable."); //$NON-NLS-1$
+
+		IAttribute attribute = new AttributeModel(reference,null,newFormalism);
+		addAttribute(attribute,reference);
+		return attribute;
+	}
+
+	public IAttribute createAttribute(IElement reference, IAttribute parent, IAttributeFormalism attributeFormalism, String name)
+			throws ModelException {
+		LOGGER.finer("Build a new attribute: " + name); //$NON-NLS-1$
+		IAttributeFormalism newFormalism = null;
+		for (IAttributeFormalism a: attributeFormalism.getAttributes()){
+			if (a.getName().equals(name)) {
+				newFormalism = a;
+				break;
+			}
+		}
+		if (newFormalism == null) throw new ModelException("Trying to build an attribute that is not acceptable."); //$NON-NLS-1$
+		
+		IAttribute attribute = new AttributeModel(reference,parent,newFormalism);
+		addAttribute(attribute,parent);
+		return attribute;
+	}
+	
+	@Override
+	public IGraph getGraph(){
+		return this;
 	}
 }

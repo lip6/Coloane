@@ -15,6 +15,7 @@
  */
 package fr.lip6.move.coloane.core.ui.properties.sections;
 
+
 import fr.lip6.move.coloane.core.ui.commands.properties.ChangeAttributeCmd;
 import fr.lip6.move.coloane.core.ui.properties.IAttributeLabel;
 import fr.lip6.move.coloane.core.ui.properties.LabelTextFactory;
@@ -139,7 +140,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			return SWT.SINGLE;
 		}
 	}
-
+	
 	/**
 	 * Affichage/Création des propriétés <i>attributes</i> du type <i>nodeType</i>
 	 *
@@ -147,6 +148,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	 * @param attributes attributs pour ce type de noeud
 	 */
 	protected final void refreshControls(String nodeType, List<IAttributeFormalism> attributes) {
+
 		List<IAttributeLabel> list = map.get(nodeType);
 
 		if (currentType != null && !currentType.equals(nodeType)) {
@@ -169,12 +171,12 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 							attr.getName(),
 							attr.getDefaultValue(),
 							attr.getEnumeration());
-				} else if (attr.getParser() != null) {
+				} else if (attr.getInjector() != null) {
+					//les editeurs sont toujours multilignes
 					lt = factory.create(
 						attr.getName(),
 						attr.getDefaultValue(),
-						attr.getParser(),
-						getSWTStyle(attr.isMultiLine()));
+						attr.getInjector());
 				} else {
 					lt = factory.create(
 						attr.getName(),

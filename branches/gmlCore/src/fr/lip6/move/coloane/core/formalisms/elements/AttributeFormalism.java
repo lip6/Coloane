@@ -15,7 +15,10 @@
  */
 package fr.lip6.move.coloane.core.formalisms.elements;
 
+import com.google.inject.Injector;
+
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeParser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,9 +62,18 @@ public class AttributeFormalism implements IAttributeFormalism {
 
 	/** Defines if this attribute is enumerated, and then enumeration is non null. */
 	private boolean enumerated;
+	
+	/** Defines the parser for the text entered */
+	private IAttributeParser parser;
+	
+	/** Defines the xtext setup class for the text entered */
+	private Injector injector;
 
 	/** Defines the set of legal values for this attribute */
 	private List<String> enumeration;
+	
+	/** Parent attribute formalism (if one exists) */
+	private IAttributeFormalism parent;
 
 	/** Attributes list */
 	private List<IAttributeFormalism> attributes = new ArrayList<IAttributeFormalism>();
@@ -74,12 +86,13 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * @param isEnumerated Enumerated status
 	 * @param enumValue Authorized values for the enumeration (or <code>null</code> if isEnumerated is <code>false</code>)
 	 */
-	public AttributeFormalism(String name, boolean isDrawable, boolean isMultiline, boolean isEnumerated, List<String> enumValue) {
+	public AttributeFormalism(String name, boolean isDrawable, boolean isMultiline, boolean isEnumerated, List<String> enumValue, IAttributeFormalism parent) {
 		this.name = name;
 		this.isDrawable = isDrawable;
 		this.isMultiline = isMultiline;
 		this.enumerated = isEnumerated;
 		this.enumeration = enumValue;
+		this.parent = parent;
 	}
 
 	/**
@@ -92,8 +105,8 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * @param defaultValue Default value
 	 * @param isDefaultValueDrawable Drawable status for the default value
 	 */
-	public AttributeFormalism(String name, boolean isDrawable, boolean isMultiline, boolean isEnumerated, List<String> enumValues, String defaultValue, boolean isDefaultValueDrawable) {
-		this(name, isDrawable, isMultiline, isEnumerated, enumValues);
+	public AttributeFormalism(String name, boolean isDrawable, boolean isMultiline, boolean isEnumerated, List<String> enumValues, String defaultValue, boolean isDefaultValueDrawable, IAttributeFormalism parent) {
+		this(name, isDrawable, isMultiline, isEnumerated, enumValues, parent);
 		this.defaultValue = defaultValue;
 		this.isDefaultValueDrawable = isDefaultValueDrawable;
 	}
@@ -213,4 +226,40 @@ public class AttributeFormalism implements IAttributeFormalism {
 
 	/** {@inheritDoc} */
 	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public IAttributeParser getParser() {
+		return parser;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void setParser(IAttributeParser parser) {
+		this.parser = parser;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public IAttributeFormalism getParent() {
+		return parent;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public Injector getInjector() {
+		return injector;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public void setInjector(Injector injector) {
+		this.injector = injector;
+	}
+	
 }

@@ -100,7 +100,7 @@ public final class ModelWriter implements IModelHandler {
 	/**
 	 * Convert a Color {@link Color} into a String of type "#RGB"
 	 * @param color The SWT Color object
-	 * @return A string that can be dump into a XML representation
+	 * @return A string that can be dumped into a XML representation
 	 */
 	private static String color2String(Color color) {
 		String red = Integer.toHexString(color.getRed());
@@ -132,15 +132,15 @@ public final class ModelWriter implements IModelHandler {
 			sb.append("<" + NODE_MARKUP + " " + NODE_TYPE_MARKUP + "='").append(node.getNodeFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 			sb.append(" " + NODE_ID_MARKUP + " ='").append(node.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			sb.append(" " + NODE_X_MARKUP + "='").append(node.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_Y_MARKUP + "='").append(node.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_SCALE_MARKUP + "='").append(node.getGraphicInfo().getScale()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_INTERFACE_MARKUP + "='").append(node.isInterface()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			sb.append(" " + NODE_Y_MARKUP + "='").append(node.getGraphicInfo().getLocation().y).append("'>"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			//sb.append(" " + NODE_SCALE_MARKUP + "='").append(node.getGraphicInfo().getScale()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			//sb.append(" " + NODE_INTERFACE_MARKUP + "='").append(node.isInterface()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			if (node.getNodeLink() != null) {
 				sb.append(" " + NODE_LINK_MARKUP + "='").append(node.getNodeLink()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			}
-			sb.append(" " + NODE_ALTERNATE_MARKUP + "='").append(node.getGraphicInfo().getGdIndex()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_FOREGROUND_MARKUP + "='").append(color2String(node.getGraphicInfo().getForeground())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_BACKGROUND_MARKUP + "='").append(color2String(node.getGraphicInfo().getBackground())).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			//sb.append(" " + NODE_ALTERNATE_MARKUP + "='").append(node.getGraphicInfo().getGdIndex()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			//sb.append(" " + NODE_FOREGROUND_MARKUP + "='").append(color2String(node.getGraphicInfo().getForeground())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			//sb.append(" " + NODE_BACKGROUND_MARKUP + "='").append(color2String(node.getGraphicInfo().getBackground())).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 			// Translate attributes
 			sb.append(translateAttributesToXML(node));
@@ -200,8 +200,8 @@ public final class ModelWriter implements IModelHandler {
 			sb.append(" " + ARC_ID_MARKUP + "='").append(arc.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			sb.append(" " + ARC_STARTID_MARKUP + "='").append(arc.getSource().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			sb.append(" " + ARC_ENDID_MARKUP + "='").append(arc.getTarget().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + ARC_COLOR_MARKUP + "='").append(color2String(arc.getGraphicInfo().getColor())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + ARC_CURVED_MARKUP + "='").append(arc.getGraphicInfo().getCurve()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			//sb.append(" " + ARC_COLOR_MARKUP + "='").append(color2String(arc.getGraphicInfo().getColor())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			//sb.append(" " + ARC_CURVED_MARKUP + "='").append(arc.getGraphicInfo().getCurve()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			sb.append(">\n"); //$NON-NLS-1$
 
 			// Inflex points
@@ -217,7 +217,7 @@ public final class ModelWriter implements IModelHandler {
 	}
 
 	/**
-	 * Translate infelx points
+	 * Translate inflex points
 	 * @param arc The arc to translate
 	 * @return A string that describe all arc inflex points
 	 */

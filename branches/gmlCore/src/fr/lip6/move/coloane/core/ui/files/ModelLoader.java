@@ -18,7 +18,6 @@ package fr.lip6.move.coloane.core.ui.files;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
@@ -83,11 +82,11 @@ public final class ModelLoader {
 	private static <T extends DefaultHandler> T loadFromXML(URI modelURI, T handler) {
 		try {
 			// Fetch the XML schema (high level model definition)
-/*			Schema schema = loadSchema();
+			Schema schema = loadSchema();
 			// Validate the model against the definition
 			Validator validator = schema.newValidator();
 			validator.validate(new StreamSource(modelURI.toURL().openStream()));
-*/
+
 			// Build the parsing factory & Parse
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
@@ -152,11 +151,11 @@ public final class ModelLoader {
 			StreamSource modelSource = new StreamSource(new java.io.StringReader(xmlModel));
 			ModelHandler modelHandler = new ModelHandler();
 
-/*			// Fetch the XML schema (high level model definition)
+			// Fetch the XML schema (high level model definition)
 			Schema schema = loadSchema();
 			// Validate the model against the definition
 			Validator validator = schema.newValidator();
-			validator.validate(modelSource); */
+			validator.validate(modelSource); 
 
 			// Build the parsing factory & Parse
 			SAXParserFactory factory = SAXParserFactory.newInstance();

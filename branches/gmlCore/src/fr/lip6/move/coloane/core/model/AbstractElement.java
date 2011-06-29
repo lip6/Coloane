@@ -20,6 +20,7 @@ import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -45,6 +46,10 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	/** Unique identifier */
 	private int id;
 	
+	/** Top level graph (similar to parent) */
+	private IGraph graph;
+	
+	
 	/** Formalism of the element*/
 	private IElementFormalism formalism;
 
@@ -60,10 +65,11 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	 * @param attributes Element's attributes
 	 * @param computedAttributes Computed attributes
 	 */
-	AbstractElement(int id, IElement parent, IElementFormalism formalism) {
+	AbstractElement(int id, IElement parent, IElementFormalism formalism, IGraph graph) {
 		this.id = id;
 		this.parent = parent;
 		this.formalism = formalism;
+		this.graph = graph;
 		// THERE ARE NO MORE COMPUTED ATTRIBUTES in this version, since I have not figured out
 		// how to create them "as needed" yet.
 		/* if (attributes != null) {
@@ -151,5 +157,12 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	/** {@inheritDoc} */
 	public final void setSpecialState(boolean state) {
 		firePropertyChange(SPECIAL_STATE_CHANGE, null, state);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	public IGraph getGraph() {
+		return graph;
 	}
 }
