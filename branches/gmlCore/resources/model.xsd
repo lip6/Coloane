@@ -1,123 +1,94 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" >
-
-	<xs:annotation>
-  		<xs:documentation xml:lang="en">
-   			Model description schema for Coloane.
-   			LIP6 / MoVe - Jean-Baptiste Voron
-   			http://coloane.lip6.fr
-  		</xs:documentation>
- 	</xs:annotation>
-
-	<!-- Definition du type d'un attribut graphique -->
-	<xs:attributeGroup name="graph">
-		<xs:attribute name="xposition" type="xs:string" />
-		<xs:attribute name="yposition" type="xs:string" />
-	</xs:attributeGroup>
-
-	<!-- Definition du type d'un modele -->
-	<xs:complexType name="tmodel">
-		<xs:all>
-			<xs:element name="nodes" type="tnodes" minOccurs="1"/>
-			<xs:element name="arcs" type="tarcs" minOccurs="1"/>
-			<xs:element name="attributes" type="tattributes" minOccurs="0" />
-			<xs:element name="stickys" type="tstickys" minOccurs="0"/>
-		</xs:all>
-		<xs:attribute name="formalism" type="xs:string" use="required" />
-		<xs:attributeGroup ref="graph" />
-	</xs:complexType>
-	
-	<!-- =========================================== = -->
-
-	<!-- Definition d'un noeud -->
-	<xs:complexType name="tnode">
-		<xs:sequence>
-			<xs:element name="attributes" type="tattributes" minOccurs="0" />
-		</xs:sequence>
-		<xs:attribute name="id" type="xs:string" use="required"/>
-		<xs:attributeGroup ref="graph" />
-		<xs:anyAttribute processContents="lax" />
-	</xs:complexType>
-	
-	<!-- Definition d'un point d'inflexion -->
-	<xs:complexType name="tpi">
-		<xs:attributeGroup ref="graph" />
-	</xs:complexType>
-
-	<!-- Definition d'un arc -->
-	<xs:group name="tarcdesc">
-		<xs:choice>
-			<xs:element name="pi" type="tpi" minOccurs="0" maxOccurs="unbounded" />
-			<xs:element name="attributes" type="tattributes" minOccurs="0" maxOccurs="1"/>
-		</xs:choice>
-	</xs:group>
-	
-	<xs:complexType name="tarc">
-		<xs:group ref="tarcdesc" minOccurs="0" maxOccurs="unbounded"></xs:group>
-		<xs:attribute name="id" type="xs:string" use="required"/>
-		<xs:anyAttribute processContents="lax" />
-	</xs:complexType>
-
-	<!-- Definition d'un lien -->
-	<xs:complexType name="tlink">
-		<xs:attribute name="linkId" type="xs:string" use="required" />
-	</xs:complexType>
-	
-	<!-- Definition d'une note -->
-	<xs:group name="tstickydesc">
-		<xs:choice>
-			<xs:element name="value" type="xs:string" minOccurs="1" />
-			<xs:element name="link" type="tlink" minOccurs="0" maxOccurs="unbounded" />
-		</xs:choice>
-	</xs:group>
-	
-	<xs:complexType name="tsticky">
-		<xs:group ref="tstickydesc" minOccurs="1" maxOccurs="unbounded"></xs:group>
-		<xs:attributeGroup ref="graph" />
-		<xs:anyAttribute processContents="lax" />
-	</xs:complexType>
-	
-	<!-- Definition d'un attribut -->
-	<xs:complexType name="tattribute" mixed="true">
-		<xs:sequence>
-			<xs:element name="attributes" type="tattributes" minOccurs="0" />
-		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="required"/>
-		<xs:attributeGroup ref="graph" />
-	</xs:complexType>
-	
-	<!-- ============================================ -->
-
-	<!-- Definition d'un ensemble de noeuds -->
-	<xs:complexType name="tnodes">
-		<xs:sequence> 
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="node" type="tnode"/>
-		</xs:sequence>
-	</xs:complexType>
-
-	<!-- Definition d'un ensemble d'arcs -->
-	<xs:complexType name="tarcs">
-		<xs:sequence> 
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="arc" type="tarc"/>
-		</xs:sequence>
-	</xs:complexType>
-	
-	<!-- Definition d'un ensemble de notes -->
-	<xs:complexType name="tstickys">
-		<xs:sequence> 
-			<xs:element maxOccurs="unbounded" minOccurs="0" name="sticky" type="tsticky"/>
-		</xs:sequence>
-	</xs:complexType>
-	
-	<!-- Definition d'un groupe d'attributs -->
-	<xs:complexType name="tattributes">
-		<xs:sequence>
-			<xs:element minOccurs="0" maxOccurs="unbounded" name="attribute" type="tattribute" />
-		</xs:sequence>
-	</xs:complexType>
-
-	<!-- ============================================ -->
-
-	<!-- Definition d'un modele -->
-	<xs:element name="model" type="tmodel"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://gml.lip6.fr/model" xmlns:model="http://gml.lip6.fr/model">
+  <xs:element name="model">
+    <xs:complexType>
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="model:model.content"/>
+      <xs:attribute name="formalismUrl" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="model.content">
+    <xs:choice>
+      <xs:element ref="model:attribute"/>
+      <xs:element ref="model:node"/>
+      <xs:element ref="model:arc"/>
+      <xs:element ref="model:sticky"/>
+    </xs:choice>
+  </xs:group>
+  <xs:attributeGroup name="identifier">
+    <xs:attribute name="id" use="required" type="xs:positiveInteger"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="xposition">
+    <xs:attribute name="xposition" use="required" type="xs:int"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="yposition">
+    <xs:attribute name="yposition" use="required" type="xs:int"/>
+  </xs:attributeGroup>
+  <xs:element name="attribute">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model:attribute"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="xposition" type="xs:int"/>
+      <xs:attribute name="yposition" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="node">
+    <xs:complexType>
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="model:node.content"/>
+      <xs:attributeGroup ref="model:identifier"/>
+      <xs:attribute name="xposition" type="xs:int"/>
+      <xs:attribute name="yposition" type="xs:int"/>
+      <xs:attribute name="nodeType" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="node.content">
+    <xs:choice>
+      <xs:element ref="model:attribute"/>
+      <xs:element ref="model:ref"/>
+    </xs:choice>
+  </xs:group>
+  <xs:element name="arc">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model:arc.content"/>
+      </xs:sequence>
+      <xs:attributeGroup ref="model:identifier"/>
+      <xs:attribute name="xposition" type="xs:int"/>
+      <xs:attribute name="yposition" type="xs:int"/>
+      <xs:attribute name="arcType" use="required"/>
+      <xs:attribute name="source" use="required" type="xs:positiveInteger"/>
+      <xs:attribute name="target" use="required" type="xs:positiveInteger"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="arc.content" abstract="true"/>
+  <xs:element name="pi" substitutionGroup="model:arc.content">
+    <xs:complexType>
+      <xs:attributeGroup ref="model:xposition"/>
+      <xs:attributeGroup ref="model:yposition"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ref" substitutionGroup="model:arc.content">
+    <xs:complexType>
+      <xs:attribute name="href" use="required" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sticky">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="model:value"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model:link"/>
+      </xs:sequence>
+      <xs:attribute name="xposition" type="xs:int"/>
+      <xs:attribute name="yposition" type="xs:int"/>
+      <xs:attribute name="width" type="xs:int"/>
+      <xs:attribute name="height" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="value" type="xs:string"/>
+  <xs:element name="link">
+    <xs:complexType>
+      <xs:attribute name="linkId" use="required" type="xs:positiveInteger"/>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

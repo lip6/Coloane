@@ -466,7 +466,7 @@
                          name="Place name checker"
                          severity="Error">
                    </AttributeChecker>
-                   <Attribute
+                   <InnerAttribute
                          bold="false"
                          delta_x="10"
                          delta_y="-5"
@@ -474,7 +474,7 @@
                          italic="false"
                          multiline="false"
                          name="type">
-                   </Attribute>
+                   </InnerAttribute>
                 </Attribute>
                 <Attribute
                       bold="false"

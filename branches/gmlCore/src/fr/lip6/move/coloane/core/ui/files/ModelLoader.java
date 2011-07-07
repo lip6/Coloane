@@ -60,7 +60,7 @@ public final class ModelLoader {
 
 		try {
 			SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Source schemaSource = new StreamSource(Coloane.class.getResourceAsStream("/resources/modeltest.xsd")); //$NON-NLS-1$
+			Source schemaSource = new StreamSource(Coloane.class.getResourceAsStream("/resources/model.xsd")); //$NON-NLS-1$
 			schema = schemaFactory.newSchema(schemaSource);
 			return schema;
 		} catch (SAXException e) {

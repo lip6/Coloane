@@ -125,6 +125,7 @@ public class LabelText implements IAttributeLabel {
 			}
 			
 			int height = text.getLineHeight()*MAX_TEXT_HEIGHT;
+			height = text.computeTrim(0, 0, 0, height).height;
 
 			((FormData) text.getLayoutData()).height = nbDelimiters > MAX_TEXT_HEIGHT ? height : text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y ;
 		}
@@ -139,10 +140,11 @@ public class LabelText implements IAttributeLabel {
 		}
 		sc.setMinSize(parent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 		Composite tmp = parent;
-		for (int i = 0; i < 20 && tmp != null; i++) {
+		for (int i = 0; i < 3 && tmp != null; i++) {
 			tmp.layout();
 			tmp.redraw();
 			tmp = tmp.getParent();
+			//if (tmp.getParent() == sc) break;
 		}
 	}
 

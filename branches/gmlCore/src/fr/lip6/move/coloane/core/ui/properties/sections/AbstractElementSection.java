@@ -25,6 +25,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
 
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,8 +53,13 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	/** Nom de la propriété courante. */
 	private String currentType;
 
-	/** Listener qui va modifier le modèle */
-	private ModifyListener listener = new ModifyListener() {
+	class ModifyListenerImpl implements ModifyListener {
+		
+		PropertyChangeListener pcl;
+		
+		ModifyListenerImpl(PropertyChangeListener pcl){
+			this.pcl = pcl;
+		}
 		
 		/** {@inheritDoc} */
 		public void modifyText(ModifyEvent e) {
@@ -70,6 +76,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 					if (attr == null) {
 						try {
 							attr = getElements().get(0).getGraph().createAttribute(getElements().get(0), getElements().get(0).getElemFormalism(), lt.getLabel());
+							attr.addPropertyChangeListener(pcl);
 						} catch (ModelException e1) {
 							//Should not pass here -- only attributes associated to labels are created
 							//and labels are initialised according to the formalism... so only "correct"
@@ -84,6 +91,9 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			}
 		}
 	};
+	
+	/** Listener qui va modifier le modèle */
+	private ModifyListener listener = new ModifyListenerImpl(this);
 
 	/** ScrolledComposite gardé en mémoire pour le rafraichissement */
 	private ScrolledComposite sc;
@@ -174,9 +184,9 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 				} else if (attr.getInjector() != null) {
 					//les editeurs sont toujours multilignes
 					lt = factory.create(
-						attr.getName(),
-						attr.getDefaultValue(),
-						attr.getInjector());
+							attr.getName(),
+							attr.getDefaultValue(),
+							attr.getInjector());
 				} else {
 					lt = factory.create(
 						attr.getName(),

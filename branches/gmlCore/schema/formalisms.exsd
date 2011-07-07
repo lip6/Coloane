@@ -194,9 +194,125 @@
          </documentation>
       </annotation>
       <complexType>
-         <sequence minOccurs="0" maxOccurs="unbounded">
-            <element ref="EnumerationValue"/>
-            <element ref="AttributeChecker"/>
+         <sequence>
+            <sequence minOccurs="0" maxOccurs="unbounded">
+               <element ref="AttributeChecker"/>
+               <element ref="EnumerationValue"/>
+            </sequence>
+            <sequence minOccurs="0" maxOccurs="unbounded">
+               <element ref="InnerAttribute"/>
+            </sequence>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Attribute&apos;s name
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="multiline" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Can the attribute&apos;s value be multine ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="drawable" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Is the attribute&apos;s value drawable (on the graphical editor) ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="default" type="string">
+            <annotation>
+               <documentation>
+                  Default value for the attribute
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="displayed_default" type="boolean">
+            <annotation>
+               <documentation>
+                  Is the attribute&apos;s default value drawable (on the graphical editor) ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="bold" type="boolean">
+            <annotation>
+               <documentation>
+                  Does the representation (font) of the attribute must be bold ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="italic" type="boolean">
+            <annotation>
+               <documentation>
+                  Does the representation (font) of the attribute must be italic ?
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="fontsize" type="string">
+            <annotation>
+               <documentation>
+                  Font size for the attribute representation
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="enumerated" type="boolean">
+            <annotation>
+               <documentation>
+                  Defines if the values of the attribute are limited to an enumeration.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="delta_x" type="string">
+            <annotation>
+               <documentation>
+                  Specify the default location (x coordinate) of the attribute according to the parent location (x coordinate). Please choose a value between -200px and 200px. This attribute is valid only for node attribute.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="delta_y" type="string">
+            <annotation>
+               <documentation>
+                  Specify the default location (y coordinate) of the attribute according to the parent location (y coordinate). Please choose a value between -200px and 200px. This attribute is valid only for node attribute.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="parser" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.formalism.IAttributeParser"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+         <attribute name="xtext_injector" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.formalism.IXtextProvider"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="InnerAttribute">
+      <complexType>
+         <sequence>
+            <sequence minOccurs="0" maxOccurs="unbounded">
+               <element ref="AttributeChecker"/>
+               <element ref="EnumerationValue"/>
+            </sequence>
+            <sequence minOccurs="0" maxOccurs="unbounded">
+               <element ref="InnerAttribute"/>
+            </sequence>
          </sequence>
          <attribute name="name" type="string" use="required">
             <annotation>
@@ -472,7 +588,7 @@
    <element name="ComputedAttribute">
       <annotation>
          <documentation>
-            Define an attribute which value is computed at runtime according to the values of one or more attributes. This is a pure graphical attribute. Its value is not stored at any time in the model. This kind of attribute should be used when attributes has to be displayed in very special manner (graphicaly speaking).
+            Define an attribute whose value is computed at runtime according to the values of one or more attributes. This is a purely graphical attribute. Its value is not stored at any time in the model. This kind of attribute should be used when attributes have to be displayed in very special manners (graphically speaking).
          </documentation>
       </annotation>
       <complexType>
