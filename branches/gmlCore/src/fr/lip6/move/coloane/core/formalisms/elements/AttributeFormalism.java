@@ -85,6 +85,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	 * @param isMultiline Multiline status
 	 * @param isEnumerated Enumerated status
 	 * @param enumValue Authorized values for the enumeration (or <code>null</code> if isEnumerated is <code>false</code>)
+	 * @param parent This attribute's parent, or null if there is none
 	 */
 	public AttributeFormalism(String name, boolean isDrawable, boolean isMultiline, boolean isEnumerated, List<String> enumValue, IAttributeFormalism parent) {
 		this.name = name;
@@ -230,35 +231,35 @@ public class AttributeFormalism implements IAttributeFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
-	public IAttributeParser getParser() {
+	public final IAttributeParser getParser() {
 		return parser;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setParser(IAttributeParser parser) {
+	public final void setParser(IAttributeParser parser) {
 		this.parser = parser;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public IAttributeFormalism getParent() {
+	public final IAttributeFormalism getParent() {
 		return parent;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public Injector getInjector() {
+	public final Injector getInjector() {
 		return injector;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public void setInjector(Injector injector) {
+	public final void setInjector(Injector injector) {
 		this.injector = injector;
 	}
 	

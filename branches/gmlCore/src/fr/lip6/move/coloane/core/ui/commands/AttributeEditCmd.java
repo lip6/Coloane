@@ -57,7 +57,7 @@ public class AttributeEditCmd extends CheckableCmd {
 	}
 
 	@Override
-	public void redo() {
+	public final void redo() {
 		this.attribute.setValue(this.newValue);
 	}
 

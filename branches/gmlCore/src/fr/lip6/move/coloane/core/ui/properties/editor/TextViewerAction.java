@@ -12,9 +12,12 @@ import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.ITextViewer;
 import org.eclipse.ui.texteditor.IUpdate;
 
+/**
+ * Class for creating actions.
+ */
 class TextViewerAction extends Action implements IUpdate {
 
-	private int fOperationCode= -1;
+	private int fOperationCode = -1;
 	private ITextOperationTarget fOperationTarget;
 
 	/**
@@ -41,7 +44,20 @@ class TextViewerAction extends Action implements IUpdate {
 		setEnabled(isEnabled);
 
 		if (wasEnabled != isEnabled) {
-			firePropertyChange(ENABLED, wasEnabled ? Boolean.TRUE : Boolean.FALSE, isEnabled ? Boolean.TRUE : Boolean.FALSE);
+			//all this stuff is necessary because instantiating boolean is not allowed....
+			Boolean wasE;
+			if (wasEnabled) {
+				wasE = Boolean.TRUE;
+			} else {
+				wasE = Boolean.FALSE;
+			}
+			Boolean isE;
+			if (isEnabled) {
+				isE = Boolean.TRUE;
+			} else {
+				isE = Boolean.FALSE;
+			}
+			firePropertyChange(ENABLED, wasE, isE);
 		}
 	}
 

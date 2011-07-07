@@ -77,7 +77,7 @@ public class LabelTextFactory {
 	 * @param enumeration les valeurs possibles (a priori spécifiées via le formalisme)
 	 * @return an attribute label
 	 */
-	public IAttributeLabel create(String label, String value,
+	public final IAttributeLabel create(String label, String value,
 			List<String> enumeration) {
 		IAttributeLabel lt;
 		if (last == null) {
@@ -93,10 +93,10 @@ public class LabelTextFactory {
 	 * Creation d'un widget attribut muni d'un editeur xtext
 	 * @param label le nom de l'attribut
 	 * @param value sa valeur initiale
-	 * @param 
+	 * @param injector The injector to provide various elements of the editor.
 	 * @return an attribute label
 	 */
-	public IAttributeLabel create(String label, String value, Injector injector) {
+	public final IAttributeLabel create(String label, String value, Injector injector) {
 		IAttributeLabel lt;
 		if (last == null) {
 			lt = new LabelEditor(parent, factory, label, value, injector);

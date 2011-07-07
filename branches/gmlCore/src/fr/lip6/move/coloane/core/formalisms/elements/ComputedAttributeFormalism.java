@@ -191,7 +191,10 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	/** {@inheritDoc} */
 	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
 
-	public IAttributeFormalism getParent() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final IAttributeFormalism getParent() {
 		return null;
 	}
 }

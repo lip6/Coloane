@@ -31,11 +31,18 @@ import org.eclipse.xtext.ui.editor.validation.XtextAnnotation;
  * @author Holger Schill and Sebastian Zarnekow - https://bugs.eclipse.org/bugs/show_bug.cgi?id=310813
  */
 public final class EmbeddedXtextRulerAction extends Action implements IUpdate {
-	protected EmbeddedXtextEditor textEditor;
-	protected IVerticalRulerInfo ruler;
-	protected IDocument document;
-	protected IAnnotationModel annotationModel;
+	private EmbeddedXtextEditor textEditor;
+	private IVerticalRulerInfo ruler;
+	private IDocument document;
+	private IAnnotationModel annotationModel;
 
+	/**
+	 * Create a new embedded ruler action
+	 * @param document The document associated with this action.
+	 * @param editor The editor associated with the ruler associated with this action.
+	 * @param ruler The ruler associated with the action.
+	 * @param model The annotation model associated with this model (used to find quick fixes).
+	 */
 	public EmbeddedXtextRulerAction(IDocument document, EmbeddedXtextEditor editor, IVerticalRulerInfo ruler, IAnnotationModel model) {
 		this.textEditor = editor;
 		this.ruler = ruler;
@@ -51,43 +58,52 @@ public final class EmbeddedXtextRulerAction extends Action implements IUpdate {
 			int annotationLineOffet = document.getLineOffset(annotationLine);
 			Point currentSelection = textEditor.getViewer().getSelectedRange();
 			int currentLine = document.getLineOfOffset(currentSelection.x);
-			if (currentLine != annotationLine)
+			if (currentLine != annotationLine) {
 				textEditor.getViewer().setSelectedRange(annotationLineOffet, 0);
-		
+			}
+
 			// show QuickFix dialog
 			ITextOperationTarget operation = textEditor.getViewer().getTextOperationTarget();
 			final int opCode = ISourceViewer.QUICK_ASSIST;
-			if (operation != null && operation.canDoOperation(opCode))
+			if (operation != null && operation.canDoOperation(opCode)) {
 				operation.doOperation(opCode);
+			}
 		} catch (BadLocationException e) {
-			// Ignore -> do nothing
+			return;
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void update() {
 		setEnabled(hasQuickFixableAnnotationInCurrentLine());
 	}
 
+	/**
+	 * @return Whether there is a quickfixable annotation in the current line.
+	 */
 	protected boolean hasQuickFixableAnnotationInCurrentLine() {
 		try {
 			int line = ruler.getLineOfLastMouseButtonActivity();
 			IRegion region = document.getLineInformation(line);
-			Iterator<?> iterator = ((AnnotationModel)annotationModel).getAnnotationIterator(region.getOffset(), region.getLength(), true, true);	
-			
+			Iterator<?> iterator = ((AnnotationModel) annotationModel).getAnnotationIterator(region.getOffset(), region.getLength(), true, true);
 			while (iterator.hasNext()) {
 				Object element = iterator.next();
 				if (element instanceof XtextAnnotation) {
 					XtextAnnotation annotation = (XtextAnnotation) element;
-					if (annotation.isQuickFixable())
+					if (annotation.isQuickFixable()) {
 						return true;
+					}
 				} else if (element instanceof MarkerAnnotation) {
 					MarkerAnnotation annotation = (MarkerAnnotation) element;
-					if (annotation.isQuickFixable())
+					if (annotation.isQuickFixable()) {
 						return true;
+					}
 				}
 			}
 		} catch (BadLocationException e) {
-			// Ignore -> false is returned anyway
+			return false;
 		}
 		return false;
 	}

@@ -12,26 +12,35 @@
 
 package fr.lip6.move.coloane.core.ui.properties.editor;
 
+import com.google.inject.Inject;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.IResourceDescription;
 import org.eclipse.xtext.resource.IResourceDescriptions;
 import org.eclipse.xtext.resource.containers.StateBasedContainerManager;
 import org.eclipse.xtext.resource.impl.DefaultResourceDescription;
 
-import com.google.inject.Inject;
-
+/**
+ * 
+ */
 public class EmbeddedStateBasedContainerManager extends
 		StateBasedContainerManager {
 
 	@Inject
 	private IResourceDescription.Manager descriptionManager;
 	
+	/**
+	 * 
+	 */
 	public EmbeddedStateBasedContainerManager() {
 		super();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected String internalGetContainerHandle(IResourceDescription desc,
+	protected final String internalGetContainerHandle(IResourceDescription desc,
 			IResourceDescriptions resourceDescriptions) {
 		Resource resource = null;
 		IResourceDescription parentDescription = null;

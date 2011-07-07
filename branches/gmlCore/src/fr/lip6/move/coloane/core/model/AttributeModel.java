@@ -70,12 +70,13 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * Constructor
 	 *
 	 * @param reference The element to which this attribute is associated
+	 * @param parent The attribute that is this attribute's parent, or null if it has none
 	 * @param attributeFormalism The properties of the attribute which will contain this attribute (given by the formalism)
 	 */
 	public AttributeModel(IElement reference, IAttribute parent, IAttributeFormalism attributeFormalism) {
 		LOGGER.finest("Build an attribute: " + attributeFormalism.getName() + " for #" + reference.getId()); //$NON-NLS-1$ //$NON-NLS-2$
 		this.reference = reference;
-		this.parent = parent;	
+		this.parent = parent;
 		this.addPropertyChangeListener((PropertyChangeListener) reference);
 		this.attributFormalism = attributeFormalism;
 		this.name = attributFormalism.getName();
@@ -172,13 +173,15 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 			this.value = value;
 			//parse the value to see if there are contained attributes
 			boolean parsed = false;
-			if (this.attributFormalism.getParser() != null){
+			if (this.attributFormalism.getParser() != null) {
 				children.clear();
-				if (this.attributFormalism.getParser().parseLine(this.value, this)){
+				if (this.attributFormalism.getParser().parseLine(this.value, this)) {
 					parsed = true;
 				}
 			}
-			if (!parsed) this.setLeaf();
+			if (!parsed) {
+				this.setLeaf();
+			}
 			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
 		}
 	}
@@ -212,7 +215,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	/** {@inheritDoc} */
 	public void initialiseValue() {
 		String oldValue = value;
-		if (this.attributFormalism.getParser() != null){
+		if (this.attributFormalism.getParser() != null) {
 			value = this.attributFormalism.getParser().toString(this);
 			firePropertyChange(IAttribute.VALUE_PROP, oldValue, value);
 		}
@@ -223,19 +226,19 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * @param attribut The attribute to build a representation of
 	 * @return The XML representation
 	 */
-	String buildXMLString(IAttribute attribut){
+	final String buildXMLString(IAttribute attribut) {
 		String val = ""; //$NON-NLS-1$
 		String balise = attribut.getName();
-		val+="<" + IModelHandler.ATTRIBUTE_MARKUP + " " + IModelHandler.ATTRIBUTE_NAME_MARKUP + "='"+balise+"'";  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		val+=" " + IModelHandler.ATTRIBUTE_X_MARKUP + "='"+attribut.getGraphicInfo().getLocation().x+"'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		val+=" " + IModelHandler.ATTRIBUTE_Y_MARKUP + "='"+attribut.getGraphicInfo().getLocation().y+"'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		val+=">"; //$NON-NLS-1$
-		val+=attribut.getValue();
-		for(IAttribute att: attribut.getAttributes()){
-			val+=buildXMLString(att);
+		val += "<" + IModelHandler.ATTRIBUTE_MARKUP + " " + IModelHandler.ATTRIBUTE_NAME_MARKUP + "='" + balise + "'";  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		val += " " + IModelHandler.ATTRIBUTE_X_MARKUP + "='" + attribut.getGraphicInfo().getLocation().x + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		val += " " + IModelHandler.ATTRIBUTE_Y_MARKUP + "='" + attribut.getGraphicInfo().getLocation().y + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		val += ">"; //$NON-NLS-1$
+		val += attribut.getValue();
+		for (IAttribute att : attribut.getAttributes()) {
+			val += buildXMLString(att);
 		}
-		val+="</" + IModelHandler.ATTRIBUTE_MARKUP + ">";	 //$NON-NLS-1$ //$NON-NLS-2$
-		
+		val += "</" + IModelHandler.ATTRIBUTE_MARKUP + ">";	 //$NON-NLS-1$ //$NON-NLS-2$
+
 		return val;
 	}
 }

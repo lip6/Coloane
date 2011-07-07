@@ -22,6 +22,9 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
+/**
+ * 
+ */
 public class LabelEditor implements IAttributeLabel {
 	/** Nombre de ligne à afficher pour les Text multi-lignes */
 	public static final int MAX_TEXT_HEIGHT = 10;
@@ -38,8 +41,8 @@ public class LabelEditor implements IAttributeLabel {
 	 * @param factory factory utilisé pour la création des widget
 	 * @param label label
 	 * @param value valeur
-	 * @param style style SWT
 	 * @param top indicateur de positionnement utilisé par le FormLayout
+	 * @param injector the injector to provide quick fix, syntax highlighting etc.
 	 */
 	private LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, FormAttachment top, Injector injector) {
 		FormData data;
@@ -64,7 +67,7 @@ public class LabelEditor implements IAttributeLabel {
 					public void textChanged(TextEvent event) {
 						redraw();
 					} });
-		
+
 		text.getViewer().getTextWidget().getVerticalBar().setVisible(true);
 
 		redraw();
@@ -75,7 +78,7 @@ public class LabelEditor implements IAttributeLabel {
 	 * @param factory factory utilisé pour la création des widget
 	 * @param label label
 	 * @param value valeur
-	 * @param style style SWT
+	 * @param injector the injector to provide quick fix, syntax highlighting etc.
 	 */
 	public LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, Injector injector) {
 		this(parent, factory, label, value, new FormAttachment(0, 0), injector);
@@ -86,36 +89,40 @@ public class LabelEditor implements IAttributeLabel {
 	 * @param factory factory utilisé pour la création des widget
 	 * @param label label
 	 * @param value valeur
-	 * @param style style SWT
 	 * @param top indicateur de positionnement utilisé par le FormLayout
+	 * @param injector the injector to provide quick fix, syntax highlighting etc.
 	 */
 	public LabelEditor(Composite parent, TabbedPropertySheetWidgetFactory factory, String label, String value, Injector injector, IAttributeLabel top) {
 		this(parent, factory, label, value, new FormAttachment(top.getControl(), 0), injector);
 	}
 
 	/** {@inheritDoc} */
-	public final void redraw() {		
-		
+	public final void redraw() {
+
 		// En cas de texte multiligne, on limite l'agrandissement
-		int newNbDelimiters = text.getViewer().getTextWidget().getText().split("["+Text.DELIMITER+"\n]", -1).length;  //$NON-NLS-1$//$NON-NLS-2$
+		int newNbDelimiters = text.getViewer().getTextWidget().getText().split("[" + Text.DELIMITER + "\n]", -1).length;  //$NON-NLS-1$//$NON-NLS-2$
 		if (newNbDelimiters != nbDelimiters) {
 			nbDelimiters = newNbDelimiters;
-			int height = text.getViewer().getTextWidget().getLineHeight()*MAX_TEXT_HEIGHT;
-			int height2 = text.getViewer().getTextWidget().getLineHeight()*(nbDelimiters);
-			height += text.getViewer().getTextWidget().getTopMargin()+text.getViewer().getTextWidget().getBottomMargin();
-			height2 += text.getViewer().getTextWidget().getTopMargin()+text.getViewer().getTextWidget().getBottomMargin();
+			int height = text.getViewer().getTextWidget().getLineHeight() * MAX_TEXT_HEIGHT;
+			int height2 = text.getViewer().getTextWidget().getLineHeight() * (nbDelimiters);
+			height += text.getViewer().getTextWidget().getTopMargin() + text.getViewer().getTextWidget().getBottomMargin();
+			height2 += text.getViewer().getTextWidget().getTopMargin() + text.getViewer().getTextWidget().getBottomMargin();
 			height = text.getViewer().getTextWidget().computeTrim(0, 0, 0, height).height;
 			height2 = text.getViewer().getTextWidget().computeTrim(0, 0, 0, height2).height;
 
-			((FormData) text.getViewer().getControl().getLayoutData()).height = nbDelimiters > MAX_TEXT_HEIGHT ? height : height2 ;
-			
+			if (nbDelimiters > MAX_TEXT_HEIGHT) {
+				((FormData) text.getViewer().getControl().getLayoutData()).height = height;
+			} else {
+				((FormData) text.getViewer().getControl().getLayoutData()).height = height2;
+			}
+
 		}
 		// Récupération du ScrolledComposite
 		if (sc == null) {
 			Composite tmp = parent;
 			while (!(tmp instanceof ScrolledComposite)) {
 				tmp = tmp.getParent();
-			} 
+			}
 			sc = (ScrolledComposite) tmp;
 		}
 		sc.setMinSize(parent.computeSize(SWT.DEFAULT, SWT.DEFAULT));
@@ -125,12 +132,13 @@ public class LabelEditor implements IAttributeLabel {
 			tmp.layout();
 			tmp.redraw();
 			tmp2 = tmp;
-			if (tmp == sc) break;
+			if (tmp == sc) {
+				break;
+			}
 			tmp = tmp.getParent();
 		}
 
 		tmp2.update();
-	    
 
 	}
 
@@ -188,29 +196,47 @@ public class LabelEditor implements IAttributeLabel {
 		//instead, we listen only to document changes:
 		//autocompletion, quickfix etc modify the document, and modifications to the viewer by keyboard etc also modify
 		//the document. perfect!
-		text.getDocument().addDocumentListener(new AdaptModifyDocument(listener,text.getViewer().getTextWidget()));
+		text.getDocument().addDocumentListener(new AdaptModifyDocument(listener, text.getViewer().getTextWidget()));
 	}
 
-	public Control getControlText() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final Control getControlText() {
 		return text.getViewer().getTextWidget();
 	}
 
 }
 
-class AdaptModifyDocument implements IDocumentListener{
+/**
+ *  Class to adapt a ModifyListener to a DocumentListener
+ * @author Elodie Banel
+ */
+class AdaptModifyDocument implements IDocumentListener {
 	
 	private ModifyListener m;
 	private Control c;
 	
-	AdaptModifyDocument(ModifyListener m, Control c){
+	/**
+	 * Create a new AdaptModifyDocument
+	 * @param m The modify listener to adapt.
+	 * @param c The control that this event will come from.
+	 */
+	AdaptModifyDocument(ModifyListener m, Control c) {
 		this.m = m;
 		this.c = c;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void documentAboutToBeChanged(DocumentEvent event) {
 		//nothing to be done here
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void documentChanged(DocumentEvent event) {
 		//create a false modifyevent that gives access to the textviewer
 		//it is the only thing used by the modifylistener function

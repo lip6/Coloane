@@ -80,7 +80,7 @@ public class ArcReconnectCmd extends CheckableCmd {
 	}
 
 	/**
-	 * Can we execute this operation ?
+	 * {@inheritDoc}
 	 */
 	@Override
 	public final boolean canExecute() {

@@ -1,5 +1,10 @@
 package fr.lip6.move.coloane.core.ui.properties.editor;
 
+import com.google.common.base.Predicate;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -9,10 +14,9 @@ import org.eclipse.xtext.ui.editor.quickfix.Fix;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolution;
 import org.eclipse.xtext.validation.Issue;
 
-import com.google.common.base.Predicate;
-import com.google.inject.Inject;
-import com.google.inject.Provider;
-
+/**
+ * Class that allows providing of quickfixes to an embedded xtext editor.
+ */
 public class EmbeddedQuickfixProvider extends DefaultQuickfixProvider {
 	
 	@Inject
@@ -20,8 +24,11 @@ public class EmbeddedQuickfixProvider extends DefaultQuickfixProvider {
 	
 	private IXtextDocument document;
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected Predicate<Method> getFixMethodPredicate(final String issueCode) {
+	protected final Predicate<Method> getFixMethodPredicate(final String issueCode) {
 		return new Predicate<Method>() {
 			public boolean apply(Method input) {
 				Fix annotation = input.getAnnotation(Fix.class);
@@ -34,33 +41,33 @@ public class EmbeddedQuickfixProvider extends DefaultQuickfixProvider {
 		};
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
-	protected List<IssueResolution> getResolutions(Issue issue, List<Method> fixMethods) {
+	protected final List<IssueResolution> getResolutions(Issue issue, List<Method> fixMethods) {
 		EmbeddedIssueResolutionAcceptor embeddedIssueResolutionAcceptor = embeddedIssueResolutionAcceptorProvider.get();
 		embeddedIssueResolutionAcceptor.setDocument(document);
 		for (Method fixMethod : fixMethods) {
+			fixMethod.setAccessible(true);
 			try {
-				fixMethod.setAccessible(true);
 				fixMethod.invoke(this, issue, embeddedIssueResolutionAcceptor);
-			} catch (Exception e) {
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
 				e.printStackTrace();
 			}
+
 		}
 		return embeddedIssueResolutionAcceptor.getIssueResolutions();
 	}
 	
-/*	@Override
-	public List<IssueResolution> getResolutions(Issue issue) {
-		if (Diagnostic.LINKING_DIAGNOSTIC.equals(issue.getCode())) {
-			List<IssueResolution> result = new ArrayList<IssueResolution>();
-			result.addAll(getResolutionsForLinkingIssue(issue));
-			result.addAll(super.getResolutions(issue));
-			return result;
-		} else
-			return super.getResolutions(issue);
-	}*/
-	
-	public void setDocument(IXtextDocument document){
+	/**
+	 * @param document The document to be set.
+	 */
+	public final void setDocument(IXtextDocument document) {
 		this.document = document;
 	}
 }

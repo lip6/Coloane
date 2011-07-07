@@ -113,21 +113,25 @@ public class LabelText implements IAttributeLabel {
 	/** {@inheritDoc} */
 	public final void redraw() {
 		// En cas de texte multiligne, on limite l'agrandissement
-		
-		int newNbDelimiters = text.getText().split("["+Text.DELIMITER+"\n]", -1).length;  //$NON-NLS-1$//$NON-NLS-2$
+
+		int newNbDelimiters = text.getText().split("[" + Text.DELIMITER + "\n]", -1).length;  //$NON-NLS-1$//$NON-NLS-2$
 		if (text.getVerticalBar() != null && newNbDelimiters != nbDelimiters) {
 			nbDelimiters = newNbDelimiters;
-			
+
 			if (nbDelimiters <= MAX_TEXT_HEIGHT) {
 				text.getVerticalBar().setVisible(false);
 			} else {
 				text.getVerticalBar().setVisible(true);
 			}
-			
-			int height = text.getLineHeight()*MAX_TEXT_HEIGHT;
+
+			int height = text.getLineHeight() * MAX_TEXT_HEIGHT;
 			height = text.computeTrim(0, 0, 0, height).height;
 
-			((FormData) text.getLayoutData()).height = nbDelimiters > MAX_TEXT_HEIGHT ? height : text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y ;
+			if (nbDelimiters > MAX_TEXT_HEIGHT) {
+				((FormData) text.getLayoutData()).height = height;
+			} else {
+				((FormData) text.getLayoutData()).height = text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+			}
 		}
 
 		// Récupération du ScrolledComposite
@@ -201,7 +205,7 @@ public class LabelText implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
-	public Control getControlText() {
+	public final Control getControlText() {
 		return getControl();
 	}
 

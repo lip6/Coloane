@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -44,6 +45,9 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * @param <T> représente le type d'élément à afficher.
  */
 public abstract class AbstractElementSection<T extends IElement> extends AbstractSection<T> {
+
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	
 	/** Composite père de toutes les propriétés. */
 	private Composite composite;
 
@@ -53,18 +57,27 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	/** Nom de la propriété courante. */
 	private String currentType;
 
+	/**
+	 * ModifyListener that will update the model according to changes made in the
+	 * properties window.
+	 */
 	class ModifyListenerImpl implements ModifyListener {
-		
-		PropertyChangeListener pcl;
-		
-		ModifyListenerImpl(PropertyChangeListener pcl){
+
+		private PropertyChangeListener pcl;
+
+		/**
+		 * Constructor to build a new modifylisterner implementation with a propertychangelistener
+		 * @param pcl the listener that will be used to listen to property changes in new attributes
+		 * built by the modifylistener
+		 */
+		ModifyListenerImpl(PropertyChangeListener pcl) {
 			this.pcl = pcl;
 		}
-		
+
 		/** {@inheritDoc} */
 		public void modifyText(ModifyEvent e) {
 			Control text = (Control) e.widget;
-			
+
 			// Recherche du LabelText modifié
 			for (IAttributeLabel lt : getMap().get(getCurrentType())) {
 				if (lt.getControlText() == text) {
@@ -81,6 +94,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 							//Should not pass here -- only attributes associated to labels are created
 							//and labels are initialised according to the formalism... so only "correct"
 							//attributes can be created.
+							LOGGER.warning("Trying to build an attribute that is not correct according to the formalism. This should not have occured."); //$NON-NLS-1$
 						}
 					}
 					if (!attr.getValue().equals(newValue)) {
@@ -130,7 +144,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			sc = (ScrolledComposite) tmp;
 		}
 		//sc.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
-		sc.setMinSize(200,200);
+		sc.setMinSize(200, 200);
 		Composite tmp = composite;
 		for (int i = 0; i < 20 && tmp != null; i++) {
 			tmp.layout();
@@ -172,10 +186,10 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		if (list == null) {
 			list = new ArrayList<IAttributeLabel>();
 			LabelTextFactory factory = new LabelTextFactory(composite, getWidgetFactory());
-			
+
 			for (IAttributeFormalism attr : attributes) {
 				IAttributeLabel lt;
-				
+
 				if (attr.isEnumerated()) {
 					lt = factory.create(
 							attr.getName(),
@@ -193,7 +207,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 						attr.getDefaultValue(),
 						getSWTStyle(attr.isMultiLine()));
 				}
-				
+
 				lt.getParent().redraw();
 				lt.addModifyListener(listener);
 				list.add(lt);
@@ -210,7 +224,9 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	protected final void refreshContent() {
 		for (IAttributeLabel lt : getMap().get(getCurrentType())) {
 			IAttribute elem = getElements().get(0).getAttribute(lt.getLabel());
-			if (elem == null) continue;
+			if (elem == null) {
+				continue;
+			}
 			String newValue = elem.getValue();
 			if (!lt.getText().equals(newValue)) {
 				lt.setText(newValue);

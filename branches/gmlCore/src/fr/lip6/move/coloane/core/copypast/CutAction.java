@@ -39,7 +39,7 @@ public class CutAction extends SelectionAction {
 
 	/**
 	 * Constructor
-	 * @param workbench The active workbench (the current editor)
+	 * @param part The active workbench (the current editor)
 	 */
 	public CutAction(IWorkbenchPart part) {
 		super(part);

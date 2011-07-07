@@ -69,6 +69,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	 * @param parent The parent of this node (often the graph itself)
 	 * @param nodeFormalism The formalism description of the node
 	 * @param id The identifier (unique) of the node
+	 * @param graph The graph that this node belongs to
 	 * @see {@link GraphModel#getId()} to get a new unique ID
 	 */
 	NodeModel(IElement parent, INodeFormalism nodeFormalism, int id, IGraph graph) {

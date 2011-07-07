@@ -15,20 +15,33 @@ package fr.lip6.move.coloane.core.ui.properties.editor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.linking.lazy.LazyLinkingResource;
 
+/**
+ * 
+ */
 public class EmbeddedXtextResource extends LazyLinkingResource {
 
 	private Resource parentResource = null;
 
-	public Resource getParentResource() {
-		return parentResource;
-	}
-
-	public void setParentResource(Resource parentResource) {
-		this.parentResource = parentResource;
-	}
-
+	/**
+	 * Constructor
+	 */
 	public EmbeddedXtextResource() {
 		super();
 	}
+	
+	/**
+	 * @return The parent resource.
+	 */
+	public final Resource getParentResource() {
+		return parentResource;
+	}
+
+	/**
+	 * @param parentResource The resource to set as the parent.
+	 */
+	public final void setParentResource(Resource parentResource) {
+		this.parentResource = parentResource;
+	}
+
 
 }

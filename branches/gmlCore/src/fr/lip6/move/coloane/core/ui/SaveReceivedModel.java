@@ -49,6 +49,7 @@ public class SaveReceivedModel implements Runnable {
 	/**
 	 * Constructor
 	 * @param graph The new graph to backup
+	 * @param newName The new name of the graph
 	 * @param window The workbench window
 	 */
 	public SaveReceivedModel(IGraph graph, String newName, IWorkbenchWindow window) {

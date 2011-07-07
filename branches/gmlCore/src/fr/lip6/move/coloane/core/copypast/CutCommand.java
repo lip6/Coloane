@@ -57,7 +57,7 @@ public class CutCommand extends Command {
 
 	/**
 	 * Add a node to cut
-	 * @param nodeAdd The node to cut
+	 * @param node The node to cut
 	 */
 	public final void addNode(INode node) {
 		// Backup

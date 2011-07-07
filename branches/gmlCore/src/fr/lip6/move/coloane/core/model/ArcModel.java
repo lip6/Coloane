@@ -73,6 +73,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	 * @param id Arc ID
 	 * @param source Arc source
 	 * @param target Arc target
+	 * @param graph The graph this arc belongs to
 	 */
 	ArcModel(IElement parent, IArcFormalism arcFormalism, int id, INode source, INode target, IGraph graph) {
 		super(id, parent, arcFormalism, graph);

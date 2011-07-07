@@ -92,7 +92,7 @@ public abstract class AbstractSection<T extends IAbstractPropertyChange> extends
 			} else {
 				element = (T) elt;
 				element.addPropertyChangeListener(this);
-				for (IAttribute a : ((IElement)element).getAttributes()){
+				for (IAttribute a : ((IElement) element).getAttributes()) {
 					a.addPropertyChangeListener(this);
 				}
 			}

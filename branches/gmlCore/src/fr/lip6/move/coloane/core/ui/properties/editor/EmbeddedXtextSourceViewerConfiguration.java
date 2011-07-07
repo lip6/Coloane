@@ -1,22 +1,32 @@
 package fr.lip6.move.coloane.core.ui.properties.editor;
 
+import com.google.inject.Inject;
+
 import org.eclipse.jface.text.quickassist.IQuickAssistAssistant;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.xtext.ui.editor.XtextSourceViewerConfiguration;
 
-import com.google.inject.Inject;
-
+/**
+ * Extension of the source viewer configuration class that allows the use of an injected quickassistassistant
+ * @author Elodie Banel
+ */
 public class EmbeddedXtextSourceViewerConfiguration extends XtextSourceViewerConfiguration {
 
 	@Inject
 	private IQuickAssistAssistant quickAssistant;
 	
-	public EmbeddedXtextSourceViewerConfiguration(){
+	/**
+	 * Constructor.
+	 */
+	public EmbeddedXtextSourceViewerConfiguration() {
 		super();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
     @Override
-    public IQuickAssistAssistant getQuickAssistAssistant(ISourceViewer sourceViewer) {
+	public final IQuickAssistAssistant getQuickAssistAssistant(ISourceViewer sourceViewer) {
         if (sourceViewer.isEditable()) {
             return quickAssistant;
         }

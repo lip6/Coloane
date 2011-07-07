@@ -373,25 +373,25 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		if (o instanceof IElement) {
 			IElement element = (IElement) o;
 			try {
-				attribute = graph.createAttribute(element,element.getElemFormalism(),name);
+				attribute = graph.createAttribute(element, element.getElemFormalism(), name);
 				element.putAttribute(name, attribute);
 			} catch (ModelException e) {
-				String message = "Attribute with name \""+name+"\" found but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$
-				LOGGER.severe(message);	
+				String message = "Attribute with name \"" + name + "\" found but no such attribute exists in formalism. File is malformed.";  //$NON-NLS-1$//$NON-NLS-2$
+				LOGGER.severe(message);
 				attribute = null;
 			}
-		} else if (o instanceof IAttribute){
+		} else if (o instanceof IAttribute) {
 			IAttribute attr = (IAttribute) o;
 			try {
-				attribute = graph.createAttribute(attr.getReference(), attr, (IAttributeFormalism)attr.getAttributeFormalism(),name);
+				attribute = graph.createAttribute(attr.getReference(), attr, (IAttributeFormalism) attr.getAttributeFormalism(), name);
 				attr.addAttribute(attribute);
 			} catch (ModelException e) {
-				String message = "Attribute with name \""+name+"\" found but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$
-				LOGGER.severe(message);	
+				String message = "Attribute with name \"" + name + "\" found but no such attribute exists in formalism. File is malformed.";  //$NON-NLS-1$//$NON-NLS-2$
+				LOGGER.severe(message);
 				attribute = null;
 			}
 		}
-		
+
 		int x = Integer.parseInt(attributes.getValue(ATTRIBUTE_X_MARKUP));
 		int y = Integer.parseInt(attributes.getValue(ATTRIBUTE_Y_MARKUP));
 		Point location = new Point(x, y);
@@ -431,7 +431,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		Point location = (Point) stack.pop();
 		String value = data.toString();
 		if (attribute != null) {
-			if (attribute.getAttributes().isEmpty()){
+			if (attribute.getAttributes().isEmpty()) {
 				attribute.setValue(value);
 			} else {
 				attribute.initialiseValue();

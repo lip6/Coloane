@@ -133,7 +133,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * @return IFigure
 	 */
 	@Override
-	protected IFigure createFigure() {
+	protected final IFigure createFigure() {
 		// In fact, the figure is a container with a stacklayout manager to be able to switch between alternate figures
 		IFigure nodeContainer = new Figure();
 		nodeContainer.setLayoutManager(new StackLayout());
@@ -191,7 +191,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * Update the figures thanks to the information contained into the model
 	 */
 	@Override
-	protected void refreshVisuals() {
+	protected final void refreshVisuals() {
 		// If the node has no more parent, that means that it has been deleted.
 		// There is no more reason to draw it again
 		if (getParent() == null) {

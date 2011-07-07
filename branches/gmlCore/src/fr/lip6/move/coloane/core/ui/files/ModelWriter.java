@@ -92,7 +92,7 @@ public final class ModelWriter implements IModelHandler {
 
 		// Sticky notes
 		line.append(translateStickyNotesToXML(graph));
-		
+
 		line.append("</model>"); //$NON-NLS-1$
 		return line.toString();
 	}
@@ -265,10 +265,10 @@ public final class ModelWriter implements IModelHandler {
 			sb.append(" " + ATTRIBUTE_Y_MARKUP + "='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 			sb.append(">"); //$NON-NLS-1$
 
-			if (att.isLeaf()){
+			if (att.isLeaf()) {
 				sb.append(format(att.getValue()));
 			} else {
-				for (IAttribute a : att.getAttributes()){
+				for (IAttribute a : att.getAttributes()) {
 					sb.append(translateSubAttributeToXML(a));
 				}
 			}

@@ -89,7 +89,7 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 		arc.setLayoutData(data);
 
 		//Arc line type
-		arcColorEditor2 = new BooleanFieldEditor("COLORARC_LINESTYLE", Messages.ColorsPrefs_12, BooleanFieldEditor.SEPARATE_LABEL ,arc);  //$NON-NLS-1$
+		arcColorEditor2 = new BooleanFieldEditor("COLORARC_LINESTYLE", Messages.ColorsPrefs_12, BooleanFieldEditor.SEPARATE_LABEL , arc);  //$NON-NLS-1$
 		arcColorEditor2.setPreferenceStore(getPreferenceStore());
 		arcColorEditor2.load();
 

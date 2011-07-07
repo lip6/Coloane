@@ -34,11 +34,11 @@ public class NodeFilter implements IFilter {
 	 * @param toTest the currently selected object in the WorkBench
 	 * @return true if it corresponds to a node or a node attribute
 	 */
-	public boolean select(Object toTest) {
-		if (toTest instanceof NodeEditPart) {			
+	public final boolean select(Object toTest) {
+		if (toTest instanceof NodeEditPart) {
 			return true;
 		} else if (toTest instanceof AttributeEditPart) {
-			IAttribute att = (IAttribute) ((AttributeEditPart)toTest).getModel();
+			IAttribute att = (IAttribute) ((AttributeEditPart) toTest).getModel();
 			if (att.getReference() instanceof INode) {
 				return true;
 			}

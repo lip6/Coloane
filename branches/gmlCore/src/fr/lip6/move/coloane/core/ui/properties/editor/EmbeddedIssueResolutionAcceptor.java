@@ -7,6 +7,9 @@
  *******************************************************************************/
 package fr.lip6.move.coloane.core.ui.properties.editor;
 
+import com.google.common.collect.Lists;
+import com.google.inject.Inject;
+
 import java.util.List;
 
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
@@ -17,10 +20,8 @@ import org.eclipse.xtext.ui.editor.model.edit.SemanticModificationWrapper;
 import org.eclipse.xtext.ui.editor.quickfix.IssueResolution;
 import org.eclipse.xtext.validation.Issue;
 
-import com.google.common.collect.Lists;
-import com.google.inject.Inject;
-
 /**
+ * @author Elodie Banel - Update to allow use in embedded editor
  * @author Jan Koehnlein - Initial contribution and API
  */
 public class EmbeddedIssueResolutionAcceptor {
@@ -33,28 +34,55 @@ public class EmbeddedIssueResolutionAcceptor {
 	
 	private IXtextDocument document;
 	
+	/**
+	 * Constructor.  The parameters are provided by Guice.
+	 * @param modificationContextFactory provided by Guice
+	 * @param documentEditor provided by Guice
+	 */
 	@Inject
 	public EmbeddedIssueResolutionAcceptor(EmbeddedIssueModificationContext.Factory modificationContextFactory, IDocumentEditor documentEditor) {
 		this.modificationContextFactory = modificationContextFactory;
 		this.documentEditor = documentEditor;
 	}
 
-	public void setDocument(IXtextDocument document){
+	/**
+	 * @param document The document to set
+	 */
+	public final void setDocument(IXtextDocument document) {
 		this.document = document;
 	}
 	
-	public void accept(Issue issue, String label, String description, String image, IModification modification) {
+	/**
+	 * Accept an issue.
+	 * @param issue The issue.
+	 * @param label The name of the issue.
+	 * @param description A description of the issue.
+	 * @param image An image associated with the issue.
+	 * @param modification The IModification associated with this issue.
+	 */
+	public final void accept(Issue issue, String label, String description, String image, IModification modification) {
 		issueResolutions.add(new IssueResolution(label, description, image, modificationContextFactory.createModificationContext(issue, document),
 				modification));
 	}
 
-	public void accept(Issue issue, String label, String description, String image, ISemanticModification semanticModification) {
+	/**
+	 * Accept an issue.
+	 * @param issue The issue.
+	 * @param label The name of the issue.
+	 * @param description A description of the issue.
+	 * @param image An image associated with the issue.
+	 * @param semanticModification The ISemanticModification associated with this issue.
+	 */
+	public final void accept(Issue issue, String label, String description, String image, ISemanticModification semanticModification) {
 		SemanticModificationWrapper modificationWrapper = new SemanticModificationWrapper(issue.getUriToProblem(), semanticModification, documentEditor);
 		issueResolutions.add(new IssueResolution(label, description, image, modificationContextFactory.createModificationContext(issue, document),
 				modificationWrapper));
 	}
 
-	public List<IssueResolution> getIssueResolutions() {
+	/**
+	 * @return The list of issue resolutions
+	 */
+	public final List<IssueResolution> getIssueResolutions() {
 		return issueResolutions;
 	}
 

@@ -54,7 +54,7 @@ public class EditorRuler {
 
 	/**
 	 * Constructor
-	 * @param isHorizontal <code>true</code> if the ruler is horizontal
+	 * @param orientation <code>true</code> if the ruler is horizontal
 	 */
 	public EditorRuler(int orientation) {
 		this(orientation, RulerProvider.UNIT_CENTIMETERS);
@@ -62,7 +62,7 @@ public class EditorRuler {
 
 	/**
 	 * Constructor
-	 * @param isHorizontal <code>true</code> if the ruler is horizontal
+	 * @param orientation <code>true</code> if the ruler is horizontal
 	 * @param unit The unit used by this ruler
 	 */
 	public EditorRuler(int orientation, int unit) {

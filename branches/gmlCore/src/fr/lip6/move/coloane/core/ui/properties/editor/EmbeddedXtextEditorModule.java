@@ -15,13 +15,23 @@ package fr.lip6.move.coloane.core.ui.properties.editor;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.service.AbstractGenericModule;
 
+/**
+ * Class that defines a module, used to bind various classes
+ * which will be injected with Guice.
+ */
 public class EmbeddedXtextEditorModule extends AbstractGenericModule {
 
-	public Class<? extends XtextResource> bindXtextResource() {
+	/**
+	 * @return (ignore, this should never be called by a user)
+	 */
+	public final Class<? extends XtextResource> bindXtextResource() {
 		return EmbeddedXtextResource.class;
 	}
 
-	public Class<? extends org.eclipse.xtext.resource.IContainer.Manager> bindIContainer$Manager() {
+	/**
+	 * @return (ignore, this should never be called by a user)
+	 */
+	public final Class<? extends org.eclipse.xtext.resource.IContainer.Manager> bindIContainerManager() {
 		return EmbeddedStateBasedContainerManager.class;
 	}
 

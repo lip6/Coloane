@@ -80,7 +80,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */
 	public GraphModel(IFormalism formalism) throws IllegalArgumentException {
-		super(1, null, formalism.getRootGraph(),null);
+		super(1, null, formalism.getRootGraph(), null);
 		LOGGER.fine("Build a graph model using formalism:" + formalism.getName() + "");  //$NON-NLS-1$ //$NON-NLS-2$
 		this.formalism = formalism;
 
@@ -229,7 +229,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			throw new ModelException("Either the source or the target does not exist"); //$NON-NLS-1$
 		}
 
-		IArc arc = new ArcModel(this, arcFormalism, id, source, target,this);
+		IArc arc = new ArcModel(this, arcFormalism, id, source, target, this);
 		addArc(arc);
 
 		return arc;
@@ -387,18 +387,20 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 
 	public IAttribute createAttribute(IElement reference, IElementFormalism elementFormalism, String name) throws ModelException {
 		LOGGER.finer("Build a new attribute: " + name); //$NON-NLS-1$
-		
+
 		IAttributeFormalism newFormalism = null;
-		for (IAttributeFormalism a: elementFormalism.getAttributes()){
+		for (IAttributeFormalism a : elementFormalism.getAttributes()){
 			if (a.getName().equals(name)) {
 				newFormalism = a;
 				break;
 			}
 		}
-		if (newFormalism == null) throw new ModelException("Trying to build an attribute that is not acceptable."); //$NON-NLS-1$
+		if (newFormalism == null) {
+			throw new ModelException("Trying to build an attribute that is not acceptable."); //$NON-NLS-1$
+		}
 
-		IAttribute attribute = new AttributeModel(reference,null,newFormalism);
-		addAttribute(attribute,reference);
+		IAttribute attribute = new AttributeModel(reference, null, newFormalism);
+		addAttribute(attribute, reference);
 		return attribute;
 	}
 
@@ -406,21 +408,23 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			throws ModelException {
 		LOGGER.finer("Build a new attribute: " + name); //$NON-NLS-1$
 		IAttributeFormalism newFormalism = null;
-		for (IAttributeFormalism a: attributeFormalism.getAttributes()){
+		for (IAttributeFormalism a : attributeFormalism.getAttributes()) {
 			if (a.getName().equals(name)) {
 				newFormalism = a;
 				break;
 			}
 		}
-		if (newFormalism == null) throw new ModelException("Trying to build an attribute that is not acceptable."); //$NON-NLS-1$
-		
-		IAttribute attribute = new AttributeModel(reference,parent,newFormalism);
-		addAttribute(attribute,parent);
+		if (newFormalism == null) {
+			throw new ModelException("Trying to build an attribute that is not acceptable."); //$NON-NLS-1$
+		}
+
+		IAttribute attribute = new AttributeModel(reference, parent, newFormalism);
+		addAttribute(attribute, parent);
 		return attribute;
 	}
 	
 	@Override
-	public IGraph getGraph(){
+	public final IGraph getGraph(){
 		return this;
 	}
 }

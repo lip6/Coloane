@@ -162,7 +162,7 @@ public class EditorGuide {
 	 * @see #HORIZONTAL_ORIENTATION
 	 * @see #VERTICAL_ORIENTATION
 	 */
-	private final void setOrientation(int orientation) {
+	private void setOrientation(int orientation) {
 		this.orientation = orientation;
 	}
 

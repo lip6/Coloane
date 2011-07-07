@@ -62,8 +62,8 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	 *
 	 * @param id Identifier
 	 * @param parent Parent model element
-	 * @param attributes Element's attributes
-	 * @param computedAttributes Computed attributes
+	 * @param formalism the formalism to describe this element
+	 * @param graph The graph this element will belong to
 	 */
 	AbstractElement(int id, IElement parent, IElementFormalism formalism, IGraph graph) {
 		this.id = id;

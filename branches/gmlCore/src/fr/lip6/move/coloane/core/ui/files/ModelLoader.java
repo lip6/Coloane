@@ -155,7 +155,7 @@ public final class ModelLoader {
 			Schema schema = loadSchema();
 			// Validate the model against the definition
 			Validator validator = schema.newValidator();
-			validator.validate(modelSource); 
+			validator.validate(modelSource);
 
 			// Build the parsing factory & Parse
 			SAXParserFactory factory = SAXParserFactory.newInstance();

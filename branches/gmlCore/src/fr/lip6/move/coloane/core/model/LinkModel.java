@@ -18,7 +18,6 @@ package fr.lip6.move.coloane.core.model;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
-import fr.lip6.move.coloane.interfaces.model.IElement;
 
 import java.util.logging.Logger;
 

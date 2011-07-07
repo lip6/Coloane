@@ -154,11 +154,15 @@ public final class FormalismManager {
 	}
 
 	private ArrayList<AttributeFormalism> buildAttributeList(IConfigurationElement description, AttributeFormalism parent) {
+
 		// Browse all attributes from the element description
 		ArrayList<AttributeFormalism> list = new ArrayList<AttributeFormalism>();
 		IConfigurationElement[] attributes;
-		if (parent == null) attributes = description.getChildren("Attribute"); //$NON-NLS-1$
-		else attributes = description.getChildren("InnerAttribute"); //$NON-NLS-1$
+		if (parent == null) {
+			attributes = description.getChildren("Attribute"); //$NON-NLS-1$
+		} else {
+			attributes = description.getChildren("InnerAttribute"); //$NON-NLS-1$
+		}
 		for (IConfigurationElement attribute : attributes) {
 
 			// Test whether this attribute is limited to an enumerated range of values.
@@ -172,7 +176,7 @@ public final class FormalismManager {
 			}
 			// Now either !isEnum, or enumValues is not null.
 
-			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), Boolean.parseBoolean(attribute.getAttribute("drawable")), Boolean.parseBoolean(attribute.getAttribute("multiline")), isEnum, enumValues,parent);  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), Boolean.parseBoolean(attribute.getAttribute("drawable")), Boolean.parseBoolean(attribute.getAttribute("multiline")), isEnum, enumValues, parent);  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
 
 			// Parse the default value
 			if (attribute.getAttribute("default") != null) { //$NON-NLS-1$
@@ -203,12 +207,12 @@ public final class FormalismManager {
 				a.setItalic(Boolean.parseBoolean(attribute.getAttribute("italic"))); //$NON-NLS-1$
 				LOGGER.finer("Add italic state for the attribute : " + a.getName()); //$NON-NLS-1$
 			}
-			
+
 			if (attribute.getAttribute("size") != null) { //$NON-NLS-1$
 				a.setSize(attribute.getAttribute("size")); //$NON-NLS-1$
 				LOGGER.finer("Add bold state for the attribute : " + a.getName()); //$NON-NLS-1$
 			}
-			
+
 			// Parse the parser class
 			if (attribute.getAttribute("parser") != null) { //$NON-NLS-1$
 				IAttributeParser attributeFormatter = null;
@@ -216,12 +220,12 @@ public final class FormalismManager {
 					attributeFormatter = (IAttributeParser) attribute.createExecutableExtension("parser"); //$NON-NLS-1$
 				} catch (CoreException e) {
 					e.printStackTrace();
-					LOGGER.warning("Something went wrong when we tried to add the parser to attribute : "+ a .getName()); //$NON-NLS-1$
+					LOGGER.warning("Something went wrong when we tried to add the parser to attribute : " + a .getName()); //$NON-NLS-1$
 				}
 				a.setParser(attributeFormatter);
 				LOGGER.finer("Add a parser for the attribute : " + a.getName()); //$NON-NLS-1$
 			}
-			
+
 			// Parse the xtext setup class
 			if (attribute.getAttribute("xtext_injector") != null) { //$NON-NLS-1$
 				IXtextProvider provider = null;
@@ -229,15 +233,15 @@ public final class FormalismManager {
 					provider = (IXtextProvider) attribute.createExecutableExtension("xtext_injector"); //$NON-NLS-1$
 				} catch (CoreException e) {
 					e.printStackTrace();
-					LOGGER.warning("Something went wrong when we tried to add the xtext setup to attribute : "+ a .getName()); //$NON-NLS-1$
+					LOGGER.warning("Something went wrong when we tried to add the xtext setup to attribute : " + a .getName()); //$NON-NLS-1$
 				}
 				a.setInjector(provider.getInjector());
 				LOGGER.finer("Add a setup for the attribute : " + a.getName()); //$NON-NLS-1$
 			}
-			
-			// Parse the contained attributes 
-			ArrayList<AttributeFormalism> listinner = buildAttributeList(attribute,a);
-			for (AttributeFormalism att: listinner) {
+
+			// Parse the contained attributes
+			ArrayList<AttributeFormalism> listinner = buildAttributeList(attribute, a);
+			for (AttributeFormalism att : listinner) {
 				// Add the attribute to the parent's list
 				a.addAttribute(att);
 			}
@@ -255,7 +259,7 @@ public final class FormalismManager {
 	 */
 	private void buildAttributes(ElementFormalism element, IConfigurationElement description) {
 		ArrayList<AttributeFormalism> list = buildAttributeList(description,null);
-		for (AttributeFormalism a: list) {
+		for (AttributeFormalism a : list) {
 			// Add the attribute to the parent's list
 			element.addAttribute(a);
 		}
