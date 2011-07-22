@@ -1,0 +1,9 @@
+grammar attribute.Language with org.eclipse.xtext.common.Terminals
+
+generate language "http://www.Language.attribute"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
