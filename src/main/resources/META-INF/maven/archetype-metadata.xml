@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd" name="Attribute Grammar"
+    xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <fileSets>
+    <fileSet encoding="UTF-8" filtered="true">
+    	<directory>src/attribute</directory>
+    	<includes>
+    		<include>**/*.mwe2</include>
+    		<include>**/*.xtext</include>
+    		<include>*.java</include>
+    	</includes>
+    </fileSet>
+    <fileSet encoding="UTF-8" filtered="true">
+    	<directory>META-INF</directory>
+    	<includes>
+    		<include>**/*.MF</include>
+    	</includes>
+    </fileSet>
+    <fileSet filtered="true" encoding="UTF-8">
+      <directory></directory>
+      <includes>
+        <include>.classpath</include>
+        <include>.project</include>
+        <include>build.properties</include>
+      </includes>
+    </fileSet>
+    <fileSet packaged="false" filtered="true">
+    	<directory>src-gen/</directory>
+    	<excludes>
+    		<exclude>**/*.*</exclude></excludes>
+    </fileSet>
+    <fileSet packaged="false" filtered="true">
+    	<directory>xtend-gen/</directory>
+    	<excludes>
+    		<exclude>**/*.*</exclude></excludes>
+    </fileSet>
+  </fileSets>
+</archetype-descriptor>
