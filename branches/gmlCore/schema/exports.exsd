@@ -74,7 +74,7 @@ This is the ID of the org.eclipse.wizard you have declared in your plug-in exten
 We recommend to choose / create a class inside your extension.
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.core.extensions.IExportTo"/>
+                  <meta.attribute kind="java" basedOn=":fr.lip6.move.coloane.interfaces.extensions.IExportTo"/>
                </appInfo>
             </annotation>
          </attribute>
