@@ -23,6 +23,8 @@ import fr.lip6.move.coloane.core.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.core.formalisms.elements.GraphicalDescription;
 import fr.lip6.move.coloane.core.formalisms.elements.NodeFormalism;
+import fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc;
+import fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeParser;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IXtextProvider;
@@ -153,10 +155,16 @@ public final class FormalismManager {
 		this.formalisms.add(form);
 	}
 
-	private ArrayList<AttributeFormalism> buildAttributeList(IConfigurationElement description, AttributeFormalism parent) {
+	/**
+	 * Builds the list of attributes described by a configuration element.
+	 * @param description The configuration element
+	 * @param parent The (potentially null) parent of the attribute list.
+	 * @return The list of attributes
+	 */
+	private List<AttributeFormalism> buildAttributeList(IConfigurationElement description, AttributeFormalism parent) {
 
 		// Browse all attributes from the element description
-		ArrayList<AttributeFormalism> list = new ArrayList<AttributeFormalism>();
+		List<AttributeFormalism> list = new ArrayList<AttributeFormalism>();
 		IConfigurationElement[] attributes;
 		if (parent == null) {
 			attributes = description.getChildren("Attribute"); //$NON-NLS-1$
@@ -240,7 +248,7 @@ public final class FormalismManager {
 			}
 
 			// Parse the contained attributes
-			ArrayList<AttributeFormalism> listinner = buildAttributeList(attribute, a);
+			List<AttributeFormalism> listinner = buildAttributeList(attribute, a);
 			for (AttributeFormalism att : listinner) {
 				// Add the attribute to the parent's list
 				a.addAttribute(att);
@@ -258,7 +266,7 @@ public final class FormalismManager {
 	 * @param description Element description. This description may contains attributes
 	 */
 	private void buildAttributes(ElementFormalism element, IConfigurationElement description) {
-		ArrayList<AttributeFormalism> list = buildAttributeList(description,null);
+		List<AttributeFormalism> list = buildAttributeList(description, null);
 		for (AttributeFormalism a : list) {
 			// Add the attribute to the parent's list
 			element.addAttribute(a);
@@ -385,6 +393,14 @@ public final class FormalismManager {
 					LOGGER.finest("Add the associated figure for the element : " + element.getName()); //$NON-NLS-1$
 				} catch (CoreException e) {
 					LOGGER.warning("Something went wrong when we tried to add the figure to the element : " + element.getName() + " ( " + e.getMessage() + " )"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				}
+			} else {
+			// if no figure is given, give one by default, else there is a crash when
+			// the figure is created, and crashing is bad.
+				if (element instanceof ArcFormalism) {
+					gd.setAssociatedFigure(DirectedArc.class);
+				} else if (element instanceof NodeFormalism) {
+					gd.setAssociatedFigure(EllipseNode.class);
 				}
 			}
 
