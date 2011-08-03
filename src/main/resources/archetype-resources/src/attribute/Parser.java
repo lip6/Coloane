@@ -1,19 +1,32 @@
 package attribute;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.xtext.resource.XtextResource;
+import org.eclipse.xtext.resource.XtextResourceSet;
 
+import attribute.LanguageStandaloneSetup;
 import attribute.language.Element;
 import attribute.language.Model;
+
+import com.google.inject.Injector;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeParser;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 
+/**
+ * Sample parsing and serialising class for use with Xtext.
+ * @author Elodie Banel
+ */
 public class Parser implements IAttributeParser {
 
 	/**
@@ -24,9 +37,23 @@ public class Parser implements IAttributeParser {
 	 */
 	public boolean parseLine(String line, IAttribute containerAtt) {
 
-		ResourceSet rs = new ResourceSetImpl();
-		new LanguageStandaloneSetup().createInjectorAndDoEMFRegistration();
-		Resource resource = rs.getResource( URI.createURI(line),true);
+		Injector injector = new LanguageStandaloneSetup().createInjectorAndDoEMFRegistration();
+		XtextResourceSet resourceSet = injector.getInstance(XtextResourceSet.class);
+		resourceSet.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
+		
+		Resource resource = resourceSet.createResource(URI.createURI("dummy:/example.ext"));
+		InputStream in = new ByteArrayInputStream(line.getBytes());
+		
+		try {
+			resource.load(in, resourceSet.getLoadOptions());
+		} catch (IOException e) {
+			return false;
+		}
+		
+		if (resource.getContents() == null) {
+			return false;
+		}
+		
 		EObject eobject = resource.getContents().get(0);
 		
 		//replace Model by the top-level element in your grammar
