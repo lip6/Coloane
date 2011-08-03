@@ -18,13 +18,16 @@ package fr.lip6.move.coloane.core.ui.menus;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 
+/**
+ * 
+ */
 public class ColoaneMenuManager extends MenuManager {
 
 	/**
 	 * Constructor
-	 * @param text
-	 * @param id
-	 * @param state
+	 * @param text the text
+	 * @param id the id
+	 * @param state the state
 	 */
 	public ColoaneMenuManager(String text, String id, boolean state) {
 		super(text, id);
@@ -32,9 +35,10 @@ public class ColoaneMenuManager extends MenuManager {
 
 	/**
 	 * Constructor
-	 * @param text
-	 * @param id
-	 * @param state
+	 * @param text the text
+	 * @param id the id
+	 * @param state the state
+	 * @param icon the icon
 	 */
 	public ColoaneMenuManager(String text, String id, boolean state, ImageDescriptor icon) {
 		super(text, icon, id);

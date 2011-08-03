@@ -18,6 +18,9 @@ package fr.lip6.move.coloane.core.ui.menus;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 
+/**
+ * 
+ */
 public class ColoaneAPIRootMenu extends MenuManager {
 
 	/**

@@ -19,6 +19,7 @@ import com.google.inject.Injector;
 
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeParser;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +36,15 @@ import org.eclipse.draw2d.geometry.Point;
 public class AttributeFormalism implements IAttributeFormalism {
 	/** Name */
 	private String name;
+	
+	/** Reference */
+	private String reference;
 
 	/** Is the attribute multiline? */
-	private boolean isMultiline;
+	private boolean isMultiline = false;
 
 	/** Is the attribute drawable? */
-	private boolean isDrawable;
+	private boolean isDrawable = true;
 
 	/** The default value */
 	private String defaultValue = null;
@@ -59,67 +63,60 @@ public class AttributeFormalism implements IAttributeFormalism {
 
 	/** Delta Location */
 	private Point delta = new Point(0, 0);
-
-	/** Defines if this attribute is enumerated, and then enumeration is non null. */
-	private boolean enumerated;
 	
 	/** Defines the parser for the text entered */
 	private IAttributeParser parser;
 	
 	/** Defines the xtext setup class for the text entered */
 	private Injector injector;
-
-	/** Defines the set of legal values for this attribute */
-	private List<String> enumeration;
 	
-	/** Parent attribute formalism (if one exists) */
-	private IAttributeFormalism parent;
+	/** Containing formalism */
+	private IFormalism formalism;
 
-	/** Attributes list */
-	private List<IAttributeFormalism> attributes = new ArrayList<IAttributeFormalism>();
+	/** Attributes list (as reference/name pairs) */
+	private List<ChildAttribute> attributes = new ArrayList<ChildAttribute>();
 
 	/**
 	 * Build an attribute
 	 * @param name Name
-	 * @param isDrawable Drawable status
-	 * @param isMultiline Multiline status
-	 * @param isEnumerated Enumerated status
-	 * @param enumValue Authorized values for the enumeration (or <code>null</code> if isEnumerated is <code>false</code>)
-	 * @param parent This attribute's parent, or null if there is none
+	 * @param reference The name of the attribute's reference (can be empty)
+	 * @param formalism The formalism containing this attribute
 	 */
-	public AttributeFormalism(String name, boolean isDrawable, boolean isMultiline, boolean isEnumerated, List<String> enumValue, IAttributeFormalism parent) {
+	public AttributeFormalism(String name, String reference, IFormalism formalism) {
 		this.name = name;
-		this.isDrawable = isDrawable;
-		this.isMultiline = isMultiline;
-		this.enumerated = isEnumerated;
-		this.enumeration = enumValue;
-		this.parent = parent;
+		this.reference = reference;
+		this.formalism = formalism;
 	}
 
 	/**
 	 * Build an attribute
 	 * @param name Name
-	 * @param isDrawable Drawable status
-	 * @param isMultiline Multiline status
-	 * @param isEnumerated Enumerated status
-	 * @param enumValues Authorized values for the enumeration (or <code>null</code> if isEnumerated is <code>false</code>)
+	 * @param reference Th name of the attribute's reference (can be empty)
 	 * @param defaultValue Default value
-	 * @param isDefaultValueDrawable Drawable status for the default value
+	 * @param formalism The formalism containing this attribute
 	 */
-	public AttributeFormalism(String name, boolean isDrawable, boolean isMultiline, boolean isEnumerated, List<String> enumValues, String defaultValue, boolean isDefaultValueDrawable, IAttributeFormalism parent) {
-		this(name, isDrawable, isMultiline, isEnumerated, enumValues, parent);
+	public AttributeFormalism(String name, String reference, String defaultValue, IFormalism formalism) {
+		this(name, reference, formalism);
 		this.defaultValue = defaultValue;
-		this.isDefaultValueDrawable = isDefaultValueDrawable;
 	}
-
+	
 	/** {@inheritDoc} */
 	public final String getName() { return this.name; }
+	
+	/** {@inheritDoc} */
+	public final String getReference() { return reference; }
 
 	/** {@inheritDoc} */
 	public final boolean isDrawable() { return isDrawable; }
+	
+	/** {@inheritDoc} */
+	public final void setDrawable(boolean isDrawable) { this.isDrawable = isDrawable; }
 
 	/** {@inheritDoc} */
 	public final boolean isMultiLine() { return isMultiline; }
+	
+	/** {@inheritDoc} */
+	public final void setMultiline(boolean isMultiline) { this.isMultiline = isMultiline; }
 
 	/** {@inheritDoc} */
 	public final String getDefaultValue() {
@@ -127,10 +124,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 		return ""; //$NON-NLS-1$
 	}
 
-	/**
-	 * Set the default value.<br>
-	 * @param defaultValue the new default value
-	 */
+	/** {@inheritDoc} */
 	public final void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
 	}
@@ -140,10 +134,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 		return bold;
 	}
 
-	/**
-	 * Set the bold status of the attribute
-	 * @param bold <code>true</code> if the attribute has to be displayed in bold
-	 */
+	/** {@inheritDoc} */
 	public final void setBold(boolean bold) {
 		this.bold = bold;
 	}
@@ -153,10 +144,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 		return italic;
 	}
 
-	/**
-	 * Set the italic status of the attribute
-	 * @param italic <code>true</code> if the attribute has to be displayed in italic
-	 */
+	/** {@inheritDoc} */
 	public final void setItalic(boolean italic) {
 		this.italic = italic;
 	}
@@ -166,22 +154,9 @@ public class AttributeFormalism implements IAttributeFormalism {
 		return this.size;
 	}
 
-	/**
-	 * Set the default font size of the attribute
-	 * @param size font-size
-	 */
+	/** {@inheritDoc} */
 	public final void setSize(String size) {
 		this.size = Integer.valueOf(size);
-	}
-
-	/** {@inheritDoc} */
-	public final List<String> getEnumeration() {
-		return this.enumeration;
-	}
-
-	/** {@inheritDoc} */
-	public final boolean isEnumerated() {
-		return this.enumerated;
 	}
 
 	/** {@inheritDoc} */
@@ -189,25 +164,17 @@ public class AttributeFormalism implements IAttributeFormalism {
 		return this.isDefaultValueDrawable;
 	}
 
-	/**
-	 * @param isDefaultValueDrawable Should the attribute be displayed even if its value matches the default one?
-	 */
+	/** {@inheritDoc} */
 	public final void setDefaultValueDrawable(boolean isDefaultValueDrawable) {
 		this.isDefaultValueDrawable = isDefaultValueDrawable;
 	}
 
-	/**
-	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
-	 * @param x X coordinate of the Delta Location.
-	 */
+	/** {@inheritDoc} */
 	public final void setXDelta(int x) {
 		this.delta.x = x;
 	}
 
-	/**
-	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
-	 * @param y Y coordinate of the Delta Location.
-	 */
+	/** {@inheritDoc} */
 	public final void setYDelta(int y) {
 		this.delta.y = y;
 	}
@@ -217,48 +184,36 @@ public class AttributeFormalism implements IAttributeFormalism {
 		return this.delta;
 	}
 	
-	/**
-	 * Add a new attribute to this attribute
-	 * @param attribute The additional attribute to be considered for this element
-	 */
-	public final void addAttribute(AttributeFormalism attribute) {
-		this.attributes.add(attribute);
+	/** {@inheritDoc} */
+	public final void addAttribute(String name, int minOccurs, int maxOccurs) {
+		this.attributes.add(new ChildAttribute(name, minOccurs, maxOccurs));
 	}
 
 	/** {@inheritDoc} */
-	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
+	public final List<IAttributeFormalism> getAttributes() {
+		List<IAttributeFormalism> list = new ArrayList<IAttributeFormalism>();
+		for (ChildAttribute c : attributes) {
+			list.add(formalism.getAttributeFormalism(c.getRefName(), "")); //child attributes are always reference-less //$NON-NLS-1$
+		}
+		return list;
+	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public final IAttributeParser getParser() {
 		return parser;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public final void setParser(IAttributeParser parser) {
 		this.parser = parser;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public final IAttributeFormalism getParent() {
-		return parent;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public final Injector getInjector() {
 		return injector;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public final void setInjector(Injector injector) {
 		this.injector = injector;
 	}

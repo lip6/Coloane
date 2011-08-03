@@ -15,9 +15,11 @@
  */
 package fr.lip6.move.coloane.core.ui.files;
 
+import fr.lip6.move.coloane.core.formalisms.Formalism;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.model.LinkModel;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
+import fr.lip6.move.coloane.core.model.factory.SaxHandler;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
 import fr.lip6.move.coloane.core.model.interfaces.ILink;
 import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
@@ -34,10 +36,17 @@ import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Logger;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -165,17 +174,43 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 	 */
 	private void startModel(Attributes attributes) throws SAXException {
 		// Fetch the formalism name
-		String formalismName = attributes.getValue(MODEL_FORMALISM_MARKUP);
+		String formalismURL = attributes.getValue(MODEL_FORMALISM_MARKUP);
 
 		// Build the graph
 		try {
-			IFormalism formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
+			IFormalism formalism;
+			try {
+				formalism = FormalismManager.getInstance().getFormalismByUrl(formalismURL);
+			} catch (IllegalArgumentException e) {
+
+				//TODO: have this happen in formalismmanager, and add the new formalism
+				//to the list of known formalism, I think it might actually not work being done here
+				//since it cannot be found with getformalismby (id, url, etc)
+
+				formalism = new Formalism("", "", formalismURL, null);  //$NON-NLS-1$//$NON-NLS-2$
+				URL url;
+				try {
+					url = new URL(formalismURL);
+				SAXParserFactory factory = SAXParserFactory.newInstance();
+				SAXParser saxParser = factory.newSAXParser();
+				saxParser.parse(url.openStream(), new SaxHandler((Formalism) formalism));
+				} catch (MalformedURLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (ParserConfigurationException e2) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e3) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			IGraph graph = new GraphModel(formalism);
 			stack.push(graph);
 			this.graph = graph;
 
 			// build the formalism cache
-			for (IElementFormalism elementFormalism : formalism.getRootGraph().getAllElementFormalism()) {
+			for (IElementFormalism elementFormalism : formalism.getAllElementFormalism()) {
 				formalismCache.put(elementFormalism.getName(), elementFormalism);
 			}
 

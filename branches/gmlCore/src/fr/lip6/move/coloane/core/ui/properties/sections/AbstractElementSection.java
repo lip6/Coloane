@@ -190,12 +190,12 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 			for (IAttributeFormalism attr : attributes) {
 				IAttributeLabel lt;
 
-				if (attr.isEnumerated()) {
+				/*if (attr.isEnumerated()) {
 					lt = factory.create(
 							attr.getName(),
 							attr.getDefaultValue(),
 							attr.getEnumeration());
-				} else if (attr.getInjector() != null) {
+				} else*/ if (attr.getInjector() != null) {
 					//les editeurs sont toujours multilignes
 					lt = factory.create(
 							attr.getName(),

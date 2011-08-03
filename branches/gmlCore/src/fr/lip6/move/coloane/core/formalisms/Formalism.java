@@ -15,63 +15,90 @@
  */
 package fr.lip6.move.coloane.core.formalisms;
 
+import fr.lip6.move.coloane.core.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
-import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
+import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
+import fr.lip6.move.coloane.interfaces.formalism.IReference;
 import fr.lip6.move.coloane.interfaces.formalism.constraints.IConstraintLink;
 import fr.lip6.move.coloane.interfaces.formalism.constraints.IConstraintNode;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Define a formalism.<br>
  */
 public class Formalism implements IFormalism {
+	//this does not extend ElementFormalism because that class requires that a
+	//formalism be given as constructor argument, which is not possible here.
+	
+	/** Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Formalism ID */
 	private String id;
 
+	/** Formalism's url */
+	private String href;
+	
 	/** Formalism Name */
 	private String name;
 
-	/** Formalism Identifier for FK platform (historical reason) */
-	private String fkname;
+	/** Is abstract or not */
+	private boolean isabstract;
 
 	/** Formalism constraints about relations between objects */
 	private List<IConstraintLink> linkconstraints;
 
 	/** Formalism constraints about nodes */
 	private List<IConstraintNode> nodeconstraints;
+	
+	/** Formalisms included in this formalism. Order matters. */
+	private List<IFormalism> includedFormalisms;
 
-	/** Root Graph defined by this formalism */
-	private IGraphFormalism rootGraphFormalism = null;
+	/** All elements that can be contained inside a formalism */
+	private Map<String, IElementFormalism> children = new HashMap<String, IElementFormalism>();
+
+	/** All attributes that can be contained inside a formalism
+	 * sorted so that the element referenced gives access to a map
+	 * where attributes are sorted by name. attributes with no reference
+	 * are referred by an empty string */
+	private Map<String, Map<String, IAttributeFormalism>> attributes = new HashMap<String, Map<String, IAttributeFormalism>>();
 
 	/** Image that represents the formalism */
 	private String image;
 
+	/** Graphical description list */
+	private List<IGraphicalDescription> graphicalDescriptions = new ArrayList<IGraphicalDescription>();
+	
 	/**
 	 * Constructor
 	 *
 	 * @param id Formalism ID
 	 * @param name Formalism Name
-	 * @param fkname Formalism ID for FK platform
+	 * @param href Formalism's url
 	 * @param image Image that describes the formalism
 	 */
-	public Formalism(String id, String name, String fkname, String image) {
+	public Formalism(String id, String name, String href, String image) {
 		this.id = id;
 		this.name = name;
-		this.fkname = fkname;
+		this.href = href;
 		this.image = image;
 
 		this.linkconstraints = new ArrayList<IConstraintLink>();
 		this.nodeconstraints = new ArrayList<IConstraintNode>();
+		this.includedFormalisms = new ArrayList<IFormalism>();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public final boolean isLinkAllowed(INode source, INode target, IArcFormalism arcFormalism) {
 		// Try to find a constraint for these two kinds of nodes
 		for (IConstraintLink constraint : linkconstraints) {
@@ -82,9 +109,7 @@ public class Formalism implements IFormalism {
 		return true;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public final boolean isActionAllowed(INode node) {
 		// Try to find a constraint for this kind of node
 		for (IConstraintNode constraint : nodeconstraints) {
@@ -122,49 +147,128 @@ public class Formalism implements IFormalism {
 		return this.id;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public final String getName() {
 		return this.name;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	public final String getFKName() {
-		return this.fkname;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	public final String getImageName() {
 		return "/" + image; //$NON-NLS-1$
 	}
-
+	
 	/**
-	 * {@inheritDoc}
+	 * Add a formalism to the list of inclusions in final position
+	 * @param form The formalism to be added
 	 */
-	public final IGraphFormalism getRootGraph() {
-		return this.rootGraphFormalism;
+	public final void addFormalism(IFormalism form) {
+		this.includedFormalisms.add(form);
 	}
 
-	/**
-	 * Set the root graph (the graph described by the formalism).<br>
-	 * This information is used to get the most high level graph object very quickly from any node, arc or attribute.<br>
-	 * Just use {@link #getMasterGraph()}
-	 * @param rootGraphFormalism The graph which is at the top level
-	 */
-	public final void setRootGraph(IGraphFormalism rootGraphFormalism) {
-		this.rootGraphFormalism = rootGraphFormalism;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
+	/** {@inheritDoc} */
 	@Override
 	public final String toString() {
 		return getName();
 	}
+	
+	/**
+	 * Add an element to the formalism definition
+	 * @param element The element to add to the formalism
+	 */
+	public final void addElement(ElementFormalism element) {
+		if (element == null) {
+			return;
+		}
+		LOGGER.finer("Add an element to the formalism : " + element.getName()); //$NON-NLS-1$
+		this.children.put(element.getName(), element);
+	}
+
+	/** {@inheritDoc} */
+	public final Collection<IElementFormalism> getAllElementFormalism() {
+		return this.children.values();
+	}
+
+	/** {@inheritDoc} */
+	public final IElementFormalism getElementFormalism(String name) {
+		return children.get(name);
+	}
+	
+	/** {@inheritDoc} */
+	public final IAttributeFormalism getAttributeFormalism(String name, String reference) {
+		Map<String, IAttributeFormalism> map = attributes.get(reference);
+		if (map != null) {
+			return map.get(name);
+		}
+		return null;
+	}
+
+	/** {@inheritDoc} */
+	public final Map<String, IAttributeFormalism> getAllAttributeFormalism(String reference) {
+		return attributes.get(reference);
+	}
+
+	/** {@inheritDoc} */
+	public final void addAttribute(IAttributeFormalism attribute) {
+		Map<String, IAttributeFormalism> map = attributes.get(attribute.getReference());
+		if (map == null) {
+			map = new HashMap<String, IAttributeFormalism>();
+			attributes.put(attribute.getReference(), map);
+		}
+		map.put(attribute.getName(), attribute);
+	}
+
+	/** {@inheritDoc} */
+	public final List<IAttributeFormalism> getAttributes() {
+		Map<String, IAttributeFormalism> map = attributes.get(name);
+		if (map == null) {
+			return new ArrayList<IAttributeFormalism>();
+		}
+		return new ArrayList<IAttributeFormalism>(map.values());
+	}
+ 
+	/** {@inheritDoc} */
+	public final List<IGraphicalDescription> getAllGraphicalDescription() { return graphicalDescriptions; }
+
+	/** {@inheritDoc} */
+	public final IGraphicalDescription getGraphicalDescription() { return graphicalDescriptions.get(0); }
+
+	/** {@inheritDoc} */
+	public final void addGraphicalDescription(IGraphicalDescription graphicalDescription) {
+		this.graphicalDescriptions.add(graphicalDescription);
+	}
+
+	/** {@inheritDoc} */
+	public final IFormalism getFormalism() { return this; }
+	
+	/** {@inheritDoc} */
+	public final void setAbstract(boolean isabstract) {
+		this.isabstract = isabstract;
+	}
+	
+	/** {@inheritDoc} */
+	public final boolean isAbstract() {
+		return isabstract;
+	}
+
+	/** {@inheritDoc} */
+	public final void addReference(String href, int minOccurs, int maxOccurs) {
+		//a formalism does not have references
+	}
+
+	/** {@inheritDoc} */
+	public final List<IReference> getReferences() {
+		//a formalism does not have references
+		return new ArrayList<IReference>();
+	}
+	
+	/** {@inheritDoc} */
+	public final String getHref() {
+		return href;
+	}
+	
+	/** @param name The formalism's name */
+	public final void setName(String name) {
+		this.name = name;
+	}
+
 }

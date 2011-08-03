@@ -151,12 +151,12 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
-	public boolean isLeaf() {
+	public final boolean isLeaf() {
 		return children.isEmpty();
 	}
 
 	/** {@inheritDoc} */
-	public void setLeaf() {
+	public final void setLeaf() {
 		children.clear();
 	}
 
@@ -187,17 +187,17 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
-	public Collection<IAttribute> getAttributes() {
+	public final Collection<IAttribute> getAttributes() {
 		return children.values();
 	}
 
 	/** {@inheritDoc} */
-	public IAttribute getAttribute(String attName) {
+	public final IAttribute getAttribute(String attName) {
 		return children.get(attName);
 	}
 
 	/** {@inheritDoc} */
-	public void setAttributes(Collection<IAttribute> values) {
+	public final void setAttributes(Collection<IAttribute> values) {
 		Map<String, IAttribute> oldValues = this.children;
 		for (IAttribute attr : values) {
 			this.children.put(attr.getName(), attr);
@@ -206,14 +206,14 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
-	public void addAttribute(IAttribute value) {
+	public final void addAttribute(IAttribute value) {
 		Map<String, IAttribute> oldValues = this.children;
 		children.put(value.getName(), value);
 		firePropertyChange(IAttribute.VALUE_PROP, oldValues, this.children);
 	}
 
 	/** {@inheritDoc} */
-	public void initialiseValue() {
+	public final void initialiseValue() {
 		String oldValue = value;
 		if (this.attributFormalism.getParser() != null) {
 			value = this.attributFormalism.getParser().toString(this);

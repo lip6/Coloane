@@ -80,7 +80,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
 	 */
 	public GraphModel(IFormalism formalism) throws IllegalArgumentException {
-		super(1, null, formalism.getRootGraph(), null);
+		super(1, null, formalism, null);
 		LOGGER.fine("Build a graph model using formalism:" + formalism.getName() + "");  //$NON-NLS-1$ //$NON-NLS-2$
 		this.formalism = formalism;
 
@@ -385,11 +385,14 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 		}
 	}
 
-	public IAttribute createAttribute(IElement reference, IElementFormalism elementFormalism, String name) throws ModelException {
+	/**
+	 * {@inheritDoc}
+	 */
+	public final IAttribute createAttribute(IElement reference, IElementFormalism elementFormalism, String name) throws ModelException {
 		LOGGER.finer("Build a new attribute: " + name); //$NON-NLS-1$
 
 		IAttributeFormalism newFormalism = null;
-		for (IAttributeFormalism a : elementFormalism.getAttributes()){
+		for (IAttributeFormalism a : elementFormalism.getAttributes()) {
 			if (a.getName().equals(name)) {
 				newFormalism = a;
 				break;
@@ -404,7 +407,10 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 		return attribute;
 	}
 
-	public IAttribute createAttribute(IElement reference, IAttribute parent, IAttributeFormalism attributeFormalism, String name)
+	/**
+	 * {@inheritDoc}
+	 */
+	public final IAttribute createAttribute(IElement reference, IAttribute parent, IAttributeFormalism attributeFormalism, String name)
 			throws ModelException {
 		LOGGER.finer("Build a new attribute: " + name); //$NON-NLS-1$
 		IAttributeFormalism newFormalism = null;
@@ -424,7 +430,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 	
 	@Override
-	public final IGraph getGraph(){
+	public final IGraph getGraph() {
 		return this;
 	}
 }

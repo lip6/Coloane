@@ -15,8 +15,8 @@
  */
 package fr.lip6.move.coloane.core.model;
 
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
+import fr.lip6.move.coloane.interfaces.model.IGlobalAttribute;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 import org.eclipse.draw2d.ColorConstants;
@@ -35,7 +35,7 @@ import org.eclipse.swt.graphics.Font;
  */
 public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 	/** The attribute model object */
-	private final IAttribute attribute;
+	private final IGlobalAttribute attribute;
 
 	/** Graphical coordinates */
 	private int x = 0;
@@ -45,7 +45,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 	 * Build an attribute graphical description
 	 * @param modelAttribute the attribute which is concerned by this graphical description
 	 */
-	public AttributeGraphicInfo(IAttribute modelAttribute) {
+	public AttributeGraphicInfo(IGlobalAttribute modelAttribute) {
 		this.attribute = modelAttribute;
 	}
 

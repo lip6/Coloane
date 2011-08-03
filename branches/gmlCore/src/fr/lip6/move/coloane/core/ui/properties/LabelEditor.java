@@ -132,9 +132,6 @@ public class LabelEditor implements IAttributeLabel {
 			tmp.layout();
 			tmp.redraw();
 			tmp2 = tmp;
-			if (tmp == sc) {
-				break;
-			}
 			tmp = tmp.getParent();
 		}
 

@@ -13,7 +13,6 @@ import com.google.inject.Inject;
 import java.util.List;
 
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
-import org.eclipse.xtext.ui.editor.model.edit.IDocumentEditor;
 import org.eclipse.xtext.ui.editor.model.edit.IModification;
 import org.eclipse.xtext.ui.editor.model.edit.ISemanticModification;
 import org.eclipse.xtext.ui.editor.model.edit.SemanticModificationWrapper;
@@ -29,20 +28,16 @@ public class EmbeddedIssueResolutionAcceptor {
 	private List<IssueResolution> issueResolutions = Lists.newArrayList();
 
 	private EmbeddedIssueModificationContext.Factory modificationContextFactory;
-
-	private IDocumentEditor documentEditor;
 	
 	private IXtextDocument document;
 	
 	/**
 	 * Constructor.  The parameters are provided by Guice.
 	 * @param modificationContextFactory provided by Guice
-	 * @param documentEditor provided by Guice
 	 */
 	@Inject
-	public EmbeddedIssueResolutionAcceptor(EmbeddedIssueModificationContext.Factory modificationContextFactory, IDocumentEditor documentEditor) {
+	public EmbeddedIssueResolutionAcceptor(EmbeddedIssueModificationContext.Factory modificationContextFactory) {
 		this.modificationContextFactory = modificationContextFactory;
-		this.documentEditor = documentEditor;
 	}
 
 	/**
@@ -74,7 +69,7 @@ public class EmbeddedIssueResolutionAcceptor {
 	 * @param semanticModification The ISemanticModification associated with this issue.
 	 */
 	public final void accept(Issue issue, String label, String description, String image, ISemanticModification semanticModification) {
-		SemanticModificationWrapper modificationWrapper = new SemanticModificationWrapper(issue.getUriToProblem(), semanticModification, documentEditor);
+		SemanticModificationWrapper modificationWrapper = new SemanticModificationWrapper(issue.getUriToProblem(), semanticModification);
 		issueResolutions.add(new IssueResolution(label, description, image, modificationContextFactory.createModificationContext(issue, document),
 				modificationWrapper));
 	}

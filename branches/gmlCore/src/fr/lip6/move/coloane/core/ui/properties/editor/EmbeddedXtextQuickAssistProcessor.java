@@ -9,7 +9,8 @@ import org.eclipse.xtext.ui.editor.quickfix.XtextQuickAssistProcessor;
 import org.eclipse.xtext.validation.Issue;
 
 /**
- * 
+ * Extension of xtextquickassistprocessor that integrates use of a document for
+ * embedded edition.
  */
 public class EmbeddedXtextQuickAssistProcessor extends XtextQuickAssistProcessor {
 	

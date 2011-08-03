@@ -1,10 +1,10 @@
 package fr.lip6.move.coloane.core.ui.properties.editor;
 
-import com.google.common.collect.HashBiMap;
-import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -19,11 +19,9 @@ import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.XtextEditor;
-import org.eclipse.xtext.ui.editor.folding.DefaultFoldingRegionProvider;
-import org.eclipse.xtext.ui.editor.folding.IFoldingRegion;
+import org.eclipse.xtext.ui.editor.folding.FoldedPosition;
 import org.eclipse.xtext.ui.editor.folding.IFoldingRegionProvider;
 import org.eclipse.xtext.ui.editor.folding.IFoldingStructureProvider;
-import org.eclipse.xtext.ui.editor.folding.StyledProjectionAnnotation;
 import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
 
 /**
@@ -34,7 +32,7 @@ import org.eclipse.xtext.ui.editor.model.IXtextModelListener;
 public class EmbeddedFoldingStructureProvider implements IXtextModelListener, IFoldingStructureProvider {
 	
 	@Inject
-	private IFoldingRegionProvider foldingRegionProvider = new DefaultFoldingRegionProvider();
+	private IFoldingRegionProvider foldingRegionProvider;
 	private EmbeddedXtextEditor editor;
 	private ProjectionViewer viewer;
 	private ProjectionChangeListener projectionListener;
@@ -128,46 +126,34 @@ public class EmbeddedFoldingStructureProvider implements IXtextModelListener, IF
 	 * @param allowCollapse Whether collapsing of the regions is allowed or not
 	 */
 	protected final void calculateProjectionAnnotationModel(boolean allowCollapse) {
- 		ProjectionAnnotationModel projectionAnnotationModel = this.viewer.getProjectionAnnotationModel();
+		ProjectionAnnotationModel projectionAnnotationModel = this.viewer.getProjectionAnnotationModel();
 		if (projectionAnnotationModel != null) {
-			List<IFoldingRegion> foldingRegions = foldingRegionProvider.getFoldingRegions(editor.getDocument());
-			HashBiMap<Position, IFoldingRegion> positionsMap = toPositionIndexedMap(foldingRegions);
-			Annotation[] newRegions = mergeFoldingRegions(positionsMap, projectionAnnotationModel);
-			updateFoldingRegions(allowCollapse, projectionAnnotationModel, positionsMap, newRegions);
+			// make a defensive copy as we modify the folded positions in subsequent operations
+			Collection<FoldedPosition> foldedPositions = Sets.newLinkedHashSet(foldingRegionProvider.getFoldingRegions(editor.getDocument()));
+			Annotation[] newRegions = mergeFoldingRegions(foldedPositions, projectionAnnotationModel);
+			updateFoldingRegions(allowCollapse, projectionAnnotationModel, foldedPositions, newRegions);
 		}
 	}
 
-	/**
-	 * Maps the list of regions according to their position
-	 * @param foldingRegions the original list of regions
-	 * @return the regions mapped according to position
-	 */
-	protected final HashBiMap<Position, IFoldingRegion> toPositionIndexedMap(List<IFoldingRegion> foldingRegions) {
-		HashBiMap<Position, IFoldingRegion> positionsMap = Maps.newHashBiMap();
-		for (IFoldingRegion foldingRegion : foldingRegions) {
-			positionsMap.put(foldingRegion.getPosition(), foldingRegion);
-		}
-		return positionsMap;
-	}
 
 	/**
 	 * Updates the given model and map so that they can be merged.  The positions that exist in the model
 	 * but not in the map are returned; those that already exist are erased from the map.  At the end
 	 * of the execution of this function, the model is unchanged and the map contains only those regions
 	 * not contained by the model.
-	 * @param positionsMap The regions mapped by position.
+	 * @param foldedPositions The regions to fold
 	 * @param projectionAnnotationModel The existing annotation model.
 	 * @return The list of annotations found both in the map and the model.
 	 */
 	@SuppressWarnings("unchecked")
-	protected final Annotation[] mergeFoldingRegions(HashBiMap<Position, IFoldingRegion> positionsMap,
+	protected final Annotation[] mergeFoldingRegions(Collection<FoldedPosition> foldedPositions,
 			ProjectionAnnotationModel projectionAnnotationModel) {
 		List<Annotation> deletions = new ArrayList<Annotation>();
 		for (Iterator<Annotation> iterator = projectionAnnotationModel.getAnnotationIterator(); iterator.hasNext();) {
 			Annotation annotation = iterator.next();
 			if (annotation instanceof ProjectionAnnotation) {
 				Position position = projectionAnnotationModel.getPosition(annotation);
-				if (positionsMap.remove(position) == null) {
+				if (!foldedPositions.remove(position)) {
 					deletions.add(annotation);
 				}
 			}
@@ -179,15 +165,14 @@ public class EmbeddedFoldingStructureProvider implements IXtextModelListener, IF
 	 * Updates the annotation model according to the parameters.
 	 * @param allowCollapse Whether to allow new annotations to be collapsed.
 	 * @param model The existing annotation model.
-	 * @param positionsMap The map of new regions to be annotated in the model.
+	 * @param foldedPositions The list of new regions to be annotated in the model.
 	 * @param deletions The list of annotations to delete.
 	 */
 	protected final void updateFoldingRegions(boolean allowCollapse, ProjectionAnnotationModel model,
-			HashBiMap<Position, IFoldingRegion> positionsMap, Annotation[] deletions) {
+			Collection<FoldedPosition> foldedPositions, Annotation[] deletions) {
 		Map<ProjectionAnnotation, Position> additionsMap = new HashMap<ProjectionAnnotation, Position>();
-		for (Iterator<IFoldingRegion> iterator = positionsMap.values().iterator(); iterator.hasNext();) {
-			IFoldingRegion foldingRegion = iterator.next();
-			addProjectionAnnotation(allowCollapse, foldingRegion, additionsMap);
+		for (FoldedPosition foldedPosition : foldedPositions) {
+			addProjectionAnnotation(allowCollapse, foldedPosition, additionsMap);
 		}
 		if (deletions.length != 0 || additionsMap.size() != 0) {
 			model.modifyAnnotations(deletions, additionsMap, new Annotation[] {});
@@ -200,20 +185,20 @@ public class EmbeddedFoldingStructureProvider implements IXtextModelListener, IF
 	 * @param foldingRegion The region the new annotation will collapse
 	 * @param additionsMap The map to add the new annotation to
 	 */
-	protected final void addProjectionAnnotation(boolean allowCollapse, IFoldingRegion foldingRegion,
+	protected final void addProjectionAnnotation(boolean allowCollapse, Position foldingRegion,
 			Map<ProjectionAnnotation, Position> additionsMap) {
 		ProjectionAnnotation projectionAnnotation = createProjectionAnnotation(allowCollapse, foldingRegion);
-		additionsMap.put(projectionAnnotation, foldingRegion.getPosition());
+		additionsMap.put(projectionAnnotation, foldingRegion);
 	}
 
 	/**
 	 * Creates a new projection annotation
-	 * @param allowCollapse Whether or not collapsing is allowed with this annotation
-	 * @param foldingRegion The region this annotation will collapse
+	 * @param isCollapsed Whether or not collapsing is allowed with this annotation
+	 * @param foldedRegion The region this annotation will collapse
 	 * @return The projection annotation
 	 */
-	protected final ProjectionAnnotation createProjectionAnnotation(boolean allowCollapse, IFoldingRegion foldingRegion) {
-		return new StyledProjectionAnnotation(allowCollapse, foldingRegion.getAlias());
+	protected final ProjectionAnnotation createProjectionAnnotation(boolean isCollapsed, Position foldedRegion) {
+		return new ProjectionAnnotation(isCollapsed);
 	}
 
 	/**

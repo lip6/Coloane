@@ -26,7 +26,6 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import org.eclipse.draw2d.Bendpoint;
-import org.eclipse.swt.graphics.Color;
 
 /**
  * Utility class that help to write a model to an XML file.
@@ -79,7 +78,7 @@ public final class ModelWriter implements IModelHandler {
 
 		// Formalism
 		line.append("<" + MODEL_MARKUP + " xmlns='http://gml.lip6.fr/model'"); //$NON-NLS-1$ //$NON-NLS-2$
-		line.append(" " + MODEL_FORMALISM_MARKUP + "='").append(graph.getFormalism().getName()).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		line.append(" " + MODEL_FORMALISM_MARKUP + "='").append(graph.getFormalism().getHref()).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		// Graph attributes
 		line.append(translateAttributesToXML(graph));
@@ -102,7 +101,7 @@ public final class ModelWriter implements IModelHandler {
 	 * @param color The SWT Color object
 	 * @return A string that can be dumped into a XML representation
 	 */
-	private static String color2String(Color color) {
+	/* private static String color2String(Color color) {
 		String red = Integer.toHexString(color.getRed());
 		String green = Integer.toHexString(color.getGreen());
 		String blue = Integer.toHexString(color.getBlue());
@@ -116,7 +115,7 @@ public final class ModelWriter implements IModelHandler {
 			blue = "0" + blue; //$NON-NLS-1$
 		}
 		return "#" + red + green + blue; //$NON-NLS-1$
-	}
+	}*/
 
 	/**
 	 * Translate a node

@@ -49,6 +49,7 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.commands.ActionHandler;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.ISynchronizable;
 import org.eclipse.jface.text.ITextOperationTarget;
 import org.eclipse.jface.text.quickassist.IQuickAssistAssistant;
@@ -59,6 +60,7 @@ import org.eclipse.jface.text.source.AnnotationRulerColumn;
 import org.eclipse.jface.text.source.CompositeRuler;
 import org.eclipse.jface.text.source.IAnnotationAccess;
 import org.eclipse.jface.text.source.IAnnotationAccessExtension;
+import org.eclipse.jface.text.source.ICharacterPairMatcher;
 import org.eclipse.jface.text.source.IOverviewRuler;
 import org.eclipse.jface.text.source.ISharedTextColors;
 import org.eclipse.jface.text.source.ISourceViewer;
@@ -107,7 +109,6 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.ui.editor.XtextSourceViewer;
 import org.eclipse.xtext.ui.editor.XtextSourceViewerConfiguration;
 import org.eclipse.xtext.ui.editor.bracketmatching.BracketMatchingPreferencesInitializer;
-import org.eclipse.xtext.ui.editor.bracketmatching.CharacterPairMatcher;
 import org.eclipse.xtext.ui.editor.model.IXtextDocument;
 import org.eclipse.xtext.ui.editor.model.XtextDocument;
 import org.eclipse.xtext.ui.editor.preferences.IPreferenceStoreAccess;
@@ -162,6 +163,8 @@ public class EmbeddedXtextEditor {
 	private IGrammarAccess fGrammarAccess;
 	private Menu fRulerContextMenu;
 	@Inject
+	private Provider<IDocumentPartitioner> fDocumentPartitioner;
+	@Inject
 	private XtextSourceViewer.Factory fSourceViewerFactory;
 	@Inject
 	private Provider<XtextDocument> fDocumentProvider;
@@ -173,10 +176,14 @@ public class EmbeddedXtextEditor {
 	private IVerticalRuler fVerticalRuler;
 	@Inject
 	private IPreferenceStoreAccess fPreferenceStoreAccess;
+	
+	//broken by xtext 2.0
 	@Inject
-	private CharacterPairMatcher characterPairMatcher;
+	private ICharacterPairMatcher characterPairMatcher;
+	
 	@Inject(optional = true)
 	private AnnotationPainter.IDrawingStrategy projectionAnnotationDrawingStrategy;
+	@Inject
 	private EmbeddedFoldingStructureProvider fFoldingStructureProvider;
 	private IOverviewRuler fOverviewRuler;
 	private IAnnotationAccess fAnnotationAccess;
@@ -196,7 +203,7 @@ public class EmbeddedXtextEditor {
 		fStyle = style;
 		fAnnotationPreferences = EditorsPlugin.getDefault().getMarkerAnnotationPreferences();
 		//has to be created because inject would not give the structure provider
-		fFoldingStructureProvider = new EmbeddedFoldingStructureProvider();
+		//fFoldingStructureProvider = new EmbeddedFoldingStructureProvider();
 
 		Injector i2 = injector.createChildInjector(
 				new Module() {
@@ -209,6 +216,8 @@ public class EmbeddedXtextEditor {
 					public void configure(Binder arg) {
 						arg.bind(XtextSourceViewerConfiguration.class).to(EmbeddedXtextSourceViewerConfiguration.class);
 						arg.bind(EmbeddedXtextQuickAssistProcessor.class);
+						arg.bind(EmbeddedFoldingStructureProvider.class);
+						//arg.bind(ILocationInFileProvider.class).to(DefaultLocationInFileProvider.class);
 					}
 				});
 
@@ -271,7 +280,6 @@ public class EmbeddedXtextEditor {
 		document.setInput(fResource);
 		AnnotationModel annotationModel = new AnnotationModel();
 		annotationModel.connect(document);
-		//fIssueResolutionProvider, markerUtil
 		if (document instanceof ISynchronizable) {
 			Object lock = ((ISynchronizable) document).getLockObject();
 			if (lock == null) {
@@ -321,6 +329,7 @@ public class EmbeddedXtextEditor {
 		StyledText text = fSourceViewer.getTextWidget();
 		Menu menu = manager.createContextMenu(text);
 		text.setMenu(menu);
+
 	}
 	
 	/**
@@ -335,6 +344,7 @@ public class EmbeddedXtextEditor {
 
 		menu.add(new Separator(ICommonMenuConstants.GROUP_GENERATE));
 		menu.appendToGroup(ICommonMenuConstants.GROUP_GENERATE, fActions.get(ITextEditorActionDefinitionIds.CONTENT_ASSIST_PROPOSALS));
+
 	}
 	
 	/**
@@ -463,7 +473,8 @@ public class EmbeddedXtextEditor {
 		// make sure the source viewer decoration support is initialized
 		getSourceViewerDecorationSupport(fSourceViewer);
 
-		fRulerContextMenuId = org.eclipse.ui.texteditor.AbstractTextEditor.DEFAULT_RULER_CONTEXT_MENU_ID;
+		//if a menu is wanted when right clicking on the annotation bar, use this.
+		/*fRulerContextMenuId = org.eclipse.ui.texteditor.AbstractTextEditor.DEFAULT_RULER_CONTEXT_MENU_ID;
 		String id = fRulerContextMenuId;
 		MenuManager manager = new MenuManager(id, id);
 		manager.setRemoveAllWhenShown(true);
@@ -480,9 +491,9 @@ public class EmbeddedXtextEditor {
 				}
 			);
 
-		Control rulerControl = fVerticalRuler.getControl();
 		fRulerContextMenu = manager.createContextMenu(rulerControl);
-		rulerControl.setMenu(fRulerContextMenu);
+		rulerControl.setMenu(fRulerContextMenu);*/
+		Control rulerControl = fVerticalRuler.getControl();
 		rulerControl.addMouseListener(getRulerMouseListener());
 
 		fSourceViewer.getTextWidget().addFocusListener(new SourceViewerFocusListener());
@@ -495,6 +506,11 @@ public class EmbeddedXtextEditor {
 		});
 
 		fDocument = fDocumentProvider.get();
+		if (fDocument != null) {
+			IDocumentPartitioner partitioner = fDocumentPartitioner.get();
+			partitioner.connect(fDocument);
+			fDocument.setDocumentPartitioner(partitioner);
+		}
 
 		ValidationJob job = new ValidationJob(fResourceValidator, fDocument,
 				new IValidationIssueProcessor() {
@@ -672,6 +688,8 @@ public class EmbeddedXtextEditor {
 	 * @param eObject The object to serialise and use to update the document.
 	 * @param asString The string to use to update the document.
 	 */
+	// this class is a bit useless for us, and seems full of errors, so I commented it
+	// maybe it'll be useful in the future?
 /*	public final void update(EObject eObject, String asString) {
 		fResource.setParentResource(eObject.eResource());
 		if (eObject != null) {

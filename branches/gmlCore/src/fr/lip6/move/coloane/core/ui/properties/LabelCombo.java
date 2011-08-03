@@ -143,7 +143,8 @@ public final class LabelCombo implements IAttributeLabel {
 	public void redraw() {
 		Composite tmp = parent;
 		// TODO: WTF?? Copy/paste from Clement, it works but not very elegant...
-		for (int i = 0; i < 20 && tmp != null; i++) {
+		// reduit a 3 au lieu de 20 et ca semble marcher, c'est mieux..
+		for (int i = 0; i < 3 && tmp != null; i++) {
 			tmp.layout();
 			tmp.redraw();
 			tmp = tmp.getParent();

@@ -17,27 +17,32 @@ package fr.lip6.move.coloane.core.model.factory;
 
 import fr.lip6.move.coloane.core.formalisms.Formalism;
 import fr.lip6.move.coloane.core.formalisms.elements.ArcFormalism;
-import fr.lip6.move.coloane.core.formalisms.elements.AttributeFormalism;
-import fr.lip6.move.coloane.core.formalisms.elements.ComputedAttributeFormalism;
-import fr.lip6.move.coloane.core.formalisms.elements.ElementFormalism;
-import fr.lip6.move.coloane.core.formalisms.elements.GraphFormalism;
 import fr.lip6.move.coloane.core.formalisms.elements.GraphicalDescription;
 import fr.lip6.move.coloane.core.formalisms.elements.NodeFormalism;
 import fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc;
 import fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode;
+import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeParser;
+import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IXtextProvider;
 import fr.lip6.move.coloane.interfaces.formalism.constraints.IConstraintLink;
 import fr.lip6.move.coloane.interfaces.formalism.constraints.IConstraintNode;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.xml.sax.SAXException;
 
 /**
  * Formalism Manager.<br>
@@ -88,55 +93,50 @@ public final class FormalismManager {
 	 * @param description Description loads from the extension point
 	 */
 	private void buildFormalism(IConfigurationElement description) {
-		String id, name, fkname, xschema, image;
+		String id, name, image, href;
 		id = description.getAttribute("id"); //$NON-NLS-1$
 		name = description.getAttribute("name");  //$NON-NLS-1$
-		fkname = description.getAttribute("fkname");  //$NON-NLS-1$
-		xschema = description.getAttribute("xschema"); //$NON-NLS-1$
 		image = description.getAttribute("image"); //$NON-NLS-1$
+		href = description.getAttribute("href");  //$NON-NLS-1$
+		Formalism form;
+		LOGGER.fine("Build a formalism " + name + "- Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$
+		form = new Formalism(id, name, href, image);
+		URL url;
 
-		LOGGER.fine("Build a formalism " + name + "(FK ID: " + fkname + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		LOGGER.finer("XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$
+		try {
+			url = new URL(href);
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser saxParser = factory.newSAXParser();
+			saxParser.parse(url.openStream(), new SaxHandler(form));
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		Formalism form = new Formalism(id, name, fkname, image);
-		IConfigurationElement[] xmlDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
+		// Get the graphic descriptions for nodes and arcs
+		IConfigurationElement[] graphics = description.getChildren("GraphicInfo"); //$NON-NLS-1$
+		for (IConfigurationElement graphic : graphics) {
+			IElementFormalism e = form.getElementFormalism(graphic.getAttribute("refName")); //$NON-NLS-1$
+			this.buildGraphicalDescription(e, graphic);
+		}
 
-		// Graphs definition from XML description
-		IConfigurationElement[] graphes = xmlDescription[0].getChildren("Graph"); //$NON-NLS-1$
-		for (IConfigurationElement graph : graphes) {
-			GraphFormalism g = new GraphFormalism(graph.getAttribute("name"), form); //$NON-NLS-1$
-			LOGGER.finer("Build a graph element : " + g.getName()); //$NON-NLS-1$
-			this.buildAttributes(g, graph);
-			this.buildComputedAttributes(g, graph);
-			form.setRootGraph(g);
-
-			// Nodes definition from XML description
-			IConfigurationElement[] nodes = graph.getChildren("Node"); //$NON-NLS-1$
-			for (IConfigurationElement node : nodes) {
-				NodeFormalism n = new NodeFormalism(node.getAttribute("name"), form); //$NON-NLS-1$
-				LOGGER.finer("Build a node element : " + n.getName()); //$NON-NLS-1$
-				this.buildAttributes(n, node);
-				this.buildComputedAttributes(n, node);
-				this.buildGraphicalDescription(n, node);
-				g.addElement(n);
-			}
-
-			// Arcs definition from XML description
-			IConfigurationElement[] arcs = graph.getChildren("Arc"); //$NON-NLS-1$
-			for (IConfigurationElement arc : arcs) {
-				ArcFormalism a = new ArcFormalism(arc.getAttribute("name"), form); //$NON-NLS-1$
-				LOGGER.finer("Build an arc element : " + a.getName()); //$NON-NLS-1$
-				this.buildAttributes(a, arc);
-				this.buildComputedAttributes(a, arc);
-				this.buildGraphicalDescription(a, arc);
-				g.addElement(a);
-			}
+		// Get the graphic descriptions for attributes
+		graphics = description.getChildren("AttributeGraphicInfo"); //$NON-NLS-1$
+		for (IConfigurationElement graphic : graphics) {
+			IAttributeFormalism e = form.getAttributeFormalism(graphic.getAttribute("name"), graphic.getAttribute("refName")); //$NON-NLS-1$ //$NON-NLS-2$
+			this.buildAttributeGraphicalDescription(graphic, e);
 		}
 
 		// Build constraints
 		// Two kinds of constraint exist: Links or Nodes (beware of their type)
 		try {
-			IConfigurationElement[] constraints = xmlDescription[0].getChildren("Constraint"); //$NON-NLS-1$
+			IConfigurationElement[] constraints = description.getChildren("Constraint"); //$NON-NLS-1$
 			for (IConfigurationElement constraint : constraints) {
 				// Link constraint
 				if (Boolean.parseBoolean(constraint.getAttribute("link"))) { //$NON-NLS-1$
@@ -158,187 +158,68 @@ public final class FormalismManager {
 	/**
 	 * Builds the list of attributes described by a configuration element.
 	 * @param description The configuration element
-	 * @param parent The (potentially null) parent of the attribute list.
-	 * @return The list of attributes
+	 * @param attribute The attribute to modify
 	 */
-	private List<AttributeFormalism> buildAttributeList(IConfigurationElement description, AttributeFormalism parent) {
+	private void buildAttributeGraphicalDescription(IConfigurationElement description, IAttributeFormalism attribute) {
 
-		// Browse all attributes from the element description
-		List<AttributeFormalism> list = new ArrayList<AttributeFormalism>();
-		IConfigurationElement[] attributes;
-		if (parent == null) {
-			attributes = description.getChildren("Attribute"); //$NON-NLS-1$
-		} else {
-			attributes = description.getChildren("InnerAttribute"); //$NON-NLS-1$
+		if (description.getAttribute("displayed_default") != null) { //$NON-NLS-1$
+			attribute.setDefaultValueDrawable(Boolean.parseBoolean(description.getAttribute("displayed_default"))); //$NON-NLS-1$
 		}
-		for (IConfigurationElement attribute : attributes) {
 
-			// Test whether this attribute is limited to an enumerated range of values.
-			boolean isEnum = Boolean.parseBoolean(attribute.getAttribute("enumerated")); //$NON-NLS-1$
-			List<String> enumValues = null;
-			if (isEnum) {
-				enumValues = new ArrayList<String>();
-				for (IConfigurationElement enumVal : attribute.getChildren("EnumerationValue")) { //$NON-NLS-1$
-					enumValues.add(enumVal.getAttribute("name")); //$NON-NLS-1$
-				}
-			}
-			// Now either !isEnum, or enumValues is not null.
-
-			AttributeFormalism a = new AttributeFormalism(attribute.getAttribute("name"), Boolean.parseBoolean(attribute.getAttribute("drawable")), Boolean.parseBoolean(attribute.getAttribute("multiline")), isEnum, enumValues, parent);  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-
-			// Parse the default value
-			if (attribute.getAttribute("default") != null) { //$NON-NLS-1$
-				a.setDefaultValue(attribute.getAttribute("default")); //$NON-NLS-1$
-				LOGGER.finer("Add default value " + a.getDefaultValue() + " for the attribute : " + a.getName()); //$NON-NLS-1$ //$NON-NLS-2$
-				if (attribute.getAttribute("displayed_default") != null) { //$NON-NLS-1$
-					a.setDefaultValueDrawable(Boolean.parseBoolean(attribute.getAttribute("displayed_default"))); //$NON-NLS-1$
-				}
-			}
-
-			// Set default location (delta_x and delta_y)
-			if (attribute.getAttribute("delta_x") != null) { //$NON-NLS-1$
-				a.setXDelta(Integer.parseInt(attribute.getAttribute("delta_x"))); //$NON-NLS-1$
-				LOGGER.finer("Add relative location (X) for the attribute : " + a.getName()); //$NON-NLS-1$
-			}
-
-			if (attribute.getAttribute("delta_y") != null) { //$NON-NLS-1$
-				a.setYDelta(Integer.parseInt(attribute.getAttribute("delta_y"))); //$NON-NLS-1$
-				LOGGER.finer("Add relative location (Y) for the attribute : " + a.getName()); //$NON-NLS-1$
-			}
-
-			// Parse graphical considerations
-			if (attribute.getAttribute("bold") != null) { //$NON-NLS-1$
-				a.setBold(Boolean.parseBoolean(attribute.getAttribute("bold"))); //$NON-NLS-1$
-				LOGGER.finer("Ajout de l'indicateur de gras pour l'attribut : " + a.getName()); //$NON-NLS-1$
-			}
-			if (attribute.getAttribute("italic") != null) { //$NON-NLS-1$
-				a.setItalic(Boolean.parseBoolean(attribute.getAttribute("italic"))); //$NON-NLS-1$
-				LOGGER.finer("Add italic state for the attribute : " + a.getName()); //$NON-NLS-1$
-			}
-
-			if (attribute.getAttribute("size") != null) { //$NON-NLS-1$
-				a.setSize(attribute.getAttribute("size")); //$NON-NLS-1$
-				LOGGER.finer("Add bold state for the attribute : " + a.getName()); //$NON-NLS-1$
-			}
-
-			// Parse the parser class
-			if (attribute.getAttribute("parser") != null) { //$NON-NLS-1$
-				IAttributeParser attributeFormatter = null;
-				try {
-					attributeFormatter = (IAttributeParser) attribute.createExecutableExtension("parser"); //$NON-NLS-1$
-				} catch (CoreException e) {
-					e.printStackTrace();
-					LOGGER.warning("Something went wrong when we tried to add the parser to attribute : " + a .getName()); //$NON-NLS-1$
-				}
-				a.setParser(attributeFormatter);
-				LOGGER.finer("Add a parser for the attribute : " + a.getName()); //$NON-NLS-1$
-			}
-
-			// Parse the xtext setup class
-			if (attribute.getAttribute("xtext_injector") != null) { //$NON-NLS-1$
-				IXtextProvider provider = null;
-				try {
-					provider = (IXtextProvider) attribute.createExecutableExtension("xtext_injector"); //$NON-NLS-1$
-				} catch (CoreException e) {
-					e.printStackTrace();
-					LOGGER.warning("Something went wrong when we tried to add the xtext setup to attribute : " + a .getName()); //$NON-NLS-1$
-				}
-				a.setInjector(provider.getInjector());
-				LOGGER.finer("Add a setup for the attribute : " + a.getName()); //$NON-NLS-1$
-			}
-
-			// Parse the contained attributes
-			List<AttributeFormalism> listinner = buildAttributeList(attribute, a);
-			for (AttributeFormalism att : listinner) {
-				// Add the attribute to the parent's list
-				a.addAttribute(att);
-			}
-
-			// Add the attribute to the parent's list
-			list.add(a);
+		// Set default location (delta_x and delta_y)
+		if (description.getAttribute("delta_x") != null) { //$NON-NLS-1$
+			attribute.setXDelta(Integer.parseInt(description.getAttribute("delta_x"))); //$NON-NLS-1$
+			LOGGER.finer("Add relative location (X) for the attribute : " + attribute.getName()); //$NON-NLS-1$
 		}
-		return list;
-	}
-	
-	/**
-	 * Extract all elements attributes and add them to the parent description
-	 * @param element Formalism element that is currently parsed. (considered as the parent)
-	 * @param description Element description. This description may contains attributes
-	 */
-	private void buildAttributes(ElementFormalism element, IConfigurationElement description) {
-		List<AttributeFormalism> list = buildAttributeList(description, null);
-		for (AttributeFormalism a : list) {
-			// Add the attribute to the parent's list
-			element.addAttribute(a);
+
+		if (description.getAttribute("delta_y") != null) { //$NON-NLS-1$
+			attribute.setYDelta(Integer.parseInt(description.getAttribute("delta_y"))); //$NON-NLS-1$
+			LOGGER.finer("Add relative location (Y) for the attribute : " + attribute.getName()); //$NON-NLS-1$
 		}
-	}
 
-	/**
-	 * Extract all elements attributes and add them to the parent description
-	 * @param element Formalism element that is currently parsed. (considered as the parent)
-	 * @param description Element description. This description may contains attributes
-	 */
-	private void buildComputedAttributes(ElementFormalism element, IConfigurationElement description) {
-		// Browse all attributes from the element description
-		IConfigurationElement[] computedAttributes = description.getChildren("ComputedAttribute"); //$NON-NLS-1$
-		for (IConfigurationElement computedAttribute : computedAttributes) {
+		// Parse graphical considerations
+		if (description.getAttribute("bold") != null) { //$NON-NLS-1$
+			attribute.setBold(Boolean.parseBoolean(description.getAttribute("bold"))); //$NON-NLS-1$
+			LOGGER.finer("Ajout de l'indicateur de gras pour l'attribut : " + attribute.getName()); //$NON-NLS-1$
+		}
+		if (description.getAttribute("italic") != null) { //$NON-NLS-1$
+			attribute.setItalic(Boolean.parseBoolean(description.getAttribute("italic"))); //$NON-NLS-1$
+			LOGGER.finer("Add italic state for the attribute : " + attribute.getName()); //$NON-NLS-1$
+		}
 
-			String attributeName = computedAttribute.getAttribute("name"); //$NON-NLS-1$
-			String defaultValue = computedAttribute.getAttribute("default"); //$NON-NLS-1$
-			boolean defaultValueDrawable = true;
+		if (description.getAttribute("size") != null) { //$NON-NLS-1$
+			attribute.setSize(description.getAttribute("size")); //$NON-NLS-1$
+			LOGGER.finer("Add bold state for the attribute : " + attribute.getName()); //$NON-NLS-1$
+		}
 
-			// Parse the default value
-			if (defaultValue != null) {
-				if (computedAttribute.getAttribute("displayed_default") != null) { //$NON-NLS-1$
-					defaultValueDrawable = Boolean.parseBoolean(computedAttribute.getAttribute("displayed_default")); //$NON-NLS-1$
-				}
-			}
-
-			// Attribute Formatter
-			Object attributeFormatter = null;
-			ComputedAttributeFormalism ca;
+		// Parse the parser class
+		if (description.getAttribute("parser") != null) { //$NON-NLS-1$
+			IAttributeParser attributeFormatter = null;
 			try {
-				attributeFormatter = computedAttribute.createExecutableExtension("formatter"); //$NON-NLS-1$
-				ca = new ComputedAttributeFormalism(attributeName, defaultValue, defaultValueDrawable, attributeFormatter.getClass());
+				attributeFormatter = (IAttributeParser) description.createExecutableExtension("parser"); //$NON-NLS-1$
 			} catch (CoreException e) {
 				e.printStackTrace();
-				LOGGER.warning("Something went wrong when we tried to add the figure to the element : " + element.getName() + " ( " + e.getMessage() + " )"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				ca = new ComputedAttributeFormalism(attributeName, defaultValue, defaultValueDrawable);
+				LOGGER.warning("Something went wrong when we tried to add the parser to attribute : " + attribute.getName()); //$NON-NLS-1$
 			}
-
-			// Build the Computed Attribute Object
-			LOGGER.finer("Build the computed attribute " + computedAttribute.getName() + " for the element : " + element.getName()); //$NON-NLS-1$ //$NON-NLS-2$
-
-			// Set default location (delta_x and delta_y)
-			if (computedAttribute.getAttribute("delta_x") != null) { //$NON-NLS-1$
-				ca.setXDelta(Integer.parseInt(computedAttribute.getAttribute("delta_x"))); //$NON-NLS-1$
-				LOGGER.finer("Add relative location (X) for the computed attribute : " + computedAttribute.getName()); //$NON-NLS-1$
-			}
-
-			if (computedAttribute.getAttribute("delta_y") != null) { //$NON-NLS-1$
-				ca.setYDelta(Integer.parseInt(computedAttribute.getAttribute("delta_y"))); //$NON-NLS-1$
-				LOGGER.finer("Add relative location (Y) for the computed attribute : " + computedAttribute.getName()); //$NON-NLS-1$
-			}
-
-			// Parse graphical considerations
-			if (computedAttribute.getAttribute("bold") != null) { //$NON-NLS-1$
-				ca.setBold(Boolean.parseBoolean(computedAttribute.getAttribute("bold"))); //$NON-NLS-1$
-				LOGGER.finer("Add bold state for the attribute : " + computedAttribute.getName()); //$NON-NLS-1$
-			}
-			if (computedAttribute.getAttribute("italic") != null) { //$NON-NLS-1$
-				ca.setItalic(Boolean.parseBoolean(computedAttribute.getAttribute("italic"))); //$NON-NLS-1$
-				LOGGER.finer("Add italic state for the attribute : " + ca.getName()); //$NON-NLS-1$
-			}
-			if (computedAttribute.getAttribute("size") != null) { //$NON-NLS-1$
-				ca.setSize(computedAttribute.getAttribute("size")); //$NON-NLS-1$
-				LOGGER.finer("Add font size for the attribute : " + ca.getName()); //$NON-NLS-1$
-			}
-
-			// Add the attribute to the parent's list
-			element.addComputedAttribute(ca);
+			attribute.setParser(attributeFormatter);
+			LOGGER.finer("Add a parser for the attribute : " + attribute.getName()); //$NON-NLS-1$
 		}
-	}
 
+		// Parse the xtext setup class
+		if (description.getAttribute("xtext_injector") != null) { //$NON-NLS-1$
+			IXtextProvider provider = null;
+			try {
+				provider = (IXtextProvider) description.createExecutableExtension("xtext_injector"); //$NON-NLS-1$
+			} catch (CoreException e) {
+				e.printStackTrace();
+				LOGGER.warning("Something went wrong when we tried to add the xtext setup to attribute : " + attribute.getName()); //$NON-NLS-1$
+			}
+			attribute.setInjector(provider.getInjector());
+			LOGGER.finer("Add a setup for the attribute : " + attribute.getName()); //$NON-NLS-1$
+		}
+
+	}
+	
 	/**
 	 * Extract graphical descriptions for elements.<br>
 	 * <b>The first available graphical description is the default one.</b></br>
@@ -346,7 +227,7 @@ public final class FormalismManager {
 	 * @param element Formalism element that is currently parsed. (considered as the parent)
 	 * @param description Element description. This description may contains attributes
 	 */
-	private void buildGraphicalDescription(ElementFormalism element, IConfigurationElement description) {
+	private void buildGraphicalDescription(IElementFormalism element, IConfigurationElement description) {
 		// Browse graphical description for the element
 		IConfigurationElement[] graphicalDescriptions = description.getChildren("GraphicInfo"); //$NON-NLS-1$
 
@@ -440,32 +321,23 @@ public final class FormalismManager {
 		LOGGER.warning("This formalism is not known : '" + id + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 		throw new IllegalArgumentException("This formalism is not known : '" + id + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
-
+	
 	/**
-	 * Returns a formalism from its FKName or throws an {@link IllegalArgumentException} is no formalism is found.
-	 * @see IFormalism
-	 * @param fkName The FKName of the formalism
+	 * Returns a formalism from its url or throws an {@link IllegalArgumentException} is no formalism is found.
+	 * @param url the url of the formalism
 	 * @return The formalism {@link IFormalism}
 	 * @throws IllegalArgumentException If no such formalism exists in FormalismManager list.
-	 * TODO: This method is not clear...
-	 * @deprecated
 	 */
-	public IFormalism getFormalismByFkName(String fkName) throws IllegalArgumentException {
-		if (fkName.toLowerCase().equals("ami-net")) { //$NON-NLS-1$
-			for (IFormalism form : formalisms) {
-				if ("Colored Petri Net".toLowerCase().equals(form.getName().toLowerCase())) { //$NON-NLS-1$
-					return form;
-				}
-			}
-		}
+	public IFormalism getFormalismByUrl(String url) throws IllegalArgumentException {
 		for (IFormalism form : formalisms) {
-			if (fkName.toLowerCase().equals(form.getFKName().toLowerCase())) {
+			if (form.getHref().equals(url)) {
 				return form;
 			}
 		}
-		LOGGER.warning("This formalism is not known : '" + fkName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
-		throw new IllegalArgumentException("This formalism is not known : '" + fkName + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.warning("This formalism is not known : '" + url + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+		throw new IllegalArgumentException("This formalism is not known : '" + url + "'"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
+
 
 	/**
 	 * @return The list of available formalisms

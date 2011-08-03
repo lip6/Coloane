@@ -15,6 +15,8 @@
  */
 package fr.lip6.move.coloane.core.formalisms.elements;
 
+import fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc;
+import fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 
 import java.lang.reflect.InvocationTargetException;
@@ -192,5 +194,22 @@ public class GraphicalDescription implements IGraphicalDescription {
 	 */
 	public final void setWidth(String width) {
 		this.width = Integer.valueOf(width);
+	}
+	
+	/**
+	 * Returns a default graphical description
+	 * @param name The name of the element
+	 * @param isNode Whether it is a node (or an arc)
+	 * @return The default graphical description
+	 */
+	public static final IGraphicalDescription getDefault(String name, boolean isNode) {
+		GraphicalDescription g = new GraphicalDescription(true, true);
+		g.setPaletteName(name);
+		if (!isNode) {
+			g.setAssociatedFigure(DirectedArc.class);
+		} else {
+			g.setAssociatedFigure(EllipseNode.class);
+		}
+		return g;
 	}
 }

@@ -78,9 +78,7 @@ public final class CheckerManager {
 		// Checker creation
 		Checker checker = new Checker();
 
-		IConfigurationElement[] xmlDescription = description.getChildren("XmlDescription"); //$NON-NLS-1$
-		IConfigurationElement[] graphes = xmlDescription[0].getChildren("Graph"); //$NON-NLS-1$
-		IConfigurationElement graph = graphes[0];
+		IConfigurationElement graph = description;
 
 		// Getting graph checkers description
 		IConfigurationElement[] graphConditions = graph.getChildren("GraphChecker"); //$NON-NLS-1$

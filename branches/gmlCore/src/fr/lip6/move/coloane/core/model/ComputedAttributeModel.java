@@ -23,11 +23,11 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IAttributeFormatter;
 import fr.lip6.move.coloane.interfaces.model.IAttributeGraphicInfo;
 import fr.lip6.move.coloane.interfaces.model.IElement;
+import fr.lip6.move.coloane.interfaces.model.IGlobalAttribute;
 import fr.lip6.move.coloane.interfaces.model.ILocationInfo;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Collection;
 import java.util.logging.Logger;
 
 /**
@@ -35,17 +35,12 @@ import java.util.logging.Logger;
  *
  * @author Jean-Baptiste Voron
  */
-public class ComputedAttributeModel extends AbstractPropertyChange implements IAttribute, ILocatedElement, PropertyChangeListener {
+public class ComputedAttributeModel extends AbstractPropertyChange implements IGlobalAttribute, ILocatedElement, PropertyChangeListener {
 	/** The main logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** The reference model element */
 	private IElement reference;
-	
-	/** The parent */
-	private IAttribute parent;
-	
-	private boolean isLeaf;
 
 	private IComputedAttributeFormalism computedAttributFormalism;
 
@@ -169,36 +164,18 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 		firePropertyChange(IAttribute.VALUE_PROP, evt.getOldValue(), evt.getNewValue());
 	}
 
-	//These functions apply to imbricated attributes; supposing there are no imbricated attributes in
-	//computed attributes, these don't do much. Do not call them as is!
-	
-	public boolean isLeaf() {
-		return isLeaf;
+	/**
+	 * {@inheritDoc}
+	 */
+	public final boolean isLeaf() {
+		return true;
 	}
 
-	public Collection<IAttribute> getAttributes() {
-		return null;
-	}
-
-	public IAttribute getAttribute(String attName) {
-		return null;
-	}
-
-	public void setAttributes(Collection<IAttribute> values) {
-		
-	}
-
-	public void addAttribute(IAttribute value) {
-		
-	}
-
-	public IAttribute getParent() {
-		return parent;
-	}
-
+	/**
+	 * {@inheritDoc}
+	 */
 	public void setLeaf() {
+		//do not do anything. computer attributes are not settable!
 	}
 
-	public void initialiseValue() {
-	}
 }

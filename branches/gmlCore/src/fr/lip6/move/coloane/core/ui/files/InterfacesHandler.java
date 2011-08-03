@@ -160,7 +160,7 @@ public class InterfacesHandler extends DefaultHandler {
 				if (nodeFormalism != null) {
 					current.setIcon(ImageDescriptor.createFromFile(Coloane.class, nodeFormalism.getGraphicalDescription().getIcon16px()));
 				} else if (formalism != null) {
-					IElementFormalism elementFormalism = formalism.getRootGraph().getElementFormalism(nodeFormalismName);
+					IElementFormalism elementFormalism = formalism.getElementFormalism(nodeFormalismName);
 					if (elementFormalism != null) {
 						current.setIcon(ImageDescriptor.createFromFile(Coloane.class, elementFormalism.getGraphicalDescription().getIcon16px()));
 					}
