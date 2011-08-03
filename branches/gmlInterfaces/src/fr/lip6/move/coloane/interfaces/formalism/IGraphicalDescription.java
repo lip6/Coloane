@@ -71,4 +71,5 @@ public interface IGraphicalDescription {
 	 * @return La largeur par défaut de la figure
 	 */
 	Integer getWidth();
+	
 }

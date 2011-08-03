@@ -31,21 +31,18 @@ import java.util.List;
  */
 public interface IElementFormalism {
 
-	/**
-	 * @return The name of the element
-	 */
+	/** @return The name of the element */
 	String getName();
 
-	/**
-	 * @return The list of {@link AttributeFormalism} attached to this element.
-	 */
+	/** @return The list of {@link AttributeFormalism} attached to this element. */
 	List<IAttributeFormalism> getAttributes();
 
 	/**
-	 * @return The list of {@link ComputedAttributeFormalism} attached to this element.
+	 * Add a graphical description to the element
+	 * @param graphicalDescription The additional graphical description to be considered
 	 */
-	List<IComputedAttributeFormalism> getComputedAttributes();
-
+	void addGraphicalDescription(IGraphicalDescription graphicalDescription);
+	
 	/**
 	 * @return The default graphical description of the element
 	 * @see {@link #getAllGraphicalDescription()} to get a full list of graphical description for this element.
@@ -58,8 +55,16 @@ public interface IElementFormalism {
 	 */
 	List<IGraphicalDescription> getAllGraphicalDescription();
 
-	/**
-	 * @return The formalism that contains and uses this element
-	 */
+	/** @return The formalism that contains and uses this element */
 	IFormalism getFormalism();
+	
+	/** 
+	 * @param href The reference (as a url) to be added to this element's formalism
+	 * @param minOccurs The minimum number of occurences of the reference
+	 * @param maxOccurs The maximum number of occurences of the reference
+	 */
+	void addReference(String href, int minOccurs, int maxOccurs);
+	
+	/** @return This element's legal references */
+	List<IReference> getReferences();
 }

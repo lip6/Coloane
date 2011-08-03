@@ -54,22 +54,22 @@ public interface IGraph extends IElement {
 	
 	/**
 	 * Create an attribute and add it to the reference
-	 * @param reference
-	 * @param elementFormalism
-	 * @param name
-	 * @return
-	 * @throws ModelException
+	 * @param reference The reference to add the attribute to
+	 * @param elementFormalism The formalism of the reference
+	 * @param name The name of the attribute to create
+	 * @return The new attribute
+	 * @throws ModelException If an attribute with this name is not authorised for this element by the formalism
 	 */
 	IAttribute createAttribute(IElement reference, IElementFormalism elementFormalism, String name) throws ModelException;
 	
 	/**
-	 * Create an attribute and add it to the reference
-	 * @param reference
-	 * @param parent
-	 * @param attributeFormalism
-	 * @param name
-	 * @return
-	 * @throws ModelException
+	 * Create an attribute and add it as child of the given attribute
+	 * @param reference The reference to add the attribute to
+	 * @param parent The parent attribute
+	 * @param attributeFormalism The formalism of the parent attribute
+	 * @param name The name of the attribute to create
+	 * @return The new attribute
+	 * @throws ModelException If an attribute with this name is not authorised as child of this attribute by the formalism
 	 */
 	IAttribute createAttribute(IElement reference, IAttribute parent, IAttributeFormalism attributeFormalism, String name) throws ModelException;
 

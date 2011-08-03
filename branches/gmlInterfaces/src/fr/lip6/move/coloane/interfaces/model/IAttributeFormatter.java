@@ -15,6 +15,9 @@
  */
 package fr.lip6.move.coloane.interfaces.model;
 
+/**
+ * Interface that must be implemented to define a computed attribute
+ */
 public interface IAttributeFormatter {
 
 	/**

@@ -15,8 +15,6 @@
  */
 package fr.lip6.move.coloane.interfaces.formalism;
 
-import java.util.List;
-
 import org.eclipse.draw2d.geometry.Point;
 
 /**
@@ -30,6 +28,9 @@ public interface IGlobalAttributeFormalism {
 	/** @return Attribute name */
 	String getName();
 
+	/** @return Attribute's reference's name */
+	String getReference();
+
 	/**
 	 * @return the default value
 	 */
@@ -39,6 +40,10 @@ public interface IGlobalAttributeFormalism {
 	 * @return Drawable status (should the attribute be displayed ?)
 	 * */
 	boolean isDrawable();
+	
+
+	/** @param isDrawable Whether the attribute is displayed on the graph */
+	void setDrawable(boolean isDrawable);
 
 	/**
 	 * @return <code>true</code> if the attribute has to be displayed even if its valued is the default one
@@ -65,15 +70,5 @@ public interface IGlobalAttributeFormalism {
 	 * @return the delta location
 	 */
 	Point getDeltaLocation();
-
-	/**
-	 * @return The list of {@link AttributeFormalism} attached to this element.
-	 */
-	List<IAttributeFormalism> getAttributes();
-
-	/**
-	 * @return The parent of this element, or null if it does ot exist.
-	 */
-	IAttributeFormalism getParent();
 
 }

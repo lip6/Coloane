@@ -15,8 +15,9 @@
  */
 package fr.lip6.move.coloane.interfaces.formalism;
 
-import java.util.List;
 import com.google.inject.Injector;
+
+import java.util.List;
 
 /**
  * This class represents dedicated formalism (standard) attribute characteristics.<br>
@@ -32,20 +33,14 @@ import com.google.inject.Injector;
  * @author Jean-Baptiste Voron
  */
 public interface IAttributeFormalism extends IGlobalAttributeFormalism {
+
 	/** @return Multiline status */
 	boolean isMultiLine();
-
-	/**
-	 * @return Is the attribute enumerated ?
-	 * @see getEnumeration() for fetching authorized values
-	 */
-	boolean isEnumerated();
-
-	/**
-	 * @return the list of authorized values for the given attribute
-	 */
-	List<String> getEnumeration();
 	
+
+	/**  @param isMultiline Whether the attribute is displayed on multiple lines */
+	void setMultiline(boolean isMultiline);
+
 	/**
 	 * @return The parser for this attribute's value
 	 */
@@ -62,7 +57,61 @@ public interface IAttributeFormalism extends IGlobalAttributeFormalism {
 	Injector getInjector();
 	
 	/**
-	 * @param setup  The xtext setup class for this attribute
+	 * @param injector  The guice injector for this attribute
 	 */
 	void setInjector(Injector injector);
+	
+	/**
+	 * @return The list of {@link AttributeFormalism} attached to this element.
+	 */
+	List<IAttributeFormalism> getAttributes();
+
+	/**
+	 * Set the default value.<br>
+	 * @param defaultValue the new default value
+	 */
+	void setDefaultValue(String defaultValue);
+
+	/**
+	 * Set the bold status of the attribute
+	 * @param bold <code>true</code> if the attribute has to be displayed in bold
+	 */
+	void setBold(boolean bold);
+
+	/**
+	 * Set the italic status of the attribute
+	 * @param italic <code>true</code> if the attribute has to be displayed in italic
+	 */
+	void setItalic(boolean italic);
+
+	/**
+	 * Set the default font size of the attribute
+	 * @param size font-size
+	 */
+	void setSize(String size);
+
+	/**
+	 * @param isDefaultValueDrawable Should the attribute be displayed even if its value matches the default one?
+	 */
+	void setDefaultValueDrawable(boolean isDefaultValueDrawable);
+
+	/**
+	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
+	 * @param x X coordinate of the Delta Location.
+	 */
+	void setXDelta(int x);
+
+	/**
+	 * <b>Delta Location</b> is used to specify the relative position of the attribute according to the parent element.<br>
+	 * @param y Y coordinate of the Delta Location.
+	 */
+	void setYDelta(int y);
+	
+	/**
+	 * Add a new attribute to this attribute
+	 * @param name The reference name of the child attribute
+	 * @param minOccurs The minimum number of occurences of the attribute
+	 * @param maxOccurs The maximum number of occurences of the attribute
+	 */
+	void addAttribute(String name, int minOccurs, int maxOccurs);
 }

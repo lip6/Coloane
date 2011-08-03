@@ -26,7 +26,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 public interface IAttributeChecker {
 	/**
 	 * Method implemented by the user who wants to check some conditions on an {@link IAttribute}.
-	 * @param value the attribute to be checked.
+	 * @param attribute the attribute to be checked.
 	 * @return a checker result with <code>hasFailed()</code> if a marker must be created.
 	 */
 	ICheckerResult performCheck(IAttribute attribute);

@@ -15,8 +15,6 @@
  */
 package fr.lip6.move.coloane.interfaces.model;
 
-import fr.lip6.move.coloane.interfaces.formalism.IGlobalAttributeFormalism;
-
 import java.util.Collection;
 
 /**
@@ -28,44 +26,8 @@ import java.util.Collection;
  * 	<li>graph</li>
  * </ul>
  */
-public interface IAttribute extends IAbstractPropertyChange {
+public interface IAttribute extends IGlobalAttribute {
 
-	/** Value update property */
-	String VALUE_PROP = "Attribute.ValueUpdate"; //$NON-NLS-1$
-
-	/** The attribute must be selected */
-	String SELECT_LIGHT_PROP = "Attribute.SelectLightUpdate"; //$NON-NLS-1$
-
-	/** The attribute must be selected */
-	String SELECT_HEAVY_PROP = "Attribute.SelectHeavyUpdate"; //$NON-NLS-1$
-
-	/** The attribute must be unselected */
-	String UNSELECT_LIGHT_PROP = "Attribute.UnSelecLighttUpdate"; //$NON-NLS-1$
-
-	/** The attribute must be unselected */
-	String UNSELECT_HEAVY_PROP = "Attribute.UnSelectHeavyUpdate"; //$NON-NLS-1$
-
-	/**
-	 * @return Whether the current attribute is a leaf or not.
-	 */
-	boolean isLeaf();
-	
-	/**
-	 * Sets the attribute as a leaf.  The opposite is achieved by adding
-	 * child attributes to the attribute.
-	 */
-	void setLeaf();
-	
-	/**
-	 * @return the attribute name
-	 */
-	String getName();
-	
-	/**
-	 * @return the attribute value
-	 */
-	String getValue();
-	
 	/**
 	 * Initialises the value of the attribute based on the children attributes
 	 */
@@ -101,26 +63,9 @@ public interface IAttribute extends IAbstractPropertyChange {
 	 * @param value The new value
 	 */
 	void setValue(String value);
-	
-	/**
-	 * Fetch the object that describe all graphical properties for this attribute.<br>
-	 * @return IAttributeGraphicInfo
-	 * @see IAttributeGraphicInfo
-	 */
-	IAttributeGraphicInfo getGraphicInfo();
-
-	/**
-	 * @return The element to which the attribute is related
-	 */
-	IElement getReference();
 
 	/**
 	 * @return The element to which the attribute is related
 	 */
 	IAttribute getParent();
-
-	/**
-	 * @return The attribute description given by the formalism
-	 */
-	IGlobalAttributeFormalism getAttributeFormalism();
 }
