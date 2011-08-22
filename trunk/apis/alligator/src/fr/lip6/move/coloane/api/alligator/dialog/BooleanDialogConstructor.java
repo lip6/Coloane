@@ -1,0 +1,40 @@
+package fr.lip6.move.coloane.api.alligator.dialog;
+
+import fr.lip6.move.alligator.interfaces.DescriptionItem;
+import fr.lip6.move.alligator.interfaces.Item;
+
+import java.util.Collections;
+import java.util.List;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
+
+/**
+ * @author Clément Démoulins
+ */
+public class BooleanDialogConstructor implements ItemDialogConstructor {
+
+	private Button button;
+	private DescriptionItem description;
+
+	/** {@inheritDoc}
+	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#create(org.eclipse.swt.widgets.Composite, fr.lip6.move.alligator.interfaces.DescriptionItem)
+	 */
+	public final void create(Composite parent, DescriptionItem description) {
+		this.description = description;
+		this.button = new Button(parent, SWT.CHECK);
+		this.button.setSelection(Boolean.valueOf(description.getDefaultValue()));
+		this.button.setText(description.getName());
+		this.button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 2, 1));
+	}
+
+	/** {@inheritDoc}
+	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#getParameters()
+	 */
+	public final List<Item> getParameters() {
+		return Collections.singletonList(new Item(description.getType(), description.getName(), button.getSelection() + ""));
+	}
+
+}

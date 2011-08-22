@@ -20,6 +20,7 @@ import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.alligator.interfaces.ServiceDescription;
 import fr.lip6.move.alligator.interfaces.ServiceManager;
+import fr.lip6.move.coloane.api.alligator.dialog.ParametersDialog;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
