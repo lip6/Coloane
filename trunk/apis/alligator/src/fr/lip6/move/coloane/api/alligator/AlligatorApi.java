@@ -130,6 +130,8 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 		List<IItemMenu> menu = new ArrayList<IItemMenu>();
 		IServiceMenu serviceItem;
 		IApiService apiService;
+		System.err.println(serverManager);
+		System.err.println(serverManager.getServices());
 
 		for (final ServiceDescription service : serverManager.getServices()) {
 			apiService = new AlligatorService(service, this);
