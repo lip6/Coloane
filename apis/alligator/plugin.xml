@@ -30,7 +30,7 @@
    <extension
          point="fr.lip6.move.coloane.core.tools">
       <Tool
-            action="fr.lip6.move.coloane.api.alligator.ServiceTestDialog"
+            action="fr.lip6.move.coloane.api.alligator.dialog.ServiceTestDialog"
             description="toto"
             name="Test">
       </Tool>

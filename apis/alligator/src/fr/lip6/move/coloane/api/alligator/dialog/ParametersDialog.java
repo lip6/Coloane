@@ -54,6 +54,7 @@ public class ParametersDialog extends Dialog {
 		ITEM_TYPES.put(ItemType.STRING, StringDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.BOOLEAN, BooleanDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.SINGLE_CHOICE, SingleChoiceDialogConstructor.class);
+		ITEM_TYPES.put(ItemType.MULTI_CHOICES, MultiChoicesDialogConstructor.class);
 	}
 
 	private final IGraph model;

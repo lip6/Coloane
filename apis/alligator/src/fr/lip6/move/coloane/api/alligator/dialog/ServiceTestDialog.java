@@ -42,6 +42,7 @@ public class ServiceTestDialog implements IService {
 		params.add(new DescriptionItem(ItemType.STRING, "titi"));
 		params.add(new DescriptionItem(ItemType.BOOLEAN, "tata"));
 		params.add(new DescriptionItem(ItemType.SINGLE_CHOICE, "single_choice", Arrays.asList("a", "b", "c")));
+		params.add(new DescriptionItem(ItemType.MULTI_CHOICES, "multi", Arrays.asList("a", "b", "c")));
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				ParametersDialog dialog = new ParametersDialog(Display.getDefault().getActiveShell(), model, params);
