@@ -21,7 +21,6 @@ import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.alligator.interfaces.ServiceDescription;
 import fr.lip6.move.alligator.interfaces.ServiceManager;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
-import fr.lip6.move.coloane.extensions.exporttogml.ExportToGML;
 import fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
@@ -36,15 +35,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -56,11 +54,52 @@ public class AlligatorService implements IApiService {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
-	private static final ExportToGML GRAPH_TO_GML = new ExportToGML();
-	
 	private ServiceDescription service;
 
 	private AlligatorApi api;
+
+	/**
+	 * Runnable to manage the dialog box
+	 */
+	class ParametersRunnable implements Runnable {
+
+		private int code;
+		private final IGraph model;
+		private final List<DescriptionItem> descriptions;
+		private ParametersDialog dialog;
+
+		/**
+		 * @param model current model
+		 * @param descriptions list of description items used to construct the dialog box
+		 */
+		public ParametersRunnable(IGraph model, List<DescriptionItem> descriptions) {
+			this.model = model;
+			this.descriptions = descriptions;
+		}
+
+		/** {@inheritDoc}
+		 * @see java.lang.Runnable#run()
+		 */
+		public void run() {
+			dialog = new ParametersDialog(Display.getDefault().getActiveShell(), model, descriptions);
+			dialog.setBlockOnOpen(true);
+			code = dialog.open();
+		}
+
+		/**
+		 * @return the returned code of the dialog box: Dialog.OK or Dialog.CANCEL
+		 */
+		public int getReturnedCode() {
+			return code;
+		}
+
+		/**
+		 * @return list of parameters set by the dialog box
+		 */
+		public List<Item> getParameters() {
+			return dialog.getParams();
+		}
+	}
 
 	/**
 	 * Constructor
@@ -83,23 +122,16 @@ public class AlligatorService implements IApiService {
 				throw new ServiceException("The connection is not available.");
 			}
 
-			List<DescriptionItem> dItems = service.getDescriptionItems();
+			final List<DescriptionItem> dItems = service.getDescriptionItems();
 			final List<Item> params = new ArrayList<Item>();
-			for (final DescriptionItem dItem : dItems) {
-				if (dItem.getType() == ItemType.MODEL) {
-					StringWriter stringModel = new StringWriter();
-					GRAPH_TO_GML.export(model, stringModel, monitor);
-					params.add(new Item(ItemType.MODEL, model.getFormalism().getName(), stringModel.toString()));
-				} else if (dItem.getType() == ItemType.STRING) {
-					Display.getDefault().syncExec(new Runnable() {
-						public void run() {
-							final InputDialog dialog = new InputDialog(Display.getDefault().getActiveShell(), "String parameter", dItem.getName(), "", null);
-							dialog.setBlockOnOpen(true);
-							if (dialog.open() == Dialog.OK) {
-								params.add(new Item(dItem.getType(), dItem.getName(), dialog.getValue()));
-							}
-						}
-					});
+
+			if (dItems != null) {
+				ParametersRunnable runnable = new ParametersRunnable(model, dItems);
+				Display.getDefault().syncExec(runnable);
+				if (runnable.getReturnedCode() == Dialog.CANCEL) {
+					return Collections.emptyList();
+				} else {
+					params.addAll(runnable.getParameters());
 				}
 			}
 
@@ -125,7 +157,7 @@ public class AlligatorService implements IApiService {
 						LOGGER.warning(e.getMessage());
 					}
 
-				// Add a textual result in the result view
+					// Add a textual result in the result view
 				} else {
 					ISubResult sub = new SubResult(item.getName(), item.getValue());
 					result.addSubResult(sub);
