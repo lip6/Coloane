@@ -33,6 +33,7 @@ public class MultiChoicesDialogConstructor implements ItemDialogConstructor {
 
 	private DescriptionItem description;
 	private org.eclipse.swt.widgets.List list;
+	private Label label;
 
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#create(org.eclipse.swt.widgets.Composite, fr.lip6.move.alligator.interfaces.DescriptionItem)
@@ -40,12 +41,12 @@ public class MultiChoicesDialogConstructor implements ItemDialogConstructor {
 	public final void create(Composite parent, DescriptionItem description) {
 		this.description = description;
 
-		Label label = new Label(parent, SWT.WRAP);
-		label.setText(description.getName() + ":");
-		label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));
+		this.label = new Label(parent, SWT.WRAP);
+		this.label.setText(description.getName() + ":");
+		this.label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
 
 		this.list = new org.eclipse.swt.widgets.List(parent, SWT.MULTI | SWT.BORDER);
-		this.list.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1));
+		this.list.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		for (String choice : description.getChoices()) {
 			this.list.add(choice);
 		}
@@ -60,6 +61,14 @@ public class MultiChoicesDialogConstructor implements ItemDialogConstructor {
 			parameters.add(new Item(description.getType(), description.getName(), selection));
 		}
 		return parameters;
+	}
+
+	/** {@inheritDoc}
+	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#dispose()
+	 */
+	public final void dispose() {
+		label.dispose();
+		list.dispose();
 	}
 
 }

@@ -23,40 +23,49 @@ import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Clément Démoulins
  */
-public class BooleanDialogConstructor implements ItemDialogConstructor {
+public class TextDialogConstructor implements ItemDialogConstructor {
 
-	private Button button;
 	private DescriptionItem description;
+	private Label label;
+	private Text input;
 
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#create(org.eclipse.swt.widgets.Composite, fr.lip6.move.alligator.interfaces.DescriptionItem)
 	 */
 	public final void create(Composite parent, DescriptionItem description) {
 		this.description = description;
-		this.button = new Button(parent, SWT.CHECK);
-		this.button.setSelection(Boolean.valueOf(description.getDefaultValue()));
-		this.button.setText(description.getName());
-		this.button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-	}
+
+		this.label = new Label(parent, SWT.WRAP);
+		this.label.setText(description.getName() + ":");
+		this.label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+
+		this.input = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL);
+		this.input.setText(description.getDefaultValue());
+		GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+		layoutData.heightHint = 50;
+		this.input.setLayoutData(layoutData);
+}
 
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#getParameters()
 	 */
 	public final List<Item> getParameters() {
-		return Collections.singletonList(new Item(description.getType(), description.getName(), button.getSelection() + ""));
+		return Collections.singletonList(new Item(description.getType(), description.getName(), input.getText()));
 	}
 
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#dispose()
 	 */
 	public final void dispose() {
-		button.dispose();
+		label.dispose();
+		input.dispose();
 	}
 
 }

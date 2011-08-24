@@ -34,6 +34,7 @@ public class StringDialogConstructor implements ItemDialogConstructor {
 
 	private Text input;
 	private DescriptionItem description;
+	private Label label;
 
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#create(org.eclipse.swt.widgets.Composite, fr.lip6.move.alligator.interfaces.DescriptionItem)
@@ -41,13 +42,13 @@ public class StringDialogConstructor implements ItemDialogConstructor {
 	public final void create(Composite parent, DescriptionItem description) {
 		this.description = description;
 
-		Label label = new Label(parent, SWT.WRAP);
-		label.setText(description.getName() + ":");
-		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1));
+		this.label = new Label(parent, SWT.WRAP);
+		this.label.setText(description.getName() + ":");
+		this.label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 
 		this.input = new Text(parent, SWT.BORDER | SWT.SINGLE);
 		this.input.setText(description.getDefaultValue());
-		this.input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 1));
+		this.input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 	}
 
 	/** {@inheritDoc}
@@ -59,6 +60,14 @@ public class StringDialogConstructor implements ItemDialogConstructor {
 		} finally {
 			input.dispose();
 		}
+	}
+
+	/** {@inheritDoc}
+	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#dispose()
+	 */
+	public final void dispose() {
+		label.dispose();
+		input.dispose();
 	}
 
 }
