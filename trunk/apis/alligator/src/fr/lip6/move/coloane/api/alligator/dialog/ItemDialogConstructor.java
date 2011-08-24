@@ -38,4 +38,9 @@ public interface ItemDialogConstructor {
 	 * @return list of parameters for this item
 	 */
 	List<Item> getParameters();
+
+	/**
+	 * Dispose this object
+	 */
+	void dispose();
 }

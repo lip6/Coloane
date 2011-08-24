@@ -39,7 +39,7 @@ public class ServiceTestDialog implements IService {
 	public List<IResult> run(final IGraph model, IProgressMonitor monitor) throws ServiceException {
 		final List<DescriptionItem> params = new ArrayList<DescriptionItem>();
 		params.add(new DescriptionItem(ItemType.STRING, "toto"));
-		params.add(new DescriptionItem(ItemType.STRING, "titi"));
+		params.add(new DescriptionItem(ItemType.TEXT, "titi"));
 		params.add(new DescriptionItem(ItemType.BOOLEAN, "tata"));
 		params.add(new DescriptionItem(ItemType.SINGLE_CHOICE, "single_choice", Arrays.asList("a", "b", "c")));
 		params.add(new DescriptionItem(ItemType.MULTI_CHOICES, "multi", Arrays.asList("a", "b", "c")));

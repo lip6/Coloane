@@ -52,6 +52,7 @@ public class ParametersDialog extends Dialog {
 	private static final Map<ItemType, Class<? extends ItemDialogConstructor>> ITEM_TYPES = new HashMap<ItemType, Class<? extends ItemDialogConstructor>>();
 	static {
 		ITEM_TYPES.put(ItemType.STRING, StringDialogConstructor.class);
+		ITEM_TYPES.put(ItemType.TEXT, TextDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.BOOLEAN, BooleanDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.SINGLE_CHOICE, SingleChoiceDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.MULTI_CHOICES, MultiChoicesDialogConstructor.class);
@@ -79,10 +80,11 @@ public class ParametersDialog extends Dialog {
 	@Override
 	protected final Control createDialogArea(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginLeft = 10;
+		layout.marginRight = 10;
 		layout.horizontalSpacing = 10;
 		composite.setLayout(layout);
 
@@ -109,7 +111,6 @@ public class ParametersDialog extends Dialog {
 			}
 		}
 
-//		composite.pack();
 		return composite;
 	}
 
@@ -130,5 +131,17 @@ public class ParametersDialog extends Dialog {
 		}
 
 		super.okPressed();
+	}
+
+	/** {@inheritDoc}
+	 * @see org.eclipse.jface.dialogs.Dialog#close()
+	 */
+	@Override
+	public final boolean close() {
+		System.err.println("### close()");
+		for (ItemDialogConstructor part : parts) {
+			part.dispose();
+		}
+		return super.close();
 	}
 }
