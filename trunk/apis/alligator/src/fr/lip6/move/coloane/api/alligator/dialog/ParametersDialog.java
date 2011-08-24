@@ -104,10 +104,15 @@ public class ParametersDialog extends Dialog {
 					part.create(composite, description);
 					parts.add(part);
 				} catch (InstantiationException e) {
-					LOGGER.warning("Cannot create the ItemDialogConstructor");
+					LOGGER.warning("Cannot create the ItemDialogConstructor: " + ITEM_TYPES.get(description.getType()));
 				} catch (IllegalAccessException e) {
-					LOGGER.warning("Cannot create the ItemDialogConstructor");
+					LOGGER.warning("Cannot create the ItemDialogConstructor: " + ITEM_TYPES.get(description.getType()));
 				}
+			} else {
+				// Use StringDialogConstructor as default
+				StringDialogConstructor part = new StringDialogConstructor();
+				part.create(composite, description);
+				parts.add(part);
 			}
 		}
 
