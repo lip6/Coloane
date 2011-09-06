@@ -21,6 +21,7 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -38,6 +39,9 @@ public final class ImportFromExtension {
 	private static final String WIZREF_EXTENSION = "wizard_id"; //$NON-NLS-1$
 	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
 	private static final String FORMALISMS_EXTENSION = "id"; //$NON-NLS-1$
+
+	/** The logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
 	 * Constructor
@@ -83,7 +87,11 @@ public final class ImportFromExtension {
 		for (IConfigurationElement contribution : contributions) {
 			if (contribution.getAttribute(WIZREF_EXTENSION).equals(importType)) {
 				for (IConfigurationElement child : contribution.getChildren()) {
-					formalisms.add(FormalismManager.getInstance().getFormalismById(child.getAttribute(FORMALISMS_EXTENSION)));
+					try {
+						formalisms.add(FormalismManager.getInstance().getFormalismById(child.getAttribute(FORMALISMS_EXTENSION)));
+					} catch (IllegalArgumentException e) {
+						LOGGER.info("This import extension can import " + child.getAttribute(FORMALISMS_EXTENSION) + " but this formalism is not installed."); //$NON-NLS-1$ //$NON-NLS-2$
+					}
 				}
 			}
 		}
