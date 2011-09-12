@@ -220,9 +220,9 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		InputStream inputS;
 
 		try {
-			// Choosen formalism
+			// Chosen formalism
 			IFormalism formalism = ((NewModelWizard) getWizard()).getFormalism();
-			LOGGER.fine("Choosen formalism: " + formalism.getName()); //$NON-NLS-1$
+			LOGGER.fine("Chosen formalism: " + formalism.getName()); //$NON-NLS-1$
 
 			String xmlString;
 			if (DEFAULT_MODEL.equalsIgnoreCase(modelSelected)) {

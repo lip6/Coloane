@@ -184,16 +184,18 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 			} catch (IllegalArgumentException e) {
 
 				//TODO: have this happen in formalismmanager, and add the new formalism
-				//to the list of known formalism, I think it might actually not work being done here
+				//to the list of known formalisms, I think it might actually not work being done here
 				//since it cannot be found with getformalismby (id, url, etc)
 
 				formalism = new Formalism("", "", formalismURL, null);  //$NON-NLS-1$//$NON-NLS-2$
 				URL url;
 				try {
-					url = new URL(formalismURL);
+				url = new URL(formalismURL);
 				SAXParserFactory factory = SAXParserFactory.newInstance();
 				SAXParser saxParser = factory.newSAXParser();
-				saxParser.parse(url.openStream(), new SaxHandler((Formalism) formalism));
+				SaxHandler handler = new SaxHandler((Formalism) formalism);
+				saxParser.parse(url.openStream(), handler);
+				formalism = handler.getFormalism();
 				} catch (MalformedURLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

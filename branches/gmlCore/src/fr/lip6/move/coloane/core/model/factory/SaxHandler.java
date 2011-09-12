@@ -152,5 +152,12 @@ public class SaxHandler extends DefaultHandler {
 	public void characters(char[] ch, int start, int length) {
 		//I don't think anything should be here as of now.
 	}
+	
+	/**
+	 * @return The formalism (to be used after running a parsing function using this handler)
+	 */
+	public final Formalism getFormalism() {
+		return form;
+	}
 
 }

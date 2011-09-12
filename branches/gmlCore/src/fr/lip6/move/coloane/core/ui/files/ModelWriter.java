@@ -302,7 +302,7 @@ public final class ModelWriter implements IModelHandler {
 
 		// Headers
 		line.append("<" + MODEL_MARKUP + " xmlns='http://gml.lip6.fr/model'"); //$NON-NLS-1$ //$NON-NLS-2$
-		line.append(" " + MODEL_FORMALISM_MARKUP + "='").append(formalism.getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		line.append(" " + MODEL_FORMALISM_MARKUP + "='").append(formalism.getHref()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		line.append(">\n"); //$NON-NLS-1$
 
 		// Nodes

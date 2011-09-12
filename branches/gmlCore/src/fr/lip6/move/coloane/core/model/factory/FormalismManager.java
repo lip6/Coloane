@@ -107,7 +107,9 @@ public final class FormalismManager {
 			url = new URL(href);
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
-			saxParser.parse(url.openStream(), new SaxHandler(form));
+			SaxHandler handler = new SaxHandler((Formalism) form);
+			saxParser.parse(url.openStream(), handler);
+			form = handler.getFormalism();
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

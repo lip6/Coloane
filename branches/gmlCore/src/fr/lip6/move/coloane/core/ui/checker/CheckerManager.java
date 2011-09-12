@@ -417,6 +417,10 @@ public final class CheckerManager {
 	public void checkAll(Checker checker, IResource resource, IGraph graph) {
 		LOGGER.finer("Entire check for the graph of session " + resource.getFullPath().toString()); //$NON-NLS-1$
 
+		if (checker == null) {
+			return;
+		}
+
 		// Deleting all the markers.
 		MarkerManager.getInstance().deleteAllMarkers(resource);
 
