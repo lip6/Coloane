@@ -390,7 +390,7 @@
                         <validHeader>http://coloane.lip6.fr/resources/header-incubation.txt</validHeader>
                     </validHeaders>
                     <quiet>false</quiet>
-                    <failIfMissing>true</failIfMissing>
+                    <failIfMissing>false</failIfMissing>
                     <aggregate>false</aggregate>
                     <includes>
                         <include>src/**</include>
@@ -401,6 +401,7 @@
                         <exclude>.clover/**</exclude>
                         <exclude>**/fr/lip6/move/coloane/interfaces/utils/ProcessController.java</exclude>
                         <exclude>**/fr/lip6/move/coloane/core/ui/figures/RoundedPolylineConnection.java</exclude>
+                        <exclude>src/main/antlr3/**</exclude>
                     </excludes>
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <useDefaultMapping>true</useDefaultMapping>
