@@ -243,7 +243,7 @@ public class ExportToGML implements IExportTo {
 			DeclarativePartLexer lexer = new DeclarativePartLexer(new ANTLRStringStream(value));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			parser = new DeclarativePartParserSN(tokens);
-			out.write(parser.declaration(gap));
+			out.write(parser.declaration(gap, formalism));
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Error in the declarative part at : " + value.split("\n")[e.line - 1]);
 		}
