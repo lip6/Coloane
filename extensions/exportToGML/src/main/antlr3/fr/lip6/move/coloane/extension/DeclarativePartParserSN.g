@@ -18,6 +18,8 @@ options {
 	Map<String, String> symbols = new HashMap<String, String>();
 	public Map<String, String> getSymbols() { return symbols; }
 	
+	private String formalism;
+	
 	private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
   private boolean is_domain(String id) { return "domain".equals(symbols.get(id)) || "domain_bag".equals(symbols.get(id)); }
   private boolean is_domain_bag(String id) { return "domain_bag".equals(symbols.get(id)); }
@@ -31,8 +33,10 @@ options {
 }
 
 // the starting rule
-declaration[String gap] returns [String value]
-@init { $value = gap + "<attribute name=\"declaration\">\n"; }
+declaration[String gap, String netFormalism] returns [String value]
+@init {
+  formalism = netFormalism;
+  $value = gap + "<attribute name=\"declaration\">\n"; }
 @after { $value = $value + gap + "</attribute>\n"; } :
    c1=classSection[$gap+"\t"] { $value = $value + $c1.value; }
   (c2=equivalenceSection[$gap+"\t"] { $value = $value + $c2.value; })?
@@ -246,9 +250,11 @@ variableDeclaration[String gap] returns [String value]
     $value = $value + gap + "<attribute name=\"variableDeclaration\">\n";
     $value = $value + gap + "\t<attribute name=\"name\">" + id + "</attribute>\n";
     $value = $value + gap + "\t<attribute name=\"type\">" + $idd.getText() + "</attribute>\n";
-    $value = $value + gap + "\t<attribute name=\"unique\">";
-    if (unique) $value = $value + "true"; else $value = $value + "false";
-    $value = $value + "</attribute>\n";
+    if (formalism == "SNB") {
+      $value = $value + gap + "\t<attribute name=\"unique\">";
+      if (unique) $value = $value + "true"; else $value = $value + "false";
+      $value = $value + "</attribute>\n";
+    }
     $value = $value + gap + "</attribute>\n";
   }
 } ;
