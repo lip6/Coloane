@@ -125,14 +125,12 @@ equivalenceDeclarationList[String gap] returns [String value] :
   
 equivalenceDeclaration[String gap] returns [String value]
 @init { $value = ""; } :
-  IN id=IDENTIFIER COLON d=equivalenceDescription[$gap+"\t\t"] SEMICOLON { is_class($id.getText()) }? 
+  IN id=IDENTIFIER COLON d=equivalenceDescription[$gap+"\t"] SEMICOLON { is_class($id.getText()) }? 
 { $value = $value + gap + "<attribute name=\"scsDeclaration\">\n";
   $value = $value + gap + "\t<attribute name=\"type\">";
   $value = $value.concat($id.getText());
   $value = $value.concat("</attribute>\n");
-  $value = $value + gap + "\t<attribute name=\"scs\">\n";
   $value = $value.concat($d.value);
-  $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 };
 
@@ -141,12 +139,13 @@ equivalenceDescription[String gap] returns [String value]
   e=namedIntervalDefinition[$gap] { $value = $value.concat($e.value); } (COMA l=equivalenceDescription[$gap] { $value = $value.concat($l.value); })? ;
 
 namedIntervalDefinition[String gap] returns [String value]
-@init { $value = ""; } :
+@init { $value = gap + "<attribute name=\"scs\">\n"; } :
   (id=IDENTIFIER IS
 { symbols.put($id.getText(), "scs");
-  $value = $value + gap + "<attribute name=\"name\">" + $id.getText() + "</attribute>\n"; })? i=intervalDefinition[$gap+"\t"]
-{ $value = $value + gap + "<attribute name=\"scsType\">\n";
+  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n"; })? i=intervalDefinition[$gap+"\t"]
+{ $value = $value + gap + "\t<attribute name=\"scsType\">\n";
   $value = $value.concat($i.value);
+  $value = $value + gap + "\t</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } ;
 
