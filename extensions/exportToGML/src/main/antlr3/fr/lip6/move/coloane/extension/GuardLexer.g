@@ -32,6 +32,9 @@ OR : 'OR' | 'Or' | 'or' ;
 UNIQUE : 'UNIQUE' | 'Unique' | 'unique' ;
 CARD : 'CARD' | 'Card' | 'card' ;
 ALL : 'ALL' | 'All' | 'all' ;
+INCLUDED : 'INCLUDED' | 'Included' | 'included' ;
+STRICTINCLUDED : 'STRICTINCLUDED' | 'Strictincluded' | 'StrictIncluded' | 'strictincluded' ;
+IN : 'IN' | 'In' | 'in' ;
 
 // whitespaces and identifiers
 // whitespaces and identifiers

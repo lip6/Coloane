@@ -17,6 +17,8 @@ options {
   private boolean is_class(String id) { return "class".equals(symbols.get(id)); }
   private boolean is_domain(String id) { return "domain".equals(symbols.get(id)) || "domain_bag".equals(symbols.get(id)); }
   private boolean is_variable(String id) { return "variable".equals(symbols.get(id)) || "variable_bag".equals(symbols.get(id)); }
+  private boolean is_simple_variable(String id) { return "variable".equals(symbols.get(id)); }
+  private boolean is_scs(String id) { return "scs".equals(symbols.get(id)); }
 }
 
 @rulecatch {
@@ -74,7 +76,7 @@ atom[String gap] returns [String value]
   $value = $value + gap + "\t<attribute name=\"boolValue\">false</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
-  g1=guardOperator[$gap+"\t\t\t"] op=relOperator[false] g2=guardOperator[$gap+"\t\t\t"]
+  g1=guardOperator[$gap+"\t\t\t"] (op=relOperator[false] | op=inclusion) g2=guardOperator[$gap+"\t\t\t"]
 { $value = $value + gap + "<attribute name=\"boolExpr\">\n";
   $value = $value + gap + "\t<attribute name=\"" + $op.value + "\">\n";
   $value = $value + gap + "\t\t<attribute name=\"expr\">\n";
@@ -84,6 +86,12 @@ atom[String gap] returns [String value]
   $value = $value + $g2.value;
   $value = $value + gap + "\t\t</attribute>\n";
   $value = $value + gap + "\t</attribute>\n";
+  $value = $value + gap + "</attribute>\n";
+} |
+  (IDENTIFIER IN IDENTIFIER)=> id=IDENTIFIER IN id_c=IDENTIFIER { is_simple_variable($id.getText()) }? { is_scs($id_c.getText()) }?
+{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
+  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
+  $value = $value + gap + "\t<attribute name=\"type\">" + $id_c.getText() + "</attribute>\n";
   $value = $value + gap + "</attribute>\n";
 } |
   UNIQUE LPAREN id=IDENTIFIER RPAREN { is_variable($id.getText()) }?
@@ -113,6 +121,11 @@ atom[String gap] returns [String value]
   LPAREN h=guard[gap] RPAREN
 { $value = $value + $h.value;
 } ;
+
+inclusion returns [String value] :
+  INCLUDED { $value = "included"; } |
+  STRICTINCLUDED { $value = "strictlyIncluded"; }
+  ;
 
 relOperator[boolean incard] returns [String value] :
   EQ { if ($incard) $value="Equal"; else $value="equal"; } |

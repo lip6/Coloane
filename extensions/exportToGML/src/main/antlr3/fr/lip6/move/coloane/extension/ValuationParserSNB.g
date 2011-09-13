@@ -20,6 +20,7 @@ options {
   private boolean is_domain(String id) { return "domain".equals(symbols.get(id)) || "domain_bag".equals(symbols.get(id)); }
   private boolean is_variable(String id) { return "variable".equals(symbols.get(id)) || "variable_bag".equals(symbols.get(id)); }
   private boolean is_variable_bag(String id) { return "variable_bag".equals(symbols.get(id)); }
+  private boolean is_scs(String id) { return "scs".equals(symbols.get(id)); }
 }
 
 @rulecatch {
@@ -48,7 +49,7 @@ positiveInteger returns [String value] : i=INTEGER { Integer.parseInt($i.getText
 listElementaryExpr[String gap] returns [String value]
 @init { $value = ""; } :
   e=elementaryExpression[false,gap] { $value = $value.concat($e.value); } (PLUS l=listElementaryExpr[$gap] { $value = $value.concat($l.value); } )? |
-  id=IDENTIFIER { is_class($id.getText()) }? DOT ALL MINUS e=elementaryExpression[false,gap+"\t\t\t"]
+  id=IDENTIFIER { is_class($id.getText()) || is_scs($id.getText()) }? DOT ALL MINUS e=elementaryExpression[false,gap+"\t\t\t"]
 { $value = $value + gap + "<attribute name=\"token\">\n";
   $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
   $value = $value + gap + "\t\t<attribute name=\"setDiff\">\n";
