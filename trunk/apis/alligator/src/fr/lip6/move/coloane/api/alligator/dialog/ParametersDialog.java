@@ -89,15 +89,6 @@ public class ParametersDialog extends Dialog {
 		composite.setLayout(layout);
 
 		for (DescriptionItem description : descriptions) {
-			if (description.getType() == ItemType.MODEL) {
-				StringWriter writer = new StringWriter();
-				try {
-					GRAPH_TO_GML.export(model, writer, new NullProgressMonitor());
-					params.add(new Item(ItemType.MODEL, description.getName(), writer.toString()));
-				} catch (ExtensionException e) {
-					LOGGER.warning("The model is not valid, it will not be sent");
-				}
-			}
 			if (ITEM_TYPES.containsKey(description.getType())) {
 				try {
 					ItemDialogConstructor part = ITEM_TYPES.get(description.getType()).newInstance();
@@ -107,6 +98,14 @@ public class ParametersDialog extends Dialog {
 					LOGGER.warning("Cannot create the ItemDialogConstructor: " + ITEM_TYPES.get(description.getType()));
 				} catch (IllegalAccessException e) {
 					LOGGER.warning("Cannot create the ItemDialogConstructor: " + ITEM_TYPES.get(description.getType()));
+				}
+			} else if (description.getType() == ItemType.MODEL) {
+				StringWriter writer = new StringWriter();
+				try {
+					GRAPH_TO_GML.export(model, writer, new NullProgressMonitor());
+					params.add(new Item(ItemType.MODEL, description.getName(), writer.toString()));
+				} catch (ExtensionException e) {
+					LOGGER.warning("The model is not valid, it will not be sent");
 				}
 			} else {
 				// Use StringDialogConstructor as default
@@ -143,7 +142,6 @@ public class ParametersDialog extends Dialog {
 	 */
 	@Override
 	public final boolean close() {
-		System.err.println("### close()");
 		for (ItemDialogConstructor part : parts) {
 			part.dispose();
 		}
