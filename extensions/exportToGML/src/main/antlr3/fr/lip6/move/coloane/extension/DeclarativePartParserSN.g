@@ -146,7 +146,7 @@ namedIntervalDefinition[String gap] returns [String value]
 @init { $value = gap + "<attribute name=\"scs\">\n"; } :
   (id=IDENTIFIER IS
 { symbols.put($id.getText(), "scs");
-  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n"; })? i=intervalDefinition[$gap+"\t"]
+  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n"; })? i=intervalDefinition[$gap+"\t\t"]
 { $value = $value + gap + "\t<attribute name=\"scsType\">\n";
   $value = $value.concat($i.value);
   $value = $value + gap + "\t</attribute>\n";
