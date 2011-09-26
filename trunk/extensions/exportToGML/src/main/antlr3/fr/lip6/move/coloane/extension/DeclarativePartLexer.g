@@ -26,7 +26,7 @@ IS : 'IS' | 'Is' | 'is' ;
 IN : 'IN' | 'In' | 'in' ;
 DOMAIN : 'DOMAIN' | 'Domain' | 'domain' ;
 BAG : 'BAG' | 'Bag' | 'bag' ;
-EQUIV : 'EQUIVALENCES' | 'Equivalences' | 'equivalences' | 'EQUIV' | 'Equiv' | 'equiv' ;
+EQUIV : 'EQUIVALENCES' | 'Equivalences' | 'equivalences' ;
 VAR : 'VAR' | 'Var' | 'var' ;
 UNIQUE : 'UNIQUE' | 'Unique' | 'unique' ;
 
