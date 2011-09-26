@@ -24,6 +24,7 @@ options {
   private boolean is_domain(String id) { return "domain".equals(symbols.get(id)) || "domain_bag".equals(symbols.get(id)); }
   private boolean is_domain_bag(String id) { return "domain_bag".equals(symbols.get(id)); }
   private boolean is_variable(String id) { return "variable".equals(symbols.get(id)) || "variable_bag".equals(symbols.get(id)); }
+  private boolean is_scs(String id) { return "scs".equals(symbols.get(id)); }
 }
 
 @rulecatch {
@@ -144,7 +145,7 @@ equivalenceDescription[String gap] returns [String value]
 
 namedIntervalDefinition[String gap] returns [String value]
 @init { $value = gap + "<attribute name=\"scs\">\n"; } :
-  (id=IDENTIFIER IS
+  (id=IDENTIFIER IS { symbols.get($id.getText()) == null }?
 { symbols.put($id.getText(), "scs");
   $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n"; })? i=intervalDefinition[$gap+"\t\t"]
 { $value = $value + gap + "\t<attribute name=\"scsType\">\n";
@@ -241,7 +242,7 @@ variableDeclaration[String gap] returns [String value]
   $value = "";
   boolean unique = false;
 } :
-  lid=listVarIdentifier IN (UNIQUE { unique=true; })? idd=IDENTIFIER SEMICOLON { is_domain($idd.getText()) || is_class($idd.getText()) }?  
+  lid=listVarIdentifier IN (UNIQUE { unique=true; })? idd=IDENTIFIER SEMICOLON { is_domain($idd.getText()) || is_class($idd.getText()) || is_scs($idd.getText()) }?  
 { for ( String id : $lid.listId ) {
     if (is_domain_bag($idd.getText()))
       symbols.put(id,"variable_bag");
