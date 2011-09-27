@@ -120,6 +120,7 @@ public class ResultsView extends ViewPart {
 
 		// Add the first column
 		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(0));
+		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(1));
 
 		ResultManager resultsManager = null;
 		if (MANAGER.getCurrentSession() != null) {
