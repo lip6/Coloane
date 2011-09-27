@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.api.alligator.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
+ org.eclipse.core.resources,
  fr.lip6.move.coloane.core;bundle-version="1.0.0",
  fr.lip6.move.coloane.interfaces;bundle-version="1.0.0",
  fr.lip6.move.coloane.extensions.exporttogml;bundle-version="1.0.0",

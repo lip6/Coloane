@@ -51,6 +51,7 @@ public class ParametersDialog extends Dialog {
 
 	private static final Map<ItemType, Class<? extends ItemDialogConstructor>> ITEM_TYPES = new HashMap<ItemType, Class<? extends ItemDialogConstructor>>();
 	static {
+		ITEM_TYPES.put(ItemType.MODEL, ModelDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.STRING, StringDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.TEXT, TextDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.BOOLEAN, BooleanDialogConstructor.class);
