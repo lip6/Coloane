@@ -34,15 +34,12 @@ import org.eclipse.ui.PlatformUI;
 public class ModelDialogConstructor implements ItemDialogConstructor {
 	
 	private Text input;
-	private DescriptionItem description;
 	private Label label;
 	
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#create(org.eclipse.swt.widgets.Composite, fr.lip6.move.alligator.interfaces.DescriptionItem)
 	 */
 	public final void create(Composite parent, DescriptionItem description) {
-		this.description = description;
-
 		this.label = new Label(parent, SWT.WRAP);
 		this.label.setText(description.getName() + ":");
 		this.label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
@@ -62,7 +59,7 @@ public class ModelDialogConstructor implements ItemDialogConstructor {
 	 */
 	public final List<Item> getParameters() {
 		try {
-			return Collections.singletonList(new Item(description.getType(), description.getName(), input.getText()));
+			return Collections.emptyList();
 		} finally {
 			input.dispose();
 		}

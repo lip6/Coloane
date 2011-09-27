@@ -51,7 +51,6 @@ public class ParametersDialog extends Dialog {
 
 	private static final Map<ItemType, Class<? extends ItemDialogConstructor>> ITEM_TYPES = new HashMap<ItemType, Class<? extends ItemDialogConstructor>>();
 	static {
-		ITEM_TYPES.put(ItemType.MODEL, ModelDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.STRING, StringDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.TEXT, TextDialogConstructor.class);
 		ITEM_TYPES.put(ItemType.BOOLEAN, BooleanDialogConstructor.class);
@@ -103,6 +102,9 @@ public class ParametersDialog extends Dialog {
 			} else if (description.getType() == ItemType.MODEL) {
 				StringWriter writer = new StringWriter();
 				try {
+					ItemDialogConstructor part = new ModelDialogConstructor();
+					part.create(composite, description);
+					parts.add(part);
 					GRAPH_TO_GML.export(model, writer, new NullProgressMonitor());
 					params.add(new Item(ItemType.MODEL, description.getName(), writer.toString()));
 				} catch (ExtensionException e) {
