@@ -13,5 +13,7 @@ Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ClassPath: lib/antlr-runtime.jar,
+ lib/stringtemplate.jar,
+ lib/antlr.jar,
  .
 Export-Package: fr.lip6.move.coloane.extensions.exporttogml

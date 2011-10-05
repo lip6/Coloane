@@ -23,6 +23,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.io.BufferedWriter;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -40,6 +41,7 @@ import main.antlr3.fr.lip6.move.coloane.extension.ValuationParserSNB;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.stringtemplate.StringTemplateGroup;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
@@ -240,10 +242,15 @@ public class ExportToGML implements IExportTo {
 	private Map<String, String> exportDeclarativePart(String value, Writer out, IProgressMonitor monitor, String gap) throws IOException, ExtensionException {
 		DeclarativePartParserSN parser;
 		try {
+			FileReader groupFileR = new FileReader("/Users/xam/SNBFML.stg");
+			StringTemplateGroup templates = new StringTemplateGroup(groupFileR);
+			groupFileR.close();
+
 			DeclarativePartLexer lexer = new DeclarativePartLexer(new ANTLRStringStream(value));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			parser = new DeclarativePartParserSN(tokens);
-			out.write(parser.declaration(gap, formalism));
+			parser.setTemplateLib(templates);
+			out.write(parser.declaration(formalism).toString());
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Error in the declarative part at : " + value.split("\n")[e.line - 1]);
 		}
