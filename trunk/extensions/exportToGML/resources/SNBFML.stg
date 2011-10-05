@@ -1,0 +1,32 @@
+group SNBGML;
+
+balise(name,content) ::= <<
+\<attribute name="<name>"\>
+  <content; separator="\n">
+\</attribute\>
+>>
+
+variable_decl(id, idd, form, unique) ::= <<
+\<attribute name="variableDeclaration"\>
+  \<attribute name="name"\><id>\</attribute\>
+  \<attribute name="type"\><idd>\</attribute\>
+  <if(form)>
+    \<attribute name="unique"\><unique>\</attribute\>
+  <else>
+  <endif>
+\</attribute\>
+>>
+
+delist(arg) ::= <<
+<arg; separator="\n">
+>>
+
+balise_type(id) ::= <<
+<balise(name={<"type">}, content={<id.text>})>
+>>
+
+cartesianProduct(arg) ::= <<
+<arg:balise_type(); separator="\n">
+>>
+
+;

@@ -2,7 +2,7 @@ parser grammar DeclarativePartParserSN;
 
 options {
   language = Java;
-  //output = template;
+  output = template;
   tokenVocab = DeclarativePartLexer;
 }
 
@@ -12,6 +12,7 @@ options {
   import java.util.Map;
 	import java.util.HashMap;
 	import java.util.ArrayList;
+	import java.util.Arrays;
 }
 
 @members {
@@ -33,233 +34,205 @@ options {
 }
 
 // the starting rule
-declaration[String gap, String netFormalism] returns [String value]
+declaration[String netFormalism]
 @init {
   formalism = netFormalism;
-  $value = gap + "<attribute name=\"declaration\">\n"; }
-@after { $value = $value + gap + "</attribute>\n"; } :
-   c1=classSection[$gap+"\t"] { $value = $value + $c1.value; }
-  (c2=equivalenceSection[$gap+"\t"] { $value = $value + $c2.value; })?
-  (c3=domainSection[$gap+"\t"] { $value = $value + $c3.value; })?
-  c4=variableSection[$gap+"\t"] { $value = $value + $c4.value; } ;
+}
+  : c+=classSection (c+=equivalenceSection)? (c+=domainSection)? c+=variableSection
+  -> balise(name={"declaration"}, content={ $c })
+  ;
 
 // the class declaration section
-classSection[String gap] returns [String value] : CLASS l=classDeclarationList[$gap]
-{ $value = $l.value;
-} ;
+classSection
+  : CLASS (e+=classDeclaration)+ -> delist(arg={$e})
+  ;
 
-classDeclarationList[String gap] returns [String value] : 
-  e=classDeclaration[$gap] { $value = $e.value; } |
-  e=classDeclaration[$gap] l=classDeclarationList[$gap] { $value = $e.value + $l.value; } ;
-
-classDeclaration[String gap] returns [String value]
+classDeclaration
 @init {
   boolean circular=false;
-  $value = ""; } :
-  id=IDENTIFIER IS (CIRCULAR { circular=true; })? d=classDescription[$gap+"\t\t",$id.getText()] SEMICOLON { symbols.get($id.getText()) == null }?
-{ symbols.put($id.getText(),"class");
-  
-  $value = $value + gap + "<attribute name=\"classDeclaration\">\n";
-  // balise name
-  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n"; // fermeture de la balise name
-  // balise classType
-  $value = $value + gap + "\t<attribute name=\"classType\">\n";
-  $value = $value.concat($d.value);
-  $value = $value + gap + "\t</attribute>\n"; // fermeture de la balise classType
-  // balise circular
-  $value = $value + gap + "\t<attribute name=\"circular\">";
-  if (circular) $value = $value.concat("true"); else $value = $value.concat("false");
-  $value = $value.concat("</attribute>\n"); // fermeture de la balise circular
-  $value = $value + gap + "</attribute>\n"; // fermeture de la balise classeDeclaration
-} ;
+}
+  : id=IDENTIFIER IS (CIRCULAR { circular=true; })? d=classDescription[$id.getText()] SEMICOLON { symbols.get($id.getText()) == null }?
+  { symbols.put($id.getText(),"class"); }
+  {
+    StringTemplate[] tmp = { %balise(name={"name"}, content={$id.getText()}), %balise(name={"classType"}, content={$d.st}), %balise(name={"circular"}, content={circular?"true":"false"}) };
+  }
+  -> balise(name={"classDeclaration"}, content={ Arrays.asList(tmp) })
+  ;
 
-classDescription[String gap,String class_id] returns [String value]
-@init { $value=""; } : 
-  e=interval[$gap]
-{ $value = $value + $e.value;
-} |
-  c=classEnum[$gap,$class_id] { $value = $value + $c.value; } ;
+classDescription[String class_id]
+  : e=interval -> { $e.st }
+  | c=classEnum[$class_id] -> { $c.st }
+  ;
    
-classEnum[String gap,String class_id] returns [String value] 
-@init { $value=""; } :
-  LHOOK e=listIdentifier[$gap+"\t",$class_id] RHOOK 
-{ $value = $value + gap + "<attribute name=\"classEnum\">\n" + $e.value + gap + "</attribute>\n";
-} ;
+classEnum[String class_id] 
+  : LHOOK e=listIdentifier[$class_id] RHOOK
+  -> balise(name={"classEnum"}, content={$e.st})
+  ;
 
-classEnum2[String gap] returns [String value] 
-@init { $value=""; } :
-  LHOOK e=listIdentifier2[$gap+"\t"] RHOOK 
-{ $value = $value + gap + "<attribute name=\"classEnum\">\n" + $e.value + gap + "</attribute>\n";
-} ;
+classEnum2
+  : LHOOK e=listIdentifier2 RHOOK
+  -> balise(name={"classEnum"}, content={ $e.st })
+  ;
 
-listIdentifier2[String gap] returns [String value]
-@init { $value = ""; } : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques 
-{ for (Object x : $ids) {
-    $value = $value + gap + "<attribute name=\"enumValue\">";
-    $value = $value + ((Token)x).getText();
-    $value = $value + "</attribute>\n";
-  }
-};
-
-interval[String gap] returns [String value]
-@init { $value = ""; } : e=INTEGER DOUBLEDOT f=INTEGER
-{ $value = $value + gap + "<attribute name=\"classIntInterval\">\n";
-  $value = $value + gap + "\t<attribute name=\"lowerBound\">" + $e.text + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"higherBound\">" + $f.text + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} ;
-
-listIdentifier[String gap,String class_id] returns [String value]
-@init { $value = ""; } : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques 
-{ for (Object x : $ids) {
-    if (symbols.get(((Token)x).getText()) == null) {
-      symbols.put(((Token)x).getText(),$class_id);
+listIdentifier2
+  : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques
+  {
+    List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+    for (Object x : $ids) {
+      tmp.add( %balise(name={"enumValue"}, content={((Token)x).getText()}) );
     }
-    $value = $value + gap + "<attribute name=\"enumValue\">";
-    $value = $value + ((Token)x).getText();
-    $value = $value + "</attribute>\n";
   }
-};
+  -> delist(arg={tmp})
+  ;
+
+interval
+  : e=INTEGER DOUBLEDOT f=INTEGER
+  {
+    List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+    tmp.add( %balise(name={"lowerBound"}, content={$e.getText()}) );
+    tmp.add( %balise(name={"higherBound"}, content={$f.getText()}) );
+  }
+  -> balise(name={"classIntInterval"}, content={ tmp })
+  ;
+
+listIdentifier[String class_id]
+  : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)* // il faut tester que les identifiants sont uniques 
+  {
+    List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+    for (Object x : $ids) {
+      String xText = ((Token)x).getText();
+      if (symbols.get(xText) == null) {
+        symbols.put(xText, $class_id);
+      }
+      tmp.add( %balise(name={"enumValue"}, content={xText}) );
+    }
+  }
+  -> delist(arg={tmp})
+  ;
 
 // the equivalence declaration section
-equivalenceSection[String gap] returns [String value] : EQUIV e=equivalenceDeclarationList[$gap] { $value = $e.value; } ;
-
-equivalenceDeclarationList[String gap] returns [String value] :
-  e=equivalenceDeclaration[$gap] { $value = $e.value; } (l=equivalenceDeclarationList[$gap] { $value = $value + $l.value ; })? ;
+equivalenceSection
+  : EQUIV (e+=equivalenceDeclaration)+ -> delist(arg={$e})
+  ;
   
-equivalenceDeclaration[String gap] returns [String value]
-@init { $value = ""; } :
-  IN id=IDENTIFIER COLON d=equivalenceDescription[$gap+"\t"] SEMICOLON { is_class($id.getText()) }? 
-{ $value = $value + gap + "<attribute name=\"scsDeclaration\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">";
-  $value = $value.concat($id.getText());
-  $value = $value.concat("</attribute>\n");
-  $value = $value.concat($d.value);
-  $value = $value + gap + "</attribute>\n";
-};
+equivalenceDeclaration
+  : IN id=IDENTIFIER COLON d=equivalenceDescription SEMICOLON { is_class($id.getText()) }?
+  {
+    List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+    tmp.add( %balise(name={"type"}, content={$id.getText()}) );
+    tmp.add($d.st);
+  }
+  -> balise(name={"scsDeclaration"}, content={ tmp })
+  ;
 
-equivalenceDescription[String gap] returns [String value] 
-@init { $value=""; } :
-  e=namedIntervalDefinition[$gap] { $value = $value.concat($e.value); } (COMA l=equivalenceDescription[$gap] { $value = $value.concat($l.value); })? ;
+equivalenceDescription
+  : e+=namedIntervalDefinition (COMA e+=namedIntervalDefinition)* -> delist(arg={$e})
+  ;
 
-namedIntervalDefinition[String gap] returns [String value]
-@init { $value = gap + "<attribute name=\"scs\">\n"; } :
-  (id=IDENTIFIER IS { symbols.get($id.getText()) == null }?
-{ symbols.put($id.getText(), "scs");
-  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n"; })? i=intervalDefinition[$gap+"\t\t"]
-{ $value = $value + gap + "\t<attribute name=\"scsType\">\n";
-  $value = $value.concat($i.value);
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} ;
+namedIntervalDefinition
+@init {
+  List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+}
+  : (id=IDENTIFIER IS { symbols.get($id.getText()) == null }?
+      { symbols.put($id.getText(), "scs"); }
+      { tmp.add( %balise(name={"name"}, content={$id.getText()}) ); }
+    )? i=intervalDefinition
+  {
+    tmp.add( %balise(name={"scsType"}, content={$i.st}) );
+  }
+  -> balise(name={"scs"}, content={ tmp })
+  ;
 
-intervalDefinition[String gap] returns [String value] 
-@init { $value=""; } :
-  i=interval[$gap]
-{ $value = $value.concat($i.value); 
-} | 
-  e=INTEGER 
-{ $value = $value + gap + "<attribute name=\"classIntInterval\">\n";
-  $value = $value + gap + "\t<attribute name=\"lowerBound\">" + $e.getText() + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"higherBound\">" + $e.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  c=classEnum2[$gap]
-{ $value = $value.concat($c.value);
-} |
-  f=IDENTIFIER
-{ $value = $value + gap + "<attribute name=\"classEnum\">\n";
-  $value = $value + gap + "\t<attribute name=\"enumValue\">" + $f.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} ;
+intervalDefinition 
+  : i=interval -> { $i.st }
+  | e=INTEGER
+  {
+    List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+    tmp.add(templateLib.getInstanceOf("balise", new STAttrMap().put("name", "lowerBound").put("content", $e.getText())));
+    tmp.add(templateLib.getInstanceOf("balise", new STAttrMap().put("name", "higherBound").put("content", $e.getText())));
+  }
+  -> balise(name={"classIntInterval"}, content={ tmp })
+  | c=classEnum2 -> { $c.st }
+  | f=IDENTIFIER
+  -> balise(
+    name={"classEnum"},
+    content={ %balise(name={"enumValue"}, content={$f.getText()}) }
+  )
+  ;
 
 // the domain declaration section
-domainSection[String gap] returns [String value] : DOMAIN d=domainDeclarationList[$gap] { $value = $d.value; } ;
+domainSection
+  : DOMAIN (d+=domainDeclaration)+ -> delist(arg={$d})
+  ;
 
-domainDeclarationList[String gap] returns [String value] 
-@init { $value = ""; } :
-  d=domainDeclaration[$gap] { $value = $value + $d.value; } (l=domainDeclarationList[$gap] { $value = $value + $l.value; })? ;
-
-domainDeclaration[String gap] returns [String value]
-@init { $value = ""; } :
-  id=IDENTIFIER IS { symbols.get($id.getText())==null }?
-{ $value = $value + gap + "<attribute name=\"domainDeclaration\">\n";
-  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"domainType\">\n";
-}
-  ( b=bagDefinition[$gap+"\t\t"] SEMICOLON
-{ symbols.put($id.getText(),"domain_bag");
-  $value = $value + $b.value;
-} |
-  s=singleDomain[$gap+"\t\t"] SEMICOLON
-{ symbols.put($id.getText(),"domain");
-  $value = $value + gap + "\t\t<attribute name=\"cartesianProduct\">\n";
-  $value = $value + gap + "\t\t\t<attribute name=\"type\">" + $s.value + "</attribute>\n";
-  $value = $value + gap + "\t\t</attribute>\n";
-} |
-  p=productDefinition[$gap+"\t\t"] SEMICOLON
-{ symbols.put($id.getText(),"domain");
-  $value = $value + $p.value;
-} )
-{ $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} ;
-
-singleDomain[String gap] returns [String value] : id=IDENTIFIER { is_domain($id.getText()) || is_class($id.getText()) }?
-{ $value = $id.getText(); } ;
-
-bagDefinition[String gap] returns [String value]
-@init { $value = ""; } :
-  BAG LPAREN id=IDENTIFIER RPAREN { is_class($id.getText()) }?
-{ $value = $value + gap + "<attribute name=\"domainBag\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} ;
-
-productDefinition[String gap] returns [String value]
-@init { $value = gap + "<attribute name=\"cartesianProduct\">\n"; } :
-  LT p=productElementList[$gap+"\t"] GT
-{ $value = $value.concat($p.value);
-  $value = $value + gap + "</attribute>\n";
-} ;
+domainDeclaration
+  : id=IDENTIFIER IS { symbols.get($id.getText())==null }? d=domainDefinition[$id.getText()]
+  {
+    List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+    tmp.add( %balise(name={"name"}, content={$id.getText()}) );
+    tmp.add( %balise(name={"domainType"}, content={ $d.st }) );
+  }
+  -> balise(name={"domainDeclaration"}, content={ tmp })
+  ;
   
-productElementList[String gap] returns [String value]
-@init { $value = ""; } :
-  id=IDENTIFIER
-{ $value = $value + gap + "<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
-} (COMA p=productElementList[$gap] { $value = $value.concat($p.value); })? ;
+domainDefinition[String id]
+  : b=bagDefinition SEMICOLON { symbols.put($id,"domain_bag"); } -> { $b.st }
+  | s=singleDomain SEMICOLON { symbols.put($id,"domain"); }
+  -> balise(
+    name={"cartesianProduct"},
+    content = { %balise(name={"type"}, content={$s.st}) }
+  )
+  | p=productDefinition SEMICOLON { symbols.put($id,"domain"); } -> { $p.st }
+  ;
+  
+singleDomain
+  : id=IDENTIFIER { is_domain($id.getText()) || is_class($id.getText()) }?
+  -> { %{$id.getText()} }
+  ;
+
+bagDefinition
+  : BAG LPAREN id=IDENTIFIER RPAREN { is_class($id.getText()) }?
+  -> balise(
+    name={"domainBag"},
+    content={ %balise(name={"type"}, content={$id.getText()}) }
+  )
+  ;
+
+productDefinition
+  : LT p=productElementList GT
+  -> balise(name={"cartesianProduct"}, content={$p.st})
+  ;
+  
+productElementList
+  : ids+=IDENTIFIER (COMA ids+=IDENTIFIER)*
+  -> cartesianProduct(arg={$ids})
+  ;
 
 // the variable declaration section
-variableSection[String gap] returns [String value] : VAR l=variableDeclarationList[$gap] { $value = $l.value; } ;
+variableSection
+  : VAR (v+=variableDeclaration)+ -> delist(arg={$v})
+  ;
 
-variableDeclarationList[String gap] returns [String value]
-@init { $value=""; } :
-  v=variableDeclaration[$gap] { $value = $value.concat($v.value); } (l=variableDeclarationList[$gap] { $value = $value.concat($l.value); })? ;
-
-variableDeclaration[String gap] returns [String value]
+variableDeclaration
 @init {
-  $value = "";
   boolean unique = false;
-} :
-  lid=listVarIdentifier IN (UNIQUE { unique=true; })? idd=IDENTIFIER SEMICOLON { is_domain($idd.getText()) || is_class($idd.getText()) }?  
-{ for ( String id : $lid.listId ) {
-    if (is_domain_bag($idd.getText()))
-      symbols.put(id,"variable_bag");
-    else
-      symbols.put(id,"variable");
-    $value = $value + gap + "<attribute name=\"variableDeclaration\">\n";
-    $value = $value + gap + "\t<attribute name=\"name\">" + id + "</attribute>\n";
-    $value = $value + gap + "\t<attribute name=\"type\">" + $idd.getText() + "</attribute>\n";
-    if (formalism == "SNB") {
-      $value = $value + gap + "\t<attribute name=\"unique\">";
-      if (unique) $value = $value + "true"; else $value = $value + "false";
-      $value = $value + "</attribute>\n";
+}
+  : lid=listVarIdentifier IN (UNIQUE { unique=true; })? idd=IDENTIFIER SEMICOLON { is_domain($idd.getText()) || is_class($idd.getText()) }?  
+  {
+    List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+    boolean isForm = (formalism == "SNB");
+    for ( String id : $lid.listId ) {
+      if (is_domain_bag($idd.getText()))
+        symbols.put(id,"variable_bag");
+      else
+        symbols.put(id,"variable");
+      tmp.add( %variable_decl(id={id}, idd={$idd.getText()}, form={isForm}, unique={unique?"true":"false"}) );
     }
-    $value = $value + gap + "</attribute>\n";
   }
-} ;
+  -> delist(arg={tmp})
+  ;
 
 listVarIdentifier returns [List<String> listId]
-@init { listId = new ArrayList<String>(); } :
-  id=IDENTIFIER { symbols.get($id.getText()) == null }? (COMA l=listVarIdentifier { listId = $l.listId; })? { listId.add($id.getText()); } ;
-
+@init { retval.listId = new ArrayList<String>(); }
+  : id=IDENTIFIER { symbols.get($id.getText()) == null }? (COMA l=listVarIdentifier { retval.listId = $l.listId; })? { retval.listId.add($id.getText()); }
+  ;
