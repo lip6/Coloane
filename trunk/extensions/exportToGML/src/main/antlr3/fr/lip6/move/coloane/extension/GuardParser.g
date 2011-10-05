@@ -2,6 +2,7 @@ parser grammar GuardParser;
 
 options {
   language = Java;
+  output = template;
   tokenVocab = GuardLexer;
 }
 
@@ -27,168 +28,172 @@ options {
   }
 }
 
-transitionGuard[Map<String,String> s,String gap] returns [String value]
+transitionGuard[Map<String,String> s]
 @init {
   symbols = $s;
-  $value = gap + "<attribute name=\"guard\">\n";  
+  StringTemplate tmp = null;
 }
-@after {
-  $value = $value + gap + "</attribute>\n";
-} :
-  (TRUE)?
-{ $value = $value + gap + "\t<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"boolValue\">true</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-} |
-  FALSE
-{ $value = $value + gap + "\t<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"boolValue\">false</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-} |
-  LHOOK g=guard[$gap+"\t"] RHOOK { $value = $value + $g.value; } ;
-
-
-guard[String gap] returns [String value]
-@init { $value = ""; }
-@after {  } :
-  (atom[""] guardRest["",""])=> a=atom[gap+"\t\t"] g=guardRest[gap,$a.value] { $value = $value + $g.value; } |
-  a=atom[gap] { $value = $value + $a.value; } ;
-  
-guardRest[String gap,String leftmember] returns [String value]
-@init { $value = gap + "<attribute name=\"boolExpr\">\n"; }
-@after { $value = $value + gap + "</attribute>\n"; } :
-  ( AND { $value = $value + gap + "\t<attribute name=\"and\">\n"; } |
-    OR { $value = $value + gap + "\t<attribute name=\"or\">\n"; } ) g1=guard[gap+"\t\t"]
-{ $value = $value + leftmember;
-  $value = $value + $g1.value;
-  $value = $value + gap + "\t</attribute>\n";
-} ;
-
-atom[String gap] returns [String value]
-@init { $value = ""; } :
-  TRUE
-{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + "\t<attribute name=\"boolValue\">true</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  FALSE
-{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + "\t<attribute name=\"boolValue\">false</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  g1=guardOperator[$gap+"\t\t\t"] (op=relOperator[false] | op=inclusion) g2=guardOperator[$gap+"\t\t\t"]
-{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + "\t<attribute name=\"" + $op.value + "\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"expr\">\n";
-  $value = $value + $g1.value;
-  $value = $value + gap + "\t\t</attribute>\n";
-  $value = $value + gap + "\t\t<attribute name=\"expr\">\n";
-  $value = $value + $g2.value;
-  $value = $value + gap + "\t\t</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  (IDENTIFIER IN IDENTIFIER)=> id=IDENTIFIER IN id_c=IDENTIFIER { is_simple_variable($id.getText()) }? { is_scs($id_c.getText()) }?
-{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + $id_c.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  UNIQUE LPAREN id=IDENTIFIER RPAREN { is_variable($id.getText()) }?
-{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + "\t<attribute name=\"uniqueGuard\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  CARD LPAREN g=IDENTIFIER RPAREN op=relOperator[true] i=INTEGER { is_variable($g.getText()) }?
-{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + "\t<attribute name=\"cardinalExpression\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"cardinal" + $op.value + "\">\n";
-  $value = $value + gap + "\t\t\t<attribute name=\"name\">" + $g.getText() + "</attribute>\n";
-  $value = $value + gap + "\t\t\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
-  $value = $value + gap + "\t\t</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  NOT h=guard[gap+"\t\t"]
-{ $value = $value + gap + "<attribute name=\"boolExpr\">\n";
-  $value = $value + gap + "\t<attribute name=\"not\">\n";
-  $value = $value + $h.value;
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  LPAREN h=guard[gap] RPAREN
-{ $value = $value + $h.value;
-} ;
-
-inclusion returns [String value] :
-  INCLUDED { $value = "included"; } |
-  STRICTINCLUDED { $value = "strictlyIncluded"; }
+  : (TRUE)?
+  {
+    StringTemplate tmp0 = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolValue").put("content", "true"));
+    tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp0));
+  }
+  -> balise(name={"guard"}, content={ tmp })
+  | FALSE {
+    StringTemplate tmp0 = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolValue").put("content", "false"));
+    tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp0));
+  }
+  -> balise(name={"guard"}, content={ tmp })
+  | LHOOK g=guard RHOOK -> balise(name={"guard"}, content={$g.st})
   ;
 
-relOperator[boolean incard] returns [String value] :
-  EQ { if ($incard) $value="Equal"; else $value="equal"; } |
-  NEQ { if ($incard) $value="NotEqual"; else $value="notEqual"; } |
-  LEQ { if ($incard) $value="LessEqual"; else $value="lessEqual"; } |
-  GEQ { if ($incard) $value="GreaterEqual"; else $value="greaterEqual"; } |
-  LT { if ($incard) $value="Less"; else $value="less"; } |
-  GT { if ($incard) $value="Greater"; else $value="greater"; } ;
+guard
+@init {
+  List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+}
+  : (atom)=> a=atom -> { $a.st }
+  | a=atom b=boolOperator g=guard
+  {
+    tmp.add( $a.st );
+    tmp.add( $g.st );
+  }
+  -> balise(name={"boolExpr"}, content={ %balise(name={$b.st}, content={tmp}) })
+  ;
+  
+boolOperator
+  : AND -> { %{"and"} }
+  | OR -> { %{"or"} }
+  ;
 
-guardOperator[String gap] returns [String value] : v=varClassElement[$gap] { $value = $v.value; } ;
+gOp
+  : r=relOperator[false] -> { $r.st }
+  | i=inclusion -> { $i.st }
+  ;
 
-varClassElement[String gap] returns [String value]
-@init { $value=""; } :
-  { is_variable(input.LT(1).getText()) }?=> id=IDENTIFIER // variableIdentifier
-{ $value = $value + gap + "<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-} |
-  id=IDENTIFIER { is_class(symbols.get($id.getText())) }? // elementIdentifier
-{ $value = $value + gap + "<attribute name=\"enumConst\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + symbols.get($id.getText()) + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"enumValue\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  id=IDENTIFIER DOT ALL { is_class($id.getText()) }? // classIdentifier DOT ALL
-{ $value = $value + gap + "<attribute name=\"function\">\n";
-  $value = $value + gap + "\t<attribute name=\"all\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  idc=IDENTIFIER DOT i=INTEGER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
-{ $value = $value + gap + "<attribute name=\"intConst\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + $idc.getText() + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  idc=IDENTIFIER DOT i=IDENTIFIER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
-{ $value = $value + gap + "<attribute name=\"enumConst\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + $idc.getText() + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"enumValue\">" + $i.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  id=IDENTIFIER PLUSPLUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier ++ n
+atom
+@init {
+  StringTemplate tmp = null;
+  List<StringTemplate> tmpl = new ArrayList<StringTemplate>();
+}
+  : TRUE
+  {
+    StringTemplate tmp0 = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolValue").put("content", "true"));
+    tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp0));
+  }
+  -> balise(name={"guard"}, content={ tmp })
+  | FALSE
+  {
+    StringTemplate tmp0 = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolValue").put("content", "false"));
+    tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp0));
+  }
+  -> balise(name={"guard"}, content={ tmp })
+  | g1=guardOperator oper=gOp g2=guardOperator
+  {
+    tmpl.add( %balise(name={"expr"}, content={$g1.st}) );
+    tmpl.add( %balise(name={"expr"}, content={$g2.st}) );
+  }
+  -> balise(name={"boolExpr"}, content={ %balise(name={$oper.st}, content={tmpl}) })
+  | (IDENTIFIER IN IDENTIFIER)=> id=IDENTIFIER IN id_c=IDENTIFIER { is_simple_variable($id.getText()) }? { is_scs($id_c.getText()) }?
+  {
+    //List<StringTemplate> tmpl = new ArrayList<StringTemplate>();
+    tmpl.add( %balise(name={"name"}, content={$id.getText()}) );
+    tmpl.add( %balise(name={"type"}, content={$id_c.getText()}) );
+  }
+  -> balise(name={"boolExpr"}, content={tmpl})
+  | UNIQUE LPAREN id=IDENTIFIER RPAREN { is_variable($id.getText()) }?
+  {
+    StringTemplate tmp0 = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "name").put("content", $id.getText()));
+    StringTemplate tmp1 = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "uniqueGuard").put("content", tmp0));
+    retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp1));
+  }
+  | CARD LPAREN g=IDENTIFIER RPAREN op=relOperator[true] i=INTEGER { is_variable($g.getText()) }?
+  {
+    //List<StringTemplate> tmpl = new ArrayList<StringTemplate>();
+    tmpl.add( %balise(name={"name"}, content={$g.getText()}) );
+    tmpl.add( %balise(name={"intValue"}, content={$i.getText()}) );
+    
+    tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "cardinal" + $op.st.toString()).put("content", tmpl));
+  }
+  -> balise(name={"boolExpr"}, content={
+        %balise(name={"cardinalExpression"}, content={ tmp })
+  })
+  | NOT h=guard
+  -> balise(name={"boolExpr"}, content={
+        %balise(name={"not"}, content={$h.st})
+  } )
+  | LPAREN h=guard RPAREN -> { $h.st }
+  ;
+
+inclusion
+  : INCLUDED -> { %{"included"} }
+  | STRICTINCLUDED -> { %{"strictlyIncluded"} }
+  ;
+
+relOperator[boolean incard]
+@init {
+  String val = "";
+}
+  : ( EQ { if ($incard) val="Equal"; else val="equal"; }
+  | NEQ { if ($incard) val="NotEqual"; else val="notEqual"; }
+  | LEQ { if ($incard) val="LessEqual"; else val="lessEqual"; }
+  | GEQ { if ($incard) val="GreaterEqual"; else val="greaterEqual"; }
+  | LT { if ($incard) val="Less"; else val="less"; }
+  | GT { if ($incard) val="Greater"; else val="greater"; }
+  ) -> { %{val} }
+  ;
+
+guardOperator
+  : v=varClassElement -> { $v.st }
+  ;
+
+varClassElement
+@init {
+  List<StringTemplate> tmpl = new ArrayList<StringTemplate>();
+  StringTemplate tmp = null;
+}
+  : { is_variable(input.LT(1).getText()) }?=> id=IDENTIFIER // variableIdentifier
+  -> balise(name={"name"}, content={$id.getText()})
+  | id=IDENTIFIER { is_class(symbols.get($id.getText())) }? // elementIdentifier
+  {
+    tmpl.add( %balise(name={"type"}, content={symbols.get($id.getText())}) );
+    tmpl.add( %balise(name={"enumValue"}, content={$id.getText()}) );
+  }
+  -> balise(name={"enumConst"}, content={tmpl})
+  | id=IDENTIFIER DOT ALL { is_class($id.getText()) }? // classIdentifier DOT ALL
+  {
+    tmp = %balise(name={"type"}, content={$id.getText()});
+  }
+  -> balise(name={"function"}, content={
+        %balise(name={"all"}, content={ tmp })
+  })
+  | idc=IDENTIFIER DOT i=INTEGER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
+  {
+    tmpl.add( %balise(name={"type"}, content={$idc.getText()}) );
+    tmpl.add( %balise(name={"intValue"}, content={$i.getText()}) );
+  }
+  -> balise(name={"intConst"}, content={tmpl})
+  | idc=IDENTIFIER DOT i=IDENTIFIER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
+  {
+    tmpl.add( %balise(name={"type"}, content={$idc.getText()}) );
+    tmpl.add( %balise(name={"enumValue"}, content={$i.getText()}) );
+  }
+  -> balise(name={"enumConst"}, content={tmpl})
+  | id=IDENTIFIER PLUSPLUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier ++ n
   { Integer.parseInt($n.getText()) > 0 }?
-{ $value = $value + gap + "<attribute name=\"function\">\n";
-  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value + gap + "\t<attribute name=\"++\">\n";
+  {
+    tmp = %balise(name={"name"}, content={$id.getText()});
+    for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) {
+      tmp = %balise(name={"++"}, content={tmp});
+    }
   }
-  $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value + gap + "\t</attribute>\n";
-  }
-  $value = $value + gap + "</attribute>\n";
-} |
-  id=IDENTIFIER MINUSMINUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier -- n
+  -> balise(name={"function"}, content={tmp})
+  | id=IDENTIFIER MINUSMINUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier -- n
   { Integer.parseInt($n.getText()) > 0 }?
-{ $value = $value + gap + "<attribute name=\"function\">\n";
-  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value + gap + "\t<attribute name=\"--\">\n";
-  }
-  $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-  for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) { 
-    $value = $value + gap + "\t</attribute>\n";
-  }
-  $value = $value + gap + "</attribute>\n";
-} ;
+  {
+    tmp = %balise(name={"name"}, content={$id.getText()});
+    for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) {
+      tmp = %balise(name={"--"}, content={tmp});
+    }
+  } -> balise(name={"function"}, content={tmp})
+  ;
   

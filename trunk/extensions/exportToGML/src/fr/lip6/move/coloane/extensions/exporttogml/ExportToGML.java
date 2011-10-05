@@ -62,14 +62,26 @@ public class ExportToGML implements IExportTo {
 
 	private String formalism;
 
+	private StringTemplateGroup templates;
+	
 	/**
 	 * Initialize the formalismMap
+	 * Initialize the StringTemplate group
+	 * @throws IOException if the initialization of StringTemplate group fails
 	 */
-	public ExportToGML() {
+	public ExportToGML() throws IOException {
 		// TODO: Put the associated FML URL into Coloane Formalism extension
 		formalismMap.put("PT-Net", "http://alligator.lip6.fr/pt-net.fml");
 		formalismMap.put("CPN", "http://alligator.lip6.fr/s-net.fml");
 		formalismMap.put("SNB", "http://alligator.lip6.fr/snb.fml");
+
+		InputStream groupFileIS = this.getClass().getResourceAsStream("/resources/SNBFML.stg");
+		if (groupFileIS == null) {
+			throw new IOException("String Template Group File not found");
+		}
+		InputStreamReader groupFileR = new InputStreamReader(groupFileIS);
+		templates = new StringTemplateGroup(groupFileR);
+		groupFileR.close();
 	}
 
 	/**
@@ -243,14 +255,6 @@ public class ExportToGML implements IExportTo {
 	private Map<String, String> exportDeclarativePart(String value, Writer out, IProgressMonitor monitor, String gap) throws IOException, ExtensionException {
 		DeclarativePartParserSN parser;
 		try {
-			InputStream groupFileIS = this.getClass().getResourceAsStream("/resources/SNBFML.stg");
-			if (groupFileIS == null) {
-				throw new IOException("String Template Group File not found");
-			}
-			InputStreamReader groupFileR = new InputStreamReader(groupFileIS);
-			StringTemplateGroup templates = new StringTemplateGroup(groupFileR);
-			groupFileR.close();
-
 			DeclarativePartLexer lexer = new DeclarativePartLexer(new ANTLRStringStream(value));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			parser = new DeclarativePartParserSN(tokens);
@@ -379,7 +383,8 @@ public class ExportToGML implements IExportTo {
 		GuardLexer lexer = new GuardLexer(new ANTLRStringStream(value));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GuardParser parser = new GuardParser(tokens);
-		out.write(parser.transitionGuard(symbols, gap));
+		parser.setTemplateLib(templates);
+		out.write(parser.transitionGuard(symbols).toString());
 	}
 
 	/**
