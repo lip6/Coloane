@@ -23,9 +23,10 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
@@ -242,7 +243,11 @@ public class ExportToGML implements IExportTo {
 	private Map<String, String> exportDeclarativePart(String value, Writer out, IProgressMonitor monitor, String gap) throws IOException, ExtensionException {
 		DeclarativePartParserSN parser;
 		try {
-			FileReader groupFileR = new FileReader("/Users/xam/SNBFML.stg");
+			InputStream groupFileIS = this.getClass().getResourceAsStream("/resources/SNBFML.stg");
+			if (groupFileIS == null) {
+				throw new IOException("String Template Group File not found");
+			}
+			InputStreamReader groupFileR = new InputStreamReader(groupFileIS);
 			StringTemplateGroup templates = new StringTemplateGroup(groupFileR);
 			groupFileR.close();
 
