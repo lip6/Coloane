@@ -15,6 +15,9 @@
  */
 package fr.lip6.move.coloane.interfaces.model;
 
+/**
+ * Definition of formatting rules for an attribute
+ */
 public interface IAttributeFormatter {
 
 	/**
