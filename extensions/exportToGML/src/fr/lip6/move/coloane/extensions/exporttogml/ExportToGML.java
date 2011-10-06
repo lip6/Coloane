@@ -66,15 +66,19 @@ public class ExportToGML implements IExportTo {
 	
 	/**
 	 * Initialize the formalismMap
-	 * Initialize the StringTemplate group
-	 * @throws IOException if the initialization of StringTemplate group fails
 	 */
-	public ExportToGML() throws IOException {
+	public ExportToGML() {
 		// TODO: Put the associated FML URL into Coloane Formalism extension
 		formalismMap.put("PT-Net", "http://alligator.lip6.fr/pt-net.fml");
 		formalismMap.put("CPN", "http://alligator.lip6.fr/s-net.fml");
 		formalismMap.put("SNB", "http://alligator.lip6.fr/snb.fml");
-
+	}
+	
+	/**
+	 * Initialize the StringTemplate group
+	 * @throws IOException if the StringTemplate Group file is not found
+	 */
+	private void initTemplateGroup() throws IOException {
 		InputStream groupFileIS = this.getClass().getResourceAsStream("/resources/SNBFML.stg");
 		if (groupFileIS == null) {
 			throw new IOException("String Template Group File not found");
@@ -94,6 +98,7 @@ public class ExportToGML implements IExportTo {
 	 */
 	public final void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ExtensionException {
 		try {
+			initTemplateGroup();
 			export(graph, new FileWriter(filePath), monitor);
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
@@ -108,7 +113,7 @@ public class ExportToGML implements IExportTo {
 	 * @param monitor monitors the export
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	public final void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException {
+	private void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException {
 		LOGGER.fine("starting export model");
 		Writer out = null;
 		ExtensionException exc = null;
