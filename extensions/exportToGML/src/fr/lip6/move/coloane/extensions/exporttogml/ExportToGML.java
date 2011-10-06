@@ -113,7 +113,7 @@ public class ExportToGML implements IExportTo {
 	 * @param monitor monitors the export
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException {
+	public final void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException {
 		LOGGER.fine("starting export model");
 		Writer out = null;
 		ExtensionException exc = null;
