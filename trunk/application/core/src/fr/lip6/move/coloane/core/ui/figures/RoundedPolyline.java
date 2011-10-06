@@ -248,9 +248,9 @@ public class RoundedPolyline extends Polyline {
 		while (t < 1) {
 			double td = t;
 			double tdd = 1 - td;
-			PrecisionPoint p = new PrecisionPoint();
-			p.setPreciseX((tdd * tdd * p0.x) + (2 * td * tdd * p1.x) + (td * td * p2.x));
-			p.setPreciseY((tdd * tdd * p0.y) + (2 * td * tdd * p1.y) + (td * td * p2.y));
+			double px = (tdd * tdd * p0.x) + (2 * td * tdd * p1.x) + (td * td * p2.x);
+			double py = (tdd * tdd * p0.y) + (2 * td * tdd * p1.y) + (td * td * p2.y);
+			PrecisionPoint p = new PrecisionPoint(px, py);
 			p.x = (int) Math.round(p.preciseX());
 			p.y = (int) Math.round(p.preciseY());
 //			g.drawPoint(prev.x, prev.y);
