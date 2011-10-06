@@ -52,7 +52,7 @@ public class DoubleEllipseNode extends AbstractNodeFigure {
 		r.setBounds(getBounds());
 		r.width--;
 		r.height--;
-		r.shrink((lineWidth - 1) / 2, (lineWidth - 1) / 2);
+		r.shrink((getLineWidth() - 1) / 2, (getLineWidth() - 1) / 2);
 		graphics.drawOval(r);
 		r.shrink(MARGIN, MARGIN);
 		graphics.drawOval(r);

@@ -34,7 +34,7 @@ public class PasteAction extends SelectionAction {
 
 	/**
 	 * Constructor
-	 * @param workbench The active workbench (the current editor)
+	 * @param part The active workbench (the current editor)
 	 */
 	public PasteAction(IWorkbenchPart part) {
 		super(part);

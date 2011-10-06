@@ -46,7 +46,7 @@ public class NodeCreateCmd extends CheckableCmd {
 	/**
 	 * Create a command that will create a node of a given formalism
 	 * @param graph the parent graph
-	 * @param nodeFormalismName the node formalism
+	 * @param nodeFormalism the node formalism
 	 * @param location the location where the node will be displayed for the first time
 	 */
 	public NodeCreateCmd(IGraph graph, INodeFormalism nodeFormalism, Point location) {

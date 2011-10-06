@@ -43,10 +43,10 @@ public class RectangleNode extends AbstractNodeFigure {
 	@Override
 	protected final void outlineShape(Graphics graphics) {
 		Rectangle r = getBounds();
-		int x = r.x + lineWidth / 2;
-		int y = r.y + lineWidth / 2;
-		int w = r.width - Math.max(1, lineWidth);
-		int h = r.height - Math.max(1, lineWidth);
+		int x = r.x + getLineWidth() / 2;
+		int y = r.y + getLineWidth() / 2;
+		int w = r.width - Math.max(1, getLineWidth());
+		int h = r.height - Math.max(1, getLineWidth());
 		graphics.drawRectangle(x, y, w, h);
 	}
 

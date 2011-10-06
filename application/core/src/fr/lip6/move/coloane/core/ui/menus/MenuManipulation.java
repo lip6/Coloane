@@ -42,6 +42,7 @@ public final class MenuManipulation {
 	 * @param rootMenuName The name of the menu to build
 	 * @param rootMenuDescription the description of the menu to build
 	 * @param rootMenuImage the icon associated with the menu (or <code>null</code> if not)
+	 * @return A root menu that corresponds to the menu description
 	 */
 	public static ColoaneAPIRootMenu buildRootMenu(String rootMenuName, String rootMenuDescription, ImageDescriptor rootMenuImage) {
 		String menuId = rootMenuName.toLowerCase();
@@ -55,6 +56,7 @@ public final class MenuManipulation {
 	/**
 	 * Build a new sub-menu
 	 * @param itemDescription Description of the new sub-menu to build
+	 * @param rootMenu The parent of this sub-menu
 	 * @return A menu manager that corresponds to the menu description
 	 */
 	public static ColoaneMenuManager buildSubMenu(ColoaneAPIRootMenu rootMenu, IItemMenu itemDescription) {
@@ -108,7 +110,7 @@ public final class MenuManipulation {
 	/**
 	 * Build an option menu item
 	 * @param option The description of the option to create
-	 * @param parentState Is the parent enabled ?
+	 * @param active Is the parent enabled ?
 	 * @return The action that corresponds to the option description
 	 */
 	private static IAction buildOptionMenu(IOptionMenu option, boolean active) {

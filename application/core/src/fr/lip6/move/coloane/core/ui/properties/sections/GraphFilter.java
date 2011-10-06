@@ -35,10 +35,10 @@ public class GraphFilter implements IFilter {
 	 * @return true if it corresponds to a Graph or a Graph attribute
 	 */
 	public boolean select(Object toTest) {
-		if (toTest instanceof GraphEditPart) {			
+		if (toTest instanceof GraphEditPart) {
 			return true;
 		} else if (toTest instanceof AttributeEditPart) {
-			IAttribute att = (IAttribute) ((AttributeEditPart)toTest).getModel();
+			IAttribute att = (IAttribute) ((AttributeEditPart) toTest).getModel();
 			if (att.getReference() instanceof IGraph) {
 				return true;
 			}

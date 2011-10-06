@@ -327,8 +327,8 @@ public final class CheckerManager {
 	 * @param graph the graph to check.
 	 */
 	public void checkGraph(Checker checker, IResource resource, IGraph graph) {
-		MarkerManager.getInstance().deleteElementMarkers(resource,graph);
-		MarkerManager.getInstance().deleteElementAttributeMarkers(resource,graph);
+		MarkerManager.getInstance().deleteElementMarkers(resource, graph);
+		MarkerManager.getInstance().deleteElementAttributeMarkers(resource, graph);
 
 		for (GraphChecker graphChecker : checker.getGraphCheckers()) {
 			ICheckerResult r = graphChecker.check(graph);
@@ -363,7 +363,7 @@ public final class CheckerManager {
 	 * @param resource the resource file where markers are created.
 	 */
 	private void checkIArc(Checker checker, IArc arc, IResource resource) {
-		MarkerManager.getInstance().deleteElementMarkers(resource, arc);		
+		MarkerManager.getInstance().deleteElementMarkers(resource, arc);
 		String arcFormalism = arc.getArcFormalism().getName();
 		for (ArcChecker arcChecker : checker.getArcCheckers(arcFormalism)) {
 			ICheckerResult r = arcChecker.check(arc);
@@ -381,7 +381,7 @@ public final class CheckerManager {
 	 */
 	private void checkIElementAttributes(Checker checker, IElement element, IResource resource) {
 		MarkerManager.getInstance().deleteElementAttributeMarkers(resource, element);
-		
+
 		for (IAttribute attribute : element.getAttributes()) {
 			if (element instanceof INode) {
 				INode node = (INode) element;

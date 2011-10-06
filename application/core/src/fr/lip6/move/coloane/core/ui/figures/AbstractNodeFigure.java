@@ -77,11 +77,11 @@ public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
 	
 	/**
 	 * Solves an issue related to Figure instances with no font set: if this is the case, return system default font.
-	 * Note that in Shape implementation, if there is no "local" font asks the parent shape to provide one. 
+	 * Note that in Shape implementation, if there is no "local" font asks the parent shape to provide one.
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Font getFont() {
+	public final Font getFont() {
 		Font f = super.getFont();
 		if (f != null) {
 			return f;

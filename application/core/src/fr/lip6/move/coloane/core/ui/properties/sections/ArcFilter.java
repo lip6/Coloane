@@ -35,10 +35,10 @@ public class ArcFilter implements IFilter {
 	 * @return true if it corresponds to a Arc or a Arc attribute
 	 */
 	public boolean select(Object toTest) {
-		if (toTest instanceof ArcEditPart) {			
+		if (toTest instanceof ArcEditPart) {
 			return true;
 		} else if (toTest instanceof AttributeEditPart) {
-			IAttribute att = (IAttribute) ((AttributeEditPart)toTest).getModel();
+			IAttribute att = (IAttribute) ((AttributeEditPart) toTest).getModel();
 			if (att.getReference() instanceof IArc) {
 				return true;
 			}

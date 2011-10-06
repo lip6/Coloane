@@ -59,11 +59,11 @@ public class CircleDecoration extends Ellipse implements RotatableDecoration {
 		int diameter = getSize().height;
 		PrecisionPoint center = new PrecisionPoint();
 
-		center.preciseX = a.x + (ab.x * diameter) / (2. * Math.sqrt(ab.x * ab.x + ab.y * ab.y)) - diameter / 2.;
-		center.preciseY = a.y + (ab.y * diameter) / (2. * Math.sqrt(ab.x * ab.x + ab.y * ab.y)) - diameter / 2.;
+		center.setPreciseX(a.x + (ab.x * diameter) / (2. * Math.sqrt(ab.x * ab.x + ab.y * ab.y)) - diameter / 2.);
+		center.setPreciseY(a.y + (ab.y * diameter) / (2. * Math.sqrt(ab.x * ab.x + ab.y * ab.y)) - diameter / 2.);
 
-		center.x = (int) Math.round(center.preciseX);
-		center.y = (int) Math.round(center.preciseY);
+		center.x = (int) Math.round(center.preciseX());
+		center.y = (int) Math.round(center.preciseY());
 
 		// Pour corriger l'arrondi
 		if ((ab.x * diameter) / (2. * Math.sqrt(ab.x * ab.x + ab.y * ab.y)) < 0) {
