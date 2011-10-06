@@ -3,6 +3,7 @@ parser grammar ValuationParserSNB;
 
 options {
   language = Java;
+  output = template;
   tokenVocab = ValuationLexerSNB;
 }
 
@@ -29,252 +30,240 @@ options {
   }
 }
 
-arcLabel[Map<String,String> s,String gap] returns [String value]
+arcLabel[Map<String,String> s]
 @init {
   symbols = s;
-  $value = gap + "<attribute name=\"valuation\">\n";
+  StringTemplate tmp = null;
 }
-@after { $value = $value + gap + "</attribute>\n"; } :
-  l=listElementaryExpr[$gap+"\t"] { $value = $value.concat($l.value); } |
-  i=positiveInteger
-{ $value = $value + gap + "\t<attribute name=\"token\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"occurs\">\n";
-  $value = $value + gap + "\t\t\t<attribute name=\"intValue\">" + $i.value + "</attribute>\n";
-  $value = $value + gap + "\t\t</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-} ;
+  : l=listElementaryExpr -> balise(name={"valuation"}, content={$l.st})
+  | i=positiveInteger
+  {
+    StringTemplate tmp0 = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "intValue").put("content", $i.st));
+    tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "occurs").put("content", tmp0));
+  }
+  -> balise(name={"valuation"}, content={
+        %balise(name={"token"}, content={ tmp })
+  })
+  ;
 
-positiveInteger returns [String value] : i=INTEGER { Integer.parseInt($i.getText()) > 0 }? { $value=$i.getText(); } ;
+positiveInteger
+  : i=INTEGER { Integer.parseInt($i.getText()) > 0 }? -> { %{$i.getText()} }
+  ;
 
-listElementaryExpr[String gap] returns [String value]
-@init { $value = ""; } :
-  e=elementaryExpression[false,gap] { $value = $value.concat($e.value); } (PLUS l=listElementaryExpr[$gap] { $value = $value.concat($l.value); } )? |
-  id=IDENTIFIER { is_class($id.getText()) || is_scs($id.getText()) }? DOT ALL MINUS e=elementaryExpression[false,gap+"\t\t\t"]
-{ $value = $value + gap + "<attribute name=\"token\">\n";
-  $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"setDiff\">\n";
-  $value = $value + gap + "\t\t\t<attribute name=\"all\">\n";
-  $value = $value + gap + "\t\t\t\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "\t\t\t</attribute>\n";
-  $value = $value + $e.value;
-  $value = $value + gap + "\t\t</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} ;
-
-elementaryExpression[boolean n,String gap] returns [String value]
+listElementaryExpr
 @init {
-  if (n) nested = true; else nested = false;
-  if (!nested) $value= gap + "<attribute name=\"token\">\n"; else $value="";
-  String gap2;
-  if (!nested) gap2 = gap + "\t\t"; else gap2 = gap;
+  StringTemplate tmp0 = null;
 }
-@after { if (!nested) $value = $value + gap + "</attribute>\n";
-nested = false;
-} :
-  e=elementaryProduct[gap2]
-{ if (nested) { 
-    $value = $value + $e.value;
+  : e+=elementaryExpression[false] (PLUS e+=elementaryExpression[false])* -> delist(arg={$e})
+  | id=IDENTIFIER { is_class($id.getText()) || is_scs($id.getText()) }? DOT ALL MINUS f=elementaryExpression[false]
+  {
+    List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+    StringTemplate tmpp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "type").put("content", $id.getText()));
+    tmp.add( %balise(name={"all"}, content={ tmpp }) );
+    tmp.add( $f.st );
+    
+    tmp0 = %balise(name={"setDiff"}, content={tmp});
   }
-  else {
-    $value = $value + gap + "\t<attribute name=\"occurs\">\n";
-    $value = $value + gap + "\t\t<attribute name=\"intValue\">1</attribute>\n";
-    $value = $value + gap + "\t</attribute>\n";
-    $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
-    $value = $value + $e.value;
-    $value = $value + gap + "\t</attribute>\n";
-  }
-} |
-  { !(nested) }?=> c=coefficient[$gap + "\t\t"] TIMES p=elementaryProduct[$gap + "\t\t"] // no coefficient allowed inside a cartesian product (it would be better to use a gated predicate here)
-{ $value = $value + gap + "\t<attribute name=\"occurs\">\n";
-  $value = $value + $c.value;
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
-  $value = $value + $p.value;
-  $value = $value + "\t</attribute>\n";
-} ;
+  -> balise(name={"token"}, content={
+        %balise(name={"tokenProfile"}, content={ tmp0 })
+  })
+  ;
 
-coefficient[String gap] returns [String value]
-@init { $value=""; } :
-  i=positiveInteger
-{ $value = $value + gap + "<attribute name=\"intValue\">" + $i.value + "</attribute>\n";
-} |
-  ORD LPAREN id=IDENTIFIER RPAREN { is_variable($id.getText()) }? // variableIdentifier
-{ $value = $value + gap + "<attribute name=\"ord\">\n";
-  $value = $value + gap + "\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  ORD LPAREN idc=IDENTIFIER DOT ide=INTEGER RPAREN { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
-{ $value = $value + gap + "<attribute name=\"ord\">\n";
-  $value = $value + gap + "\t<attribute name=\"intConst\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"\type\">" + $idc.getText() + "</attribute>\n";
-  $value = $value + gap + "\t\t<attribute name=\"intValue\">" + $ide.getText() + "</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  ORD LPAREN idc=IDENTIFIER DOT ide=IDENTIFIER RPAREN { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
-{ $value = $value + gap + "<attribute name=\"ord\">\n";
-  $value = $value + gap + "\t<attribute name=\"enumConst\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"\type\">" + $idc.getText() + "</attribute>\n";
-  $value = $value + gap + "\t\t<attribute name=\"enumValue\">\n" + $ide.getText() + "</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} ;
-  
-elementaryProduct[String gap] returns [String value]
-@init { $value=""; } :
-  LT l=listProdElement[$gap] GT { $value = $value + $l.value; } ;
-
-listProdElement[String gap] returns [String value]
-@init { $value = ""; } :
-  e=prodElement[$gap+""]
-{ $value = $value + $e.value;
+elementaryExpression[boolean n]
+@init {
+  nested = n;
+  List<StringTemplate> tmp = new ArrayList<StringTemplate>();
 }
-  (COMA l=listProdElement[$gap+""] { $value = $value + $l.value; })? ;
+@after {
+  nested = false;
+}
+  : e=elementaryProduct
+  {
+    if (nested) {
+      retval.st = $e.st;
+    } else {
+      List<StringTemplate> tmp0 = new ArrayList<StringTemplate>();
+      tmp0.add( %balise(name={"occurs"}, content={ templateLib.getInstanceOf("balise", new STAttrMap().put("name", "intValue").put("content", "1")) }) );
+      tmp0.add( %balise(name={"tokenProfile"}, content={$e.st}) );
+      retval.st = %balise(name={"token"}, content={tmp0});
+    }
+  }
+  | { !nested }?=> c=coefficient TIMES p=elementaryProduct // no coefficient allowed inside a cartesian product (it would be better to use a gated predicate here)
+  {
+    tmp.add( %balise(name={"occurs"}, content={$c.st}) );
+    tmp.add( %balise(name={"tokenProfile"}, content={$p.st}) );
+  }
+  -> balise(name={"token"}, content={tmp})
+  ;
+
+coefficient
+@init {
+  List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+}
+  : i=positiveInteger
+  -> balise(name={"intValue"}, content={$i.st})
+  | ORD LPAREN id=IDENTIFIER RPAREN { is_variable($id.getText()) }? // variableIdentifier
+  -> balise(name={"ord"}, content={ %balise(name={"name"}, content={$id.getText()}) })
+  | ORD LPAREN idc=IDENTIFIER DOT ide=INTEGER RPAREN { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
+  {
+    tmp.add( %balise(name={"type"}, content={$idc.getText()}) );
+    tmp.add( %balise(name={"intValue"}, content={$ide.getText()}) );
+  }
+  -> balise(name={"ord"}, content={
+        %balise(name={"intConst"}, content={ tmp })
+  })
+  | ORD LPAREN idc=IDENTIFIER DOT ide=IDENTIFIER RPAREN { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
+  {
+    tmp.add( %balise(name={"type"}, content={$idc.getText()}) );
+    tmp.add( %balise(name={"enumValue"}, content={$ide.getText()}) );
+  }
+  -> balise(name={"ord"}, content={
+        %balise(name={"enumConst"}, content={ tmp })
+  })
+  ;
   
-varClassElement[String gap] returns [String value]
-@init { $value=""; int nbToken = 1; } :
-  { is_variable(input.LT(1).getText()) }?=> id=IDENTIFIER // variableIdentifier
-{ $value = $value + gap + "<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-} |
-  id=IDENTIFIER { is_class(symbols.get($id.getText())) }? // elementIdentifier
-{ $value = $value + gap + "<attribute name=\"enumConst\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + symbols.get($id.getText()) + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"enumValue\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  id=IDENTIFIER DOT ALL { is_class($id.getText()) }? // classIdentifier DOT ALL
-{ $value = $value + gap + "<attribute name=\"function\">\n";
-  $value = $value + gap + "\t<attribute name=\"all\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"type\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  idc=IDENTIFIER DOT i=INTEGER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
-{ $value = $value + gap + "<attribute name=\"intConst\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + $idc.getText() + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  idc=IDENTIFIER DOT i=IDENTIFIER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
-{ $value = $value + gap + "<attribute name=\"enumConst\">\n";
-  $value = $value + gap + "\t<attribute name=\"type\">" + $idc.getText() + "</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"enumValue\">" + $i.getText() + "</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  id=IDENTIFIER PLUSPLUS n=INTEGER { nbToken = Integer.parseInt($n.getText()); } { is_variable($id.getText()) }? // variableIdentifier ++ n
-{ $value = $value + gap + "<attribute name=\"function\">\n";
-  $value = $value + gap + "\t<attribute name=\"++\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "\t\t<attribute name=\"intValue\">" + nbToken + "</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} |
-  id=IDENTIFIER MINUSMINUS n=INTEGER { nbToken = Integer.parseInt($n.getText()); } { is_variable($id.getText()) }? // variableIdentifier -- n
-{ $value = $value + gap + "<attribute name=\"function\">\n";
-  $value = $value + gap + "\t<attribute name=\"--\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"name\">" + $id.getText() + "</attribute>\n";
-  $value = $value + gap + "\t\t<attribute name=\"intValue\">" + nbToken + "</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} ;
+elementaryProduct
+  : LT l=listProdElement GT -> { $l.st }
+  ;
+
+listProdElement
+  : e+=prodElement (COMA e+=prodElement)* -> delist(arg={$e})
+  ;
+  
+varClassElement
+@init {
+  List<StringTemplate> tmpl = new ArrayList<StringTemplate>();
+  StringTemplate tmp = null;
+}
+  : { is_variable(input.LT(1).getText()) }?=> id=IDENTIFIER // variableIdentifier
+  -> balise(name={"name"}, content={$id.getText()})
+  | id=IDENTIFIER { is_class(symbols.get($id.getText())) }? // elementIdentifier
+  {
+    tmpl.add( %balise(name={"type"}, content={symbols.get($id.getText())}) );
+    tmpl.add( %balise(name={"enumValue"}, content={$id.getText()}) );
+  }
+  -> balise(name={"enumConst"}, content={tmpl})
+  | id=IDENTIFIER DOT ALL { is_class($id.getText()) }? // classIdentifier DOT ALL
+  {
+    tmp = %balise(name={"type"}, content={$id.getText()});
+  }
+  -> balise(name={"function"}, content={
+        %balise(name={"all"}, content={ tmp })
+  })
+  | idc=IDENTIFIER DOT i=INTEGER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
+  {
+    tmpl.add( %balise(name={"type"}, content={$idc.getText()}) );
+    tmpl.add( %balise(name={"intValue"}, content={$i.getText()}) );
+  }
+  -> balise(name={"intConst"}, content={tmpl})
+  | idc=IDENTIFIER DOT i=IDENTIFIER { is_class($idc.getText()) }? // classIdentifier DOT elementIdentifier
+  {
+    tmpl.add( %balise(name={"type"}, content={$idc.getText()}) );
+    tmpl.add( %balise(name={"enumValue"}, content={$i.getText()}) );
+  }
+  -> balise(name={"enumConst"}, content={tmpl})
+  | id=IDENTIFIER PLUSPLUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier ++ n
+  { Integer.parseInt($n.getText()) > 0 }?
+  {
+    tmp = %balise(name={"name"}, content={$id.getText()});
+    for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) {
+      tmp = %balise(name={"++"}, content={tmp});
+    }
+  }
+  -> balise(name={"function"}, content={tmp})
+  | id=IDENTIFIER MINUSMINUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier -- n
+  { Integer.parseInt($n.getText()) > 0 }?
+  {
+    tmp = %balise(name={"name"}, content={$id.getText()});
+    for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) {
+      tmp = %balise(name={"--"}, content={tmp});
+    }
+  } -> balise(name={"function"}, content={tmp})
+  ;
 /* end of the copy */
 
 /* Marking part */
 
-initMarking[Map<String,String> s,String gap] returns [String value]
-@init { symbols = s; $value = gap+"<attribute name=\"marking\">\n"; }
-@after { $value = $value + gap + "</attribute>\n"; } :
-  l=listMarking[$gap+"\t"] { $value = $value + $l.value; } |
-  i=INTEGER //{ $value = $value + gap + "\t" + $i.getText() + "\n";
+initMarking[Map<String,String> s]
+@init {
+  symbols = s;
+  StringTemplate tmp = null;
+}
+  : l=listMarking -> balise(name={"marking"}, content={$l.st})
+  | i=INTEGER
   {
-    $value = $value + gap + "\t<attribute name=\"token\">\n";
-    $value = $value + gap + "\t\t<attribute name=\"occurs\">\n";
-    $value = $value + gap + "\t\t\t<attribute name=\"intValue\">" + $i.getText() + "</attribute>\n";
-    $value = $value + gap + "\t\t</attribute>\n";
-    $value = $value + gap + "\t</attribute>\n";
-} | ;
+    tmp = %balise(name={"intValue"}, content={$i.getText()});
+    tmp = %balise(name={"occurs"}, content={tmp});
+  }
+  -> balise(name={"marking"}, content={
+        %balise(name={"token"}, content={ tmp })
+  })
+  | -> balise(name={"marking"}, content={""})
+  ;
   
-listMarking[String gap] returns [String value]
-@init { $value = ""; } :
-  m=marking[$gap] { $value = $value.concat($m.value); } (PLUS l=listMarking[$gap] { $value = $value.concat($l.value); })? ;
+listMarking
+  : m+=marking (PLUS m+=marking) -> delist(arg={$m})
+  ;
 
-marking[String gap] returns [String value]
-@init { $value = gap + "<attribute name=\"token\">\n"; }
-@after { $value = $value + gap + "</attribute>\n"; } :
-  e=elementaryProduct[$gap+"\t\t"]
-{ $value = $value + gap + "\t<attribute name=\"occurs\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"intValue\">1</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
-  $value = $value + $e.value;
-  $value = $value + gap + "\t</attribute>\n";
-} |
-  i=positiveInteger TIMES e=elementaryProduct[gap+"\t\t"]
-{ $value = $value + gap + "\t<attribute name=\"occurs\">\n";
-  $value = $value + gap + "\t\t<attribute name=\"intValue\">" + $i.value + "</attribute>\n";
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "\t<attribute name=\"tokenProfile\">\n";
-  $value = $value + $e.value;
-  $value = $value + gap + "\t</attribute>\n";
-} ;
+marking
+@init {
+  List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+}
+  : e=elementaryProduct
+  {
+    StringTemplate tmp0 = %balise(name={"intValue"}, content={"1"});
+    tmp.add( %balise(name={"occurs"}, content={ tmp0 }) );
+    tmp.add( %balise(name={"tokenProfile"}, content={$e.st}) );
+  }
+  -> balise(name={"token"}, content={ tmp })
+  | i=positiveInteger TIMES e=elementaryProduct
+  {
+    StringTemplate tmp0 = %balise(name={"intValue"}, content={$i.st});
+    tmp.add( %balise(name={"occurs"}, content={ tmp0 }) );
+    tmp.add( %balise(name={"tokenProfile"}, content={$e.st}) );
+  }
+  -> balise(name={"token"}, content={tmp})
+  ;
 
 /* end of Marking part */
 
-prodElement[String gap] returns [String value]
-@init { $value = gap + "<attribute name=\"expr\">\n"; }
-@after { $value = $value + gap + "</attribute>\n"; } :
-  (IDENTIFIER)=> v=varClassElement[$gap+"\t"]
-{ $value = $value + $v.value;
-} |
-  e=elementaryExpression[true,$gap+"\t"] { $value = $value + $e.value; } |
-  r=recursiveBagOperators[$gap+"\t"]
-{ $value = $value + $r.value;
-} ;
+prodElement
+  : (IDENTIFIER)=> v=varClassElement -> balise(name={"expr"}, content={$v.st})
+  | e=elementaryExpression[true] -> balise(name={"expr"}, content={$e.st})
+  | r=recursiveBagOperators -> balise(name={"expr"}, content={$r.st})
+  ;
   
-simpleBagOperators[String gap] returns [String value]
-@init { $value=""; } :
-  LBRACE id=varClassElement[$gap+"\t"] RBRACE
-{ $value = $value + gap + "<attribute name=\"wrap\">\n";
-  $value = $value + $id.value;
-  $value = $value + gap + "</attribute>\n";
-} ;
+simpleBagOperators
+  : LBRACE id=varClassElement RBRACE -> balise(name={"wrap"}, content={$id.st})
+  ;
 
-atomBag[String gap] returns [String value]
-@init { $value = ""; } :
-  v=varClassElement[gap+"\t"]
-{ $value = $value + gap + "<attribute name=\"bagOperator\">\n"; 
-  $value = $value + $v.value;
-  $value = $value + gap + "</attribute>\n";
-} |
-  LPAREN r=recursiveBagOperators[gap] RPAREN { $value = $value + $r.value; } |
-  s=simpleBagOperators[gap+"\t"]
-{ $value = $value + gap + "<attribute name=\"bagOperator\">\n";
-  $value = $value + $s.value;
-  $value = $value + gap + "</attribute>\n";
-} |
-  TILDE r=recursiveBagOperators[gap+"\t\t"]
-{ $value = $value + gap + "<attribute name=\"bagOperator\">\n";
-  $value = $value + gap + "\t<attribute name=\"bagComplementary\">\n";
-  $value = $value + $r.value;
-  $value = $value + gap + "\t</attribute>\n";
-  $value = $value + gap + "</attribute>\n";
-} ;
+atomBag
+  : v=varClassElement -> balise(name={"bagOperator"}, content={$v.st})
+  | LPAREN r=recursiveBagOperators RPAREN -> { $r.st }
+  | s=simpleBagOperators -> balise(name={"bagOperator"}, content={$s.st})
+  | TILDE r=recursiveBagOperators
+  -> balise(name={"bagOperator"}, content={
+        %balise(name={"bagComplementary"}, content={$r.st})
+  })
+  ;
 
-recursiveBagOperators[String gap] returns [String value]
-@init { $value = ""; }
-@after {  } :
-  (atomBag[""] recBagRest["",""])=> a=atomBag[gap+"\t\t"] r=recBagRest[gap+"",$a.value] { $value = $value + $r.value; } |
-  a=atomBag[gap+"\t"] { $value = $value + $a.value; } ;
-  
-recBagRest[String gap,String leftmember] returns [String value]
-@init { $value = gap + "<attribute name=\"bagOperator\">\n"; }
-@after { $value = $value + gap + "</attribute>\n"; } :
-  (INTER { $value = $value + gap + "\t<attribute name=\"bagIntersection\">\n"; } |
-   UNION { $value = $value + gap + "\t<attribute name=\"bagUnion\">\n"; } |
-   DIFF { $value = $value + gap + "\t<attribute name=\"bagDifference\">\n"; })
-   r1=recursiveBagOperators[gap+"\t"]
-{ $value = $value + leftmember;
-  $value = $value + $r1.value;
-  $value = $value + gap + "\t</attribute>\n";
-} ;
+recursiveBagOperators
+@init {
+  List<StringTemplate> tmp = new ArrayList();
+}
+  : (atomBag)=> a=atomBag -> { $a.st }
+  | a=atomBag op=bagOp b=recursiveBagOperators
+  {
+    tmp.add($a.st);
+    tmp.add($b.st);
+  }
+  -> balise(name={"bagOperator"}, content={
+        %balise(name={$op.st}, content={tmp})
+  })
+  ;
+
+bagOp
+  : INTER -> { %{"bagIntersection"} }
+  | UNION -> { %{"bagUnion"} }
+  | DIFF -> { %{"bagDifference"} }
+  ;
