@@ -26,7 +26,7 @@ public class ColoaneAPIRootMenu extends MenuManager {
 	 * @param rootMenuId The Id of the menu
 	 */
 	ColoaneAPIRootMenu(String rootMenuName, String rootMenuId) {
-		super (rootMenuName, rootMenuId);
+		super(rootMenuName, rootMenuId);
 	}
 
 	/**

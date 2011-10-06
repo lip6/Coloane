@@ -35,10 +35,10 @@ public class NodeFilter implements IFilter {
 	 * @return true if it corresponds to a node or a node attribute
 	 */
 	public boolean select(Object toTest) {
-		if (toTest instanceof NodeEditPart) {			
+		if (toTest instanceof NodeEditPart) {
 			return true;
 		} else if (toTest instanceof AttributeEditPart) {
-			IAttribute att = (IAttribute) ((AttributeEditPart)toTest).getModel();
+			IAttribute att = (IAttribute) ((AttributeEditPart) toTest).getModel();
 			if (att.getReference() instanceof INode) {
 				return true;
 			}

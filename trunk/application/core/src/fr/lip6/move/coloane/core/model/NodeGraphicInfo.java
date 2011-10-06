@@ -180,7 +180,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 
 		Dimension newSize = size;
 
-		if (! oldSize.equals(newSize) ){
+		if (!oldSize.equals(newSize)) {
 			this.height = size.height;
 			this.width = size.width;
 			node.firePropertyChange(INode.RESIZE_PROP, oldSize, newSize);

@@ -368,12 +368,12 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 	private void startAttribute(String name, Attributes attributes) {
 		IElement element = (IElement) stack.peek();
 		IAttribute attribute = element.getAttribute(name);
-		
+
 		if (attribute == null) {
-			String message = "Attribute with name \""+name+"\" found for element " + element + " but no such attribute exists in formalism. File is malformed." ;  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
-			LOGGER.severe(message);			
+			String message = "Attribute with name \"" + name + "\" found for element " + element + " but no such attribute exists in formalism. File is malformed.";  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+			LOGGER.severe(message);
 		}
-		
+
 		int x = Integer.parseInt(attributes.getValue(ATTRIBUTE_X_MARKUP));
 		int y = Integer.parseInt(attributes.getValue(ATTRIBUTE_Y_MARKUP));
 		Point location = new Point(x, y);

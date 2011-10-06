@@ -81,6 +81,7 @@ public class ArcReconnectCmd extends CheckableCmd {
 
 	/**
 	 * Can we execute this operation ?
+	 * @return whether this operation can be executed
 	 */
 	@Override
 	public final boolean canExecute() {

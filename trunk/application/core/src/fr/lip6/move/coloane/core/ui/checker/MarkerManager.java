@@ -262,7 +262,6 @@ public final class MarkerManager {
 		} else if (element instanceof IGraph) {
 			deleteMarkers(resource, GRAPH_ATTRIBUTE_MARKER, element);
 		}
-		
 	}
 
 	/**
@@ -320,9 +319,9 @@ public final class MarkerManager {
 					IAttribute attView = element.getAttribute(attribute);
 					// Focus on attribute
 					// Could return null if this attribute is not visible as an EditPArt
-					toFocus = (EditPart) viewer.getEditPartRegistry().get(attView) ;					
-				} 
-				
+					toFocus = (EditPart) viewer.getEditPartRegistry().get(attView);
+				}
+
 				if (toFocus == null) {
 					// not resolved as an attribute, resolve to IModelElement
 					// default to focus on the Node, Arc or Graph part
@@ -330,7 +329,7 @@ public final class MarkerManager {
 					toFocus = (EditPart) viewer.getEditPartRegistry().get(element);
 				}
 				viewer.appendSelection(toFocus);
-				
+
 				// Force display of Property page, unfortunately, not sure how to focus on a field of it.
 				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(PROPERTY_VIEW_ID);
 
