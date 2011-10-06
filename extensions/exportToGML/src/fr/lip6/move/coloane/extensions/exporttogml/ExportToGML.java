@@ -295,7 +295,8 @@ public class ExportToGML implements IExportTo {
 			ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ValuationParserSNB parser = new ValuationParserSNB(tokens);
-			out.write(parser.arcLabel(symbols, gap));
+			parser.setTemplateLib(templates);
+			out.write(parser.arcLabel(symbols).toString());
 		}
 	}
 
@@ -342,7 +343,8 @@ public class ExportToGML implements IExportTo {
 			ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ValuationParserSNB parser = new ValuationParserSNB(tokens);
-			out.write(parser.initMarking(symbols, gap));
+			parser.setTemplateLib(templates);
+			out.write(parser.initMarking(symbols).toString());
 		}
 	}
 
