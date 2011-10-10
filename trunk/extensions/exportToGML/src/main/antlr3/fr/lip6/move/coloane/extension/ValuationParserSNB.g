@@ -202,7 +202,7 @@ initMarking[Map<String,String> s]
   ;
   
 listMarking
-  : m+=marking (PLUS m+=marking) -> delist(arg={$m})
+  : m+=marking (PLUS m+=marking)* -> delist(arg={$m})
   ;
 
 marking
