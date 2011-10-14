@@ -48,21 +48,20 @@ transitionGuard[Map<String,String> s]
   ;
 
 guard
-@init {
-  List<StringTemplate> tmp = new ArrayList<StringTemplate>();
-}
-  : (atom)=> a=atom -> { $a.st }
-  | a=atom b=boolOperator g=guard
-  {
-    tmp.add( $a.st );
-    tmp.add( $g.st );
-  }
-  -> balise(name={"boolExpr"}, content={ %balise(name={$b.st}, content={tmp}) })
+  : a=atom -> { $a.st }
+  | (term (AND term)+)=> t+=term (AND t+=term)+
+  -> balise(name={"boolExpr"}, content={ %balise(name={"and"}, content={$t}) })
+  | (term (OR term)+)=> t+=term (OR t+=term)+
+  -> balise(name={"boolExpr"}, content={ %balise(name={"or"}, content={$t}) })
+  | te=term -> { $te.st }
   ;
-  
-boolOperator
-  : AND -> { %{"and"} }
-  | OR -> { %{"or"} }
+
+term
+  : NOT LPAREN g=guard RPAREN
+  -> balise(name={"boolExpr"}, content={
+        %balise(name={"not"}, content={$g.st})
+  } )
+  | LPAREN g=guard RPAREN -> { $g.st }
   ;
 
 gOp
@@ -117,11 +116,6 @@ atom
   -> balise(name={"boolExpr"}, content={
         %balise(name={"cardinalExpression"}, content={ tmp })
   })
-  | NOT h=guard
-  -> balise(name={"boolExpr"}, content={
-        %balise(name={"not"}, content={$h.st})
-  } )
-  | LPAREN h=guard RPAREN -> { $h.st }
   ;
 
 inclusion
