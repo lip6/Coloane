@@ -1,9 +1,23 @@
 group SNBGML;
 
-xmlPseudoBalise(version, encoding) ::= <<
+modelBalise(version, encoding, form, content) ::= <<
 \<?xml version="<version>" encoding="<encoding>"?\>
 
+\<model formalismUrl="<form>" xmlns="http://gml.lip6.fr/model"\>
+  <content; separator="\n">
+\</model\>
+>>
 
+node(id, type, content) ::= <<
+\<node id="<id>" nodeType="<type>"\>
+  <content; separator="\n">
+\</node\>
+>>
+
+arc(id, type, source, target, content) ::= <<
+\<arc id="<id>" arcType="<type>" source="<source>" target="<target>"\>
+  <content; separator="\n">
+\</arc\>
 >>
 
 balise(name,content) ::= <<

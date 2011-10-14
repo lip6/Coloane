@@ -157,7 +157,8 @@ public class ExportToGML implements IExportTo {
 		try {
 			out = new BufferedWriter(writer);
 			monitor.beginTask("export", graph.getArcs().size() + graph.getNodes().size() + 1);
-			exportGraph(graph, out, monitor);
+			StringTemplate modelST = exportGraph(graph, monitor);
+			out.write(modelST.toString());
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
 		} finally {
@@ -180,15 +181,14 @@ public class ExportToGML implements IExportTo {
 	 * Export a graph object
 	 *
 	 * @param graph graph to export
-	 * @param out export in this writer
 	 * @param monitor monitor the export
+	 * @return the result of the export, as a StringTemplate
 	 * @throws IOException if the writer throw an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private void exportGraph(IGraph graph, Writer out, IProgressMonitor monitor) throws IOException, ExtensionException {
+	private StringTemplate exportGraph(IGraph graph, IProgressMonitor monitor) throws IOException, ExtensionException {
 		monitor.beginTask("Export to GML", 1 + graph.getNodes().size() + graph.getArcs().size());
 
-		String gap = "\t";
 		Map<String, String> symbolTable = new HashMap<String, String>();
 
 		String fmlUrl;
@@ -200,10 +200,8 @@ public class ExportToGML implements IExportTo {
 		}
 
 		monitor.setTaskName("Create preamble");
-		StringTemplate tmp = templates.getInstanceOf("xmlPseudoBalise", new STAttrMap().put("version", "1.0").put("encoding", "UTF-8"));
-		out.write(tmp.toString());
-		out.write("<model formalismUrl=\"" + fmlUrl + "\"\n");
-		out.write("    xmlns=\"http://gml.lip6.fr/model\">\n");
+
+		StringTemplate result = templates.getInstanceOf("modelBalise", new STAttrMap().put("version", "1.0").put("encoding", "UTF-8").put("form", fmlUrl));
 
 		LOGGER.fine("GML preamble");
 
@@ -212,13 +210,13 @@ public class ExportToGML implements IExportTo {
 		IAttribute declarativePart = graph.getAttribute("declaration");
 		if (declarativePart != null) {
 			if (!declarativePart.getValue().equals("")) {
-				symbolTable = exportDeclarativePart(declarativePart.getValue(), out, monitor, gap);
+				symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
 			}
 		}
 		for (IAttribute attr : graph.getAttributes()) {
 			if (!attr.getName().equals("declaration")) {
 				try {
-					exportAttribute(attr, out, monitor, gap, symbolTable);
+					exportAttribute(attr, result, monitor, symbolTable);
 				} catch (RecognitionException e) {
 					String s = "Error in unparsed attribute of graph : " + attr.getName() + "\n";
 					s = s + "Unfortunately for you, this error should not occur\n";
@@ -227,59 +225,57 @@ public class ExportToGML implements IExportTo {
 				}
 			}
 		}
-		out.write("\n");
+
 		monitor.worked(1);
 		LOGGER.fine("graph's attributes : done");
 
 		//Export nodes
 		monitor.setTaskName("Export nodes");
 		for (INode node : graph.getNodes()) {
-			exportNode(node, out, monitor, gap, symbolTable);
+			exportNode(node, result, monitor, symbolTable);
 			monitor.worked(1);
 			LOGGER.fine("export node : " + node.getId());
 		}
-		out.write("\n");
 
 		//Export Arcs
 		monitor.setTaskName("Export arcs");
 		for (IArc arc : graph.getArcs()) {
-			exportArc(arc, out, monitor, gap, symbolTable);
+			exportArc(arc, result, monitor, symbolTable);
 			monitor.worked(1);
 			LOGGER.fine("export arc : " + arc.getId());
 		}
-		out.write("\n");
 
-		out.write("</model>");
 		monitor.done();
+		return result;
 	}
 
 	/**
 	 * Export an attribute object
 	 *
 	 * @param attr attribute to export
-	 * @param out export in this writer
+	 * @param currentST the result being built
 	 * @param monitor monitor the export
-	 * @param gap gap
 	 * @param symbols table of symbols
 	 * @throws IOException if the writer throw an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportAttribute(IAttribute attr, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException, RecognitionException {
+	private void exportAttribute(IAttribute attr, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, ExtensionException, RecognitionException {
 		if ("domain".equals(attr.getName())) {
-			exportDomain(attr.getValue(), out, monitor, gap, symbols);
+			exportDomain(attr.getValue(), currentST, monitor, symbols);
 			LOGGER.finer("export domain");
 		} else if ("guard".equals(attr.getName())) {
-			exportGuard(attr.getValue(), out, monitor, gap, symbols);
+			exportGuard(attr.getValue(), currentST, monitor, symbols);
 			LOGGER.finer("export guard");
 		} else if ("marking".equals(attr.getName())) {
-			exportMarking(attr.getValue(), out, monitor, gap, symbols);
+			exportMarking(attr.getValue(), currentST, monitor, symbols);
 			LOGGER.finer("export marking");
 		} else if ("valuation".equals(attr.getName())) {
-			exportValuation(attr.getValue(), out, monitor, gap, symbols);
+			exportValuation(attr.getValue(), currentST, monitor, symbols);
 			LOGGER.finer("export valuation");
 		} else {
-			out.write(gap + "<attribute name=\"" + attr.getName() + "\">" + attr.getValue() + "</attribute>\n");
+			StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", attr.getName()).put("content", attr.getValue()));
+			currentST.setAttribute("content", tmp);
 			LOGGER.finer("export generic attribute");
 		}
 	}
@@ -289,20 +285,19 @@ public class ExportToGML implements IExportTo {
 	 * 
 	 * @return the symbols table
 	 * @param value declarative part to export
-	 * @param out export in this writer
+	 * @param modelST the result being built
 	 * @param monitor monitors the export
-	 * @param gap gap
 	 * @throws IOException if the writer throw an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private Map<String, String> exportDeclarativePart(String value, Writer out, IProgressMonitor monitor, String gap) throws IOException, ExtensionException {
+	private Map<String, String> exportDeclarativePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws IOException, ExtensionException {
 		DeclarativePartParserSN parser;
 		try {
 			DeclarativePartLexer lexer = new DeclarativePartLexer(new ANTLRStringStream(value));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			parser = new DeclarativePartParserSN(tokens);
 			parser.setTemplateLib(templates);
-			out.write(parser.declaration(formalism).toString());
+			modelST.setAttribute("content", parser.declaration(formalism));
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Error in the declarative part at : " + value.split("\n")[e.line - 1]);
 		}
@@ -313,19 +308,19 @@ public class ExportToGML implements IExportTo {
 	 * Export the valuation of an arc
 	 * 
 	 * @param value valuation to export
-	 * @param out export in this writer
+	 * @param currentST the result being built
 	 * @param monitor monitors the export
-	 * @param gap gap
 	 * @param symbols the table of symbols
 	 * @throws IOException if the writer throws an exception
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportValuation(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, RecognitionException {
+	private void exportValuation(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, RecognitionException {
 		if ("PT-Net".equals(formalism)) { // Not a clean way to resolve this issue
 			int valuation;
 			try {
 				valuation = Integer.valueOf(value);
-				out.write(gap + "<attribute name=\"valuation\">" + valuation + "</attribute>\n");
+				StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", "valuation").put("content", valuation));
+				currentST.setAttribute("content", tmp);
 			} catch (NumberFormatException e) {
 				LOGGER.warning("Cannot parse valuation: " + value);
 			}
@@ -334,7 +329,7 @@ public class ExportToGML implements IExportTo {
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ValuationParserSNB parser = new ValuationParserSNB(tokens);
 			parser.setTemplateLib(templates);
-			out.write(parser.arcLabel(symbols).toString());
+			currentST.setAttribute("content", parser.arcLabel(symbols));
 		}
 	}
 
@@ -342,18 +337,17 @@ public class ExportToGML implements IExportTo {
 	 * Export the domain of a place
 	 * 
 	 * @param value domain to export
-	 * @param out export in this writer
+	 * @param currentST the result being built
 	 * @param monitor monitors the export
-	 * @param gap gap
 	 * @param symbols the table of symbols
 	 * @throws IOException if the writer throws an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private void exportDomain(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
+	private void exportDomain(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, ExtensionException {
 		if ("domain".equals(symbols.get(value)) || "domain_bag".equals(symbols.get(value)) || "class".equals(symbols.get(value)) || "".equals(value)) {
 			StringTemplate tmp0 = templates.getInstanceOf("balise", new STAttrMap().put("name", "type").put("content", value));
 			StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", "domain").put("content", tmp0));
-			out.write(tmp.toString());
+			currentST.setAttribute("content", tmp);
 		} else {
 			throw new ExtensionException("Error parsing model : the domain \"" + value + "\" has not been defined in domain or class declaration part. Its value is " + symbols.get(value));
 		}
@@ -363,19 +357,19 @@ public class ExportToGML implements IExportTo {
 	 * Export a marking
 	 * 
 	 * @param value marking to export
-	 * @param out export in this writer
+	 * @param currentST the result being built
 	 * @param monitor monitors the export
-	 * @param gap gap
 	 * @param symbols the table of symbols
 	 * @throws IOException if the writer throws an exception
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportMarking(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, RecognitionException {
+	private void exportMarking(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, RecognitionException {
 		if ("PT-Net".equals(formalism)) { // Not a clean way to resolve this issue
 			int marking;
 			try {
 				marking = Integer.valueOf(value);
-				out.write(gap + "<attribute name=\"marking\">" + marking + "</attribute>\n");
+				StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", "marking").put("content", marking));
+				currentST.setAttribute("content", tmp);
 			} catch (NumberFormatException e) {
 				LOGGER.warning("Cannot parse marking: " + value);
 			}
@@ -384,7 +378,7 @@ public class ExportToGML implements IExportTo {
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ValuationParserSNB parser = new ValuationParserSNB(tokens);
 			parser.setTemplateLib(templates);
-			out.write(parser.initMarking(symbols).toString());
+			currentST.setAttribute("content", parser.initMarking(symbols));
 		}
 	}
 
@@ -392,18 +386,17 @@ public class ExportToGML implements IExportTo {
 	 * Export a node object
 	 *
 	 * @param node node to export
-	 * @param out export in this writer
+	 * @param modelST the result being built
 	 * @param monitor monitor the export
-	 * @param gap gap
 	 * @param symbols the table of symbols
 	 * @throws IOException if the writer throw an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private void exportNode(INode node, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
-		out.write(gap + "<node id=\"" + node.getId() + "\" nodeType=\"" + node.getNodeFormalism().getName() + "\">\n");
+	private void exportNode(INode node, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, ExtensionException {
+		StringTemplate currentST = templates.getInstanceOf("node", new STAttrMap().put("id", node.getId()).put("type", node.getNodeFormalism().getName()));
 		for (IAttribute attr : node.getAttributes()) {
 			try {
-				exportAttribute(attr, out, monitor, gap + "\t", symbols);
+				exportAttribute(attr, currentST, monitor, symbols);
 			} catch (RecognitionException e) {
 				String s;
 				s = "Error in " + node.getNodeFormalism().getName() + " \"" + node.getAttribute("name").getValue() + "\"\n";
@@ -412,48 +405,48 @@ public class ExportToGML implements IExportTo {
 				throw new ExtensionException(s);
 			}
 		}
-		out.write(gap + "</node>\n");
+		modelST.setAttribute("content", currentST);
 	}
 
 	/**
 	 * Export a guard
 	 * 
 	 * @param value the guard to export
-	 * @param out export in this writer
+	 * @param currentST the result being built
 	 * @param monitor monitors the export
-	 * @param gap gap
 	 * @param symbols the table of symbols
 	 * @throws IOException if the writer throws an exception
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportGuard(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, RecognitionException {
+	private void exportGuard(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, RecognitionException {
 		GuardLexer lexer = new GuardLexer(new ANTLRStringStream(value));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GuardParser parser = new GuardParser(tokens);
 		parser.setTemplateLib(templates);
-		out.write(parser.transitionGuard(symbols).toString());
+		currentST.setAttribute("content", parser.transitionGuard(symbols));
 	}
 
 	/**
 	 * Export an arc object
 	 *
 	 * @param arc arc to export
-	 * @param out export in this writer
+	 * @param modelST the result being built
 	 * @param monitor monitor the export
-	 * @param gap gap
 	 * @param symbols the table of symbols
 	 * @throws IOException if the writer throws an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private void exportArc(IArc arc, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
+	private void exportArc(IArc arc, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, ExtensionException {
 		INode source = arc.getSource();
 		INode target = arc.getTarget();
-		out.write(gap + "<arc id=\"" + arc.getId() + "\" arcType=\"" + arc.getArcFormalism().getName() + "\" "
-				+ "source=\"" + source.getId() + "\" "
-				+ "target=\"" + target.getId() + "\">\n");
+		StringTemplate currentST = templates.getInstanceOf("arc");
+		currentST.setAttribute("id", arc.getId());
+		currentST.setAttribute("type", arc.getArcFormalism().getName());
+		currentST.setAttribute("source", source.getId());
+		currentST.setAttribute("target", target.getId());
 		try {
 			for (IAttribute attr : arc.getAttributes()) {
-				exportAttribute(attr, out, monitor, gap + "\t", symbols);
+				exportAttribute(attr, currentST, monitor, symbols);
 			}
 		} catch (RecognitionException e) {
 			String s;
@@ -462,6 +455,6 @@ public class ExportToGML implements IExportTo {
 			s = s + "at : " + e.token.getText() + "\n";
 			throw new ExtensionException(s);
 		}
-		out.write(gap + "</arc>\n");
+		modelST.setAttribute("content", currentST);
 	}
 }
