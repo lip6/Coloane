@@ -152,12 +152,12 @@ public class ExportToGML implements IExportTo {
 	 */
 	public final void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException {
 		LOGGER.fine("starting export model");
+		monitor.beginTask("export", graph.getArcs().size() + graph.getNodes().size() + 1);
+		StringTemplate modelST = exportGraph(graph, monitor);
+
 		Writer out = null;
-		ExtensionException exc = null;
 		try {
 			out = new BufferedWriter(writer);
-			monitor.beginTask("export", graph.getArcs().size() + graph.getNodes().size() + 1);
-			StringTemplate modelST = exportGraph(graph, monitor);
 			out.write(modelST.toString());
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
@@ -165,14 +165,8 @@ public class ExportToGML implements IExportTo {
 			try {
 				out.flush();
 				out.close();
-				if (exc != null) {
-					throw exc;
-				}
 			} catch (IOException e) {
 				throw new ExtensionException(e.getMessage());
-			} catch (ExtensionException e) {
-				// re-throw the exception
-				throw e;
 			}
 		}
 	}
@@ -183,10 +177,9 @@ public class ExportToGML implements IExportTo {
 	 * @param graph graph to export
 	 * @param monitor monitor the export
 	 * @return the result of the export, as a StringTemplate
-	 * @throws IOException if the writer throw an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private StringTemplate exportGraph(IGraph graph, IProgressMonitor monitor) throws IOException, ExtensionException {
+	private StringTemplate exportGraph(IGraph graph, IProgressMonitor monitor) throws ExtensionException {
 		monitor.beginTask("Export to GML", 1 + graph.getNodes().size() + graph.getArcs().size());
 
 		Map<String, String> symbolTable = new HashMap<String, String>();
@@ -256,11 +249,10 @@ public class ExportToGML implements IExportTo {
 	 * @param currentST the result being built
 	 * @param monitor monitor the export
 	 * @param symbols table of symbols
-	 * @throws IOException if the writer throw an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportAttribute(IAttribute attr, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, ExtensionException, RecognitionException {
+	private void exportAttribute(IAttribute attr, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException, RecognitionException {
 		if ("domain".equals(attr.getName())) {
 			exportDomain(attr.getValue(), currentST, monitor, symbols);
 			LOGGER.finer("export domain");
@@ -287,10 +279,9 @@ public class ExportToGML implements IExportTo {
 	 * @param value declarative part to export
 	 * @param modelST the result being built
 	 * @param monitor monitors the export
-	 * @throws IOException if the writer throw an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private Map<String, String> exportDeclarativePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws IOException, ExtensionException {
+	private Map<String, String> exportDeclarativePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
 		DeclarativePartParserSN parser;
 		try {
 			DeclarativePartLexer lexer = new DeclarativePartLexer(new ANTLRStringStream(value));
@@ -311,10 +302,9 @@ public class ExportToGML implements IExportTo {
 	 * @param currentST the result being built
 	 * @param monitor monitors the export
 	 * @param symbols the table of symbols
-	 * @throws IOException if the writer throws an exception
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportValuation(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, RecognitionException {
+	private void exportValuation(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws RecognitionException {
 		if ("PT-Net".equals(formalism)) { // Not a clean way to resolve this issue
 			int valuation;
 			try {
@@ -340,10 +330,9 @@ public class ExportToGML implements IExportTo {
 	 * @param currentST the result being built
 	 * @param monitor monitors the export
 	 * @param symbols the table of symbols
-	 * @throws IOException if the writer throws an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private void exportDomain(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, ExtensionException {
+	private void exportDomain(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException {
 		if ("domain".equals(symbols.get(value)) || "domain_bag".equals(symbols.get(value)) || "class".equals(symbols.get(value)) || "".equals(value)) {
 			StringTemplate tmp0 = templates.getInstanceOf("balise", new STAttrMap().put("name", "type").put("content", value));
 			StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", "domain").put("content", tmp0));
@@ -360,10 +349,9 @@ public class ExportToGML implements IExportTo {
 	 * @param currentST the result being built
 	 * @param monitor monitors the export
 	 * @param symbols the table of symbols
-	 * @throws IOException if the writer throws an exception
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportMarking(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, RecognitionException {
+	private void exportMarking(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws RecognitionException {
 		if ("PT-Net".equals(formalism)) { // Not a clean way to resolve this issue
 			int marking;
 			try {
@@ -389,10 +377,9 @@ public class ExportToGML implements IExportTo {
 	 * @param modelST the result being built
 	 * @param monitor monitor the export
 	 * @param symbols the table of symbols
-	 * @throws IOException if the writer throw an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private void exportNode(INode node, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, ExtensionException {
+	private void exportNode(INode node, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException {
 		StringTemplate currentST = templates.getInstanceOf("node", new STAttrMap().put("id", node.getId()).put("type", node.getNodeFormalism().getName()));
 		for (IAttribute attr : node.getAttributes()) {
 			try {
@@ -415,10 +402,9 @@ public class ExportToGML implements IExportTo {
 	 * @param currentST the result being built
 	 * @param monitor monitors the export
 	 * @param symbols the table of symbols
-	 * @throws IOException if the writer throws an exception
 	 * @throws RecognitionException if ANTLR throws an exception
 	 */
-	private void exportGuard(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, RecognitionException {
+	private void exportGuard(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws RecognitionException {
 		GuardLexer lexer = new GuardLexer(new ANTLRStringStream(value));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		GuardParser parser = new GuardParser(tokens);
@@ -433,10 +419,9 @@ public class ExportToGML implements IExportTo {
 	 * @param modelST the result being built
 	 * @param monitor monitor the export
 	 * @param symbols the table of symbols
-	 * @throws IOException if the writer throws an exception
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private void exportArc(IArc arc, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbols) throws IOException, ExtensionException {
+	private void exportArc(IArc arc, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException {
 		INode source = arc.getSource();
 		INode target = arc.getTarget();
 		StringTemplate currentST = templates.getInstanceOf("arc");
