@@ -42,6 +42,7 @@ import main.antlr3.fr.lip6.move.coloane.extension.ValuationParserSNB;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -51,7 +52,43 @@ import org.eclipse.core.runtime.IProgressMonitor;
  * @author Maximilien Colange
  */
 public class ExportToGML implements IExportTo {
+	
+	/**
+	 * allows convenient multi-value initialization:
+	 * "new STAttrMap().put(...).put(...)"
+	 * 
+	 * comes from ANTLR-generated code
+	 */
+	public static class STAttrMap extends HashMap<String, Object> {
 
+		/**
+		 * Explicit definition to please java compiler
+		 * Using value from class HashMap
+		 */
+		private static final long serialVersionUID = 362498820763181265L;
+		/**
+		 * 
+		 * @param attrName the key to which a new value is associated
+		 * @param value the value associated to the key
+		 * @return the updated map
+		 */
+		public final STAttrMap put(String attrName, Object value) {
+			super.put(attrName, value);
+			return this;
+		}
+
+		/**
+		 * 
+		 * @param attrName the key to which a new value is associated
+		 * @param value the value associated to the key
+		 * @return the updated map
+		 */
+		public final STAttrMap put(String attrName, int value) {
+			super.put(attrName, new Integer(value));
+			return this;
+		}
+	}
+	
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.extensions.exporttogml"); //$NON-NLS-1$
 
@@ -163,7 +200,8 @@ public class ExportToGML implements IExportTo {
 		}
 
 		monitor.setTaskName("Create preamble");
-		out.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n");
+		StringTemplate tmp = templates.getInstanceOf("xmlPseudoBalise", new STAttrMap().put("version", "1.0").put("encoding", "UTF-8"));
+		out.write(tmp.toString());
 		out.write("<model formalismUrl=\"" + fmlUrl + "\"\n");
 		out.write("    xmlns=\"http://gml.lip6.fr/model\">\n");
 
@@ -313,7 +351,9 @@ public class ExportToGML implements IExportTo {
 	 */
 	private void exportDomain(String value, Writer out, IProgressMonitor monitor, String gap, Map<String, String> symbols) throws IOException, ExtensionException {
 		if ("domain".equals(symbols.get(value)) || "domain_bag".equals(symbols.get(value)) || "class".equals(symbols.get(value)) || "".equals(value)) {
-			out.write(gap + "<attribute name=\"domain\"><attribute name=\"type\">" + value + "</attribute></attribute>\n");
+			StringTemplate tmp0 = templates.getInstanceOf("balise", new STAttrMap().put("name", "type").put("content", value));
+			StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", "domain").put("content", tmp0));
+			out.write(tmp.toString());
 		} else {
 			throw new ExtensionException("Error parsing model : the domain \"" + value + "\" has not been defined in domain or class declaration part. Its value is " + symbols.get(value));
 		}

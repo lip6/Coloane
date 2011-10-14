@@ -1,5 +1,11 @@
 group SNBGML;
 
+xmlPseudoBalise(version, encoding) ::= <<
+\<?xml version="<version>" encoding="<encoding>"?\>
+
+
+>>
+
 balise(name,content) ::= <<
 \<attribute name="<name>"\>
   <content; separator="\n">
