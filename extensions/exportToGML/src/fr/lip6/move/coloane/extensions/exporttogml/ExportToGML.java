@@ -406,7 +406,7 @@ public class ExportToGML implements IExportTo {
 				exportAttribute(attr, out, monitor, gap + "\t", symbols);
 			} catch (RecognitionException e) {
 				String s;
-				s = "Error in node " + node.getId() + "\n";
+				s = "Error in " + node.getNodeFormalism().getName() + " \"" + node.getAttribute("name").getValue() + "\"\n";
 				s = s + "in attribute " + attr.getName() + "\n";
 				s = s + "at " + e.token.getText() + "\n";
 				throw new ExtensionException(s);
@@ -457,7 +457,8 @@ public class ExportToGML implements IExportTo {
 			}
 		} catch (RecognitionException e) {
 			String s;
-			s = "Error on arc from " + source.getId() + " to " + target.getId() + "\n";
+			s = "Error on arc from " + source.getNodeFormalism().getName() + " \"" + source.getAttribute("name").getValue();
+			s = s + "\" to " + target.getNodeFormalism().getName() + " \"" + target.getAttribute("name").getValue() + "\"\n";
 			s = s + "at : " + e.token.getText() + "\n";
 			throw new ExtensionException(s);
 		}
