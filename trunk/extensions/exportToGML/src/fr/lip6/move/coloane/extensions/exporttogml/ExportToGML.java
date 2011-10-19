@@ -249,8 +249,8 @@ public class ExportToGML implements IExportTo {
 	 * @param currentST the result being built
 	 * @param monitor monitor the export
 	 * @param symbols table of symbols
-	 * @throws ExtensionException if the parser throws an exception
-	 * @throws RecognitionException if ANTLR throws an exception
+	 * @throws ExtensionException if the attribute is a domain and its export throws an exception
+	 * @throws RecognitionException if ANTLR throws an exception (guards, marking, valuation)
 	 */
 	private void exportAttribute(IAttribute attr, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException, RecognitionException {
 		if ("domain".equals(attr.getName())) {
