@@ -17,33 +17,11 @@ package fr.lip6.move.coloane.extensions.exporttogml;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
-import fr.lip6.move.coloane.interfaces.model.IArc;
-import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
-import fr.lip6.move.coloane.interfaces.model.INode;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Logger;
 
-import main.antlr3.fr.lip6.move.coloane.extension.DeclarativePartLexer;
-import main.antlr3.fr.lip6.move.coloane.extension.DeclarativePartParserSN;
-import main.antlr3.fr.lip6.move.coloane.extension.GuardLexer;
-import main.antlr3.fr.lip6.move.coloane.extension.GuardParser;
-import main.antlr3.fr.lip6.move.coloane.extension.ValuationLexerSNB;
-import main.antlr3.fr.lip6.move.coloane.extension.ValuationParserSNB;
-
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
-import org.antlr.stringtemplate.StringTemplate;
-import org.antlr.stringtemplate.StringTemplateGroup;
 import org.eclipse.core.runtime.IProgressMonitor;
 
 /**
@@ -54,75 +32,9 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public class ExportToGML implements IExportTo {
 	
 	/**
-	 * allows convenient multi-value initialization:
-	 * "new STAttrMap().put(...).put(...)"
-	 * 
-	 * comes from ANTLR-generated code
-	 */
-	public static class STAttrMap extends HashMap<String, Object> {
-
-		/**
-		 * Explicit definition to please java compiler
-		 * Using value from class HashMap
-		 */
-		private static final long serialVersionUID = 362498820763181265L;
-		/**
-		 * 
-		 * @param attrName the key to which a new value is associated
-		 * @param value the value associated to the key
-		 * @return the updated map
-		 */
-		public final STAttrMap put(String attrName, Object value) {
-			super.put(attrName, value);
-			return this;
-		}
-
-		/**
-		 * 
-		 * @param attrName the key to which a new value is associated
-		 * @param value the value associated to the key
-		 * @return the updated map
-		 */
-		public final STAttrMap put(String attrName, int value) {
-			super.put(attrName, new Integer(value));
-			return this;
-		}
-	}
-	
-	/** The logger */
-	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.extensions.exporttogml"); //$NON-NLS-1$
-
-	/**
-	 * Map to convert Coloane formalism names to FML url.
-	 */
-	private final Map<String, String> formalismMap = new HashMap<String, String>();
-
-	private String formalism;
-
-	private StringTemplateGroup templates;
-	
-	/**
 	 * Initialize the formalismMap
 	 */
 	public ExportToGML() {
-		// TODO: Put the associated FML URL into Coloane Formalism extension
-		formalismMap.put("PT-Net", "http://alligator.lip6.fr/pt-net.fml");
-		formalismMap.put("CPN", "http://alligator.lip6.fr/s-net.fml");
-		formalismMap.put("SNB", "http://alligator.lip6.fr/snb.fml");
-	}
-	
-	/**
-	 * Initialize the StringTemplate group
-	 * @throws IOException if the StringTemplate Group file is not found
-	 */
-	private void initTemplateGroup() throws IOException {
-		InputStream groupFileIS = this.getClass().getResourceAsStream("/resources/SNBFML.stg");
-		if (groupFileIS == null) {
-			throw new IOException("String Template Group File not found");
-		}
-		InputStreamReader groupFileR = new InputStreamReader(groupFileIS);
-		templates = new StringTemplateGroup(groupFileR);
-		groupFileR.close();
 	}
 
 	/**
@@ -135,311 +47,30 @@ public class ExportToGML implements IExportTo {
 	 */
 	public final void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ExtensionException {
 		try {
-			initTemplateGroup();
-			export(graph, new FileWriter(filePath), monitor);
+			IGMLExport exporter = createExporterInstance(graph.getFormalism().getName());
+			exporter.export(graph, new FileWriter(filePath), monitor);
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
 		}
 	}
-
+	
 	/**
-	 * Performs the export
+	 * Returns an instance of the appropriate implementation of IGMLExport
 	 * 
-	 * @param graph the graph to be exported
-	 * @param writer Writer to write the gml model
-	 * @param monitor monitors the export
-	 * @throws ExtensionException if the parser throws an exception
+	 * @param formalism the Coloane formalism of the model to be exported
+	 * @return an appropriate exporter for the formalism
 	 */
-	public final void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException {
-		LOGGER.fine("starting export model");
-		monitor.beginTask("export", graph.getArcs().size() + graph.getNodes().size() + 1);
-		StringTemplate modelST = exportGraph(graph, monitor);
-
-		Writer out = null;
-		try {
-			out = new BufferedWriter(writer);
-			out.write(modelST.toString());
-		} catch (IOException e) {
-			throw new ExtensionException(e.getMessage());
-		} finally {
+	private static IGMLExport createExporterInstance(String formalism) {
+		/// TODO
+		IGMLExport result = null;
+		if (true) {
 			try {
-				out.flush();
-				out.close();
+				result =  new SNBExport(formalism);
 			} catch (IOException e) {
-				throw new ExtensionException(e.getMessage());
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
-	}
-
-	/**
-	 * Export a graph object
-	 *
-	 * @param graph graph to export
-	 * @param monitor monitor the export
-	 * @return the result of the export, as a StringTemplate
-	 * @throws ExtensionException if the parser throws an exception
-	 */
-	private StringTemplate exportGraph(IGraph graph, IProgressMonitor monitor) throws ExtensionException {
-		monitor.beginTask("Export to GML", 1 + graph.getNodes().size() + graph.getArcs().size());
-
-		Map<String, String> symbolTable = new HashMap<String, String>();
-
-		String fmlUrl;
-		formalism = graph.getFormalism().getId();
-		if (formalismMap.containsKey(formalism)) {
-			fmlUrl = formalismMap.get(formalism);
-		} else {
-			fmlUrl = "http://alligator.lip6.fr/unknown";
-		}
-
-		monitor.setTaskName("Create preamble");
-
-		StringTemplate result = templates.getInstanceOf("modelBalise", new STAttrMap().put("version", "1.0").put("encoding", "UTF-8").put("form", fmlUrl));
-
-		LOGGER.fine("GML preamble");
-
-		// Export model attributes
-		monitor.setTaskName("Export model attributes");
-		IAttribute declarativePart = graph.getAttribute("declaration");
-		if (declarativePart != null) {
-			if (!declarativePart.getValue().equals("")) {
-				symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
-			}
-		}
-		for (IAttribute attr : graph.getAttributes()) {
-			if (!attr.getName().equals("declaration")) {
-				try {
-					exportAttribute(attr, result, monitor, symbolTable);
-				} catch (RecognitionException e) {
-					String s = "Error in unparsed attribute of graph : " + attr.getName() + "\n";
-					s = s + "Unfortunately for you, this error should not occur\n";
-					s = s + "What the hell did you do ?\n";
-					throw new ExtensionException(s);
-				}
-			}
-		}
-
-		monitor.worked(1);
-		LOGGER.fine("graph's attributes : done");
-
-		//Export nodes
-		monitor.setTaskName("Export nodes");
-		for (INode node : graph.getNodes()) {
-			exportNode(node, result, monitor, symbolTable);
-			monitor.worked(1);
-			LOGGER.fine("export node : " + node.getId());
-		}
-
-		//Export Arcs
-		monitor.setTaskName("Export arcs");
-		for (IArc arc : graph.getArcs()) {
-			exportArc(arc, result, monitor, symbolTable);
-			monitor.worked(1);
-			LOGGER.fine("export arc : " + arc.getId());
-		}
-
-		monitor.done();
 		return result;
-	}
-
-	/**
-	 * Export an attribute object
-	 *
-	 * @param attr attribute to export
-	 * @param currentST the result being built
-	 * @param monitor monitor the export
-	 * @param symbols table of symbols
-	 * @throws ExtensionException if the attribute is a domain and its export throws an exception
-	 * @throws RecognitionException if ANTLR throws an exception (guards, marking, valuation)
-	 */
-	private void exportAttribute(IAttribute attr, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException, RecognitionException {
-		if ("domain".equals(attr.getName())) {
-			exportDomain(attr.getValue(), currentST, monitor, symbols);
-			LOGGER.finer("export domain");
-		} else if ("guard".equals(attr.getName())) {
-			exportGuard(attr.getValue(), currentST, monitor, symbols);
-			LOGGER.finer("export guard");
-		} else if ("marking".equals(attr.getName())) {
-			exportMarking(attr.getValue(), currentST, monitor, symbols);
-			LOGGER.finer("export marking");
-		} else if ("valuation".equals(attr.getName())) {
-			exportValuation(attr.getValue(), currentST, monitor, symbols);
-			LOGGER.finer("export valuation");
-		} else {
-			StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", attr.getName()).put("content", attr.getValue()));
-			currentST.setAttribute("content", tmp);
-			LOGGER.finer("export generic attribute");
-		}
-	}
-
-	/**
-	 * Export the declarative part
-	 * 
-	 * @return the symbols table
-	 * @param value declarative part to export
-	 * @param modelST the result being built
-	 * @param monitor monitors the export
-	 * @throws ExtensionException if the parser throws an exception
-	 */
-	private Map<String, String> exportDeclarativePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
-		DeclarativePartParserSN parser;
-		try {
-			DeclarativePartLexer lexer = new DeclarativePartLexer(new ANTLRStringStream(value));
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			parser = new DeclarativePartParserSN(tokens);
-			parser.setTemplateLib(templates);
-			modelST.setAttribute("content", parser.declaration(formalism));
-		} catch (RecognitionException e) {
-			throw new ExtensionException("Error in the declarative part at : " + value.split("\n")[e.line - 1]);
-		}
-		return parser.getSymbols();
-	}
-
-	/**
-	 * Export the valuation of an arc
-	 * 
-	 * @param value valuation to export
-	 * @param currentST the result being built
-	 * @param monitor monitors the export
-	 * @param symbols the table of symbols
-	 * @throws RecognitionException if ANTLR throws an exception
-	 */
-	private void exportValuation(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws RecognitionException {
-		if ("PT-Net".equals(formalism)) { // Not a clean way to resolve this issue
-			int valuation;
-			try {
-				valuation = Integer.valueOf(value);
-				StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", "valuation").put("content", valuation));
-				currentST.setAttribute("content", tmp);
-			} catch (NumberFormatException e) {
-				LOGGER.warning("Cannot parse valuation: " + value);
-			}
-		} else {
-			ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			ValuationParserSNB parser = new ValuationParserSNB(tokens);
-			parser.setTemplateLib(templates);
-			currentST.setAttribute("content", parser.arcLabel(symbols));
-		}
-	}
-
-	/**
-	 * Export the domain of a place
-	 * 
-	 * @param value domain to export
-	 * @param currentST the result being built
-	 * @param monitor monitors the export
-	 * @param symbols the table of symbols
-	 * @throws ExtensionException if the parser throws an exception
-	 */
-	private void exportDomain(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException {
-		if ("domain".equals(symbols.get(value)) || "domain_bag".equals(symbols.get(value)) || "class".equals(symbols.get(value)) || "".equals(value)) {
-			StringTemplate tmp0 = templates.getInstanceOf("balise", new STAttrMap().put("name", "type").put("content", value));
-			StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", "domain").put("content", tmp0));
-			currentST.setAttribute("content", tmp);
-		} else {
-			throw new ExtensionException("Error parsing model : the domain \"" + value + "\" has not been defined in domain or class declaration part. Its value is " + symbols.get(value));
-		}
-	}
-
-	/**
-	 * Export a marking
-	 * 
-	 * @param value marking to export
-	 * @param currentST the result being built
-	 * @param monitor monitors the export
-	 * @param symbols the table of symbols
-	 * @throws RecognitionException if ANTLR throws an exception
-	 */
-	private void exportMarking(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws RecognitionException {
-		if ("PT-Net".equals(formalism)) { // Not a clean way to resolve this issue
-			int marking;
-			try {
-				marking = Integer.valueOf(value);
-				StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", "marking").put("content", marking));
-				currentST.setAttribute("content", tmp);
-			} catch (NumberFormatException e) {
-				LOGGER.warning("Cannot parse marking: " + value);
-			}
-		} else {
-			ValuationLexerSNB lexer = new ValuationLexerSNB(new ANTLRStringStream(value));
-			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			ValuationParserSNB parser = new ValuationParserSNB(tokens);
-			parser.setTemplateLib(templates);
-			currentST.setAttribute("content", parser.initMarking(symbols));
-		}
-	}
-
-	/**
-	 * Export a node object
-	 *
-	 * @param node node to export
-	 * @param modelST the result being built
-	 * @param monitor monitor the export
-	 * @param symbols the table of symbols
-	 * @throws ExtensionException if the parser throws an exception
-	 */
-	private void exportNode(INode node, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException {
-		StringTemplate currentST = templates.getInstanceOf("node", new STAttrMap().put("id", node.getId()).put("type", node.getNodeFormalism().getName()));
-		for (IAttribute attr : node.getAttributes()) {
-			try {
-				exportAttribute(attr, currentST, monitor, symbols);
-			} catch (RecognitionException e) {
-				String s;
-				s = "Error in " + node.getNodeFormalism().getName() + " \"" + node.getAttribute("name").getValue() + "\"\n";
-				s = s + "in attribute " + attr.getName() + "\n";
-				s = s + "at " + e.token.getText() + "\n";
-				throw new ExtensionException(s);
-			}
-		}
-		modelST.setAttribute("content", currentST);
-	}
-
-	/**
-	 * Export a guard
-	 * 
-	 * @param value the guard to export
-	 * @param currentST the result being built
-	 * @param monitor monitors the export
-	 * @param symbols the table of symbols
-	 * @throws RecognitionException if ANTLR throws an exception
-	 */
-	private void exportGuard(String value, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws RecognitionException {
-		GuardLexer lexer = new GuardLexer(new ANTLRStringStream(value));
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		GuardParser parser = new GuardParser(tokens);
-		parser.setTemplateLib(templates);
-		currentST.setAttribute("content", parser.transitionGuard(symbols));
-	}
-
-	/**
-	 * Export an arc object
-	 *
-	 * @param arc arc to export
-	 * @param modelST the result being built
-	 * @param monitor monitor the export
-	 * @param symbols the table of symbols
-	 * @throws ExtensionException if the parser throws an exception
-	 */
-	private void exportArc(IArc arc, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException {
-		INode source = arc.getSource();
-		INode target = arc.getTarget();
-		StringTemplate currentST = templates.getInstanceOf("arc");
-		currentST.setAttribute("id", arc.getId());
-		currentST.setAttribute("type", arc.getArcFormalism().getName());
-		currentST.setAttribute("source", source.getId());
-		currentST.setAttribute("target", target.getId());
-		try {
-			for (IAttribute attr : arc.getAttributes()) {
-				exportAttribute(attr, currentST, monitor, symbols);
-			}
-		} catch (RecognitionException e) {
-			String s;
-			s = "Error on arc from " + source.getNodeFormalism().getName() + " \"" + source.getAttribute("name").getValue();
-			s = s + "\" to " + target.getNodeFormalism().getName() + " \"" + target.getAttribute("name").getValue() + "\"\n";
-			s = s + "at : " + e.token.getText() + "\n";
-			throw new ExtensionException(s);
-		}
-		modelST.setAttribute("content", currentST);
 	}
 }
