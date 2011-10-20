@@ -26,7 +26,7 @@ distribution
   ;
   
 arg_list
-  :
+  : -> { %{""} }
   | a+=arg (COMMA a+=arg)*
   {
     List<StringTemplate> tmp = new ArrayList();
@@ -60,6 +60,6 @@ LPAR : '(' ;
 RPAR : ')' ;
 COMMA : ',' ;
 
-STRING : (LETTER | DIGIT)+ ;
+STRING : (LETTER | DIGIT) (LETTER | DIGIT | '.' | '_')* ;
 fragment LETTER : 'a'..'z' | 'A'..'Z' ;
 fragment DIGIT : '0'..'9' ;

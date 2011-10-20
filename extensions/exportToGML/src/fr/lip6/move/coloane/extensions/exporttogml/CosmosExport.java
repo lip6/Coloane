@@ -1,6 +1,5 @@
 package fr.lip6.move.coloane.extensions.exporttogml;
 
-import fr.lip6.move.coloane.extensions.exporttogml.SNBExport.STAttrMap;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
@@ -257,7 +256,7 @@ public class CosmosExport implements IGMLExport {
 	 * @throws RecognitionException if ANTLR throws an exception (guards, marking, valuation)
 	 */
 	private void exportAttribute(IAttribute attr, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException, RecognitionException {
-		if (attr.getName().equals("distribution")) {
+		if (attr.getName().equals("Distribution")) {
 			DistributionParserLexer lexer = new DistributionParserLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			DistributionParserParser parser = new DistributionParserParser(tokens);
