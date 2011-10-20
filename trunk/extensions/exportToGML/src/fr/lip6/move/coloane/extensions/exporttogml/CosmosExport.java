@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.antlr.runtime.ANTLRStringStream;
+import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
@@ -29,6 +31,42 @@ import org.eclipse.core.runtime.IProgressMonitor;
  *
  */
 public class CosmosExport implements IGMLExport {
+	
+	/**
+	 * allows convenient multi-value initialization:
+	 * "new STAttrMap().put(...).put(...)"
+	 * 
+	 * comes from ANTLR-generated code
+	 */
+	public static class STAttrMap extends HashMap<String, Object> {
+
+		/**
+		 * Explicit definition to please java compiler
+		 * Using value from class HashMap
+		 */
+		private static final long serialVersionUID = 362498820763181265L;
+		/**
+		 * 
+		 * @param attrName the key to which a new value is associated
+		 * @param value the value associated to the key
+		 * @return the updated map
+		 */
+		public final STAttrMap put(String attrName, Object value) {
+			super.put(attrName, value);
+			return this;
+		}
+
+		/**
+		 * 
+		 * @param attrName the key to which a new value is associated
+		 * @param value the value associated to the key
+		 * @return the updated map
+		 */
+		public final STAttrMap put(String attrName, int value) {
+			super.put(attrName, new Integer(value));
+			return this;
+		}
+	}
 	
 	private StringTemplateGroup templates;
 	
@@ -219,7 +257,18 @@ public class CosmosExport implements IGMLExport {
 	 * @throws RecognitionException if ANTLR throws an exception (guards, marking, valuation)
 	 */
 	private void exportAttribute(IAttribute attr, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException, RecognitionException {
-
+		if (attr.getName().equals("distribution")) {
+			DistributionParserLexer lexer = new DistributionParserLexer(new ANTLRStringStream(attr.getValue()));
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			DistributionParserParser parser = new DistributionParserParser(tokens);
+			parser.setTemplateLib(templates);
+			currentST.setAttribute("content", parser.distribution());
+		} else {
+			StringTemplate tmp = templates.getInstanceOf("balise");
+			tmp.setAttribute("name", attr.getName());
+			tmp.setAttribute("content", attr.getValue());
+			currentST.setAttribute("content", tmp);
+		}
 	}
 	
 	/**
