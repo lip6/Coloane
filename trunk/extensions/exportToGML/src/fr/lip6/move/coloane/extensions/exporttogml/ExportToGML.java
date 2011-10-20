@@ -21,6 +21,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -47,11 +48,23 @@ public class ExportToGML implements IExportTo {
 	 */
 	public final void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ExtensionException {
 		try {
-			IGMLExport exporter = createExporterInstance(graph.getFormalism().getName());
-			exporter.export(graph, new FileWriter(filePath), monitor);
+			export(graph, new FileWriter(filePath), monitor);
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
 		}
+	}
+	
+	/**
+	 * Performs the export
+	 * 
+	 * @param graph the graph to be exported
+	 * @param writer the writer to export to
+	 * @param monitor monitors the export
+	 * @throws ExtensionException if the parser throws an exception
+	 */
+	public final void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException {
+		IGMLExport exporter = createExporterInstance(graph.getFormalism().getName());
+		exporter.export(graph, writer, monitor);
 	}
 	
 	/**
@@ -68,7 +81,7 @@ public class ExportToGML implements IExportTo {
 				result = new CosmosExport(formalism);
 			} else {
 				result =  new SNBExport(formalism);
-			}// else {
+			} // else {
 				/// TODO should throw an exception or at least say that an appropriate exporter cannot be found
 			//}
 		} catch (IOException e) {
