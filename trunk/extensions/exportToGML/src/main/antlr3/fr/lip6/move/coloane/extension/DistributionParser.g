@@ -6,11 +6,11 @@ options {
 }
 
 @lexer::header {
-  package fr.lip6.move.coloane.extensions.exporttogml;
+  package main.antlr3.fr.lip6.move.coloane.extension;
 }
 
 @header {
-  package fr.lip6.move.coloane.extensions.exporttogml;
+  package main.antlr3.fr.lip6.move.coloane.extension;
 }
 
 distribution
