@@ -63,13 +63,17 @@ public class ExportToGML implements IExportTo {
 	private static IGMLExport createExporterInstance(String formalism) {
 		/// TODO
 		IGMLExport result = null;
-		if (true) {
-			try {
+		try {
+			if (formalism.equals("Cosmos")) {
+				result = new CosmosExport(formalism);
+			} else {
 				result =  new SNBExport(formalism);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			}// else {
+				/// TODO should throw an exception or at least say that an appropriate exporter cannot be found
+			//}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return result;
 	}
