@@ -16,6 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import main.antlr3.fr.lip6.move.coloane.extension.DistributionParserLexer;
+import main.antlr3.fr.lip6.move.coloane.extension.DistributionParserParser;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
