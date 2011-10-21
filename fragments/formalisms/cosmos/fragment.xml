@@ -80,6 +80,17 @@
                         multiline="true"
                         name="Service">
                   </Attribute>
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                        description="transition"
+                        drawable="true"
+                        height="25"
+                        icon16px="resources/transition_16.png"
+                        icon24px="resources/transition_24.png"
+                        palettable="true"
+                        paletteName="Transition"
+                        width="7">
+                  </GraphicInfo>
                </Node>
                <Arc
                      name="arc">
@@ -119,6 +130,11 @@
                         name="valuation">
                   </Attribute>
                </Arc>
+               <Attribute
+                     drawable="true"
+                     multiline="true"
+                     name="const definition">
+               </Attribute>
             </Graph>
          </XmlDescription>
       </Formalism>
