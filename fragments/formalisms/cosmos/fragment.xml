@@ -53,32 +53,37 @@
                         width="25">
                   </GraphicInfo>
                   <Attribute
+                        drawable="true"
+                        multiline="true"
+                        name="name">
+                  </Attribute>
+                  <Attribute
                         default="Exponential"
                         drawable="true"
                         enumerated="false"
                         multiline="true"
-                        name="Distribution">
+                        name="distribution">
                   </Attribute>
                   <Attribute
                         default="1"
                         displayed_default="false"
                         drawable="true"
                         multiline="true"
-                        name="Weight">
+                        name="weight">
                   </Attribute>
                   <Attribute
                         default="1"
                         displayed_default="false"
                         drawable="true"
                         multiline="true"
-                        name="Priority">
+                        name="priority">
                   </Attribute>
                   <Attribute
                         default="1"
                         displayed_default="false"
                         drawable="true"
                         multiline="true"
-                        name="Service">
+                        name="service">
                   </Attribute>
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
