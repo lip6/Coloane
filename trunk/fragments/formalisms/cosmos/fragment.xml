@@ -31,10 +31,11 @@
                         name="name">
                   </Attribute>
                   <Attribute
+                        bold="true"
                         default="0"
                         displayed_default="false"
                         drawable="true"
-                        multiline="true"
+                        multiline="false"
                         name="marking">
                   </Attribute>
                </Node>
@@ -58,7 +59,7 @@
                         name="name">
                   </Attribute>
                   <Attribute
-                        default="Exponential"
+                        default="EXPONENTIAL"
                         drawable="true"
                         enumerated="false"
                         multiline="true"
@@ -109,10 +110,11 @@
                         paletteName="arc">
                   </GraphicInfo>
                   <Attribute
+                        bold="true"
                         default="1"
                         displayed_default="false"
                         drawable="true"
-                        multiline="true"
+                        multiline="false"
                         name="valuation">
                   </Attribute>
                </Arc>
@@ -128,10 +130,11 @@
                         paletteName="InhibitorArc">
                   </GraphicInfo>
                   <Attribute
+                        bold="true"
                         default="1"
                         displayed_default="false"
                         drawable="true"
-                        multiline="true"
+                        multiline="false"
                         name="valuation">
                   </Attribute>
                </Arc>
@@ -141,6 +144,49 @@
                      name="const definition">
                </Attribute>
             </Graph>
+            <Constraint
+                  link="true"
+                  name="place-place"
+                  type="fr.lip6.move.coloane.interfaces.formalism.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="transition-transition"
+                  type="fr.lip6.move.coloane.interfaces.formalism.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="transition">
+               </parameter>
+            </Constraint>
+            <Constraint
+                  link="true"
+                  name="Inhibitor Arc"
+                  type="fr.lip6.move.coloane.interfaces.formalism.constraints.ConnectionConstraint">
+               <parameter
+                     name="source"
+                     value="transition">
+               </parameter>
+               <parameter
+                     name="target"
+                     value="place">
+               </parameter>
+               <parameter
+                     name="arcType"
+                     value="inhibitorarc">
+               </parameter>
+            </Constraint>
          </XmlDescription>
       </Formalism>
    </extension>
