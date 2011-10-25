@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosLexer;
+import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosParser;
 import main.antlr3.fr.lip6.move.coloane.extension.DistributionParserLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.DistributionParserParser;
 
@@ -139,14 +141,14 @@ public class CosmosExport implements IGMLExport {
 
 		// Export model attributes
 		monitor.setTaskName("Export model attributes");
-		IAttribute declarativePart = graph.getAttribute("declaration");
+		IAttribute declarativePart = graph.getAttribute("const definition");
 		if (declarativePart != null) {
 			if (!declarativePart.getValue().equals("")) {
 				symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
 			}
 		}
 		for (IAttribute attr : graph.getAttributes()) {
-			if (!attr.getName().equals("declaration")) {
+			if (!attr.getName().equals("const definition")) {
 				try {
 					exportAttribute(attr, result, monitor, symbolTable);
 				} catch (RecognitionException e) {
@@ -188,7 +190,18 @@ public class CosmosExport implements IGMLExport {
 	 * @throws ExtensionException if the parser throws an exception
 	 */
 	private Map<String, String> exportDeclarativePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
-		/// TODO
+		
+		DeclarativeParserCosmosLexer lexer = new DeclarativeParserCosmosLexer(new ANTLRStringStream(value));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		DeclarativeParserCosmosParser parser = new DeclarativeParserCosmosParser(tokens);
+		parser.setTemplateLib(templates);
+		
+		try {
+			modelST.setAttribute("content", parser.const_list());
+		} catch (RecognitionException e) {
+			throw new ExtensionException("Fail to parse Declarative part");
+		}
+		
 		return null;
 	}
 	
@@ -259,7 +272,7 @@ public class CosmosExport implements IGMLExport {
 	 * @throws RecognitionException if ANTLR throws an exception (guards, marking, valuation)
 	 */
 	private void exportAttribute(IAttribute attr, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException, RecognitionException {
-		if (attr.getName().equals("Distribution")) {
+		if (attr.getName().equals("distribution")) {
 			DistributionParserLexer lexer = new DistributionParserLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			DistributionParserParser parser = new DistributionParserParser(tokens);
