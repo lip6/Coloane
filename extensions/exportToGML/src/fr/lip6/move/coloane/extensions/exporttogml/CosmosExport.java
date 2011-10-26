@@ -20,6 +20,7 @@ import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosParser;
 import main.antlr3.fr.lip6.move.coloane.extension.DistributionParserLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.DistributionParserParser;
+import main.antlr3.fr.lip6.move.coloane.extension.ExpressionParserCosmos;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -189,6 +190,15 @@ public class CosmosExport implements IGMLExport {
 	 * @param monitor monitors the export
 	 * @throws ExtensionException if the parser throws an exception
 	 */
+	
+	private StringTemplate exportIntFormula(String value ) throws ExtensionException {
+		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(value));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
+		parser.setTemplateLib(templates);
+		currentST.setAttribute("content", parser.intExpr());
+	}
+	
 	private Map<String, String> exportDeclarativePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
 		
 		DeclarativeParserCosmosLexer lexer = new DeclarativeParserCosmosLexer(new ANTLRStringStream(value));
@@ -278,6 +288,11 @@ public class CosmosExport implements IGMLExport {
 			DistributionParserParser parser = new DistributionParserParser(tokens);
 			parser.setTemplateLib(templates);
 			currentST.setAttribute("content", parser.distribution());
+		} else if (attr.getName().equals("marking")) {
+			StringTemplate tmp = templates.getInstanceOf("balise");
+			tmp.setAttribute("name", attr.getName());
+			tmp.setAttribute("content", exportIntFormula(attr.getValue()));
+			currentST.setAttribute("content", tmp);
 		} else {
 			StringTemplate tmp = templates.getInstanceOf("balise");
 			tmp.setAttribute("name", attr.getName());
