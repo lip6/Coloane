@@ -20,7 +20,8 @@ import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosParser;
 import main.antlr3.fr.lip6.move.coloane.extension.DistributionParserLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.DistributionParserParser;
-import main.antlr3.fr.lip6.move.coloane.extension.ExpressionParserCosmos;
+import main.antlr3.fr.lip6.move.coloane.extension.ExpressionParserCosmosLexer;
+import main.antlr3.fr.lip6.move.coloane.extension.ExpressionParserCosmosParser;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -182,6 +183,20 @@ public class CosmosExport implements IGMLExport {
 	}
 	
 	/**
+	 * Export a formula
+	 * @param value the string containing the formula to parse
+	 * @return a StringTemplate representing the formula in GML
+	 * @throws RecognitionException if the parsing fails
+	 */
+	private StringTemplate exportIntFormula(String value) throws RecognitionException {
+		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(value));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
+		parser.setTemplateLib(templates);
+		return parser.intExpr().st;
+	}
+	
+	/**
 	 * Export the declarative part
 	 * 
 	 * @return the symbols table
@@ -190,28 +205,19 @@ public class CosmosExport implements IGMLExport {
 	 * @param monitor monitors the export
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	
-	private StringTemplate exportIntFormula(String value ) throws ExtensionException {
-		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(value));
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
-		parser.setTemplateLib(templates);
-		currentST.setAttribute("content", parser.intExpr());
-	}
-	
 	private Map<String, String> exportDeclarativePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
-		
+
 		DeclarativeParserCosmosLexer lexer = new DeclarativeParserCosmosLexer(new ANTLRStringStream(value));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		DeclarativeParserCosmosParser parser = new DeclarativeParserCosmosParser(tokens);
 		parser.setTemplateLib(templates);
-		
+
 		try {
 			modelST.setAttribute("content", parser.const_list());
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Fail to parse Declarative part");
 		}
-		
+
 		return null;
 	}
 	

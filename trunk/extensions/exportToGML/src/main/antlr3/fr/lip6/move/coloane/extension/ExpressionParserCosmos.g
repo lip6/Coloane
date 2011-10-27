@@ -16,28 +16,28 @@ options {
 
 intExpr:
    e=multIntExpr 
-   (                 -> {$e}
+   (                 -> {$e.st}
    | '+' e2=intExpr {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
-    tmplist.add($e);
-    tmplist.add($e2);   
+    tmplist.add($e.st);
+    tmplist.add($e2.st);   
    } -> balise(name={"iplus"}, content={ tmplist })
    | '-' e2=intExpr {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
-    tmplist.add($e);
-    tmplist.add($e2);   
+    tmplist.add($e.st);
+    tmplist.add($e2.st);   
    } -> balise(name={"iminus"}, content={ tmplist })
-   )
+   ) EOF
    ;
 
 multIntExpr
   : e=intAtom 
   (
-                  -> {$e}
+                  -> {$e.st}
   | '*' e2=multIntExpr {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
-    tmplist.add($e);
-    tmplist.add($e2);   
+    tmplist.add($e.st);
+    tmplist.add($e2.st);   
    } -> balise(name={"imult"}, content={ tmplist })
   )
   ;
@@ -45,7 +45,7 @@ multIntExpr
 intAtom: 
    i=IDENTIFIER -> balise(name={"intConst"}, content={ $i.getText() }) 
   | i=INTEGER -> balise(name={"value"}, content={ $i.getText() }) 
-  | '(' e=intExpr ')' -> {$e}
+  | '(' e=intExpr ')' -> {$e.st}
   ;
 
 
