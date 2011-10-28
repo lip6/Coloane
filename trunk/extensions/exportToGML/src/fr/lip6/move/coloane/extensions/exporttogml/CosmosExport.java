@@ -18,8 +18,6 @@ import java.util.Map;
 
 import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosParser;
-import main.antlr3.fr.lip6.move.coloane.extension.DistributionParserLexer;
-import main.antlr3.fr.lip6.move.coloane.extension.DistributionParserParser;
 import main.antlr3.fr.lip6.move.coloane.extension.ExpressionParserCosmosLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.ExpressionParserCosmosParser;
 
@@ -188,13 +186,30 @@ public class CosmosExport implements IGMLExport {
 	 * @return a StringTemplate representing the formula in GML
 	 * @throws RecognitionException if the parsing fails
 	 */
-	private StringTemplate exportIntFormula(String value) throws RecognitionException {
-		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(value));
+	private void exportIntFormula(IAttribute attr, StringTemplate currentST, Map<String, String> symbols) throws RecognitionException {
+		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
 		parser.setTemplateLib(templates);
-		return parser.intExpr().st;
+		
+		StringTemplate tmp = templates.getInstanceOf("balise");
+		tmp.setAttribute("name", attr.getName());
+		tmp.setAttribute("content", parser.intExprW(symbols).st);
+		currentST.setAttribute("content", tmp);
 	}
+	
+	private void exportRealFormula(IAttribute attr, StringTemplate currentST, Map<String, String> symbols) throws RecognitionException {
+		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
+		parser.setTemplateLib(templates);
+		
+		StringTemplate tmp = templates.getInstanceOf("balise");
+		tmp.setAttribute("name", attr.getName());
+		tmp.setAttribute("content", parser.realExprW(symbols).st);
+		currentST.setAttribute("content", tmp);
+	}
+	
 	
 	/**
 	 * Export the declarative part
@@ -218,7 +233,7 @@ public class CosmosExport implements IGMLExport {
 			throw new ExtensionException("Fail to parse Declarative part");
 		}
 
-		return null;
+		return parser.getSymbols();
 	}
 	
 	/**
@@ -289,16 +304,18 @@ public class CosmosExport implements IGMLExport {
 	 */
 	private void exportAttribute(IAttribute attr, StringTemplate currentST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException, RecognitionException {
 		if (attr.getName().equals("distribution")) {
-			DistributionParserLexer lexer = new DistributionParserLexer(new ANTLRStringStream(attr.getValue()));
+			ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
-			DistributionParserParser parser = new DistributionParserParser(tokens);
+			ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
 			parser.setTemplateLib(templates);
-			currentST.setAttribute("content", parser.distribution());
-		} else if (attr.getName().equals("marking")) {
-			StringTemplate tmp = templates.getInstanceOf("balise");
-			tmp.setAttribute("name", attr.getName());
-			tmp.setAttribute("content", exportIntFormula(attr.getValue()));
-			currentST.setAttribute("content", tmp);
+			currentST.setAttribute("content", parser.distribution(symbols));
+		} else if (attr.getName().equals("marking") 
+				 | attr.getName().equals("valuation")
+				 | attr.getName().equals("service")) {
+			exportIntFormula(attr, currentST ,symbols);
+		} else if (attr.getName().equals("priority") 
+				 | attr.getName().equals("weight")) {
+			exportRealFormula(attr, currentST ,symbols);
 		} else {
 			StringTemplate tmp = templates.getInstanceOf("balise");
 			tmp.setAttribute("name", attr.getName());
