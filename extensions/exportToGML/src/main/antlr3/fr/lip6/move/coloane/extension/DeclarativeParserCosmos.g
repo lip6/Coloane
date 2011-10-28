@@ -11,7 +11,15 @@ options {
 
 @header {
   package main.antlr3.fr.lip6.move.coloane.extension;
+  
+  import java.util.Map;
+  import java.util.HashMap;
 }
+
+@members {
+    Map<String, String> symbols = new HashMap<String, String>();
+    public Map<String, String> getSymbols() { return symbols; }
+  }
 
 const_list
   : -> { %{""} }
@@ -27,6 +35,7 @@ const_list
   
   constdef
   : INT c=STRING EQUAL s=STRING  {
+      symbols.put($c.getText(),"intconst");
       StringTemplate tmp1 = templateLib.getInstanceOf("balise");
       tmp1.setAttribute("name", "constName");
       tmp1.setAttribute("content", $c.getText());
@@ -48,6 +57,7 @@ const_list
       //balise(name={"intConstDeclaration"}, content={ tmplist })
       
   | REAL c=STRING EQUAL s=STRING  {
+      symbols.put($c.getText(),"realconst");
       StringTemplate tmp1 = templateLib.getInstanceOf("balise");
       tmp1.setAttribute("name", "constName");
       tmp1.setAttribute("content", $c.getText());
