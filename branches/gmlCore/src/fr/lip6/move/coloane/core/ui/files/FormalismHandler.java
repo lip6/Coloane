@@ -41,9 +41,9 @@ public class FormalismHandler extends DefaultHandler {
 	public final void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
 		if (IModelHandler.MODEL_MARKUP.equals(name)) {
 			// Fetch the formalism value
-			String formalismName = attributes.getValue(IModelHandler.MODEL_FORMALISM_MARKUP);
+			String formalismUrl = attributes.getValue(IModelHandler.MODEL_FORMALISM_MARKUP);
 			try {
-				formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
+				formalism = FormalismManager.getInstance().getFormalismByUrl(formalismUrl);
 			} catch (IllegalArgumentException e) {
 				throw new SAXException(e);
 			}

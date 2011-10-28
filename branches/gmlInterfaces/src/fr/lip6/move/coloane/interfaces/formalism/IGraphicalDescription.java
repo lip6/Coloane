@@ -18,7 +18,7 @@ package fr.lip6.move.coloane.interfaces.formalism;
 import org.eclipse.draw2d.IFigure;
 
 /**
- * Cette classe regroupe toutes les informations grapgique relative à un élément de formalisme
+ * Cette classe regroupe toutes les informations graphiques relative à un élément de formalisme
  */
 public interface IGraphicalDescription {
 

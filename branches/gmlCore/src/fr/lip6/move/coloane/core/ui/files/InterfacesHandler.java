@@ -178,7 +178,7 @@ public class InterfacesHandler extends DefaultHandler {
 			// Récupération du nom du formalisme
 			String formalismName = attributes.getValue(IModelHandler.MODEL_FORMALISM_MARKUP);
 			try {
-				formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
+				formalism = FormalismManager.getInstance().getFormalismByUrl(formalismName);
 			} catch (IllegalArgumentException e) {
 				throw new SAXException(e);
 			}

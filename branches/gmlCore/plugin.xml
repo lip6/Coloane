@@ -517,18 +517,18 @@
  <extension
        point="fr.lip6.move.coloane.core.formalisms">
     <formalism
-          href="http://alligator.lip6.fr/pt-net.fml"
-          id="ptnet"
-          image="resources/formalisms/ptn/ptn.png"
-          name="Place/Transition-Net">
+          href="http://alligator.lip6.fr/s-net.fml"
+          id="snet"
+          image="resources/formalisms/cpn/cpn.png"
+          name="Symmetric-Net">
        <GraphicInfo
              associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
              description="Create a place"
              drawable="true"
              fill="false"
              height="15"
-             icon16px="resources/formalisms/ptn/place_16.png"
-             icon24px="resources/formalisms/ptn/place_24.png"
+             icon16px="resources/formalisms/cpn/place_16.png"
+             icon24px="resources/formalisms/cpn/place_24.png"
              palettable="true"
              paletteName="Place"
              refName="place"
@@ -540,8 +540,8 @@
              drawable="true"
              fill="false"
              height="7"
-             icon16px="resources/formalisms/ptn/transition_16.png"
-             icon24px="resources/formalisms/ptn/transition_24.png"
+             icon16px="resources/formalisms/cpn/transition_16.png"
+             icon24px="resources/formalisms/cpn/transition_24.png"
              palettable="true"
              paletteName="Transition"
              refName="transition"
@@ -551,12 +551,18 @@
              associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
              description="Create an arc"
              drawable="true"
-             icon16px="resources/formalisms/ptn/arc_16.png"
-             icon24px="resources/formalisms/ptn/arc_24.png"
+             icon16px="resources/formalisms/cpn/arc_16.png"
+             icon24px="resources/formalisms/cpn/arc_24.png"
              palettable="true"
              paletteName="Arc"
              refName="arc">
        </GraphicInfo>
+       <AttributeGraphicInfo
+             drawable="true"
+             multiline="true"
+             name="guard"
+             refName="transition">
+       </AttributeGraphicInfo>
     </formalism>
  </extension>
 </plugin>

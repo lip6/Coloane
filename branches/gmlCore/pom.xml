@@ -12,5 +12,14 @@
     <packaging>eclipse-plugin</packaging>
     <name>Application :: Core</name>
     <description>Coloane kernel plugin</description>
+    <dependencies>
+    	<dependency>
+    		<groupId>gml-check</groupId>
+    		<artifactId>gml-check</artifactId>
+    		<version>1.2-SNAPSHOT</version>
+    		<type>jar</type>
+    		<scope>compile</scope>
+    	</dependency>
+    </dependencies>
 
 </project>

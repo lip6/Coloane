@@ -50,9 +50,7 @@
   </xs:group>
   <xs:element name="arc">
     <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model:arc.content"/>
-      </xs:sequence>
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="model:arc.content"/>
       <xs:attributeGroup ref="model:identifier"/>
       <xs:attribute name="xposition" type="xs:int"/>
       <xs:attribute name="yposition" type="xs:int"/>
@@ -61,14 +59,20 @@
       <xs:attribute name="target" use="required" type="xs:positiveInteger"/>
     </xs:complexType>
   </xs:element>
-  <xs:element name="arc.content" abstract="true"/>
-  <xs:element name="pi" substitutionGroup="model:arc.content">
+  <xs:group name="arc.content">
+    <xs:choice>
+      <xs:element ref="model:attribute"/>
+      <xs:element ref="model:pi"/>
+      <xs:element ref="model:ref"/>
+    </xs:choice>
+  </xs:group>
+  <xs:element name="pi">
     <xs:complexType>
       <xs:attributeGroup ref="model:xposition"/>
       <xs:attributeGroup ref="model:yposition"/>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ref" substitutionGroup="model:arc.content">
+  <xs:element name="ref">
     <xs:complexType>
       <xs:attribute name="href" use="required" type="xs:anyURI"/>
     </xs:complexType>

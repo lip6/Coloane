@@ -15,6 +15,7 @@
  */
 package fr.lip6.move.coloane.core.model;
 
+import fr.lip6.move.coloane.core.formalisms.elements.GraphicalDescription;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphicalDescription;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.interfaces.model.INodeGraphicInfo;
@@ -267,6 +268,10 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	 * @return The current graphical description (according to the index)
 	 */
 	private IGraphicalDescription getCurrentGraphicalDescription() {
+		//if there is no description, return a default one.
+		if (this.nodeFormalismGraphicalDescriptions.isEmpty()) {
+			this.nodeFormalismGraphicalDescriptions.add(GraphicalDescription.getDefault(this.node.getElemFormalism().getName(), true));
+		}
 		return this.nodeFormalismGraphicalDescriptions.get(this.gdIndex);
 	}
 

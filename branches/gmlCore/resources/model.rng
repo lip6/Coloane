@@ -118,6 +118,7 @@
     <define name="arc.content">
         <choice>
             <ref name="ref.element"/>
+            <ref name="attribute.element"/>
             <ref name="pi.element"/>
         </choice>
     </define>

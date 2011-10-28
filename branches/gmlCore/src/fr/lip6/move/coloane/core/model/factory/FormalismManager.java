@@ -29,8 +29,12 @@ import fr.lip6.move.coloane.interfaces.formalism.IXtextProvider;
 import fr.lip6.move.coloane.interfaces.formalism.constraints.IConstraintLink;
 import fr.lip6.move.coloane.interfaces.formalism.constraints.IConstraintNode;
 
+import fr.lip6.move.neoppod.gml.GmlCheckExecutables;
+import fr.lip6.move.neoppod.gml.Model;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.net.URL;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -38,6 +42,8 @@ import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import net.sf.saxon.s9api.SaxonApiException;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -101,15 +107,22 @@ public final class FormalismManager {
 		Formalism form;
 		LOGGER.fine("Build a formalism " + name + "- Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$
 		form = new Formalism(id, name, href, image);
-		URL url;
 
 		try {
-			url = new URL(href);
 			SAXParserFactory factory = SAXParserFactory.newInstance();
+
+			GmlCheckExecutables executables = new GmlCheckExecutables();
+			String testModel = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><model formalismUrl=\""; //$NON-NLS-1$
+			testModel += href;
+			testModel += "\" xmlns=\"http://gml.lip6.fr/model\"></model>\n"; //$NON-NLS-1$
+			Model m = new Model(executables, new StringReader(testModel));
+
 			SAXParser saxParser = factory.newSAXParser();
+			System.out.println(m.getFormalism().getData());
 			SaxHandler handler = new SaxHandler((Formalism) form);
-			saxParser.parse(url.openStream(), handler);
+			saxParser.parse(new ByteArrayInputStream(m.getFormalism().getData().getBytes("UTF-8")), handler); //$NON-NLS-1$
 			form = handler.getFormalism();
+
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,12 +132,18 @@ public final class FormalismManager {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (SaxonApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		// Get the graphic descriptions for nodes and arcs
 		IConfigurationElement[] graphics = description.getChildren("GraphicInfo"); //$NON-NLS-1$
 		for (IConfigurationElement graphic : graphics) {
 			IElementFormalism e = form.getElementFormalism(graphic.getAttribute("refName")); //$NON-NLS-1$
+			if (e == null) {
+				continue;
+			}
 			this.buildGraphicalDescription(e, graphic);
 		}
 
@@ -132,6 +151,9 @@ public final class FormalismManager {
 		graphics = description.getChildren("AttributeGraphicInfo"); //$NON-NLS-1$
 		for (IConfigurationElement graphic : graphics) {
 			IAttributeFormalism e = form.getAttributeFormalism(graphic.getAttribute("name"), graphic.getAttribute("refName")); //$NON-NLS-1$ //$NON-NLS-2$
+			if (e == null) {
+				continue;
+			}
 			this.buildAttributeGraphicalDescription(graphic, e);
 		}
 
@@ -227,69 +249,63 @@ public final class FormalismManager {
 	 * <b>The first available graphical description is the default one.</b></br>
 	 * Others are considered as alternatives.
 	 * @param element Formalism element that is currently parsed. (considered as the parent)
-	 * @param description Element description. This description may contains attributes
+	 * @param graphicalDescription Element description. This description may contains attributes
 	 */
-	private void buildGraphicalDescription(IElementFormalism element, IConfigurationElement description) {
-		// Browse graphical description for the element
-		IConfigurationElement[] graphicalDescriptions = description.getChildren("GraphicInfo"); //$NON-NLS-1$
+	private void buildGraphicalDescription(IElementFormalism element, IConfigurationElement graphicalDescription) {
+		// Build a GraphicalDescription object
+		GraphicalDescription gd = new GraphicalDescription(Boolean.parseBoolean(graphicalDescription.getAttribute("palettable")), Boolean.parseBoolean(graphicalDescription.getAttribute("drawable"))); //$NON-NLS-1$ //$NON-NLS-2$
+		LOGGER.finer("Build the graphical decription for the element : " + element.getName()); //$NON-NLS-1$
 
-		for (IConfigurationElement graphicalDescription : graphicalDescriptions) {
-
-			// Build a GraphicalDescription object
-			GraphicalDescription gd = new GraphicalDescription(Boolean.parseBoolean(graphicalDescription.getAttribute("palettable")), Boolean.parseBoolean(graphicalDescription.getAttribute("drawable"))); //$NON-NLS-1$ //$NON-NLS-2$
-			LOGGER.finer("Build the graphical decription for the element : " + element.getName()); //$NON-NLS-1$
-
-			if (graphicalDescription.getAttribute("paletteName") != null) { //$NON-NLS-1$
-				gd.setPaletteName(graphicalDescription.getAttribute("paletteName")); //$NON-NLS-1$
-				LOGGER.finest("Add a palette name for the element : " + element.getName()); //$NON-NLS-1$
-			}
-			if (graphicalDescription.getAttribute("description") != null) { //$NON-NLS-1$
-				gd.setDescription(graphicalDescription.getAttribute("description")); //$NON-NLS-1$
-				LOGGER.finest("Add a description for the element : " + element.getName()); //$NON-NLS-1$
-			}
-			if (graphicalDescription.getAttribute("fill") != null) { //$NON-NLS-1$
-				gd.setFilled(Boolean.parseBoolean(graphicalDescription.getAttribute("fill"))); //$NON-NLS-1$
-				LOGGER.finest("Add a fill state for the element : " + element.getName()); //$NON-NLS-1$
-			}
-			if (graphicalDescription.getAttribute("height") != null) { //$NON-NLS-1$
-				gd.setHeight(graphicalDescription.getAttribute("height")); //$NON-NLS-1$
-				LOGGER.finest("Add the height of the element : " + element.getName()); //$NON-NLS-1$
-			}
-			if (graphicalDescription.getAttribute("width") != null) { //$NON-NLS-1$
-				gd.setWidth(graphicalDescription.getAttribute("width")); //$NON-NLS-1$
-				LOGGER.finest("Add the width of the element : " + element.getName()); //$NON-NLS-1$
-			}
-			if (graphicalDescription.getAttribute("icon16px") != null) { //$NON-NLS-1$
-				gd.setIcon16px(graphicalDescription.getAttribute("icon16px")); //$NON-NLS-1$
-				LOGGER.finest("Add the 16px icon for the element : " + element.getName()); //$NON-NLS-1$
-			}
-			if (graphicalDescription.getAttribute("icon24px") != null) { //$NON-NLS-1$
-				gd.setIcon24px(graphicalDescription.getAttribute("icon24px")); //$NON-NLS-1$
-				LOGGER.finest("Add the 24px icon for the element : " + element.getName()); //$NON-NLS-1$
-			}
-
-			// Associate a graphical figure description (class) to the element
-			if (graphicalDescription.getAttribute("associatedFigure") != null) { //$NON-NLS-1$
-				try {
-					Object associatedFigure = graphicalDescription.createExecutableExtension("associatedFigure"); //$NON-NLS-1$
-					gd.setAssociatedFigure(associatedFigure.getClass());
-					LOGGER.finest("Add the associated figure for the element : " + element.getName()); //$NON-NLS-1$
-				} catch (CoreException e) {
-					LOGGER.warning("Something went wrong when we tried to add the figure to the element : " + element.getName() + " ( " + e.getMessage() + " )"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				}
-			} else {
-			// if no figure is given, give one by default, else there is a crash when
-			// the figure is created, and crashing is bad.
-				if (element instanceof ArcFormalism) {
-					gd.setAssociatedFigure(DirectedArc.class);
-				} else if (element instanceof NodeFormalism) {
-					gd.setAssociatedFigure(EllipseNode.class);
-				}
-			}
-
-			// Add the graphical description to the parent's list
-			element.addGraphicalDescription(gd);
+		if (graphicalDescription.getAttribute("paletteName") != null) { //$NON-NLS-1$
+			gd.setPaletteName(graphicalDescription.getAttribute("paletteName")); //$NON-NLS-1$
+			LOGGER.finest("Add a palette name for the element : " + element.getName()); //$NON-NLS-1$
 		}
+		if (graphicalDescription.getAttribute("description") != null) { //$NON-NLS-1$
+			gd.setDescription(graphicalDescription.getAttribute("description")); //$NON-NLS-1$
+			LOGGER.finest("Add a description for the element : " + element.getName()); //$NON-NLS-1$
+		}
+		if (graphicalDescription.getAttribute("fill") != null) { //$NON-NLS-1$
+			gd.setFilled(Boolean.parseBoolean(graphicalDescription.getAttribute("fill"))); //$NON-NLS-1$
+			LOGGER.finest("Add a fill state for the element : " + element.getName()); //$NON-NLS-1$
+		}
+		if (graphicalDescription.getAttribute("height") != null) { //$NON-NLS-1$
+			gd.setHeight(graphicalDescription.getAttribute("height")); //$NON-NLS-1$
+			LOGGER.finest("Add the height of the element : " + element.getName()); //$NON-NLS-1$
+		}
+		if (graphicalDescription.getAttribute("width") != null) { //$NON-NLS-1$
+			gd.setWidth(graphicalDescription.getAttribute("width")); //$NON-NLS-1$
+			LOGGER.finest("Add the width of the element : " + element.getName()); //$NON-NLS-1$
+		}
+		if (graphicalDescription.getAttribute("icon16px") != null) { //$NON-NLS-1$
+			gd.setIcon16px(graphicalDescription.getAttribute("icon16px")); //$NON-NLS-1$
+			LOGGER.finest("Add the 16px icon for the element : " + element.getName()); //$NON-NLS-1$
+		}
+		if (graphicalDescription.getAttribute("icon24px") != null) { //$NON-NLS-1$
+			gd.setIcon24px(graphicalDescription.getAttribute("icon24px")); //$NON-NLS-1$
+			LOGGER.finest("Add the 24px icon for the element : " + element.getName()); //$NON-NLS-1$
+		}
+
+		// Associate a graphical figure description (class) to the element
+		if (graphicalDescription.getAttribute("associatedFigure") != null) { //$NON-NLS-1$
+			try {
+				Object associatedFigure = graphicalDescription.createExecutableExtension("associatedFigure"); //$NON-NLS-1$
+				gd.setAssociatedFigure(associatedFigure.getClass());
+				LOGGER.finest("Add the associated figure for the element : " + element.getName()); //$NON-NLS-1$
+			} catch (CoreException e) {
+				LOGGER.warning("Something went wrong when we tried to add the figure to the element : " + element.getName() + " ( " + e.getMessage() + " )"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			}
+		} else {
+		// if no figure is given, give one by default, else there is a crash when
+		// the figure is created, and crashing is bad.
+			if (element instanceof ArcFormalism) {
+				gd.setAssociatedFigure(DirectedArc.class);
+			} else if (element instanceof NodeFormalism) {
+				gd.setAssociatedFigure(EllipseNode.class);
+			}
+		}
+
+		// Add the graphical description to the parent's list
+		element.addGraphicalDescription(gd);
 	}
 
 	/**

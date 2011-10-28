@@ -49,11 +49,6 @@ public class SaxHandler extends DefaultHandler {
 
 		} else {
 
-			if (qName.equals("include")) { //$NON-NLS-1$
-				//work out inclusions....
-				//maybe do it in the constructor somehow? I don't know
-			}
-
 			if (qName.equals("nodeType")) { //$NON-NLS-1$
 				NodeFormalism node = new NodeFormalism(attributes.getValue("name"), form); //$NON-NLS-1$
 				form.addElement(node);
