@@ -41,7 +41,11 @@ const_list
       tmp1.setAttribute("content", $c.getText());
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
       tmp2.setAttribute("name", "intFormula");
-      tmp2.setAttribute("content", $s.getText());
+      StringTemplate tmp3 = templateLib.getInstanceOf("balise");
+      tmp3.setAttribute("name", "value");
+      tmp3.setAttribute("content", $s.getText());
+      
+      tmp2.setAttribute("content", tmp3);
       
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
       tmplist.add(tmp1);
@@ -63,7 +67,12 @@ const_list
       tmp1.setAttribute("content", $c.getText());
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
       tmp2.setAttribute("name", "realFormula");
-      tmp2.setAttribute("content", $s.getText());
+      
+      StringTemplate tmp3 = templateLib.getInstanceOf("balise");
+      tmp3.setAttribute("name", "value");
+      tmp3.setAttribute("content", $s.getText());
+      
+      tmp2.setAttribute("content", tmp3);
       
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
       tmplist.add(tmp1);
