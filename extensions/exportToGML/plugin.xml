@@ -20,6 +20,12 @@
          <AcceptedFormalism
                id="fr.lip6.move.coloane.formalism.cosmos.gspn">
          </AcceptedFormalism>
+         <AcceptedFormalism
+               id="Timed Automata">
+         </AcceptedFormalism>
+         <AcceptedFormalism
+               id="fr.lip6.move.coloane.formalism.cosmos.lha">
+         </AcceptedFormalism>
       </Export>
    </extension>
    <extension

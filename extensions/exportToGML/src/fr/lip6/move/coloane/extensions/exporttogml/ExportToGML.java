@@ -77,7 +77,9 @@ public class ExportToGML implements IExportTo {
 		/// TODO
 		IGMLExport result = null;
 		try {
-			if (formalism.equals("Cosmos")) {
+			if (formalism.equals("Cosmos") 
+				| formalism.equals("Timed Automata")
+				| formalism.equals("CosmosLHA")) {
 				result = new CosmosExport(formalism);
 			} else {
 				result =  new SNBExport(formalism);

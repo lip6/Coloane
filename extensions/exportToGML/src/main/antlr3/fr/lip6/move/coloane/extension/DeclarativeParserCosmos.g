@@ -30,7 +30,7 @@ const_list
       tmp.add((StringTemplate)x);
     }
     
-  } -> balise(name={"constDeclaration"}, content={ tmp })
+  } -> balise(name={"declarations"}, content={ tmp })
   ;
   
   constdef
@@ -84,11 +84,24 @@ const_list
       
       } -> delist(arg={tmp})
       
+   | VARIABLE c=STRING  {
+      symbols.put($c.getText(),"variable");
+      StringTemplate tmp1 = templateLib.getInstanceOf("balise");
+      tmp1.setAttribute("name", "varName");
+      tmp1.setAttribute("content", $c.getText());
+      StringTemplate tmp2 = templateLib.getInstanceOf("balise");
+      tmp2.setAttribute("name", "variable");
+      tmp2.setAttribute("content", tmp1);
+      
+      } -> delist(arg={tmp2})
       //balise(name={"realConstDeclaration"}, content={ tmplist })
   ;
   
+
+  VARIABLE : 'var';
   EQUAL : '=';
   SEMICOLON : ';' ;
+  COMMA : ',' ;
   INT : 'int';
   REAL : 'real';
   
