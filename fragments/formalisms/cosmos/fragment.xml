@@ -141,7 +141,7 @@
                <Attribute
                      drawable="true"
                      multiline="true"
-                     name="const definition">
+                     name="declarations">
                </Attribute>
             </Graph>
             <Constraint
