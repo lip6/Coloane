@@ -152,7 +152,7 @@ public class CosmosExport implements IGMLExport {
 		IAttribute declarativePart = graph.getAttribute("declarations");
 		if (declarativePart != null) {
 			if (!declarativePart.getValue().equals("")) {
-				symbolTable = exportDeclarativePart(declarativePart.getValue(),result, monitor);
+				symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
 			}
 		}
 		for (IAttribute attr : graph.getAttributes()) {
@@ -190,8 +190,9 @@ public class CosmosExport implements IGMLExport {
 	
 	/**
 	 * Export a formula
-	 * @param value the string containing the formula to parse
-	 * @return a StringTemplate representing the formula in GML
+	 * @param attr the string containing the formula to parse
+	 * @param currentST the StringTemplate to update with the result of the export of the formula
+	 * @param symbols the table of symbols
 	 * @throws RecognitionException if the parsing fails
 	 */
 	private void exportIntFormula(IAttribute attr, StringTemplate currentST, Map<String, String> symbols) throws RecognitionException {
@@ -199,31 +200,47 @@ public class CosmosExport implements IGMLExport {
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
 		parser.setTemplateLib(templates);
-		
+
 		StringTemplate tmp = templates.getInstanceOf("balise");
 		tmp.setAttribute("name", attr.getName());
 		tmp.setAttribute("content", parser.intExprW(symbols).st);
 		currentST.setAttribute("content", tmp);
 	}
 	
+	/**
+	 * Exports a real formula
+	 * 
+	 * @param attr the attribute containing the formula to parse
+	 * @param currentST the StringTemplate to update with the result of the export
+	 * @param symbols the table of symbols
+	 * @throws RecognitionException if the parsing fails
+	 */
 	private void exportRealFormula(IAttribute attr, StringTemplate currentST, Map<String, String> symbols) throws RecognitionException {
 		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
 		parser.setTemplateLib(templates);
-		
+
 		StringTemplate tmp = templates.getInstanceOf("balise");
 		tmp.setAttribute("name", attr.getName());
 		tmp.setAttribute("content", parser.realExprW(symbols).st);
 		currentST.setAttribute("content", tmp);
 	}
 	
+	/**
+	 * Exports a boolean formula
+	 * 
+	 * @param attr the attribute containing the formula to parse
+	 * @param currentST the StringTemplate to update with the result of the export
+	 * @param symbols the table of symbols
+	 * @throws RecognitionException if the parsing fails
+	 */
 	private void exportBoolFormula(IAttribute attr, StringTemplate currentST, Map<String, String> symbols) throws RecognitionException {
 		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
 		ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
 		parser.setTemplateLib(templates);
-		
+
 		StringTemplate tmp = templates.getInstanceOf("balise");
 		tmp.setAttribute("name", attr.getName());
 		tmp.setAttribute("content", parser.boolExprW(symbols).st);
@@ -356,16 +373,16 @@ public class CosmosExport implements IGMLExport {
 			ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
 			parser.setTemplateLib(templates);
 			currentST.setAttribute("content", parser.distribution(symbols));
-		} else if (attr.getName().equals("marking") 
+		} else if (attr.getName().equals("marking")
 				 | attr.getName().equals("valuation")
 				 | attr.getName().equals("service")) {
-			exportIntFormula(attr, currentST ,symbols);
-		} else if (attr.getName().equals("priority") 
+			exportIntFormula(attr, currentST, symbols);
+		} else if (attr.getName().equals("priority")
 				 | attr.getName().equals("weight")) {
-			exportRealFormula(attr, currentST ,symbols);
-		} else if (attr.getName().equals("guard") 
+			exportRealFormula(attr, currentST, symbols);
+		} else if (attr.getName().equals("guard")
 				 | attr.getName().equals("invariant")) {
-			exportBoolFormula(attr, currentST ,symbols);
+			exportBoolFormula(attr, currentST, symbols);
 		} else if (attr.getName().equals("action")) {
 			ActionCosmosParserLexer lexer = new ActionCosmosParserLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
