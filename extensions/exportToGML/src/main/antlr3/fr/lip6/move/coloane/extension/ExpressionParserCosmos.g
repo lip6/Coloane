@@ -227,17 +227,17 @@ boolExpr:
    
 atomBoolExpr:
  '(' e=boolExpr ')' -> {$e.st}
-  | '['a=realExpr o=OP b=realExpr']' {
+  | '['a=realExpr (o='<>' | o='<' | o='>' | o='<=' | o='>=' | o='=') b=realExpr']' {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($a.st);
     tmplist.add($b.st);
     String op = "";
-    if($o.getText().equals("<>"))op="diff";
-    if($o.getText().equals("="))op="eq";
-    if($o.getText().equals("<"))op="ll";
-    if($o.getText().equals(">"))op="gg";
-    if($o.getText().equals("<="))op="leq";
-    if($o.getText().equals(">="))op="geq";
+    if($o.getText().equals("<>"))op="notEqual";
+    if($o.getText().equals("="))op="equal";
+    if($o.getText().equals("<"))op="less";
+    if($o.getText().equals(">"))op="greater";
+    if($o.getText().equals("<="))op="lessEqual";
+    if($o.getText().equals(">="))op="greaterEqual";
   } -> balise(name={op}, content={ tmplist })
   | TRUE -> balise(name={"boolean"}, content={"true"})
   | FALSE -> balise(name={"boolean"}, content={"false"});
@@ -295,9 +295,14 @@ flow[Map<String,String> s]
       tmp.setAttribute("name", "variable");
       tmp.setAttribute("content", $a.getText());
   
+      StringTemplate tmp3 = templateLib.getInstanceOf("balise");
+      tmp3.setAttribute("name", "realFormula");
+      tmp3.setAttribute("content", $e.st);
+  
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
       tmplist.add(tmp);
-      tmplist.add($e.st);
+      tmplist.add(tmp3);
+  
   
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
       tmp2.setAttribute("name", "flowvar");
@@ -305,7 +310,6 @@ flow[Map<String,String> s]
       } -> delist(arg={tmp2})
       ;
    
-OP: '=' | '<' | '>' | '<=' | '>=';
 TRUE: 'true' | 'TRUE' | 'True';
 FALSE: 'false' | 'FALSE' | 'False';
 POWER: 'power' | 'POWER';

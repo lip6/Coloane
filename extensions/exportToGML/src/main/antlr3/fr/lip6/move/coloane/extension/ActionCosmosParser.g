@@ -16,7 +16,7 @@ options {
 
 
 action:
-  ALL EOF -> balise(name={"action"}, content={ "" })
+  ALL EOF -> balise(name={"action"}, content={ "ALL" })
   | SHARP EOF -> balise(name={"action"}, content={ "#" })
   | a+=actionname (',' a+=actionname)* EOF
   {
