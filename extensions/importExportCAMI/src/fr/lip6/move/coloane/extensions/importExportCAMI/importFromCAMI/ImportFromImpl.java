@@ -191,10 +191,10 @@ public class ImportFromImpl implements IImportFrom {
 		INode node = model.getNode(this.ids.get(ref));
 		if (node != null) {
 			IAttribute attribute = node.getAttribute(name);
-			/** Special case to allow import of CAMI P/T nets into Time PEtri nets: 
+			/** Special case to allow import of CAMI P/T nets into Time Petri nets:
 			 * "name" attribute is the transition "label" in TPN.
 			 */
-			if (attribute==null && name.equals("name")) {
+			if (attribute == null && name.equals("name")) {
 				attribute = node.getAttribute("label");
 			}
 
@@ -256,10 +256,10 @@ public class ImportFromImpl implements IImportFrom {
 		INode node = model.getNode(this.ids.get(ref));
 		if (node != null) {
 			IAttribute attribute = node.getAttribute(name);
-			/** Special case to allow import of CAMI P/T nets into Time PEtri nets: 
+			/** Special case to allow import of CAMI P/T nets into Time Petri nets:
 			 * "name" attribute is the transition "label" in TPN.
 			 */
-			if (attribute==null && name.equals("name")) {
+			if (attribute == null && name.equals("name")) {
 				attribute = node.getAttribute("label");
 			}
 			if (attribute != null) {
