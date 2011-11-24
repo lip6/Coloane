@@ -4,7 +4,6 @@ import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.Writer;
-import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -20,14 +19,9 @@ public interface IGMLExport {
 	 * 
 	 * @param graph the Coloane model to export
 	 * @param writer the destination of the export
+	 * @param formalismURL the URL of the target FML
 	 * @param monitor to monitor the export
 	 * @throws ExtensionException if the export fails
 	 */
-	void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException;
-	
-	/**
-	 * To get the Coloane formalisms handled by the export
-	 * @return the list of formalisms handled by the export
-	 */
-	List<String> getFormalisms();
+	void export(IGraph graph, Writer writer, String formalismURL, IProgressMonitor monitor) throws ExtensionException;
 }

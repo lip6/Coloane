@@ -33,7 +33,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public class ExportToGML implements IExportTo {
 	
 	/**
-	 * Initialize the formalismMap
+	 * The constructor
 	 */
 	public ExportToGML() {
 	}
@@ -63,8 +63,8 @@ public class ExportToGML implements IExportTo {
 	 * @throws ExtensionException if the parser throws an exception
 	 */
 	public final void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException {
-		IGMLExport exporter = createExporterInstance(graph.getFormalism().getName());
-		exporter.export(graph, writer, monitor);
+		Exporter exporter = createExporterInstance(graph.getFormalism().getId());
+		exporter.getInstance().export(graph, writer, exporter.getFormalism(), monitor);
 	}
 	
 	/**
@@ -73,23 +73,7 @@ public class ExportToGML implements IExportTo {
 	 * @param formalism the Coloane formalism of the model to be exported
 	 * @return an appropriate exporter for the formalism
 	 */
-	private static IGMLExport createExporterInstance(String formalism) {
-		/// TODO
-		IGMLExport result = null;
-		try {
-			if (formalism.equals("Cosmos")
-				| formalism.equals("Timed Automata")
-				| formalism.equals("CosmosLHA")) {
-				result = new CosmosExport(formalism);
-			} else {
-				result =  new SNBExport(formalism);
-			} // else {
-				/// TODO should throw an exception or at least say that an appropriate exporter cannot be found
-			//}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return result;
+	private static Exporter createExporterInstance(String formalism) {
+		return Activator.getDefault().getMap().get(formalism);
 	}
 }
