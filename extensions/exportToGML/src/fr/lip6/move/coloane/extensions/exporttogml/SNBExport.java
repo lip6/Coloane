@@ -11,9 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -81,33 +79,23 @@ public class SNBExport implements IGMLExport {
 	private StringTemplateGroup templates;
 	
 	/**
-	 * Map to convert Coloane formalism names to FML url.
-	 */
-	private final Map<String, String> formalismMap = new HashMap<String, String>();
-	
-	/**
 	 * The constructor
 	 * 
-	 * @param form the Coloane formalism of the model being exported
 	 * @throws IOException if the initialization of the StringTemplateGroup fails
 	 */
-	public SNBExport(String form) throws IOException {
-		// TODO: Put the associated FML URL into Coloane Formalism extension
-		formalismMap.put("PT-Net", "http://alligator.lip6.fr/pt-net.fml");
-		formalismMap.put("CPN", "http://alligator.lip6.fr/s-net.fml");
-		formalismMap.put("SNB", "http://alligator.lip6.fr/snb.fml");
-
-		formalism = form;
+	public SNBExport() throws IOException {
 		initTemplateGroup();
 	}
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void export(IGraph graph, Writer writer, IProgressMonitor monitor) throws ExtensionException {
+	public final void export(IGraph graph, Writer writer, String fmlUrl, IProgressMonitor monitor) throws ExtensionException {
+		formalism = graph.getFormalism().getId();
+	
 		LOGGER.fine("starting export model");
 		monitor.beginTask("export", graph.getArcs().size() + graph.getNodes().size() + 1);
-		StringTemplate modelST = exportGraph(graph, monitor);
+		StringTemplate modelST = exportGraph(graph, fmlUrl, monitor);
 
 		Writer out = null;
 		try {
@@ -126,18 +114,8 @@ public class SNBExport implements IGMLExport {
 	}
 	
 	/**
-	 * {@inheritDoc}
-	 */
-	public final List<String> getFormalisms() {
-		List<String> result = new ArrayList<String>();
-		result.add("PT-Net");
-		result.add("CPN");
-		result.add("SNB");
-		return result;
-	}
-	
-	/**
 	 * Initialize the StringTemplate group
+	 * 
 	 * @throws IOException if the StringTemplate Group file is not found
 	 */
 	private void initTemplateGroup() throws IOException {
@@ -154,22 +132,15 @@ public class SNBExport implements IGMLExport {
 	 * Export a graph object
 	 *
 	 * @param graph graph to export
+	 * @param fmlUrl the URL of the target formalism
 	 * @param monitor monitor the export
 	 * @return the result of the export, as a StringTemplate
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private StringTemplate exportGraph(IGraph graph, IProgressMonitor monitor) throws ExtensionException {
+	private StringTemplate exportGraph(IGraph graph, String fmlUrl, IProgressMonitor monitor) throws ExtensionException {
 		monitor.beginTask("Export to GML", 1 + graph.getNodes().size() + graph.getArcs().size());
 
 		Map<String, String> symbolTable = new HashMap<String, String>();
-
-		String fmlUrl;
-		formalism = graph.getFormalism().getId();
-		if (formalismMap.containsKey(formalism)) {
-			fmlUrl = formalismMap.get(formalism);
-		} else {
-			fmlUrl = "http://alligator.lip6.fr/unknown";
-		}
 
 		monitor.setTaskName("Create preamble");
 

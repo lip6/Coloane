@@ -79,10 +79,9 @@ public class CosmosExport implements IGMLExport {
 	/**
 	 * The constructor
 	 * 
-	 * @param form the Coloane formalism of the model being exported
 	 * @throws IOException if the StringTemplateGroup initialization fails
 	 */
-	CosmosExport(String form) throws IOException {
+	public CosmosExport() throws IOException {
 		initTemplateGroup();
 	}
 	
@@ -103,10 +102,10 @@ public class CosmosExport implements IGMLExport {
 	/**
 	 * {@inheritDoc}
 	 */
-	public final void export(IGraph graph, Writer writer, IProgressMonitor monitor)
+	public final void export(IGraph graph, Writer writer, String fmlUrl, IProgressMonitor monitor)
 			throws ExtensionException {
 		monitor.beginTask("export", graph.getArcs().size() + graph.getNodes().size() + 1);
-		StringTemplate modelST = exportGraph(graph, monitor);
+		StringTemplate modelST = exportGraph(graph, fmlUrl, monitor);
 
 		Writer out = null;
 		try {
@@ -128,13 +127,12 @@ public class CosmosExport implements IGMLExport {
 	 * The function that exports the graph
 	 * 
 	 * @param graph the graph to export
+	 * @param fmlUrl the URL of the target FML
 	 * @param monitor to monitor the export
 	 * @return a string template
 	 * @throws ExtensionException if the export fails
 	 */
-	private StringTemplate exportGraph(IGraph graph, IProgressMonitor monitor) throws ExtensionException {
-		String fmlUrl = "http://alligator.lip6.fr/unknown";
-
+	private StringTemplate exportGraph(IGraph graph, String fmlUrl, IProgressMonitor monitor) throws ExtensionException {
 		monitor.setTaskName("Create preamble");
 
 		StringTemplate result = templates.getInstanceOf("modelBalise", new STAttrMap().put("version", "1.0").put("encoding", "UTF-8").put("form", fmlUrl));

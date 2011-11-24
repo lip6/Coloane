@@ -15,6 +15,11 @@
  */
 package fr.lip6.move.coloane.extensions.exporttogml;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -25,20 +30,38 @@ public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "fr.lip6.move.coloane.extensions.exporttogml";
-
+	
+	/**
+	 * Extension attributes
+	 */
+	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.extensions.exporttogml.exportGML"; //$NON-NLS-1$
+	private static final String NAME_EXTENSION = "name"; //$NON-NLS-1$
+	//private static final String DESCRIPTION_EXTENSION = "description"; //$NON-NLS-1$
+	//private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
+	//private static final String FMLURL_EXTENSION = "fmlurl"; //$NON-NLS-1$
+	
 	// The shared instance
 	private static Activator plugin;
+	
+	private final Map<String, Exporter> contributionMap = new HashMap<String, Exporter>();
 
 	/**
 	 * The constructor
 	 */
 	public Activator() {
+		super();
 	}
 
 	/** {@inheritDoc} */
 	public final void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
+		for (int i = 0; i < contributions.length; i++) {
+			String key = contributions[i].getAttribute(NAME_EXTENSION);
+			contributionMap.put(key, new Exporter(contributions[i]));
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -56,4 +79,12 @@ public class Activator extends AbstractUIPlugin {
 		return plugin;
 	}
 
+	/**
+	 * Returns the map of contributions
+	 * 
+	 * @return the map of contributions
+	 */
+	public final Map<String, Exporter> getMap() {
+		return contributionMap;
+	}
 }
