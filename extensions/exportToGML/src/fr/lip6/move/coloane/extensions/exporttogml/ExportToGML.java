@@ -72,8 +72,13 @@ public class ExportToGML implements IExportTo {
 	 * 
 	 * @param formalism the Coloane formalism of the model to be exported
 	 * @return an appropriate exporter for the formalism
+	 * @throws ExtensionException if no appropiate exporter can be found
 	 */
-	private static Exporter createExporterInstance(String formalism) {
-		return Activator.getDefault().getMap().get(formalism);
+	private static Exporter createExporterInstance(String formalism) throws ExtensionException {
+		Exporter result = Activator.getDefault().getMap().get(formalism);
+		if (result == null) {
+			throw new ExtensionException("No appropriate exporter has been found for " + formalism);
+		}
+		return result;
 	}
 }
