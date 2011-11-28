@@ -22,6 +22,9 @@ import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosParser;
 import main.antlr3.fr.lip6.move.coloane.extension.ExpressionParserCosmosLexer;
 import main.antlr3.fr.lip6.move.coloane.extension.ExpressionParserCosmosParser;
+import main.antlr3.fr.lip6.move.coloane.extension.HASLformulaParserLexer;
+import main.antlr3.fr.lip6.move.coloane.extension.HASLformulaParserParser;
+
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -387,6 +390,12 @@ public class CosmosExport implements IGMLExport {
 			ActionCosmosParserParser parser = new ActionCosmosParserParser(tokens);
 			parser.setTemplateLib(templates);
 			currentST.setAttribute("content", parser.action());
+		} else if (attr.getName().equals("HASL Formula")) {
+			HASLformulaParserLexer lexer = new HASLformulaParserLexer(new ANTLRStringStream(attr.getValue()));
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			HASLformulaParserParser parser = new HASLformulaParserParser(tokens);
+			parser.setTemplateLib(templates);
+			currentST.setAttribute("content", parser.haslForm());
 		} else if (attr.getName().equals("update")) {
 			ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);

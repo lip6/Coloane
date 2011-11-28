@@ -263,10 +263,14 @@ update[Map<String,String> s]
       StringTemplate tmp = templateLib.getInstanceOf("balise");
       tmp.setAttribute("name", "variable");
       tmp.setAttribute("content", $a.getText());
+      
+      StringTemplate tmp3 = templateLib.getInstanceOf("balise");
+      tmp3.setAttribute("name", "realFormula");
+      tmp3.setAttribute("content", $e.st);
   
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
       tmplist.add(tmp);
-      tmplist.add($e.st);
+      tmplist.add(tmp3);
   
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
       tmp2.setAttribute("name", "updatevar");
