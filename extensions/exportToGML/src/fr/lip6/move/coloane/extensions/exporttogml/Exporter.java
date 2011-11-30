@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.extensions.exporttogml;
 
+import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -30,12 +32,16 @@ public final class Exporter {
 	 * 
 	 * @param contrib an extension contribution
 	 * @throws CoreException if the creation of the instance of the exporting class fails
-	 * @throws MalformedURLException if the formalism URL is not a correct URL
+	 * @throws ServiceException if the formalism URL is not a correct URL
 	 */
-	Exporter(IConfigurationElement contrib) throws CoreException, MalformedURLException {
+	Exporter(IConfigurationElement contrib) throws CoreException, ServiceException {
 		String form = contrib.getAttribute(FMLURL_EXTENSION);
 		// test whether the given formalism is a correct URL
-		new URL(form);
+		try {
+			new URL(form);
+		} catch (MalformedURLException e) {
+			throw new ServiceException("provided FML \"" + form + "\" is not a valid URL : " + e.getMessage());
+		}
 		formalismURL = form;
 		instance = (IGMLExport) contrib.createExecutableExtension(CLASS_EXTENSION);
 	}
