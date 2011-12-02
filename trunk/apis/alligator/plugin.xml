@@ -7,7 +7,7 @@
             class="fr.lip6.move.coloane.api.alligator.AlligatorApi"
             description="CPNAMI-v4 Platform"
             formalism="*"
-            global="false"
+            global="true"
             icon="resources/alligator-logo.png"
             name="Alligator">
       </API>
