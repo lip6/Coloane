@@ -20,7 +20,7 @@ import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.alligator.interfaces.ServiceDescription;
 import fr.lip6.move.alligator.interfaces.ServiceManager;
-import fr.lip6.move.coloane.api.alligator.dialog.ParametersDialog;
+import fr.lip6.move.coloane.api.alligator.wizard.ParametersWizard;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
@@ -44,6 +44,7 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -65,24 +66,20 @@ public class AlligatorService implements IApiService {
 	class ParametersRunnable implements Runnable {
 
 		private int code;
-		private final IGraph model;
-		private final List<DescriptionItem> descriptions;
-		private ParametersDialog dialog;
+		private final ParametersWizard wizard;
 
 		/**
-		 * @param model current model
 		 * @param descriptions list of description items used to construct the dialog box
 		 */
-		public ParametersRunnable(IGraph model, List<DescriptionItem> descriptions) {
-			this.model = model;
-			this.descriptions = descriptions;
+		public ParametersRunnable(List<DescriptionItem> descriptions) {
+			this.wizard = new ParametersWizard(descriptions);
 		}
 
 		/** {@inheritDoc}
 		 * @see java.lang.Runnable#run()
 		 */
 		public void run() {
-			dialog = new ParametersDialog(Display.getDefault().getActiveShell(), model, descriptions);
+			WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
 			dialog.setBlockOnOpen(true);
 			code = dialog.open();
 		}
@@ -98,7 +95,7 @@ public class AlligatorService implements IApiService {
 		 * @return list of parameters set by the dialog box
 		 */
 		public List<Item> getParameters() {
-			return dialog.getParams();
+			return wizard.getParameters();
 		}
 	}
 
@@ -127,7 +124,7 @@ public class AlligatorService implements IApiService {
 			final List<Item> params = new ArrayList<Item>();
 
 			if (dItems != null) {
-				ParametersRunnable runnable = new ParametersRunnable(model, dItems);
+				ParametersRunnable runnable = new ParametersRunnable(dItems);
 				Display.getDefault().syncExec(runnable);
 				if (runnable.getReturnedCode() == Dialog.CANCEL) {
 					return Collections.emptyList();
