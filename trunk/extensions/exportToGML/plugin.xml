@@ -45,6 +45,11 @@
             fmlurl="http://alligator.lip6.fr/s-net.fml"
             name="CPN">
       </exportedFormalism>
+      <exportedFormalism
+            class="fr.lip6.move.coloane.extensions.exporttogml.SNBExport"
+            fmlurl="http://alligator.lip6.fr/pt-net.fml"
+            name="PT-Net">
+      </exportedFormalism>
    </extension>
    <extension
          point="fr.lip6.move.coloane.extensions.exporttogml.exportGML">
