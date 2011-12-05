@@ -31,6 +31,8 @@
         <!-- FORMALISM -->
         <module>formalismDD</module>
         <module>formalismGSPN</module>
+        <module>formalismCosmos</module>
+        <module>formalismCosmosLHA</module>
         <!-- ACTIONS -->
         <module>layoutAction</module>
     </modules>
