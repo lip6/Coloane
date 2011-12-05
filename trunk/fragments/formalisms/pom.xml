@@ -17,6 +17,8 @@
     <modules>
         <module>dd</module>
         <module>gspn</module>
+        <module>cosmos</module>
+        <module>cosmosLHA</module>
     </modules>
 
 </project>
