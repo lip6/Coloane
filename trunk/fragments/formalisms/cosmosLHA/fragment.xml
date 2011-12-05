@@ -5,8 +5,8 @@
          point="fr.lip6.move.coloane.core.formalisms">
       <Formalism
             extension="CosmosLHA.Formalism1"
-            fkname="fr.lip6.move.coloane.formalism.cosmos.Formalism2"
-            id="fr.lip6.move.coloane.formalism.cosmos.lha"
+            fkname=""
+            id="fr.lip6.move.coloane.formalism.cosmosLHA"
             name="CosmosLHA">
          <XmlDescription>
             <Graph
