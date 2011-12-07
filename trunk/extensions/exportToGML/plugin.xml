@@ -71,7 +71,7 @@
          point="fr.lip6.move.coloane.extensions.exporttogml.exportGML">
       <exportedFormalism
             class="fr.lip6.move.coloane.extensions.exporttogml.CosmosExport"
-            fmlurl="http://alligator.lip6.fr/sptgd-net.fml"
+            fmlurl="http://alligator.lip6.fr/lha.fml"
             name="fr.lip6.move.coloane.formalism.cosmos.lha">
       </exportedFormalism>
    </extension>

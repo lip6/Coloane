@@ -13,15 +13,20 @@ options {
   package main.antlr3.fr.lip6.move.coloane.extension;
 }
 
-haslForm: AVG '(' e=algExpr ')' (';')? EOF
-  -> balise(name={"HASLFormula"}, content={ $e.st });
+
+haslFormW:
+a=haslForm EOF -> balise(name={"HASL Formula"}, content={ $a.st });
+
+haslForm: AVG '(' e=algExpr ')' (';')?
+  -> balise(name={"avg"}, content={ $e.st });
 
 
 algExpr: a=lhaFunc -> {$a.st};
   
   
 lhaFunc:  
-  LAST '(' a=linForm ')' -> {$a.st};
+  LAST '(' a=linForm ')' 
+  -> balise(name={"last"}, content={ $a.st });
 
 linForm:
   a=IDENTIFIER -> balise(name={"variable"}, content={ $a.getText() });
