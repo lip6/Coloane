@@ -395,7 +395,7 @@ public class CosmosExport implements IGMLExport {
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			HASLformulaParserParser parser = new HASLformulaParserParser(tokens);
 			parser.setTemplateLib(templates);
-			currentST.setAttribute("content", parser.haslForm());
+			currentST.setAttribute("content", parser.haslFormW());
 		} else if (attr.getName().equals("update")) {
 			ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
