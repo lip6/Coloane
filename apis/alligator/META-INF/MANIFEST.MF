@@ -1,15 +1,15 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Alligator
-Bundle-SymbolicName: fr.lip6.move.coloane.api.alligator;singleton:=true
+Bundle-SymbolicName: fr.lip6.move.coloane.apis.alligator;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: fr.lip6.move.coloane.api.alligator.Activator
+Bundle-Activator: fr.lip6.move.coloane.apis.alligator.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
  fr.lip6.move.coloane.core;bundle-version="1.0.0",
  fr.lip6.move.coloane.interfaces;bundle-version="1.0.0",
- fr.lip6.move.coloane.extensions.exporttogml;bundle-version="1.0.0",
+ fr.lip6.move.coloane.extensions.exportToGML;bundle-version="1.0.0",
  fr.lip6.move.coloane.extensions.importExportCAMI;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

@@ -32,7 +32,7 @@
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.extensions.exporttogml"
+         id="fr.lip6.move.coloane.extensions.exportToGML"
          download-size="0"
          install-size="0"
          version="0.0.0"

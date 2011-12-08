@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>fr.lip6.move.coloane.features</groupId>
-    <artifactId>fr.lip6.move.coloane.feature.exportToGML</artifactId>
+    <artifactId>fr.lip6.move.coloane.features.exportToGML</artifactId>
     <packaging>eclipse-feature</packaging>
     <name>Features :: Export To GML</name>
     <description>Export Coloane feature that allow to export model to GML format</description>
