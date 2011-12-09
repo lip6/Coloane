@@ -27,7 +27,7 @@
    <requires>
       <import plugin="fr.lip6.move.coloane.core"/>
       <import plugin="fr.lip6.move.coloane.interfaces"/>
-      <import plugin="fr.lip6.move.coloane.extensions.exporttogml"/>
+      <import plugin="fr.lip6.move.coloane.extensions.exportToGML"/>
       <import plugin="fr.lip6.move.coloane.extensions.importExportCAMI"/>
    </requires>
 
