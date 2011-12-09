@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>fr.lip6.move.coloane.incubation.features</groupId>
-    <artifactId>projectITSModeler</artifactId>
+    <artifactId>fr.lip6.move.coloane.feature.projectITSModeler</artifactId>
     <packaging>eclipse-feature</packaging>
     <name>Features :: Project ITS Modeler</name>
     <description>Import Coloane feature dedicated to ITS modeling</description>

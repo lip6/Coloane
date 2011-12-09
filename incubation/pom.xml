@@ -36,7 +36,7 @@
         <!-- Pour le déploiement (uniquement sur la machine coloane.lip6.fr) -->
         <project.deployPath>/data/coloane</project.deployPath>
 
-        <tycho-version>0.11.1</tycho-version>
+        <tycho-version>0.13.0</tycho-version>
         <sonar.exclusions>**/Messages.java</sonar.exclusions>
     </properties>
 
@@ -156,14 +156,14 @@
         <plugins>
             <!-- Build Coloane using tycho -->
             <plugin>
-                <groupId>org.sonatype.tycho</groupId>
+                <groupId>org.eclipse.tycho</groupId>
                 <artifactId>tycho-maven-plugin</artifactId>
                 <version>${tycho-version}</version>
                 <extensions>true</extensions>
             </plugin>
 
             <plugin>
-                <groupId>org.sonatype.tycho</groupId>
+                <groupId>org.eclipse.tycho</groupId>
                 <artifactId>target-platform-configuration</artifactId>
                 <version>${tycho-version}</version>
                 <configuration>
@@ -200,8 +200,8 @@
             </plugin>
 
             <plugin>
-                <groupId>org.sonatype.tycho</groupId>
-                <artifactId>maven-osgi-compiler-plugin</artifactId>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-compiler-plugin</artifactId>
                 <version>${tycho-version}</version>
                 <configuration>
                     <source>1.5</source>
@@ -220,8 +220,8 @@
             </plugin>
 
             <plugin>
-                <groupId>org.sonatype.tycho</groupId>
-                <artifactId>maven-osgi-source-plugin</artifactId>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-source-plugin</artifactId>
                 <version>${tycho-version}</version>
                 <executions>
                     <execution>
