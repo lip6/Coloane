@@ -21,7 +21,7 @@
         <dependency>
             <groupId>fr.lip6.move.alligator</groupId>
             <artifactId>interfaces</artifactId>
-            <version>0.1-SNAPSHOT</version>
+            <version>0.1</version>
         </dependency>
 <!--         <dependency> -->
 <!--         	<groupId>org.apache.cxf</groupId> -->
