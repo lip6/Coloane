@@ -33,7 +33,7 @@
                             <goal>antlr</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>target/classes/main/antlr3</outputDirectory>
+                            <outputDirectory>target/classes</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>

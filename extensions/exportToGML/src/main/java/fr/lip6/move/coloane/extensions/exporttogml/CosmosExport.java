@@ -16,14 +16,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import main.antlr3.fr.lip6.move.coloane.extension.ActionCosmosParserLexer;
-import main.antlr3.fr.lip6.move.coloane.extension.ActionCosmosParserParser;
-import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosLexer;
-import main.antlr3.fr.lip6.move.coloane.extension.DeclarativeParserCosmosParser;
-import main.antlr3.fr.lip6.move.coloane.extension.ExpressionParserCosmosLexer;
-import main.antlr3.fr.lip6.move.coloane.extension.ExpressionParserCosmosParser;
-import main.antlr3.fr.lip6.move.coloane.extension.HASLformulaParserLexer;
-import main.antlr3.fr.lip6.move.coloane.extension.HASLformulaParserParser;
+import fr.lip6.move.coloane.extension.ActionCosmosParserLexer;
+import fr.lip6.move.coloane.extension.ActionCosmosParserParser;
+import fr.lip6.move.coloane.extension.DeclarativeParserCosmosLexer;
+import fr.lip6.move.coloane.extension.DeclarativeParserCosmosParser;
+import fr.lip6.move.coloane.extension.ExpressionParserCosmosLexer;
+import fr.lip6.move.coloane.extension.ExpressionParserCosmosParser;
+import fr.lip6.move.coloane.extension.HASLformulaParserLexer;
+import fr.lip6.move.coloane.extension.HASLformulaParserParser;
 
 
 import org.antlr.runtime.ANTLRStringStream;
@@ -36,7 +36,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 /**
  * A class to export the Cosmos formalism to GML
  * 
- * @author Benoît Barbot and Maximilien Colange
+ * @author Beno√Æt Barbot and Maximilien Colange
  *
  */
 public class CosmosExport implements IGMLExport {
@@ -395,7 +395,7 @@ public class CosmosExport implements IGMLExport {
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			HASLformulaParserParser parser = new HASLformulaParserParser(tokens);
 			parser.setTemplateLib(templates);
-			currentST.setAttribute("content", parser.haslFormW());
+			currentST.setAttribute("content", parser.haslForm());
 		} else if (attr.getName().equals("update")) {
 			ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);

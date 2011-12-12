@@ -7,7 +7,7 @@ options {
 }
 
 @header {
-  package main.antlr3.fr.lip6.move.coloane.extension;
+  package fr.lip6.move.coloane.extension;
   
   import java.util.Map;
 	import java.util.HashMap;
