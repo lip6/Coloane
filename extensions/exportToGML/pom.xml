@@ -32,9 +32,9 @@
                         <goals>
                             <goal>antlr</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>target/classes</outputDirectory>
-                        </configuration>
+<!--                         <configuration> -->
+<!--                             <outputDirectory>target/classes</outputDirectory> -->
+<!--                         </configuration> -->
                     </execution>
                 </executions>
             </plugin>
