@@ -15,12 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import main.antlr3.fr.lip6.move.coloane.extension.DeclarativePartLexer;
-import main.antlr3.fr.lip6.move.coloane.extension.DeclarativePartParserSN;
-import main.antlr3.fr.lip6.move.coloane.extension.GuardLexer;
-import main.antlr3.fr.lip6.move.coloane.extension.GuardParser;
-import main.antlr3.fr.lip6.move.coloane.extension.ValuationLexerSNB;
-import main.antlr3.fr.lip6.move.coloane.extension.ValuationParserSNB;
+import fr.lip6.move.coloane.extension.DeclarativePartLexer;
+import fr.lip6.move.coloane.extension.DeclarativePartParserSN;
+import fr.lip6.move.coloane.extension.GuardLexer;
+import fr.lip6.move.coloane.extension.GuardParser;
+import fr.lip6.move.coloane.extension.ValuationLexerSNB;
+import fr.lip6.move.coloane.extension.ValuationParserSNB;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;

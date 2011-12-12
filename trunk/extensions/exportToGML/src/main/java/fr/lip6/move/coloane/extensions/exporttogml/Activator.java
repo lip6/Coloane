@@ -29,7 +29,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "fr.lip6.move.coloane.extensions.exportToGML";
+	public static final String PLUGIN_ID = "fr.lip6.move.coloane.extensions.exporttogml";
 	
 	/**
 	 * Extension attributes
