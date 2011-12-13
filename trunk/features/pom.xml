@@ -35,6 +35,8 @@
         <module>formalismCosmosLHA</module>
         <!-- ACTIONS -->
         <module>layoutAction</module>
+        <!-- THIRDPARTY DEPENDENCIES -->
+        <module>thirdparty</module>
     </modules>
 
 <!--    <build>-->

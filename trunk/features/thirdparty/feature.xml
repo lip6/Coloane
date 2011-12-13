@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.features.exportToGML"
-      label="Coloane - Export to GML"
+      id="fr.lip6.move.coloane.features.thirdparty"
+      label="Coloane - ThirdParty"
       version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
@@ -24,16 +24,8 @@
       <update label="Coloane Incubation-Updates Site" url="http://coloane.lip6.fr/incubation-updates/"/>
    </url>
 
-   <requires>
-      <import plugin="fr.lip6.move.coloane.core"/>
-      <import plugin="fr.lip6.move.coloane.interfaces"/>
-      <import plugin="fr.lip6.move.coloane.thirdparty"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-   </requires>
-
    <plugin
-         id="fr.lip6.move.coloane.extensions.exportToGML"
+         id="fr.lip6.move.coloane.thirdparty"
          download-size="0"
          install-size="0"
          version="0.0.0"
