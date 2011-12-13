@@ -202,7 +202,7 @@ public final class PaletteFactory {
 
 		// Outils de selection de plusieurs objets
 		MarqueeToolEntry marquee = new MarqueeToolEntry();
-		marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR,	new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_AND_CONNECTIONS));
+		marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR,	new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_CONTAINED_AND_RELATED_CONNECTIONS));
 		marquee.setDescription(Messages.PaletteFactory_0);
 
 		toolGroup.add(marquee);
