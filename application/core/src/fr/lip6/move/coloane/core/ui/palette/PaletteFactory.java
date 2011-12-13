@@ -40,6 +40,7 @@ import org.eclipse.gef.palette.ToolEntry;
 import org.eclipse.gef.requests.CreationFactory;
 import org.eclipse.gef.requests.SimpleFactory;
 import org.eclipse.gef.tools.MarqueeSelectionTool;
+import org.eclipse.gef.ui.palette.FlyoutPaletteComposite;
 import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -217,28 +218,46 @@ public final class PaletteFactory {
 	 * les preferences de la flyout palette.
 	 */
 	public static FlyoutPreferences createPalettePreferences() {
-		return new FlyoutPreferences() {
-			private IPreferenceStore getPreferenceStore() {
-				return Coloane.getInstance().getPreferenceStore();
+		/**
+		 * Implementation of the FlyoutPreferences interface for the Coloane palette
+		 * @author Clément Démoulins
+		 */
+		class ColoaneFlyoutPreferences implements FlyoutPreferences {
+			private final IPreferenceStore preferenceStore;
+			/**
+			 * Create a FlyoutPreferences using as backend a IPreferenceStore and also set some default preferences.
+			 * @param preferenceStore where the preference are stored
+			 */
+			public ColoaneFlyoutPreferences(IPreferenceStore preferenceStore) {
+				this.preferenceStore = preferenceStore;
+				this.preferenceStore.setDefault(PALETTE_STATE, FlyoutPaletteComposite.STATE_PINNED_OPEN);
 			}
+			/** {@inheritDoc} */
 			public int getDockLocation() {
-				return getPreferenceStore().getInt(PALETTE_DOCK_LOCATION);
+				return preferenceStore.getInt(PALETTE_DOCK_LOCATION);
 			}
+			/** {@inheritDoc} */
 			public int getPaletteState() {
-				return getPreferenceStore().getInt(PALETTE_STATE);
+				return preferenceStore.getInt(PALETTE_STATE);
 			}
+			/** {@inheritDoc} */
 			public int getPaletteWidth() {
-				return getPreferenceStore().getInt(PALETTE_SIZE);
+				return preferenceStore.getInt(PALETTE_SIZE);
 			}
+			/** {@inheritDoc} */
 			public void setDockLocation(int location) {
-				getPreferenceStore().setValue(PALETTE_DOCK_LOCATION, location);
+				preferenceStore.setValue(PALETTE_DOCK_LOCATION, location);
 			}
+			/** {@inheritDoc} */
 			public void setPaletteState(int state) {
-				getPreferenceStore().setValue(PALETTE_STATE, state);
+				preferenceStore.setValue(PALETTE_STATE, state);
 			}
+			/** {@inheritDoc} */
 			public void setPaletteWidth(int width) {
-				getPreferenceStore().setValue(PALETTE_SIZE, width);
+				preferenceStore.setValue(PALETTE_SIZE, width);
 			}
-		};
+		}
+
+		return new ColoaneFlyoutPreferences(Coloane.getInstance().getPreferenceStore());
 	}
 }
