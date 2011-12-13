@@ -32,6 +32,7 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import plugin="fr.lip6.move.coloane.core"/>
       <import plugin="fr.lip6.move.coloane.interfaces"/>
+      <import plugin="fr.lip6.move.coloane.thirdparty"/>
       <import plugin="org.eclipse.gef"/>
    </requires>
 
