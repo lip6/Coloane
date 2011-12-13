@@ -7,13 +7,11 @@ Bundle-Activator: fr.lip6.move.coloane.extensions.exporttogml.Activator
 Require-Bundle: org.eclipse.core.runtime,
  fr.lip6.move.coloane.interfaces,
  fr.lip6.move.coloane.core,
+ fr.lip6.move.coloane.thirdparty,
  org.eclipse.ui
 Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ClassPath: lib/antlr-runtime.jar,
- lib/stringtemplate.jar,
- lib/antlr.jar,
- .
+Bundle-ClassPath: .
 Export-Package: fr.lip6.move.coloane.extensions.exporttogml

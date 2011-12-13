@@ -13,14 +13,6 @@
     <name>Extensions :: Export GML</name>
     <description>Coloane's extension that provides GML export feature</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr-runtime</artifactId>
-            <version>3.2</version>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -32,9 +24,9 @@
                         <goals>
                             <goal>antlr</goal>
                         </goals>
-<!--                         <configuration> -->
-<!--                             <outputDirectory>target/classes</outputDirectory> -->
-<!--                         </configuration> -->
+                         <configuration>
+                             <outputDirectory>target/classes</outputDirectory>
+                         </configuration>
                     </execution>
                 </executions>
             </plugin>

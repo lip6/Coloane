@@ -33,6 +33,9 @@
    <feature url="features/fr.lip6.move.coloane.features.modelexamples_0.0.0.jar" id="fr.lip6.move.coloane.features.modelexamples" version="0.0.0">
       <category name="Others"/>
    </feature>
+   <feature url="features/fr.lip6.move.coloane.features.thirdparty_0.0.0.jar" id="fr.lip6.move.coloane.features.thirdparty" version="0.0.0">
+      <category name="Others"/>
+   </feature>
    <feature url="features/fr.lip6.move.coloane.features.formalisms.dd_0.0.0.jar" id="fr.lip6.move.coloane.features.formalisms.dd" version="0.0.0">
       <category name="Formalisms"/>
    </feature>
