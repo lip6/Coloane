@@ -7,8 +7,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/antlr-runtime.jar,
  lib/stringtemplate.jar,
- lib/antlr.jar
+ lib/antlr.jar,
+ lib/interfaces.jar
 Export-Package: org.antlr.runtime,
  org.antlr.stringtemplate,
- org.antlr.stringtemplate.language
+ org.antlr.stringtemplate.language,
+ fr.lip6.move.alligator.interfaces
 
