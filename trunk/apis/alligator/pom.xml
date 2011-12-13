@@ -12,27 +12,5 @@
     <packaging>eclipse-plugin</packaging>
     <name>API :: Alligator</name>
     <description>Plugin to access to the new CPNAMI platform : Alligator</description>
-    
-    <properties>
-    	<cxf.version>2.4.1</cxf.version>
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>fr.lip6.move.alligator</groupId>
-            <artifactId>interfaces</artifactId>
-            <version>0.1</version>
-        </dependency>
-<!--         <dependency> -->
-<!--         	<groupId>org.apache.cxf</groupId> -->
-<!--             <artifactId>cxf-rt-frontend-jaxws</artifactId> -->
-<!--             <version>${cxf.version}</version> -->
-<!--         </dependency> -->
-<!--         <dependency> -->
-<!--             <groupId>org.apache.cxf</groupId> -->
-<!--             <artifactId>cxf-rt-transports-http</artifactId> -->
-<!--             <version>${cxf.version}</version> -->
-<!--         </dependency> -->
-    </dependencies>
 
 </project>

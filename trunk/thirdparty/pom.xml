@@ -23,6 +23,11 @@
             <artifactId>stringtemplate</artifactId>
             <version>3.2</version>
         </dependency>
+        <dependency>
+            <groupId>fr.lip6.move.alligator</groupId>
+            <artifactId>interfaces</artifactId>
+            <version>0.1</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -9,10 +9,10 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.resources,
  fr.lip6.move.coloane.core;bundle-version="1.0.0",
  fr.lip6.move.coloane.interfaces;bundle-version="1.0.0",
+ fr.lip6.move.coloane.thirdparty;bundle-version="1.0.0",
  fr.lip6.move.coloane.extensions.exportToGML;bundle-version="1.0.0",
  fr.lip6.move.coloane.extensions.importExportCAMI;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: .,
- lib/interfaces.jar
+Bundle-ClassPath: .
 Import-Package: org.eclipse.ui.dialogs
