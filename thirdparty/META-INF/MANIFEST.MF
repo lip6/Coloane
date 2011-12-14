@@ -12,5 +12,8 @@ Bundle-ClassPath: lib/antlr-runtime.jar,
 Export-Package: org.antlr.runtime,
  org.antlr.stringtemplate,
  org.antlr.stringtemplate.language,
- fr.lip6.move.alligator.interfaces
+ fr.lip6.move.alligator.interfaces,
+ org.apache.batik.dom,
+ org.apache.batik.svggen,
+ org.apache.commons.exec
 
