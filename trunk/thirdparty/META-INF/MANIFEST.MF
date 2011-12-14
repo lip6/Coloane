@@ -26,5 +26,6 @@ Export-Package: org.antlr.runtime,
  fr.lip6.move.alligator.interfaces,
  org.apache.batik.dom,
  org.apache.batik.svggen,
+ org.apache.batik.ext.awt.g2d,
  org.apache.commons.exec
 
