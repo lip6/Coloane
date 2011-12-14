@@ -289,7 +289,7 @@
                         <validHeader>http://coloane.lip6.fr/resources/header.txt</validHeader>
                     </validHeaders>
                     <quiet>false</quiet>
-                    <failIfMissing>true</failIfMissing>
+                    <failIfMissing>false</failIfMissing>
                     <aggregate>false</aggregate>
                     <includes>
                         <include>src/**</include>
