@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Alligator
 Bundle-SymbolicName: fr.lip6.move.coloane.apis.alligator;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: fr.lip6.move.coloane.apis.alligator.Activator
+Bundle-Activator: fr.lip6.move.coloane.api.alligator.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
