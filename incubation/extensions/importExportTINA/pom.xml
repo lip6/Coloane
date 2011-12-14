@@ -13,14 +13,6 @@
     <name>Extensions :: ImportExport TINA</name>
     <description>Coloane's extension that provides TINA import/export features</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr-runtime</artifactId>
-            <version>3.1.3</version>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>

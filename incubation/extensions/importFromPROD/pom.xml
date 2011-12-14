@@ -13,14 +13,6 @@
     <name>Extensions :: Import PROD</name>
     <description>Coloane's extension that provides PROD import features</description>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.antlr</groupId>
-            <artifactId>antlr-runtime</artifactId>
-            <version>3.2</version>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>

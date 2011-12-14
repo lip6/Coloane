@@ -13,6 +13,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.forms,
  fr.lip6.move.coloane.core,
  fr.lip6.move.coloane.interfaces,
+ fr.lip6.move.coloane.thirdparty,
  fr.lip6.move.coloane.extensions.importExportITS,
  fr.lip6.move.coloane.extensions.importExportROMEO,
  org.eclipse.core.filesystem,
@@ -21,5 +22,4 @@ Require-Bundle: org.eclipse.ui,
  fr.lip6.move.coloane.projects.expressions
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .,
- lib/antlr-runtime.jar
+Bundle-ClassPath: .
