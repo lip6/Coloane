@@ -23,10 +23,31 @@
             <artifactId>stringtemplate</artifactId>
             <version>3.2</version>
         </dependency>
+
+        <!-- Used by the alligator api -->
         <dependency>
             <groupId>fr.lip6.move.alligator</groupId>
             <artifactId>interfaces</artifactId>
             <version>0.1</version>
+        </dependency>
+
+        <!-- Used by the exportToSVG -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-dom</artifactId>
+            <version>1.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-svggen</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <!-- Used by the binary tools -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-exec</artifactId>
+            <version>1.1</version>
         </dependency>
     </dependencies>
 
