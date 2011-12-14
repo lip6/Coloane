@@ -16,7 +16,6 @@
  */
 package fr.lip6.move.coloane.extensions.exporttosvg;
 
-import java.awt.AWTError;
 import java.awt.Polygon;
 import java.awt.font.TextLayout;
 import java.awt.geom.QuadCurve2D;
