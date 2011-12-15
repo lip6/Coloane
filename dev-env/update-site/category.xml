@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <description url="http://coloane.lip6.fr/night-updates">
+      Coloane development environment updates site
+   </description>
+   <feature url="features/fr.lip6.move.coloane.features.dev-env_0.0.0.jar" id="fr.lip6.move.coloane.features.dev-env" version="0.0.0">
+      <category name="DevEnv"/>
+   </feature>
+   <category-def name="DevEnv" label="[Coloane DevEnv] Development Environment">
+      <description>
+         This category groups all required plugins to contribute to Coloane.
+      </description>
+   </category-def>
+</site>

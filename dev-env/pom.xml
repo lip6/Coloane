@@ -1,0 +1,114 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>fr.lip6.move.coloane</groupId>
+    <artifactId>dev-env-parent</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>Coloane Development Environment</name>
+    <url>http://coloane.lip6.fr</url>
+
+    <modules>
+        <module>environmentFeature</module>
+        <module>update-site</module>
+    </modules>
+
+    <scm>
+        <connection>scm:svn:https://coloane.lip6.fr/svn/dev-env</connection>
+        <developerConnection>scm:svn:https://coloane.lip6.fr/svn/dev-env</developerConnection>
+        <url>https://coloane.lip6.fr/trac</url>
+    </scm>
+
+    <organization>
+        <name>LIP6 MoVe</name>
+        <url>http://move.lip6.fr</url>
+    </organization>
+
+    <properties>
+        <tycho-version>0.13.0</tycho-version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>helios</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/releases/helios</url>
+        </repository>
+        <repository>
+            <id>coloane</id>
+            <layout>p2</layout>
+            <url>http://coloane.lip6.fr/dev-env</url>
+        </repository>
+    </repositories>
+
+    <!-- Serveur d'integration continue -->
+    <ciManagement>
+        <system>TeamCity</system>
+        <url>https://teamcity-systeme.lip6.fr/</url>
+    </ciManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>forge.releases</id>
+            <name>Internal Release Repository for Coloane</name>
+            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>forge.snapshots</id>
+            <name>Internal Snapshot Repository for Coloane</name>
+            <url>https://teamcity-systeme.lip6.fr/nexus/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <build>
+        <!-- Configuration des plugins de Maven -->
+        <plugins>
+
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>tycho-maven-plugin</artifactId>
+                <version>${tycho-version}</version>
+                <extensions>true</extensions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eclipse.tycho</groupId>
+                <artifactId>target-platform-configuration</artifactId>
+                <version>${tycho-version}</version>
+                <configuration>
+                    <resolver>p2</resolver>
+                    <environments>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86</arch>
+                        </environment>
+                        <environment>
+                            <os>linux</os>
+                            <ws>gtk</ws>
+                            <arch>x86_64</arch>
+                        </environment>
+                        <environment>
+                            <os>win32</os>
+                            <ws>win32</ws>
+                            <arch>x86</arch>
+                        </environment>
+                        <!-- Not available for eclipse 3.4 -->
+<!--                        <environment>-->
+<!--                            <os>win32</os>-->
+<!--                            <ws>win32</ws>-->
+<!--                            <arch>x86_64</arch>-->
+<!--                        </environment>-->
+<!--                        <environment>-->
+<!--                            <os>macosx</os>-->
+<!--                            <ws>cocoa</ws>-->
+<!--                            <arch>x86_64</arch>-->
+<!--                        </environment>-->
+                    </environments>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
+</project>

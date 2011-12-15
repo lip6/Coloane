@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="fr.lip6.move.coloane.features.dev-env"
+    label="Coloane - Dev Env"
+    version="1.0.0.qualifier"
+    provider-name="LIP6 / MoVe"
+    os="linux,macosx,win32"
+    ws="carbon,cocoa,gtk,win32"
+    arch="ppc,x86,x86_64">
+
+    <description url="http://coloane.lip6.fr/">
+        Coloane is a tool designed to model complex systems using various formalisms. 
+        More then a simple editor, Coloane gives you the ability to use the FrameKit platform.
+        Thanks to a simple UI, you can invoke a large collection of tools on your model without any efforts.
+    </description>
+
+    <copyright url="http://www.eclipse.org/legal/epl-v10.html">
+        Copyright (c) 2006-2008 LIP6/MoVe.
+        All rights reserved. This program and the accompanying materials
+        are made available under the terms of the Eclipse Public License
+        v1.0 which accompanies this distribution, and is available at
+        http://www.eclipse.org/legal/epl-v10.html
+        Project Manager : Jean-Baptiste Voron
+        Technical Leader : Clement Demoulins
+        Contributors list : https://coloane.lip6.fr/developers
+    </copyright>
+
+    <license url="http://www.eclipse.org/legal/epl-v10.html">
+        %LICENSE
+    </license>
+
+    <requires>
+        <import feature="org.eclipse.gef"/>
+        <import feature="org.eclipse.gef.all"/>
+        <import feature="org.eclipse.gef.sdk"/>
+        <import feature="org.eclipse.gef.source"/>
+        <import feature="org.eclipse.m2e.feature"/>
+        <import feature="org.eclipse.m2e.logback.feature"/>
+        <import feature="org.eclipse.team.svn"/>
+        <import plugin="org.polarion.eclipse.team.svn.connector"/>
+        <import plugin="org.polarion.eclipse.team.svn.connector.svnkit16"/>
+        <import feature="fr.lip6.move.coloane.features.main"/>
+        <import feature="fr.lip6.move.coloane.features.main.source"/>
+        <import feature="fr.lip6.move.coloane.features.thirdparty"/>
+
+        <!-- M2E extensions to manage antlr and tycho lifecycle can not be installed automatically because the are no stable update-site -->
+<!--        <import feature="org.sonatype.m2e.antlr.feature"/>-->
+<!--        <import feature="org.sonatype.tycho.m2e.feature"/>-->
+    </requires>
+
+</feature>
