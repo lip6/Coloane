@@ -16,14 +16,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.lip6.move.coloane.extension.ActionCosmosParserLexer;
-import fr.lip6.move.coloane.extension.ActionCosmosParserParser;
-import fr.lip6.move.coloane.extension.DeclarativeParserCosmosLexer;
-import fr.lip6.move.coloane.extension.DeclarativeParserCosmosParser;
-import fr.lip6.move.coloane.extension.ExpressionParserCosmosLexer;
-import fr.lip6.move.coloane.extension.ExpressionParserCosmosParser;
-import fr.lip6.move.coloane.extension.HASLformulaParserLexer;
-import fr.lip6.move.coloane.extension.HASLformulaParserParser;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.ActionCosmosParserLexer;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.ActionCosmosParserParser;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserCosmosLexer;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserCosmosParser;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.ExpressionParserCosmosLexer;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.ExpressionParserCosmosParser;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.HASLformulaParserLexer;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.HASLformulaParserParser;
 
 
 import org.antlr.runtime.ANTLRStringStream;

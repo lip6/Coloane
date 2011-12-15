@@ -5,7 +5,7 @@ options {
 }
 
 @header {
-  package fr.lip6.move.coloane.extension;
+  package fr.lip6.move.coloane.extensions.exporttogml.antlr;
 }
 
 LHOOK : '[' ;

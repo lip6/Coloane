@@ -13,6 +13,10 @@
     <name>Extensions :: Export GML</name>
     <description>Coloane's extension that provides GML export feature</description>
 
+    <properties>
+        <sonar.exclusions>**/antlr/*.java</sonar.exclusions>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
