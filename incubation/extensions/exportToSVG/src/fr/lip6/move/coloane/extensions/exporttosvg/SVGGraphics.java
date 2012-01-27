@@ -37,7 +37,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontMetrics;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.LineAttributes;
-import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 
 /**
@@ -61,12 +60,16 @@ public class SVGGraphics extends Graphics {
 	 * Constructor
 	 */
 	public SVGGraphics() {
+		System.out.println(Thread.currentThread().getContextClassLoader());
 		// Get a DOMImplementation.
-        DOMImplementation domImpl = GenericDOMImplementation.getDOMImplementation();
+		GenericDOMImplementation domImpl = new GenericDOMImplementation();
+        System.out.println(domImpl);
+        System.out.println(domImpl.getClass().getClassLoader());
 
         // Create an instance of org.w3c.dom.Document.
         String svgNS = "http://www.w3.org/2000/svg";
         Document document = domImpl.createDocument(svgNS, "svg", null);
+        System.out.println(document.getClass().getClassLoader());
 
         // Create an instance of the SVG Generator.
         svgGenerator = new SVGGraphics2D(document);
