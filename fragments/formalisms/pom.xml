@@ -19,6 +19,7 @@
         <module>gspn</module>
         <module>cosmos</module>
         <module>cosmosLHA</module>
+        <module>snb</module>
     </modules>
 
 </project>

@@ -16,6 +16,7 @@
 
     <modules>
         <module>coloaneMain</module>
+        <module>coloaneProduct</module>
         <module>alligatorApi</module>
         <module>coloaneMainSources</module>
         <!-- IMPORT / EXPORT -->
@@ -33,6 +34,7 @@
         <module>formalismGSPN</module>
         <module>formalismCosmos</module>
         <module>formalismCosmosLHA</module>
+        <module>formalismSNB</module>
         <!-- ACTIONS -->
         <module>layoutAction</module>
         <!-- THIRDPARTY DEPENDENCIES -->
