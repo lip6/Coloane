@@ -75,10 +75,9 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		layout.addShowViewShortcut(RESULTS_VIEW);
 
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
-		layout.addShowViewShortcut(IPageLayout.ID_RES_NAV);
+		layout.addShowViewShortcut(MODEL_NAVIGATOR);
 		layout.addShowViewShortcut(IPageLayout.ID_OUTLINE);
 		layout.addShowViewShortcut(IPageLayout.ID_PROBLEM_VIEW);
-		layout.addShowViewShortcut(MODEL_NAVIGATOR);
 	}
 
 	/**
