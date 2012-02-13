@@ -90,7 +90,10 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 	public ModelCreationPage(IWorkbench workbench, IStructuredSelection selection) {
 		super("modelcreationpage", selection); //$NON-NLS-1$
 		this.workbench = workbench;
-		this.currentProject = (IProject) selection.getFirstElement();
+		Object firstSelection = selection.getFirstElement();
+		if (firstSelection instanceof IProject) {
+			this.currentProject = (IProject) selection.getFirstElement();
+		}
 		setTitle(Messages.ModelCreationPage_0);
 		setDescription(Messages.ModelCreationPage_1);
 		setFileExtension(Coloane.getParam("MODEL_EXTENSION")); //$NON-NLS-1$
