@@ -17,7 +17,6 @@
     <modules>
         <module>formalismTPN</module>
         <module>formalismITS</module>
-        <module>formalismSNB</module>
         <module>importExportROMEO</module>
         <module>importFromPROD</module>
         <module>importFromSGROMEO</module>

@@ -17,6 +17,7 @@
     <modules>
         <module>core</module>
         <module>interfaces</module>
+        <module>product</module>
     </modules>
 
 </project>

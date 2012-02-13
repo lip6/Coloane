@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.formalisms.snb"
+      id="fr.lip6.move.coloane.features.formalisms.snb"
       label="Coloane - SNB Formalism"
       version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
@@ -21,7 +21,7 @@
    </license>
 
    <url>
-      <update label="Coloane Incubation-Updates Site" url="http://coloane.lip6.fr/incubation-updates/"/>
+      <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
    </url>
 
    <requires>
