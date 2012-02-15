@@ -4,7 +4,7 @@
       label="Coloane - Product"
       version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
-      plugin="fr.lip6.move.coloane.rcp"
+      plugin="fr.lip6.move.coloane.product"
       os="linux,macosx,win32"
       ws="carbon,cocoa,gtk,win32"
       arch="ppc,x86,x86_64">
@@ -33,9 +33,6 @@ Contributors list : https://coloane.lip6.fr/developers
    <url>
       <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
    </url>
-
-   <requires>
-   </requires>
 
    <plugin
          id="fr.lip6.move.coloane.product"
