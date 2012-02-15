@@ -16,9 +16,9 @@
 package fr.lip6.move.coloane.core.extensions;
 
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
-import fr.lip6.move.coloane.core.ui.menus.ColoaneAPIRootMenu;
 import fr.lip6.move.coloane.interfaces.api.IApi;
 
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.console.MessageConsole;
 
@@ -43,7 +43,7 @@ public class ApiDescription {
 	private IApi apiClass;
 
 	/** The API root menu */
-	private ColoaneAPIRootMenu rootMenu;
+	private MenuManager rootMenu;
 
 	/**
 	 * The associated message console
@@ -130,7 +130,7 @@ public class ApiDescription {
 	/**
 	 * @return The root menu associated with the API
 	 */
-	public final ColoaneAPIRootMenu getRootMenu() {
+	public final MenuManager getRootMenu() {
 		return rootMenu;
 	}
 
@@ -138,14 +138,14 @@ public class ApiDescription {
 	 * Set the root menu for the API
 	 * @param rootMenu The root menu (including sub-menus) for this API
 	 */
-	public final void setRootMenu(ColoaneAPIRootMenu rootMenu) {
+	public final void setRootMenu(MenuManager rootMenu) {
 		this.rootMenu = rootMenu;
 	}
 
 	/**
 	 * Set the console used by the session to which the API is attached to
 	 * @param console The console provided y the session
-	 * @see Session#getConsole()
+	 * @see fr.lip6.move.coloane.core.session.Session#getConsole()
 	 */
 	public final void setConsole(MessageConsole console) {
 		this.console = console;
