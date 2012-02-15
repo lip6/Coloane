@@ -881,7 +881,7 @@
        <menu
              id="fr.lip6.move.coloane.core.services"
              label="%MENUBAR_LABEL"
-             mnemonic="S">
+             mnemonic="C">
           <menu
                 icon="resources/icons/local.png"
                 id="fr.lip6.move.coloane.core.services.local"
