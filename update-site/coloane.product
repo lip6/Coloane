@@ -3,14 +3,30 @@
 
 <product name="Coloane" uid="fr.lip6.move.coloane.product.id" id="fr.lip6.move.coloane.product" application="fr.lip6.move.coloane.product.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
-
-   <launcher name="coloane"/>
 
    <launcherArgs>
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
+
+   <windowImages i16="/fr.lip6.move.coloane.update/icons/alt_window_16.gif" i32="/fr.lip6.move.coloane.update/icons/alt_window_32.gif"/>
+
+
+   <launcher name="coloane">
+      <linux icon="/fr.lip6.move.coloane.update/icons/alt_launcher.xpm"/>
+      <macosx icon="/fr.lip6.move.coloane.update/icons/alt_launcher.icns"/>
+      <solaris/>
+      <win useIco="true">
+         <ico path="/fr.lip6.move.coloane.update/icons/alt_launcher.ico"/>
+         <bmp/>
+      </win>
+   </launcher>
+
+
+   <vm>
+   </vm>
 
    <plugins>
    </plugins>
@@ -27,10 +43,8 @@
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="4" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
-       <!-- Disable update manager. It seems as if this could be achieved by the first line, but in 
-           fact the second line sets reconcile to false (see org.eclipse.equinox.p2.publisher.eclipse.ConfigCUsAction#publishBundleCUs) -->
+      <plugin id="org.eclipse.update.configurator" autoStart="true" startLevel="4" />
       <property name="org.eclipse.update.reconcile" value="false" />
-      <plugin id="org.eclipse.update.configurator" autoStart="true" startLevel="4"/>
    </configurations>
 
 </product>
