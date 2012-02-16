@@ -378,11 +378,16 @@
                             <ws>win32</ws>
                             <arch>x86_64</arch>
                         </environment>
-<!--                        <environment>-->
-<!--                            <os>macosx</os>-->
-<!--                            <ws>cocoa</ws>-->
-<!--                            <arch>x86_64</arch>-->
-<!--                        </environment>-->
+                        <environment>
+                            <os>macosx</os>
+                            <ws>cocoa</ws>
+                            <arch>x86</arch>
+                        </environment>
+                        <environment>
+                            <os>macosx</os>
+                            <ws>cocoa</ws>
+                            <arch>x86_64</arch>
+                        </environment>
                     </environments>
                 </configuration>
             </plugin>
@@ -447,7 +452,7 @@
                     <useDefaultExcludes>true</useDefaultExcludes>
                     <useDefaultMapping>true</useDefaultMapping>
                     <properties>
-                        <year>2010</year>
+                        <year>2012</year>
                     </properties>
                     <encoding>UTF-8</encoding>
                 </configuration>
