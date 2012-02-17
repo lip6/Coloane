@@ -14,7 +14,7 @@
            </property>
            <property
                  name="windowImages"
-                 value="/fr.lip6.move.coloane.update/icons/alt_window_16.gif,/fr.lip6.move.coloane.update/icons/alt_window_32.gif">
+                 value="../../update-site/icons/alt_window_16.gif,../../update-site/icons/alt_window_32.gif">
            </property>
         </product>
     </extension>
@@ -39,7 +39,7 @@
             </property>
             <property
                 name="windowImages"
-                value="/fr.lip6.move.coloane.update/icons/alt_window_16.gif,/fr.lip6.move.coloane.update/icons/alt_window_32.gif">
+                value="../../update-site/icons/alt_window_16.gif,../../update-site/icons/alt_window_32.gif">
             </property>
 <!--         <property-->
 <!--               name="startupForegroundColor"-->
