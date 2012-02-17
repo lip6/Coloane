@@ -6,11 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.rcp.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
- fr.lip6.move.coloane.core,
- org.eclipse.ui.navigator,
- org.eclipse.ui.navigator.resources,
  org.eclipse.ui.ide,
- org.eclipse.core.resources,
- org.eclipse.ui.ide.application
+ org.eclipse.core.resources
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
