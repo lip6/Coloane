@@ -14,7 +14,7 @@
            </property>
            <property
                  name="windowImages"
-                 value="../../update-site/icons/alt_window_16.gif,../../update-site/icons/alt_window_32.gif">
+                 value="icons/alt_window_16.gif,icons/alt_window_32.gif">
            </property>
         </product>
     </extension>
@@ -32,14 +32,10 @@
         point="org.eclipse.core.runtime.products">
         <product
             application="fr.lip6.move.coloane.product.application"
-            name="Coloane">
+            name="ColoaneD">
             <property
                 name="appName"
-                value="Coloane">
-            </property>
-            <property
-                name="windowImages"
-                value="../../update-site/icons/alt_window_16.gif,../../update-site/icons/alt_window_32.gif">
+                value="ColoaneB">
             </property>
 <!--         <property-->
 <!--               name="startupForegroundColor"-->
