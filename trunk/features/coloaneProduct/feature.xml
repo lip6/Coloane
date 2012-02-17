@@ -34,6 +34,13 @@ Contributors list : https://coloane.lip6.fr/developers
       <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
    </url>
 
+   <requires>
+      <import plugin="org.eclipse.ui"/>
+      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.ui.ide"/>
+      <import plugin="org.eclipse.core.resources"/>
+   </requires>
+
    <plugin
          id="fr.lip6.move.coloane.product"
          download-size="0"
