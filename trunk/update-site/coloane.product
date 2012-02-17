@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Coloane" id="fr.lip6.move.coloane.product" application="fr.lip6.move.coloane.product.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Coloane" id="fr.lip6.move.coloane.product" uid="fr.lip6.move.coloane.product.id" application="fr.lip6.move.coloane.product.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
 
    <configIni use="default">
@@ -11,15 +11,15 @@
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages i16="/fr.lip6.move.coloane.update/icons/alt_window_16.gif" i32="/fr.lip6.move.coloane.update/icons/alt_window_32.gif"/>
+   <windowImages i16="icons/alt_window_16.gif" i32="icons/alt_window_32.gif"/>
 
 
    <launcher name="coloane">
-      <linux icon="/fr.lip6.move.coloane.update/icons/alt_launcher.xpm"/>
-      <macosx icon="/fr.lip6.move.coloane.update/icons/alt_launcher.icns"/>
+      <linux icon="icons/alt_launcher.xpm"/>
+      <macosx icon="icons/alt_launcher.icns"/>
       <solaris/>
       <win useIco="true">
-         <ico path="/fr.lip6.move.coloane.update/icons/alt_launcher.ico"/>
+         <ico path="icons/alt_launcher.ico"/>
          <bmp/>
       </win>
    </launcher>
