@@ -39,7 +39,7 @@
         <!-- Pour le déploiement (uniquement sur la machine coloane.lip6.fr) -->
         <project.deployPath>/data/coloane</project.deployPath>
 
-        <tycho-version>0.13.0</tycho-version>
+        <tycho-version>0.14.0</tycho-version>
         <sonar.exclusions>**/Messages.java</sonar.exclusions>
     </properties>
 
