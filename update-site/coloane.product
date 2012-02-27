@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Coloane" uid="fr.lip6.move.coloane.product.id" id="fr.lip6.move.coloane.product.eclipse-repository" application="fr.lip6.move.coloane.product.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="Coloane" uid="coloane" id="fr.lip6.move.coloane.product.eclipse-repository" application="fr.lip6.move.coloane.product.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
 
    <configIni use="default">
