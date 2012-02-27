@@ -104,21 +104,26 @@ public final class ModelWriter {
 		StringBuilder sb = new StringBuilder();
 		// foreach check list
 		for (CheckList cl : types.getChecks()) {
-			sb.append("<check>\n"); //$NON-NLS-1$
-			sb.append("<typeid>");
-			sb.append(ids.get(cl.getType()));
-			sb.append("</typeid>\n");
-			// foreach CTL formula
-			sb.append("<formulas>\n");
-			for (CTLFormulaDescription cfd : cl.getCTLFormulas()) {
-				sb.append("<formula name='").append(cfd.getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-				sb.append(" description='").append(cfd.getComments()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-				sb.append(" formula='").append(cfd.getCtlFormula()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-				// Fin du noeud
-				sb.append("/>\n"); //$NON-NLS-1$
+		
+			// protect against writing useless garbage
+			if (cl.getType() != null && ids.get(cl.getType()) != null && ! cl.getCTLFormulas().isEmpty()) { 
+
+				sb.append("<check>\n"); //$NON-NLS-1$
+				sb.append("<typeid>");
+				sb.append(ids.get(cl.getType()));
+				sb.append("</typeid>\n");
+				// foreach CTL formula
+				sb.append("<formulas>\n");
+				for (CTLFormulaDescription cfd : cl.getCTLFormulas()) {
+					sb.append("<formula name='").append(cfd.getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+					sb.append(" description='").append(cfd.getComments()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+					sb.append(" formula='").append(cfd.getCtlFormula()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+					// Fin du noeud
+					sb.append("/>\n"); //$NON-NLS-1$
+				}
+				sb.append("</formulas>\n");
+				sb.append("</check>\n"); //$NON-NLS-1$
 			}
-			sb.append("</formulas>\n");
-			sb.append("</check>\n"); //$NON-NLS-1$
 		}
 		return sb.toString();
 	}
