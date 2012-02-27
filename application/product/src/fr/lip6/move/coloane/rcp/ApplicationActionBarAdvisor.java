@@ -44,12 +44,16 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	}
 
 	protected void fillMenuBar(IMenuManager menuBar) {
-    	IMenuManager fileMenu = new MenuManager("&File", "coloane.file");
+    	IMenuManager fileMenu = new MenuManager("&File", IWorkbenchActionConstants.M_FILE);
     	fileMenu.add(getAction(ActionFactory.NEW_WIZARD_DROP_DOWN.getId()));
+    	fileMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
+
+    	IMenuManager settingsMenu = new MenuManager("&Settings", IWorkbenchActionConstants.M_HELP);
     	
     	menuBar.add(fileMenu);
     	menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
-    	menuBar.add(new MenuManager("&Settings", IWorkbenchActionConstants.M_HELP));
+    	menuBar.add(settingsMenu);
     }
     
 }
+		
