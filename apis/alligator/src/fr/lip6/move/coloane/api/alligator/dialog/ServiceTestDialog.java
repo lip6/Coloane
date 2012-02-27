@@ -16,9 +16,7 @@
 package fr.lip6.move.coloane.api.alligator.dialog;
 
 import fr.lip6.move.alligator.interfaces.DescriptionItem;
-import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
-import fr.lip6.move.coloane.api.alligator.wizard.ParametersWizard;
 import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
@@ -30,7 +28,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 
 public class ServiceTestDialog implements IService {
@@ -48,15 +45,9 @@ public class ServiceTestDialog implements IService {
 		params.add(new DescriptionItem(ItemType.MULTI_CHOICES, "multi", Arrays.asList("a", "b", "c")));
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
-//				ParametersDialog dialog = new ParametersDialog(Display.getDefault().getActiveShell(), params);
-//				dialog.setBlockOnOpen(true);
+//				ParametersWizard wizard = new ParametersWizard(params);
+//				WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
 //				dialog.open();
-//				for (Item i : dialog.getParams()) {
-//					System.err.println(i.getName() + " = " + i.getValue());
-//				}
-				ParametersWizard wizard = new ParametersWizard(params);
-				WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
-				dialog.open();
 			}
 		});
 		return Collections.emptyList();
