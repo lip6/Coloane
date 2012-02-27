@@ -61,7 +61,7 @@
             allPopups="false"
             locationURI="menu:org.eclipse.ui.main.menu">
          <menu
-               id="coloane.file"
+               id="file"
                label="File"
                mnemonic="F">
             <separator
