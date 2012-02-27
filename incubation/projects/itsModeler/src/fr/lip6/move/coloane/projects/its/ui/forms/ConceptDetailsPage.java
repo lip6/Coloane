@@ -105,21 +105,28 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 		effectiveEditor = new Combo(client, SWT.DROP_DOWN);
 		effectiveEditor.setLayoutData(gd);
 		effectiveEditor.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
+			public void modifyText(ModifyEvent e) {				
 				Concept concept = getInput();
-				int n = effectiveEditor.getSelectionIndex();
-				if (n == -1) {
-					return;
-				}
-				String[] suggs = effectiveEditor.getItems();
 
-				for (TypeDeclaration type : types.getTypes()) {
-					if (type.getTypeName().equals(suggs[n])) {
-						concept.setEffective(type);
-						break;
+				
+
+
+					int n = effectiveEditor.getSelectionIndex();
+					if (n == -1) {
+						return;
+					}
+					String[] suggs = effectiveEditor.getItems();
+
+					if (! concept.getEffective().getTypeName().equals(suggs[n])) {
+						for (TypeDeclaration type : types.getTypes()) {
+							if (type.getTypeName().equals(suggs[n])) {
+								concept.setEffective(type);
+								break;
+							}
+						}
 					}
 				}
-			}
+			
 		});
 
 		createSpacer(toolkit, client, 2);
@@ -136,7 +143,7 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 		gd.widthHint = 30;
 
 		requiredTable.setLayoutData(gd);
- 
+
 		toolkit.paintBordersFor(s1);
 		toolkit.paintBordersFor(client);
 		s1.setClient(client);
