@@ -335,13 +335,15 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	 * @param td the main type to analyze.
 	 */
 	public void createCheckPage(TypeDeclaration td) {
-		if (!checkPagesIndex .containsKey(td)) {
-			CheckList cl = new CheckList(td);
-			cl.addObserver(this);
-			types.addCheckList(cl);
-			addCheckPage(cl);
-		} else {
-			setActivePage(checkPagesIndex.get(td));
+		if (td != null) {
+			if (!checkPagesIndex .containsKey(td)) {
+				CheckList cl = new CheckList(td);
+				cl.addObserver(this);
+				types.addCheckList(cl);
+				addCheckPage(cl);
+			} else {
+				setActivePage(checkPagesIndex.get(td));
+			}
 		}
 	}
 
