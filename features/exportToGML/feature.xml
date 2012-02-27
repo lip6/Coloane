@@ -30,6 +30,9 @@
       <import plugin="fr.lip6.move.coloane.thirdparty"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.cosmos"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.cosmosLHA"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.snb"/>
    </requires>
 
    <plugin
