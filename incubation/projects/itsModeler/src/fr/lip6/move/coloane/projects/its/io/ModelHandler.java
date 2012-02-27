@@ -145,8 +145,13 @@ public class ModelHandler extends DefaultHandler {
 	 * @throws SAXException any parse error
 	 */
 	private CheckList handleCheck(String typeid) throws SAXException {
-		// Get effective with maximum safeguards
-		int idEffective = Integer.parseInt(typeid); //$NON-NLS-1$
+		// Get effective with maximum safeguards		
+		int idEffective ;
+		try { 
+			idEffective = Integer.parseInt(typeid); //$NON-NLS-1$
+		} catch (NumberFormatException e) {
+			throw new SAXException("Corrupted XML file, effective id " + typeid + " should be an integer referring to a type declaration");			
+		}
 		
 		TypeDeclaration effective;
 		try {
