@@ -24,8 +24,8 @@ import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 
-import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
-import main.antlr3.fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
+import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserLexer;
+import fr.lip6.move.coloane.projects.its.expression.parser.IntegerExpressionParserParser;
 import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
 
 public class ExpressionFactory {
