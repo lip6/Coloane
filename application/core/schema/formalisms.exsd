@@ -337,7 +337,7 @@
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="associatedFigure" type="string">
+         <attribute name="associatedFigure" type="string" use="required">
             <annotation>
                <documentation>
                   A class that describes the figure associated with the element
