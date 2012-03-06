@@ -108,16 +108,13 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 			public void modifyText(ModifyEvent e) {				
 				Concept concept = getInput();
 
+				int n = effectiveEditor.getSelectionIndex();
+				if (n == -1) {
+					return;
+				}
+				String[] suggs = effectiveEditor.getItems();
 				
-
-
-					int n = effectiveEditor.getSelectionIndex();
-					if (n == -1) {
-						return;
-					}
-					String[] suggs = effectiveEditor.getItems();
-
-					if (! concept.getEffective().getTypeName().equals(suggs[n])) {
+				if (concept.getEffective()== null || ! concept.getEffective().getTypeName().equals(suggs[n])) {
 						for (TypeDeclaration type : types.getTypes()) {
 							if (type.getTypeName().equals(suggs[n])) {
 								concept.setEffective(type);
