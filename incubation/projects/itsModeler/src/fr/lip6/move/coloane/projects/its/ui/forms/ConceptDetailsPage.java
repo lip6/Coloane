@@ -108,13 +108,14 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 			public void modifyText(ModifyEvent e) {				
 				Concept concept = getInput();
 
-				int n = effectiveEditor.getSelectionIndex();
-				if (n == -1) {
-					return;
-				}
-				String[] suggs = effectiveEditor.getItems();
-				
-				if (concept.getEffective()== null || ! concept.getEffective().getTypeName().equals(suggs[n])) {
+				synchronized (concept) {
+					int n = effectiveEditor.getSelectionIndex();
+					if (n == -1) {
+						return;
+					}
+					String[] suggs = effectiveEditor.getItems();
+
+					if (concept.getEffective()== null || ! concept.getEffective().getTypeName().equals(suggs[n])) {
 						for (TypeDeclaration type : types.getTypes()) {
 							if (type.getTypeName().equals(suggs[n])) {
 								concept.setEffective(type);
@@ -123,6 +124,7 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 						}
 					}
 				}
+			}
 			
 		});
 
@@ -208,18 +210,29 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 	 */
 	protected void update() {
 		Concept input = getInput();
-		// CHECKSTYLE OFF
-		conceptNametf.setText(input != null && input.getName() != null ? input.getName() : ""); //$NON-NLS-1$
-		// CHECKSTYLE ON
-		String[] items = getSuggestions(input);
-		effectiveEditor.setItems(items);
-		for (int i = 0; i < items.length; i++) {
-			if (input.getEffective() != null && items[i].equals(input.getEffective().getTypeName())) {
-				effectiveEditor.select(i);
-				break;
+		synchronized (input) {
+			// CHECKSTYLE OFF
+			conceptNametf.setText(input != null && input.getName() != null ? input.getName() : ""); //$NON-NLS-1$
+			// CHECKSTYLE ON
+			String[] items = getSuggestions(input);
+
+			effectiveEditor.setItems(items);
+
+			if (input.getEffective() != null) {
+				int selIndex;
+				String ename = input.getEffective().getTypeName();
+				for (int i = 0; i < items.length; i++) {
+					if ( items[i].equals(ename)) {
+						effectiveEditor.select(i);
+						break;
+					}
+				}
 			}
+
 		}
+
 		viewer.setInput(input);
+
 	}
 
 }
