@@ -47,7 +47,7 @@ public class CTLCheckServiceDetailsPage extends ITSCheckServiceDetailsPage {
 		add.addSelectionListener(new SelectionListener() {
 
 			public void widgetSelected(SelectionEvent e) {
-				getInput().addFormula("Formula", "", "New formula");
+				getInput().addFormula("Formula "+getInput().getFormulae().size(), "", "New formula");
 			}
 
 			public void widgetDefaultSelected(SelectionEvent e) {
