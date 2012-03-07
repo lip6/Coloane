@@ -57,6 +57,7 @@ public class PlaceNode extends AbstractNodeFigure implements PropertyChangeListe
 		r.setBounds(getBounds());
 		r.width--;
 		r.height--;
+		int lineWidth = getLineWidth();
 		r.shrink((lineWidth - 1) / 2, (lineWidth - 1) / 2);
 		graphics.drawOval(r);
 

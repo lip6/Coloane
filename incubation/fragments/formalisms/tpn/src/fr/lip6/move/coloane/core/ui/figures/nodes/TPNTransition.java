@@ -52,6 +52,7 @@ public class TPNTransition extends AbstractNodeFigure {
 		boolean isPublic = getModel().getAttribute("visibility").getValue()
 				.equals("public");
 
+		int lineWidth = getLineWidth();
 		int x = r.x + lineWidth / 2;
 		int y = r.y + lineWidth / 2;
 		int w = r.width - Math.max(1, lineWidth);
