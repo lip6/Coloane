@@ -28,8 +28,8 @@ import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
@@ -54,6 +54,7 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 	private ITypeListProvider types;
 	private Table requiredTable;
 	private TableViewer viewer;
+	private SelectionListener selListener;
 
 	/**
 	 * set the types list
@@ -104,8 +105,9 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 
 		effectiveEditor = new Combo(client, SWT.DROP_DOWN);
 		effectiveEditor.setLayoutData(gd);
-		effectiveEditor.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {				
+
+		selListener = new SelectionListener() {
+			public void widgetSelected(SelectionEvent e) {			
 				Concept concept = getInput();
 
 				synchronized (concept) {
@@ -125,8 +127,15 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 					}
 				}
 			}
-			
-		});
+
+			public void widgetDefaultSelected(SelectionEvent e) {
+				// NOP			
+			}
+		};
+		
+		effectiveEditor.addSelectionListener(selListener);
+
+
 
 		createSpacer(toolkit, client, 2);
 
@@ -216,19 +225,22 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 			// CHECKSTYLE ON
 			String[] items = getSuggestions(input);
 
+			effectiveEditor.removeSelectionListener(selListener);
+
+			
 			effectiveEditor.setItems(items);
 
 			if (input.getEffective() != null) {
-				int selIndex;
 				String ename = input.getEffective().getTypeName();
 				for (int i = 0; i < items.length; i++) {
 					if ( items[i].equals(ename)) {
 						effectiveEditor.select(i);
 						break;
 					}
-				}
+				}				
 			}
 
+			effectiveEditor.addSelectionListener(selListener);
 		}
 
 		viewer.setInput(input);
