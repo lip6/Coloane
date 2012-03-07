@@ -58,8 +58,12 @@ public final class EftBeforeLft implements INodeChecker {
 		try {
 			eftv = Integer.parseInt(eft);
 		} catch (NumberFormatException e) {
-			String msg = "The attribute earliest firing time \"eft\" is not an integer.\n"
-					+ "It is set to value \"" + eft + "\".";
+
+			// We should just bail out, it might be an arbitrary int expression with variables etc...
+			return new CheckerResult(false, "");
+			
+			//String msg = "The attribute earliest firing time \"eft\" is not an integer.\n"
+			//		+ "It is set to value \"" + eft + "\".";
 
 			// SubResult sr = new SubResult();
 			// sr.addAttributeOutline(elt.getId(), "earliestFiringTime");
@@ -67,7 +71,7 @@ public final class EftBeforeLft implements INodeChecker {
 			// sr.addTextualResults(msg);
 			// result.addChild(sr);
 
-			return new CheckerResult(true, msg);
+			// return new CheckerResult(true, msg);
 		}
 		if (lft.equals("inf")) {
 			return new CheckerResult(false, "");
@@ -82,8 +86,11 @@ public final class EftBeforeLft implements INodeChecker {
 			// sr.addObjectOutline(elt.getId());
 			// result.addChild(sr);
 
-			String msg = "Latest firing time for transition should be an integer";
-			return new CheckerResult(true, msg);
+			// We should just bail out, it might be an arbitrary int expression
+			return new CheckerResult(false, "");
+			
+//			String msg = "Latest firing time for transition should be an integer";
+//			return new CheckerResult(true, msg);
 		}
 		if (eftv > lftv) {
 			// SubResult sr = new SubResult();
