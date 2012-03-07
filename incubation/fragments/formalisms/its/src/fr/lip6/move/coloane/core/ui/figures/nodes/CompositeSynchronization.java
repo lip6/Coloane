@@ -51,6 +51,7 @@ public class CompositeSynchronization extends AbstractNodeFigure {
 
 		boolean isPublic = ! getModel().getAttribute("label").getValue().equals("");
 
+		int lineWidth = getLineWidth();
 		int x = r.x + lineWidth / 2;
 		int y = r.y + lineWidth / 2;
 		int w = r.width - Math.max(1, lineWidth);
