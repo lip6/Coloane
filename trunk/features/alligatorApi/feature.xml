@@ -25,10 +25,8 @@
    </url>
 
    <requires>
-      <import plugin="fr.lip6.move.coloane.core"/>
-      <import plugin="fr.lip6.move.coloane.interfaces"/>
-      <import plugin="fr.lip6.move.coloane.extensions.exportToGML"/>
-      <import plugin="fr.lip6.move.coloane.extensions.importExportCAMI"/>
+      <import feature="fr.lip6.move.coloane.features.exportToGML" version="1.0.0.qualifier"/>
+      <import feature="fr.lip6.move.coloane.features.importExportCAMI" version="1.0.0.qualifier"/>
    </requires>
 
    <plugin
