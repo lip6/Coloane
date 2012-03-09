@@ -3,7 +3,6 @@
 
 <product name="Coloane" uid="coloane" id="fr.lip6.move.coloane.product.eclipse-repository" application="fr.lip6.move.coloane.product.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
@@ -12,7 +11,6 @@
    </launcherArgs>
 
    <windowImages/>
-
 
    <launcher name="coloane">
       <linux icon="icons/alt_launcher.xpm"/>
@@ -24,7 +22,6 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
 
@@ -33,7 +30,6 @@
 
    <features>
       <feature id="fr.lip6.move.coloane.features.product"/>
-      <feature id="fr.lip6.move.coloane.features.main"/>
       <feature id="org.eclipse.rcp"/>
       <feature id="org.eclipse.equinox.p2.user.ui"/>
    </features>
