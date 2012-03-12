@@ -44,7 +44,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	}
 
 	protected void fillMenuBar(IMenuManager menuBar) {
-    	IMenuManager fileMenu = new MenuManager("&File", IWorkbenchActionConstants.M_FILE);
+    	IMenuManager fileMenu = new MenuManager("&File", "file");
     	fileMenu.add(getAction(ActionFactory.NEW_WIZARD_DROP_DOWN.getId()));
     	fileMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 
