@@ -233,7 +233,7 @@ public class Coloane extends AbstractUIPlugin {
 		store.setDefault("PORT", getParam("PORT_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Statistics Status
-		store.setDefault("STATS_STATUS", true); //$NON-NLS-1$
+		store.setDefault("STATS_STATUS", false); //$NON-NLS-1$
 
 		// Node color
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);
