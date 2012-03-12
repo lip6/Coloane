@@ -3,6 +3,13 @@
 
 <product name="Coloane" uid="coloane" id="fr.lip6.move.coloane.product.eclipse-repository" application="fr.lip6.move.coloane.product.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
+   <aboutInfo>
+      <text>
+         Coloane Modeler
+Version:  1.0-SNAPSHOT
+      </text>
+   </aboutInfo>
+
    <configIni use="default">
    </configIni>
 
@@ -21,6 +28,7 @@
          <bmp/>
       </win>
    </launcher>
+
 
    <vm>
    </vm>
