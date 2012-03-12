@@ -5,11 +5,9 @@ Bundle-SymbolicName: fr.lip6.move.coloane.tools.layout;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.tools.graphviz.GraphVizActivator
 Bundle-Vendor: LIP6 / MoVe, Abstratt Technologies, Apache.
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui,
- org.eclipse.core.filesystem,
- fr.lip6.move.coloane.core,
- fr.lip6.move.coloane.interfaces
+Require-Bundle: fr.lip6.move.coloane.core,
+ fr.lip6.move.coloane.interfaces,
+ org.eclipse.core.filesystem
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Eclipse-LazyStart: true
