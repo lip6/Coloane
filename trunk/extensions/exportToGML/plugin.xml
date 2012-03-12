@@ -63,7 +63,7 @@
       <exportedFormalism
             class="fr.lip6.move.coloane.extensions.exporttogml.CosmosExport"
             fmlurl="http://alligator.lip6.fr/lha.fml"
-            name="fr.lip6.move.coloane.formalism.cosmos.lha">
+            name="fr.lip6.move.coloane.formalism.cosmosLHA">
       </exportedFormalism>
    </extension>
 
