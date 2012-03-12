@@ -12,6 +12,10 @@
                  name="appName"
                  value="Coloane">
            </property>
+           <property
+                 name="aboutText"
+                 value="Coloane Modeler&#x0A;Version:  1.0-SNAPSHOT">
+           </property>
         </product>
     </extension>
     <extension
