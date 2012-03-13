@@ -22,13 +22,13 @@ public class PTExport implements IGMLExport {
 			writer.write(" xmlns=\"" + GML_NAMESPACE + "\">\n");
 
 			for (IAttribute attribute : graph.getAttributes()) {
-				exportAttribute(attribute);
+				writer.write(exportAttribute(attribute));
 			}
 			for (INode node : graph.getNodes()) {
-				exportNode(node);
+				writer.write(exportNode(node));
 			}
 			for (IArc arc : graph.getArcs()) {
-				exportArc(arc);
+				writer.write(exportArc(arc));
 			}
 
 			writer.write("</model>\n");
