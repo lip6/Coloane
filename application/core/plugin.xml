@@ -551,7 +551,7 @@
                 </Attribute>
              </Arc>
              <Arc
-                   name="read">
+                   name="readarc">
                 <GraphicInfo
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.UndirectedArc"
                       description="Create a read arc"
@@ -572,7 +572,7 @@
                 </Attribute>
              </Arc>
              <Arc
-                   name="inhibitor">
+                   name="inhibitorarc">
                 <GraphicInfo
                       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
                       description="Create an arc inhibitor"
