@@ -543,6 +543,49 @@
                 <Attribute
                       bold="false"
                       default="1"
+                      displayed_default="false"
+                      drawable="true"
+                      italic="false"
+                      multiline="true"
+                      name="valuation">
+                </Attribute>
+             </Arc>
+             <Arc
+                   name="read">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.UndirectedArc"
+                      description="Create a read arc"
+                      drawable="true"
+                      icon16px="resources/formalisms/ptn/read_16.png"
+                      icon24px="resources/formalisms/ptn/read_24.png"
+                      palettable="true"
+                      paletteName="Read">
+                </GraphicInfo>
+                <Attribute
+                      bold="false"
+                      default="1"
+                      displayed_default="false"
+                      drawable="true"
+                      italic="false"
+                      multiline="true"
+                      name="valuation">
+                </Attribute>
+             </Arc>
+             <Arc
+                   name="inhibitor">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.InhibitorArc"
+                      description="Create an arc inhibitor"
+                      drawable="true"
+                      icon16px="resources/formalisms/ptn/inhibitor_16.png"
+                      icon24px="resources/formalisms/ptn/inhibitor_24.png"
+                      palettable="true"
+                      paletteName="Inhibitor">
+                </GraphicInfo>
+                <Attribute
+                      bold="false"
+                      default="1"
+                      displayed_default="false"
                       drawable="true"
                       italic="false"
                       multiline="true"
