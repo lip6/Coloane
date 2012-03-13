@@ -46,7 +46,7 @@
             name="CPN">
       </exportedFormalism>
       <exportedFormalism
-            class="fr.lip6.move.coloane.extensions.exporttogml.SNBExport"
+            class="fr.lip6.move.coloane.extensions.exporttogml.PTExport"
             fmlurl="http://alligator.lip6.fr/pt-net.fml"
             name="PT-Net">
       </exportedFormalism>
