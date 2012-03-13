@@ -15,13 +15,18 @@
  */
 package fr.lip6.move.coloane.extensions.exporttogml;
 
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativePartLexer;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativePartParserSN;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.GuardLexer;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.GuardParser;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.ValuationLexerSNB;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.ValuationParserSNB;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -29,13 +34,6 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-
-import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativePartLexer;
-import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativePartParserSN;
-import fr.lip6.move.coloane.extensions.exporttogml.antlr.GuardLexer;
-import fr.lip6.move.coloane.extensions.exporttogml.antlr.GuardParser;
-import fr.lip6.move.coloane.extensions.exporttogml.antlr.ValuationLexerSNB;
-import fr.lip6.move.coloane.extensions.exporttogml.antlr.ValuationParserSNB;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -112,19 +110,10 @@ public class SNBExport implements IGMLExport {
 		monitor.beginTask("export", graph.getArcs().size() + graph.getNodes().size() + 1);
 		StringTemplate modelST = exportGraph(graph, fmlUrl, monitor);
 
-		Writer out = null;
 		try {
-			out = new BufferedWriter(writer);
-			out.write(modelST.toString());
+			writer.write(modelST.toString());
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
-		} finally {
-			try {
-				out.flush();
-				out.close();
-			} catch (IOException e) {
-				throw new ExtensionException(e.getMessage());
-			}
 		}
 	}
 	
