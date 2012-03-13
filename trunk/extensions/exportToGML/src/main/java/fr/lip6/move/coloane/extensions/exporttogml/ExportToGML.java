@@ -48,7 +48,9 @@ public class ExportToGML implements IExportTo {
 	 */
 	public final void export(IGraph graph, String filePath, IProgressMonitor monitor) throws ExtensionException {
 		try {
-			export(graph, new FileWriter(filePath), monitor);
+			Writer writer = new FileWriter(filePath);
+			export(graph, writer, monitor);
+			writer.close();
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
 		}
