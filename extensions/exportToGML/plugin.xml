@@ -25,7 +25,7 @@
                id="Timed Automata">
          </AcceptedFormalism>
          <AcceptedFormalism
-               id="fr.lip6.move.coloane.formalism.cosmos.lha">
+               id="fr.lip6.move.coloane.formalism.cosmosLHA">
          </AcceptedFormalism>
       </Export>
    </extension>
