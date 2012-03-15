@@ -45,23 +45,9 @@ Many thanks for their help :
 
    <url>
       <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
-      <discovery label="Eclipse GANYMEDE updates" url="http://download.eclipse.org/releases/ganymede/"/>
-      <discovery label="Eclipse GALILEO updates" url="http://download.eclipse.org/releases/galileo/"/>
    </url>
 
    <requires>
-      <import plugin="org.eclipse.gef"/>
-      <import plugin="org.eclipse.jface"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.ui.views"/>
-      <import plugin="org.eclipse.ui.ide"/>
-      <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.jface.text"/>
-      <import plugin="org.eclipse.ui.navigator"/>
-      <import plugin="org.eclipse.ui.views.properties.tabbed"/>
-      <import plugin="org.eclipse.core.expressions"/>
-      <import plugin="org.eclipse.ui.console"/>
       <import feature="fr.lip6.move.coloane.features.main"/>
    </requires>
 
