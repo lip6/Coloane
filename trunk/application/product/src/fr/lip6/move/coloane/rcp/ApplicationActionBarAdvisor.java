@@ -37,6 +37,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	newFile.setText("New");
     	register(newFile);
     	register(ActionFactory.ABOUT.create(window));
+    	register(ActionFactory.SAVE.create(window));
     }
 
 	/** {@inheritDoc} */
@@ -47,6 +48,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	protected void fillMenuBar(IMenuManager menuBar) {
     	IMenuManager fileMenu = new MenuManager("&File", "file");
     	fileMenu.add(getAction(ActionFactory.NEW_WIZARD_DROP_DOWN.getId()));
+    	fileMenu.add(getAction(ActionFactory.SAVE.getId()));
     	fileMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 
     	IMenuManager settingsMenu = new MenuManager("&Settings", IWorkbenchActionConstants.M_HELP);
