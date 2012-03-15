@@ -74,12 +74,12 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.file.close"
-                  label="Close"
+                  id="close"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.file.closeAll"
-                  label="Close All"
+                  id="closeAll"
                   style="push">
             </command>
             <separator
@@ -93,12 +93,12 @@
             </command>
             <command
                   commandId="org.eclipse.ui.file.saveAll"
-                  label="Save All"
+                  id="saveAll"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.file.saveAs"
-                  label="Save As…"
+                  id="saveAs"
                   style="push">
             </command>
             <separator
@@ -107,7 +107,7 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.file.refresh"
-                  label="Refresh"
+                  id="refresh"
                   style="push">
             </command>
             <separator
@@ -116,7 +116,7 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.file.print"
-                  label="Print"
+                  id="print"
                   style="push">
             </command>
             <separator
@@ -125,7 +125,7 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.file.exit"
-                  label="Exit"
+                  id="quit"
                   style="push">
             </command>
          </menu>
@@ -135,12 +135,12 @@
                mnemonic="E">
             <command
                   commandId="org.eclipse.ui.edit.undo"
-                  label="Undo"
+                  id="undo"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.edit.redo"
-                  label="Redo"
+                  id="redo"
                   style="push">
             </command>
             <separator
@@ -149,17 +149,17 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.edit.cut"
-                  label="Cut"
+                  id="cut"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.edit.copy"
-                  label="Copy"
+                  id="copy"
                   style="push">
             </command>
             <command
                   commandId="org.eclipse.ui.edit.paste"
-                  label="Paste"
+                  id="paste"
                   style="push">
             </command>
          </menu>
@@ -169,7 +169,7 @@
                mnemonic="S">
             <command
                   commandId="org.eclipse.ui.window.preferences"
-                  label="Preferences"
+                  id="preferences"
                   style="push">
             </command>
          </menu>
