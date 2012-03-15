@@ -37,6 +37,20 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	newFile.setText("New");
     	register(newFile);
     	register(ActionFactory.ABOUT.create(window));
+    	register(ActionFactory.SAVE.create(window));
+    	register(ActionFactory.SAVE_ALL.create(window));
+    	register(ActionFactory.SAVE_AS.create(window));
+    	register(ActionFactory.CLOSE.create(window));
+    	register(ActionFactory.CLOSE_ALL.create(window));
+    	register(ActionFactory.REFRESH.create(window));
+    	register(ActionFactory.PRINT.create(window));
+    	register(ActionFactory.QUIT.create(window));
+    	register(ActionFactory.UNDO.create(window));
+    	register(ActionFactory.REDO.create(window));
+    	register(ActionFactory.CUT.create(window));
+    	register(ActionFactory.COPY.create(window));
+    	register(ActionFactory.PASTE.create(window));
+    	register(ActionFactory.PREFERENCES.create(window));
     }
 
 	/** {@inheritDoc} */
