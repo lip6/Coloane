@@ -88,7 +88,7 @@
             </separator>
             <command
                   commandId="org.eclipse.ui.file.save"
-                  label="Save"
+                  id="save"
                   style="push">
             </command>
             <command
