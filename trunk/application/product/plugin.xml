@@ -163,7 +163,8 @@
                   style="push">
             </command>
             <separator
-                  name="fr.lip6.move.coloane.product.separator1">
+                  name="fr.lip6.move.coloane.product.separator1"
+                  visible="true">
             </separator>
             <command
                   commandId="org.eclipse.ui.edit.delete"
