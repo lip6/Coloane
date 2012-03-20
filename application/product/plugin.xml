@@ -162,6 +162,19 @@
                   id="paste"
                   style="push">
             </command>
+            <separator
+                  name="fr.lip6.move.coloane.product.separator1">
+            </separator>
+            <command
+                  commandId="org.eclipse.ui.edit.delete"
+                  id="delete"
+                  style="push">
+            </command>
+            <command
+                  commandId="org.eclipse.ui.edit.selectAll"
+                  id="selectAll"
+                  style="push">
+            </command>
          </menu>
          <menu
                id="help"
