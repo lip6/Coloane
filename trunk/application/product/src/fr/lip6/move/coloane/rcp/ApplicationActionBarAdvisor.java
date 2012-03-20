@@ -51,6 +51,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	register(ActionFactory.COPY.create(window));
     	register(ActionFactory.PASTE.create(window));
     	register(ActionFactory.PREFERENCES.create(window));
+    	register(ActionFactory.DELETE.create(window));
+    	register(ActionFactory.SELECT_ALL.create(window));
     }
 
 	/** {@inheritDoc} */
