@@ -39,7 +39,7 @@ action:
    
 ALL: 'all' | 'ALL';
 
-fragment LETTER : 'a'..'z' | 'A'..'Z' '_' ;
+fragment LETTER : 'a'..'z' | 'A'..'Z' | '_' ;
 fragment DIGIT : '0'..'9' ;
 INTEGER : DIGIT+ ;
 
