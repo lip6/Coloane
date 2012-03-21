@@ -320,7 +320,7 @@ POWER: 'power' | 'POWER';
 MAX: 'max' | 'MAX';
 MIN: 'min' | 'MIN';
 
-fragment LETTER : 'a'..'z' | 'A'..'Z' ;
+fragment LETTER : 'a'..'z' | 'A'..'Z' '_' ;
 fragment DIGIT : '0'..'9' ;
 INTEGER : DIGIT+ ;
 
