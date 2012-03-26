@@ -114,7 +114,7 @@ public class ResultsView extends ViewPart {
 	/** {@inheritDoc} */
 	@Override
 	public final void createPartControl(final Composite parent) {
-		viewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.BORDER | SWT.CHECK);
+		viewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.BORDER | SWT.CHECK | SWT.FULL_SELECTION);
 		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 		viewer.setContentProvider(new ResultContentProvider());
 
