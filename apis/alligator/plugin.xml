@@ -27,5 +27,13 @@
             name="Alligator Preferences">
       </page>
    </extension>
+   <extension
+         point="fr.lip6.move.coloane.core.tools">
+      <Tool
+            action="fr.lip6.move.coloane.api.alligator.dialog.ServiceTestDialog"
+            description="test"
+            name="test">
+      </Tool>
+   </extension>
 
 </plugin>
