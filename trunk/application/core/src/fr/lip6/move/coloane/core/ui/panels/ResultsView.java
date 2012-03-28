@@ -115,7 +115,7 @@ public class ResultsView extends ViewPart {
 	@Override
 	public final void createPartControl(final Composite parent) {
 		viewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.BORDER | SWT.CHECK | SWT.FULL_SELECTION);
-		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
+		viewer.getTree().setLinesVisible(true);
 		viewer.setContentProvider(new ResultContentProvider());
 
 		// Add the first column
