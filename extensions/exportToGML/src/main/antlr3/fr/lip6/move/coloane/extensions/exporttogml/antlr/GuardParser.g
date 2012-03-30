@@ -48,19 +48,35 @@ transitionGuard[Map<String,String> s]
   ;
 
 guard
-  : a=atom -> { $a.st }
-  | (term (AND term)+)=> t+=term (AND t+=term)+
-  -> balise(name={"boolExpr"}, content={ %balise(name={"and"}, content={$t}) })
-  | (term (OR term)+)=> t+=term (OR t+=term)+
-  -> balise(name={"boolExpr"}, content={ %balise(name={"or"}, content={$t}) })
-  | te=term -> { $te.st }
+  : c+=clause (AND c+=clause)*
+  {
+    if ($c.size() == 1) {
+      retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", $c[0]));
+    } else {
+      StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "and").put("content", $c));
+      retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp));
+    }
+  }
   ;
-
-term
-  : NOT LPAREN g=guard RPAREN
+  
+clause
+  : t+=term (OR t+=term)*
+  {
+    if ($t.size() == 1) {
+      retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", $t[0]));
+    } else {
+      StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "or").put("content", $t));
+      retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp));
+    }
+  }
+  ;
+ 
+ term
+  : a=atom -> { $a.st }
+  | NOT LPAREN g=guard RPAREN
   -> balise(name={"boolExpr"}, content={
         %balise(name={"not"}, content={$g.st})
-  } )
+     } )
   | LPAREN g=guard RPAREN -> { $g.st }
   ;
 
