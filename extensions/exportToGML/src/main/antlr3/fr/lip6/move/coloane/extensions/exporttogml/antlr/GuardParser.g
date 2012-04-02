@@ -51,7 +51,7 @@ guard
   : c+=clause (AND c+=clause)*
   {
     if ($c.size() == 1) {
-      retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", $c[0]));
+      retval.st = %balise( name={"boolExpr"}, content={$c} );
     } else {
       StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "and").put("content", $c));
       retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp));
@@ -63,7 +63,7 @@ clause
   : t+=term (OR t+=term)*
   {
     if ($t.size() == 1) {
-      retval.st = %balise( name={"boolExpr"}, content={$t[0]} );
+      retval.st = %balise( name={"boolExpr"}, content={$t} );
     } else {
       StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "or").put("content", $t));
       retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp));
