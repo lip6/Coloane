@@ -63,7 +63,7 @@ clause
   : t+=term (OR t+=term)*
   {
     if ($t.size() == 1) {
-      retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", $t[0]));
+      retval.st = %balise( name={"boolExpr"}, content={$t[0]} );
     } else {
       StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "or").put("content", $t));
       retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp));
