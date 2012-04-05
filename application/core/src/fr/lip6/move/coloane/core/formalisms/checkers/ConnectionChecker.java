@@ -33,9 +33,9 @@ public final class ConnectionChecker implements INodeChecker {
 	public ICheckerResult performCheck(INode node) {
 		// |Incoming| + |Outgoing| arcs must be > 0
 		if (node.getOutgoingArcs().size() + node.getIncomingArcs().size() > 0) {
-			return new CheckerResult(true, node.getNodeFormalism().getName() + " is disconnected in your model (no arcs to or from)"); //$NON-NLS-1$
-		} else {
 			return new CheckerResult(false, ""); //$NON-NLS-1$
+		} else {
+			return new CheckerResult(true, node.getNodeFormalism().getName() + " is disconnected in your model (no arcs to or from)"); //$NON-NLS-1$
 		}
 	}
 
