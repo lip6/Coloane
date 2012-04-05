@@ -264,9 +264,16 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 			@Override
 			protected void showSelection() {
 				select = true;
+				setSelected(EditPart.SELECTED);
 				refreshVisuals();
 			}
 		});
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final boolean isSelectable() {
+		return true;
 	}
 
 	/** {@inheritDoc} */
