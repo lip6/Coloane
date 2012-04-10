@@ -28,7 +28,7 @@ intExprW[Map<String,String> s]
 @init {
   symbols = s;
 } :
-  e=intExpr EOF -> balise(name={"intFormula"}, content={ $e.st });
+  e=intExpr EOF -> balise(name={"expr"}, content={ $e.st });
 
 intExpr :
    e=multIntExpr 
@@ -37,12 +37,12 @@ intExpr :
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"iplus"}, content={ tmplist })
+   } -> balise(name={"+"}, content={ tmplist })
    | '-' e2=intExpr {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"iminus"}, content={ tmplist })
+   } -> balise(name={"-"}, content={ tmplist })
    )) 
    ;
 
@@ -54,7 +54,7 @@ multIntExpr
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"imult"}, content={ tmplist })
+   } -> balise(name={"*"}, content={ tmplist })
   )+)
   ;
 
@@ -62,13 +62,13 @@ intAtom:
    i=IDENTIFIER {
     StringTemplate tmp = templateLib.getInstanceOf("balise");
       if(is_constante($i.getText())){
-        tmp.setAttribute("name", "intConst");
+        tmp.setAttribute("name", "name");
       }else{
           tmp.setAttribute("name", "placeName");
       }  
       tmp.setAttribute("content", $i.getText());
    } -> delist(arg={tmp})
-  | i=INTEGER -> balise(name={"value"}, content={ $i.getText() })
+  | i=INTEGER -> balise(name={"numValue"}, content={ $i.getText() })
   | '(' e=intExpr ')' -> {$e.st}
   | MAX '(' a=intExpr ',' b=intExpr ')' {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
@@ -114,7 +114,7 @@ arg_list
       tmp1.setAttribute("name", "number");
       tmp1.setAttribute("content", compteur);
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
-      tmp2.setAttribute("name", "realFormula");
+      tmp2.setAttribute("name", "expr");
       tmp2.setAttribute("content", x);
       
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
@@ -135,7 +135,7 @@ realExprW[Map<String,String> s]
 @init {
   symbols = s;
 } :
-  e=realExpr EOF -> balise(name={"realFormula"}, content={ $e.st });
+  e=realExpr EOF -> balise(name={"expr"}, content={ $e.st });
 
 realExpr :
    e=multRealExpr 
@@ -144,12 +144,12 @@ realExpr :
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"plus"}, content={ tmplist })
+   } -> balise(name={"+"}, content={ tmplist })
    | '-' e2=realExpr {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"minus"}, content={ tmplist })
+   } -> balise(name={"-"}, content={ tmplist })
    )) 
    ;
 
@@ -161,12 +161,12 @@ multRealExpr
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"mult"}, content={ tmplist })
+   } -> balise(name={"*"}, content={ tmplist })
   | '/' e2=realAtom {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"div"}, content={ tmplist })
+   } -> balise(name={"/"}, content={ tmplist })
   )+)
   ;
 
@@ -174,17 +174,17 @@ realAtom:
    i=IDENTIFIER {
     StringTemplate tmp = templateLib.getInstanceOf("balise");
       if(is_int_constante($i.getText())){
-        tmp.setAttribute("name", "intConst");
+        tmp.setAttribute("name", "name");
       }else if(is_constante($i.getText())){
-        tmp.setAttribute("name", "realConst");
+        tmp.setAttribute("name", "name");
       }else if(is_variable($i.getText())){
-        tmp.setAttribute("name", "variable");
+        tmp.setAttribute("name", "name");
       }else{
-        tmp.setAttribute("name", "marking");
+        tmp.setAttribute("name", "name");
       }  
       tmp.setAttribute("content", $i.getText());
    } -> delist(arg={tmp})
-  | i=INTEGER -> balise(name={"value"}, content={ $i.getText() })
+  | i=INTEGER -> balise(name={"numValue"}, content={ $i.getText() })
   | '(' e=realExpr ')' -> {$e.st}
   | MAX '(' a=realExpr ',' b=realExpr ')' {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
@@ -207,7 +207,7 @@ boolExprW[Map<String,String> s]
 @init {
   symbols = s;
 } :
-  e=boolExpr EOF -> balise(name={"boolFormula"}, content={ $e.st });
+  e=boolExpr EOF -> balise(name={"boolExpr"}, content={ $e.st });
 
 boolExpr:
    e=atomBoolExpr
@@ -239,15 +239,15 @@ atomBoolExpr:
     if($o.getText().equals("<="))op="lessEqual";
     if($o.getText().equals(">="))op="greaterEqual";
   } -> balise(name={op}, content={ tmplist })
-  | TRUE -> balise(name={"boolean"}, content={"true"})
-  | FALSE -> balise(name={"boolean"}, content={"false"});
+  | TRUE -> balise(name={"boolValue"}, content={"true"})
+  | FALSE -> balise(name={"boolValue"}, content={"false"});
   
    
 update[Map<String,String> s]
 @init {
   symbols = s;
 } :
-  EOF -> balise(name={"update"}, content={ "" })
+  EOF -> balise(name={"updates"}, content={ "" })
   | a+=updatevar (';' a+=updatevar)* (';')? EOF
   {
     List<StringTemplate> tmp = new ArrayList();
@@ -255,17 +255,17 @@ update[Map<String,String> s]
       tmp.add((StringTemplate)x);
     }
     
-  } -> balise(name={"update"}, content={ tmp })
+  } -> balise(name={"updates"}, content={ tmp })
   ;
   
   updatevar
   : a=IDENTIFIER {is_variable($a.getText())}? '=' e=realExpr {
       StringTemplate tmp = templateLib.getInstanceOf("balise");
-      tmp.setAttribute("name", "variable");
+      tmp.setAttribute("name", "name");
       tmp.setAttribute("content", $a.getText());
       
       StringTemplate tmp3 = templateLib.getInstanceOf("balise");
-      tmp3.setAttribute("name", "realFormula");
+      tmp3.setAttribute("name", "expr");
       tmp3.setAttribute("content", $e.st);
   
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
@@ -273,7 +273,7 @@ update[Map<String,String> s]
       tmplist.add(tmp3);
   
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
-      tmp2.setAttribute("name", "updatevar");
+      tmp2.setAttribute("name", "update");
       tmp2.setAttribute("content", tmplist);
       } -> delist(arg={tmp2})
       ;
@@ -282,7 +282,7 @@ flow[Map<String,String> s]
 @init {
   symbols = s;
 } :
-  EOF -> balise(name={"flow"}, content={ "" })
+  EOF -> balise(name={"flows"}, content={ "" })
   | a+=flowvar (';' a+=flowvar)* (';')? EOF
   {
     List<StringTemplate> tmp = new ArrayList();
@@ -290,17 +290,17 @@ flow[Map<String,String> s]
       tmp.add((StringTemplate)x);
     }
     
-  } -> balise(name={"flow"}, content={ tmp })
+  } -> balise(name={"flows"}, content={ tmp })
   ;
   
   flowvar
   : a=IDENTIFIER {is_variable($a.getText())}? '\'' '=' e=realExpr {
       StringTemplate tmp = templateLib.getInstanceOf("balise");
-      tmp.setAttribute("name", "variable");
+      tmp.setAttribute("name", "name");
       tmp.setAttribute("content", $a.getText());
   
       StringTemplate tmp3 = templateLib.getInstanceOf("balise");
-      tmp3.setAttribute("name", "realFormula");
+      tmp3.setAttribute("name", "expr");
       tmp3.setAttribute("content", $e.st);
   
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
@@ -309,7 +309,7 @@ flow[Map<String,String> s]
   
   
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
-      tmp2.setAttribute("name", "flowvar");
+      tmp2.setAttribute("name", "flow");
       tmp2.setAttribute("content", tmplist);
       } -> delist(arg={tmp2})
       ;
