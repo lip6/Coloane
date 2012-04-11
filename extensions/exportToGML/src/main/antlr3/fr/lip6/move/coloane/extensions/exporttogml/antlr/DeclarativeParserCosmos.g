@@ -30,19 +30,20 @@ const_list
       tmp.add((StringTemplate)x);
     }
     
-  } -> balise(name={"declarations"}, content={ tmp })
+  } -> balise(name={"declaration"}, content={ tmp })
   ;
+  
   
   constdef
   : INT c=STRING EQUAL s=STRING  {
       symbols.put($c.getText(),"intconst");
       StringTemplate tmp1 = templateLib.getInstanceOf("balise");
-      tmp1.setAttribute("name", "constName");
+      tmp1.setAttribute("name", "name");
       tmp1.setAttribute("content", $c.getText());
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
-      tmp2.setAttribute("name", "intFormula");
+      tmp2.setAttribute("name", "expr");
       StringTemplate tmp3 = templateLib.getInstanceOf("balise");
-      tmp3.setAttribute("name", "value");
+      tmp3.setAttribute("name", "numValue");
       tmp3.setAttribute("content", $s.getText());
       
       tmp2.setAttribute("content", tmp3);
@@ -52,7 +53,7 @@ const_list
       tmplist.add(tmp2);
       
       StringTemplate tmp = templateLib.getInstanceOf("balise");
-      tmp.setAttribute("name", "intConstDeclaration");
+      tmp.setAttribute("name", "intConst");
       tmp.setAttribute("content", tmplist);
       
       
@@ -63,13 +64,13 @@ const_list
   | REAL c=STRING EQUAL s=STRING  {
       symbols.put($c.getText(),"realconst");
       StringTemplate tmp1 = templateLib.getInstanceOf("balise");
-      tmp1.setAttribute("name", "constName");
+      tmp1.setAttribute("name", "name");
       tmp1.setAttribute("content", $c.getText());
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
-      tmp2.setAttribute("name", "realFormula");
+      tmp2.setAttribute("name", "expr");
       
       StringTemplate tmp3 = templateLib.getInstanceOf("balise");
-      tmp3.setAttribute("name", "value");
+      tmp3.setAttribute("name", "numValue");
       tmp3.setAttribute("content", $s.getText());
       
       tmp2.setAttribute("content", tmp3);
@@ -79,7 +80,7 @@ const_list
       tmplist.add(tmp2);
       
       StringTemplate tmp = templateLib.getInstanceOf("balise");
-      tmp.setAttribute("name", "realConstDeclaration");
+      tmp.setAttribute("name", "realConst");
       tmp.setAttribute("content", tmplist);
       
       } -> delist(arg={tmp})
@@ -87,10 +88,10 @@ const_list
    | VARIABLE c=STRING  {
       symbols.put($c.getText(),"variable");
       StringTemplate tmp1 = templateLib.getInstanceOf("balise");
-      tmp1.setAttribute("name", "varName");
+      tmp1.setAttribute("name", "name");
       tmp1.setAttribute("content", $c.getText());
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
-      tmp2.setAttribute("name", "variable");
+      tmp2.setAttribute("name", "init");
       tmp2.setAttribute("content", tmp1);
       
       } -> delist(arg={tmp2})
