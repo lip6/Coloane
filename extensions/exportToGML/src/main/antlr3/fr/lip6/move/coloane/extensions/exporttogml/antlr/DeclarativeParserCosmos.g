@@ -18,7 +18,22 @@ options {
 
 @members {
     Map<String, String> symbols = new HashMap<String, String>();
+    Map<String, StringTemplate> initValues = new HashMap<String, StringTemplate>();
     public Map<String, String> getSymbols() { return symbols; }
+    
+    private StringTemplate getDef(String symbolsType, String gmlType){
+      List<StringTemplate> tmpConst = new ArrayList();
+      for (String x : symbols.keySet()){
+        if(symbolsType.equals(symbols.get(x))){
+          tmpConst.add(initValues.get(x));
+        }
+      }
+      StringTemplate tmpConsts = templateLib.getInstanceOf("balise");
+      tmpConsts.setAttribute("name", gmlType+"s");
+      tmpConsts.setAttribute("content", tmpConst);
+      return tmpConsts;
+    }
+    
   }
 
 const_list
@@ -26,9 +41,15 @@ const_list
   | a+=constdef (SEMICOLON a+=constdef)* (SEMICOLON)?
   {
     List<StringTemplate> tmp = new ArrayList();
-    for (Object x : $a) {
-      tmp.add((StringTemplate)x);
-    }
+    
+    StringTemplate tmpConst = templateLib.getInstanceOf("balise");
+    tmpConst.setAttribute("name", "constants");
+    List<StringTemplate> tmpConsts = new ArrayList();
+    tmpConsts.add(getDef("intconst","intConst"));
+    tmpConsts.add(getDef("realconst","realConst"));
+    tmpConst.setAttribute("content", tmpConsts) ;
+    
+    tmp.add(tmpConst);
     
   } -> balise(name={"declaration"}, content={ tmp })
   ;
@@ -55,7 +76,7 @@ const_list
       StringTemplate tmp = templateLib.getInstanceOf("balise");
       tmp.setAttribute("name", "intConst");
       tmp.setAttribute("content", tmplist);
-      
+      initValues.put($c.getText(),tmp);
       
       } -> delist(arg={tmp})
       
@@ -82,6 +103,7 @@ const_list
       StringTemplate tmp = templateLib.getInstanceOf("balise");
       tmp.setAttribute("name", "realConst");
       tmp.setAttribute("content", tmplist);
+      initValues.put($c.getText(),tmp);
       
       } -> delist(arg={tmp})
       
@@ -91,9 +113,10 @@ const_list
       tmp1.setAttribute("name", "name");
       tmp1.setAttribute("content", $c.getText());
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
-      tmp2.setAttribute("name", "init");
+      tmp2.setAttribute("name", "variable");
       tmp2.setAttribute("content", tmp1);
       
+      initValues.put($c.getText(),tmp2);
       } -> delist(arg={tmp2})
       //balise(name={"realConstDeclaration"}, content={ tmplist })
   ;
