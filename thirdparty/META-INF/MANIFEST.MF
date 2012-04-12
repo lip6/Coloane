@@ -30,5 +30,6 @@ Export-Package: org.antlr.runtime,
  org.apache.batik.dom,
  org.apache.batik.svggen,
  org.apache.batik.ext.awt.g2d,
- org.apache.commons.exec
+ org.apache.commons.exec,
+ net.sf.saxon.s9api
 
