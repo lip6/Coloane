@@ -62,9 +62,7 @@ public class Activator extends AbstractUIPlugin {
 			String key = contributions[i].getAttribute(NAME_EXTENSION);
 			contributionMap.put(key, new Exporter(contributions[i]));
 		}
-//		StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='http://alligator.lip6.fr/sptgd-net.fml' xmlns='http://gml.lip6.fr/model'/>");
-//		Model fakeModel = new Model(new GmlCheckExecutables(), content);
-//		System.out.println(fakeModel.getFormalism().getData());
+
 	}
 
 	/** {@inheritDoc} */
