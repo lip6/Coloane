@@ -28,22 +28,30 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.neoppod.gml.GmlCheckExecutables;
+import fr.lip6.move.neoppod.gml.Model;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.saxon.s9api.SaxonApiException;
+
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
+
 
 /**
  * A class to export the Cosmos formalism to GML
@@ -123,6 +131,24 @@ public class CosmosExport implements IGMLExport {
 		StringTemplate modelST = exportGraph(graph, fmlUrl, monitor);
 
 		try {
+			/*String EXTENSION_POINT_ID = "fr.lip6.move.coloane.extensions.exportToGML.exportGML"; 
+			IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
+			String fmlUrl = null;
+			for(IConfigurationElement contribution : contributions) {
+				if(contribution.getAttribute("name").equals(graph.getFormalism().getId())) {
+					fmlUrl = contribution.getAttribute("fmlurl");
+				}
+			}*/
+			
+			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://gml.lip6.fr/model'/>");
+			Model fakeModel = new Model(new GmlCheckExecutables(), content);
+			try {
+				System.out.println(fakeModel.getFormalism().getData());
+			} catch (SaxonApiException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			writer.write(modelST.toString());
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
