@@ -20,7 +20,9 @@ Bundle-ClassPath: lib/antlr-runtime.jar,
  lib/xalan.jar,
  lib/xml-apis-ext.jar,
  lib/xml-apis.jar,
- lib/gml-check.jar
+ lib/gml-check.jar,
+ lib/saxon.jar,
+ lib/xercesImpl.jar
 Export-Package: org.antlr.runtime,
  org.antlr.stringtemplate,
  org.antlr.stringtemplate.language,
