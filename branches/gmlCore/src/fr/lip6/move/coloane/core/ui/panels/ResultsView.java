@@ -114,12 +114,13 @@ public class ResultsView extends ViewPart {
 	/** {@inheritDoc} */
 	@Override
 	public final void createPartControl(final Composite parent) {
-		viewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.BORDER | SWT.CHECK);
-		viewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
+		viewer = new CheckboxTreeViewer(parent, SWT.MULTI | SWT.BORDER | SWT.CHECK | SWT.FULL_SELECTION);
+		viewer.getTree().setLinesVisible(true);
 		viewer.setContentProvider(new ResultContentProvider());
 
 		// Add the first column
 		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(0));
+		new TreeViewerColumn(viewer, SWT.LEFT).setLabelProvider(new ResultColumnLabelProvider(1));
 
 		ResultManager resultsManager = null;
 		if (MANAGER.getCurrentSession() != null) {

@@ -52,6 +52,9 @@ import java.util.logging.Logger;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -448,7 +451,22 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		super.setInput(input);
 
 		// Fetch the XML file and set the name of the editor
-		IFile file = ((IFileEditorInput) input).getFile();
+		final IFile file = ((IFileEditorInput) input).getFile();
+		file.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
+			public void resourceChanged(IResourceChangeEvent event) {
+				if ((event.getType() & IResourceChangeEvent.POST_CHANGE) == IResourceChangeEvent.POST_CHANGE) {
+					IResourceDelta delta = event.getDelta().findMember(file.getFullPath());
+					if (delta != null && delta.getKind() == IResourceDelta.REMOVED) {
+						LOGGER.info("The editor on \"" + delta.getFullPath() + "\" will be closed because the resource has been deleted."); //$NON-NLS-1$ //$NON-NLS-2$
+						Display.getDefault().asyncExec(new Runnable() {
+							public void run() {
+								ColoaneEditor.this.getSite().getPage().closeEditor(ColoaneEditor.this, false);
+							}
+						});
+					}
+				}
+			}
+		});
 		setPartName(file.getName());
 
 		// Define the session id

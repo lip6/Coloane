@@ -169,7 +169,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 		}
 
 		// Tips
-		children.addAll(SessionManager.getInstance().getCurrentSession().getTips());
+		children.addAll(SessionManager.getInstance().getSession(graph).getTips());
 
 		// Sticky Notes
 		for (IStickyNote sticky : ((GraphModel) graph).getStickyNotes()) {

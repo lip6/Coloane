@@ -132,6 +132,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 
 		// Fetch available formalisms
 		List<IFormalism> listOfFormalisms = ImportFromExtension.getFormalisms(importType);
+		LOGGER.fine("Managed formalisms for the import plugin \"" + importType + "\": " + listOfFormalisms); //$NON-NLS-1$ //$NON-NLS-2$
 		for (IFormalism formalism : listOfFormalisms) {
 			formSelect.add(formalism.getName());
 		}

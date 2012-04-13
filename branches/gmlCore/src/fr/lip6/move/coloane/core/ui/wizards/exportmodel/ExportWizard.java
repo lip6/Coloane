@@ -76,10 +76,15 @@ public class ExportWizard extends FileSystemExportWizard implements IExecutableE
 		// Check that every files can be exported
 		for (IResource res : page.getSelectedRessource()) {
 			// TODO: Use persistent attributes
-			IFormalism currentFormalism = ModelLoader.loadFromXML(((IFile) res), new FormalismHandler()).getFormalism();
-			// Check that it exists an export extension for this wizard, and this formalism
-			if (currentFormalism == null || !ExportToExtension.canPerform(exportType, currentFormalism)) {
-				page.setErrorMessage(Messages.ExportWizard_0 + "'" + res.getName() + "'" + Messages.ExportWizard_3);  //$NON-NLS-1$//$NON-NLS-2$
+			FormalismHandler formalismHandler = ModelLoader.loadFromXML(((IFile) res), new FormalismHandler());
+			if (formalismHandler != null) {
+				IFormalism currentFormalism = ModelLoader.loadFromXML(((IFile) res), new FormalismHandler()).getFormalism();
+				// Check that it exists an export extension for this wizard, and this formalism
+				if (currentFormalism == null || !ExportToExtension.canPerform(exportType, currentFormalism)) {
+					page.setErrorMessage(Messages.ExportWizard_0 + "'" + res.getName() + "'" + Messages.ExportWizard_3);  //$NON-NLS-1$//$NON-NLS-2$
+					return false;
+				}
+			} else {
 				return false;
 			}
 		}

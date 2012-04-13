@@ -76,6 +76,7 @@ public class Coloane extends AbstractUIPlugin {
 
 		// Init the log manager
 		this.initializeLogger();
+		this.initializeDefaultPreferences(getPreferenceStore());
 		LOGGER.config("-- Initialisation du plugin Coloane --"); //$NON-NLS-1$
 		// Send information about the configuration
 		if (Boolean.parseBoolean(getInstance().getPreference("STATS_STATUS"))) { //$NON-NLS-1$
@@ -221,10 +222,7 @@ public class Coloane extends AbstractUIPlugin {
 		return (String) getBundle().getHeaders().get("Bundle-Version"); //$NON-NLS-1$
 	}
 
-	/**
-	 * Init all preferences with default values coming from the <i>plugin.properties</i> file.
-	 * @param store the place to store all these preferences
-	 */
+	/** {@inheritDoc} */
 	@Override
 	protected final void initializeDefaultPreferences(IPreferenceStore store) {
 		store.setDefault("LOGIN", getParam("LOGIN_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
@@ -235,7 +233,7 @@ public class Coloane extends AbstractUIPlugin {
 		store.setDefault("PORT", getParam("PORT_DEFAULT")); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Statistics Status
-		store.setDefault("STATS_STATUS", true); //$NON-NLS-1$
+		store.setDefault("STATS_STATUS", false); //$NON-NLS-1$
 
 		// Node color
 		Color color = Display.getDefault().getSystemColor(SWT.COLOR_BLUE);

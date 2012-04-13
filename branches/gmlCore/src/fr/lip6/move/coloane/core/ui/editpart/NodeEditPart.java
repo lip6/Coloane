@@ -459,7 +459,8 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	protected final List<Object> getModelTargetConnections() {
 		List<Object> targets = new ArrayList<Object>();
 		targets.addAll(((INode) getModel()).getIncomingArcs());
-		for (ICoreTip tip : SessionManager.getInstance().getCurrentSession().getTipForObject(((INode) getModel()).getId())) {
+		IGraph graph = (IGraph) ((INode) getModel()).getParent();
+		for (ICoreTip tip : SessionManager.getInstance().getSession(graph).getTipForObject(((INode) getModel()).getId())) {
 			targets.add(((ICoreTip) tip).getArcModel());
 		}
 		return targets;

@@ -19,8 +19,6 @@ import fr.lip6.move.coloane.core.communications.ConsoleMessageObserver;
 import fr.lip6.move.coloane.core.communications.MenuObserver;
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.session.ISession;
-import fr.lip6.move.coloane.core.ui.menus.ColoaneAPIRootMenu;
-import fr.lip6.move.coloane.core.ui.menus.ColoaneMenuManager;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.interfaces.api.IApi;
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
@@ -32,6 +30,7 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.action.MenuManager;
 
 /**
  * The class is able to find all API extensions.<br>
@@ -106,7 +105,7 @@ public final class ApiExtension {
 
 				// Build the root menu
 				LOGGER.finer("Building the " + api.getName() + " root-menu associated with the session"); //$NON-NLS-1$ //$NON-NLS-2$
-				ColoaneAPIRootMenu apiMenu = MenuManipulation.buildRootMenu(api.getName(), api.getDescription(), api.getIcon());
+				MenuManager apiMenu = MenuManipulation.buildRootMenu(api.getName(), api.getDescription(), api.getIcon());
 				// Attach menu observer
 				apiClass.addPropertyChangeListener(IApi.API_MENU, new MenuObserver(apiMenu));
 				// Attach console messages observer (only if the API is attached to an existing session)
@@ -118,7 +117,7 @@ public final class ApiExtension {
 				LOGGER.finer("Fetching sub-menus"); //$NON-NLS-1$
 				List<IItemMenu> submenus = api.getApiClass().getInitialApiMenus();
 				for (IItemMenu submenu : submenus) {
-					ColoaneMenuManager newMenu = MenuManipulation.buildSubMenu(apiMenu, submenu);
+					MenuManager newMenu = MenuManipulation.buildSubMenu(apiMenu, submenu);
 					if (newMenu != null) {
 						apiMenu.add(newMenu);
 					}

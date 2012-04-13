@@ -15,8 +15,6 @@
  */
 package fr.lip6.move.coloane.core.communications;
 
-import fr.lip6.move.coloane.core.ui.menus.ColoaneAPIRootMenu;
-import fr.lip6.move.coloane.core.ui.menus.ColoaneMenuManager;
 import fr.lip6.move.coloane.core.ui.menus.MenuManipulation;
 import fr.lip6.move.coloane.interfaces.api.IApi;
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
@@ -25,6 +23,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.logging.Logger;
+
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * Handle notifications coming from an API and dedicated to menu updates.
@@ -37,12 +38,12 @@ public class MenuObserver implements PropertyChangeListener {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** Session handled by this observer */
-	private ColoaneAPIRootMenu rootMenu;
+	private final MenuManager rootMenu;
 
 	/**
 	 * @param rootMenu Coloane root menu, the apis menus will be added as child of this menu.
 	 */
-	public MenuObserver(ColoaneAPIRootMenu rootMenu) {
+	public MenuObserver(MenuManager rootMenu) {
 		this.rootMenu = rootMenu;
 	}
 
@@ -58,11 +59,17 @@ public class MenuObserver implements PropertyChangeListener {
 			@SuppressWarnings("unchecked") // I can't check a type with generic
 			List<IItemMenu> submenus = (List<IItemMenu>) newValue;
 			for (IItemMenu submenu : submenus) {
-				ColoaneMenuManager newMenu = MenuManipulation.buildSubMenu(this.rootMenu, submenu);
+				MenuManager newMenu = MenuManipulation.buildSubMenu(this.rootMenu, submenu);
 				if (newMenu != null) {
 					this.rootMenu.add(newMenu);
 				}
 			}
+			this.rootMenu.markDirty();
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					rootMenu.updateAll(true);
+				}
+			});
 		}
 	}
 }

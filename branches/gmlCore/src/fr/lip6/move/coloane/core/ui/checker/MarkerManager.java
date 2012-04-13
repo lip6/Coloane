@@ -262,7 +262,6 @@ public final class MarkerManager {
 		} else if (element instanceof IGraph) {
 			deleteMarkers(resource, GRAPH_ATTRIBUTE_MARKER, element);
 		}
-
 	}
 
 	/**
@@ -319,7 +318,7 @@ public final class MarkerManager {
 				if (attribute != null) {
 					IAttribute attView = element.getAttribute(attribute);
 					// Focus on attribute
-					// Could return null if this attribute is not visible as an EditPart
+					// Could return null if this attribute is not visible as an EditPArt
 					toFocus = (EditPart) viewer.getEditPartRegistry().get(attView);
 				}
 

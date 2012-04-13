@@ -23,6 +23,7 @@ import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.resource.ImageDescriptor;
 
 /**
@@ -42,30 +43,31 @@ public final class MenuManipulation {
 	 * @param rootMenuName The name of the menu to build
 	 * @param rootMenuDescription the description of the menu to build
 	 * @param rootMenuImage the icon associated with the menu (or <code>null</code> if not)
-	 * @return the root menu
+	 * @return A root menu that corresponds to the menu description
 	 */
-	public static ColoaneAPIRootMenu buildRootMenu(String rootMenuName, String rootMenuDescription, ImageDescriptor rootMenuImage) {
+	public static MenuManager buildRootMenu(String rootMenuName, String rootMenuDescription, ImageDescriptor rootMenuImage) {
 		String menuId = rootMenuName.toLowerCase();
 		// If the menu has no icon associated with
 		if (rootMenuImage == null) {
-			return new ColoaneAPIRootMenu(rootMenuName, menuId);
+			return new MenuManager(rootMenuName, menuId);
 		}
-		return new ColoaneAPIRootMenu(rootMenuName, rootMenuImage, menuId);
+		return new MenuManager(rootMenuName, rootMenuImage, menuId);
 	}
 
 	/**
 	 * Build a new sub-menu
 	 * @param rootMenu The parent menu
 	 * @param itemDescription Description of the new sub-menu to build
+	 * @param rootMenu The parent of this sub-menu
 	 * @return A menu manager that corresponds to the menu description
 	 */
-	public static ColoaneMenuManager buildSubMenu(ColoaneAPIRootMenu rootMenu, IItemMenu itemDescription) {
+	public static MenuManager buildSubMenu(MenuManager rootMenu, IItemMenu itemDescription) {
 		String menuId = itemDescription.getName().toLowerCase();
 
 		// Deal with SubMenu
 		if (itemDescription instanceof ISubMenu) {
 			ISubMenu menuDescription = (ISubMenu) itemDescription;
-			ColoaneMenuManager item = new ColoaneMenuManager(menuDescription.getName(), menuId, menuDescription.isVisible(), menuDescription.getIcon());
+			MenuManager item = new MenuManager(menuDescription.getName(), menuDescription.getIcon(), menuId);
 
 			for (ISubMenu subMenu : menuDescription.getSubMenus()) {
 				item.add(buildSubMenu(rootMenu, subMenu));

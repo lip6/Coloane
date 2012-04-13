@@ -179,12 +179,15 @@ public class LinkSection extends AbstractSection<INode> {
 			for (IResource resource : currentModel.getParent().members()) {
 				if (resource.getName().endsWith(Coloane.getParam("MODEL_EXTENSION")) && resource instanceof IFile) { //$NON-NLS-1$
 					IFile file = (IFile) resource;
-					for (NodeInterface nodeInterface : ModelLoader.loadFromXML(file, new InterfacesHandler(file, nodeFormalism)).getInterfaces()) {
-						widgetModel.put(nodeInterface.toString(), nodeInterface);
-						listWidget.add(nodeInterface.toString());
+					InterfacesHandler interfacesHandler = ModelLoader.loadFromXML(file, new InterfacesHandler(file));
+					if (interfacesHandler != null) {
+						for (NodeInterface nodeInterface : interfacesHandler.getInterfaces()) {
+							widgetModel.put(nodeInterface.toString(), nodeInterface);
+							listWidget.add(nodeInterface.toString());
 
-						if (select == 0 && nodeInterface.getLink().equals(getElements().get(0).getNodeLink())) {
-							select = listWidget.getItemCount() - 1;
+							if (select == 0 && nodeInterface.getLink().equals(getElements().get(0).getNodeLink())) {
+								select = listWidget.getItemCount() - 1;
+							}
 						}
 					}
 				}

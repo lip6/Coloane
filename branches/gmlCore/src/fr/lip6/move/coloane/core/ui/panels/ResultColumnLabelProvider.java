@@ -15,12 +15,14 @@
  */
 package fr.lip6.move.coloane.core.ui.panels;
 
-import org.eclipse.jface.viewers.ColumnLabelProvider;
+import org.eclipse.jface.viewers.OwnerDrawLabelProvider;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Event;
 
 /**
  * Provide a label for each tree column
  */
-public class ResultColumnLabelProvider extends ColumnLabelProvider {
+public class ResultColumnLabelProvider extends OwnerDrawLabelProvider {
 	private final int column;
 
 	/**
@@ -30,14 +32,32 @@ public class ResultColumnLabelProvider extends ColumnLabelProvider {
 		this.column = column;
 	}
 
-	/** {@inheritDoc} */
-	@Override
-	public final String getText(Object element) {
+	/**
+	 * @param element current element
+	 * @return text into the element corresponding with the column set
+	 */
+	private String getText(Object element) {
 		IResultTree node = (IResultTree) element;
 		if (node.getElement().size() > column) {
 			return (String) node.getElement().get(column);
 		} else {
 			return ""; //$NON-NLS-1$
 		}
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected final void measure(Event event, Object element) {
+		String text = getText(element);
+		Point size = event.gc.textExtent(text);
+		event.width = size.x;
+		event.height = Math.max(event.height, size.y);
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	protected final void paint(Event event, Object element) {
+		String text = getText(element);
+		event.gc.drawText(text, event.x, event.y, true);
 	}
 }

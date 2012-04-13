@@ -49,14 +49,16 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 		if (image == null && element instanceof IFile) {
 			IFile f = (IFile) element;
 			if (f.getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
-				IFormalism formalism = ModelLoader.loadFromXML(f, new FormalismHandler()).getFormalism();
-				if (formalism != null) {
-					image = ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage();
-					images.put(element, image);
-					return image;
-				} else {
-					return errorImage;
+				FormalismHandler formalismHandler = ModelLoader.loadFromXML(f, new FormalismHandler());
+				if (formalismHandler != null) {
+					IFormalism formalism = formalismHandler.getFormalism();
+					if (formalism != null) {
+						image = ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage();
+						images.put(element, image);
+						return image;
+					}
 				}
+				return errorImage;
 			}
 		}
 		return image;
@@ -103,9 +105,12 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 		if (element instanceof IFile) {
 			IFile f = (IFile) element;
 			if (f.getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
-				IFormalism formalism = ModelLoader.loadFromXML(f, new FormalismHandler()).getFormalism();
-				if (formalism != null) {
-					return f.getFullPath() + "  —  " + formalism.getName(); //$NON-NLS-1$
+				FormalismHandler formalismHandler = ModelLoader.loadFromXML(f, new FormalismHandler());
+				if (formalismHandler != null) {
+					IFormalism formalism = formalismHandler.getFormalism();
+					if (formalism != null) {
+						return f.getFullPath() + "  —  " + formalism.getName(); //$NON-NLS-1$
+					}
 				}
 			}
 		}
