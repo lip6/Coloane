@@ -105,10 +105,3 @@ Plugin-Class: fr.lip6.move.coloane.core.main.Coloane
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .,
- lib/commons-cli.jar,
- lib/interfaces.jar,
- lib/saxon.jar,
- lib/xercesImpl.jar,
- lib/xml-apis.jar,
- lib/gml-check.jar
