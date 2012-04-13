@@ -24,68 +24,6 @@ options {
     
   }
 
-/*
-intExprW[Map<String,String> s]
-@init {
-  symbols = s;
-} :
-  e=intExpr EOF -> balise(name={"expr"}, content={ $e.st });
-
-intExpr :
-   e=multIntExpr 
-   (                 -> {$e.st}
-   | ('+' e2=intExpr {
-    List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
-    tmplist.add($e.st);
-    tmplist.add($e2.st);   
-   } -> balise(name={"+"}, content={ tmplist })
-   | '-' e2=intExpr {
-    List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
-    tmplist.add($e.st);
-    tmplist.add($e2.st);   
-   } -> balise(name={"-"}, content={ tmplist })
-   )) 
-   ;
-
-multIntExpr
-  : e=intAtom 
-  (
-                  -> {$e.st}
-  | ('*' e2=intAtom {
-    List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
-    tmplist.add($e.st);
-    tmplist.add($e2.st);   
-   } -> balise(name={"*"}, content={ tmplist })
-  )+)
-  ;
-
-intAtom: 
-   i=IDENTIFIER {
-    StringTemplate tmp = templateLib.getInstanceOf("balise");
-      //if(is_constante($i.getText())){
-        tmp.setAttribute("name", "name");
-      
-      tmp.setAttribute("content", $i.getText());
-   } -> delist(arg={tmp})
-  | i=INTEGER -> balise(name={"numValue"}, content={ $i.getText() })
-  | '(' e=intExpr ')' -> {$e.st}
-  | MAX '(' a=intExpr ',' b=intExpr ')' {
-    List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
-    tmplist.add($a.st);
-    tmplist.add($b.st);   
-  } -> balise(name={"imax"}, content={ tmplist })
-  | MIN '(' a=intExpr ',' b=intExpr ')' {
-    List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
-    tmplist.add($a.st);
-    tmplist.add($b.st);   
-  } -> balise(name={"imin"}, content={ tmplist })
-  | POWER '(' a=intExpr ',' b=intExpr ')' {
-    List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
-    tmplist.add($a.st);
-    tmplist.add($b.st);   
-  } -> balise(name={"ipower"}, content={ tmplist })
-  ;
-*/
   
 distribution[Map<String,String> st]
 @init {
@@ -112,13 +50,13 @@ arg_list
       StringTemplate tmp1 = templateLib.getInstanceOf("balise");
       tmp1.setAttribute("name", "number");
       tmp1.setAttribute("content", compteur);
-      StringTemplate tmp2 = templateLib.getInstanceOf("balise");
-      tmp2.setAttribute("name", "expr");
-      tmp2.setAttribute("content", x);
+     // StringTemplate tmp2 = templateLib.getInstanceOf("balise");
+     // tmp2.setAttribute("name", "expr");
+     // tmp2.setAttribute("content", x);
       
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
       tmplist.add(tmp1);
-      tmplist.add(tmp2);
+      tmplist.add((StringTemplate)x);
       
       StringTemplate tmp0 = templateLib.getInstanceOf("balise");
       tmp0.setAttribute("name", "param");
@@ -134,7 +72,7 @@ realExprW[Map<String,String> s]
 @init {
   symbols = s;
 } :
-  e=realExpr EOF -> balise(name={"expr"}, content={ $e.st });
+  e=realExpr EOF -> {$e.st};
 
 realExpr :
    e=multRealExpr 
@@ -143,12 +81,12 @@ realExpr :
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"+"}, content={ tmplist })
+   } -> funbalise(name={"+"}, content={ tmplist })
    | '-' e2=realExpr {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"-"}, content={ tmplist })
+   } -> funbalise(name={"-"}, content={ tmplist })
    )) 
    ;
 
@@ -160,53 +98,41 @@ multRealExpr
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"*"}, content={ tmplist })
+   } -> funbalise(name={"*"}, content={ tmplist })
   | '/' e2=realAtom {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"/"}, content={ tmplist })
+   } -> funbalise(name={"/"}, content={ tmplist })
   )+)
   ;
 
 realAtom: 
-   i=IDENTIFIER {
-    StringTemplate tmp = templateLib.getInstanceOf("balise");
-      //if(is_int_constante($i.getText())){
-        tmp.setAttribute("name", "name");
-      /*}else if(is_constante($i.getText())){
-        tmp.setAttribute("name", "name");
-      }else if(is_variable($i.getText())){
-        tmp.setAttribute("name", "name");
-      }else{
-        tmp.setAttribute("name", "name");
-      } */ 
-      tmp.setAttribute("content", $i.getText());
-   } -> delist(arg={tmp})
-  | i=INTEGER -> balise(name={"numValue"}, content={ $i.getText() })
+   i=IDENTIFIER ->  exprbalise(name={"name"}, content={ $i.getText() })
+  | i=INTEGER -> exprbalise(name={"numValue"}, content={ $i.getText() })
   | '(' e=realExpr ')' -> {$e.st}
   | MAX '(' a=realExpr ',' b=realExpr ')' {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($a.st);
     tmplist.add($b.st);   
-  } -> balise(name={"max"}, content={ tmplist })
+  } -> funbalise(name={"max"}, content={ tmplist })
   | MIN '(' a=realExpr ',' b=realExpr ')' {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($a.st);
     tmplist.add($b.st);   
-  } -> balise(name={"min"}, content={ tmplist })
+  } -> funbalise(name={"min"}, content={ tmplist })
   | POWER '(' a=realExpr ',' b=realExpr ')' {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($a.st);
     tmplist.add($b.st);   
-  } -> balise(name={"power"}, content={ tmplist })
+  } -> funbalise(name={"power"}, content={ tmplist })
   ;
 
 boolExprW[Map<String,String> s]
 @init {
   symbols = s;
 } :
-  e=boolExpr EOF -> balise(name={"boolExpr"}, content={ $e.st });
+  e=boolExpr EOF -> { $e.st };
 
 boolExpr:
    e=atomBoolExpr
@@ -215,12 +141,12 @@ boolExpr:
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"and"}, content={ tmplist })
+   } -> boolbalise(name={"and"}, content={ tmplist })
    | '|' e2=boolExpr {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($e.st);
     tmplist.add($e2.st);   
-   } -> balise(name={"or"}, content={ tmplist })
+   } -> boolbalise(name={"or"}, content={ tmplist })
    )) 
    ;
    
@@ -237,9 +163,9 @@ atomBoolExpr:
     if($o.getText().equals(">"))op="greater";
     if($o.getText().equals("<="))op="lessEqual";
     if($o.getText().equals(">="))op="greaterEqual";
-  } -> balise(name={op}, content={ tmplist })
-  | TRUE -> balise(name={"boolValue"}, content={"true"})
-  | FALSE -> balise(name={"boolValue"}, content={"false"});
+  } -> boolbalise(name={op}, content={ tmplist })
+  | TRUE -> boolbalise(name={"boolValue"}, content={"true"})
+  | FALSE -> boolbalise(name={"boolValue"}, content={"false"});
   
    
 update[Map<String,String> s]
@@ -262,14 +188,10 @@ update[Map<String,String> s]
       StringTemplate tmp = templateLib.getInstanceOf("balise");
       tmp.setAttribute("name", "name");
       tmp.setAttribute("content", $a.getText());
-      
-      StringTemplate tmp3 = templateLib.getInstanceOf("balise");
-      tmp3.setAttribute("name", "expr");
-      tmp3.setAttribute("content", $e.st);
   
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
       tmplist.add(tmp);
-      tmplist.add(tmp3);
+      tmplist.add($e.st);
   
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
       tmp2.setAttribute("name", "update");
@@ -298,13 +220,10 @@ flow[Map<String,String> s]
       tmp.setAttribute("name", "name");
       tmp.setAttribute("content", $a.getText());
   
-      StringTemplate tmp3 = templateLib.getInstanceOf("balise");
-      tmp3.setAttribute("name", "expr");
-      tmp3.setAttribute("content", $e.st);
   
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
       tmplist.add(tmp);
-      tmplist.add(tmp3);
+      tmplist.add($e.st);
   
   
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");

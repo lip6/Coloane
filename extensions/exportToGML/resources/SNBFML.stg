@@ -26,6 +26,24 @@ balise(name,content) ::= <<
 \</attribute\>
 >>
 
+exprbalise(name,content) ::= <<
+\<attribute name="expr"\>\<attribute name="<name>"\>
+  <content; separator="\n">
+\</attribute\>\</attribute\>
+>>
+
+funbalise(name,content) ::= <<
+\<attribute name="expr"\>\<attribute name="function"\>\<attribute name="<name>"\>
+  <content; separator="\n">
+\</attribute\>\</attribute\>\</attribute\>
+>>
+
+boolbalise(name,content) ::= <<
+\<attribute name="boolExpr"\>\<attribute name="<name>"\>
+  <content; separator="\n">
+\</attribute\>\</attribute\>
+>>
+
 variable_decl(id, idd, form, unique) ::= <<
 \<attribute name="variableDeclaration"\>
   \<attribute name="name"\><id>\</attribute\>
