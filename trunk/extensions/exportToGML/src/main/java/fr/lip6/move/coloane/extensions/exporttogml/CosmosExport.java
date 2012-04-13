@@ -152,6 +152,7 @@ public class CosmosExport implements IGMLExport {
 			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://gml.lip6.fr/model'/>");
 			Model fakeModel = new Model(new GmlCheckExecutables(), content);
 			fmlXml = fakeModel.getFormalism().getData();
+			System.out.println(fmlXml);
 			//fmlXmlSource = new InputSource(new StringReader(fmlXml));
 		} catch (SaxonApiException e) {
 			// TODO Auto-generated catch block
@@ -279,7 +280,7 @@ public class CosmosExport implements IGMLExport {
 
 		StringTemplate tmp = templates.getInstanceOf("balise");
 		tmp.setAttribute("name", attr.getName());
-		tmp.setAttribute("content", parser.intExprW(symbols).st);
+		tmp.setAttribute("content", parser.realExprW(symbols).st);
 		currentST.setAttribute("content", tmp);
 	}
 	
