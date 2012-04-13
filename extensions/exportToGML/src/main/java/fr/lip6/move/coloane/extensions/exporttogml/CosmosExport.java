@@ -44,7 +44,6 @@ import java.util.Iterator;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
@@ -55,9 +54,7 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
-import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Platform;
 import org.xml.sax.InputSource;
 
 
@@ -152,7 +149,7 @@ public class CosmosExport implements IGMLExport {
 			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://gml.lip6.fr/model'/>");
 			Model fakeModel = new Model(new GmlCheckExecutables(), content);
 			fmlXml = fakeModel.getFormalism().getData();
-			System.out.println(fmlXml);
+			//System.out.println(fmlXml);
 			//fmlXmlSource = new InputSource(new StringReader(fmlXml));
 		} catch (SaxonApiException e) {
 			// TODO Auto-generated catch block

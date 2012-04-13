@@ -18,18 +18,17 @@ haslFormW:
 a=haslForm EOF -> balise(name={"HASL Formula"}, content={ $a.st });
 
 haslForm: AVG '(' e=algExpr ')' (';')?
-  -> balise(name={"avg"}, content={ $e.st });
+  -> balise(name={"AVG"}, content={ $e.st });
 
 
-algExpr: a=lhaFunc -> {$a.st};
-  
+algExpr: a=lhaFunc -> balise(name={"YHF"}, content = {$a.st});
   
 lhaFunc:  
   LAST '(' a=linForm ')' 
   -> balise(name={"last"}, content={ $a.st });
 
 linForm:
-  a=IDENTIFIER -> balise(name={"variable"}, content={ $a.getText() });
+  a=IDENTIFIER -> exprbalise(name={"name"}, content={ $a.getText() });
 
 
 AVG: 'AVG';
