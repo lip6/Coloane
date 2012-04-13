@@ -23,7 +23,7 @@
                </Attribute>
                <Node
                      container="true"
-                     name="location">
+                     name="state">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
                         description="location"
@@ -71,7 +71,7 @@
                   </Attribute>
                </Node>
                <Arc
-                     name="arc">
+                     name="transition">
                   <GraphicInfo
                         associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
                         description="Arc"
@@ -97,7 +97,7 @@
                         default="ALL"
                         drawable="true"
                         multiline="true"
-                        name="action">
+                        name="label">
                   </Attribute>
                </Arc>
             </Graph>
