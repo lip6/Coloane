@@ -20,6 +20,7 @@ options {
     Map<String, String> symbols = new HashMap<String, String>();
     Map<String, StringTemplate> initValues = new HashMap<String, StringTemplate>();
     public Map<String, String> getSymbols() { return symbols; }
+    public Map<String, StringTemplate> getInitValues() {return initValues; };
     
     private StringTemplate getDef(String symbolsType, String gmlType){
       List<StringTemplate> tmpConst = new ArrayList();
@@ -36,20 +37,32 @@ options {
     
   }
 
-const_list
+const_list[boolean hasConstants, boolean hasVariables]
   : -> { %{""} }
   | a+=constdef (SEMICOLON a+=constdef)* (SEMICOLON)?
   {
     List<StringTemplate> tmp = new ArrayList();
     
-    StringTemplate tmpConst = templateLib.getInstanceOf("balise");
-    tmpConst.setAttribute("name", "constants");
-    List<StringTemplate> tmpConsts = new ArrayList();
-    tmpConsts.add(getDef("intconst","intConst"));
-    tmpConsts.add(getDef("realconst","realConst"));
-    tmpConst.setAttribute("content", tmpConsts) ;
+    if(hasConstants) {
+      StringTemplate tmpConst = templateLib.getInstanceOf("balise");
+      tmpConst.setAttribute("name", "constants");
+      List<StringTemplate> tmpConsts = new ArrayList();
+      tmpConsts.add(getDef("intconst","intConst"));
+      tmpConsts.add(getDef("realconst","realConst"));
+      tmpConst.setAttribute("content", tmpConsts) ;
+      tmp.add(tmpConst);
+    }
     
-    tmp.add(tmpConst);
+    if(hasVariables) {
+      StringTemplate tmpConst = templateLib.getInstanceOf("balise");
+      tmpConst.setAttribute("name", "variables");
+      List<StringTemplate> tmpConsts = new ArrayList();
+      tmpConsts.add(getDef("variable","real"));
+      tmpConsts.add(getDef("discvariable","discrete"));
+      tmpConst.setAttribute("content", tmpConsts) ;
+      tmp.add(tmpConst);
+    }
+    
     
   } -> balise(name={"declaration"}, content={ tmp })
   ;
@@ -113,16 +126,29 @@ const_list
       tmp1.setAttribute("name", "name");
       tmp1.setAttribute("content", $c.getText());
       StringTemplate tmp2 = templateLib.getInstanceOf("balise");
-      tmp2.setAttribute("name", "variable");
+      tmp2.setAttribute("name", "real");
       tmp2.setAttribute("content", tmp1);
       
       initValues.put($c.getText(),tmp2);
       } -> delist(arg={tmp2})
       //balise(name={"realConstDeclaration"}, content={ tmplist })
+      
+    | DISCRETEVARIABLE c=STRING  {
+      symbols.put($c.getText(),"discvariable");
+      StringTemplate tmp1 = templateLib.getInstanceOf("balise");
+      tmp1.setAttribute("name", "name");
+      tmp1.setAttribute("content", $c.getText());
+      StringTemplate tmp2 = templateLib.getInstanceOf("balise");
+      tmp2.setAttribute("name", "discrete");
+      tmp2.setAttribute("content", tmp1);
+      
+      initValues.put($c.getText(),tmp2);
+      } -> delist(arg={tmp2})
   ;
   
 
   VARIABLE : 'var';
+  DISCRETEVAR : 'discvar';
   EQUAL : '=';
   SEMICOLON : ';' ;
   COMMA : ',' ;

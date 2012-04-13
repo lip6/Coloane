@@ -145,14 +145,14 @@ public class CosmosExport implements IGMLExport {
 		}
 	}
 	
-	private InputSource fmlXmlSource;
+	private String fmlXml;
 	
 	private void initInputSource(String fmlUrl) {
 		try {
 			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://gml.lip6.fr/model'/>");
 			Model fakeModel = new Model(new GmlCheckExecutables(), content);
-			String fmlXml = fakeModel.getFormalism().getData();
-			fmlXmlSource = new InputSource(new StringReader(fmlXml));
+			fmlXml = fakeModel.getFormalism().getData();
+			//fmlXmlSource = new InputSource(new StringReader(fmlXml));
 		} catch (SaxonApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -185,8 +185,9 @@ public class CosmosExport implements IGMLExport {
 		
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		xpath.setNamespaceContext(ctx);
+		InputSource fmlXmlSource = new InputSource(new StringReader(fmlXml));
 		String hasDeclaration = xpath.evaluate("/fml:formalism/fml:complexAttribute[@name='"+s+"']", fmlXmlSource);
-	    System.out.println(hasDeclaration);
+	    //System.out.println(hasDeclaration);
 		
 		return !hasDeclaration.equals("");
 		
@@ -221,13 +222,6 @@ public class CosmosExport implements IGMLExport {
 
 		// Export model attributes
 		monitor.setTaskName("Export model attributes");
-		/*IAttribute declarativePart = graph.getAttribute("const definition");
-		if (declarativePart != null) {
-			if (!declarativePart.getValue().equals("")) {
-				symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
-			}
-		}*/
-		
 		
 		if(hasAttribute("declaration")) {
 		IAttribute declarativePart = graph.getAttribute("declarations");
@@ -347,7 +341,7 @@ public class CosmosExport implements IGMLExport {
 		parser.setTemplateLib(templates);
 
 		try {
-			modelST.setAttribute("content", parser.const_list());
+			modelST.setAttribute("content", parser.const_list(hasAttribute("constants"),hasAttribute("variables")));
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Fail to parse Declarative part");
 		}
