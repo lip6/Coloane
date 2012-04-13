@@ -18,12 +18,13 @@ options {
 
 @members {
   Map<String,String> symbols;
-    private boolean is_constante(String id) { return ("intconst".equals(symbols.get(id)) | "realconst".equals(symbols.get(id))); } 
-    private boolean is_int_constante(String id) { return "intconst".equals(symbols.get(id)); } 
+    //private boolean is_constante(String id) { return ("intconst".equals(symbols.get(id)) | "realconst".equals(symbols.get(id))); } 
+    //private boolean is_int_constante(String id) { return "intconst".equals(symbols.get(id)); } 
     private boolean is_variable(String id) { return "variable".equals(symbols.get(id)); } 
     
   }
 
+/*
 intExprW[Map<String,String> s]
 @init {
   symbols = s;
@@ -61,11 +62,9 @@ multIntExpr
 intAtom: 
    i=IDENTIFIER {
     StringTemplate tmp = templateLib.getInstanceOf("balise");
-      if(is_constante($i.getText())){
+      //if(is_constante($i.getText())){
         tmp.setAttribute("name", "name");
-      }else{
-          tmp.setAttribute("name", "placeName");
-      }  
+      
       tmp.setAttribute("content", $i.getText());
    } -> delist(arg={tmp})
   | i=INTEGER -> balise(name={"numValue"}, content={ $i.getText() })
@@ -86,7 +85,7 @@ intAtom:
     tmplist.add($b.st);   
   } -> balise(name={"ipower"}, content={ tmplist })
   ;
-  
+*/
   
 distribution[Map<String,String> st]
 @init {
@@ -173,15 +172,15 @@ multRealExpr
 realAtom: 
    i=IDENTIFIER {
     StringTemplate tmp = templateLib.getInstanceOf("balise");
-      if(is_int_constante($i.getText())){
+      //if(is_int_constante($i.getText())){
         tmp.setAttribute("name", "name");
-      }else if(is_constante($i.getText())){
+      /*}else if(is_constante($i.getText())){
         tmp.setAttribute("name", "name");
       }else if(is_variable($i.getText())){
         tmp.setAttribute("name", "name");
       }else{
         tmp.setAttribute("name", "name");
-      }  
+      } */ 
       tmp.setAttribute("content", $i.getText());
    } -> delist(arg={tmp})
   | i=INTEGER -> balise(name={"numValue"}, content={ $i.getText() })
