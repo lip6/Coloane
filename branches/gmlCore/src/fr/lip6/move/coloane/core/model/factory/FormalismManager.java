@@ -118,7 +118,6 @@ public final class FormalismManager {
 			Model m = new Model(executables, new StringReader(testModel));
 
 			SAXParser saxParser = factory.newSAXParser();
-			System.out.println(m.getFormalism().getData());
 			SaxHandler handler = new SaxHandler((Formalism) form);
 			saxParser.parse(new ByteArrayInputStream(m.getFormalism().getData().getBytes("UTF-8")), handler); //$NON-NLS-1$
 			form = handler.getFormalism();
