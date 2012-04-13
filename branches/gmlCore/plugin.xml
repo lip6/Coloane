@@ -561,8 +561,15 @@
              drawable="true"
              multiline="true"
              name="guard"
-             refName="transition">
+             refName="transition"
+             xtext_injector="XTextPro">
        </AttributeGraphicInfo>
+    </formalism>
+    <formalism
+          href="http://alligator.lip6.fr/pt-net.fml"
+          id="PTN"
+          image="resources/formalisms/ptn/ptn.png"
+          name="Place/Transition-Net">
     </formalism>
  </extension>
 </plugin>

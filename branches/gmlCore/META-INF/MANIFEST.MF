@@ -99,13 +99,12 @@ Require-Bundle: fr.lip6.move.coloane.interfaces,
  org.eclipse.xtext.ui,
  org.eclipse.xtext.ui.shared,
  org.eclipse.emf.compare.diff,
- org.eclipse.emf.compare.match
+ org.eclipse.emf.compare.match,
+ fr.lip6.move.coloane.thirdparty
 Plugin-Class: fr.lip6.move.coloane.core.main.Coloane
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
-Import-Package: org.eclipse.emf.compare.diff.metamodel,
- org.eclipse.emf.compare.match.service
 Bundle-ClassPath: .,
  lib/commons-cli.jar,
  lib/interfaces.jar,
