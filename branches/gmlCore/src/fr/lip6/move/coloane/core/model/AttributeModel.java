@@ -227,18 +227,18 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	 * @return The XML representation
 	 */
 	final String buildXMLString(IAttribute attribut) {
-		String val = ""; //$NON-NLS-1$
+		StringBuilder sb = new StringBuilder();
 		String balise = attribut.getName();
-		val += "<" + IModelHandler.ATTRIBUTE_MARKUP + " " + IModelHandler.ATTRIBUTE_NAME_MARKUP + "='" + balise + "'";  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		val += " " + IModelHandler.ATTRIBUTE_X_MARKUP + "='" + attribut.getGraphicInfo().getLocation().x + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		val += " " + IModelHandler.ATTRIBUTE_Y_MARKUP + "='" + attribut.getGraphicInfo().getLocation().y + "'"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		val += ">"; //$NON-NLS-1$
-		val += attribut.getValue();
+		sb.append("<").append(IModelHandler.ATTRIBUTE_MARKUP).append(" ").append(IModelHandler.ATTRIBUTE_NAME_MARKUP).append("='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		sb.append(" ").append(IModelHandler.ATTRIBUTE_X_MARKUP).append("='").append(attribut.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append(" ").append(IModelHandler.ATTRIBUTE_Y_MARKUP).append("='").append(attribut.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append(">"); //$NON-NLS-1$
+		sb.append(attribut.getValue());
 		for (IAttribute att : attribut.getAttributes()) {
-			val += buildXMLString(att);
+			sb.append(buildXMLString(att));
 		}
-		val += "</" + IModelHandler.ATTRIBUTE_MARKUP + ">";	 //$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("</").append(IModelHandler.ATTRIBUTE_MARKUP).append(">");	//$NON-NLS-1$ //$NON-NLS-2$
 
-		return val;
+		return sb.toString();
 	}
 }
