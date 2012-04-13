@@ -40,6 +40,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Iterator;
+
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 
 import net.sf.saxon.s9api.SaxonApiException;
 
@@ -51,6 +58,7 @@ import org.antlr.stringtemplate.StringTemplateGroup;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.xml.sax.InputSource;
 
 
 /**
@@ -131,29 +139,67 @@ public class CosmosExport implements IGMLExport {
 		StringTemplate modelST = exportGraph(graph, fmlUrl, monitor);
 
 		try {
-			/*String EXTENSION_POINT_ID = "fr.lip6.move.coloane.extensions.exportToGML.exportGML"; 
-			IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
-			String fmlUrl = null;
-			for(IConfigurationElement contribution : contributions) {
-				if(contribution.getAttribute("name").equals(graph.getFormalism().getId())) {
-					fmlUrl = contribution.getAttribute("fmlurl");
-				}
-			}*/
-			
-			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://gml.lip6.fr/model'/>");
-			Model fakeModel = new Model(new GmlCheckExecutables(), content);
-			try {
-				System.out.println(fakeModel.getFormalism().getData());
-			} catch (SaxonApiException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
 			writer.write(modelST.toString());
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
 		}
 	}
+	
+	private InputSource fmlXmlSource;
+	
+	private void initInputSource(String fmlUrl) {
+		try {
+			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://gml.lip6.fr/model'/>");
+			Model fakeModel = new Model(new GmlCheckExecutables(), content);
+			String fmlXml = fakeModel.getFormalism().getData();
+			fmlXmlSource = new InputSource(new StringReader(fmlXml));
+		} catch (SaxonApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	private boolean hasAttribute(String s) {
+		try {
+		NamespaceContext ctx = new NamespaceContext() {
+            public String getNamespaceURI(String prefix) {
+                if (prefix.equals("fml"))
+                    return "http://gml.lip6.fr/formalism";
+                else
+                    return null;
+            }
+           
+            // Dummy implementation - not used!
+            public Iterator getPrefixes(String val) {
+                return null;
+            }
+           
+            // Dummy implementation - not used!
+            public String getPrefix(String uri) {
+                return null;
+            }
+        };
+		
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		xpath.setNamespaceContext(ctx);
+		String hasDeclaration = xpath.evaluate("/fml:formalism/fml:complexAttribute[@name='"+s+"']", fmlXmlSource);
+	    System.out.println(hasDeclaration);
+		
+		return !hasDeclaration.equals("");
+		
+		} catch (XPathExpressionException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			
+			return false;
+		} 
+		
+	}
+	
+	
 	
 	/**
 	 * The function that exports the graph
@@ -165,6 +211,8 @@ public class CosmosExport implements IGMLExport {
 	 * @throws ExtensionException if the export fails
 	 */
 	private StringTemplate exportGraph(IGraph graph, String fmlUrl, IProgressMonitor monitor) throws ExtensionException {
+		initInputSource(fmlUrl);
+		
 		monitor.setTaskName("Create preamble");
 
 		StringTemplate result = templates.getInstanceOf("modelBalise", new STAttrMap().put("version", "1.0").put("encoding", "UTF-8").put("form", fmlUrl));
@@ -179,6 +227,9 @@ public class CosmosExport implements IGMLExport {
 				symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
 			}
 		}*/
+		
+		
+		if(hasAttribute("declaration")) {
 		IAttribute declarativePart = graph.getAttribute("declarations");
 		if (declarativePart != null) {
 			if (!declarativePart.getValue().equals("")) {
@@ -197,7 +248,8 @@ public class CosmosExport implements IGMLExport {
 				}
 			}
 		}
-
+		}
+		
 		monitor.worked(1);
 
 		//Export nodes
