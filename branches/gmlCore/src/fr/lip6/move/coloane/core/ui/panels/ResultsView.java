@@ -130,10 +130,12 @@ public class ResultsView extends ViewPart {
 		// Build an observer. It will observe a ResultTreeList.
 		final Observer resultObserver = new Observer() {
 			// Something has been updated !
+			@Override
 			public void update(final Observable o, Object arg) {
 				final Integer width = (Integer) arg;
 				// Update the UI... Take care !!
 				parent.getDisplay().syncExec(new Runnable() {
+					@Override
 					public void run() {
 						// Add columns if necessary
 						for (int i = viewer.getTree().getColumnCount(); i < width; i++) {
@@ -156,6 +158,7 @@ public class ResultsView extends ViewPart {
 
 		// Allow the user to delete a result that has been selected (activate the action)
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				delete.setEnabled(true);
 			}
@@ -167,12 +170,14 @@ public class ResultsView extends ViewPart {
 
 		// Add an observer to observe session switch
 		MANAGER.addPropertyChangeListener(new PropertyChangeListener() {
+			@Override
 			public void propertyChange(PropertyChangeEvent evt) {
 				if (evt.getPropertyName().equals(ISessionManager.PROP_CURRENT_SESSION)) {
 					final ISession previous = (ISession) evt.getOldValue();
 					final ISession current = (ISession) evt.getNewValue();
 					if (!parent.isDisposed() && !parent.getDisplay().isDisposed()) {
 						parent.getDisplay().asyncExec(new Runnable() {
+							@Override
 							public void run() {
 								if (previous != null) {
 									previous.getResultManager().deleteObserver(resultObserver);

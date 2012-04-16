@@ -46,6 +46,7 @@ public class NodeFormalism extends ElementFormalism implements INodeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isContainer() {
 		return container;
 	}

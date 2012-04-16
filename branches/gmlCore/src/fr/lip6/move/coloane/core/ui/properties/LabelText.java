@@ -46,6 +46,7 @@ public class LabelText implements IAttributeLabel {
 
 	// listener pour modifier la taille des champs de texte multiligne
 	private ModifyListener listener = new ModifyListener() {
+		@Override
 		public void modifyText(ModifyEvent e) {
 			redraw();
 		}
@@ -111,6 +112,7 @@ public class LabelText implements IAttributeLabel {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void redraw() {
 		// En cas de texte multiligne, on limite l'agrandissement
 
@@ -153,12 +155,14 @@ public class LabelText implements IAttributeLabel {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isVisible() {
 		Assert.isTrue(text.isVisible() == label.isVisible());
 		return text.isVisible();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setVisible(boolean visible) {
 		text.setVisible(visible);
 		label.setVisible(visible);
@@ -167,11 +171,13 @@ public class LabelText implements IAttributeLabel {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getText() {
 		return text.getText();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setText(String string) {
 		text.setText(string);
 	}
@@ -179,11 +185,13 @@ public class LabelText implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final String getLabel() {
 		return label.getText();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Composite getParent() {
 		return parent;
 	}
@@ -191,6 +199,7 @@ public class LabelText implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final Control getControl() {
 		return text;
 	}
@@ -198,6 +207,7 @@ public class LabelText implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void addModifyListener(ModifyListener listener) {
 		text.addModifyListener(listener);
 	}
@@ -205,6 +215,7 @@ public class LabelText implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final Control getControlText() {
 		return getControl();
 	}

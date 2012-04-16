@@ -75,6 +75,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public void modifyText(ModifyEvent e) {
 			Control text = (Control) e.widget;
 

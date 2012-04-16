@@ -174,6 +174,7 @@ public class CheckStateListener implements ICheckStateListener {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void checkStateChanged(CheckStateChangedEvent event) {
 		IResultTree result = (IResultTree) event.getElement();
 		checkResult(SessionManager.getInstance().getCurrentSession(), result, !event.getChecked(), event.getChecked());

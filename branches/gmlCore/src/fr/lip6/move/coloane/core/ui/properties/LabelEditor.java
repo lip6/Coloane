@@ -64,6 +64,7 @@ public class LabelEditor implements IAttributeLabel {
 
 		text.getViewer().addTextListener(
 				new ITextListener() {
+					@Override
 					public void textChanged(TextEvent event) {
 						redraw();
 					} });
@@ -97,6 +98,7 @@ public class LabelEditor implements IAttributeLabel {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void redraw() {
 
 		// En cas de texte multiligne, on limite l'agrandissement
@@ -140,12 +142,14 @@ public class LabelEditor implements IAttributeLabel {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isVisible() {
 		Assert.isTrue(text.getControl().isVisible() == label.isVisible());
 		return text.getControl().isVisible();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setVisible(boolean visible) {
 		text.getControl().setVisible(visible);
 		label.setVisible(visible);
@@ -154,12 +158,14 @@ public class LabelEditor implements IAttributeLabel {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getText() {
 		String val = text.getDocument().get();
 		return val;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setText(String string) {
 		text.update(string);
 	}
@@ -167,11 +173,13 @@ public class LabelEditor implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final String getLabel() {
 		return label.getText();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Composite getParent() {
 		return parent;
 	}
@@ -179,6 +187,7 @@ public class LabelEditor implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final Control getControl() {
 		return text.getViewer().getControl();
 	}
@@ -186,6 +195,7 @@ public class LabelEditor implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void addModifyListener(ModifyListener listener) {
 		//if the listener is only hooked up to the text viewer, some changes are not caught
 		//for example, autocompletion changes the document but does not raise a modify event on the viewer
@@ -199,6 +209,7 @@ public class LabelEditor implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final Control getControlText() {
 		return text.getViewer().getTextWidget();
 	}
@@ -227,6 +238,7 @@ class AdaptModifyDocument implements IDocumentListener {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void documentAboutToBeChanged(DocumentEvent event) {
 		//nothing to be done here
 	}
@@ -234,6 +246,7 @@ class AdaptModifyDocument implements IDocumentListener {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void documentChanged(DocumentEvent event) {
 		//create a false modifyevent that gives access to the textviewer
 		//it is the only thing used by the modifylistener function

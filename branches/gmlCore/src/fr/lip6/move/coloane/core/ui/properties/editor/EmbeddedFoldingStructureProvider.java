@@ -56,6 +56,7 @@ public class EmbeddedFoldingStructureProvider implements IXtextModelListener, IF
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void initialize() {
 		calculateProjectionAnnotationModel(false);
 	}
@@ -63,6 +64,7 @@ public class EmbeddedFoldingStructureProvider implements IXtextModelListener, IF
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void uninstall() {
 		if (isInstalled()) {
 			handleProjectionDisabled();
@@ -86,6 +88,7 @@ public class EmbeddedFoldingStructureProvider implements IXtextModelListener, IF
 	 * @param resource Doesn't actually serve any purpose but has to be given in order to implement
 	 * IXtextModelListener.
 	 */
+	@Override
 	public final void modelChanged(XtextResource resource) {
 		//this stops folding from working correctly if there are errors
 		//I don't see why folding should not be allowed if there are errors, so
@@ -231,6 +234,7 @@ public class EmbeddedFoldingStructureProvider implements IXtextModelListener, IF
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public final void projectionEnabled() {
 			handleProjectionEnabled();
 		}
@@ -238,6 +242,7 @@ public class EmbeddedFoldingStructureProvider implements IXtextModelListener, IF
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public final void projectionDisabled() {
 			handleProjectionDisabled();
 		}
@@ -246,6 +251,7 @@ public class EmbeddedFoldingStructureProvider implements IXtextModelListener, IF
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void install(XtextEditor editor, ProjectionViewer viewer) {
 		//must be implemented but is useful only for a "real" xtexteditor, not the embedded.
 	}

@@ -92,6 +92,7 @@ public final class ToggleSLCommentAction extends Action implements IUpdate {
 		}
 
 		BusyIndicator.showWhile(display, new Runnable() {
+			@Override
 			public void run() {
 				fOperationTarget.doOperation(operationCode);
 			}
@@ -121,7 +122,6 @@ public final class ToggleSLCommentAction extends Action implements IUpdate {
 			IRegion block = getTextBlockFromSelection(textSelection, document);
 			ITypedRegion[] regions = TextUtilities.computePartitioning(document, fDocumentPartitioning, block.getOffset(), block.getLength(), false);
 
-			int lineCount = 0;
 			int[] lines = new int[regions.length * 2]; // [startline, endline, startline, endline, ...]
 			for (int i = 0, j = 0; i < regions.length; i++, j += 2) {
 				// start line of region
@@ -137,8 +137,6 @@ public final class ToggleSLCommentAction extends Action implements IUpdate {
 				} else {
 					lines[j + 1] = document.getLineOfOffset(offset);
 				}
-
-				lineCount += lines[j + 1] - lines[j] + 1;
 			}
 
 			// Perform the check
@@ -268,6 +266,7 @@ public final class ToggleSLCommentAction extends Action implements IUpdate {
 	 * <code>ITextOperationTarget</code> adapter, and sets the enabled state
 	 * accordingly.
 	 */
+	@Override
 	public void update() {
 		boolean isEnabled = (fOperationTarget != null && fOperationTarget.canDoOperation(ITextOperationTarget.PREFIX) && fOperationTarget.canDoOperation(ITextOperationTarget.STRIP_PREFIX));
 		setEnabled(isEnabled);

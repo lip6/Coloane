@@ -53,6 +53,7 @@ public class RectangleNode extends AbstractNodeFigure {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new ChopboxAnchor(this);
 	}

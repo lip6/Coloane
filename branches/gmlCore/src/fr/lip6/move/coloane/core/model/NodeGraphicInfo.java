@@ -82,11 +82,13 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Point getLocation() {
 		return new Point(this.x, this.y);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setLocation(Point location) {
 		LOGGER.finest("New location (" + location.x + ", " + location.y + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		Point oldLocation = new Point(this.x, this.y);
@@ -98,6 +100,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void resetLocation() {
 		setLocation(new Point(0, 0));
 	}
@@ -127,21 +130,25 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Dimension getSize() {
 		return new Dimension(getWidth(), getHeight());
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isFilled() {
 		return this.getCurrentGraphicalDescription().isFilled();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Color getBackground() {
 		return background;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setBackground(Color background) {
 		Color oldValue = this.background;
 		this.background = background;
@@ -149,11 +156,13 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Color getForeground() {
 		return foreground;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setForeground(Color foreground) {
 		Color oldValue = this.foreground;
 		this.foreground = foreground;
@@ -161,6 +170,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setScale(int scale) {
 		Dimension oldSize = new Dimension();
 		oldSize.height = getHeight();
@@ -174,6 +184,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public final void setSize(Dimension size) {
 		Dimension oldSize = new Dimension();
 		oldSize.height = getHeight();
@@ -189,16 +200,19 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final int getScale() {
 		return scale;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IGraphicalDescription> getAllNodeFormalismGraphicalDescriptions() {
 		return nodeFormalismGraphicalDescriptions;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final int switchGraphicalDescription() {
 		int newGdIndex = this.gdIndex;
 		int oldGdIndex = this.gdIndex;
@@ -233,6 +247,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final int switchGraphicalDescription(int selectedIndex) {
 		int oldGdIndex = this.gdIndex;
 		if ((selectedIndex >= 0) && (selectedIndex < this.nodeFormalismGraphicalDescriptions.size())) {
@@ -276,6 +291,7 @@ public class NodeGraphicInfo implements INodeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final int getGdIndex() {
 		return this.gdIndex;
 	}

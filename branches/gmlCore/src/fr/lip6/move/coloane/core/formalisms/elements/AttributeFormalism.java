@@ -101,95 +101,116 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public final String getName() { return this.name; }
 	
 	/** {@inheritDoc} */
+	@Override
 	public final String getReference() { return reference; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isDrawable() { return isDrawable; }
 	
 	/** {@inheritDoc} */
+	@Override
 	public final void setDrawable(boolean isDrawable) { this.isDrawable = isDrawable; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isMultiLine() { return isMultiline; }
 	
 	/** {@inheritDoc} */
+	@Override
 	public final void setMultiline(boolean isMultiline) { this.isMultiline = isMultiline; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getDefaultValue() {
 		if (defaultValue != null) { return defaultValue; }
 		return ""; //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setDefaultValue(String defaultValue) {
 		this.defaultValue = defaultValue;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isBold() {
 		return bold;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setBold(boolean bold) {
 		this.bold = bold;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isItalic() {
 		return italic;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setItalic(boolean italic) {
 		this.italic = italic;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Integer getFontSize() {
 		return this.size;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setSize(String size) {
 		this.size = Integer.valueOf(size);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isDefaultValueDrawable() {
 		return this.isDefaultValueDrawable;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setDefaultValueDrawable(boolean isDefaultValueDrawable) {
 		this.isDefaultValueDrawable = isDefaultValueDrawable;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setXDelta(int x) {
 		this.delta.x = x;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setYDelta(int y) {
 		this.delta.y = y;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Point getDeltaLocation() {
 		return this.delta;
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public final void addAttribute(String name, int minOccurs, int maxOccurs) {
 		this.attributes.add(new ChildAttribute(name, minOccurs, maxOccurs));
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IAttributeFormalism> getAttributes() {
 		List<IAttributeFormalism> list = new ArrayList<IAttributeFormalism>();
 		for (ChildAttribute c : attributes) {
@@ -199,21 +220,25 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IAttributeParser getParser() {
 		return parser;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setParser(IAttributeParser parser) {
 		this.parser = parser;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Injector getInjector() {
 		return injector;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setInjector(Injector injector) {
 		this.injector = injector;
 	}

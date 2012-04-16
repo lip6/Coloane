@@ -70,8 +70,10 @@ public class LinkSection extends AbstractSection<INode> {
 	 * Selection Listener, link change
 	 */
 	private SelectionListener linkSelectionListener = new SelectionListener() {
+		@Override
 		public void widgetDefaultSelected(SelectionEvent e) { }
 
+		@Override
 		public void widgetSelected(SelectionEvent e) {
 			CompoundCommand cc = new CompoundCommand();
 			String selection = ((List) e.widget).getSelection()[0];
@@ -98,6 +100,7 @@ public class LinkSection extends AbstractSection<INode> {
 			if (display != null) {
 				display.asyncExec(new Runnable() {
 
+					@Override
 					public void run() {
 						refresh();
 					}
@@ -115,6 +118,7 @@ public class LinkSection extends AbstractSection<INode> {
 			}
 		}
 
+		@Override
 		public void resourceChanged(IResourceChangeEvent event) {
 			if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
 				process(event.getDelta());

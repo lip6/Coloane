@@ -118,6 +118,7 @@ public final class LabelCombo implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Composite getParent() {
 		return parent;
 	}
@@ -125,6 +126,7 @@ public final class LabelCombo implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public String getText() {
 		return combo.getText();
 	}
@@ -132,6 +134,7 @@ public final class LabelCombo implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean isVisible() {
 		Assert.isTrue(combo.isVisible() == label.isVisible());
 		return combo.isVisible();
@@ -140,6 +143,7 @@ public final class LabelCombo implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void redraw() {
 		Composite tmp = parent;
 		// TODO: WTF?? Copy/paste from Clement, it works but not very elegant...
@@ -154,6 +158,7 @@ public final class LabelCombo implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void setText(String string) {
 		combo.setText(string);
 	}
@@ -161,6 +166,7 @@ public final class LabelCombo implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void setVisible(boolean visible) {
 		combo.setVisible(visible);
 		label.setVisible(visible);
@@ -171,6 +177,7 @@ public final class LabelCombo implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Control getControl() {
 		return combo;
 	}
@@ -178,6 +185,7 @@ public final class LabelCombo implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void addModifyListener(ModifyListener listener) {
 		combo.addModifyListener(listener);
 	}
@@ -185,6 +193,7 @@ public final class LabelCombo implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public String getLabel() {
 		return label.getText();
 	}
@@ -192,6 +201,7 @@ public final class LabelCombo implements IAttributeLabel {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Control getControlText() {
 		return getControl();
 	}

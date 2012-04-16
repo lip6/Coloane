@@ -30,6 +30,7 @@ public class EmbeddedQuickfixProvider extends DefaultQuickfixProvider {
 	@Override
 	protected final Predicate<Method> getFixMethodPredicate(final String issueCode) {
 		return new Predicate<Method>() {
+			@Override
 			public boolean apply(Method input) {
 				Fix annotation = input.getAnnotation(Fix.class);
 				boolean result = annotation != null && issueCode.equals(annotation.value())

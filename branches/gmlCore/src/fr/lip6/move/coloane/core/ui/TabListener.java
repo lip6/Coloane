@@ -32,6 +32,7 @@ public class TabListener implements IPartListener2 {
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/** {@inheritDoc} */
+	@Override
 	public final void partActivated(IWorkbenchPartReference partRef) {
 		String id = partRef.getPartProperty("session.id"); //$NON-NLS-1$
 		if (id != null) {
@@ -41,6 +42,7 @@ public class TabListener implements IPartListener2 {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void partClosed(IWorkbenchPartReference partRef) {
 		String sessionId = partRef.getPartProperty("session.id"); //$NON-NLS-1$
 		LOGGER.finer("Tab closed : " + sessionId); //$NON-NLS-1$
@@ -48,20 +50,26 @@ public class TabListener implements IPartListener2 {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void partDeactivated(IWorkbenchPartReference partRef) { }
 
 	/** {@inheritDoc} */
+	@Override
 	public final void partOpened(IWorkbenchPartReference partRef) {	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void partBroughtToTop(IWorkbenchPartReference partRef) { }
 
 	/** {@inheritDoc} */
+	@Override
 	public final void partHidden(IWorkbenchPartReference partRef) { }
 
 	/** {@inheritDoc} */
+	@Override
 	public final void partInputChanged(IWorkbenchPartReference partRef) { }
 
 	/** {@inheritDoc} */
+	@Override
 	public final void partVisible(IWorkbenchPartReference partRef) { }
 }

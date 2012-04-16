@@ -106,7 +106,9 @@ public final class PaletteFactory {
 						node.getGraphicalDescription().getPaletteName(), 	// Nom de l'objet
 						node.getGraphicalDescription().getDescription(), 	// Description de l'objet
 						new CreationFactory() { 	// Object Template
+							@Override
 							public Object getNewObject() { return node;	}
+							@Override
 							public Object getObjectType() {	return INode.class; }
 						},
 						ImageDescriptor.createFromFile(Coloane.class, node.getGraphicalDescription().getIcon16px()),
@@ -141,7 +143,9 @@ public final class PaletteFactory {
 						arc.getGraphicalDescription().getPaletteName(), // Nom de l'arc
 						arc.getGraphicalDescription().getDescription(), // Description de l'arc
 						new CreationFactory() {
+							@Override
 							public Object getNewObject() { return arc; }
+							@Override
 							public Object getObjectType() { return IArc.class; }
 						},
 						ImageDescriptor.createFromFile(Coloane.class, arc.getGraphicalDescription().getIcon16px()),
@@ -176,7 +180,9 @@ public final class PaletteFactory {
 				Messages.PaletteFactory_7,
 				Messages.PaletteFactory_8,
 				new CreationFactory() { 	// Object Template
+					@Override
 					public Object getNewObject() { return null;	}
+					@Override
 					public Object getObjectType() {	return ILink.class; }
 				},
 				ImageDescriptor.createFromFile(Coloane.class, "/resources/formalisms/link_16.png"), //$NON-NLS-1$
@@ -202,7 +208,7 @@ public final class PaletteFactory {
 
 		// Outils de selection de plusieurs objets
 		MarqueeToolEntry marquee = new MarqueeToolEntry();
-		marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR,	new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_AND_CONNECTIONS));
+		marquee.setToolProperty(MarqueeSelectionTool.PROPERTY_MARQUEE_BEHAVIOR,	new Integer(MarqueeSelectionTool.BEHAVIOR_NODES_CONTAINED_AND_RELATED_CONNECTIONS));
 		marquee.setDescription(Messages.PaletteFactory_0);
 
 		toolGroup.add(marquee);
@@ -233,26 +239,32 @@ public final class PaletteFactory {
 				this.preferenceStore.setDefault(PALETTE_STATE, FlyoutPaletteComposite.STATE_PINNED_OPEN);
 			}
 			/** {@inheritDoc} */
+			@Override
 			public int getDockLocation() {
 				return preferenceStore.getInt(PALETTE_DOCK_LOCATION);
 			}
 			/** {@inheritDoc} */
+			@Override
 			public int getPaletteState() {
 				return preferenceStore.getInt(PALETTE_STATE);
 			}
 			/** {@inheritDoc} */
+			@Override
 			public int getPaletteWidth() {
 				return preferenceStore.getInt(PALETTE_SIZE);
 			}
 			/** {@inheritDoc} */
+			@Override
 			public void setDockLocation(int location) {
 				preferenceStore.setValue(PALETTE_DOCK_LOCATION, location);
 			}
 			/** {@inheritDoc} */
+			@Override
 			public void setPaletteState(int state) {
 				preferenceStore.setValue(PALETTE_STATE, state);
 			}
 			/** {@inheritDoc} */
+			@Override
 			public void setPaletteWidth(int width) {
 				preferenceStore.setValue(PALETTE_SIZE, width);
 			}

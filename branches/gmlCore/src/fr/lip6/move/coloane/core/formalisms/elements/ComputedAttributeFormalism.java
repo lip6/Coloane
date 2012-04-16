@@ -54,18 +54,18 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	private Point delta = new Point(0, 0);
 
 	/** The Java class used to format the attribute value */
-	private Class< ? > formatter = null;
+	private Class< ? extends IAttributeFormatter > formatterClass = null;
 
 	/**
 	 * Build an attribute
 	 * @param name The attribute name
 	 * @param defaultValue The default value
 	 * @param isDefaultValueDrawable Should the default value be displayed ?
-	 * @param formatter The Java class responsible for the formatting of the attribute
+	 * @param formatterClass The Java class responsible for the formatting of the attribute
 	 */
-	public ComputedAttributeFormalism(String name, String defaultValue, boolean isDefaultValueDrawable, Class< ? > formatter) {
+	public ComputedAttributeFormalism(String name, String defaultValue, boolean isDefaultValueDrawable, Class< ? extends IAttributeFormatter > formatterClass) {
 		this(name, defaultValue, isDefaultValueDrawable);
-		this.formatter = formatter;
+		this.formatterClass = formatterClass;
 	}
 
 	/**
@@ -81,15 +81,18 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getName() { return this.name; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getDefaultValue() {
 		if (defaultValue != null) { return defaultValue; }
 		return ""; //$NON-NLS-1$
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isBold() {
 		return bold;
 	}
@@ -103,6 +106,7 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isItalic() {
 		return italic;
 	}
@@ -116,6 +120,7 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Integer getFontSize() {
 		return this.size;
 	}
@@ -133,11 +138,13 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	 *
 	 * <b>A computed attribute should always be displayed</b>
 	 */
+	@Override
 	public final boolean isDrawable() {
 		return true;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isDefaultValueDrawable() {
 		return this.isDefaultValueDrawable;
 	}
@@ -159,6 +166,7 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Point getDeltaLocation() {
 		return this.delta;
 	}
@@ -166,11 +174,19 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final IAttributeFormatter getAttributeFormatter() {
+		// FIXME : maybe this could be done in the constructor
 		try {
-			// FIXME : maybe this could be done in the constructor
-			return (IAttributeFormatter) formatter.getConstructor(new Class< ? >[0]).newInstance(new Object[0]);
-		} catch (Exception e) {
+			return formatterClass.newInstance();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
@@ -179,11 +195,13 @@ public class ComputedAttributeFormalism implements IComputedAttributeFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final String getReference() {
 		return reference;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setDrawable(boolean isDrawable) {
 		//does nothing, as a computed attribute is always drawable
 	}

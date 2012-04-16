@@ -51,6 +51,7 @@ public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final INode getModel() {
 		return this.modelElement;
 	}
@@ -58,6 +59,7 @@ public abstract class AbstractNodeFigure extends Shape implements INodeFigure {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void setModelElement(INode modelElement) {
 		INode oldModelElement = this.modelElement;
 		this.modelElement = modelElement;

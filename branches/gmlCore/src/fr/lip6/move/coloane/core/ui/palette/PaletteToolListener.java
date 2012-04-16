@@ -30,6 +30,7 @@ public class PaletteToolListener implements PaletteListener {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void activeToolChanged(PaletteViewer viewer, ToolEntry tool) {
 		tool.setToolProperty(AbstractTool.PROPERTY_UNLOAD_WHEN_FINISHED, Boolean.FALSE);
 	}

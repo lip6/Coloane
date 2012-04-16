@@ -25,30 +25,36 @@ import org.eclipse.jface.viewers.Viewer;
 public class ResultContentProvider implements ITreeContentProvider {
 
 	/** {@inheritDoc} */
+	@Override
 	public final Object[] getChildren(Object parentElement) {
 		return ((IResultTree) parentElement).getChildren().toArray();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Object getParent(Object element) {
 		return ((IResultTree) element).getParent();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public  final boolean hasChildren(Object element) {
 		return ((IResultTree) element).getChildren().size() > 0;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Object[] getElements(Object inputElement) {
 		return ((IResultTree) inputElement).getElement().toArray();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void dispose() {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 

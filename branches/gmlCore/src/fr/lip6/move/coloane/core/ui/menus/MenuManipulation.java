@@ -58,7 +58,6 @@ public final class MenuManipulation {
 	 * Build a new sub-menu
 	 * @param rootMenu The parent menu
 	 * @param itemDescription Description of the new sub-menu to build
-	 * @param rootMenu The parent of this sub-menu
 	 * @return A menu manager that corresponds to the menu description
 	 */
 	public static MenuManager buildSubMenu(MenuManager rootMenu, IItemMenu itemDescription) {

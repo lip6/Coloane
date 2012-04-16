@@ -57,6 +57,7 @@ public class TriangleNode extends AbstractNodeFigure {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new AbstractConnectionAnchor(this) {
 			/**
@@ -64,6 +65,7 @@ public class TriangleNode extends AbstractNodeFigure {
 			 *
 			 * Le point retourné est le sommet le plus proche du point de référence
 			 */
+			@Override
 			public Point getLocation(Point reference) {
 				Rectangle r = getBounds();
 
@@ -72,10 +74,10 @@ public class TriangleNode extends AbstractNodeFigure {
 				points[1] = r.getBottomLeft().getTranslated(0, -1);
 				points[2] = r.getBottomRight().getTranslated(0, -1);
 
-				int distMin = Integer.MAX_VALUE;
+				double distMin = Integer.MAX_VALUE;
 				int indexMin = 0;
 				for (int i = 0; i < points.length; i++) {
-					int distTmp = points[i].getDistance2(reference);
+					double distTmp = points[i].getDistance(reference);
 					if (distTmp < distMin) {
 						indexMin = i;
 						distMin = distTmp;

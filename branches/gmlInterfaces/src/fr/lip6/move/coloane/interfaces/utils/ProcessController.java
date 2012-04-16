@@ -14,12 +14,18 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Executes an external process synchronously, allowing the client to define a
  * maximum amount of time for the process to complete.
  */
 public class ProcessController {
+
+	/** Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+
 	/**
 	 * Thrown when a process being executed exceeds the maximum amount of time
 	 * allowed for it to complete.
@@ -90,9 +96,10 @@ public class ProcessController {
 					process = Runtime.getRuntime().exec(params, env, baseDir);
 					process.waitFor();
 				} catch (InterruptedException e) {
+					LOGGER.log(Level.INFO, "Process execution interrupted", e);
 					// timeout !!
 				} catch (IOException e2) {
-					System.err.println(e2);
+					LOGGER.log(Level.WARNING, e2.getMessage(), e2);
 				}
 			}
 		});
@@ -124,6 +131,9 @@ public class ProcessController {
 		return process.exitValue();
 	}
 
+	/**
+	 * Manage properly the ending
+	 */
 	private void finish() {
 		markFinished();
 		forwardStreams();
@@ -173,7 +183,7 @@ public class ProcessController {
 			}
 			out.flush();
 		} catch (IOException e) {
-			//Coloane.showWarningMsg(e.getMessage());
+			LOGGER.log(Level.WARNING, e.getMessage(), e);
 		}
 	}
 

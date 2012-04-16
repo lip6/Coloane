@@ -62,14 +62,17 @@ public class ElementFormalism implements IElementFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addGraphicalDescription(IGraphicalDescription graphicalDescription) {
 		this.graphicalDescriptions.add(graphicalDescription);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getName() {	return name; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IAttributeFormalism> getAttributes() {
 		Map<String, IAttributeFormalism> map = formalism.getAllAttributeFormalism(name);
 		if (map == null) {
@@ -79,9 +82,11 @@ public class ElementFormalism implements IElementFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IGraphicalDescription> getAllGraphicalDescription() { return graphicalDescriptions; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final IGraphicalDescription getGraphicalDescription() {
 		//because of the way graphical descriptions are separate from the formalism definition
 		//we use a default, in case the user did not choose to define a graphic description
@@ -92,14 +97,17 @@ public class ElementFormalism implements IElementFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IFormalism getFormalism() { return this.formalism;	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addReference(String href, int minOccurs, int maxOccurs) {
 		references.add(new Reference(href, minOccurs, maxOccurs));
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IReference> getReferences() {
 		return references;
 	}

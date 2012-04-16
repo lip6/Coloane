@@ -17,7 +17,7 @@ package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ILocatedElement;
 import fr.lip6.move.coloane.core.model.interfaces.ISpecialState;
-import fr.lip6.move.coloane.core.ui.files.IModelHandler;
+import fr.lip6.move.coloane.core.ui.files.ModelConstants;
 import fr.lip6.move.coloane.core.ui.rulers.EditorGuide;
 import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
 import fr.lip6.move.coloane.interfaces.formalism.IAttributeFormalism;
@@ -83,36 +83,43 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getName() {
 		return name;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IAttributeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ILocationInfo getLocationInfo() {
 		return this.graphicInfo;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IElement getReference() {
 		return reference;
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public final IAttribute getParent() {
 		return parent;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IAttributeFormalism getAttributeFormalism() {
 		return attributFormalism;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final EditorGuide getGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			return this.horizontalGuide;
@@ -122,6 +129,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setGuide(EditorGuide guide) {
 		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			this.horizontalGuide = guide;
@@ -131,6 +139,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			this.horizontalGuide = null;
@@ -146,26 +155,31 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setSpecialState(boolean state) {
 		firePropertyChange(SPECIAL_STATE_CHANGE, null, state);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isLeaf() {
 		return children.isEmpty();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setLeaf() {
 		children.clear();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getValue() {
 		return value;
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public final void setValue(String value) {
 		String oldValue = this.value;
 		// Warn the controller about the change only if it is necessary
@@ -187,16 +201,19 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Collection<IAttribute> getAttributes() {
 		return children.values();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IAttribute getAttribute(String attName) {
 		return children.get(attName);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setAttributes(Collection<IAttribute> values) {
 		Map<String, IAttribute> oldValues = this.children;
 		for (IAttribute attr : values) {
@@ -206,6 +223,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addAttribute(IAttribute value) {
 		Map<String, IAttribute> oldValues = this.children;
 		children.put(value.getName(), value);
@@ -213,6 +231,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void initialiseValue() {
 		String oldValue = value;
 		if (this.attributFormalism.getParser() != null) {
@@ -229,15 +248,15 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	final String buildXMLString(IAttribute attribut) {
 		StringBuilder sb = new StringBuilder();
 		String balise = attribut.getName();
-		sb.append("<").append(IModelHandler.ATTRIBUTE_MARKUP).append(" ").append(IModelHandler.ATTRIBUTE_NAME_MARKUP).append("='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-		sb.append(" ").append(IModelHandler.ATTRIBUTE_X_MARKUP).append("='").append(attribut.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		sb.append(" ").append(IModelHandler.ATTRIBUTE_Y_MARKUP).append("='").append(attribut.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append("<").append(ModelConstants.ATTRIBUTE_MARKUP).append(" ").append(ModelConstants.ATTRIBUTE_NAME_MARKUP).append("='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+		sb.append(" ").append(ModelConstants.ATTRIBUTE_X_MARKUP).append("='").append(attribut.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		sb.append(" ").append(ModelConstants.ATTRIBUTE_Y_MARKUP).append("='").append(attribut.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		sb.append(">"); //$NON-NLS-1$
 		sb.append(attribut.getValue());
 		for (IAttribute att : attribut.getAttributes()) {
 			sb.append(buildXMLString(att));
 		}
-		sb.append("</").append(IModelHandler.ATTRIBUTE_MARKUP).append(">");	//$NON-NLS-1$ //$NON-NLS-2$
+		sb.append("</").append(ModelConstants.ATTRIBUTE_MARKUP).append(">");	//$NON-NLS-1$ //$NON-NLS-2$
 
 		return sb.toString();
 	}

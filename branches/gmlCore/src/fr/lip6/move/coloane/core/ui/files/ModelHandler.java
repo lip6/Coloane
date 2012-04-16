@@ -63,7 +63,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Jean-Baptiste Voron
  * @author Clément Démoulins
  */
-public class ModelHandler extends DefaultHandler implements IModelHandler {
+public class ModelHandler extends DefaultHandler {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -88,11 +88,11 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		data.setLength(0);
 
 		// MODEL
-		if (MODEL_MARKUP.equals(baliseName)) {
+		if (ModelConstants.MODEL_MARKUP.equals(baliseName)) {
 			startModel(attributes);
 
 		// NODE
-		} else if (NODE_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.NODE_MARKUP.equals(baliseName)) {
 			try {
 				startNode(attributes);
 			} catch (ModelException e) {
@@ -101,7 +101,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 			}
 
 		// ARC
-		} else if (ARC_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.ARC_MARKUP.equals(baliseName)) {
 			try {
 				startArc(attributes);
 			} catch (ModelException e) {
@@ -110,19 +110,19 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 			}
 
 		// STICKY NOTE
-		} else if (STICKY_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.STICKY_MARKUP.equals(baliseName)) {
 			startStickyNote(attributes);
 
 		// INFLEX POINT
-		} else if (PI_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.PI_MARKUP.equals(baliseName)) {
 			startInflexPoint(attributes);
 
 		// ATTRIBUTE
-		} else if (ATTRIBUTE_MARKUP.equals(baliseName)) {
-			startAttribute(attributes.getValue(ATTRIBUTE_NAME_MARKUP), attributes);
+		} else if (ModelConstants.ATTRIBUTE_MARKUP.equals(baliseName)) {
+			startAttribute(attributes.getValue(ModelConstants.ATTRIBUTE_NAME_MARKUP), attributes);
 
 		// LINK (between sticky note and elements)
-		} else if (LINK_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.LINK_MARKUP.equals(baliseName)) {
 			startLink(attributes);
 		}
 	}
@@ -138,17 +138,17 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 	public final void endElement(String uri, String localName, String baliseName) throws SAXException {
 		if ("model".equals(baliseName)) { //$NON-NLS-1$
 			endModel();
-		} else if (NODE_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.NODE_MARKUP.equals(baliseName)) {
 			endNode();
-		} else if (STICKY_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.STICKY_MARKUP.equals(baliseName)) {
 			endStickyNote();
-		} else if (ARC_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.ARC_MARKUP.equals(baliseName)) {
 			endArc();
-		} else if (PI_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.PI_MARKUP.equals(baliseName)) {
 			endInflexPoint();
-		} else if (ATTRIBUTE_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.ATTRIBUTE_MARKUP.equals(baliseName)) {
 			endAttribute();
-		} else if (ATTRIBUTE_VALUE_MARKUP.equals(baliseName)) {
+		} else if (ModelConstants.ATTRIBUTE_VALUE_MARKUP.equals(baliseName)) {
 			endValue();
 		}
 	}
@@ -174,7 +174,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 	 */
 	private void startModel(Attributes attributes) throws SAXException {
 		// Fetch the formalism name
-		String formalismURL = attributes.getValue(MODEL_FORMALISM_MARKUP);
+		String formalismURL = attributes.getValue(ModelConstants.MODEL_FORMALISM_MARKUP);
 
 		// Build the graph
 		try {
@@ -230,10 +230,10 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		IGraph graph = (IGraph) stack.peek();
 
 		// Fetch information about the node
-		int x = Integer.parseInt(attributes.getValue(NODE_X_MARKUP));
-		int y = Integer.parseInt(attributes.getValue(NODE_Y_MARKUP));
-		String nodeFormalismName = attributes.getValue(NODE_TYPE_MARKUP);
-		int id = Integer.parseInt(attributes.getValue(NODE_ID_MARKUP));
+		int x = Integer.parseInt(attributes.getValue(ModelConstants.NODE_X_MARKUP));
+		int y = Integer.parseInt(attributes.getValue(ModelConstants.NODE_Y_MARKUP));
+		String nodeFormalismName = attributes.getValue(ModelConstants.NODE_TYPE_MARKUP);
+		int id = Integer.parseInt(attributes.getValue(ModelConstants.NODE_ID_MARKUP));
 
 		// Build the node
 		INode node = graph.createNode((INodeFormalism) formalismCache.get(nodeFormalismName));
@@ -242,7 +242,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 		// Node size
 		try {
-			int scale = Integer.parseInt(attributes.getValue(NODE_SCALE_MARKUP));
+			int scale = Integer.parseInt(attributes.getValue(ModelConstants.NODE_SCALE_MARKUP));
 			node.getGraphicInfo().setScale(scale);
 		} catch (NumberFormatException e) {
 			LOGGER.fine("Scale attribute does not exist or is invalid"); //$NON-NLS-1$
@@ -250,7 +250,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 		// Alternate figures
 		try {
-			int alt = Integer.parseInt(attributes.getValue(NODE_ALTERNATE_MARKUP));
+			int alt = Integer.parseInt(attributes.getValue(ModelConstants.NODE_ALTERNATE_MARKUP));
 			node.getGraphicInfo().switchGraphicalDescription(alt);
 		} catch (NumberFormatException e) {
 			LOGGER.fine("Alternte figure attribute does not exist or is invalid"); //$NON-NLS-1$
@@ -259,7 +259,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 		// Node foreground color
 		try {
-			Color foreground = parseColor(attributes.getValue(NODE_FOREGROUND_MARKUP));
+			Color foreground = parseColor(attributes.getValue(ModelConstants.NODE_FOREGROUND_MARKUP));
 			node.getGraphicInfo().setForeground(foreground);
 		} catch (NumberFormatException e) {
 			LOGGER.fine("Foreground attribute does not exist or is invalid"); //$NON-NLS-1$
@@ -267,7 +267,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 		// Node background color
 		try {
-			Color background = parseColor(attributes.getValue(NODE_BACKGROUND_MARKUP));
+			Color background = parseColor(attributes.getValue(ModelConstants.NODE_BACKGROUND_MARKUP));
 			node.getGraphicInfo().setBackground(background);
 		} catch (NumberFormatException e) {
 			LOGGER.fine("Background attributedoes not exist or is invalid"); //$NON-NLS-1$
@@ -275,7 +275,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 		// Is interface ?
 		try {
-			boolean state = Boolean.valueOf(attributes.getValue(NODE_INTERFACE_MARKUP));
+			boolean state = Boolean.valueOf(attributes.getValue(ModelConstants.NODE_INTERFACE_MARKUP));
 			node.setInterface(state);
 		} catch (NumberFormatException e) {
 			LOGGER.fine("Interface attribute does not exist or is invalid"); //$NON-NLS-1$
@@ -283,7 +283,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 		// Node link
 		try {
-			String nodeLink = attributes.getValue(NODE_LINK_MARKUP);
+			String nodeLink = attributes.getValue(ModelConstants.NODE_LINK_MARKUP);
 			node.setNodeLink(nodeLink);
 		} catch (NumberFormatException e) {
 			LOGGER.fine("Link attribut does not exist or is invalid"); //$NON-NLS-1$
@@ -300,10 +300,10 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		ICoreGraph graph = (ICoreGraph) stack.peek();
 
 		// Fetch information about the sticky note
-		int x = Integer.parseInt(attributes.getValue(STICKY_X_MARKUP));
-		int y = Integer.parseInt(attributes.getValue(STICKY_Y_MARKUP));
-		int width = Integer.parseInt(attributes.getValue(STICKY_WIDTH_MARKUP));
-		int height = Integer.parseInt(attributes.getValue(STICKY_HEIGHT_MARKUP));
+		int x = Integer.parseInt(attributes.getValue(ModelConstants.STICKY_X_MARKUP));
+		int y = Integer.parseInt(attributes.getValue(ModelConstants.STICKY_Y_MARKUP));
+		int width = Integer.parseInt(attributes.getValue(ModelConstants.STICKY_WIDTH_MARKUP));
+		int height = Integer.parseInt(attributes.getValue(ModelConstants.STICKY_HEIGHT_MARKUP));
 
 		// Build the note
 		IStickyNote note = graph.createStickyNote();
@@ -319,7 +319,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 	private void startLink(Attributes attributes) {
 		IStickyNote note = (IStickyNote) stack.pop();
 		ICoreGraph graph = (ICoreGraph) stack.peek();
-		int linkId = Integer.parseInt(attributes.getValue(LINK_REFERENCE_MARKUP));
+		int linkId = Integer.parseInt(attributes.getValue(ModelConstants.LINK_REFERENCE_MARKUP));
 		IElement element = graph.getObject(ids.get(linkId));
 
 		// Build the link
@@ -360,11 +360,11 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 		IGraph graph = (IGraph) stack.peek();
 
 		// Fetch information about the arc
-		int id = Integer.parseInt(attributes.getValue(ARC_ID_MARKUP));
-		int startid = Integer.parseInt(attributes.getValue(ARC_STARTID_MARKUP));
-		int endid = Integer.parseInt(attributes.getValue(ARC_ENDID_MARKUP));
-		boolean curved = Boolean.parseBoolean(attributes.getValue(ARC_CURVED_MARKUP));
-		String arcFormalismName = attributes.getValue(ARC_TYPE_MARKUP);
+		int id = Integer.parseInt(attributes.getValue(ModelConstants.ARC_ID_MARKUP));
+		int startid = Integer.parseInt(attributes.getValue(ModelConstants.ARC_STARTID_MARKUP));
+		int endid = Integer.parseInt(attributes.getValue(ModelConstants.ARC_ENDID_MARKUP));
+		boolean curved = Boolean.parseBoolean(attributes.getValue(ModelConstants.ARC_CURVED_MARKUP));
+		String arcFormalismName = attributes.getValue(ModelConstants.ARC_TYPE_MARKUP);
 
 		// Build the arc
 		IArc arc = graph.createArc((IArcFormalism) formalismCache.get(arcFormalismName),
@@ -374,7 +374,7 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 
 		// Arc color
 		try {
-			Color color = parseColor(attributes.getValue(ARC_COLOR_MARKUP));
+			Color color = parseColor(attributes.getValue(ModelConstants.ARC_COLOR_MARKUP));
 			arc.getGraphicInfo().setColor(color);
 		} catch (NumberFormatException e) {
 			LOGGER.fine("Color attribute does not exist or is invalid"); //$NON-NLS-1$
@@ -393,8 +393,8 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 	 */
 	private void startInflexPoint(Attributes attributes) {
 		IArc arc = (IArc) stack.peek();
-		int x = Integer.parseInt(attributes.getValue(PI_X_MARKUP));
-		int y = Integer.parseInt(attributes.getValue(PI_Y_MARKUP));
+		int x = Integer.parseInt(attributes.getValue(ModelConstants.PI_X_MARKUP));
+		int y = Integer.parseInt(attributes.getValue(ModelConstants.PI_Y_MARKUP));
 		arc.addInflexPoint(new Point(x, y));
 	}
 
@@ -429,8 +429,8 @@ public class ModelHandler extends DefaultHandler implements IModelHandler {
 			}
 		}
 
-		int x = Integer.parseInt(attributes.getValue(ATTRIBUTE_X_MARKUP));
-		int y = Integer.parseInt(attributes.getValue(ATTRIBUTE_Y_MARKUP));
+		int x = Integer.parseInt(attributes.getValue(ModelConstants.ATTRIBUTE_X_MARKUP));
+		int y = Integer.parseInt(attributes.getValue(ModelConstants.ATTRIBUTE_Y_MARKUP));
 		Point location = new Point(x, y);
 
 		stack.push(location);

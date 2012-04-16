@@ -94,11 +94,13 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public final IElementFormalism getElemFormalism() {
 		return formalism;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final int getId() {
 		return id;
 	}
@@ -111,11 +113,13 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IAttribute getAttribute(String name) {
 		return attributes.get(name);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Collection<IAttribute> getAttributes() {
 		return attributes.values();
 	}
@@ -128,6 +132,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Collection<IAttribute> getDrawableAttributes() {
 		List<IAttribute> drawables = new ArrayList<IAttribute>();
 		for (IAttribute attr : attributes.values()) {
@@ -145,16 +150,19 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void putAttribute(String name, IAttribute attribute) {
 		attributes.put(name, attribute);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IElement getParent() {
 		return parent;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setSpecialState(boolean state) {
 		firePropertyChange(SPECIAL_STATE_CHANGE, null, state);
 	}
@@ -162,6 +170,7 @@ public abstract class AbstractElement extends AbstractPropertyChange implements 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public IGraph getGraph() {
 		return graph;
 	}

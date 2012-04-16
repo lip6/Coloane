@@ -76,6 +76,7 @@ public final class EmbeddedXtextRulerAction extends Action implements IUpdate {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void update() {
 		setEnabled(hasQuickFixableAnnotationInCurrentLine());
 	}

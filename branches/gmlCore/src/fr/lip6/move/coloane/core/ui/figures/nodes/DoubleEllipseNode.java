@@ -61,6 +61,7 @@ public class DoubleEllipseNode extends AbstractNodeFigure {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new EllipseAnchor(this);
 	}

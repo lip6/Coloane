@@ -47,6 +47,7 @@ public class NodeSizeSection extends AbstractSection<INode> {
 
 	/** Permet de mettre à jour le modèle du noeud */
 	private ModifyListener listener = new ModifyListener() {
+		@Override
 		public void modifyText(ModifyEvent e) {
 			CompoundCommand cc = new CompoundCommand();
 			for (INode node : getElements()) {

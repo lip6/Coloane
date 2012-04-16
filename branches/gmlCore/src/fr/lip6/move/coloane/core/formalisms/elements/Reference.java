@@ -26,12 +26,15 @@ public class Reference implements IReference {
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public final String getHref() { return href; }
 	
 	/** {@inheritDoc} */
+	@Override
 	public final int getMinOccurs() { return minOccurs; }
 	
 	/** {@inheritDoc} */
+	@Override
 	public final int getMaxOccurs() { return maxOccurs; }
 	
 }

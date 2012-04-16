@@ -102,6 +102,7 @@ public class HighlightingReconciler implements ITextInputListener, IXtextModelLi
 	 * @param length The range length
 	 * @param ids the IDs
 	 */
+	@Override
 	public final void addPosition(int offset, int length, String... ids) {
 		TextAttribute highlighting;
 		if (ids.length == 1) {
@@ -208,6 +209,7 @@ public class HighlightingReconciler implements ITextInputListener, IXtextModelLi
 	 * @param oldInput the text viewer's previous input document
 	 * @param newInput the text viewer's new input document
 	 */
+	@Override
 	public final void inputDocumentAboutToBeChanged(IDocument oldInput, IDocument newInput) {
 		if (oldInput != null) {
 			((IXtextDocument) oldInput).removeModelListener(this);
@@ -220,6 +222,7 @@ public class HighlightingReconciler implements ITextInputListener, IXtextModelLi
 	 * @param oldInput the text viewer's previous input document
 	 * @param newInput the text viewer's new input document
 	 */
+	@Override
 	public final void inputDocumentChanged(IDocument oldInput, IDocument newInput) {
 		if (newInput != null) {
 			refresh();
@@ -247,6 +250,7 @@ public class HighlightingReconciler implements ITextInputListener, IXtextModelLi
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void modelChanged(XtextResource resource) {
 		// ensure at most one thread can be reconciling at any time
 		synchronized (fReconcileLock) {

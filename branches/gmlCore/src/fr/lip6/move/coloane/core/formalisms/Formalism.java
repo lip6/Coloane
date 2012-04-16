@@ -99,6 +99,7 @@ public class Formalism implements IFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isLinkAllowed(INode source, INode target, IArcFormalism arcFormalism) {
 		// Try to find a constraint for these two kinds of nodes
 		for (IConstraintLink constraint : linkconstraints) {
@@ -110,6 +111,7 @@ public class Formalism implements IFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isActionAllowed(INode node) {
 		// Try to find a constraint for this kind of node
 		for (IConstraintNode constraint : nodeconstraints) {
@@ -143,16 +145,19 @@ public class Formalism implements IFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getId() {
 		return this.id;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getName() {
 		return this.name;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getImageName() {
 		return "/" + image; //$NON-NLS-1$
 	}
@@ -184,16 +189,19 @@ public class Formalism implements IFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Collection<IElementFormalism> getAllElementFormalism() {
 		return this.children.values();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IElementFormalism getElementFormalism(String name) {
 		return children.get(name);
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public final IAttributeFormalism getAttributeFormalism(String name, String reference) {
 		Map<String, IAttributeFormalism> map = attributes.get(reference);
 		if (map != null) {
@@ -203,11 +211,13 @@ public class Formalism implements IFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Map<String, IAttributeFormalism> getAllAttributeFormalism(String reference) {
 		return attributes.get(reference);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addAttribute(IAttributeFormalism attribute) {
 		Map<String, IAttributeFormalism> map = attributes.get(attribute.getReference());
 		if (map == null) {
@@ -218,6 +228,7 @@ public class Formalism implements IFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IAttributeFormalism> getAttributes() {
 		Map<String, IAttributeFormalism> map = attributes.get(name);
 		if (map == null) {
@@ -227,41 +238,50 @@ public class Formalism implements IFormalism {
 	}
  
 	/** {@inheritDoc} */
+	@Override
 	public final List<IGraphicalDescription> getAllGraphicalDescription() { return graphicalDescriptions; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final IGraphicalDescription getGraphicalDescription() { return graphicalDescriptions.get(0); }
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addGraphicalDescription(IGraphicalDescription graphicalDescription) {
 		this.graphicalDescriptions.add(graphicalDescription);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IFormalism getFormalism() { return this; }
 	
 	/** {@inheritDoc} */
+	@Override
 	public final void setAbstract(boolean isabstract) {
 		this.isabstract = isabstract;
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isAbstract() {
 		return isabstract;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addReference(String href, int minOccurs, int maxOccurs) {
 		//a formalism does not have references
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IReference> getReferences() {
 		//a formalism does not have references
 		return new ArrayList<IReference>();
 	}
 	
 	/** {@inheritDoc} */
+	@Override
 	public final String getHref() {
 		return href;
 	}

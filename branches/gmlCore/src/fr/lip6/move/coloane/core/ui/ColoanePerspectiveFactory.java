@@ -53,6 +53,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 	 *
 	 * @param layout Layout of the perspective
 	 */
+	@Override
 	public final void createInitialLayout(IPageLayout layout) {
 		defineActions(layout);
 		defineLayout(layout);

@@ -68,6 +68,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getPaletteName() {
 		return paletteName;
 	}
@@ -81,6 +82,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getDescription() {
 		return description;
 	}
@@ -94,16 +96,19 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isPalettable() {
 		return palettable;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isDrawable() {
 		return drawable;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IFigure getAssociatedFigure() {
 		try {
 			return (IFigure) associatedFigureClass.getConstructor(new Class< ? >[0]).newInstance(new Object[0]);
@@ -132,6 +137,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getIcon16px() {
 		return "/" + icon16px; //$NON-NLS-1$
 	}
@@ -145,6 +151,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getIcon24px() {
 		return "/" + icon24px; //$NON-NLS-1$
 	}
@@ -158,6 +165,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isFilled() {
 		return filled;
 	}
@@ -171,6 +179,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Integer getHeight() {
 		return this.height;
 	}
@@ -184,6 +193,7 @@ public class GraphicalDescription implements IGraphicalDescription {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Integer getWidth() {
 		return this.width;
 	}

@@ -52,6 +52,7 @@ public class EmbeddedIssueModificationContext implements IModificationContext {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final IXtextDocument getXtextDocument() {
 		return getXtextDocument(issue.getUriToProblem());
 	}
@@ -59,6 +60,7 @@ public class EmbeddedIssueModificationContext implements IModificationContext {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final IXtextDocument getXtextDocument(URI uri) {
 		return document;
 	}
@@ -68,7 +70,7 @@ public class EmbeddedIssueModificationContext implements IModificationContext {
 	 * Default factory interface to instantiate a context.
 	 */
 	@ImplementedBy(Factory.Default.class)
-	public static interface Factory {
+	public interface Factory {
 		/**
 		 * Creates a new modification context.
 		 * @param issue The issue associated with this context
@@ -88,6 +90,7 @@ public class EmbeddedIssueModificationContext implements IModificationContext {
 			/**
 			 * {@inheritDoc}
 			 */
+			@Override
 			public final IModificationContext createModificationContext(Issue issue, IXtextDocument document) {
 				EmbeddedIssueModificationContext modificationContext = provider.get();
 				modificationContext.setIssue(issue);

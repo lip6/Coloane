@@ -47,6 +47,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	private IImportFrom worker;
 
 	/** {@inheritDoc} */
+	@Override
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setWindowTitle(Messages.ImportWizard_0);
 		page = new ImportWizardPage(workbench, selection, this.worker, this.importType);
@@ -96,6 +97,7 @@ public class ImportWizard extends Wizard implements IImportWizard, IExecutableEx
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) {
 		// Fetch the identifier of the wizard, in order to find the corresponding export extension.
 		this.setImportFormat(config.getAttribute("id")); //$NON-NLS-1$

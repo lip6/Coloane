@@ -176,7 +176,7 @@ public class InterfacesHandler extends DefaultHandler {
 			}
 		} else if ("model".equals(name)) { //$NON-NLS-1$
 			// Récupération du nom du formalisme
-			String formalismName = attributes.getValue(IModelHandler.MODEL_FORMALISM_MARKUP);
+			String formalismName = attributes.getValue(ModelConstants.MODEL_FORMALISM_MARKUP);
 			try {
 				formalism = FormalismManager.getInstance().getFormalismByUrl(formalismName);
 			} catch (IllegalArgumentException e) {

@@ -125,11 +125,13 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setSessionManager(ISessionManager sessionManager) {
 		this.sessionManager = sessionManager;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ISessionManager getSessionManager() {
 		if (this.sessionManager != null) {
 			return this.sessionManager;
@@ -145,32 +147,38 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IResultTree getParent() {
 		return parent;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setParent(IResultTree parent) {
 		this.parent = parent;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IResultTree> getChildren() {
 		return children;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addChild(IResultTree child) {
 		children.add(child);
 		child.setParent(this);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<Object> getElement() {
 		return details;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addHighlighted(int... toHighlight) {
 		for (Integer id : toHighlight) {
 			this.highlights.add(id);
@@ -178,11 +186,13 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<Integer> getHighlighted() {
 		return this.highlights;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void remove() {
 		// If the parent is the result manager itself, we remove the results tree associated to the service
 		if (this.parent instanceof ResultManager) {
@@ -211,11 +221,13 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<ICoreTip> getTips() {
 		return Collections.unmodifiableList(tips);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<ICoreTip> getTips(List<Integer> haveTips) {
 		List<ICoreTip> toReturn = new ArrayList<ICoreTip>();
 		List<ICoreTip> toBrowse = new ArrayList<ICoreTip>();
@@ -235,6 +247,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setTips(Map<Integer, List<ITip>> map, Integer... objectIds) {
 		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
 		List<ICoreTip> coreTips = new ArrayList<ICoreTip>();
@@ -294,6 +307,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final Map<Integer, List<String>> getAttributesOutline() {
 		return attributesOutline;
 	}

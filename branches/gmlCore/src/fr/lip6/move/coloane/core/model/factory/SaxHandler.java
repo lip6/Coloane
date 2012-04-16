@@ -6,6 +6,7 @@ import fr.lip6.move.coloane.core.formalisms.elements.AttributeFormalism;
 import fr.lip6.move.coloane.core.formalisms.elements.ElementFormalism;
 import fr.lip6.move.coloane.core.formalisms.elements.NodeFormalism;
 
+import java.util.Deque;
 import java.util.LinkedList;
 
 import org.xml.sax.Attributes;
@@ -20,8 +21,7 @@ public class SaxHandler extends DefaultHandler {
 	private Formalism form;
 	private AttributeFormalism lastComplex = null;
 	private ElementFormalism lastElement = null;
-	// checkstyle pourri, je veux la fonction removelast.
-	private LinkedList<String> last = new LinkedList<String>();
+	private Deque<String> last = new LinkedList<String>();
 	
 	/**
 	 * @param form The formalism this xml parser will be defining

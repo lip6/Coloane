@@ -213,6 +213,7 @@ public class EmbeddedXtextEditor {
 					IQuickAssistAssistant provideQA(EmbeddedXtextQuickAssistProcessor editor) {
 						return new XtextQuickAssistAssistant(editor);
 					}
+					@Override
 					public void configure(Binder arg) {
 						arg.bind(XtextSourceViewerConfiguration.class).to(EmbeddedXtextSourceViewerConfiguration.class);
 						arg.bind(EmbeddedXtextQuickAssistProcessor.class);
@@ -321,6 +322,7 @@ public class EmbeddedXtextEditor {
 		MenuManager manager = new MenuManager(null, null);
 		manager.setRemoveAllWhenShown(true);
 		manager.addMenuListener(new IMenuListener() {
+			@Override
 			public void menuAboutToShow(IMenuManager mgr) {
 				EmbeddedXtextEditor.this.menuAboutToShow(mgr);
 			}
@@ -392,6 +394,7 @@ public class EmbeddedXtextEditor {
 			private final int fDoubleClickTime =  getControl().getShell().getDisplay().getDoubleClickTime();
 			private long fMouseUpDelta = 0;
 
+			@Override
 			public void mouseUp(final MouseEvent e) {
 				if (fSourceViewer != null && fSourceViewer.getTextWidget() != null) {
 					fSourceViewer.getTextWidget().setFocus();
@@ -409,6 +412,7 @@ public class EmbeddedXtextEditor {
 				}
 
 				Runnable runnable = new Runnable() {
+					@Override
 					public void run() {
 						if (!fDoubleClicked) {
 							IAction action = new EmbeddedXtextRulerAction(fDocument, EmbeddedXtextEditor.this , fVerticalRuler, fVerticalRuler.getModel());
@@ -430,6 +434,7 @@ public class EmbeddedXtextEditor {
 				}
 			}
 
+			@Override
 			public void mouseDoubleClick(MouseEvent e) {
 				if (1 == e.button) {
 					fDoubleClicked = true;
@@ -438,6 +443,7 @@ public class EmbeddedXtextEditor {
 				}
 			}
 
+			@Override
 			public void mouseDown(MouseEvent e) {
 				fMouseUpDelta = System.currentTimeMillis();
 				fDoubleClicked = false;
@@ -500,6 +506,7 @@ public class EmbeddedXtextEditor {
 
 		fSourceViewerDecorationSupport.install(fPreferenceStoreAccess.getPreferenceStore());
 		parent.addDisposeListener(new DisposeListener() {
+			@Override
 			public void widgetDisposed(DisposeEvent e) {
 				fSourceViewerDecorationSupport.dispose();
 			}
@@ -516,6 +523,7 @@ public class EmbeddedXtextEditor {
 				new IValidationIssueProcessor() {
 					private AnnotationIssueProcessor annotationIssueProcessor;
 
+					@Override
 					public void processIssues(List<Issue> issues, IProgressMonitor monitor) {
 						if (annotationIssueProcessor == null) {
 							annotationIssueProcessor = new AnnotationIssueProcessor(fDocument, fSourceViewer.getAnnotationModel(), fIssueResolutionProvider);
@@ -529,6 +537,7 @@ public class EmbeddedXtextEditor {
 		fDocument.setValidationJob(job);
 
 		fSourceViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
 				updateSelectionDependentActions();
 			}
@@ -862,6 +871,7 @@ public class EmbeddedXtextEditor {
 			fHandlerActivations = Lists.newArrayList();
 
 			fSourceViewer.getControl().addDisposeListener(new DisposeListener() {
+				@Override
 				public void widgetDisposed(DisposeEvent e) {
 					IHandlerService handlerService = (IHandlerService) PlatformUI.getWorkbench().getAdapter(IHandlerService.class);
 					handlerService.deactivateHandlers(fHandlerActivations);
@@ -873,6 +883,7 @@ public class EmbeddedXtextEditor {
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public void focusLost(FocusEvent e) {
 			if (fContextActivation != null) {
 
@@ -897,6 +908,7 @@ public class EmbeddedXtextEditor {
 		/**
 		 * {@inheritDoc}
 		 */
+		@Override
 		public void focusGained(FocusEvent e) {
 			IContextService contextService = (IContextService) PlatformUI.getWorkbench().
 					getActiveWorkbenchWindow().

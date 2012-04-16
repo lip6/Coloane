@@ -44,6 +44,7 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Image getImage(Object element) {
 		Image image = images.get(element);
 		if (image == null && element instanceof IFile) {
@@ -67,6 +68,7 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public String getText(Object element) {
 		return null;
 	}
@@ -74,12 +76,14 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void addListener(ILabelProviderListener listener) {
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void dispose() {
 		errorImage.dispose();
 		for (Image img : images.values()) {
@@ -90,6 +94,7 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
@@ -97,10 +102,12 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void removeListener(ILabelProviderListener listener) {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public String getDescription(Object element) {
 		if (element instanceof IFile) {
 			IFile f = (IFile) element;

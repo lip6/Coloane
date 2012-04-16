@@ -92,6 +92,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/newproject_corner.png")); //$NON-NLS-1$
 		setWindowTitle(Messages.NewProjectWizard_1);

@@ -51,6 +51,7 @@ public class LinkModel implements ILink {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void connect() {
 		LOGGER.finer("Connect the link: " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$
 		this.note.addLink(this);
@@ -58,6 +59,7 @@ public class LinkModel implements ILink {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void disconnect() {
 		LOGGER.finer("Disconnect the link: " + note + "--" + element); //$NON-NLS-1$ //$NON-NLS-2$
 		this.note.removeLink(this);
@@ -65,16 +67,19 @@ public class LinkModel implements ILink {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ILinkableElement getElement() {
 		return element;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IStickyNote getNote() {
 		return note;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void reconnect(IStickyNote newNote, ILinkableElement newElement) {
 		note.removeLink(this);
 		element.removeLink(this);

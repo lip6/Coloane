@@ -278,6 +278,7 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	 * Events can be received by an arc.
 	 * @param property The event
 	 */
+	@Override
 	public final void propertyChange(PropertyChangeEvent property) {
 		LOGGER.finest("propertyChange(" + property.getPropertyName() + ")");  //$NON-NLS-1$//$NON-NLS-2$
 		String prop = property.getPropertyName();
@@ -318,28 +319,33 @@ public class ArcEditPart extends AbstractConnectionEditPart implements ISelectio
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final EditPartListener getSelectionEditPartListener() {
 		return editPartListener;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
 		return new ArcConnectionAnchor(this);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
 		return new ArcConnectionAnchor(this);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
 		return new ArcConnectionAnchor(this);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return new ArcConnectionAnchor(this);
 	}

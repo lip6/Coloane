@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: fr.lip6.move.coloane.interfaces;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-Name: %pluginName
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -25,7 +25,7 @@ Require-Bundle: org.eclipse.jface,
  org.eclipse.core.runtime,
  org.eclipse.gef
 Bundle-ManifestVersion: 2
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.google.inject,
  org.eclipse.jface.dialogs,
  org.eclipse.jface.resource,

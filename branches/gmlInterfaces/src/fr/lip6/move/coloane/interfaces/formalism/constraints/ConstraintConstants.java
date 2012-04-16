@@ -24,11 +24,16 @@ package fr.lip6.move.coloane.interfaces.formalism.constraints;
  * </ul>
  *
  * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
-public interface IConstraint {
+public final class ConstraintConstants {
 
-	String PARAMETER_ID = "parameter"; //$NON-NLS-1$
-	String PARAMETER_NAME = "name"; //$NON-NLS-1$
-	String PARAMETER_VALUE = "value"; //$NON-NLS-1$
+	public static final String PARAMETER_ID = "parameter"; //$NON-NLS-1$
+	public static final String PARAMETER_NAME = "name"; //$NON-NLS-1$
+	public static final String PARAMETER_VALUE = "value"; //$NON-NLS-1$
 
+	/**
+	 * Private constructor
+	 */
+	private ConstraintConstants() { }
 }

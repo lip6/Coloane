@@ -154,6 +154,7 @@ public class HighlightingHelper implements IPropertyChangeListener {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void propertyChange(PropertyChangeEvent event) {
 		if (fReconciler != null && event.getProperty().contains(".syntaxColorer.tokenStyles")) { //$NON-NLS-1$
 			fReconciler.refresh();

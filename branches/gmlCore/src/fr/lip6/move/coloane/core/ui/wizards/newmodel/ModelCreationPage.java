@@ -130,6 +130,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		patternsList = new Combo(group, SWT.BORDER | SWT.READ_ONLY);
 		patternsList.setLayoutData(gd);
 		patternsList.addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(ModifyEvent e) {
 				String description = Messages.ModelCreationPage_8;
 				modelSelected = patternsList.getText();

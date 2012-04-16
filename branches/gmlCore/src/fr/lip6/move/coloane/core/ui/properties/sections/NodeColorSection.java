@@ -44,6 +44,7 @@ public class NodeColorSection extends AbstractSection<INode> {
 	private ColorFieldEditor fg;
 	/** Permet de mettre à jour le modèle du noeud */
 	private IPropertyChangeListener fgListener = new IPropertyChangeListener() {
+		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			CompoundCommand cc = new CompoundCommand();
 			for (INode node : getElements()) {
@@ -66,6 +67,7 @@ public class NodeColorSection extends AbstractSection<INode> {
 	private ColorFieldEditor bg;
 	/** Permet de mettre à jour le modèle du noeud pour la couleur du fond */
 	private IPropertyChangeListener bgListener = new IPropertyChangeListener() {
+		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			CompoundCommand cc = new CompoundCommand();
 			for (INode node : getElements()) {

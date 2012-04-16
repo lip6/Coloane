@@ -28,6 +28,7 @@ public final class DoNothingFormatter implements IAttributeFormatter {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public String applyFormat(String value, IElement parentElement) {
 		return value;
 	}

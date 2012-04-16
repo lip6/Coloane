@@ -38,7 +38,7 @@ import org.eclipse.core.runtime.Status;
  *
  * @author Jean-Baptiste Voron
  */
-public class CardinalityConstraint implements IConstraint, IConstraintLink, IExecutableExtension {
+public class CardinalityConstraint implements IConstraintLink, IExecutableExtension {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
@@ -86,12 +86,12 @@ public class CardinalityConstraint implements IConstraint, IConstraintLink, IExe
 	public final void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
 		// Parameters
 		Map<String, String> myParams = new HashMap<String, String>();
-		IConfigurationElement[] parameters = config.getChildren(PARAMETER_ID);
+		IConfigurationElement[] parameters = config.getChildren(ConstraintConstants.PARAMETER_ID);
 
 		// Fetch all parameters
 		for (IConfigurationElement param : parameters) {
-			if ((param.getAttribute(PARAMETER_NAME) != null) && (param.getAttribute(PARAMETER_VALUE) != null)) {
-				myParams.put(param.getAttribute(PARAMETER_NAME), param.getAttribute(PARAMETER_VALUE));
+			if ((param.getAttribute(ConstraintConstants.PARAMETER_NAME) != null) && (param.getAttribute(ConstraintConstants.PARAMETER_VALUE) != null)) {
+				myParams.put(param.getAttribute(ConstraintConstants.PARAMETER_NAME), param.getAttribute(ConstraintConstants.PARAMETER_VALUE));
 			}
 		}
 

@@ -34,6 +34,7 @@ public class NodeFilter implements IFilter {
 	 * @param toTest the currently selected object in the WorkBench
 	 * @return true if it corresponds to a node or a node attribute
 	 */
+	@Override
 	public final boolean select(Object toTest) {
 		if (toTest instanceof NodeEditPart) {
 			return true;

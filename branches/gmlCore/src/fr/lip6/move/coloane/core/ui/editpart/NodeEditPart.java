@@ -224,6 +224,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	 * Handle events caught by this EditPart
 	 * @param property The event that has been caught
 	 */
+	@Override
 	public final void propertyChange(PropertyChangeEvent property) {
 		String prop = property.getPropertyName();
 
@@ -467,21 +468,25 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
@@ -505,6 +510,7 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final EditPartListener getSelectionEditPartListener() {
 		return editPartListener;
 	}

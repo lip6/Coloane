@@ -334,6 +334,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void propertyChange(PropertyChangeEvent event) {
 		String prop = event.getPropertyName();
 
@@ -367,6 +368,7 @@ public class AttributeEditPart extends AbstractGraphicalEditPart implements ISel
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final EditPartListener getSelectionEditPartListener() {
 		return editPartListener;
 	}

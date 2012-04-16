@@ -190,6 +190,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void propertyChange(PropertyChangeEvent event) {
 		LOGGER.finest("Graph EditPart has received a new event: " + event.getPropertyName());  //$NON-NLS-1$
 		String prop = event.getPropertyName();
@@ -267,6 +268,7 @@ public class GraphEditPart extends AbstractGraphicalEditPart implements ISelecti
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final EditPartListener getSelectionEditPartListener() {
 		return editPartListener;
 	}

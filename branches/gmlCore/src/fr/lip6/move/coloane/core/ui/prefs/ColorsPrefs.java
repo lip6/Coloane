@@ -47,6 +47,7 @@ public class ColorsPrefs extends PreferencePage implements IWorkbenchPreferenceP
 	private BooleanFieldEditor arcColorEditor2;
 
 	/** {@inheritDoc} */
+	@Override
 	public final void init(IWorkbench workbench) {
 		setPreferenceStore(Coloane.getInstance().getPreferenceStore());
 	}
