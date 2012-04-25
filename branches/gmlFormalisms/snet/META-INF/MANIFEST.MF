@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Snet
+Bundle-SymbolicName: fr.lip6.move.coloane.formalisms.snet;singleton:=true
+Bundle-Version: 1.1.0.qualifier
+Fragment-Host: fr.lip6.move.coloane.core;bundle-version="1.1.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .
+Bundle-ActivationPolicy: lazy
