@@ -209,7 +209,7 @@ public class TypeDeclaration extends SimpleObservable implements
 			throws IOException {
 		IGraph graph = loadGraph(file);
 		String form = graph.getFormalism().getName();
-		if (form.equals("ITSComposite") || form.equals("Scalar Set Composite")) {
+		if (form.equals("ITSComposite") || form.equals("Scalar Set Composite")|| form.equals("Circular Set Composite")) {
 			return new CompositeTypeDeclaration(name, file, graph, types);
 		} else {
 			return new TypeDeclaration(name, file, graph, types);

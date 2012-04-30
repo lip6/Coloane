@@ -155,7 +155,7 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 				String typeID = node.getAttribute("type").getValue();
 				Concept concept = getConcept(typeID);
 
-				if (getTypeType().equals("Scalar Set Composite")) {
+				if (getTypeType().equals("Scalar Set Composite") || getTypeType().equals("Circular Set Composite")) {
 					IAttribute sizeAtt = getGraph().getAttribute("size");
 					int size = getIntegerAttributeValue(sizeAtt);
 					for (int i = 0; i < size; ++i) {
@@ -225,7 +225,33 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 			}
 		} else {
 			// Scalar set case
-			requiredLabs.add(sync.getAttribute("label").getValue());
+			if (sync.getNodeFormalism().getName().equals("delegator")) {
+				IAttribute att = sync.getAttribute("label");
+				if (att != null) {
+					String lab = att.getValue();
+					if (! lab.equals(""))
+						requiredLabs.add(lab);
+				}
+			} else {
+				// circular sync current
+				IAttribute att = sync.getAttribute("current");
+				if (att != null) {
+					String [] labs = att.getValue().split(";");
+					for (String lab : labs) {
+						if (! lab.equals(""))
+							requiredLabs.add(lab);
+					}
+				}
+				// circular sync succ
+				att = sync.getAttribute("successor");
+				if (att != null) {
+					String [] labs = att.getValue().split(";");
+					for (String lab : labs) {
+						if (! lab.equals(""))
+							requiredLabs.add(lab);
+					}
+				}
+			}
 		}
 	}
 

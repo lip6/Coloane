@@ -120,7 +120,7 @@ public final class ModelFlattener {
 		IGraphFormalism formalism = getGraph(ctd).getFormalism().getRootGraph();
 		IElementFormalism inst = formalism.getElementFormalism("instance");
 
-		if (ctd.getTypeType().equals("Scalar Set Composite")) {
+		if (ctd.getTypeType().equals("Scalar Set Composite") || ctd.getTypeType().equals("Circular Set Composite")) {
 
 			IAttribute sizeAtt = getGraph(ctd).getAttribute("size");
 			int size = ctd.getIntegerAttributeValue(sizeAtt);
@@ -149,13 +149,13 @@ public final class ModelFlattener {
 						}
 					}
 				}
-
-				// obtain effects of all private ("" label) syncs
-				List<List<ResolvedTrans>> tset = cumulateLabelEffect(ctd, "",
-						prefix, emptyEffect);
-				// create corresponding effect in the resulting net
-				buildTransitions(tset, "");
 			}
+			// obtain effects of all private ("" label) syncs
+			List<List<ResolvedTrans>> tset = cumulateLabelEffect(ctd, "",
+					prefix, emptyEffect);
+			// create corresponding effect in the resulting net
+			buildTransitions(tset, "");
+			
 		} else if (ctd.getTypeType().equals("ITSComposite")) {
 
 			/**
@@ -337,9 +337,10 @@ public final class ModelFlattener {
 
 		List<List<ResolvedTrans>> resultSet = new ArrayList<List<ResolvedTrans>>();
 
-		if (ctd.getTypeType().equals("Scalar Set Composite")) {
+		if (ctd.getTypeType().equals("Scalar Set Composite") || ctd.getTypeType().equals("Circular Set Composite") ) {
 
 			IElementFormalism sync = formalism.getElementFormalism("delegator");
+			IElementFormalism circ = formalism.getElementFormalism("circular");
 			/**
 			 * Scan through the Nodes to find all instances and recursively
 			 * flatten them
@@ -349,10 +350,13 @@ public final class ModelFlattener {
 			// "lab"
 			List<INode> matchingSyncs = new ArrayList<INode>();
 			for (INode node : nodes) {
+
 				// A synchronization
-				if (node.getNodeFormalism().equals(sync)) {
+				if (node.getNodeFormalism().equals(sync) || node.getNodeFormalism().equals(circ)) {
+					boolean isPublic = "public".equals(node.getAttribute(
+							"visibility").getValue());
 					String syncLabel = node.getAttribute("label").getValue();
-					if (lab.equals(syncLabel)) {
+					if (lab.equals(syncLabel) || (! isPublic && lab.equals(""))) {
 						// A sync with the right label
 						matchingSyncs.add(node);
 					}
@@ -381,10 +385,15 @@ public final class ModelFlattener {
 
 			for (INode matchSync : matchingSyncs) {
 
-				String kind = matchSync.getAttribute("kind").getValue();
-				String label = matchSync.getAttribute("label").getValue();
+				String kind ;
+				if (matchSync.getNodeFormalism().getName().equals("circular")) {
+					kind = "CIRC";
+				} else {
+					kind = matchSync.getAttribute("kind").getValue();
+				}
 
 				if (kind.equals("ANY")) {
+					String label = matchSync.getAttribute("label").getValue();
 					for (int i = 0; i < size; ++i) {
 						// Each sync creates a new effect = a list of list of
 						// synchronized TPN transitions
@@ -413,7 +422,8 @@ public final class ModelFlattener {
 						}
 
 					}
-				} else {
+				} else if (kind.equals("ALL")) {
+					String label = matchSync.getAttribute("label").getValue();
 					// ALL kind
 					// Each sync creates a new effect = a list of list of
 					// synchronized TPN transitions
@@ -441,6 +451,51 @@ public final class ModelFlattener {
 						}
 					}
 
+				} else {
+					String curr = matchSync.getAttribute("current").getValue();
+					String succ = matchSync.getAttribute("successor").getValue();
+					//CIRC case
+					for (int i = 0; i < size; ++i) {
+						// Each sync creates a new effect = a list of list of
+						// synchronized TPN transitions
+						List<List<ResolvedTrans>> effectSet = new ArrayList<List<ResolvedTrans>>();
+						// initially suppose we have no effect (i.e. 1 empty
+						// effect for cartesian product)
+						effectSet.add(new ArrayList<ResolvedTrans>());
+
+						String instName = Integer.toString(i);						
+						String [] labs = curr.split(";");
+						for (String label : labs) {
+							if (! label.equals(""))
+								effectSet = cumulateLabelEffect(instType, instance,
+										label, newPrefix(prefix, instName), effectSet);
+						}
+						instName = Integer.toString( (i + 1) % size );						
+						labs = succ.split(";");
+						for (String label : labs) {
+							if (! label.equals(""))
+								effectSet = cumulateLabelEffect(instType, instance,
+										label, newPrefix(prefix, instName), effectSet);
+						}
+
+						// compute the product with tset and add to global
+						// effects computed
+						// creates N*M effects where N is size of effectSet and
+						// M size of tset argument to recursive call
+						for (List<ResolvedTrans> effect : effectSet) {
+							for (List<ResolvedTrans> initialEffect : tset) {
+								List<ResolvedTrans> resultEffect = new ArrayList<ResolvedTrans>(
+										effect);
+								resultEffect.addAll(initialEffect);
+								// now add effect of each sync with matching
+								// label
+								resultSet.add(resultEffect);
+							}
+						}
+
+					}
+					
+					
 				}
 
 			}
