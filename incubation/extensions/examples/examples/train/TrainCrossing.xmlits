@@ -20,14 +20,9 @@
 <concept name='ControlledGate' id='7014' effective='7003' parent='7006'/>
 </concepts>
 <parameters>
-<parameter name='$N' id='7015' parent='7000' value='5'/>
+<parameter name='$N' id='7015' parent='7000' value='10'/>
 <parameter name='$SIZE' id='7016' parent='7005' value='8'/>
 </parameters>
 <checks>
-<check>
-<typeid>7006</typeid>
-<formulas>
-</formulas>
-</check>
 </checks>
 </model>
