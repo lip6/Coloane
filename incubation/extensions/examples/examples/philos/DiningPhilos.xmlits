@@ -3,14 +3,16 @@
 <types>
 <type name='fork.model' id='7000' formalism='Time Petri Net' path='/fr.lip6.move.coloane.example.philos/fork.model'/>
 <type name='philo.model' id='7001' formalism='Time Petri Net' path='/fr.lip6.move.coloane.example.philos/philo.model'/>
-<type name='PhiloFork.model' id='7002' formalism='ITSComposite' path='/fr.lip6.move.coloane.example.philos/PhiloFork.model'/>
-<type name='philoSet.model' id='7003' formalism='CircularComposite' path='/fr.lip6.move.coloane.example.philos/philoSet.model'/>
+<type name='philoCircle.model' id='7002' formalism='Circular Set Composite' path='/fr.lip6.move.coloane.example.philos/philoCircle.model'/>
+<type name='PhiloFork.model' id='7003' formalism='ITSComposite' path='/fr.lip6.move.coloane.example.philos/PhiloFork.model'/>
 </types>
 <concepts>
-<concept name='Fork' id='7004' effective='7000' parent='7002'/>
-<concept name='Philo' id='7005' effective='7001' parent='7002'/>
+<concept name='PhiloFork' id='7004' effective='7003' parent='7002'/>
+<concept name='Fork' id='7005' effective='7000' parent='7003'/>
+<concept name='Philo' id='7006' effective='7001' parent='7003'/>
 </concepts>
 <parameters>
+<parameter name='$SIZE' id='7007' parent='7002' value='100'/>
 </parameters>
 <checks>
 </checks>
