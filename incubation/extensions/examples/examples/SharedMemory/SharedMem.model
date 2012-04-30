@@ -11,13 +11,13 @@ We finish the external memory access by releasing the BUS and calling End_Ext_Ac
 Note that only the process/memory pair that engaged in communication during the Begin is able to exit given the Process type and that the BUS limits to a SINGLE exchange at a time.</attribute>
 </attributes>
 <nodes>
-<node nodetype='instance' id ='3' xposition='236' yposition='245' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='instance' id ='3' xposition='172' yposition='213' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='218' yposition='255'>pset</attribute>
 <attribute name='type' xposition='253' yposition='255'>ProcSet</attribute>
 </attributes>
 </node>
-<node nodetype='instance' id ='4' xposition='412' yposition='249' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<node nodetype='instance' id ='4' xposition='423' yposition='221' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='name' xposition='412' yposition='255'>bus</attribute>
 <attribute name='type' xposition='443' yposition='255'>Bus</attribute>
@@ -37,7 +37,7 @@ Note that only the process/memory pair that engaged in communication during the 
 <arcs>
 <arc arctype='arc' id='7' startid='3' endid='5' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='90' yposition='199'>Begin_Ext_Acc_P;Begin_Ext_Acc_M</attribute>
+<attribute name='labels' xposition='131' yposition='195'>Begin_Ext_Acc_P;Begin_Ext_Acc_M</attribute>
 </attributes>
 </arc>
 <arc arctype='arc' id='8' startid='5' endid='4' color='#000000' curved='true'>
@@ -52,7 +52,7 @@ Note that only the process/memory pair that engaged in communication during the 
 </arc>
 <arc arctype='arc' id='10' startid='6' endid='3' color='#000000' curved='true'>
 <attributes>
-<attribute name='labels' xposition='120' yposition='298'>End_Ext_Acc_P;End_Ext_Acc_M</attribute>
+<attribute name='labels' xposition='150' yposition='321'>End_Ext_Acc_P;End_Ext_Acc_M</attribute>
 </attributes>
 </arc>
 </arcs>
