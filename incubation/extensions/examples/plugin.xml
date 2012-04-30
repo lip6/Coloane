@@ -65,6 +65,20 @@
             This example is a composite Petri Net modelling a shared memory model using a BUS. It features a scalar set and some pretty complex synchronizations.
          </description>
       </wizard>
+      <wizard
+            canFinishEarly="true"
+            category="org.eclipse.ui.Examples/fr.lip6.move.coloane.examples.category"
+            class="fr.lip6.move.coloane.extensions.examples.wizard.PhiloExampleWizard"
+            finalPerspective="fr.lip6.move.coloane.perspective"
+            hasPages="false"
+            icon="icons/clock.png"
+            id="fr.lip6.move.coloane.extensions.examples.tpn.philos"
+            name="Dining Philosophers"
+            project="true">
+         <description>
+            This example is a composite Time Petri Net modelling Fischer's mutual exclusion algorithm for a ring of process.
+         </description>
+      </wizard>
    </extension>
 
 </plugin>
