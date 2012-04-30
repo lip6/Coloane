@@ -6,7 +6,6 @@
 <nodes>
 <node nodetype='instance' id ='3' xposition='251' yposition='191' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='271' yposition='171'>proc</attribute>
 <attribute name='type' xposition='271' yposition='171'>Process</attribute>
 </attributes>
 </node>

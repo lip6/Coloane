@@ -10,35 +10,34 @@ This means that for a ProcSet to fire transition t in the set {Begin or End Ext_
 <nodes>
 <node nodetype='instance' id ='3' xposition='301' yposition='209' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='288' yposition='243'>proc</attribute>
 <attribute name='type' xposition='321' yposition='243'>Process</attribute>
 </attributes>
 </node>
-<node nodetype='delegator' id ='4' xposition='233' yposition='122' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='delegator' id ='4' xposition='233' yposition='122' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='visibility' xposition='253' yposition='102'>public</attribute>
 <attribute name='label' xposition='182' yposition='96'>End_Ext_Acc_P</attribute>
 <attribute name='kind' xposition='253' yposition='102'>ANY</attribute>
 </attributes>
 </node>
-<node nodetype='delegator' id ='5' xposition='353' yposition='116' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='delegator' id ='5' xposition='353' yposition='116' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='visibility' xposition='373' yposition='96'>public</attribute>
 <attribute name='label' xposition='373' yposition='96'>End_Ext_Acc_M</attribute>
 <attribute name='kind' xposition='373' yposition='96'>ANY</attribute>
 </attributes>
 </node>
-<node nodetype='delegator' id ='6' xposition='426' yposition='186' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='delegator' id ='6' xposition='510' yposition='116' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='visibility' xposition='446' yposition='166'>public</attribute>
-<attribute name='label' xposition='446' yposition='166'>Begin_Ext_Acc_P</attribute>
+<attribute name='label' xposition='530' yposition='96'>Begin_Ext_Acc_P</attribute>
 <attribute name='kind' xposition='446' yposition='166'>ANY</attribute>
 </attributes>
 </node>
-<node nodetype='delegator' id ='7' xposition='436' yposition='263' scale='100' interface='false' alt='0' foreground='#000000' background='#000000'>
+<node nodetype='delegator' id ='7' xposition='524' yposition='217' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
 <attribute name='visibility' xposition='456' yposition='243'>public</attribute>
-<attribute name='label' xposition='456' yposition='243'>Begin_Ext_Acc_M</attribute>
+<attribute name='label' xposition='544' yposition='197'>Begin_Ext_Acc_M</attribute>
 <attribute name='kind' xposition='456' yposition='243'>ANY</attribute>
 </attributes>
 </node>

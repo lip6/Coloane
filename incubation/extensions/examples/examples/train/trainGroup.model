@@ -6,7 +6,6 @@
 <nodes>
 <node nodetype='instance' id ='3' xposition='201' yposition='137' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
 <attributes>
-<attribute name='name' xposition='299' yposition='243'>t_i</attribute>
 <attribute name='type' xposition='299' yposition='263'>Train</attribute>
 </attributes>
 </node>
