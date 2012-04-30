@@ -120,10 +120,10 @@
       </Formalism>
       <Formalism
             extension="model"
-            fkname="Circular Composite"
-            id="Circular Composite"
+            fkname="Circular Set Composite"
+            id="Circular Set Composite"
             image="resources/itsc_circ_icon.png"
-            name="CircularComposite">
+            name="Circular Set Composite">
          <XmlDescription>
             <Graph
                   name="ITSCircularComposite">
@@ -132,6 +132,13 @@
                      drawable="true"
                      multiline="false"
                      name="title">
+               </Attribute>
+               <Attribute
+                     bold="true"
+                     default="$SIZE"
+                     drawable="true"
+                     multiline="false"
+                     name="size">
                </Attribute>
                <Attribute
                      drawable="true"
@@ -147,7 +154,7 @@
                      container="false"
                      name="instance">
                   <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.CircularSetNode"
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.ScalarSetNode"
                         description="Create a type instance"
                         drawable="true"
                         fill="false"
@@ -159,16 +166,9 @@
                         width="50">
                   </GraphicInfo>
                   <Attribute
-                        bold="false"
-                        default="i"
-                        drawable="true"
-                        italic="false"
-                        multiline="false"
-                        name="name">
-                  </Attribute>
-                  <Attribute
                         bold="true"
-                        drawable="true"
+                        default="Type"
+                        drawable="false"
                         italic="false"
                         multiline="false"
                         name="type">
@@ -176,28 +176,124 @@
                </Node>
                <Node
                      container="false"
-                     name="synchronization">
+                     name="delegator">
                   <GraphicInfo
-                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
-                        description="Create a Synchronization"
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.ScalarDelegate"
+                        description="Create a Delegate"
                         drawable="true"
-                        fill="true"
-                        height="4"
+                        fill="false"
+                        height="20"
                         icon16px="resources/formalisms/its/transition_16.png"
                         icon24px="resources/formalisms/its/transition_24.png"
                         palettable="true"
-                        paletteName="Synchronization"
-                        width="20">
+                        paletteName="Delegate"
+                        width="33">
                   </GraphicInfo>
                   <Attribute
+                        bold="true"
+                        delta_x="40"
+                        delta_y="0"
+                        displayed_default="false"
                         drawable="true"
-                        multiline="true"
-                        name="name">
-                  </Attribute>
-                  <Attribute
-                        drawable="true"
+                        italic="false"
                         multiline="true"
                         name="label">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        default="private"
+                        displayed_default="false"
+                        drawable="false"
+                        enumerated="true"
+                        italic="true"
+                        multiline="false"
+                        name="visibility">
+                     <EnumerationValue
+                           name="private">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="public">
+                     </EnumerationValue>
+                  </Attribute>
+                  <Attribute
+                        bold="true"
+                        default="ANY"
+                        displayed_default="false"
+                        drawable="false"
+                        enumerated="true"
+                        fontsize="12"
+                        multiline="false"
+                        name="kind">
+                     <EnumerationValue
+                           name="ANY">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="ALL">
+                     </EnumerationValue>
+                  </Attribute>
+               </Node>
+               <Node
+                     container="false"
+                     name="circular">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.CircularDelegate"
+                        description="Create a Circular Synchronization between adjacent instances"
+                        drawable="true"
+                        fill="false"
+                        height="20"
+                        icon16px="resources/formalisms/its/transition_16.png"
+                        icon24px="resources/formalisms/its/transition_24.png"
+                        palettable="true"
+                        paletteName="Circular Synchronization"
+                        width="38">
+                  </GraphicInfo>
+                  <Attribute
+                        bold="true"
+                        delta_x="40"
+                        delta_y="0"
+                        displayed_default="false"
+                        drawable="true"
+                        italic="false"
+                        multiline="true"
+                        name="label">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        default="private"
+                        displayed_default="false"
+                        drawable="false"
+                        enumerated="true"
+                        italic="true"
+                        multiline="false"
+                        name="visibility">
+                     <EnumerationValue
+                           name="private">
+                     </EnumerationValue>
+                     <EnumerationValue
+                           name="public">
+                     </EnumerationValue>
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        delta_x="20"
+                        delta_y="20"
+                        displayed_default="false"
+                        drawable="true"
+                        enumerated="false"
+                        italic="true"
+                        multiline="true"
+                        name="current">
+                  </Attribute>
+                  <Attribute
+                        bold="false"
+                        delta_x="20"
+                        delta_y="40"
+                        displayed_default="false"
+                        drawable="true"
+                        enumerated="false"
+                        italic="true"
+                        multiline="true"
+                        name="successor">
                   </Attribute>
                </Node>
                <Arc
@@ -211,11 +307,6 @@
                         palettable="true"
                         paletteName="Synch. Part">
                   </GraphicInfo>
-                  <Attribute
-                        drawable="true"
-                        multiline="true"
-                        name="labels">
-                  </Attribute>
                </Arc>
             </Graph>
          </XmlDescription>
@@ -269,14 +360,6 @@
                         width="50">
                   </GraphicInfo>
                   <Attribute
-                        bold="false"
-                        default="i"
-                        drawable="false"
-                        italic="false"
-                        multiline="false"
-                        name="name">
-                  </Attribute>
-                  <Attribute
                         bold="true"
                         default="Type"
                         drawable="false"
@@ -298,7 +381,7 @@
                         icon24px="resources/formalisms/its/transition_24.png"
                         palettable="true"
                         paletteName="Delegate"
-                        width="30">
+                        width="33">
                   </GraphicInfo>
                   <Attribute
                         bold="true"

@@ -146,13 +146,36 @@ public class ScalarSetNode extends AbstractNodeFigure implements PropertyChangeL
 
 	private void handleDelegate(INode del, Set<String> ops) {		
 		del.addPropertyChangeListener(this);
-		IAttribute att = del.getAttribute("label");
-		if (att != null) {
-			String lab = att.getValue();
-			if (! lab.equals(""))
-				ops.add(lab);
-		}
 		delegates.add(del);
+
+		if (del.getNodeFormalism().getName().equals("delegator")) {
+			IAttribute att = del.getAttribute("label");
+			if (att != null) {
+				String lab = att.getValue();
+				if (! lab.equals(""))
+					ops.add(lab);
+			}
+		} else {
+			// circular sync current
+			IAttribute att = del.getAttribute("current");
+			if (att != null) {
+				String [] labs = att.getValue().split(";");
+				for (String lab : labs) {
+					if (! lab.equals(""))
+						ops.add(lab);
+				}
+			}
+			// circular sync succ
+			att = del.getAttribute("successor");
+			if (att != null) {
+				String [] labs = att.getValue().split(";");
+				for (String lab : labs) {
+					if (! lab.equals(""))
+						ops.add(lab);
+				}
+			}
+			
+		}
 	}
 	
 }
