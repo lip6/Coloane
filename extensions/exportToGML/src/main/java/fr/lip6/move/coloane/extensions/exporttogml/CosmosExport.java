@@ -58,6 +58,8 @@ import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.xml.sax.InputSource;
+import org.antlr.stringtemplate.*;
+import org.antlr.stringtemplate.language.*;
 
 
 /**
@@ -257,12 +259,7 @@ public class CosmosExport implements IGMLExport {
 
 		// Specific code for PTAs
 		if(hasAttribute("discretes")) {
-			IAttribute declarativePart = graph.getAttribute("Discrete");
-			if (declarativePart != null) {
-				if (!declarativePart.getValue().equals("")) {
-					exportDiscretePart(declarativePart.getValue(), result, monitor);
-				}
-			}
+			exportDeclarativePTA(graph, result,monitor);
 		}
 
 		monitor.worked(1);
@@ -370,7 +367,47 @@ public class CosmosExport implements IGMLExport {
 		return parser.getSymbols();
 	}
 	
+	/**
+	 * Export the declaration PTA part
+	 * 
+	 * @param value declarative part to export
+	 * @param modelST the result being built
+	 * @param monitor monitors the export
+	 * @throws ExtensionException if the parser throws an exception
+	 */
+	private void exportDeclarativePTA(IGraph graph, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
+		
+		List<StringTemplate> tmpConsts = new ArrayList();
+		
+		IAttribute discretePart = graph.getAttribute("Discrete");
+		if (discretePart != null) {
+			if (!discretePart.getValue().equals("")) {
+				DeclarativeParserPTALexer lexer = new DeclarativeParserPTALexer(new ANTLRStringStream(discretePart.getValue()));
+				CommonTokenStream tokens = new CommonTokenStream(lexer);
+				DeclarativeParserPTAParser parser = new DeclarativeParserPTAParser(tokens);
+				tmpConsts.add(parser.name_list("variables", "discretes"/*, "discrete"*/));
+				
+				
+			}
+		}
+		
+		
 
+		
+		
+		try {
+				modelST.setAttribute("content", parser.name_list("variables", "discretes", "discrete"));
+			} catch (RecognitionException e) {
+			throw new ExtensionException("Fail to parse Declarative part");
+		}
+
+		StringTemplate decl = templateLib.getInstanceOf("balise");
+	    decl.setAttribute("name", "declaration");
+	    decl.setAttribute("content", tmplist);
+	    modelST.setAttribute("content", decl);
+		
+	}
+	
 	/**
 	 * Export the discrete declaration part
 	 * 
