@@ -18,7 +18,7 @@ options {
 }
 
 
-name_list[String typename1,String typename2]
+name_list[String typename1, String typename2]
   : -> { %{""} }
   | a+=STRING (COMMA a+=STRING)*
   {
@@ -27,7 +27,9 @@ name_list[String typename1,String typename2]
     for (Object x : $a) {
       StringTemplate tmpConst2 = templateLib.getInstanceOf("balise");
       tmpConst2.setAttribute("name", typename2);
-      tmpConst2.setAttribute("content", (StringTemplate)x);
+      tmpConst2.setAttribute("content", ((CommonToken)x).getText()); /* StringTemplate */
+//      An internal error occurred during: "Export model_0.model".
+//org.antlr.runtime.CommonToken cannot be cast to org.antlr.stringtemplate.StringTemplate
       tmp.add(tmpConst2); 
     }
     
