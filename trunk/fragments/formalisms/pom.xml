@@ -20,6 +20,7 @@
         <module>cosmos</module>
         <module>cosmosLHA</module>
         <module>snb</module>
+        <module>pta</module>
     </modules>
 
 </project>
