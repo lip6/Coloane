@@ -35,6 +35,7 @@
         <module>formalismCosmos</module>
         <module>formalismCosmosLHA</module>
         <module>formalismSNB</module>
+        <module>formalismPTA</module>
         <!-- ACTIONS -->
         <module>layoutAction</module>
         <!-- THIRDPARTY DEPENDENCIES -->

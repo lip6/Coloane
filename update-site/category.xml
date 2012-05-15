@@ -42,6 +42,9 @@
    <feature url="features/fr.lip6.move.coloane.features.formalisms.gspn_0.0.0.jar" id="fr.lip6.move.coloane.features.formalisms.gspn" version="0.0.0">
       <category name="Formalisms"/>
    </feature>
+   <feature url="features/fr.lip6.move.coloane.features.formalisms.pta_0.0.0.jar" id="fr.lip6.move.coloane.features.formalisms.pta" version="0.0.0">
+      <category name="Formalisms"/>
+   </feature>
    <feature url="features/fr.lip6.move.coloane.features.formalisms.cosmos_0.0.0.jar" id="fr.lip6.move.coloane.features.formalisms.cosmos" version="0.0.0">
       <category name="Formalisms"/>
    </feature>
