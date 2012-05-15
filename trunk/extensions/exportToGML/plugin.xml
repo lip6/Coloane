@@ -65,6 +65,12 @@
             fmlurl="http://alligator.lip6.fr/HASL-formula.fml"
             name="fr.lip6.move.coloane.formalism.cosmosLHA">
       </exportedFormalism>
+      <exportedFormalism
+            class="fr.lip6.move.coloane.extensions.exporttogml.CosmosExport"
+            description="Parametric timed automata"
+            fmlurl="http://alligator.lip6.fr/parametric-timed-automaton.fml"
+            name="fr.lip6.move.coloane.formalism.pta">
+      </exportedFormalism>
    </extension>
 
 </plugin>
