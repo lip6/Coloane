@@ -24,14 +24,16 @@ name_list[String typename1,String typename2]
   {
     List<StringTemplate> tmp = new ArrayList();
       
-    StringTemplate tmpConst2 = templateLib.getInstanceOf("balise");
-    tmpConsts2.setAttribute("name", typename2);
-    tmpConsts2.setAttribute("content", $a.getText());
-     
-    tmp.add(tmpConsts2); 
+    for (Object x : $a) {
+      StringTemplate tmpConst2 = templateLib.getInstanceOf("balise");
+      tmpConst2.setAttribute("name", typename2);
+      tmpConst2.setAttribute("content", (StringTemplate)x);
+      tmp.add(tmpConst2); 
+    }
     
   } -> balise(name={typename1}, content={ tmp })
   ;
+  
   
   COMMA : ',' ;
   
