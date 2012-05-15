@@ -19,6 +19,8 @@ import fr.lip6.move.coloane.extensions.exporttogml.antlr.ActionCosmosParserLexer
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.ActionCosmosParserParser;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserCosmosLexer;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserCosmosParser;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserPTALexer;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserPTAParser;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.ExpressionParserCosmosLexer;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.ExpressionParserCosmosParser;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.HASLformulaParserLexer;
@@ -61,11 +63,13 @@ import org.xml.sax.InputSource;
 /**
  * A class to export the Cosmos formalism to GML
  * 
- * @author Benoît Barbot and Maximilien Colange
+ * @author Etienne    Andre
+ * @author Benoît     Barbot
+ * @author Maximilien Colange
  *
  */
 public class CosmosExport implements IGMLExport {
-	
+
 	/**
 	 * allows convenient multi-value initialization:
 	 * "new STAttrMap().put(...).put(...)"
@@ -101,9 +105,9 @@ public class CosmosExport implements IGMLExport {
 			return this;
 		}
 	}
-	
+
 	private StringTemplateGroup templates;
-	
+
 	/**
 	 * The constructor
 	 * 
@@ -112,7 +116,7 @@ public class CosmosExport implements IGMLExport {
 	public CosmosExport() throws IOException {
 		initTemplateGroup();
 	}
-	
+
 	/**
 	 * Initialize the StringTemplate group
 	 * @throws IOException if the StringTemplate Group file is not found
@@ -126,7 +130,7 @@ public class CosmosExport implements IGMLExport {
 		templates = new StringTemplateGroup(groupFileR);
 		groupFileR.close();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -141,9 +145,9 @@ public class CosmosExport implements IGMLExport {
 			throw new ExtensionException(e.getMessage());
 		}
 	}
-	
+
 	private String fmlXml;
-	
+
 	private void initInputSource(String fmlUrl) {
 		try {
 			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://gml.lip6.fr/model'/>");
@@ -159,47 +163,47 @@ public class CosmosExport implements IGMLExport {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private boolean hasAttribute(String s) {
 		try {
-		NamespaceContext ctx = new NamespaceContext() {
-            public String getNamespaceURI(String prefix) {
-                if (prefix.equals("fml"))
-                    return "http://gml.lip6.fr/formalism";
-                else
-                    return null;
-            }
-           
-            // Dummy implementation - not used!
-            public Iterator getPrefixes(String val) {
-                return null;
-            }
-           
-            // Dummy implementation - not used!
-            public String getPrefix(String uri) {
-                return null;
-            }
-        };
-		
-		XPath xpath = XPathFactory.newInstance().newXPath();
-		xpath.setNamespaceContext(ctx);
-		InputSource fmlXmlSource = new InputSource(new StringReader(fmlXml));
-		String hasDeclaration = xpath.evaluate("/fml:formalism/fml:complexAttribute[@name='"+s+"']", fmlXmlSource);
-	    //System.out.println(hasDeclaration);
-		
-		return !hasDeclaration.equals("");
-		
+			NamespaceContext ctx = new NamespaceContext() {
+				public String getNamespaceURI(String prefix) {
+					if (prefix.equals("fml"))
+						return "http://gml.lip6.fr/formalism";
+					else
+						return null;
+				}
+
+				// Dummy implementation - not used!
+				public Iterator getPrefixes(String val) {
+					return null;
+				}
+
+				// Dummy implementation - not used!
+				public String getPrefix(String uri) {
+					return null;
+				}
+			};
+
+			XPath xpath = XPathFactory.newInstance().newXPath();
+			xpath.setNamespaceContext(ctx);
+			InputSource fmlXmlSource = new InputSource(new StringReader(fmlXml));
+			String hasDeclaration = xpath.evaluate("/fml:formalism/fml:complexAttribute[@name='"+s+"']", fmlXmlSource);
+			//System.out.println(hasDeclaration);
+
+			return !hasDeclaration.equals("");
+
 		} catch (XPathExpressionException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-			
+
 			return false;
 		} 
-		
+
 	}
-	
-	
-	
+
+
+
 	/**
 	 * The function that exports the graph
 	 * 
@@ -211,7 +215,7 @@ public class CosmosExport implements IGMLExport {
 	 */
 	private StringTemplate exportGraph(IGraph graph, String fmlUrl, IProgressMonitor monitor) throws ExtensionException {
 		initInputSource(fmlUrl);
-		
+
 		monitor.setTaskName("Create preamble");
 
 		StringTemplate result = templates.getInstanceOf("modelBalise", new STAttrMap().put("version", "1.0").put("encoding", "UTF-8").put("form", fmlUrl));
@@ -220,28 +224,38 @@ public class CosmosExport implements IGMLExport {
 
 		// Export model attributes
 		monitor.setTaskName("Export model attributes");
-		
+
 		if(hasAttribute("declaration")) {
-		IAttribute declarativePart = graph.getAttribute("declarations");
-		if (declarativePart != null) {
-			if (!declarativePart.getValue().equals("")) {
-				symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
+			IAttribute declarativePart = graph.getAttribute("declarations");
+			if (declarativePart != null) {
+				if (!declarativePart.getValue().equals("")) {
+					symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
+				}
 			}
-		}
-		for (IAttribute attr : graph.getAttributes()) {
-			if (!attr.getName().equals("const definition") & !attr.getName().equals("declarations")) {
-				try {
-					exportAttribute(attr, result, monitor, symbolTable);
-				} catch (RecognitionException e) {
-					String s = "Error in unparsed attribute of graph : " + attr.getName() + "\n";
-					s = s + "Unfortunately for you, this error should not occur\n";
-					s = s + "What the hell did you do ?\n";
-					throw new ExtensionException(s);
+			for (IAttribute attr : graph.getAttributes()) {
+				if (!attr.getName().equals("const definition") & !attr.getName().equals("declarations")) {
+					try {
+						exportAttribute(attr, result, monitor, symbolTable);
+					} catch (RecognitionException e) {
+						String s = "Error in unparsed attribute of graph : " + attr.getName() + "\n";
+						s = s + "Unfortunately for you, this error should not occur\n";
+						s = s + "What the hell did you do ?\n";
+						throw new ExtensionException(s);
+					}
 				}
 			}
 		}
+
+
+		if(hasAttribute("discrete")) {
+			IAttribute declarativePart = graph.getAttribute("discrete");
+			if (declarativePart != null) {
+				if (!declarativePart.getValue().equals("")) {
+					exportDiscretePart(declarativePart.getValue(), result, monitor);
+				}
+			}
 		}
-		
+
 		monitor.worked(1);
 
 		//Export nodes
@@ -261,7 +275,7 @@ public class CosmosExport implements IGMLExport {
 		monitor.done();
 		return result;
 	}
-	
+
 	/**
 	 * Export a formula
 	 * @param attr the string containing the formula to parse
@@ -280,7 +294,7 @@ public class CosmosExport implements IGMLExport {
 		tmp.setAttribute("content", parser.realExprW(symbols).st);
 		currentST.setAttribute("content", tmp);
 	}
-	
+
 	/**
 	 * Exports a real formula
 	 * 
@@ -300,7 +314,7 @@ public class CosmosExport implements IGMLExport {
 		tmp.setAttribute("content", parser.realExprW(symbols).st);
 		currentST.setAttribute("content", tmp);
 	}
-	
+
 	/**
 	 * Exports a boolean formula
 	 * 
@@ -320,8 +334,8 @@ public class CosmosExport implements IGMLExport {
 		tmp.setAttribute("content", parser.boolExprW(symbols).st);
 		currentST.setAttribute("content", tmp);
 	}
-	
-	
+
+
 	/**
 	 * Export the declarative part
 	 * 
@@ -347,7 +361,33 @@ public class CosmosExport implements IGMLExport {
 		return parser.getSymbols();
 	}
 	
-	
+
+	/**
+	 * Export the discrete declaration part
+	 * 
+	 * @return the symbols table
+	 * @param value declarative part to export
+	 * @param modelST the result being built
+	 * @param monitor monitors the export
+	 * @throws ExtensionException if the parser throws an exception
+	 */
+	private void exportDiscretePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
+
+		DeclarativeParserPTALexer lexer = new DeclarativeParserPTALexer(new ANTLRStringStream(value));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		DeclarativeParserPTAParser parser = new DeclarativeParserPTAParser(tokens);
+		parser.setTemplateLib(templates);
+
+		try {
+			modelST.setAttribute("content", parser.name_list("variables", "discretes"/*, "discrete"*/));
+		} catch (RecognitionException e) {
+			throw new ExtensionException("Fail to parse Declarative part");
+		}
+
+	}
+
+
+
 	/**
 	 * Export the declarative part
 	 * 
@@ -372,8 +412,8 @@ public class CosmosExport implements IGMLExport {
 		}
 
 	}
-	*/
-	
+	 */
+
 	/**
 	 * Export a node object
 	 *
@@ -398,7 +438,7 @@ public class CosmosExport implements IGMLExport {
 		}
 		modelST.setAttribute("content", currentST);
 	}
-	
+
 	/**
 	 * Export an arc object
 	 *
@@ -429,7 +469,7 @@ public class CosmosExport implements IGMLExport {
 		}
 		modelST.setAttribute("content", currentST);
 	}
-	
+
 	/**
 	 * Export an attribute object
 	 *
@@ -448,14 +488,14 @@ public class CosmosExport implements IGMLExport {
 			parser.setTemplateLib(templates);
 			currentST.setAttribute("content", parser.distribution(symbols));
 		} else if (attr.getName().equals("marking")
-				 | attr.getName().equals("valuation")
-				 | attr.getName().equals("service")) {
+				| attr.getName().equals("valuation")
+				| attr.getName().equals("service")) {
 			exportIntFormula(attr, currentST, symbols);
 		} else if (attr.getName().equals("priority")
-				 | attr.getName().equals("weight")) {
+				| attr.getName().equals("weight")) {
 			exportRealFormula(attr, currentST, symbols);
 		} else if (attr.getName().equals("guard")
-				 | attr.getName().equals("invariant")) {
+				| attr.getName().equals("invariant")) {
 			exportBoolFormula(attr, currentST, symbols);
 		} else if (attr.getName().equals("action")) {
 			ActionCosmosParserLexer lexer = new ActionCosmosParserLexer(new ANTLRStringStream(attr.getValue()));
@@ -466,7 +506,7 @@ public class CosmosExport implements IGMLExport {
 		} else if (attr.getName().equals("HASL Formula")) {
 			StringTemplate tmp = templates.getInstanceOf("balise");
 			tmp.setAttribute("name", "HASLFormula");
-			
+
 			HASLformulaParserLexer lexer = new HASLformulaParserLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			HASLformulaParserParser parser = new HASLformulaParserParser(tokens);
