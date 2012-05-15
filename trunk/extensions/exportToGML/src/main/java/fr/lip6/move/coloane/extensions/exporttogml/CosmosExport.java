@@ -164,7 +164,7 @@ public class CosmosExport implements IGMLExport {
 		}
 	}
 
-	private boolean hasAttribute(String s) {
+	private boolean xPathRequest(String request){
 		try {
 			NamespaceContext ctx = new NamespaceContext() {
 				public String getNamespaceURI(String prefix) {
@@ -188,7 +188,7 @@ public class CosmosExport implements IGMLExport {
 			XPath xpath = XPathFactory.newInstance().newXPath();
 			xpath.setNamespaceContext(ctx);
 			InputSource fmlXmlSource = new InputSource(new StringReader(fmlXml));
-			String hasDeclaration = xpath.evaluate("/fml:formalism/fml:complexAttribute[@name='"+s+"']", fmlXmlSource);
+			String hasDeclaration = xpath.evaluate(request, fmlXmlSource);
 			//System.out.println(hasDeclaration);
 
 			return !hasDeclaration.equals("");
@@ -202,6 +202,14 @@ public class CosmosExport implements IGMLExport {
 
 	}
 
+	private boolean hasAttribute(String s) {
+		return xPathRequest("/fml:formalism/fml:complexAttribute[@name='"+s+"']");
+	}
+
+//	// TODO: redo this function using a list
+//	private boolean hasSubSubAttribute(String attr1, String attr2, String attr3) {
+//		return xPathRequest("/fml:formalism/fml:complexAttribute[@name='"+ attr1 +"']/fml:complexAttribute[@name='"+ attr2 +"']/fml:complexAttribute[@name='"+ attr3 +"']");
+//	}
 
 
 	/**
@@ -247,8 +255,9 @@ public class CosmosExport implements IGMLExport {
 		}
 
 
-		if(hasAttribute("discrete")) {
-			IAttribute declarativePart = graph.getAttribute("discrete");
+		// Specific code for PTAs
+		if(hasAttribute("discretes")) {
+			IAttribute declarativePart = graph.getAttribute("Discrete");
 			if (declarativePart != null) {
 				if (!declarativePart.getValue().equals("")) {
 					exportDiscretePart(declarativePart.getValue(), result, monitor);
@@ -379,8 +388,8 @@ public class CosmosExport implements IGMLExport {
 		parser.setTemplateLib(templates);
 
 		try {
-			modelST.setAttribute("content", parser.name_list("variables", "discretes"/*, "discrete"*/));
-		} catch (RecognitionException e) {
+				modelST.setAttribute("content", parser.name_list("variables", "discretes", "discrete"));
+			} catch (RecognitionException e) {
 			throw new ExtensionException("Fail to parse Declarative part");
 		}
 

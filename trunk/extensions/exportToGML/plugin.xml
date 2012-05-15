@@ -27,6 +27,9 @@
          <AcceptedFormalism
                id="fr.lip6.move.coloane.formalism.cosmosLHA">
          </AcceptedFormalism>
+         <AcceptedFormalism
+               id="fr.lip6.move.coloane.formalism.pta">
+         </AcceptedFormalism>
       </Export>
    </extension>
    <extension
