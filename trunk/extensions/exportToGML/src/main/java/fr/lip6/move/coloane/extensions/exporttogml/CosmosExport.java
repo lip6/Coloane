@@ -19,8 +19,8 @@ import fr.lip6.move.coloane.extensions.exporttogml.antlr.ActionCosmosParserLexer
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.ActionCosmosParserParser;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserCosmosLexer;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserCosmosParser;
-import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserPTALexer;
-import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserPTAParser;
+//import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserPTALexer;
+//import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserPTAParser;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.ExpressionParserCosmosLexer;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.ExpressionParserCosmosParser;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.HASLformulaParserLexer;
@@ -58,9 +58,6 @@ import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.xml.sax.InputSource;
-import org.antlr.stringtemplate.*;
-import org.antlr.stringtemplate.language.*;
-
 
 /**
  * A class to export the Cosmos formalism to GML
@@ -257,10 +254,10 @@ public class CosmosExport implements IGMLExport {
 		}
 
 
-		// Specific code for PTAs
+		/*// Specific code for PTAs
 		if(hasAttribute("discretes")) {
 			exportDeclarativePTA(graph, result,monitor);
-		}
+		}*/
 
 		monitor.worked(1);
 
@@ -375,6 +372,7 @@ public class CosmosExport implements IGMLExport {
 	 * @param monitor monitors the export
 	 * @throws ExtensionException if the parser throws an exception
 	 */
+	/*
 	private void exportDeclarativePTA(IGraph graph, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
 		
 		List<StringTemplate> tmpConsts = new ArrayList();
@@ -385,7 +383,7 @@ public class CosmosExport implements IGMLExport {
 				DeclarativeParserPTALexer lexer = new DeclarativeParserPTALexer(new ANTLRStringStream(discretePart.getValue()));
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
 				DeclarativeParserPTAParser parser = new DeclarativeParserPTAParser(tokens);
-				tmpConsts.add(parser.name_list("variables", "discretes"/*, "discrete"*/));
+				tmpConsts.add(parser.name_list("variables", "discretes", "discrete"));
 				
 				
 			}
@@ -406,7 +404,7 @@ public class CosmosExport implements IGMLExport {
 	    decl.setAttribute("content", tmplist);
 	    modelST.setAttribute("content", decl);
 		
-	}
+	}*/
 	
 	/**
 	 * Export the discrete declaration part
@@ -417,7 +415,7 @@ public class CosmosExport implements IGMLExport {
 	 * @param monitor monitors the export
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private void exportDiscretePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
+	/*private void exportDiscretePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
 
 		DeclarativeParserPTALexer lexer = new DeclarativeParserPTALexer(new ANTLRStringStream(value));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -430,7 +428,7 @@ public class CosmosExport implements IGMLExport {
 			throw new ExtensionException("Fail to parse Declarative part");
 		}
 
-	}
+	}*/
 
 
 
