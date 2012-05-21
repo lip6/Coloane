@@ -171,15 +171,15 @@ tname returns [INode node] : name=NAME
 
 tinput : (node=pname 
   {
-    this.destination = node;
-    this.source = $trdesc::idTrans;
+    this.destination = $trdesc::idTrans;
+    this.source = node;    
   }
   arc)*;
 
 toutput : (node=pname 
   {
-    this.destination = $trdesc::idTrans;
-    this.source = node;    
+    this.destination = node;
+    this.source = $trdesc::idTrans;
   }
   arc)*;
 
