@@ -98,7 +98,7 @@ public class ExportToTINA implements IExportTo {
 
 	private void exportTransition(INode node, BufferedWriter sb) throws IOException {
 		sb.append("tr ");
-		sb.append("T" + node.getId() + "");
+		sb.append(transId(node));
 		// label
 		if ("public".equals(node.getAttribute("visibility").getValue())) {
 			sb.append(": {" + node.getAttribute("label").getValue() + "} ");
@@ -145,9 +145,14 @@ public class ExportToTINA implements IExportTo {
 	}
 
 	private String placeId (INode node) {
-		return "{" + node.getId() + node.getAttribute("name").getValue()+"}" ;
+		return "{" + "P" + node.getId() + "_" + node.getAttribute("name").getValue()+"}" ;
 	}
 
+	private String transId (INode node) {
+		return "{" + "T" + node.getId() + "_" + node.getAttribute("label").getValue()+"}" ;
+	}
+
+	
 	private void exportPlace(INode node, BufferedWriter sb) throws IOException {
 		sb.append("pl ");
 		sb.append(placeId(node));
