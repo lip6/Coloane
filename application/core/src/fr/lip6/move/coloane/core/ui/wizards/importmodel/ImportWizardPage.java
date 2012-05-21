@@ -197,7 +197,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		}
 
 		// Use a job to import the new model
-		Job job = new ImportJob("Import " + path, //$NON-NLS-1$
+		final Job job = new ImportJob("Import " + path, //$NON-NLS-1$
 						worker,
 						inputFormalism,
 						fileSelect.getStringValue(),
@@ -207,9 +207,15 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		job.setRule(newFile);
 		job.setUser(true);
 		job.schedule();
+		try {
+			job.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		// Open the new model
-		job = new Job("Open editor") { //$NON-NLS-1$
+		Job job2 = new Job("Open editor") { //$NON-NLS-1$
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				Display.getDefault().asyncExec(new Runnable() {
@@ -220,6 +226,8 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 								IDE.openEditor(page, newFile, true);
 							} catch (CoreException ce) {
 								LOGGER.warning(ce.getMessage());
+//							} catch (InterruptedException e) {
+//								LOGGER.warning(e.getMessage());
 							}
 						}
 					}
@@ -227,10 +235,10 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 				return Status.OK_STATUS;
 			}
 		};
-		job.setPriority(Job.LONG);
-		job.setRule(newFile);
-		job.setSystem(true);
-		job.schedule();
+		job2.setPriority(Job.LONG);
+		job2.setRule(newFile);
+		job2.setSystem(true);
+		job2.schedule();
 		return true;
 	}
 

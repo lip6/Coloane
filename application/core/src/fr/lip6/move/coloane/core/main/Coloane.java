@@ -169,7 +169,7 @@ public class Coloane extends AbstractUIPlugin {
 	 * @param msg the message to be displayed
 	 */
 	public static void showWarningMsg(String msg) {
-		LOGGER.fine("Affichage d'un message de warning : " + msg); //$NON-NLS-1$
+		LOGGER.warning(msg);
 		MessageDialog.openWarning(instance.getWorkbench().getActiveWorkbenchWindow().getShell(), "Coloane Warning", msg); //$NON-NLS-1$
 	}
 

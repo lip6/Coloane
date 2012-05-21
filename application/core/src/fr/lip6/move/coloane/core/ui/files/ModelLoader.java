@@ -20,6 +20,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.IOException;
 import java.io.StringReader;
+import java.io.ObjectInputStream.GetField;
 import java.net.URI;
 import java.util.logging.Logger;
 
@@ -36,6 +37,7 @@ import javax.xml.validation.Validator;
 import org.eclipse.core.resources.IFile;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
@@ -91,9 +93,10 @@ public final class ModelLoader {
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
 			saxParser.parse(modelURI.toString(), handler);
+		} catch (SAXParseException e) {
+			LOGGER.warning(e.getMessage());
 		} catch (SAXException e) {
-			Coloane.showWarningMsg("Unable to parse the model file: " + modelURI.toString() + e.getMessage()); //$NON-NLS-1$
-			LOGGER.warning("Unable to parse the model file: " + modelURI.toString() + e.getMessage()); //$NON-NLS-1$
+			Coloane.showWarningMsg("Unable to parse the model file: '" + modelURI.toString() + "' " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
 			e.printStackTrace();
 		} catch (IOException e) {
 			LOGGER.warning("I/O error: " + e.getMessage()); //$NON-NLS-1$
