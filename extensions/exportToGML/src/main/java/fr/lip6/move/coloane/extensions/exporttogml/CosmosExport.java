@@ -19,8 +19,8 @@ import fr.lip6.move.coloane.extensions.exporttogml.antlr.ActionCosmosParserLexer
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.ActionCosmosParserParser;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserCosmosLexer;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserCosmosParser;
-//import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserPTALexer;
-//import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserPTAParser;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserPTALexer;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativeParserPTAParser;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.ExpressionParserCosmosLexer;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.ExpressionParserCosmosParser;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.HASLformulaParserLexer;
@@ -388,7 +388,7 @@ public class CosmosExport implements IGMLExport {
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
-					tmpConsts.add(parser.name_list("variables", "discretes", "discrete"));
+					tmpConsts.add(parser.name_list("discretes", "discrete"));
 				} catch (RecognitionException e) {
 					throw new ExtensionException("Fail to parse Declarative part");
 				}
@@ -407,7 +407,7 @@ public class CosmosExport implements IGMLExport {
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
-					tmpConsts.add(parser.name_list("variables", "clocks", "clock"));
+					tmpConsts.add(parser.name_list("clocks", "clock"));
 				} catch (RecognitionException e) {
 					throw new ExtensionException("Fail to parse Declarative part");
 				}
@@ -416,12 +416,17 @@ public class CosmosExport implements IGMLExport {
 
 		// maintenant j'ai une liste de deux StringTemplate, qui correspondent à deux blocs GML : une pour le bloc "discretes" et l'autre pour le bloc "clocks"
 		// je vais les encapsuler dans une nouvelle balise "declaration"
+
+		// je crée un StringTemplate de balise XML
+		StringTemplate vars = templateLib.getInstanceOf("balise");
+		vars.setAttribute("name", "variables");
+		// son contenu c'est les deux StringTemplates du dessus : encapsulation réussie
+		vars.setAttribute("content", tmplist);
 		// je crée un StringTemplate de balise XML
 		StringTemplate decl = templateLib.getInstanceOf("balise");
 		// son attribut "name" est "declaration
 		decl.setAttribute("name", "declaration");
-		// son contenu c'est les deux StringTemplates du dessus : encapsulation réussie
-		decl.setAttribute("content", tmplist);
+		decl.setAttribute("content", vars);
 		// je pousse le tout dans le modèle
 		modelST.setAttribute("content", decl);
 
