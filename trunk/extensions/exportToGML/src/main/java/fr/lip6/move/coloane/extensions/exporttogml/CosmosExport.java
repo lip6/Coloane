@@ -367,44 +367,67 @@ public class CosmosExport implements IGMLExport {
 	/**
 	 * Export the declaration PTA part
 	 * 
-	 * @param value declarative part to export
+	 * @param graph graph whose declarative part is exported
 	 * @param modelST the result being built
 	 * @param monitor monitors the export
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	/*
 	private void exportDeclarativePTA(IGraph graph, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
-		
+		// la liste des blocks XML que je vais générer
 		List<StringTemplate> tmpConsts = new ArrayList();
-		
+
+		// je prends la partie discrete
 		IAttribute discretePart = graph.getAttribute("Discrete");
 		if (discretePart != null) {
+			// s'il y a quelque chose a parser
 			if (!discretePart.getValue().equals("")) {
+				// j'ouvre lexer, parser ...
 				DeclarativeParserPTALexer lexer = new DeclarativeParserPTALexer(new ANTLRStringStream(discretePart.getValue()));
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
 				DeclarativeParserPTAParser parser = new DeclarativeParserPTAParser(tokens);
-				tmpConsts.add(parser.name_list("variables", "discretes", "discrete"));
-				
-				
+				try {
+					// et là je parse
+					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
+					tmpConsts.add(parser.name_list("variables", "discretes", "discrete"));
+				} catch (RecognitionException e) {
+					throw new ExtensionException("Fail to parse Declarative part");
+				}
 			}
 		}
-		
-		
 
-		
-		
-		try {
-				modelST.setAttribute("content", parser.name_list("variables", "discretes", "discrete"));
-			} catch (RecognitionException e) {
-			throw new ExtensionException("Fail to parse Declarative part");
+		// rebelote, je prends la partie clocks
+		IAttribute clockPart = graph.getAttribute("Clocks");
+		if (clockPart != null) {
+			// s'il y a quelque chose a parser
+			if (!clockPart.getValue().equals("")) {
+				// j'ouvre lexer, parser ...
+				DeclarativeParserPTALexer lexer = new DeclarativeParserPTALexer(new ANTLRStringStream(clockPart.getValue()));
+				CommonTokenStream tokens = new CommonTokenStream(lexer);
+				DeclarativeParserPTAParser parser = new DeclarativeParserPTAParser(tokens);
+				try {
+					// et là je parse
+					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
+					tmpConsts.add(parser.name_list("variables", "clocks", "clock"));
+				} catch (RecognitionException e) {
+					throw new ExtensionException("Fail to parse Declarative part");
+				}
+			}
 		}
 
+		// maintenant j'ai une liste de deux StringTemplate, qui correspondent à deux blocs GML : une pour le bloc "discretes" et l'autre pour le bloc "clocks"
+		// je vais les encapsuler dans une nouvelle balise "declaration"
+		// je crée un StringTemplate de balise XML
 		StringTemplate decl = templateLib.getInstanceOf("balise");
-	    decl.setAttribute("name", "declaration");
-	    decl.setAttribute("content", tmplist);
-	    modelST.setAttribute("content", decl);
-		
-	}*/
+		// son attribut "name" est "declaration
+		decl.setAttribute("name", "declaration");
+		// son contenu c'est les deux StringTemplates du dessus : encapsulation réussie
+		decl.setAttribute("content", tmplist);
+		// je pousse le tout dans le modèle
+		modelST.setAttribute("content", decl);
+
+		// NB : ici on ne renvoie rien, mais on peut envisager de récupérer les noms des clocks et variables sous forme de listes de String par exemple
+		// le mieux pour faire ça, c'est de le stocker dans le parser pendant le parse, et de le récupérer à la fin (cf le .g de Cosmos par exemple)
+	}
 	
 	/**
 	 * Export the discrete declaration part
