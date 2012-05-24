@@ -388,7 +388,7 @@ public class CosmosExport implements IGMLExport {
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
-					tmpConsts.add(parser.name_list("discretes", "discrete"));
+					tmpConsts.add((StringTemplate)parser.name_list("discretes", "discrete").getTemplate());
 				} catch (RecognitionException e) {
 					throw new ExtensionException("Fail to parse Declarative part");
 				}
@@ -407,7 +407,7 @@ public class CosmosExport implements IGMLExport {
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
-					tmpConsts.add(parser.name_list("clocks", "clock"));
+					tmpConsts.add((StringTemplate)parser.name_list("clocks", "clock").getTemplate());
 				} catch (RecognitionException e) {
 					throw new ExtensionException("Fail to parse Declarative part");
 				}
@@ -418,12 +418,12 @@ public class CosmosExport implements IGMLExport {
 		// je vais les encapsuler dans une nouvelle balise "declaration"
 
 		// je crée un StringTemplate de balise XML
-		StringTemplate vars = templateLib.getInstanceOf("balise");
+		StringTemplate vars = templates.getInstanceOf("balise");
 		vars.setAttribute("name", "variables");
 		// son contenu c'est les deux StringTemplates du dessus : encapsulation réussie
-		vars.setAttribute("content", tmplist);
+		vars.setAttribute("content", tmpConsts);
 		// je crée un StringTemplate de balise XML
-		StringTemplate decl = templateLib.getInstanceOf("balise");
+		StringTemplate decl = templates.getInstanceOf("balise");
 		// son attribut "name" est "declaration
 		decl.setAttribute("name", "declaration");
 		decl.setAttribute("content", vars);
