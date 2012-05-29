@@ -237,22 +237,36 @@ public class CosmosExport implements IGMLExport {
 			if (declarativePart != null) {
 				if (!declarativePart.getValue().equals("")) {
 					symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
-				}
-			}
-			for (IAttribute attr : graph.getAttributes()) {
-				if (!attr.getName().equals("const definition") & !attr.getName().equals("declarations")) {
+				} 
+			} else throw new ExtensionException("Expecting a 'declarations' field require by the formalism");
+		}
+		/*if(hasAttribute("HASLFormula")){
+			IAttribute HASLPart = graph.getAttribute("HASL Formula");
+			if (HASLPart != null) {
+				if (!HASLPart.getValue().equals("")) {
 					try {
-						exportAttribute(attr, result, monitor, symbolTable);
+						exportAttribute(HASLPart, result, monitor, symbolTable);
 					} catch (RecognitionException e) {
-						String s = "Error in unparsed attribute of graph : " + attr.getName() + "\n";
-						s = s + "Unfortunately for you, this error should not occur\n";
-						s = s + "What the hell did you do ?\n";
-						throw new ExtensionException(s);
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
+				}
+			} else throw new ExtensionException("Expecting a 'HASL Formula' field require by the formalism");
+		}*/  
+
+		for (IAttribute attr : graph.getAttributes()) {
+			if (!attr.getName().equals("declarations")) {
+				try {
+					exportAttribute(attr, result, monitor, symbolTable);
+				} catch (RecognitionException e) {
+					String s = "Error in unparsed attribute of graph : " + attr.getName() + "\n";
+					s = s + "Unfortunately for you, this error should not occur\n";
+					s = s + "What the hell did you do ?\n";
+					throw new ExtensionException(s);
 				}
 			}
 		}
-
+		
 
 		/*// Specific code for PTAs
 		if(hasAttribute("discretes")) {
