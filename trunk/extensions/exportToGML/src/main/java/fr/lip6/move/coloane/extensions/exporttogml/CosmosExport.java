@@ -168,7 +168,7 @@ public class CosmosExport implements IGMLExport {
 			NamespaceContext ctx = new NamespaceContext() {
 				public String getNamespaceURI(String prefix) {
 					if (prefix.equals("fml"))
-						return "http://gml.lip6.fr/formalism";
+						return "http://cosyverif.org/ns/formalism";
 					else
 						return null;
 				}
