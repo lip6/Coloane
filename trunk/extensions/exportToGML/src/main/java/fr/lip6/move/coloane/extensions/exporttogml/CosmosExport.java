@@ -240,7 +240,7 @@ public class CosmosExport implements IGMLExport {
 				} 
 			} else throw new ExtensionException("Expecting a 'declarations' field require by the formalism");
 		}
-		/*if(hasAttribute("HASLFormula")){
+		if(hasAttribute("HASLFormula")){
 			IAttribute HASLPart = graph.getAttribute("HASL Formula");
 			if (HASLPart != null) {
 				if (!HASLPart.getValue().equals("")) {
@@ -252,9 +252,9 @@ public class CosmosExport implements IGMLExport {
 					}
 				}
 			} else throw new ExtensionException("Expecting a 'HASL Formula' field require by the formalism");
-		}*/  
+		}  
 
-		for (IAttribute attr : graph.getAttributes()) {
+		/*for (IAttribute attr : graph.getAttributes()) {
 			if (!attr.getName().equals("declarations")) {
 				try {
 					exportAttribute(attr, result, monitor, symbolTable);
@@ -265,7 +265,7 @@ public class CosmosExport implements IGMLExport {
 					throw new ExtensionException(s);
 				}
 			}
-		}
+		}*/
 		
 
 		/*// Specific code for PTAs
