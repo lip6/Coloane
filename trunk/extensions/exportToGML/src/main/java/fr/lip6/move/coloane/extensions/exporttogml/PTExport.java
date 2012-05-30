@@ -12,8 +12,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 
 
 public class PTExport implements IGMLExport {
-	private static final String PTNET_URL = "http://alligator.lip6.fr/pt-net.fml";
-	private static final String GML_NAMESPACE = "http://gml.lip6.fr/model";
+	private static final String PTNET_URL = "http://formalisms.cosyverif.org/pt-net.fml";
+	private static final String GML_NAMESPACE = "http://cosyverif.org/ns/model";
 
 	public void export(IGraph graph, Writer writer, String formalismURL, IProgressMonitor monitor) throws ExtensionException {
 		try {

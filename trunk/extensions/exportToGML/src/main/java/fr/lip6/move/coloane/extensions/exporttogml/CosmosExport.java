@@ -107,6 +107,8 @@ public class CosmosExport implements IGMLExport {
 
 	private StringTemplateGroup templates;
 
+	private String fmlXml;
+
 	/**
 	 * The constructor
 	 * 
@@ -145,14 +147,12 @@ public class CosmosExport implements IGMLExport {
 		}
 	}
 
-	private String fmlXml;
-
 	private void initInputSource(String fmlUrl) {
 		try {
-			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://gml.lip6.fr/model'/>");
+			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://cosyverif.org/ns/model'/>");
 			Model fakeModel = new Model(new GmlCheckExecutables(), content);
 			fmlXml = fakeModel.getFormalism().getData();
-			//System.out.println(fmlXml);
+			System.out.println(fmlXml);
 			//fmlXmlSource = new InputSource(new StringReader(fmlXml));
 		} catch (SaxonApiException e) {
 			// TODO Auto-generated catch block
@@ -388,7 +388,7 @@ public class CosmosExport implements IGMLExport {
 	 */
 	private void exportDeclarativePTA(IGraph graph, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
 		// la liste des blocks XML que je vais générer
-		List<StringTemplate> tmpConsts = new ArrayList();
+		List<StringTemplate> tmpConsts = new ArrayList<StringTemplate>();
 
 		// je prends la partie discrete
 		IAttribute discretePart = graph.getAttribute("Discrete");
