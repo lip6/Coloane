@@ -136,7 +136,7 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 		for (final ServiceDescription service : serverManager.getServices()) {
 			apiService = new AlligatorService(service, this);
 			LOGGER.finer("Add service id: " + service.getId());
-			serviceItem = new ServiceMenu(service.getName(), true, service.getShortDescription(), apiService);
+			serviceItem = new ServiceMenu(service.getName(), true, service.getShortDescription(), apiService, true);
 			menu.add(serviceItem);
 		}
 		Collections.sort(menu, new Comparator<IItemMenu>() {

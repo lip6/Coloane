@@ -15,7 +15,9 @@
  */
 package fr.lip6.move.coloane.core.ui.actions;
 
+import fr.lip6.move.coloane.core.results.ResultManager;
 import fr.lip6.move.coloane.core.session.ISession;
+import fr.lip6.move.coloane.core.session.ISessionManager;
 import fr.lip6.move.coloane.core.session.SessionManager;
 import fr.lip6.move.coloane.core.ui.ColoaneEditor;
 import fr.lip6.move.coloane.core.ui.ColoaneJob;
@@ -44,6 +46,9 @@ public class ServiceAction extends Action {
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
+	private static final ISessionManager SESSION_MANAGER = SessionManager.getInstance();
+	private static final ISession GLOBAL_SESSION = SESSION_MANAGER.getGlobalSession();
+
 	/** All information about the service */
 	private IServiceMenu serviceDescription;
 
@@ -63,7 +68,7 @@ public class ServiceAction extends Action {
 	/** {@inheritDoc} */
 	@Override
 	public final void run() {
-		final ISession currentSession = SessionManager.getInstance().getCurrentSession();
+		final ISession currentSession = SESSION_MANAGER.getCurrentSession();
 
 		LOGGER.fine("Service execution : " + serviceDescription.getAssociatedService()); //$NON-NLS-1$
 		IGraph currentGraph = null;
@@ -82,11 +87,14 @@ public class ServiceAction extends Action {
 					List<IResult> results = ((ColoaneJob) event.getJob()).getResults();
 					LOGGER.fine("Browsing results..."); //$NON-NLS-1$
 					for (IResult result : results) {
-						// A session is necessary to add results to the ResultManager
-						if (currentSession != null) {
-							// Add textual results to the ResultManager
-							currentSession.getResultManager().add(result.getResultName(), result);
+						ResultManager resultManager = GLOBAL_SESSION.getResultManager();
+						// Use the current session if the service is not global
+						if (currentSession != null && !serviceDescription.isGlobal()) {
+							resultManager = currentSession.getResultManager();
 						}
+
+						// Add textual results to the ResultManager
+						resultManager.add(result.getResultName(), result);
 
 						// A session is necessary to modify the current models
 						if (currentSession != null) {
