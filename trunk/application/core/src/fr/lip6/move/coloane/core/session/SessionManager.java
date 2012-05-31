@@ -35,6 +35,7 @@ import org.eclipse.swt.widgets.Display;
  * Session Manager.<br>
  *
  * @author Jean-Baptiste Voron
+ * @author Clément Démoulins
  */
 public final class SessionManager implements ISessionManager {
 	/** Logger */
@@ -45,6 +46,9 @@ public final class SessionManager implements ISessionManager {
 
 	/** Current session */
 	private ISession currentSession;
+
+	/** Global session */
+	private ISession globalSession;
 
 	/** List of all sessions currently opened */
 	private Map<String, ISession> sessions = new HashMap<String, ISession>();
@@ -57,22 +61,36 @@ public final class SessionManager implements ISessionManager {
 
 	/**
 	 * Constructor (private)
+	 * @throws ColoaneException The global session cannot be created
 	 */
-	private SessionManager() {
+	private SessionManager() throws ColoaneException {
 		this.currentSession = null;
+		this.globalSession = new Session("global", null); //$NON-NLS-1$
 	}
 
 	/**
 	 * @return THE (unique) session manager
 	 */
 	public static synchronized ISessionManager getInstance() {
-		if (instance == null) { instance = new SessionManager(); }
+		if (instance == null) {
+			try {
+				instance = new SessionManager();
+			} catch (ColoaneException e) {
+				LOGGER.severe(e.getMessage());
+				e.printStackTrace();
+			}
+		}
 		return instance;
 	}
 
 	/** {@inheritDoc} */
 	public ISession getCurrentSession() {
 		return currentSession;
+	}
+
+	/** {@inheritDoc} */
+	public ISession getGlobalSession() {
+		return globalSession;
 	}
 
 	/** {@inheritDoc} */
@@ -106,7 +124,7 @@ public final class SessionManager implements ISessionManager {
 		// Otherwise, a new session is created and added to the session list
 		ISession newSession = new Session(sessionId, graph);
 		sessions.put(sessionId, newSession);
-//		setCurrentSession(newSession); // Set the current session if no session is active yet
+		//		setCurrentSession(newSession); // Set the current session if no session is active yet
 
 		// Before returning the new session, we add it an appropriate checker
 		CheckerManager.getInstance().associateCheckerToSession(newSession);
