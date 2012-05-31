@@ -25,6 +25,8 @@ import java.util.List;
 
 /**
  * Session Manager
+ * 
+ * @author Clément Démoulins
  */
 public interface ISessionManager {
 
@@ -62,6 +64,11 @@ public interface ISessionManager {
 	 * @return The current session or <code>null</code> is no session is the current one
 	 */
 	ISession getCurrentSession();
+
+	/**
+	 * @return The global session
+	 */
+	ISession getGlobalSession();
 
 	/**
 	 * Return a session registered in the session manager according to its <b>name</b>
