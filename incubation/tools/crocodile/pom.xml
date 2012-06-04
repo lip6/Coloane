@@ -27,9 +27,9 @@
                         <configuration>
                             <target>
                                 <echo message="Get Crocodile binairies"/>
-                                <get src="https://teamcity-systeme.lip6.fr/guestAuth/repository/download/bt67/.lastSuccessful/Crocodile" dest="crocodile-binaries/Crocodile-linux32"/>
-                                <get src="https://teamcity-systeme.lip6.fr/guestAuth/repository/download/bt66/.lastSuccessful/Crocodile" dest="crocodile-binaries/Crocodile-linux64"/>
-                                <get src="https://teamcity-systeme.lip6.fr/guestAuth/repository/download/bt63/.lastSuccessful/Crocodile" dest="crocodile-binaries/Crocodile-Darwin"/>
+                                <get src="https://teamcity-systeme.lip6.fr/guestAuth/repository/download/bt67/.lastSuccessful/crocodile" dest="crocodile-binaries/Crocodile-linux32"/>
+                                <get src="https://teamcity-systeme.lip6.fr/guestAuth/repository/download/bt66/.lastSuccessful/crocodile" dest="crocodile-binaries/Crocodile-linux64"/>
+                                <get src="https://teamcity-systeme.lip6.fr/guestAuth/repository/download/bt63/.lastSuccessful/crocodile" dest="crocodile-binaries/Crocodile-Darwin"/>
                             </target>
                         </configuration>
                         <goals>
