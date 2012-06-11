@@ -30,6 +30,9 @@
     <feature url="" id="fr.lip6.move.coloane.feature.importExportTINA"  version="0.0.0">
         <category name="ITS"/>
     </feature>
+    <feature url="" id="fr.lip6.move.coloane.feature.importExportLOLA"  version="0.0.0">
+        <category name="ITS"/>
+    </feature>
     <feature url="" id="fr.lip6.move.coloane.feature.exportToSVG"  version="0.0.0">
         <category name="ImportExportWizards"/>
     </feature>
