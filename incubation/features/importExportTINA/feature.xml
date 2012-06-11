@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.importExportTINA"
+      id="fr.lip6.move.coloane.feature.importExportLOLA"
       label="Coloane - Import From TINA"
       version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
@@ -32,7 +32,7 @@
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.extensions.importExportTINA"
+         id="fr.lip6.move.coloane.extensions.importExportLOLA"
          download-size="0"
          install-size="0"
          version="0.0.0"
