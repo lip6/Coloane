@@ -236,6 +236,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 
 	/** {@inheritDoc} */
 	public final void setTips(Map<Integer, List<ITip>> map, Integer... objectIds) {
+		if (SessionManager.getInstance().getCurrentSession() == null) { return; }
 		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
 		List<ICoreTip> coreTips = new ArrayList<ICoreTip>();
 
@@ -261,6 +262,7 @@ public class ResultTreeImpl extends Observable implements IResultTree {
 	 * @param map a map that contains the ids and the element description to highlight
 	 */
 	public final void addAttributesOutline(Map<Integer, List<String>> map) {
+		if (SessionManager.getInstance().getCurrentSession() == null) { return; }
 		IGraph currentGraph = SessionManager.getInstance().getCurrentSession().getGraph();
 
 		// For each object ID,

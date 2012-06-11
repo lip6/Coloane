@@ -96,9 +96,9 @@ public final class Session implements ISession {
 		this.sessionId = sessionId;
 
 		// The graph associated with the session must not be null
-		if (graph == null) {
-			throw new ColoaneException("The session must be associated with a graph"); //$NON-NLS-1$
-		}
+//		if (graph == null) {
+//			throw new ColoaneException("The session must be associated with a graph"); //$NON-NLS-1$
+//		}
 		this.graph = graph;
 	}
 
