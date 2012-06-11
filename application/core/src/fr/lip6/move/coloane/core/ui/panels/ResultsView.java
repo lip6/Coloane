@@ -150,9 +150,12 @@ public class ResultsView extends ViewPart {
 
 		// Add the observer to the result list
 		if (resultsManager != null) {
-			viewer.setInput(resultsManager);
+			viewer.setInput(new MultiResultManager(MANAGER.getGlobalSession().getResultManager(), resultsManager));
 			resultsManager.addObserver(resultObserver);
+		} else {
+			viewer.setInput(MANAGER.getGlobalSession().getResultManager());
 		}
+		MANAGER.getGlobalSession().getResultManager().addObserver(resultObserver);
 
 		// Allow the user to delete a result that has been selected (activate the action)
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
@@ -178,11 +181,11 @@ public class ResultsView extends ViewPart {
 									previous.getResultManager().deleteObserver(resultObserver);
 								}
 								if (current != null) {
-									viewer.setInput(current.getResultManager());
+									viewer.setInput(new MultiResultManager(MANAGER.getGlobalSession().getResultManager(), current.getResultManager()));
 									current.getResultManager().addObserver(resultObserver);
 									viewer.refresh();
 								} else {
-									viewer.setInput(null);
+									viewer.setInput(MANAGER.getGlobalSession().getResultManager());
 									viewer.refresh();
 								}
 							}
