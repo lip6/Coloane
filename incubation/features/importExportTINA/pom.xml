@@ -9,9 +9,9 @@
     </parent>
 
     <groupId>fr.lip6.move.coloane.incubation.features</groupId>
-    <artifactId>fr.lip6.move.coloane.feature.importExportLOLA</artifactId>
+    <artifactId>fr.lip6.move.coloane.feature.importExportTINA</artifactId>
     <packaging>eclipse-feature</packaging>
-    <name>Features :: Import Export LOLA</name>
-    <description>Import/Export Coloane feature that allows to interact with the tool LOLA (Rostock Univ.) using its native lola format for low level Petri Nets.</description>
+    <name>Features :: Import Export TINA</name>
+    <description>Import/Export Coloane feature that allows to interact with the tool TINA (LAAS) using its native .net format for Time Petri Nets.</description>
 
 </project>
