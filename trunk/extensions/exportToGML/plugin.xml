@@ -71,7 +71,7 @@
       <exportedFormalism
             class="fr.lip6.move.coloane.extensions.exporttogml.CosmosExport"
             description="Parametric timed automata"
-            fmlurl="http://alligator.lip6.fr/parametric-timed-automaton.fml"
+            fmlurl="http://formalisms.cosyverif.org/parametric-timed-automaton.fml"
             name="fr.lip6.move.coloane.formalism.pta">
       </exportedFormalism>
    </extension>
