@@ -233,12 +233,18 @@ public class CosmosExport implements IGMLExport {
 		monitor.setTaskName("Export model attributes");
 
 		if(hasAttribute("declaration")) {
-			IAttribute declarativePart = graph.getAttribute("declarations");
-			if (declarativePart != null) {
-				if (!declarativePart.getValue().equals("")) {
-					symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
-				} 
-			} else throw new ExtensionException("Expecting a 'declarations' field require by the formalism");
+			// Case IMITATOR (most probably)
+			if(hasAttribute("discretes")) {
+				exportDeclarativePTA(graph, result,monitor);
+				// Case COSMOS (most probably)
+			}else{
+				IAttribute declarativePart = graph.getAttribute("declarations");
+				if (declarativePart != null) {
+					if (!declarativePart.getValue().equals("")) {
+						symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
+					} 
+				} else throw new ExtensionException("Expecting a 'declarations' field require by the formalism");
+			}
 		}
 		if(hasAttribute("HASLFormula")){
 			IAttribute HASLPart = graph.getAttribute("HASL Formula");
