@@ -246,6 +246,8 @@ public class CosmosExport implements IGMLExport {
 				} else throw new ExtensionException("Expecting a 'declarations' field require by the formalism");
 			}
 		}
+		
+		// Case HASL formula
 		if(hasAttribute("HASLFormula")){
 			IAttribute HASLPart = graph.getAttribute("HASL Formula");
 			if (HASLPart != null) {
@@ -257,8 +259,27 @@ public class CosmosExport implements IGMLExport {
 						e.printStackTrace();
 					}
 				}
-			} else throw new ExtensionException("Expecting a 'HASL Formula' field require by the formalism");
-		}  
+			} else throw new ExtensionException("Expecting a 'HASL Formula' field required by the formalism");
+		}
+		
+		
+		// Initial constraint (for IMITATOR)
+		// WARNING: the FML formalism name and the Coloane "zone" name must have the same name!!!!!!
+		if(hasAttribute("initialConstraint")) {
+			IAttribute attr = graph.getAttribute("initialConstraint");
+			
+			if (attr != null) {
+				if (!attr.getValue().equals("")) {
+					try {
+						exportBoolFormula(attr, result, symbolTable);
+					} catch (RecognitionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			} else throw new ExtensionException("Expecting an initial constraint field required by the formalism");
+		}
+		
 
 		/*for (IAttribute attr : graph.getAttributes()) {
 			if (!attr.getName().equals("declarations")) {
@@ -346,6 +367,7 @@ public class CosmosExport implements IGMLExport {
 	 * @param symbols the table of symbols
 	 * @throws RecognitionException if the parsing fails
 	 */
+	// WARNING: the FML formalism name and the Coloane "zone" name must have the same name!!!!!!
 	private void exportBoolFormula(IAttribute attr, StringTemplate currentST, Map<String, String> symbols) throws RecognitionException {
 		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -357,6 +379,8 @@ public class CosmosExport implements IGMLExport {
 		tmp.setAttribute("content", parser.boolExprW(symbols).st);
 		currentST.setAttribute("content", tmp);
 	}
+
+	
 
 
 	/**
@@ -405,6 +429,8 @@ public class CosmosExport implements IGMLExport {
 				DeclarativeParserPTALexer lexer = new DeclarativeParserPTALexer(new ANTLRStringStream(discretePart.getValue()));
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
 				DeclarativeParserPTAParser parser = new DeclarativeParserPTAParser(tokens);
+				parser.setTemplateLib(templates);
+
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
@@ -424,16 +450,36 @@ public class CosmosExport implements IGMLExport {
 				DeclarativeParserPTALexer lexer = new DeclarativeParserPTALexer(new ANTLRStringStream(clockPart.getValue()));
 				CommonTokenStream tokens = new CommonTokenStream(lexer);
 				DeclarativeParserPTAParser parser = new DeclarativeParserPTAParser(tokens);
+				parser.setTemplateLib(templates);
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
 					tmpConsts.add((StringTemplate)parser.name_list("clocks", "clock").getTemplate());
 				} catch (RecognitionException e) {
-					throw new ExtensionException("Fail to parse Declarative part");
+					throw new ExtensionException("Fail to parse clocks part");
 				}
 			}
 		}
 
+		// rebelote, je prends la partie parameters
+		IAttribute parametersPart = graph.getAttribute("Parameters");
+		if (parametersPart != null) {
+			// s'il y a quelque chose a parser
+			if (!parametersPart.getValue().equals("")) {
+				// j'ouvre lexer, parser ...
+				DeclarativeParserPTALexer lexer = new DeclarativeParserPTALexer(new ANTLRStringStream(parametersPart.getValue()));
+				CommonTokenStream tokens = new CommonTokenStream(lexer);
+				DeclarativeParserPTAParser parser = new DeclarativeParserPTAParser(tokens);
+				parser.setTemplateLib(templates);
+				try {
+					// et là je parse
+					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
+					tmpConsts.add((StringTemplate)parser.name_list("parameters", "parameter").getTemplate());
+				} catch (RecognitionException e) {
+					throw new ExtensionException("Fail to parse parameters part");
+				}
+			}
+		}
 		// maintenant j'ai une liste de deux StringTemplate, qui correspondent à deux blocs GML : une pour le bloc "discretes" et l'autre pour le bloc "clocks"
 		// je vais les encapsuler dans une nouvelle balise "declaration"
 
