@@ -84,7 +84,7 @@
                      displayed_default="true"
                      drawable="true"
                      multiline="true"
-                     name="Initial constraint">
+                     name="initialConstraint">
                </Attribute>
                <Attribute
                      drawable="true"
