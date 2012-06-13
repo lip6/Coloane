@@ -24,7 +24,9 @@ import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ServiceMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.SubMenu;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
 import fr.lip6.move.coloane.interfaces.objects.services.ConsoleMessage;
 
@@ -34,7 +36,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
@@ -133,11 +137,33 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 		System.err.println(serverManager);
 		System.err.println(serverManager.getServices());
 
+		Map<String,ISubMenu> parentMenus = new HashMap<String, ISubMenu>();
+		
 		for (final ServiceDescription service : serverManager.getServices()) {
 			apiService = new AlligatorService(service, this);
 			LOGGER.finer("Add service id: " + service.getId());
+			
+			String serviceName = service.getName();
+			String parentService = null;
+			String[] array = serviceName.split(":");
+			if (array.length == 2) {
+				serviceName = array[1];
+				parentService = array[0];
+			}
 			serviceItem = new ServiceMenu(service.getName(), true, service.getShortDescription(), apiService, true);
-			menu.add(serviceItem);
+			
+			if (parentService != null) {
+				ISubMenu parent = parentMenus.get(parentService);
+				if (parent == null) {
+					// create it
+					parent = new SubMenu(parentService, true);
+					parentMenus.put(parentService, parent);
+					menu.add(parent);
+				}
+				parent.addServiceMenu(serviceItem);
+			} else {
+				menu.add(serviceItem);
+			}
 		}
 		Collections.sort(menu, new Comparator<IItemMenu>() {
 			public int compare(IItemMenu o1, IItemMenu o2) {
