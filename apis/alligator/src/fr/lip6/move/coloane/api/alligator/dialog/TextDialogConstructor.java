@@ -53,6 +53,16 @@ public class TextDialogConstructor implements ItemDialogConstructor {
 		this.input.setLayoutData(layoutData);
 }
 
+	@Override
+	public void setParameterValues(List<Item> oldValues) {
+		for (Item item : oldValues) {
+			if (item.getName().equals(description.getName())) {
+				input.setText(item.getValue());
+				return;
+			}
+		}
+	}
+	
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#getParameters()
 	 */
