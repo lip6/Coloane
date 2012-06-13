@@ -499,7 +499,19 @@ public class CosmosExport implements IGMLExport {
 		StringTemplate decl = templates.getInstanceOf("balise");
 		// son attribut "name" est "declaration
 		decl.setAttribute("name", "declaration");
-		decl.setAttribute("content", vars); // ETIENNE veut ajouter l'arbre "variables" (defini dans vars) ET l'arbre "constants" (defini dans consts) sous "declaration"
+		// ETIENNE veut ajouter l'arbre "variables" (defini dans vars) ET l'arbre "constants" (defini dans consts) sous "declaration"
+		// MAXIMILIEN : d'apres l'API a la !@#$% des StringTemplates (http://www.stringtemplate.org/api3/index.html), "setAttribute" est trompeur
+		// cette methode gere toute seule la presence de plusieurs fils, c'est plutot un "addElementToAttribute"
+		// donc la, tu vas avoir
+		// <attribute name="declaration">
+		// 	<attribute name="variables">
+		//		les variables
+		//	</attribute>
+		// 	<attribute name="constants">
+		//		les constants
+		//	</attribute>
+		// </attribute>
+		decl.setAttribute("content", vars, consts);
 		// je pousse le tout dans le modèle
 		modelST.setAttribute("content", decl);
 
