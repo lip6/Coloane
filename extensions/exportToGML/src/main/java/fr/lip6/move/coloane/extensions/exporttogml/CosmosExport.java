@@ -243,7 +243,7 @@ public class CosmosExport implements IGMLExport {
 					if (!declarativePart.getValue().equals("")) {
 						symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
 					} 
-				} else throw new ExtensionException("Expecting a 'declarations' field require by the formalism");
+				} else throw new ExtensionException("Expecting a 'declarations' field required by the formalism");
 			}
 		}
 		
@@ -419,6 +419,7 @@ public class CosmosExport implements IGMLExport {
 	private void exportDeclarativePTA(IGraph graph, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
 		// la liste des blocks XML que je vais générer
 		List<StringTemplate> tmpConsts = new ArrayList<StringTemplate>();
+		List<StringTemplate> tmpVars = new ArrayList<StringTemplate>();
 
 		// je prends la partie discrete
 		IAttribute discretePart = graph.getAttribute("Discrete");
@@ -434,7 +435,7 @@ public class CosmosExport implements IGMLExport {
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
-					tmpConsts.add((StringTemplate)parser.name_list("discretes", "discrete").getTemplate());
+					tmpVars.add((StringTemplate)parser.name_list("discretes", "discrete").getTemplate());
 				} catch (RecognitionException e) {
 					throw new ExtensionException("Fail to parse Declarative part");
 				}
@@ -454,7 +455,7 @@ public class CosmosExport implements IGMLExport {
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
-					tmpConsts.add((StringTemplate)parser.name_list("clocks", "clock").getTemplate());
+					tmpVars.add((StringTemplate)parser.name_list("clocks", "clock").getTemplate());
 				} catch (RecognitionException e) {
 					throw new ExtensionException("Fail to parse clocks part");
 				}
@@ -487,12 +488,18 @@ public class CosmosExport implements IGMLExport {
 		StringTemplate vars = templates.getInstanceOf("balise");
 		vars.setAttribute("name", "variables");
 		// son contenu c'est les deux StringTemplates du dessus : encapsulation réussie
-		vars.setAttribute("content", tmpConsts);
+		vars.setAttribute("content", tmpVars);
+
+		// je crée un StringTemplate de balise XML
+		StringTemplate consts = templates.getInstanceOf("balise");
+		consts.setAttribute("name", "constants");
+		consts.setAttribute("content", tmpConsts);
+
 		// je crée un StringTemplate de balise XML
 		StringTemplate decl = templates.getInstanceOf("balise");
 		// son attribut "name" est "declaration
 		decl.setAttribute("name", "declaration");
-		decl.setAttribute("content", vars);
+		decl.setAttribute("content", vars); // ETIENNE veut ajouter l'arbre "variables" (defini dans vars) ET l'arbre "constants" (defini dans consts) sous "declaration"
 		// je pousse le tout dans le modèle
 		modelST.setAttribute("content", decl);
 
