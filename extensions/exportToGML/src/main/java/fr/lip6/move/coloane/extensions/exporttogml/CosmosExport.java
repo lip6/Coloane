@@ -511,7 +511,8 @@ public class CosmosExport implements IGMLExport {
 		//		les constants
 		//	</attribute>
 		// </attribute>
-		decl.setAttribute("content", vars, consts);
+		decl.setAttribute("content", vars);
+		decl.setAttribute("content", consts);
 		// je pousse le tout dans le modèle
 		modelST.setAttribute("content", decl);
 
