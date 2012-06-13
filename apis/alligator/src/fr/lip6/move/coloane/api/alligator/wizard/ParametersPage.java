@@ -59,6 +59,8 @@ public class ParametersPage extends WizardPage implements IWizardPage {
 	private final List<DescriptionItem> descriptions;
 	private final List<ItemDialogConstructor> parts = new ArrayList<ItemDialogConstructor>();
 
+	private static Map<String, List<Item>> storedParameters = new HashMap<String, List<Item>>(); 
+	
 	/**
 	 * @param pageName Name for this page
 	 * @param descriptions list of DescriptionItem to create a custom page
@@ -106,6 +108,13 @@ public class ParametersPage extends WizardPage implements IWizardPage {
 			}
 		}
 
+		List<Item> oldValues = storedParameters.get(getName());
+		if (oldValues != null) {
+			for (ItemDialogConstructor part : parts) {
+				part.setParameterValues(oldValues);
+			}
+		}
+		
 		setControl(composite);
 	}
 
@@ -118,6 +127,10 @@ public class ParametersPage extends WizardPage implements IWizardPage {
 		for (ItemDialogConstructor part : parts) {
 			params.addAll(part.getParameters());
 		}
+		
+		// store for possible further use.
+		storedParameters.put(getName(),params);
+		
 		return params;
 	}
 
