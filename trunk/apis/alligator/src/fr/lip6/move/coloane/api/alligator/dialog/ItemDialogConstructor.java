@@ -43,4 +43,10 @@ public interface ItemDialogConstructor {
 	 * Dispose this object
 	 */
 	void dispose();
+
+	/**
+	 * Update the values shown for the parameters using previous values.
+	 * @param oldValues previously provided values (may include Items that are not those of this ItemDialog)
+	 */
+	void setParameterValues(List<Item> oldValues);
 }

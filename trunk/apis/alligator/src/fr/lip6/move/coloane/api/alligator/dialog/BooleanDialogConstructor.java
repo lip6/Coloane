@@ -52,6 +52,17 @@ public class BooleanDialogConstructor implements ItemDialogConstructor {
 		return Collections.singletonList(new Item(description.getType(), description.getName(), button.getSelection() + ""));
 	}
 
+	
+	@Override
+	public void setParameterValues(List<Item> oldValues) {
+		for (Item item : oldValues) {
+			if (item.getName().equals(description.getName())) {
+				this.button.setSelection(Boolean.valueOf(item.getValue()));
+				return;
+			}
+		}
+	}
+	
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#dispose()
 	 */

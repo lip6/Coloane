@@ -63,6 +63,15 @@ public class MultiChoicesDialogConstructor implements ItemDialogConstructor {
 		return parameters;
 	}
 
+	@Override
+	public void setParameterValues(List<Item> oldValues) {
+		for (Item item : oldValues) {
+			if (item.getName().equals(description.getName())) {
+				this.list.select(Math.max(0, description.getChoices().indexOf(item.getValue())));				
+			}
+		}
+	}
+	
 	/** {@inheritDoc}
 	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#dispose()
 	 */
