@@ -35,6 +35,7 @@ public class ProjectCreationPage extends WizardNewProjectCreationPage {
 		super(pageName);
 		setTitle(Messages.ProjectCreationPage_0);
 		setDescription(Messages.ProjectCreationPage_1);
+		setInitialProjectName("Models"); //$NON-NLS-1$
 	}
 
 	/**
