@@ -53,7 +53,6 @@ public class BooleanDialogConstructor implements ItemDialogConstructor {
 	}
 
 	
-	@Override
 	public void setParameterValues(List<Item> oldValues) {
 		for (Item item : oldValues) {
 			if (item.getName().equals(description.getName())) {
