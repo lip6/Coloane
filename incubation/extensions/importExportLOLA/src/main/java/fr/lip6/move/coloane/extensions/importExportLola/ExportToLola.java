@@ -1,4 +1,4 @@
-package main.java.fr.lip6.move.coloane.extensions.importExportLola;
+package fr.lip6.move.coloane.extensions.importExportLola;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IExportTo;

@@ -1,4 +1,4 @@
-package main.java.fr.lip6.move.coloane.extensions.importExportLola;
+package fr.lip6.move.coloane.extensions.importExportLola;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;

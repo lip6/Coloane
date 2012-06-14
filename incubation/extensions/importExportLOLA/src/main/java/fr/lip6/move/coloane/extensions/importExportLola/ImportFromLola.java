@@ -1,4 +1,4 @@
-package main.java.fr.lip6.move.coloane.extensions.importExportLola;
+package fr.lip6.move.coloane.extensions.importExportLola;
 
 
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
@@ -9,8 +9,8 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import main.antlr3.fr.lip6.move.coloane.extensions.importExportLola.parser.LoLALexer;
-import main.antlr3.fr.lip6.move.coloane.extensions.importExportLola.parser.LoLAParser;
+import fr.lip6.move.coloane.extensions.importExportLola.parser.LoLALexer;
+import fr.lip6.move.coloane.extensions.importExportLola.parser.LoLAParser;
 
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;

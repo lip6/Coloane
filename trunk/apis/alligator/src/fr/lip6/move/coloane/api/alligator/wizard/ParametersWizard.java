@@ -21,6 +21,7 @@ import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.extensions.exporttogml.ExportToGML;
+import fr.lip6.move.coloane.extensions.importExportLola.ExportToLola;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -33,7 +34,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import main.java.fr.lip6.move.coloane.extensions.importExportLola.ExportToLola;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -53,6 +53,9 @@ public class ParametersWizard extends Wizard {
 	private List<Item> parameters = new ArrayList<Item>();
 	
 	
+	/**
+	 * FIXME: to comment
+	 */
 	private enum ModelFormat { GML, LOLA };
 	
 	private ModelFormat format = ModelFormat.GML;
@@ -78,7 +81,7 @@ public class ParametersWizard extends Wizard {
 
 		for (DescriptionItem p : params) {
 			if (p.getType() != ItemType.MODEL) {
-				parametersPage = new ParametersPage("Parameters needed by "+ serviceName +" service", params, serviceDescription);
+				parametersPage = new ParametersPage("Parameters needed by " + serviceName + " service", params, serviceDescription);
 				addPage(parametersPage);
 				break;
 			}
@@ -91,7 +94,7 @@ public class ParametersWizard extends Wizard {
 	@Override
 	public final boolean performFinish() {
 		if (modelsPage != null) {
-			IExportTo exporter ;
+			IExportTo exporter;
 			switch (format) {
 				case LOLA :
 					exporter = new ExportToLola();
@@ -101,7 +104,7 @@ public class ParametersWizard extends Wizard {
 					exporter = new ExportToGML();
 					break;
 			}
-			
+
 			// convert the models to GML
 			for (IResource resource : modelsPage.getSelectedResources()) {
 				if (resource != null && resource instanceof IFile) {
@@ -113,11 +116,11 @@ public class ParametersWizard extends Wizard {
 
 					    // Delete temp file when program exits.
 					    temp.deleteOnExit();
-					    
+
 						exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
-						
+
 						String output = slurp(temp.getAbsolutePath());
-						
+
 						parameters.add(new Item(ItemType.MODEL, modelFile.getName(), output));
 					} catch (IOException e) {
 						Coloane.showErrorMsg(e.getMessage());

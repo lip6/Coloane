@@ -1,12 +1,12 @@
 grammar LoLA;
 
 @lexer::header {
-package main.antlr3.fr.lip6.move.coloane.extensions.importExportLola.parser;
+package fr.lip6.move.coloane.extensions.importExportLola.parser;
   
 }
 
 @parser::header {
-package main.antlr3.fr.lip6.move.coloane.extensions.importExportLola.parser;
+package fr.lip6.move.coloane.extensions.importExportLola.parser;
 
 
 import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;

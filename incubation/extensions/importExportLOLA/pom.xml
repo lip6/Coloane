@@ -24,9 +24,9 @@
                         <goals>
                             <goal>antlr</goal>
                         </goals>
-                        <configuration>
-                            <outputDirectory>target/classes/main/antlr3</outputDirectory>
-                        </configuration>
+<!--                         <configuration> -->
+<!--                             <outputDirectory>target/classes/main/antlr3</outputDirectory> -->
+<!--                         </configuration> -->
                     </execution>
                 </executions>
             </plugin>
