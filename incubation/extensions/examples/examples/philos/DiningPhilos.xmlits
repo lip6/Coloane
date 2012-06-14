@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/fr.lip6.move.coloane.its.xsd'>
 <types>
-<type name='fork.model' id='7000' formalism='Time Petri Net' path='/fr.lip6.move.coloane.example.tpn.philos/fork.model'/>
-<type name='philo.model' id='7001' formalism='Time Petri Net' path='/fr.lip6.move.coloane.example.tpn.philos/philo.model'/>
-<type name='philoCircle.model' id='7002' formalism='Circular Set Composite' path='/fr.lip6.move.coloane.example.tpn.philos/philoCircle.model'/>
-<type name='PhiloFork.model' id='7003' formalism='ITSComposite' path='/fr.lip6.move.coloane.example.tpn.philos/PhiloFork.model'/>
+<type name='fork.model' id='7000' formalism='Time Petri Net' path='/fr.lip6.move.coloane.examples.tpn.philos/fork.model'/>
+<type name='philo.model' id='7001' formalism='Time Petri Net' path='/fr.lip6.move.coloane.examples.tpn.philos/philo.model'/>
+<type name='philoCircle.model' id='7002' formalism='Circular Set Composite' path='/fr.lip6.move.coloane.examples.tpn.philos/philoCircle.model'/>
+<type name='PhiloFork.model' id='7003' formalism='ITSComposite' path='/fr.lip6.move.coloane.examples.tpn.philos/PhiloFork.model'/>
 </types>
 <concepts>
 <concept name='PhiloFork' id='7004' effective='7003' parent='7002'/>
