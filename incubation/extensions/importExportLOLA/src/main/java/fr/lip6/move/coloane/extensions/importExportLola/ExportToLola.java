@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.extensions.importExportLola;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -63,8 +64,10 @@ public class ExportToLola implements IExportTo {
 				if ("place".equals(node.getNodeFormalism().getName())) {
 					exportPlace(node, placeSB);
 					exportMarking(node, markingSB);
-				} else {
+				} else if ("transition".equals(node.getNodeFormalism().getName())) {
 					exportTransition(node, transitionSB);
+				} else {
+					Logger.getLogger("fr.lip6.move.coloane.core").warning("Unknown node of type "+node.getNodeFormalism().getName()+ " when expecting a P/T net.");
 				}
 			}
 
@@ -98,7 +101,11 @@ public class ExportToLola implements IExportTo {
 	 * @return Place's name
 	 */
 	private String placeId(INode place) {
-		return place.getAttribute("name").getValue();
+		IAttribute name = place.getAttribute("name");
+		if (name == null || name.getValue().equals("")) {
+			return "xxT" + place.getId(); 
+		}
+		return name.getValue();
 	}
 	
 	/**
@@ -107,7 +114,14 @@ public class ExportToLola implements IExportTo {
 	 * @return Transition's label
 	 */
 	private String transitionId(INode transition) {
-		return transition.getAttribute("label").getValue();
+		IAttribute name = transition.getAttribute("label");
+		if (name == null) {
+			name = transition.getAttribute("name");
+		}
+		if (name == null || name.getValue().equals("")) {
+			return "xxT" + transition.getId(); 
+		}
+		return name.getValue();
 	}
 	
 	/**
@@ -116,6 +130,9 @@ public class ExportToLola implements IExportTo {
 	 * @return Marking's value
 	 */
 	private String markingValue(INode place) {
+		IAttribute mark = place.getAttribute("marking");
+		if (mark == null)
+			return Integer.toString(0);
 		return place.getAttribute("marking").getValue();
 	}
 	
@@ -148,7 +165,8 @@ public class ExportToLola implements IExportTo {
 	 * @throws IOException Something wrong happened
 	 */
 	private void exportTransition(INode transition, StringBuffer tSB) throws IOException {
-		if ("private".equals(transition.getAttribute("visibility").getValue())) {
+		IAttribute vis = transition.getAttribute("visibility");
+		if (vis == null || "private".equals(vis.getValue())) {
 
 			tSB.append("TRANSITION ");
 			tSB.append(transitionId(transition));
