@@ -72,7 +72,7 @@ public class AlligatorService implements IApiService {
 		 * @param descriptions list of description items used to construct the dialog box
 		 */
 		public ParametersRunnable(List<DescriptionItem> descriptions) {
-			this.wizard = new ParametersWizard(descriptions,service.getName());
+			this.wizard = new ParametersWizard(descriptions,service.getName(),service.getShortDescription());
 		}
 
 		/** {@inheritDoc}

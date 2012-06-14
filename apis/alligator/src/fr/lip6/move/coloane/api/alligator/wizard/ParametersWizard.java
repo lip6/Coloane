@@ -60,8 +60,9 @@ public class ParametersWizard extends Wizard {
 	 * Constructor
 	 * @param params list of DescriptionItem provided by an Alligator Service
 	 * @param serviceName the name of the service, unique to store previous values.
+	 * @param serviceDescription the short description field of the service
 	 */
-	public ParametersWizard(List<DescriptionItem> params, String serviceName) {
+	public ParametersWizard(List<DescriptionItem> params, String serviceName, String serviceDescription) {
 		super();
 
 		for (DescriptionItem p : params) {
@@ -77,7 +78,7 @@ public class ParametersWizard extends Wizard {
 
 		for (DescriptionItem p : params) {
 			if (p.getType() != ItemType.MODEL) {
-				parametersPage = new ParametersPage("Parameters needed by "+ serviceName +" service", params);
+				parametersPage = new ParametersPage("Parameters needed by "+ serviceName +" service", params, serviceDescription);
 				addPage(parametersPage);
 				break;
 			}
