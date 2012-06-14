@@ -269,7 +269,7 @@ public final class ModelFlattener {
 				StringBuffer sb = new StringBuffer();
 				for (ResolvedTrans rt : effectSet) {
 					sb.append(rt);
-					sb.append(",");
+					sb.append("x");
 				}
 				// kill trailing comma
 				sb.deleteCharAt(sb.length() - 1);
