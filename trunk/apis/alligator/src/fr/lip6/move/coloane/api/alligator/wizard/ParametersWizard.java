@@ -90,7 +90,6 @@ public class ParametersWizard extends Wizard {
 				// It has to by run by the ui Thread for some (obscure to me) reason.
 				// SyncExec ensures we wait until it's done, otherwise no models page...
 				Display.getDefault().syncExec(new Runnable() {
-					@Override
 					public void run() {
 						// this is our target
 						IStructuredSelection selection = null;
