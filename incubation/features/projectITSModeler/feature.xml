@@ -24,6 +24,46 @@
       <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
    </url>
 
+   <includes
+         id="fr.lip6.move.coloane.feature.formalisms.its"
+         version="0.0.0"/>
+
+   <includes
+         id="fr.lip6.move.coloane.feature.formalisms.tpn"
+         version="0.0.0"/>
+
+   <includes
+         id="fr.lip6.move.coloane.feature.importExportITS"
+         version="0.0.0"/>
+
+   <includes
+         id="fr.lip6.move.coloane.feature.importExportROMEO"
+         version="0.0.0"/>
+
+   <includes
+         id="fr.lip6.move.coloane.feature.importExportTINA"
+         version="0.0.0"/>
+
+   <includes
+         id="fr.lip6.move.coloane.feature.importFromPROD"
+         version="0.0.0"/>
+
+   <includes
+         id="fr.lip6.move.coloane.feature.importFromSGROMEO"
+         version="0.0.0"/>
+
+   <includes
+         id="fr.lip6.move.coloane.feature.its.expressions"
+         version="0.0.0"/>
+
+   <includes
+         id="fr.lip6.move.coloane.features.exportToDOT"
+         version="0.0.0"/>
+
+   <includes
+         id="fr.lip6.move.coloane.features.tools.layout"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
