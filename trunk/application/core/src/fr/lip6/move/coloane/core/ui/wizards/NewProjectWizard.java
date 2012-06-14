@@ -63,12 +63,19 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		basicDescription.setNatureIds(newNatures);
 
 		IPath platformPath = Platform.getLocation();
-		IPath askedPath = page.getLocationPath();
-
-		// Take care of the asked path
-		if (!platformPath.equals(askedPath)) {
-			platformPath = askedPath;
-			basicDescription.setLocation(askedPath);
+		try {
+			IPath askedPath = page.getLocationPath();
+			// Take care of the asked path
+			if (!platformPath.equals(askedPath)) {
+				platformPath = askedPath;
+				basicDescription.setLocation(askedPath);
+			}
+		} catch (NullPointerException e) {
+			// nothing, revert to platformpath
+			// avoids the potential
+			//at org.eclipse.ui.dialogs.WizardNewProjectCreationPage.getLocationPath(WizardNewProjectCreationPage.java:238)
+			//at fr.lip6.move.coloane.core.ui.wizards.NewProjectWizard.performFinish(NewProjectWizard.java:71)
+			// due to the wizard page never actually ahaving been initialized
 		}
 
 		try {
