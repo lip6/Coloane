@@ -63,7 +63,6 @@ public class MultiChoicesDialogConstructor implements ItemDialogConstructor {
 		return parameters;
 	}
 
-	@Override
 	public void setParameterValues(List<Item> oldValues) {
 		for (Item item : oldValues) {
 			if (item.getName().equals(description.getName())) {

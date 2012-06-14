@@ -53,7 +53,6 @@ public class TextDialogConstructor implements ItemDialogConstructor {
 		this.input.setLayoutData(layoutData);
 }
 
-	@Override
 	public void setParameterValues(List<Item> oldValues) {
 		for (Item item : oldValues) {
 			if (item.getName().equals(description.getName())) {

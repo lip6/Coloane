@@ -53,7 +53,6 @@ public class HelpDialogConstructor implements ItemDialogConstructor {
 		this.input.setLayoutData(layoutData);
 }
 
-	@Override
 	public void setParameterValues(List<Item> oldValues) {
 		return ;
 	}
