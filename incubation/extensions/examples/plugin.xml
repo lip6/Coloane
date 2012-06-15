@@ -79,6 +79,20 @@
             This example is a composite Time Petri Net modelling Fischer's mutual exclusion algorithm for a ring of process.
          </description>
       </wizard>
+            <wizard
+            canFinishEarly="true"
+            category="org.eclipse.ui.Examples/fr.lip6.move.coloane.examples.category"
+            class="fr.lip6.move.coloane.extensions.examples.wizard.ClassicsExampleWizard"
+            finalPerspective="fr.lip6.move.coloane.perspective"
+            hasPages="false"
+            icon="icons/clock.png"
+            id="fr.lip6.move.coloane.extensions.examples.tpn.classics"
+            name="Classic examples"
+            project="true">
+         <description>
+            This project contains several classic Petri net examples taken from the litterature.
+         </description>
+      </wizard>
    </extension>
 
 </plugin>
