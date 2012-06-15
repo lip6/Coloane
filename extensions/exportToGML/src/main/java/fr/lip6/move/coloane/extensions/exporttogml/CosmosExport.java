@@ -277,7 +277,7 @@ public class CosmosExport implements IGMLExport {
 						e.printStackTrace();
 					}
 				}
-			} else throw new ExtensionException("Expecting an initial constraint field required by the formalism");
+			} //else throw new ExtensionException("Expecting an initial constraint field required by the formalism");
 		}
 		
 
