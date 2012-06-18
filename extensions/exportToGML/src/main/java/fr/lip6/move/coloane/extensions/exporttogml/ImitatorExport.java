@@ -67,7 +67,7 @@ import org.xml.sax.InputSource;
  * @author Maximilien Colange
  *
  */
-public class CosmosExport implements IGMLExport {
+public class ImitatorExport implements IGMLExport {
 
 	/**
 	 * allows convenient multi-value initialization:
@@ -114,7 +114,7 @@ public class CosmosExport implements IGMLExport {
 	 * 
 	 * @throws IOException if the StringTemplateGroup initialization fails
 	 */
-	public CosmosExport() throws IOException {
+	public ImitatorExport() throws IOException {
 		initTemplateGroup();
 	}
 
@@ -233,13 +233,18 @@ public class CosmosExport implements IGMLExport {
 		monitor.setTaskName("Export model attributes");
 
 		if(hasAttribute("declaration")) {
-			
-			IAttribute declarativePart = graph.getAttribute("declarations");
-			if (declarativePart != null) {
-				if (!declarativePart.getValue().equals("")) {
-					symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
-				} 
-			} else throw new ExtensionException("Expecting a 'declarations' field required by the formalism");
+			// Case IMITATOR (most probably)
+			if(hasAttribute("discretes")) {
+				exportDeclarativePTA(graph, result,monitor);
+				// Case COSMOS (most probably)
+			}else{
+				IAttribute declarativePart = graph.getAttribute("declarations");
+				if (declarativePart != null) {
+					if (!declarativePart.getValue().equals("")) {
+						symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
+					} 
+				} else throw new ExtensionException("Expecting a 'declarations' field required by the formalism");
+			}
 		}
 		
 		// Case HASL formula

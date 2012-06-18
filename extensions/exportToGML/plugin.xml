@@ -69,7 +69,7 @@
             name="fr.lip6.move.coloane.formalism.cosmosLHA">
       </exportedFormalism>
       <exportedFormalism
-            class="fr.lip6.move.coloane.extensions.exporttogml.CosmosExport"
+            class="fr.lip6.move.coloane.extensions.exporttogml.ImitatorExport"
             description="Parametric timed automata"
             fmlurl="http://formalisms.cosyverif.org/parametric-timed-automaton.fml"
             name="fr.lip6.move.coloane.formalism.pta">
