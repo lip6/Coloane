@@ -302,17 +302,16 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	/** {@inheritDoc} */
 	@Override
 	public final void dispose() {
-		if (this.graph == null) {
-			// TODO: ??
-			return;
-		} else {
+		if (this.graph != null) {
 			// Remove the stack listener dedicated to markers (problem view)
 			this.getCommandStack().removeCommandStackEventListener(checkStackManager);
 			IResource resource = (IResource) getEditorInput().getAdapter(IResource.class);
 			// Remove all markers associated to the model that will be closed
-			MarkerManager.deleteMarkers(resource);
-			super.dispose();
+			if (resource != null) {
+				MarkerManager.deleteMarkers(resource);
+			}
 		}
+		super.dispose();
 	}
 
 	/** {@inheritDoc} */
