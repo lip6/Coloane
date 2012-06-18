@@ -7,6 +7,7 @@
             extension="cosmos"
             fkname="fr.lip6.move.coloane.formalism.cosmos.Formalism1"
             id="fr.lip6.move.coloane.formalism.cosmos.gspn"
+            image="resources/red-dice-icon(petit).png"
             name="Cosmos">
          <XmlDescription>
             <Graph
