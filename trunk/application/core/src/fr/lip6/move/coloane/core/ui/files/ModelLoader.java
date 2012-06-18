@@ -20,7 +20,6 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.io.ObjectInputStream.GetField;
 import java.net.URI;
 import java.util.logging.Logger;
 
@@ -81,7 +80,7 @@ public final class ModelLoader {
 	 * @see FormalismHandler
 	 * @see ModelHandler
 	 */
-	private static <T extends DefaultHandler> T loadFromXML(URI modelURI, T handler) {
+	public static <T extends DefaultHandler> T loadFromXML(URI modelURI, T handler) {
 		try {
 			// Fetch the XML schema (high level model definition)
 			Schema schema = loadSchema();

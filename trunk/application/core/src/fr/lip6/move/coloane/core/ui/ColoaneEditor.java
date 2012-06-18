@@ -119,6 +119,7 @@ import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
@@ -450,45 +451,60 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	protected final void setInput(IEditorInput input) {
 		super.setInput(input);
 
+		// Default id
+		String id = input.getName();
+
 		// Fetch the XML file and set the name of the editor
-		final IFile file = ((IFileEditorInput) input).getFile();
-		file.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
-			public void resourceChanged(IResourceChangeEvent event) {
-				if ((event.getType() & IResourceChangeEvent.POST_CHANGE) == IResourceChangeEvent.POST_CHANGE) {
-					IResourceDelta delta = event.getDelta().findMember(file.getFullPath());
-					if (delta != null && delta.getKind() == IResourceDelta.REMOVED) {
-						LOGGER.info("The editor on \"" + delta.getFullPath() + "\" will be closed because the resource has been deleted."); //$NON-NLS-1$ //$NON-NLS-2$
-						Display.getDefault().asyncExec(new Runnable() {
-							public void run() {
-								ColoaneEditor.this.getSite().getPage().closeEditor(ColoaneEditor.this, false);
-							}
-						});
+		if (input instanceof IFileEditorInput) {
+			final IFile file = ((IFileEditorInput) input).getFile();
+			file.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
+				public void resourceChanged(IResourceChangeEvent event) {
+					if ((event.getType() & IResourceChangeEvent.POST_CHANGE) == IResourceChangeEvent.POST_CHANGE) {
+						IResourceDelta delta = event.getDelta().findMember(file.getFullPath());
+						if (delta != null && delta.getKind() == IResourceDelta.REMOVED) {
+							LOGGER.info("The editor on \"" + delta.getFullPath() + "\" will be closed because the resource has been deleted."); //$NON-NLS-1$ //$NON-NLS-2$
+							Display.getDefault().asyncExec(new Runnable() {
+								public void run() {
+									ColoaneEditor.this.getSite().getPage().closeEditor(ColoaneEditor.this, false);
+								}
+							});
+						}
 					}
 				}
-			}
-		});
-		setPartName(file.getName());
+			});
+
+			// Build the model object from its XML representation
+			this.graph = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
+			id = file.getFullPath().toString();
+		} else if (input instanceof FileStoreEditorInput) {
+			id = ((FileStoreEditorInput) input).getURI().toString();
+			this.graph = ModelLoader.loadGraphFromXML(((FileStoreEditorInput) input).getURI());
+		}
+
+		setPartName(input.getName());
 
 		// Define the session id
-		setPartProperty("session.id", file.getFullPath().toString()); //$NON-NLS-1$
-
-		// Build the model object from its XML representation
-		this.graph = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
+		setPartProperty("session.id", id); //$NON-NLS-1$
 
 		// If the loading fails... Display a message and quit
 		if (this.graph == null) {
 			Coloane.showErrorMsg("Cannot display the model..."); //$NON-NLS-1$
 			setEditDomain(new DefaultEditDomain(this));
-			getSite().getPage().closeEditor(this, false);
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					getSite().getPage().closeEditor(ColoaneEditor.this, false);
+				}
+			});
 			return;
 		}
 
 		// Build a new session
 		try {
-			ISession session = SessionManager.getInstance().createSession(file.getFullPath().toString(), this.graph);
+			ISession session = SessionManager.getInstance().createSession(id, this.graph);
 			IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(session.getSessionId()));
-			CheckerManager.getInstance().checkAll(session.getChecker(), resource, this.graph);
-
+			if (resource != null) {
+				CheckerManager.getInstance().checkAll(session.getChecker(), resource, this.graph);
+			}
 		} catch (ColoaneException ce) {
 			LOGGER.warning("Cannot create a session for this model"); //$NON-NLS-1$
 			LOGGER.warning(ce.getLogMessage());
