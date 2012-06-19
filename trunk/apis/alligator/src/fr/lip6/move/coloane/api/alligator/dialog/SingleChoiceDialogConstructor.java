@@ -59,7 +59,10 @@ public class SingleChoiceDialogConstructor implements ItemDialogConstructor {
 		return Collections.singletonList(new Item(description.getType(), description.getName(), combo.getText()));
 	}
 
-	public void setParameterValues(List<Item> oldValues) {
+	/** {@inheritDoc}
+	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#setParameterValues(java.util.List)
+	 */
+	public final void setParameterValues(List<Item> oldValues) {
 		for (Item item : oldValues) {
 			if (item.getName().equals(description.getName())) {
 				this.combo.select(Math.max(0, description.getChoices().indexOf(item.getValue())));
