@@ -62,7 +62,10 @@ public class StringDialogConstructor implements ItemDialogConstructor {
 		}
 	}
 	
-	public void setParameterValues(List<Item> oldValues) {
+	/** {@inheritDoc}
+	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#setParameterValues(java.util.List)
+	 */
+	public final void setParameterValues(List<Item> oldValues) {
 		for (Item item : oldValues) {
 			if (item.getName().equals(description.getName())) {
 				input.setText(item.getValue());

@@ -137,12 +137,12 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 		System.err.println(serverManager);
 		System.err.println(serverManager.getServices());
 
-		Map<String,ISubMenu> parentMenus = new HashMap<String, ISubMenu>();
-		
+		Map<String, ISubMenu> parentMenus = new HashMap<String, ISubMenu>();
+
 		for (final ServiceDescription service : serverManager.getServices()) {
 			apiService = new AlligatorService(service, this);
 			LOGGER.finer("Add service id: " + service.getId());
-			
+
 			String serviceName = service.getName();
 			String parentService = null;
 			String[] array = serviceName.split(":");
@@ -151,7 +151,7 @@ public class AlligatorApi extends AbstractApi implements IApi, IPropertyChangeLi
 				parentService = array[0];
 			}
 			serviceItem = new ServiceMenu(service.getName(), true, service.getShortDescription(), apiService, true);
-			
+
 			if (parentService != null) {
 				ISubMenu parent = parentMenus.get(parentService);
 				if (parent == null) {
