@@ -19,6 +19,7 @@ import fr.lip6.move.alligator.interfaces.DescriptionItem;
 import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.coloane.api.alligator.dialog.BooleanDialogConstructor;
+import fr.lip6.move.coloane.api.alligator.dialog.HelpDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.MultiChoicesDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.SingleChoiceDialogConstructor;
@@ -61,7 +62,7 @@ public class ParametersPage extends WizardPage implements IWizardPage {
 	private final List<DescriptionItem> descriptions;
 	private final List<ItemDialogConstructor> parts = new ArrayList<ItemDialogConstructor>();
 
-//	private String serviceDescription;
+	private String serviceDescription;
 
 
 	/**
@@ -72,7 +73,7 @@ public class ParametersPage extends WizardPage implements IWizardPage {
 	public ParametersPage(String pageName, List<DescriptionItem> descriptions, String serviceDescription) {
 		super(pageName);
 		setTitle(pageName);
-//		this.serviceDescription = serviceDescription;
+		this.serviceDescription = serviceDescription;
 		this.descriptions = descriptions;
 	}
 
@@ -114,9 +115,9 @@ public class ParametersPage extends WizardPage implements IWizardPage {
 		}
 
 		// help zone
-//		HelpDialogConstructor hdc = new HelpDialogConstructor();
-//		hdc.create(composite, new DescriptionItem(ItemType.STRING, serviceDescription));
-//		parts.add(hdc);
+		HelpDialogConstructor hdc = new HelpDialogConstructor();
+		hdc.create(composite, new DescriptionItem(ItemType.STRING, serviceDescription));
+		parts.add(hdc);
 
 		List<Item> oldValues = STORED_PARAMETERS.get(getName());
 		if (oldValues != null) {
