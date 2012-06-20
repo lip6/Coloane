@@ -159,7 +159,7 @@ public class ParametersWizard extends Wizard {
 			// Store for next call to a service.
 			lastSelection  = modelsPage.getSelectedResources();
 
-			// convert the models to GML
+			// convert the models
 			for (IResource resource : modelsPage.getSelectedResources()) {
 				if (resource != null && resource instanceof IFile) {
 					IFile modelFile = (IFile) resource;
