@@ -146,6 +146,9 @@ public class FilteredResourcesPage extends WizardPage {
 		checkboxTreeViewer.addCheckStateListener(new ICheckStateListener() {
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
+				if (event.getElement() instanceof IContainer) {
+					checkboxTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
+				}
 				setPageComplete(validate());
 			}
 		});
