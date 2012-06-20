@@ -26,6 +26,7 @@ Export-Package: fr.lip6.move.coloane.core.main;
    fr.lip6.move.coloane.interfaces.model,
    org.xml.sax.helpers,
    org.xml.sax",
+ fr.lip6.move.coloane.core.ui.views,
  fr.lip6.move.coloane.core.ui.wizards.exportmodel;
   uses:="org.eclipse.core.runtime,
    org.eclipse.ui,
