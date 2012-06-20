@@ -53,6 +53,11 @@ import org.eclipse.ui.PlatformUI;
  */
 public class ParametersWizard extends Wizard {
 	
+	// To memorize the previous selection
+	// This patches through the fact that Coloane Model view does not provide the appropriate selection hooks.
+	// We use jdt.package explorer view the first time, but then we use the stored value.
+	private static List<IResource> lastSelection = null;
+	
 	private ChooseModelsPage modelsPage;
 	private ParametersPage parametersPage;
 	
@@ -67,10 +72,7 @@ public class ParametersWizard extends Wizard {
 	private enum ModelFormat { GML, LOLA };
 	
 	private ModelFormat format = ModelFormat.GML;
-	// To memorize the previous selection
-	// This patches through the fact that Coloane Model view does not provide the appropriate selection hooks.
-	// We use jdt.package explorer view the first time, but then we use the stored value.
-	private static List<IResource> lastSelection = null;
+
 	/**
 	 * Constructor
 	 * @param params list of DescriptionItem provided by an Alligator Service
@@ -111,7 +113,7 @@ public class ParametersWizard extends Wizard {
 									// add to the wizard's pages
 									addPage(modelsPage);
 									return;
-								}	
+								}
 							}
 						}
 						// So if we get here, one of the steps above didn't work, sorry.
@@ -130,7 +132,7 @@ public class ParametersWizard extends Wizard {
 
 		for (DescriptionItem p : params) {
 			if (p.getType() != ItemType.MODEL) {
-				parametersPage = new ParametersPage("Parameters needed by "+ serviceName +" service", params, serviceDescription);
+				parametersPage = new ParametersPage("Parameters needed by " + serviceName + " service", params, serviceDescription);
 				addPage(parametersPage);
 				break;
 			}
@@ -143,7 +145,7 @@ public class ParametersWizard extends Wizard {
 	@Override
 	public final boolean performFinish() {
 		if (modelsPage != null) {
-			IExportTo exporter ;
+			IExportTo exporter;
 			switch (format) {
 				case LOLA :
 					exporter = new ExportToLola();
@@ -153,10 +155,10 @@ public class ParametersWizard extends Wizard {
 					exporter = new ExportToGML();
 					break;
 			}
-			
+
 			// Store for next call to a service.
 			lastSelection  = modelsPage.getSelectedResources();
-			
+
 			// convert the models to GML
 			for (IResource resource : modelsPage.getSelectedResources()) {
 				if (resource != null && resource instanceof IFile) {
@@ -168,11 +170,11 @@ public class ParametersWizard extends Wizard {
 
 					    // Delete temp file when program exits.
 					    temp.deleteOnExit();
-					    
+
 						exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
-						
+
 						String output = slurp(temp.getAbsolutePath());
-						
+
 						parameters.add(new Item(ItemType.MODEL, modelFile.getName(), output));
 					} catch (IOException e) {
 						Coloane.showErrorMsg(e.getMessage());
