@@ -35,7 +35,7 @@ public abstract class OpenEditorAction {
 	 * open or focus the editor on the file proposed
 	 * 
 	 * @param td
-	 *            current slected type
+	 *            current selected type
 	 */
 	public static void openEditor(TypeDeclaration td) {
 		if (td != null) {
