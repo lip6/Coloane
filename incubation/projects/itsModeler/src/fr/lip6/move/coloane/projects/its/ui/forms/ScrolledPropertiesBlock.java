@@ -26,6 +26,7 @@ import fr.lip6.move.coloane.projects.its.actions.FlattenModelAction;
 import fr.lip6.move.coloane.projects.its.actions.RemoveTypeAction;
 import fr.lip6.move.coloane.projects.its.expression.VariableBinding;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
@@ -58,6 +59,7 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.ResourceTransfer;
 /**
  * A page to hold a type list in a tree view + hookup to details pages.
@@ -237,7 +239,9 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
                 	TypeDeclaration td = (TypeDeclaration) selection.getFirstElement();
                 	FlattenModelAction fma = new FlattenModelAction();
                 	fma.setTypeDeclaration(td);
-					manager.add(fma );
+                	IFile path = ((FileEditorInput) getPage().getEditorInput()).getFile();
+                	fma.setPath(path.getProject());
+					manager.add(fma);
                 	} catch (ClassCastException e) {
                 		// not the right element for a menu
                 	}

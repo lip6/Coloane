@@ -16,9 +16,14 @@
  */
 package fr.lip6.move.coloane.projects.its.actions;
 
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.plugin.wizards.FlattenNewModelWizard;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -33,15 +38,20 @@ import org.eclipse.ui.PlatformUI;
 public final class FlattenModelAction extends Action {
 
 	private TypeDeclaration td;
+	private IResource path;
 
+	
+	public FlattenModelAction() {
+		setDescription("Flatten a model");
+		setText("Flatten Model");
+	}
+	
 	/**
 	 * Position the TypeDeclaration we are working with.
 	 * @param td the TypeDeclaration to set
 	 */
 	public void setTypeDeclaration(TypeDeclaration td) {
-		this.td = td;
-		setDescription("Flatten a model");
-		setText("Flatten Model");
+		this.td = td;		
 	}
 
 	/**
@@ -54,7 +64,9 @@ public final class FlattenModelAction extends Action {
 		// Instantiates and initializes the wizard
 		FlattenNewModelWizard wizard = new FlattenNewModelWizard(td);
 
-		wizard.init(PlatformUI.getWorkbench(), (IStructuredSelection) null);
+		SingleSelection<IResource> selectedPath = new SingleSelection<IResource> (path);
+		
+		wizard.init(PlatformUI.getWorkbench(), selectedPath );
 
 		// Instantiates the wizard container with the wizard and opens it
 		WizardDialog dialog = new WizardDialog(PlatformUI.getWorkbench()
@@ -63,4 +75,43 @@ public final class FlattenModelAction extends Action {
 		dialog.open();
 	}
 
+	public void setPath(IResource location) {
+		this.path = location;
+	}
+
+}
+
+
+class SingleSelection<T> implements IStructuredSelection {
+	
+	private T elt;
+
+	public SingleSelection(T path) {
+		this.elt = path;
+	}
+
+	public boolean isEmpty() {
+		return false;
+	}
+	
+	public List<T> toList() {
+		return Collections.singletonList(elt);
+	}
+	
+	public Object[] toArray() {
+		return toList().toArray();
+	}
+	
+	public int size() {
+		return 1;
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public Iterator iterator() {
+		return toList().iterator();
+	}
+	
+	public Object getFirstElement() {
+		return elt;
+	}
 }

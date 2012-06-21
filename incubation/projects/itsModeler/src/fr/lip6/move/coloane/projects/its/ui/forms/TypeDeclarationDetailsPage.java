@@ -30,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -49,6 +50,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
+import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * A type declaration detail page.
@@ -165,6 +167,8 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 				try {
 					TypeDeclaration td = getInput();
 					flat.setTypeDeclaration(td);
+					IFile path =  ((FileEditorInput) ((MasterDetailsPage) TypeDeclarationDetailsPage.this.getMform().getContainer()).getEditor().getEditorInput()).getFile() ;
+					flat.setPath(path.getProject());
 					flat.run();
 				} catch (ClassCastException e) {
 					System.err.println("Select a type");

@@ -37,6 +37,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -162,6 +163,8 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	public FlattenModelAction getFlattenAction() {
 		if (flattenAction == null) {
 			flattenAction = new FlattenModelAction();
+			IFile path =  ((FileEditorInput) getEditorInput()).getFile() ;
+			flattenAction.setPath( path );
 		}
 		return flattenAction;
 	}
