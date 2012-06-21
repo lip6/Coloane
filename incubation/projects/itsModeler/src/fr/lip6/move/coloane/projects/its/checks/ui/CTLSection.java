@@ -158,7 +158,7 @@ public class CTLSection {
 		{
 			helpSection = toolkit.createSection(parent,
 					ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE
-							| ExpandableComposite.EXPANDED);
+							| ExpandableComposite.COMPACT);
 			helpSection.marginWidth = 4;
 			helpSection.marginHeight = 4;
 			helpSection.setText("CTL syntax help"); //$NON-NLS-1$
