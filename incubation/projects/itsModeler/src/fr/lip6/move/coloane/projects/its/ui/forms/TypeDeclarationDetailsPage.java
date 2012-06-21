@@ -22,6 +22,8 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.actions.FlattenModelAction;
+import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -127,13 +129,64 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		lviewer.setContentProvider(new OfferedConceptsProvider());
 		lviewer.setInput(getInput());
 
-		Button oeb = toolkit.createButton(client, "Open Editor", SWT.PUSH);
-		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		toolkit.createLabel(client, "Actions"); //$NON-NLS-1$
+		
+		
+		Composite buttonZone = toolkit.createComposite(client);
+		glayout = new GridLayout();
+		glayout.numColumns = 1;
+		glayout.marginWidth = 2;
+		glayout.marginHeight = 2;
+		glayout.verticalSpacing = 3;
+		
+		buttonZone.setLayout(glayout);
+		gd = new GridData(GridData.FILL_BOTH);
+		buttonZone.setLayoutData(gd);
+		
+		Button oeb = toolkit.createButton(buttonZone, "Open Editor", SWT.PUSH);
+		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.FILL_BOTH);
 		oeb.setLayoutData(gd);
 		oeb.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				OpenEditorAction.openEditor(getInput());
+			}
+		});
+		
+
+		
+		Button b3 = toolkit.createButton(buttonZone, "Flatten Model", SWT.PUSH); //$NON-NLS-1$
+		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		b3.setLayoutData(gd);
+		final FlattenModelAction flat = new FlattenModelAction();
+		b3.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				try {
+					TypeDeclaration td = getInput();
+					flat.setTypeDeclaration(td);
+					flat.run();
+				} catch (ClassCastException e) {
+					System.err.println("Select a type");
+				}
+			}
+		});
+
+		Button b4 = toolkit.createButton(buttonZone, "Analysis", SWT.PUSH); //$NON-NLS-1$
+		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+		b4.setLayoutData(gd);
+		b4.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				try {
+					TypeDeclaration td = getInput();
+					MultiPageEditor mpe = (MultiPageEditor) ((MasterDetailsPage) TypeDeclarationDetailsPage.this.getMform().getContainer()).getEditor() ;
+					mpe.createCheckPage(td);
+					//parent.getParent().getParent();
+					//((MultiPageEditor) page.getEditor()).createCheckPage(td);
+				} catch (ClassCastException e) {
+					System.err.println("Select a type");
+				}
 			}
 		});
 
