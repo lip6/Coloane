@@ -25,10 +25,12 @@ import fr.lip6.move.coloane.projects.its.actions.AddTypeAction;
 import fr.lip6.move.coloane.projects.its.actions.FlattenModelAction;
 import fr.lip6.move.coloane.projects.its.actions.RemoveTypeAction;
 import fr.lip6.move.coloane.projects.its.expression.VariableBinding;
-import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuListener;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -46,6 +48,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -86,7 +89,7 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 		section.marginHeight = 5;
 		Composite client = toolkit.createComposite(section, SWT.WRAP);
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
+		layout.numColumns = 1;
 		layout.marginWidth = 2;
 		layout.marginHeight = 2;
 		client.setLayout(layout);
@@ -95,19 +98,62 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 		gd.widthHint = 30;
 
 		//		Table t = toolkit.createTable(client, SWT.NULL);
-		Tree tree = toolkit.createTree(client, SWT.NULL);
+		Tree tree = toolkit.createTree(client, SWT.NULL | SWT.BORDER);
 		tree.setLayoutData(gd);
 
-		toolkit.paintBordersFor(client);
-		Composite buttonZone = toolkit.createComposite(client);
+
+//		toolkit.paintBordersFor(client);
+//		Composite buttonZone = toolkit.createComposite(client);
+//		layout = new GridLayout();
+//		layout.numColumns = 1;
+//		layout.marginWidth = 2;
+//		layout.marginHeight = 2;
+//		layout.verticalSpacing = 3;
+//		buttonZone.setLayout(layout);
+//		
+//		Button b3 = toolkit.createButton(buttonZone, "Flatten Model", SWT.PUSH); //$NON-NLS-1$
+//		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+//		b3.setLayoutData(gd);
+//		final FlattenModelAction flat = new FlattenModelAction();
+//		b3.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent event) {
+//				try {
+//					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
+//					flat.setTypeDeclaration(td);
+//					flat.run();
+//				} catch (ClassCastException e) {
+//					System.err.println("Select a type");
+//				}
+//			}
+//		});
+//
+//		Button b4 = toolkit.createButton(buttonZone, "Analysis", SWT.PUSH); //$NON-NLS-1$
+//		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+//		b4.setLayoutData(gd);
+//		b4.addSelectionListener(new SelectionAdapter() {
+//			@Override
+//			public void widgetSelected(SelectionEvent event) {
+//				try {
+//					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
+//					((MultiPageEditor) page.getEditor()).createCheckPage(td);
+//				} catch (ClassCastException e) {
+//					System.err.println("Select a type");
+//				}
+//			}
+//		});
+
+
+		Composite bottomZone = toolkit.createComposite(client);
 		layout = new GridLayout();
-		layout.numColumns = 1;
+		layout.numColumns = 3;
 		layout.marginWidth = 2;
 		layout.marginHeight = 2;
-		layout.verticalSpacing = 3;
-		buttonZone.setLayout(layout);
+		layout.verticalSpacing = 3;		
+		bottomZone.setLayout(layout);
 
-		Button breload = toolkit.createButton(buttonZone, "Refresh", SWT.PUSH); //$NON-NLS-1$
+		
+		Button breload = toolkit.createButton(bottomZone, "Refresh", SWT.PUSH); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		breload.setLayoutData(gd);
 		breload.addSelectionListener(new SelectionAdapter() {
@@ -118,7 +164,7 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 		});
 		breload.setImage(ITSEditorPlugin.getDefault().getImage(ITSEditorPlugin.IMG_REFRESH));
 
-		Button b = toolkit.createButton(buttonZone, "Add a type", SWT.PUSH); //$NON-NLS-1$
+		Button b = toolkit.createButton(bottomZone, "Add a type", SWT.PUSH); //$NON-NLS-1$
 		gd = new GridData(GridData.FILL_HORIZONTAL);
 		b.setLayoutData(gd);
 		final AddTypeAction add = new AddTypeAction(page);
@@ -129,7 +175,7 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 			}
 		});
 
-		Button b2 = toolkit.createButton(buttonZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
+		Button b2 = toolkit.createButton(bottomZone, "Remove a type", SWT.PUSH); //$NON-NLS-1$
 		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
 		b2.setLayoutData(gd);
 		b2.addSelectionListener(new SelectionAdapter() {
@@ -138,40 +184,6 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 				try {
 					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
 					new RemoveTypeAction(page.getMpe().getTypes(), td).run();
-				} catch (ClassCastException e) {
-					System.err.println("Select a type");
-				}
-			}
-		});
-
-		toolkit.paintBordersFor(client);
-
-		Button b3 = toolkit.createButton(buttonZone, "Flatten Model", SWT.PUSH); //$NON-NLS-1$
-		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-		b3.setLayoutData(gd);
-		final FlattenModelAction flat = new FlattenModelAction();
-		b3.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				try {
-					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
-					flat.setTypeDeclaration(td);
-					flat.run();
-				} catch (ClassCastException e) {
-					System.err.println("Select a type");
-				}
-			}
-		});
-
-		Button b4 = toolkit.createButton(buttonZone, "Analysis", SWT.PUSH); //$NON-NLS-1$
-		//		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-		b4.setLayoutData(gd);
-		b4.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent event) {
-				try {
-					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
-					((MultiPageEditor) page.getEditor()).createCheckPage(td);
 				} catch (ClassCastException e) {
 					System.err.println("Select a type");
 				}
@@ -207,6 +219,33 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 				}
 			}
 		});
+		
+		MenuManager menuMgr = new MenuManager();
+
+        Menu menu = menuMgr.createContextMenu(viewer.getControl());
+        menuMgr.addMenuListener(new IMenuListener() {
+            public void menuAboutToShow(IMenuManager manager) {
+                // IWorkbench wb = PlatformUI.getWorkbench();
+                // IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+                if (viewer.getSelection().isEmpty()) {
+                    return;
+                }
+
+                if (viewer.getSelection() instanceof TreeSelection) {
+                	try {
+                	TreeSelection selection = (TreeSelection) viewer.getSelection();
+                	TypeDeclaration td = (TypeDeclaration) selection.getFirstElement();
+                	FlattenModelAction fma = new FlattenModelAction();
+                	fma.setTypeDeclaration(td);
+					manager.add(fma );
+                	} catch (ClassCastException e) {
+                		// not the right element for a menu
+                	}
+                }
+            }
+        });
+        menuMgr.setRemoveAllWhenShown(true);
+        viewer.getControl().setMenu(menu);
 
 		int ops = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_LINK | DND.DROP_DEFAULT;
 		Transfer[] transfers = new Transfer[] {ResourceTransfer.getInstance(), LocalSelectionTransfer.getTransfer(), FileTransfer.getInstance() };
