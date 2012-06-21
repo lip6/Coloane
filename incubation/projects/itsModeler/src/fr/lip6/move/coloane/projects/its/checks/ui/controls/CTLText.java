@@ -116,6 +116,8 @@ public class CTLText extends StyledText {
 		sr.start = charAt == -1 ? getText().length() - 1 : charAt;
 		sr.length = Math.min(2, getText().length() - sr.start);
 		sr.underline = true;
+		sr.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
+		sr.underlineColor = getDisplay().getSystemColor(SWT.COLOR_RED);
 		// sr.underlineStyle = SWT.UNDERLINE_SINGLE;//SWT.UNDERLINE_SQUIGGLE;
 		// sr.underlineColor = getDisplay().getSystemColor(SWT.COLOR_RED);
 		setStyleRange(sr);
