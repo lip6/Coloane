@@ -158,4 +158,12 @@ public abstract class ITSDetailsPage<T> implements IDetailsPage {
 		gd.horizontalSpan = span;
 		spacer.setLayoutData(gd);
 	}
+	
+	/**
+	 * The form that manages this page.
+	 * @return the managed form
+	 */
+	public IManagedForm getMform() {
+		return mform;
+	}
 }
