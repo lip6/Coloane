@@ -40,6 +40,8 @@ public final class FlattenModelAction extends Action {
 	 */
 	public void setTypeDeclaration(TypeDeclaration td) {
 		this.td = td;
+		setDescription("Flatten a model");
+		setText("Flatten Model");
 	}
 
 	/**
