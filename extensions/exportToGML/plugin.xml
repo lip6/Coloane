@@ -45,27 +45,27 @@
          point="fr.lip6.move.coloane.extensions.exportToGML.exportGML">
       <exportedFormalism
             class="fr.lip6.move.coloane.extensions.exporttogml.SNBExport"
-            fmlurl="http://alligator.lip6.fr/s-net.fml"
+            fmlurl="http://formalisms.cosyverif.org/s-net.fml"
             name="CPN">
       </exportedFormalism>
       <exportedFormalism
             class="fr.lip6.move.coloane.extensions.exporttogml.PTExport"
-            fmlurl="http://alligator.lip6.fr/pt-net.fml"
+            fmlurl="http://formalisms.cosyverif.org/pt-net.fml"
             name="PT-Net">
       </exportedFormalism>
       <exportedFormalism
             class="fr.lip6.move.coloane.extensions.exporttogml.SNBExport"
-            fmlurl="http://alligator.lip6.fr/snb.fml"
+            fmlurl="http://formalisms.cosyverif.org/snb.fml"
             name="SNB">
       </exportedFormalism>
       <exportedFormalism
             class="fr.lip6.move.coloane.extensions.exporttogml.CosmosExport"
-            fmlurl="http://alligator.lip6.fr/sptgd-net.fml"
+            fmlurl="http://formalisms.cosyverif.org/sptgd-net.fml"
             name="fr.lip6.move.coloane.formalism.cosmos.gspn">
       </exportedFormalism>
       <exportedFormalism
             class="fr.lip6.move.coloane.extensions.exporttogml.CosmosExport"
-            fmlurl="http://alligator.lip6.fr/HASL-formula.fml"
+            fmlurl="http://formalisms.cosyverif.org/HASL-formula.fml"
             name="fr.lip6.move.coloane.formalism.cosmosLHA">
       </exportedFormalism>
       <exportedFormalism
