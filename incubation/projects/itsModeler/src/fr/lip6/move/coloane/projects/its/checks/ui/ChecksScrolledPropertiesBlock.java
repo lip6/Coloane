@@ -92,8 +92,8 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock
 		FormToolkit toolkit = managedForm.getToolkit();
 		Section section = toolkit.createSection(parent, Section.DESCRIPTION
 				| ExpandableComposite.TITLE_BAR);
-		section.setText("Type Declarations"); //$NON-NLS-1$
-		section.setDescription("Models imported into the ITS referential."); //$NON-NLS-1$
+		section.setText("Analysis"); //$NON-NLS-1$
+		section.setDescription("Model being analyzed."); //$NON-NLS-1$
 		section.marginWidth = 10;
 		section.marginHeight = 5;
 		Composite client = toolkit.createComposite(section, SWT.WRAP);
