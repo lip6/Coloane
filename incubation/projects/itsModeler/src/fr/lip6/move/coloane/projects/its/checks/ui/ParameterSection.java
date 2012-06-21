@@ -155,13 +155,23 @@ public class ParameterSection {
 			}
 
 			for (String param : input.getEnumParameters()) {
-				Label lab = toolkit.createLabel(client, param);
+				Composite buttonZone = toolkit.createComposite(client);
+				glayout = new GridLayout();
+				glayout.numColumns = 2;
+				glayout.marginWidth = 2;
+				glayout.marginHeight = 2;
+				glayout.verticalSpacing = 3;
+				
+				buttonZone.setLayout(glayout);
+				GridData gd = new GridData(GridData.FILL_BOTH);
+				buttonZone.setLayoutData(gd);
+				Label lab = toolkit.createLabel(buttonZone, param);
 				lab.setToolTipText(input.getToolTip(param));
 				
-				Combo b = new Combo(client, SWT.DROP_DOWN);
+				Combo b = new Combo(buttonZone, SWT.DROP_DOWN);
 				
-				GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL
-						| GridData.VERTICAL_ALIGN_BEGINNING);
+				gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING | GridData.FILL_BOTH);
 				gd.widthHint = 10;
 				b.setLayoutData(gd);
 				
