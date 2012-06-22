@@ -26,6 +26,10 @@ import main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserParser;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
+import org.eclipse.jface.bindings.keys.KeyStroke;
+import org.eclipse.jface.bindings.keys.ParseException;
+import org.eclipse.jface.fieldassist.ContentProposalAdapter;
+import org.eclipse.jface.fieldassist.SimpleContentProposalProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -40,6 +44,20 @@ public class CTLText extends StyledText {
 	public CTLText(Composite parent, int style) {
 		super(parent, style | SWT.BORDER);
 		addModifyListener(new GrammarListener());
+		
+		char[] autoActivationCharacters = new char[] { '#', '(' };
+		KeyStroke keyStroke = null;
+		try {
+			keyStroke = KeyStroke.getInstance("Ctrl+Space");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		// ContentProposalAdapter adapter = 
+				new ContentProposalAdapter(
+			this, new StyledTextContentAdapter(), 
+			new SimpleContentProposalProvider(new String [] {"ProposalOne", "ProposalTwo", "ProposalThree"}),
+			keyStroke, autoActivationCharacters);
+
 	}
 
 	private CTLText getSubject() {
