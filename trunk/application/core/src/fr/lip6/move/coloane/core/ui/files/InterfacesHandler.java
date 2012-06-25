@@ -180,7 +180,7 @@ public class InterfacesHandler extends DefaultHandler {
 			try {
 				formalism = FormalismManager.getInstance().getFormalismByName(formalismName);
 			} catch (IllegalArgumentException e) {
-				throw new SAXException(e);
+				formalism = null;
 			}
 		}
 	}
