@@ -25,4 +25,4 @@ Require-Bundle: org.eclipse.jface,
  org.eclipse.core.runtime,
  org.eclipse.gef
 Bundle-ManifestVersion: 2
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
