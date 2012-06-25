@@ -20,6 +20,7 @@ import fr.lip6.move.coloane.core.copypast.CutAction;
 import fr.lip6.move.coloane.core.copypast.PasteAction;
 import fr.lip6.move.coloane.core.exceptions.ColoaneException;
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.GraphEditorProperties;
 import fr.lip6.move.coloane.core.model.GraphModel;
 import fr.lip6.move.coloane.core.session.ISession;
 import fr.lip6.move.coloane.core.session.SessionManager;
@@ -391,21 +392,23 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	 * Set editor properties (for this graph)
 	 */
 	protected final void loadProperties() {
+		GraphEditorProperties editorProperties = ((GraphModel) getGraph()).getEditorProperties();
+
 		// Vertical ruler properties
-		EditorRuler ruler = ((GraphModel) getGraph()).getEditorProperties().getRuler(PositionConstants.WEST);
+		EditorRuler ruler = editorProperties.getRuler(PositionConstants.WEST);
 		RulerProvider provider = null;
 		if (ruler != null) { provider = new EditorRulerProvider(ruler);	}
 		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_VERTICAL_RULER, provider);
 
 		// Horizontal ruler properties
-		ruler = ((GraphModel) getGraph()).getEditorProperties().getRuler(PositionConstants.NORTH);
+		ruler = editorProperties.getRuler(PositionConstants.NORTH);
 		provider = null;
 		if (ruler != null) { provider = new EditorRulerProvider(ruler); }
 		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_HORIZONTAL_RULER, provider);
 
 		// General properties
-		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_RULER_VISIBILITY, ((GraphModel) getGraph()).getEditorProperties().getRulersVisibility());
-		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, ((GraphModel) getGraph()).getEditorProperties().getSnapState());
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_RULER_VISIBILITY, editorProperties.getRulersVisibility());
+		getGraphicalViewer().setProperty(SnapToGeometry.PROPERTY_SNAP_ENABLED, editorProperties.getSnapState());
 	}
 
 	/**
@@ -420,6 +423,9 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	 * @return The graph associated with this editor
 	 */
 	public final IGraph getGraph() {
+		if (graph == null) {
+			throw new IllegalStateException("Graph has not be loaded"); //$NON-NLS-1$
+		}
 		return graph;
 	}
 
@@ -487,7 +493,6 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// If the loading fails... Display a message and quit
 		if (this.graph == null) {
-			Coloane.showErrorMsg("Cannot display the model..."); //$NON-NLS-1$
 			setEditDomain(new DefaultEditDomain(this));
 			Display.getDefault().asyncExec(new Runnable() {
 				public void run() {
