@@ -101,6 +101,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final INode createNode(INodeFormalism nodeFormalism) throws ModelException {
 		if (nodeFormalism == null) {
 			throw new ModelException("The formalism does not correctly define the created node type"); //$NON-NLS-1$
@@ -109,6 +110,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final INode createNode(INodeFormalism nodeFormalism, int id) throws ModelException {
 		if (nodeFormalism == null) {
 			throw new ModelException("The formalism does not correctly define the created node type"); //$NON-NLS-1$
@@ -120,6 +122,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void deleteNode(INode node) {
 		if (nodes.remove(node.getId()) != null) {
 			LOGGER.finer("Remove node #" + node.getId()); //$NON-NLS-1$
@@ -136,6 +139,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void deleteNode(int id) {
 		INode node = nodes.get(id);
 		if (node != null) {
@@ -144,21 +148,25 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final INode getNode(int id) {
 		return nodes.get(id);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Collection<INode> getNodes() {
 		return nodes.values();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IStickyNote> getStickyNotes() {
 		return Collections.unmodifiableList(stickys);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addNode(INode node) {
 		if (arcs.containsKey(node.getId()) || nodes.containsKey(node.getId())) {
 			LOGGER.warning("This node already exists"); //$NON-NLS-1$
@@ -171,6 +179,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IStickyNote createStickyNote() {
 		LOGGER.finer("Create a new sticky note"); //$NON-NLS-1$
 		IStickyNote note = new StickyNoteModel();
@@ -180,6 +189,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addSticky(IStickyNote sticky) {
 		stickys.add(sticky);
 		LOGGER.finer("Add a sticky note to location " + sticky.getLocation()); //$NON-NLS-1$
@@ -187,6 +197,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean deleteSticky(IStickyNote note) {
 		boolean delete = stickys.remove(note);
 		if (delete) {
@@ -197,6 +208,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IArc createArc(IArcFormalism arcFormalism, INode source, INode target) throws ModelException {
 		if (arcFormalism == null) {
 			throw new ModelException("This formalism does not define an arc type: " + arcFormalism); //$NON-NLS-1$
@@ -205,6 +217,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IArc createArc(IArcFormalism arcFormalism, INode source, INode target, int id) throws ModelException {
 		LOGGER.finer("Build a new arc: " + arcFormalism.getName()); //$NON-NLS-1$
 		if (!nodes.containsKey(source.getId()) || !nodes.containsKey(target.getId())) {
@@ -218,6 +231,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void deleteArc(IArc arc) {
 		if (arcs.remove(arc.getId()) != null) {
 			LOGGER.finer("Remove the arc #" + arc.getId()); //$NON-NLS-1$
@@ -230,6 +244,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void deleteArc(int id) {
 		IArc arc = arcs.get(id);
 		if (arc != null) {
@@ -238,16 +253,19 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IArc getArc(int id) {
 		return arcs.get(id);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Collection<IArc> getArcs() {
 		return arcs.values();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addArc(IArc arc) {
 		if (arcs.containsKey(arc.getId()) || nodes.containsKey(arc.getId())) {
 			LOGGER.warning("This object ID already exists"); //$NON-NLS-1$
@@ -266,6 +284,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IElement getObject(int id) {
 		IElement obj = this.getNode(id);
 		if (obj == null) {
@@ -275,6 +294,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void deleteObject(int id) throws ModelException {
 		INode node = this.getNode(id);
 		if (node != null) { this.deleteNode(node); return; }
@@ -284,6 +304,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IFormalism getFormalism() {
 		return formalism;
 	}
@@ -296,6 +317,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final int getDate() {
 		return date;
 	}
@@ -325,6 +347,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 
@@ -340,6 +363,7 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addGraph(IGraph graph) {
 		if (!formalism.getId().equals(graph.getFormalism().getId())) {
 			LOGGER.warning("The two formalisms are different [" + this.formalism.getId() + " ≠ " + graph.getFormalism().getId() + "]"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

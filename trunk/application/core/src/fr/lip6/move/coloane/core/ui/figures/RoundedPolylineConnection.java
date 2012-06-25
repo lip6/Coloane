@@ -68,6 +68,7 @@ public class RoundedPolylineConnection extends RoundedPolyline implements Connec
 	 * polyline connection.
 	 * @param anchor the anchor that moved
 	 */
+	@Override
 	public final void anchorMoved(ConnectionAnchor anchor) {
 		revalidate();
 	}
@@ -95,6 +96,7 @@ public class RoundedPolylineConnection extends RoundedPolyline implements Connec
 	 * return <code>null</code>.
 	 * @return this connection's router
 	 */
+	@Override
 	public final ConnectionRouter getConnectionRouter() {
 		return connectionRouter;
 	}
@@ -104,6 +106,7 @@ public class RoundedPolylineConnection extends RoundedPolyline implements Connec
 	 * <code>null</code>.
 	 * @return the connection's routing constraint
 	 */
+	@Override
 	public final Object getRoutingConstraint() {
 		if (getConnectionRouter() != null) {
 			return getConnectionRouter().getConstraint(this);
@@ -115,6 +118,7 @@ public class RoundedPolylineConnection extends RoundedPolyline implements Connec
 	/**
 	 * @return the anchor at the start of this polyline connection (may be null)
 	 */
+	@Override
 	public final ConnectionAnchor getSourceAnchor() {
 		return startAnchor;
 	}
@@ -129,6 +133,7 @@ public class RoundedPolylineConnection extends RoundedPolyline implements Connec
 	/**
 	 * @return the anchor at the end of this polyline connection (may be null)
 	 */
+	@Override
 	public final ConnectionAnchor getTargetAnchor() {
 		return endAnchor;
 	}
@@ -212,6 +217,7 @@ public class RoundedPolylineConnection extends RoundedPolyline implements Connec
 	 * the parent handling the polyline connection.
 	 * @param cr the connection router
 	 */
+	@Override
 	public final void setConnectionRouter(ConnectionRouter cr) {
 		ConnectionRouter router = cr;
 		if (router == null) {
@@ -230,6 +236,7 @@ public class RoundedPolylineConnection extends RoundedPolyline implements Connec
 	 * Sets the routing constraint for this connection.
 	 * @param cons the constraint
 	 */
+	@Override
 	public final void setRoutingConstraint(Object cons) {
 		if (getConnectionRouter() != null) {
 			getConnectionRouter().setConstraint(this, cons);
@@ -241,6 +248,7 @@ public class RoundedPolylineConnection extends RoundedPolyline implements Connec
 	 * Sets the anchor to be used at the start of this polyline connection.
 	 * @param anchor the new source anchor
 	 */
+	@Override
 	public final void setSourceAnchor(ConnectionAnchor anchor) {
 		unhookSourceAnchor();
 		//No longer needed, revalidate does this.
@@ -272,6 +280,7 @@ public class RoundedPolylineConnection extends RoundedPolyline implements Connec
 	 * from the old anchor and adds it to the new anchor.
 	 * @param anchor the new target anchor
 	 */
+	@Override
 	public final void setTargetAnchor(ConnectionAnchor anchor) {
 		unhookTargetAnchor();
 		//No longer needed, revalidate does this.

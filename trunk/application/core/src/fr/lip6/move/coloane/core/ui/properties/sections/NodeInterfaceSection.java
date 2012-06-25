@@ -41,6 +41,7 @@ public class NodeInterfaceSection extends AbstractSection<INode> {
 	private Listener listener = new Listener() {
 
 		/** {@inheritDoc} */
+		@Override
 		public void handleEvent(Event event) {
 			CompoundCommand cc = new CompoundCommand();
 			for (INode node : getElements()) {

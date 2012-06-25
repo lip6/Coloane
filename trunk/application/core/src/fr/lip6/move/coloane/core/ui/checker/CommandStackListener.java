@@ -34,6 +34,7 @@ import org.eclipse.gef.commands.CompoundCommand;
 public class CommandStackListener implements CommandStackEventListener {
 
 	/** {@inheritDoc} */
+	@Override
 	public final void stackChanged(CommandStackEvent event) {
 		if ((event.getDetail() & CommandStack.POST_MASK) != 0) {
 			List<CheckableCmd> checkableCommandsList = new ArrayList<CheckableCmd>();

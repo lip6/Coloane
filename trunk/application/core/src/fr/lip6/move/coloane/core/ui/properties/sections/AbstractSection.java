@@ -112,6 +112,7 @@ public abstract class AbstractSection<T extends IAbstractPropertyChange> extends
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 	}
 

@@ -104,6 +104,7 @@ public class ServiceAction extends Action {
 								LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$
 								final ApplyRequestsCmd command = new ApplyRequestsCmd(result.getDeltaRequestsList(), currentSession.getGraph());
 								Display.getDefault().asyncExec(new Runnable() {
+									@Override
 									public void run() {
 										LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$
 										((ColoaneEditor) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()).executeCommand(command);

@@ -57,6 +57,7 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Point findMiddlePoint() {
 		Point source, target;
 		int size = arc.getInflexPoints().size();
@@ -77,22 +78,26 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void updateMiddlePoint() {
 		LOGGER.finest("updateMiddlePoint"); //$NON-NLS-1$
 		this.middlePoint = findMiddlePoint();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Point getMiddlePoint() {
 		return this.middlePoint;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Color getColor() {
 		return color;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setColor(Color color) {
 		LOGGER.finest("setColor(" + color + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		Color oldValue = this.color;
@@ -103,6 +108,7 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final boolean getCurve() {
 		return this.curve;
 	}
@@ -110,6 +116,7 @@ public class ArcGraphicInfo implements IArcGraphicInfo {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void setCurve(boolean flag) {
 		this.curve = flag;
 		((ArcModel) arc).firePropertyChange(IArc.CURVE_PROP, !flag, flag);

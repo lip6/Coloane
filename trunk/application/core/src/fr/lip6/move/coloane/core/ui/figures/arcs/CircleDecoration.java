@@ -53,6 +53,7 @@ public class CircleDecoration extends Ellipse implements RotatableDecoration {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setReferencePoint(Point ref) {
 		Point a = getLocation().getCopy();
 		Point ab = ref.getTranslated(a.getNegated());

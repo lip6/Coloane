@@ -63,6 +63,7 @@ public class SaveReceivedModel implements Runnable {
 	 * Compute a new name for the file.<br>
 	 * Fill the new file, and ask the workspace to update.
 	 */
+	@Override
 	public final void run() {
 		// Build a dialog box
 		SaveAsDialog dialog = new SaveAsDialog(this.window.getShell());

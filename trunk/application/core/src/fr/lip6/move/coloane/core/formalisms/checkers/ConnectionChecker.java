@@ -30,6 +30,7 @@ public final class ConnectionChecker implements INodeChecker {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public ICheckerResult performCheck(INode node) {
 		// |Incoming| + |Outgoing| arcs must be > 0
 		if (node.getOutgoingArcs().size() + node.getIncomingArcs().size() > 0) {

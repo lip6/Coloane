@@ -172,6 +172,7 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 
@@ -218,21 +219,25 @@ public class StickyEditPart extends AbstractGraphicalEditPart implements Propert
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
 		return connectionAnchor;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
 		return connectionAnchor;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
 		return connectionAnchor;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return connectionAnchor;
 	}

@@ -53,6 +53,7 @@ public class ColoanePrefsPage extends PreferencePage implements IWorkbenchPrefer
 	private Combo debugLevelCombo;
 
 	/** {@inheritDoc} */
+	@Override
 	public final void init(IWorkbench workbench) {
 		setPreferenceStore(Coloane.getInstance().getPreferenceStore());
 	}

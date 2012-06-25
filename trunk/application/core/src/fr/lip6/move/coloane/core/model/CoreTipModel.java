@@ -58,31 +58,37 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ArcTipModel getArcModel() {
 		return arcModel;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ILocationInfo getLocationInfo() {
 		return this;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final int getIdObject() {
 		return tip.getIdObject();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getName() {
 		return tip.getName();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getValue() {
 		return tip.getValue();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final EditorGuide getGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			return this.horizontalGuide;
@@ -92,6 +98,7 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setGuide(EditorGuide guide) {
 		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			this.horizontalGuide = guide;
@@ -101,6 +108,7 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			this.horizontalGuide = null;
@@ -110,11 +118,13 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Point getLocation() {
 		return location;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setLocation(Point newLocation) {
 		Point oldLocation = this.location;
 		location = newLocation;
@@ -122,6 +132,7 @@ public class CoreTipModel extends AbstractPropertyChange implements ILocatedElem
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void resetLocation() {
 		setLocation(new Point(0, 0));
 	}

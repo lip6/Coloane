@@ -55,6 +55,7 @@ public class NewModelWizard extends Wizard implements INewWizard {
 	 * @param workbench The workbench
 	 * @param selection The current selection
 	 */
+	@Override
 	public final void init(IWorkbench workbench, IStructuredSelection selection) {
 		setDefaultPageImageDescriptor(ImageDescriptor.createFromFile(Coloane.class, "/resources/icons/select_form.png")); //$NON-NLS-1$
 		setWindowTitle(Messages.NewModelWizard_0);

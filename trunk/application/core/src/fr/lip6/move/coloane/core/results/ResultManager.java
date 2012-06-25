@@ -165,6 +165,7 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addChild(IResultTree child) {
 		String serviceName = ""; //$NON-NLS-1$
 		if (child instanceof ResultTreeImpl) {
@@ -175,21 +176,25 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IResultTree> getChildren() {
 		return new ArrayList<IResultTree>(map.values());
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<Object> getElement() {
 		return new ArrayList<Object>(map.values());
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IResultTree getParent() {
 		return null;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setParent(IResultTree parent) {
 	}
 
@@ -199,11 +204,13 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<Integer> getHighlighted() {
 		return this.highlights;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addHighlighted(int... toHighlight) {
 		for (Integer id : toHighlight) {
 			this.highlights.add(id);
@@ -211,9 +218,11 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void remove() { }
 
 	/** {@inheritDoc} */
+	@Override
 	public final void update(Observable o, Object arg) {
 		setChanged();
 		Integer width;
@@ -226,11 +235,13 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ISessionManager getSessionManager() {
 		return SessionManager.getInstance();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setSessionManager(ISessionManager sessionManager) {
 		return;
 	}
@@ -257,21 +268,25 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final Map<Integer, List<String>> getAttributesOutline() {
 		return null;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<ICoreTip> getTips() {
 		throw new UnsupportedOperationException();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<ICoreTip> getTips(List<Integer> haveTips) {
 		throw new UnsupportedOperationException();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setTips(Map<Integer, List<ITip>> map, Integer... objectIds) {
 		throw new UnsupportedOperationException();
 	}

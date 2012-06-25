@@ -41,6 +41,7 @@ public class GenericReport implements IReport {
 	 * @param result the {@link IResult} containing all data needed to build the tree (Coming from Com).
 	 * @return the result builded tree.
 	 */
+	@Override
 	public final ResultTreeImpl build(IResult result) {
 		// Build the root of the result tree.
 		ResultTreeImpl root;

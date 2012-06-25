@@ -102,26 +102,31 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final INode getSource() {
 		return source;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final INode getTarget() {
 		return target;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IArcFormalism getArcFormalism() {
 		return arcFormalism;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IArcGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addInflexPoint(Point p, int index) {
 		LOGGER.finest("Add a bendpoint at location: " + p + " and index:" + index);  //$NON-NLS-1$//$NON-NLS-2$
 		inflexPoints.add(index, new AbsoluteBendpoint(p));
@@ -130,6 +135,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addInflexPoint(Point p) {
 		LOGGER.finest("Add a bendpoint at location: " + p);  //$NON-NLS-1$
 		inflexPoints.add(new AbsoluteBendpoint(p));
@@ -138,6 +144,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void removeInflexPoint(int index) {
 		LOGGER.finest("Remove the bendpoint at index: " + index);  //$NON-NLS-1$
 		inflexPoints.remove(index);
@@ -146,6 +153,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void removeAllInflexPoints() {
 		LOGGER.finest("Remove all bendpoints");  //$NON-NLS-1$
 		inflexPoints.clear();
@@ -154,6 +162,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void modifyInflexPoint(int index, Point p) {
 		LOGGER.finest("Move the bendpoint at location: " + p + " and at index: " + index);  //$NON-NLS-1$//$NON-NLS-2$
 		inflexPoints.get(index).setLocation(p);
@@ -162,6 +171,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void modifyInflexPoints(int dx, int dy) {
 		LOGGER.finest("Move all the bendpoints accoring to the delta location (" + dx + ", " + dy + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		for (AbsoluteBendpoint inflexPoint : inflexPoints) {
@@ -171,16 +181,19 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final AbsoluteBendpoint getInflexPoint(int index) {
 		return inflexPoints.get(index);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<AbsoluteBendpoint> getInflexPoints() {
 		return Collections.unmodifiableList(inflexPoints);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void reconnect(INode newSource, INode newTarget) {
 		LOGGER.finest("Reconnect the arc #" + newSource.getId() + " -> #" + newTarget.getId()); //$NON-NLS-1$ //$NON-NLS-2$
 		((NodeModel) source).removeOutgoingArc(this);
@@ -193,6 +206,7 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void updateAttributesPosition() {
 		// Current positions
 		Point oldMiddlePoint = this.graphicInfo.getMiddlePoint();
@@ -213,11 +227,13 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void updateTips() {
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, null);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 
@@ -229,17 +245,20 @@ public class ArcModel extends AbstractElement implements IArc, ILinkableElement 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addLink(ILink link) {
 		links.add(link);
 		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, link);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<ILink> getLinks() {
 		return Collections.unmodifiableList(links);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean removeLink(ILink link) {
 		boolean res = links.remove(link);
 		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, link);

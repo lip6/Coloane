@@ -34,7 +34,8 @@ public class GraphFilter implements IFilter {
 	 * @param toTest the currently selected object in the WorkBench
 	 * @return true if it corresponds to a Graph or a Graph attribute
 	 */
-	public boolean select(Object toTest) {
+	@Override
+	public final boolean select(Object toTest) {
 		if (toTest instanceof GraphEditPart) {
 			return true;
 		} else if (toTest instanceof AttributeEditPart) {

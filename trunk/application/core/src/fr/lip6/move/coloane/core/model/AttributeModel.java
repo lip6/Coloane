@@ -68,16 +68,19 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getName() {
 		return name;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getValue() {
 		return value;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setValue(String value) {
 		if (value == null) { return; }
 		String oldValue = this.value;
@@ -89,26 +92,31 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IAttributeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ILocationInfo getLocationInfo() {
 		return this.graphicInfo;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IElement getReference() {
 		return reference;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IAttributeFormalism getAttributeFormalism() {
 		return attributFormalism;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final EditorGuide getGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			return this.horizontalGuide;
@@ -118,6 +126,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setGuide(EditorGuide guide) {
 		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			this.horizontalGuide = guide;
@@ -127,6 +136,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			this.horizontalGuide = null;
@@ -142,6 +152,7 @@ public class AttributeModel extends AbstractPropertyChange implements IAttribute
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setSpecialState(boolean state) {
 		firePropertyChange(SPECIAL_STATE_CHANGE, null, state);
 	}

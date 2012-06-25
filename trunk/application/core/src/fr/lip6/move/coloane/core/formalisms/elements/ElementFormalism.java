@@ -88,20 +88,26 @@ public class ElementFormalism implements IElementFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getName() {	return name; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IAttributeFormalism> getAttributes() { return this.attributes; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IComputedAttributeFormalism> getComputedAttributes() { return this.computedAttributes; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IGraphicalDescription> getAllGraphicalDescription() { return graphicalDescriptions; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final IGraphicalDescription getGraphicalDescription() { return graphicalDescriptions.get(0); }
 
 	/** {@inheritDoc} */
+	@Override
 	public final IFormalism getFormalism() { return this.formalism;	}
 }

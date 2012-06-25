@@ -46,6 +46,7 @@ public class PartFactory implements EditPartFactory {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final EditPart createEditPart(EditPart context, Object modelElement) {
 		EditPart part = null;
 

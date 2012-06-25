@@ -45,6 +45,7 @@ public class EditorRulerProvider extends RulerProvider {
 
 	/** A listener of rulers events */
 	private PropertyChangeListener rulerListener = new PropertyChangeListener() {
+		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			// What to do when ruler units have been changed ?
 			if (evt.getPropertyName().equals(EditorRuler.UNIT_PROP)) {
@@ -76,6 +77,7 @@ public class EditorRulerProvider extends RulerProvider {
 
 	/** A listener of guide events */
 	private PropertyChangeListener guideListener = new PropertyChangeListener() {
+		@Override
 		public void propertyChange(PropertyChangeEvent evt) {
 			// When an element is attached or detached from a guide
 			if (evt.getPropertyName().equals(EditorGuide.ELEMENT_PROP)) {

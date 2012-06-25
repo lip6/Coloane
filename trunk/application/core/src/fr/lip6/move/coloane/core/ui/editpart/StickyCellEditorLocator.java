@@ -40,6 +40,7 @@ public final class StickyCellEditorLocator implements CellEditorLocator {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public void relocate(CellEditor celleditor) {
 		Text text = (Text) celleditor.getControl();
 		Rectangle rect = stickyNote.getClientArea();

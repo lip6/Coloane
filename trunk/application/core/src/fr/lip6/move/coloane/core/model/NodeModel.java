@@ -104,16 +104,19 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final INodeFormalism getNodeFormalism() {
 		return this.nodeFormalism;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final INodeGraphicInfo getGraphicInfo() {
 		return this.graphicInfos;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ILocationInfo getLocationInfo() {
 		return this.getGraphicInfo();
 	}
@@ -159,16 +162,19 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IArc> getOutgoingArcs() {
 		return Collections.unmodifiableList(outgoingArcs);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<IArc> getIncomingArcs() {
 		return Collections.unmodifiableList(incomingArcs);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final EditorGuide getGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			return this.horizontalGuide;
@@ -178,6 +184,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setGuide(EditorGuide guide) {
 		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			LOGGER.fine("New horizontal guide for the node #" + this.getId()); //$NON-NLS-1$
@@ -189,6 +196,7 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			LOGGER.fine("No more horizontal guide for the node #" + this.getId()); //$NON-NLS-1$
@@ -200,11 +208,13 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void updateTips() {
 		firePropertyChange(INCOMING_ARCS_PROP, null, null);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		String prop = evt.getPropertyName();
 		if (IAttribute.VALUE_PROP.equals(prop)) {
@@ -214,17 +224,20 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addLink(ILink link) {
 		links.add(link);
 		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, link);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<ILink> getLinks() {
 		return Collections.unmodifiableList(links);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean removeLink(ILink link) {
 		boolean res = links.remove(link);
 		firePropertyChange(INode.OUTGOING_ARCS_PROP, null, link);
@@ -243,11 +256,13 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isInterface() {
 		return this.isInterface;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setInterface(boolean state) {
 		LOGGER.finest(this + " setInterface(" + state + ")"); //$NON-NLS-1$ //$NON-NLS-2$
 		boolean oldValue = isInterface;
@@ -256,11 +271,13 @@ public class NodeModel extends AbstractElement implements INode, ILocatedElement
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getNodeLink() {
 		return this.nodeLink;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setNodeLink(String link) {
 		this.nodeLink = link;
 	}

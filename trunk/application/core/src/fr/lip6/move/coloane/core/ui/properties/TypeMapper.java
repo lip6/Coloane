@@ -25,6 +25,7 @@ import org.eclipse.ui.views.properties.tabbed.ITypeMapper;
 public class TypeMapper implements ITypeMapper {
 
 	/** {@inheritDoc} */
+	@Override
 	@SuppressWarnings("rawtypes")
 	public final Class mapType(Object object) {
 		Class type = object.getClass();

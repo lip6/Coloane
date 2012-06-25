@@ -62,6 +62,7 @@ public class SelectFormalismPage extends WizardPage {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 
@@ -81,10 +82,12 @@ public class SelectFormalismPage extends WizardPage {
 		tableFormalism.setHeaderVisible(false);
 		tableFormalism.setLinesVisible(false);
 		tableFormalism.addSelectionListener(new SelectionListener() {
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				return;
 			}
 
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				TableItem selectedTableItem = (TableItem) e.item;
 				String selectedFormalism = selectedTableItem.getText();
