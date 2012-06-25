@@ -75,8 +75,7 @@ public class LabelTextFactory {
 	 * @param enumeration les valeurs possibles (a priori spécifiées via le formalisme)
 	 * @return an attribute label
 	 */
-	public IAttributeLabel create(String label, String value,
-			List<String> enumeration) {
+	public final IAttributeLabel create(String label, String value, List<String> enumeration) {
 		IAttributeLabel lt;
 		if (last == null) {
 			lt = new LabelCombo(parent, factory, label, value, enumeration);

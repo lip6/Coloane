@@ -49,6 +49,7 @@ public final class ConsoleMessageObserver implements PropertyChangeListener {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void propertyChange(PropertyChangeEvent evt) {
 		if (IApi.API_MESSAGE.equals(evt.getPropertyName())) {
 			LOGGER.info("Console messages should be updated"); //$NON-NLS-1$
@@ -57,6 +58,7 @@ public final class ConsoleMessageObserver implements PropertyChangeListener {
 			final MessageConsole console = this.console;
 
 			Display.getDefault().asyncExec(new Runnable() {
+				@Override
 				public void run() {
 					MessageConsoleStream consoleStream = console.newMessageStream();
 					consoleStream.setColor(message.getColor());

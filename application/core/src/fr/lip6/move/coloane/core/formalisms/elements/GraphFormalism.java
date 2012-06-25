@@ -64,11 +64,13 @@ public class GraphFormalism extends ElementFormalism implements IGraphFormalism 
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Collection<IElementFormalism> getAllElementFormalism() {
 		return this.children.values();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IElementFormalism getElementFormalism(String name) {
 		return children.get(name);
 	}

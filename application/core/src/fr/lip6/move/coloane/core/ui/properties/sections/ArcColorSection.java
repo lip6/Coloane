@@ -43,6 +43,7 @@ public class ArcColorSection extends AbstractSection<IArc> {
 
 	/** Permet de mettre à jour le modèle d'arc */
 	private IPropertyChangeListener listener = new IPropertyChangeListener() {
+		@Override
 		public void propertyChange(PropertyChangeEvent event) {
 			CompoundCommand cc = new CompoundCommand();
 			for (IArc arc : getElements()) {

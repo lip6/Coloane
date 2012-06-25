@@ -95,15 +95,19 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getName() { return this.name; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isDrawable() { return isDrawable; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isMultiLine() { return isMultiline; }
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getDefaultValue() {
 		if (defaultValue != null) { return defaultValue; }
 		return ""; //$NON-NLS-1$
@@ -118,6 +122,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isBold() {
 		return bold;
 	}
@@ -131,6 +136,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isItalic() {
 		return italic;
 	}
@@ -144,6 +150,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Integer getFontSize() {
 		return this.size;
 	}
@@ -157,16 +164,19 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<String> getEnumeration() {
 		return this.enumeration;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isEnumerated() {
 		return this.enumerated;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isDefaultValueDrawable() {
 		return this.isDefaultValueDrawable;
 	}
@@ -195,6 +205,7 @@ public class AttributeFormalism implements IAttributeFormalism {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Point getDeltaLocation() {
 		return this.delta;
 	}

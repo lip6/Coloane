@@ -34,7 +34,8 @@ public class ArcFilter implements IFilter {
 	 * @param toTest the currently selected object in the WorkBench
 	 * @return true if it corresponds to a Arc or a Arc attribute
 	 */
-	public boolean select(Object toTest) {
+	@Override
+	public final boolean select(Object toTest) {
 		if (toTest instanceof ArcEditPart) {
 			return true;
 		} else if (toTest instanceof AttributeEditPart) {

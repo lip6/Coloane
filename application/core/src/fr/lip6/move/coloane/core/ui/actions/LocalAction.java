@@ -125,6 +125,7 @@ public class LocalAction extends Action {
 						// Create a new special command to apply incoming request
 						LOGGER.finer("Taking into account all requests for the current graph..."); //$NON-NLS-1$
 						Display.getDefault().asyncExec(new Runnable() {
+							@Override
 							public void run() {
 								final ApplyRequestsCmd command = new ApplyRequestsCmd(result.getDeltaRequestsList(), currentSession.getGraph());
 								LOGGER.finer("Applying the delta command..."); //$NON-NLS-1$

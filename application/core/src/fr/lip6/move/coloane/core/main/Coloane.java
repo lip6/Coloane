@@ -95,6 +95,7 @@ public class Coloane extends AbstractUIPlugin {
 	 */
 	private void sendProperties() {
 		new Thread(new Runnable() {
+			@Override
 			public void run() {
 				// Compute current eclipse platform version
 				String eclipseVersion = null;

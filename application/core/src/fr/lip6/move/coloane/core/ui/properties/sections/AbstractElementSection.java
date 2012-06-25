@@ -53,6 +53,7 @@ public abstract class AbstractElementSection<T extends IElement> extends Abstrac
 	/** Listener qui va modifier le modèle */
 	private ModifyListener listener = new ModifyListener() {
 		/** {@inheritDoc} */
+		@Override
 		public void modifyText(ModifyEvent e) {
 			Control text = (Control) e.widget;
 

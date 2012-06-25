@@ -30,6 +30,7 @@ public final class EmptyAttributeChecker implements IAttributeChecker {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public ICheckerResult performCheck(IAttribute attribute) {
 		return new CheckerResult(attribute.getValue().isEmpty(), "Attribute " + attribute.getName() + " should not be empty");  //$NON-NLS-1$//$NON-NLS-2$
 	}

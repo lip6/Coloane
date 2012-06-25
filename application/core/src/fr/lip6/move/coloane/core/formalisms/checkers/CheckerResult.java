@@ -47,6 +47,7 @@ public final class CheckerResult implements ICheckerResult {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public String getMessage() {
 		return message;
 	}
@@ -54,6 +55,7 @@ public final class CheckerResult implements ICheckerResult {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean hasFailed() {
 		return isFailed;
 	}

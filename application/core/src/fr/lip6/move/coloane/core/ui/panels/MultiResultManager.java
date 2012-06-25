@@ -28,14 +28,17 @@ public final class MultiResultManager implements IResultTree {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public IResultTree getParent() {
 		return null;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setParent(IResultTree parent) { }
 
 	/** {@inheritDoc} */
+	@Override
 	public List<IResultTree> getChildren() {
 		List<IResultTree> children = new ArrayList<IResultTree>(global.getChildren().size() + local.getChildren().size());
 		children.addAll(global.getChildren());
@@ -44,54 +47,65 @@ public final class MultiResultManager implements IResultTree {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void addChild(IResultTree child) {
 		throw new UnsupportedOperationException();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public List<Object> getElement() {
 		return new ArrayList<Object>(getChildren());
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public List<Integer> getHighlighted() {
 		return local.getHighlighted();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void addHighlighted(int... toHighlight) {
 		local.addHighlighted(toHighlight);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Map<Integer, List<String>> getAttributesOutline() {
 		return null;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void remove() { }
 
 	/** {@inheritDoc} */
+	@Override
 	public void setSessionManager(ISessionManager sessionManager) {
 		global.setSessionManager(sessionManager);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public ISessionManager getSessionManager() {
 		return global.getSessionManager();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public List<ICoreTip> getTips() {
 		return local.getTips();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public List<ICoreTip> getTips(List<Integer> mayHaveTips) {
 		return local.getTips(mayHaveTips);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setTips(Map<Integer, List<ITip>> map, Integer... objectIds) {
 		local.setTips(map, objectIds);
 	}

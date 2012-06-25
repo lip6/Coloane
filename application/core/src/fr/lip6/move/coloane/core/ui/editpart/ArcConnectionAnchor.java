@@ -67,6 +67,7 @@ public class ArcConnectionAnchor extends AbstractConnectionAnchor implements Con
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Point getLocation(Point reference) {
 		// Création de la liste des points de l'arc
 		List<Point> points = new ArrayList<Point>();

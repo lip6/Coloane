@@ -27,21 +27,25 @@ import org.eclipse.core.runtime.CoreException;
 public final class ColoaneProjectNature implements IProjectNature {
 
 	/** {@inheritDoc} */
+	@Override
 	public void configure() throws CoreException {
 		// TODO Auto-generated method stub
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void deconfigure() throws CoreException {
 		// TODO Auto-generated method stub
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public IProject getProject() {
 		return null;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setProject(IProject project) {
 		// TODO Auto-generated method stub
 	}

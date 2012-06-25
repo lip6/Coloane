@@ -84,21 +84,25 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public ISession getCurrentSession() {
 		return currentSession;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public ISession getGlobalSession() {
 		return globalSession;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public ISession getSession(String sessionName) {
 		return sessions.get(sessionName);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public ISession getSession(IGraph graph) {
 		for (ISession session : sessions.values()) {
 			if (session.getGraph().equals(graph)) {
@@ -110,11 +114,13 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Collection<ISession> getSessions() {
 		return sessions.values();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public ISession createSession(String sessionId, IGraph graph) throws ColoaneException {
 		// If a session already exists with the same name
 		if (sessions.containsKey(sessionId)) {
@@ -133,6 +139,7 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public ISession resumeSession(String sessionId) {
 		if (sessionId == null) { return null; }
 		ISession toResume = getSession(sessionId);
@@ -151,6 +158,7 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public ISession destroySession(String sessionId) {
 		if (sessionId != null) {
 			LOGGER.fine("Destroying the session " + sessionId); //$NON-NLS-1$
@@ -186,6 +194,7 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public List<ApiDescription> getAvailableGlobalApis() {
 		if (apis == null) {
 			apis = ApiExtension.getAvailableApis(null, true);
@@ -194,11 +203,13 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs.addPropertyChangeListener(listener);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
@@ -211,6 +222,7 @@ public final class SessionManager implements ISessionManager {
 	 */
 	protected void firePropertyChange(final String property, final Object oldValue, final Object newValue) {
 		Display.getDefault().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				if (pcs.hasListeners(property)) {
 					pcs.firePropertyChange(property, oldValue, newValue);

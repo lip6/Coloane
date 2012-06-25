@@ -33,6 +33,7 @@ public final class TreeLabelProvider implements ILabelProvider {
 	private final List<Image> images = new ArrayList<Image>();
 
 	/** {@inheritDoc} */
+	@Override
 	public Image getImage(Object element) {
 		if (element instanceof Tree) {
 			ImageDescriptor descriptor = ((Tree) element).getIcon();
@@ -46,6 +47,7 @@ public final class TreeLabelProvider implements ILabelProvider {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public String getText(Object element) {
 		if (element instanceof Tree) {
 			return ((Tree) element).getName();
@@ -54,9 +56,11 @@ public final class TreeLabelProvider implements ILabelProvider {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void addListener(ILabelProviderListener listener) { }
 
 	/** {@inheritDoc} */
+	@Override
 	public void dispose() {
 		for (Image img : images) {
 			img.dispose();
@@ -64,11 +68,13 @@ public final class TreeLabelProvider implements ILabelProvider {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public boolean isLabelProperty(Object element, String property) {
 		return false;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void removeListener(ILabelProviderListener listener) { }
 
 }

@@ -75,11 +75,13 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getName() {
 		return name;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getValue() {
 		// Check whether the formatter has been instantiated or not
 		if (this.formatter == null) {
@@ -95,26 +97,31 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	 * Should not be used here...<br>
 	 * <b>A computed attribute is read-only</b>
 	 * */
+	@Override
 	public final void setValue(String value) {
 		return;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IAttributeGraphicInfo getGraphicInfo() {
 		return graphicInfo;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IElement getReference() {
 		return reference;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final IComputedAttributeFormalism getAttributeFormalism() {
 		return this.computedAttributFormalism;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final EditorGuide getGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			return this.horizontalGuide;
@@ -124,6 +131,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setGuide(EditorGuide guide) {
 		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			this.horizontalGuide = guide;
@@ -133,6 +141,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			this.horizontalGuide = null;
@@ -142,6 +151,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ILocationInfo getLocationInfo() {
 		return this.graphicInfo;
 	}
@@ -158,6 +168,7 @@ public class ComputedAttributeModel extends AbstractPropertyChange implements IA
 	 * Typically, the node has been updated (or one of its standard attributes).
 	 * Thus, computed attributes should be updated too !
 	 */
+	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		// We want to update the AttributeEditPart (the view associated to this attribute)
 		firePropertyChange(IAttribute.VALUE_PROP, evt.getOldValue(), evt.getNewValue());

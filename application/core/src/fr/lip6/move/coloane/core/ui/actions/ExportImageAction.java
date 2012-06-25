@@ -62,6 +62,7 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 	 * Creates a new <code>ExportImageAction</code>.
 	 * @param w The workbench part (must not be <code>null</code>)
 	 */
+	@Override
 	public final void init(IWorkbenchWindow w) {
 		this.window = w;
 	}
@@ -165,13 +166,16 @@ public class ExportImageAction implements IWorkbenchWindowActionDelegate  {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void run(IAction action) {
 		this.run();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void selectionChanged(IAction action, ISelection selection) { }
 
 	/** {@inheritDoc} */
+	@Override
 	public void dispose() { }
 }

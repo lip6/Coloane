@@ -74,6 +74,7 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof IFile && ((IFile) parentElement).getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
 			IFile file = (IFile) parentElement;
@@ -142,6 +143,7 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Object getParent(Object element) {
 		return null;
 	}
@@ -149,6 +151,7 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public boolean hasChildren(Object element) {
 		Object[] childs = getChildren(element);
 		return childs != null && childs.length > 0;
@@ -157,21 +160,25 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public Object[] getElements(Object inputElement) {
 		return null;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void dispose() {
 		nodeLinkImage.dispose();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		this.viewer = (StructuredViewer) viewer;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
 		IResourceDelta delta = event.getDelta();
 		try {
@@ -182,6 +189,7 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public boolean visit(IResourceDelta delta) throws CoreException {
 		IResource source = delta.getResource();
 

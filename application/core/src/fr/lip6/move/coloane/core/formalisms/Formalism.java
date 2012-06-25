@@ -53,11 +53,15 @@ public class Formalism implements IFormalism {
 
 	/**
 	 * Constructor
-	 *
-	 * @param id Formalism ID
-	 * @param name Formalism Name
-	 * @param fkname Formalism ID for FK platform
-	 * @param image Image that describes the formalism
+	 * 
+	 * @param id
+	 *            Formalism ID
+	 * @param name
+	 *            Formalism Name
+	 * @param fkname
+	 *            Formalism ID for FK platform
+	 * @param image
+	 *            Image that describes the formalism
 	 */
 	public Formalism(String id, String name, String fkname, String image) {
 		this.id = id;
@@ -72,6 +76,7 @@ public class Formalism implements IFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final boolean isLinkAllowed(INode source, INode target, IArcFormalism arcFormalism) {
 		// Try to find a constraint for these two kinds of nodes
 		for (IConstraintLink constraint : linkconstraints) {
@@ -85,6 +90,7 @@ public class Formalism implements IFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final boolean isActionAllowed(INode node) {
 		// Try to find a constraint for this kind of node
 		for (IConstraintNode constraint : nodeconstraints) {
@@ -97,27 +103,36 @@ public class Formalism implements IFormalism {
 
 	/**
 	 * Add a link constraint to the formalism
-	 * @param constraint The constraint between nodes
+	 * 
+	 * @param constraint
+	 *            The constraint between nodes
 	 * @see {@link IConstraintLink}
 	 * @see {@link IConstraint}
 	 */
 	public final void addConstraintLink(IConstraintLink constraint) {
-		if (constraint == null) { return; }
+		if (constraint == null) {
+			return;
+		}
 		this.linkconstraints.add(constraint);
 	}
 
 	/**
 	 * Add a node constraint to the formalism
-	 * @param constraint The constraint for a node
+	 * 
+	 * @param constraint
+	 *            The constraint for a node
 	 * @see {@link IConstraintNode}
 	 * @see {@link IConstraint}
 	 */
 	public final void addConstraintNode(IConstraintNode constraint) {
-		if (constraint == null) { return; }
+		if (constraint == null) {
+			return;
+		}
 		this.nodeconstraints.add(constraint);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getId() {
 		return this.id;
 	}
@@ -125,6 +140,7 @@ public class Formalism implements IFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final String getName() {
 		return this.name;
 	}
@@ -132,6 +148,7 @@ public class Formalism implements IFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final String getFKName() {
 		return this.fkname;
 	}
@@ -139,6 +156,7 @@ public class Formalism implements IFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final String getImageName() {
 		return "/" + image; //$NON-NLS-1$
 	}
@@ -146,15 +164,19 @@ public class Formalism implements IFormalism {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final IGraphFormalism getRootGraph() {
 		return this.rootGraphFormalism;
 	}
 
 	/**
 	 * Set the root graph (the graph described by the formalism).<br>
-	 * This information is used to get the most high level graph object very quickly from any node, arc or attribute.<br>
+	 * This information is used to get the most high level graph object very
+	 * quickly from any node, arc or attribute.<br>
 	 * Just use {@link #getMasterGraph()}
-	 * @param rootGraphFormalism The graph which is at the top level
+	 * 
+	 * @param rootGraphFormalism
+	 *            The graph which is at the top level
 	 */
 	public final void setRootGraph(IGraphFormalism rootGraphFormalism) {
 		this.rootGraphFormalism = rootGraphFormalism;

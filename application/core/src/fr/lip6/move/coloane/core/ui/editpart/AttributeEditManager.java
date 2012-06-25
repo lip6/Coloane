@@ -51,6 +51,7 @@ public class AttributeEditManager extends DirectEditManager {
 	private double cachedZoom = -1.0;
 	private Font scaledFont;
 	private ZoomListener zoomListener = new ZoomListener() {
+		@Override
 		public void zoomChanged(double newZoom) {
 			updateScaledFont(newZoom);
 		}

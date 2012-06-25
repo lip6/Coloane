@@ -26,6 +26,7 @@ import org.eclipse.jface.viewers.Viewer;
 public class TreeContentProvider implements ITreeContentProvider {
 
 	/** {@inheritDoc} */
+	@Override
 	public final Object[] getChildren(Object parentElement) {
 		if (parentElement instanceof Tree) {
 			return ((Tree) parentElement).getChildren().toArray();
@@ -34,6 +35,7 @@ public class TreeContentProvider implements ITreeContentProvider {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Object getParent(Object element) {
 		if (element instanceof Tree) {
 			return ((Tree) element).getParent();
@@ -42,12 +44,14 @@ public class TreeContentProvider implements ITreeContentProvider {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean hasChildren(Object element) {
 		Object[] childs = getChildren(element);
 		return childs != null && childs.length > 0;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Object[] getElements(Object inputElement) {
 		if (inputElement instanceof Tree) {
 			return new Object[] {((Tree) inputElement).getElement()};
@@ -56,9 +60,11 @@ public class TreeContentProvider implements ITreeContentProvider {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void dispose() { }
 
 	/** {@inheritDoc} */
+	@Override
 	public final void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
 
 }

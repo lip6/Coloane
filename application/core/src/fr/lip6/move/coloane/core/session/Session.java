@@ -127,26 +127,31 @@ public final class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public String getSessionId() {
 		return this.sessionId;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public IGraph getGraph() {
 		return this.graph;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void setChecker(Checker checker) {
 		this.checker = checker;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Checker getChecker() {
 		return checker;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public List<ApiDescription> getAvailableApis() {
 		if (apis == null) {
 			apis = ApiExtension.getAvailableApis(this, false);
@@ -155,6 +160,7 @@ public final class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public ResultManager getResultManager() {
 		if (this.resultManager == null) {
 			this.resultManager = new ResultManager();
@@ -163,6 +169,7 @@ public final class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Collection<ICoreTip> getTips() {
 		List<ICoreTip> list = new ArrayList<ICoreTip>();
 		for (List<ICoreTip> values : tips.values()) {
@@ -172,6 +179,7 @@ public final class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public Collection<ICoreTip> getTipForObject(int id) {
 		List<ICoreTip> list = tips.get(id);
 		if (list == null) {
@@ -201,6 +209,7 @@ public final class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void addAllTips(Collection<ICoreTip> tips) {
 		for (ICoreTip tip : tips) {
 			List<ICoreTip> values = this.tips.get(tip.getIdObject());
@@ -214,6 +223,7 @@ public final class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void removeTips(Collection<ICoreTip> tips) {
 		for (ICoreTip tip : tips) {
 			List<ICoreTip> values = this.tips.get(tip.getIdObject());
@@ -232,6 +242,7 @@ public final class Session implements ISession {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public MessageConsole getConsole() {
 		if (this.console == null) {
 			this.console = new MessageConsole(sessionId, null); // TODO : Add an icon
@@ -241,11 +252,13 @@ public final class Session implements ISession {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public synchronized void addPropertyChangeListener(PropertyChangeListener listener) {
 		pcs .addPropertyChangeListener(listener);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public synchronized void removePropertyChangeListener(PropertyChangeListener listener) {
 		pcs.removePropertyChangeListener(listener);
 	}
@@ -258,6 +271,7 @@ public final class Session implements ISession {
 	 */
 	protected void firePropertyChange(final String property, final Object oldValue, final Object newValue) {
 		Display.getDefault().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				if (pcs.hasListeners(property)) {
 					pcs.firePropertyChange(property, oldValue, newValue);

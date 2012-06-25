@@ -154,28 +154,33 @@ public class TipEditPart extends AbstractGraphicalEditPart implements NodeEditPa
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getSourceConnectionAnchor(
 			ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getSourceConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getTargetConnectionAnchor(
 			ConnectionEditPart connection) {
 		return getConnectionAnchor();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ConnectionAnchor getTargetConnectionAnchor(Request request) {
 		return getConnectionAnchor();
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		if (ILocationInfo.LOCATION_PROP.equals(evt.getPropertyName())) {
 			refreshVisuals();

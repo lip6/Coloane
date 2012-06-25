@@ -140,6 +140,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		String[] extensions = new String[] {"*.*"}; //$NON-NLS-1$
 		fileSelect = new FileFieldEditor("fileSelect", "Select File: ", fileSelectionArea); //$NON-NLS-1$ //$NON-NLS-2$
 		fileSelect.getTextControl(fileSelectionArea).addModifyListener(new ModifyListener() {
+			@Override
 			public void modifyText(ModifyEvent e) {
 				IPath path = new Path(ImportWizardPage.this.fileSelect.getStringValue());
 				setFileName(path.removeFileExtension().lastSegment());
@@ -219,6 +220,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			@Override
 			protected IStatus run(IProgressMonitor monitor) {
 				Display.getDefault().asyncExec(new Runnable() {
+					@Override
 					public void run() {
 						IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
 						if (newFile != null && page != null) {

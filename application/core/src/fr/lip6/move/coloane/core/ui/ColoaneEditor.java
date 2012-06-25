@@ -192,6 +192,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		@SuppressWarnings("rawtypes")
 		public Object getAdapter(Class type) {
 			if (type == ZoomManager.class) {
@@ -221,6 +222,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 						.getLayer(LayerConstants.PRINTABLE_LAYERS));
 				lws.setContents(thumbnail);
 				disposeListener = new DisposeListener() {
+					@Override
 					public void widgetDisposed(DisposeEvent e) {
 						if (thumbnail != null) {
 							thumbnail.deactivate();
@@ -463,12 +465,14 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		if (input instanceof IFileEditorInput) {
 			final IFile file = ((IFileEditorInput) input).getFile();
 			file.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
+				@Override
 				public void resourceChanged(IResourceChangeEvent event) {
 					if ((event.getType() & IResourceChangeEvent.POST_CHANGE) == IResourceChangeEvent.POST_CHANGE) {
 						IResourceDelta delta = event.getDelta().findMember(file.getFullPath());
 						if (delta != null && delta.getKind() == IResourceDelta.REMOVED) {
 							LOGGER.info("The editor on \"" + delta.getFullPath() + "\" will be closed because the resource has been deleted."); //$NON-NLS-1$ //$NON-NLS-2$
 							Display.getDefault().asyncExec(new Runnable() {
+								@Override
 								public void run() {
 									ColoaneEditor.this.getSite().getPage().closeEditor(ColoaneEditor.this, false);
 								}
@@ -495,6 +499,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		if (this.graph == null) {
 			setEditDomain(new DefaultEditDomain(this));
 			Display.getDefault().asyncExec(new Runnable() {
+				@Override
 				public void run() {
 					getSite().getPage().closeEditor(ColoaneEditor.this, false);
 				}
@@ -633,6 +638,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	public final void commandStackChanged(final EventObject event) {
 		super.commandStackChanged(event);
 		Display.getDefault().asyncExec(new Runnable() {
+			@Override
 			public void run() {
 				firePropertyChange(IEditorPart.PROP_DIRTY);
 			}
@@ -804,6 +810,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getContributorId() {
 		return CONTRIBUTOR_ID;
 	}
@@ -811,6 +818,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final void gotoMarker(IMarker marker) {
 		MarkerManager.getInstance().doGotoMarker(marker);
 	}

@@ -50,6 +50,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Point getLocation() {
 		return new Point(this.x, this.y);
 	}
@@ -70,37 +71,44 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setLocation(Point location) {
 		if (location == null) { return; }
 		setLocation(location.x, location.y);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void resetLocation() {
 		setLocation(-1, -1);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Color getBackground() {
 		return ColorConstants.white;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Color getForeground() {
 		return ColorConstants.black;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setBackground(Color background) {
 		return;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setForeground(Color foreground) {
 		return;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Dimension getSize() {
 		String text = attribute.getValue();
 		Font font = JFaceResources.getDefaultFont();
@@ -108,6 +116,7 @@ public class AttributeGraphicInfo implements IAttributeGraphicInfo {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean isVisible() {
 		return !attribute.getAttributeFormalism().isDrawable();
 	}

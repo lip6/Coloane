@@ -95,6 +95,7 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void handleEvent(Event e) {
 		Widget source = e.widget;
 		// Browse button click !

@@ -48,6 +48,7 @@ public class MenuObserver implements PropertyChangeListener {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void propertyChange(PropertyChangeEvent evt) {
 		Object newValue = evt.getNewValue();
 		if (IApi.API_MENU.equals(evt.getPropertyName())) {
@@ -66,6 +67,7 @@ public class MenuObserver implements PropertyChangeListener {
 			}
 			this.rootMenu.markDirty();
 			Display.getDefault().asyncExec(new Runnable() {
+				@Override
 				public void run() {
 					rootMenu.updateAll(true);
 				}

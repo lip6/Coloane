@@ -39,6 +39,7 @@ public final class AttributeCellEditorLocator implements CellEditorLocator {
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public void relocate(CellEditor celleditor) {
 		Text text = (Text) celleditor.getControl();
 		Rectangle rect = attributeFigure.getTextBounds();

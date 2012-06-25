@@ -57,6 +57,7 @@ public class TriangleNode extends AbstractNodeFigure {
 	/**
 	 * {@inheritDoc}
 	 */
+	@Override
 	public final ConnectionAnchor getConnectionAnchor() {
 		return new AbstractConnectionAnchor(this) {
 			/**
@@ -64,6 +65,7 @@ public class TriangleNode extends AbstractNodeFigure {
 			 *
 			 * Le point retourné est le sommet le plus proche du point de référence
 			 */
+			@Override
 			public Point getLocation(Point reference) {
 				Rectangle r = getBounds();
 

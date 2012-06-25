@@ -60,6 +60,7 @@ public class NodeLocationSection extends AbstractSection<INode> implements Prope
 		}
 
 		/** {@inheritDoc} */
+		@Override
 		public final void modifyText(ModifyEvent e) {
 			Spinner spinner = (Spinner) e.widget;
 

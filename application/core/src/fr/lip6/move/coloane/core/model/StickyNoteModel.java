@@ -65,11 +65,13 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final String getLabelContents() {
 		return text;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setLabelContents(String newText) {
 		LOGGER.finest("Set note value " + newText); //$NON-NLS-1$
 		String oldText = this.text; // Backup the old value
@@ -78,16 +80,19 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final ILocationInfo getLocationInfo() {
 		return this;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Point getLocation() {
 		return this.location;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setLocation(Point location) {
 		LOGGER.finest("Set sticky note location " + location); //$NON-NLS-1$
 		Point oldLocation = getLocation(); // Backup
@@ -96,16 +101,19 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void resetLocation() {
 		setLocation(new Point(0, 0));
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final Dimension getSize() {
 		return this.dimension;
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setSize(Dimension size) {
 		LOGGER.finest("Set sticky note dimensions " + size); //$NON-NLS-1$
 		Dimension oldDimension = getSize(); // Backup old value
@@ -114,6 +122,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final EditorGuide getGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			return this.horizontalGuide;
@@ -123,6 +132,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void setGuide(EditorGuide guide) {
 		if (guide.getOrientation() == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			this.horizontalGuide = guide;
@@ -132,6 +142,7 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void removeGuide(int orientation) {
 		if (orientation == EditorRulerProvider.HORIZONTAL_ORIENTATION) {
 			this.horizontalGuide = null;
@@ -141,17 +152,20 @@ public class StickyNoteModel extends AbstractPropertyChange implements IStickyNo
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final void addLink(ILink link) {
 		links.add(link);
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final List<ILink> getLinks() {
 		return Collections.unmodifiableList(links);
 	}
 
 	/** {@inheritDoc} */
+	@Override
 	public final boolean removeLink(ILink link) {
 		boolean res = links.remove(link);
 		firePropertyChange(INode.INCOMING_ARCS_PROP, null, link);
