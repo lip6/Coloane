@@ -56,25 +56,25 @@ public final class MarkerManager {
 	private static final String PROPERTY_VIEW_ID = "org.eclipse.ui.views.PropertySheet"; //$NON-NLS-1$
 
 	/** ID of the root marker. */
-	private static String ROOT_MARKER = "fr.lip6.move.coloane.core.ui.checker.rootMarker"; //$NON-NLS-1$
+	private static final String ROOT_MARKER = "fr.lip6.move.coloane.core.ui.checker.rootMarker"; //$NON-NLS-1$
 	/** ID of the node marker. */
-	private static String NODE_MARKER = "fr.lip6.move.coloane.core.ui.checker.nodeMarker"; //$NON-NLS-1$
+	private static final String NODE_MARKER = "fr.lip6.move.coloane.core.ui.checker.nodeMarker"; //$NON-NLS-1$
 	/** ID of the node attribute marker. */
-	private static String NODE_ATTRIBUTE_MARKER = "fr.lip6.move.coloane.core.ui.checker.nodeAttributeMarker"; //$NON-NLS-1$
+	private static final String NODE_ATTRIBUTE_MARKER = "fr.lip6.move.coloane.core.ui.checker.nodeAttributeMarker"; //$NON-NLS-1$
 	/** ID of the arc marker. */
-	private static String ARC_MARKER = "fr.lip6.move.coloane.core.ui.checker.arcMarker"; //$NON-NLS-1$
+	private static final String ARC_MARKER = "fr.lip6.move.coloane.core.ui.checker.arcMarker"; //$NON-NLS-1$
 	/** ID of the arc attribute marker. */
-	private static String ARC_ATTRIBUTE_MARKER = "fr.lip6.move.coloane.core.ui.checker.arcAttributeMarker"; //$NON-NLS-1$
+	private static final String ARC_ATTRIBUTE_MARKER = "fr.lip6.move.coloane.core.ui.checker.arcAttributeMarker"; //$NON-NLS-1$
 	/** ID of the graph marker. */
-	private static String GRAPH_MARKER = "fr.lip6.move.coloane.core.ui.checker.graphMarker"; //$NON-NLS-1$
+	private static final String GRAPH_MARKER = "fr.lip6.move.coloane.core.ui.checker.graphMarker"; //$NON-NLS-1$
 	/** ID of the graph attribute marker. */
-	private static String GRAPH_ATTRIBUTE_MARKER = "fr.lip6.move.coloane.core.ui.checker.graphAttributeMarker"; //$NON-NLS-1$
+	private static final String GRAPH_ATTRIBUTE_MARKER = "fr.lip6.move.coloane.core.ui.checker.graphAttributeMarker"; //$NON-NLS-1$
 
 	/** ID the marker attribute "ID". Used to keep the IElement id with which the marker is linked. */
-	private static String ID = "id"; //$NON-NLS-1$
+	private static final String ID = "id"; //$NON-NLS-1$
 
 	/** ATTRIBUTE the marker attribute "ID". Used to keep the IAttribute name with which the marker is linked.(only for attribute markers) */
-	private static String ATTRIBUTE = "attribute"; //$NON-NLS-1$
+	private static final String ATTRIBUTE = "attribute"; //$NON-NLS-1$
 
 	/** The instance */
 	private static MarkerManager instance;
