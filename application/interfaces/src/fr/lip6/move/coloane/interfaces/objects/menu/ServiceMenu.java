@@ -69,6 +69,7 @@ public class ServiceMenu extends ItemMenu implements IServiceMenu {
 	public ServiceMenu(String name, boolean visibility, String helpMessage, IApiService associatedService, boolean global) {
 		super(name, visibility, helpMessage);
 		this.associatedService = associatedService;
+		this.global = global;
 	}
 
 	/**
@@ -83,6 +84,7 @@ public class ServiceMenu extends ItemMenu implements IServiceMenu {
 	public ServiceMenu(String name, boolean visibility, String helpMessage, IApiService associatedService, ImageDescriptor menuIcon, boolean global) {
 		super(name, visibility, helpMessage, menuIcon);
 		this.associatedService = associatedService;
+		this.global = global;
 	}
 
 	/**
