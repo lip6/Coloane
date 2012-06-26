@@ -39,6 +39,7 @@ import fr.lip6.move.coloane.core.ui.palette.PaletteFactory;
 import fr.lip6.move.coloane.core.ui.palette.PaletteToolListener;
 import fr.lip6.move.coloane.core.ui.rulers.EditorRuler;
 import fr.lip6.move.coloane.core.ui.rulers.EditorRulerProvider;
+import fr.lip6.move.coloane.core.ui.views.ModelLabelProvider;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.ByteArrayInputStream;
@@ -284,9 +285,12 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	/** The tools palette */
 	private PaletteRoot paletteRoot;
 	private RulerComposite rulerComposite;
+	private final ModelLabelProvider modelLabelProvider;
 
 	/** Constructor */
-	public ColoaneEditor() { }
+	public ColoaneEditor() {
+		modelLabelProvider = new ModelLabelProvider();
+	}
 
 	/** {@inheritDoc} */
 	@Override
@@ -314,6 +318,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 				MarkerManager.deleteMarkers(resource);
 			}
 		}
+		modelLabelProvider.dispose();
 		super.dispose();
 	}
 
@@ -484,6 +489,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			// Build the model object from its XML representation
 			this.graph = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
 			id = file.getFullPath().toString();
+			setTitleImage(modelLabelProvider.getImage(file));
 		} else if (input instanceof FileStoreEditorInput) {
 			id = ((FileStoreEditorInput) input).getURI().toString();
 			this.graph = ModelLoader.loadGraphFromXML(((FileStoreEditorInput) input).getURI());
@@ -821,4 +827,5 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	public final void gotoMarker(IMarker marker) {
 		MarkerManager.getInstance().doGotoMarker(marker);
 	}
+
 }
