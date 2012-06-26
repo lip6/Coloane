@@ -142,6 +142,7 @@ public class FilteredResourcesPage extends WizardPage {
 			}
 		});
 		checkboxTreeViewer.setInput(input);
+		checkboxTreeViewer.expandAll();
 
 		checkboxTreeViewer.addCheckStateListener(new ICheckStateListener() {
 			@Override
