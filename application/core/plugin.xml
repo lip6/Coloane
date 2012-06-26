@@ -75,7 +75,7 @@
              contributorClass="fr.lip6.move.coloane.core.ui.actions.ColoaneActionBarContributor"
              default="true"
              extensions="%MODEL_EXTENSION"
-             icon="resources/formalisms/ptn/ptn.png"
+             icon="resources/icons/coloane_editor.png"
              id="fr.lip6.move.coloane.editor.petri"
              name="%EDITOR_NAME">
        </editor>
@@ -1037,14 +1037,5 @@
     <persistent
           value="true">
     </persistent>
- </extension>
- <extension
-       point="org.eclipse.ui.decorators">
-    <decorator
-          class="fr.lip6.move.coloane.core.ui.views.ErrorModelDecorator"
-          id="fr.lip6.move.coloane.core.decorator1"
-          label="label"
-          location="BOTTOM_RIGHT">
-    </decorator>
  </extension>
 </plugin>
