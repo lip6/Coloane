@@ -20,17 +20,14 @@ import fr.lip6.move.coloane.core.ui.files.FormalismHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.jface.resource.JFaceResources;
+import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.navigator.IDescriptionProvider;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Provide formalism icons for models and give a short description.
@@ -39,38 +36,43 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * @author Clément Démoulins
  */
 public final class ModelLabelProvider implements ILabelProvider, IDescriptionProvider {
-	private final Image errorImage = AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.ui", "$nl$/icons/full/obj16/error_tsk.gif").createImage(); //$NON-NLS-1$ //$NON-NLS-2$
-	private final Map<Object, Image> images = new HashMap<Object, Image>();
+	private final LocalResourceManager localResourceManager;
+	private final Image unknown;
 
 	/**
-	 * Initialize some default images
+	 * Initialize some default images and decorations
 	 */
 	public ModelLabelProvider() {
-		ILabelProvider decoratingWorkbenchLabelProvider = WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider();
+		localResourceManager = new LocalResourceManager(JFaceResources.getResources());
+		unknown = localResourceManager.createImage(ImageDescriptor.createFromFile(Coloane.class, "/resources/formalisms/unknown.png")); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public Image getImage(Object element) {
-		Image image = images.get(element);
-		if (image == null && element instanceof IFile) {
+		if (element instanceof IFile) {
 			IFile f = (IFile) element;
 			if (f.getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
 				FormalismHandler formalismHandler = ModelLoader.loadFromXML(f, new FormalismHandler());
 				if (formalismHandler != null) {
 					IFormalism formalism = formalismHandler.getFormalism();
 					if (formalism != null) {
-						image = ImageDescriptor.createFromFile(Coloane.class, formalism.getImageName()).createImage();
-						images.put(element, image);
+						Image image;
+						String imagePath = formalism.getImageName();
+
+						if ("/null".equals(imagePath)) { //$NON-NLS-1$
+							image = unknown;
+						} else {
+							image = localResourceManager.createImage(ImageDescriptor.createFromFile(Coloane.class, imagePath));
+						}
 						return image;
 					}
 				}
-				return errorImage;
 			}
 		}
-		return image;
+		return null;
 	}
 
 	/**
@@ -93,10 +95,7 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 	 */
 	@Override
 	public void dispose() {
-		errorImage.dispose();
-		for (Image img : images.values()) {
-			img.dispose();
-		}
+		localResourceManager.dispose();
 	}
 
 	/**
