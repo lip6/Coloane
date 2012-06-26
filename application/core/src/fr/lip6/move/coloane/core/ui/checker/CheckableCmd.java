@@ -31,10 +31,14 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.gef.commands.Command;
 
 /**
- * Users who want to implement a new Command which involve modifying attributes or adding, deleting, ... elements like {@link INode}, {@link IArc} <b>must</b> extend this class.<br>
+ * Users who want to implement a new Command which involve modifying attributes
+ * or adding, deleting, ... elements like {@link INode}, {@link IArc}
+ * <b>must</b> extend this class.<br>
  * If not, the checker won't check these modified, added, deleted ... elements.<br>
- * Just use the {@link CheckableCmd#addCheckableElement(IElement)} method to add the elements to check.<br>
+ * Just use the {@link CheckableCmd#addCheckableElement(IElement)} method to add
+ * the elements to check.<br>
  * For attributes, add the referenced element.
+ * 
  * @author Florian David
  */
 public abstract class CheckableCmd extends Command {
