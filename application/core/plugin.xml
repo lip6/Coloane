@@ -201,6 +201,9 @@
           <contentExtension
                 pattern="fr.lip6.move.coloane.core.treecontents">
           </contentExtension>
+          <contentExtension
+                pattern="org.eclipse.jdt.ui.*">
+          </contentExtension>
        </includes>
     </viewerContentBinding>
     <viewerActionBinding
@@ -220,8 +223,7 @@
           icon="resources/icons/model_contents.gif"
           id="fr.lip6.move.coloane.core.modelcontents"
           labelProvider="fr.lip6.move.coloane.core.ui.views.ModelLabelProvider"
-          name="Model Contents"
-          priority="normal">
+          name="Model Contents">
        <triggerPoints>
        </triggerPoints>
        <possibleChildren>
@@ -1037,5 +1039,22 @@
     <persistent
           value="true">
     </persistent>
+ </extension>
+ <extension
+       point="org.eclipse.ui.decorators">
+    <decorator
+          adaptable="true"
+          class="fr.lip6.move.coloane.core.ui.views.MarkerDecorator"
+          id="fr.lip6.move.coloane.core.decorator"
+          label="Resource Decorator"
+          lightweight="false"
+          location="BOTTOM_LEFT"
+          state="true">
+       <enablement>
+          <objectClass
+                name="org.eclipse.core.resources.IResource">
+          </objectClass>
+       </enablement>
+    </decorator>
  </extension>
 </plugin>

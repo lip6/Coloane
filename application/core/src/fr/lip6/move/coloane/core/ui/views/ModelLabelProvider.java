@@ -25,8 +25,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.IDescriptionProvider;
 
 /**
@@ -35,7 +36,7 @@ import org.eclipse.ui.navigator.IDescriptionProvider;
  *
  * @author Clément Démoulins
  */
-public final class ModelLabelProvider implements ILabelProvider, IDescriptionProvider {
+public final class ModelLabelProvider extends LabelProvider implements ILabelProvider, IDescriptionProvider {
 	private final LocalResourceManager localResourceManager;
 	private final Image unknown;
 
@@ -67,27 +68,16 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 						} else {
 							image = localResourceManager.createImage(ImageDescriptor.createFromFile(Coloane.class, imagePath));
 						}
+						Image decoratedImage = PlatformUI.getWorkbench().getDecoratorManager().decorateImage(image, element);
+						if (decoratedImage != null) {
+							return decoratedImage;
+						}
 						return image;
 					}
 				}
 			}
 		}
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getText(Object element) {
-		return null;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void addListener(ILabelProviderListener listener) {
+		return super.getImage(element);
 	}
 
 	/**
@@ -95,22 +85,8 @@ public final class ModelLabelProvider implements ILabelProvider, IDescriptionPro
 	 */
 	@Override
 	public void dispose() {
+		super.dispose();
 		localResourceManager.dispose();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean isLabelProperty(Object element, String property) {
-		return false;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void removeListener(ILabelProviderListener listener) {
 	}
 
 	/** {@inheritDoc} */
