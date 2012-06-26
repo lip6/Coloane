@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 import fr.lip6.move.coloane.core.ui.views.ModelLabelProvider;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -14,6 +15,7 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -33,17 +35,20 @@ public class FilteredResourcesPage extends WizardPage {
 
 	private final IResourceFilter filter;
 	private CheckboxTreeViewer checkboxTreeViewer;
+	private IStructuredSelection initialSelection;
 
 	/**
 	 * Create the wizard.
 	 * @param pageName Name of this wizard page used as a title
 	 * @param filter resources filter
+	 * @param selection initial selection or <code>null</code>
 	 */
-	public FilteredResourcesPage(String pageName, IResourceFilter filter) {
+	public FilteredResourcesPage(String pageName, IResourceFilter filter, IStructuredSelection selection) {
 		super(pageName);
 		setTitle(pageName);
 		setDescription("Wizard Page description");
 		this.filter = filter;
+		this.initialSelection = selection;
 	}
 
 	/**
@@ -143,6 +148,9 @@ public class FilteredResourcesPage extends WizardPage {
 		});
 		checkboxTreeViewer.setInput(input);
 		checkboxTreeViewer.expandAll();
+		if (initialSelection != null) {
+			checkInitialSelection();
+		}
 
 		checkboxTreeViewer.addCheckStateListener(new ICheckStateListener() {
 			@Override
@@ -154,6 +162,23 @@ public class FilteredResourcesPage extends WizardPage {
 			}
 		});
 		setPageComplete(validate());
+	}
+
+	/**
+	 * 
+	 */
+	private void checkInitialSelection() {
+		Iterator< ? > it = initialSelection.iterator();
+		while (it.hasNext()) {
+			Object element = it.next();
+			if (!(element instanceof IResource)) {
+				continue;
+			}
+			checkboxTreeViewer.setChecked(element, true);
+			if (element instanceof IContainer) {
+				checkboxTreeViewer.setSubtreeChecked(element, true);
+			}
+		}
 	}
 
 	/**
