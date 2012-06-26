@@ -96,8 +96,8 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		String editorArea = layout.getEditorArea();
 
 		// Top left: Resource Navigator
-		IFolderLayout topleft = layout.createFolder("TOPLEFT", IPageLayout.LEFT, topLeftRatio, editorArea);//$NON-NLS-1$
-		topleft.addView(MODEL_NAVIGATOR); 
+		IFolderLayout topleft = layout.createFolder("TOPLEFT", IPageLayout.LEFT, topLeftRatio, editorArea); //$NON-NLS-1$
+		topleft.addView(MODEL_NAVIGATOR);
 		topleft.addView("org.eclipse.jdt.ui.PackageExplorer"); //$NON-NLS-1$
 
 		// Outline view is just after
