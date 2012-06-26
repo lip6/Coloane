@@ -30,7 +30,7 @@ public class ChooseModelsPage extends FilteredResourcesPage implements IWizardPa
 	 * @param selection initial selection
 	 */
 	protected ChooseModelsPage(String pageName, IStructuredSelection selection) {
-		super(pageName, new ModelFilter());
+		super(pageName, new ModelFilter(), selection);
 	}
 
 	/** {@inheritDoc}
