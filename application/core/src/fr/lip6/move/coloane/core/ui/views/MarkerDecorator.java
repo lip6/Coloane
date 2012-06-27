@@ -45,11 +45,11 @@ public class MarkerDecorator implements ILabelDecorator {
 				for (IMarker marker : resource.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_ZERO)) {
 					Integer severity = (Integer) marker.getAttribute(IMarker.SEVERITY);
 					if (severity != null) {
-						if (severity.intValue() == IMarker.SEVERITY_WARNING) {
-							DecorationOverlayIcon overlayIcon = new DecorationOverlayIcon(image, WARNING_IMG, IDecoration.BOTTOM_LEFT);
-							return localResourceManager.createImage(overlayIcon);
-						} else if (severity.intValue() == IMarker.SEVERITY_ERROR) {
+						if (severity.intValue() == IMarker.SEVERITY_ERROR) {
 							DecorationOverlayIcon overlayIcon = new DecorationOverlayIcon(image, ERROR_IMG, IDecoration.BOTTOM_LEFT);
+							return localResourceManager.createImage(overlayIcon);
+						} else if (severity.intValue() == IMarker.SEVERITY_WARNING) {
+							DecorationOverlayIcon overlayIcon = new DecorationOverlayIcon(image, WARNING_IMG, IDecoration.BOTTOM_LEFT);
 							return localResourceManager.createImage(overlayIcon);
 						}
 					}
