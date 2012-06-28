@@ -21,6 +21,7 @@ import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
@@ -105,5 +106,15 @@ public final class ModelLabelProvider extends LabelProvider implements ILabelPro
 			}
 		}
 		return null;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public String getText(Object element) {
+		if (element instanceof IResource) {
+			IResource resource = (IResource) element;
+			return resource.getName();
+		}
+		return super.getText(element);
 	}
 }

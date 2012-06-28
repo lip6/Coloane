@@ -105,6 +105,8 @@ import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.rulers.RulerComposite;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.viewers.DecoratingLabelProvider;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
@@ -118,6 +120,7 @@ import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
@@ -285,11 +288,13 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	/** The tools palette */
 	private PaletteRoot paletteRoot;
 	private RulerComposite rulerComposite;
+	private final ILabelProvider labelProvider;
 	private final ModelLabelProvider modelLabelProvider;
 
 	/** Constructor */
 	public ColoaneEditor() {
 		modelLabelProvider = new ModelLabelProvider();
+		labelProvider = new DecoratingLabelProvider(modelLabelProvider, PlatformUI.getWorkbench().getDecoratorManager().getLabelDecorator());
 	}
 
 	/** {@inheritDoc} */
@@ -312,12 +317,13 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		if (this.graph != null) {
 			// Remove the stack listener dedicated to markers (problem view)
 			this.getCommandStack().removeCommandStackEventListener(checkStackManager);
-			IResource resource = (IResource) getEditorInput().getAdapter(IResource.class);
 			// Remove all markers associated to the model that will be closed
-			if (resource != null) {
-				MarkerManager.deleteMarkers(resource);
-			}
+//			IResource resource = (IResource) getEditorInput().getAdapter(IResource.class);
+//			if (resource != null) {
+//				MarkerManager.deleteMarkers(resource);
+//			}
 		}
+		labelProvider.dispose();
 		modelLabelProvider.dispose();
 		super.dispose();
 	}
@@ -489,7 +495,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			// Build the model object from its XML representation
 			this.graph = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
 			id = file.getFullPath().toString();
-			setTitleImage(modelLabelProvider.getImage(file));
+			setTitleImage(labelProvider.getImage(file));
 		} else if (input instanceof FileStoreEditorInput) {
 			id = ((FileStoreEditorInput) input).getURI().toString();
 			this.graph = ModelLoader.loadGraphFromXML(((FileStoreEditorInput) input).getURI());

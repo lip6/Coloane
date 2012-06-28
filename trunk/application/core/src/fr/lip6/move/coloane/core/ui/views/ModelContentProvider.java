@@ -136,9 +136,31 @@ public final class ModelContentProvider implements ITreeContentProvider, IResour
 			}
 
 			return children.toArray();
+//		} else if (parentElement instanceof IContainer) {
+//			IContainer container = (IContainer) parentElement;
+//			try {
+//				return filterResources(container.members(), ".*/\\..*"); //$NON-NLS-1$
+//			} catch (CoreException e) {
+//				return null;
+//			}
 		}
 		return null;
 	}
+
+	/**
+	 * @param resources resource to filter
+	 * @param regex regex @see {@link Pattern}
+	 * @return resources without the resources matching the regex
+	 */
+//	private static IResource[] filterResources(IResource[] resources, String regex) {
+//		List<IResource> filteredList = new ArrayList<IResource>();
+//		for (IResource resource : resources) {
+//			if (!resource.getFullPath().toString().matches(regex)) {
+//				filteredList.add(resource);
+//			}
+//		}
+//		return filteredList.toArray(new IResource[0]);
+//	}
 
 	/**
 	 * {@inheritDoc}
