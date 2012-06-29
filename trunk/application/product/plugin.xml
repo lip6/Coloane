@@ -16,6 +16,10 @@
                  name="aboutText"
                  value="Coloane Modeler&#x0A;Version:  1.0-SNAPSHOT">
            </property>
+           <property
+                 name="aboutImage"
+                 value="platform:/plugin/fr.lip6.move.coloane.core/resources/icons/coloane_feature.png">
+           </property>
         </product>
     </extension>
     <extension
