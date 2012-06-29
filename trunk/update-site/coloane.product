@@ -22,11 +22,11 @@ Version:  1.0-SNAPSHOT
 
 
    <launcher name="coloane">
-      <linux icon="icons/alt_launcher.xpm"/>
-      <macosx icon="icons/alt_launcher.icns"/>
+      <linux icon="icons/coloane.xpm"/>
+      <macosx icon="icons/coloane.icns"/>
       <solaris/>
       <win useIco="true">
-         <ico path="icons/alt_launcher.ico"/>
+         <ico path="/icons/coloane.ico"/>
          <bmp/>
       </win>
    </launcher>
