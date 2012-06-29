@@ -18,7 +18,8 @@ Version:  1.0-SNAPSHOT
       <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts</vmArgsMac>
    </launcherArgs>
 
-   <windowImages/>
+   <windowImages i16="/fr.lip6.move.coloane.core/resources/icons/coloane_16.png" i32="/fr.lip6.move.coloane.core/resources/icons/coloane_32.png" i48="/fr.lip6.move.coloane.core/resources/icons/coloane_48.png" i64="/fr.lip6.move.coloane.core/resources/icons/coloane_64.png" i128="/fr.lip6.move.coloane.core/resources/icons/coloane_128.png"/>
+
 
    <launcher name="coloane">
       <linux icon="icons/alt_launcher.xpm"/>

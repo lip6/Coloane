@@ -20,6 +20,10 @@
                  name="aboutImage"
                  value="platform:/plugin/fr.lip6.move.coloane.core/resources/icons/coloane_feature.png">
            </property>
+           <property
+                 name="windowImages"
+                 value="platform:/plugin/fr.lip6.move.coloane.core/resources/icons/coloane_16.png,platform:/plugin/fr.lip6.move.coloane.core/resources/icons/coloane_32.png,platform:/plugin/fr.lip6.move.coloane.core/resources/icons/coloane_48.png,platform:/plugin/fr.lip6.move.coloane.core/resources/icons/coloane_64.png,platform:/plugin/fr.lip6.move.coloane.core/resources/icons/coloane_128.png">
+           </property>
         </product>
     </extension>
     <extension
