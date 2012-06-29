@@ -18,7 +18,7 @@
            </property>
            <property
                  name="aboutImage"
-                 value="platform:/plugin/fr.lip6.move.coloane.core/resources/icons/coloane_feature.png">
+                 value="platform:/plugin/fr.lip6.move.coloane.core/resources/icons/coloane_64.png">
            </property>
            <property
                  name="windowImages"
