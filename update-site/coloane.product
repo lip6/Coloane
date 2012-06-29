@@ -4,7 +4,7 @@
 <product name="Coloane" uid="coloane" id="fr.lip6.move.coloane.product.eclipse-repository" application="fr.lip6.move.coloane.product.application" version="1.0.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
-      <image path="/fr.lip6.move.coloane.core/resources/icons/coloane_feature.png"/>
+      <image path="/fr.lip6.move.coloane.core/resources/icons/coloane_64.png"/>
       <text>
          Coloane Modeler
 Version:  1.0-SNAPSHOT
