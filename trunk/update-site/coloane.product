@@ -26,7 +26,7 @@ Version:  1.0-SNAPSHOT
       <macosx icon="icons/coloane.icns"/>
       <solaris/>
       <win useIco="true">
-         <ico path="/icons/coloane.ico"/>
+         <ico path="icons/coloane.ico"/>
          <bmp/>
       </win>
    </launcher>
