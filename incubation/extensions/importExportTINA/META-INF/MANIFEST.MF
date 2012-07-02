@@ -6,9 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.extensions.importExportTINA.Activator
 Require-Bundle: fr.lip6.move.coloane.core,
  fr.lip6.move.coloane.interfaces,
- fr.lip6.move.coloane.thirdparty,
- org.eclipse.ui,
- org.eclipse.core.runtime
+ fr.lip6.move.coloane.thirdparty
 Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
