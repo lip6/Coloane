@@ -25,8 +25,8 @@
    </url>
 
    <requires>
-      <import plugin="fr.lip6.move.coloane.core" version="0.16.2" match="greaterOrEqual"/>
-      <import plugin="fr.lip6.move.coloane.interfaces"/>
+      <import feature="fr.lip6.move.coloane.features.main"/>
+      <import feature="fr.lip6.move.coloane.features.thirdparty"/>
    </requires>
 
    <plugin

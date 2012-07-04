@@ -25,9 +25,8 @@
     </url>
 
     <requires>
-        <import plugin="fr.lip6.move.coloane.core"/>
-        <import plugin="fr.lip6.move.coloane.interfaces"/>
         <import plugin="fr.lip6.move.coloane.extensions.exportToGML"/>
+        <import feature="fr.lip6.move.coloane.features.main"/>
     </requires>
 
     <plugin

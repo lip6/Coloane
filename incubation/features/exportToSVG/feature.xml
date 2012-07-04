@@ -25,11 +25,8 @@
    </url>
 
    <requires>
-      <import plugin="fr.lip6.move.coloane.core"/>
-      <import plugin="fr.lip6.move.coloane.interfaces"/>
-      <import plugin="fr.lip6.move.coloane.thirdparty"/>
-      <import plugin="org.eclipse.ui"/>
-      <import plugin="org.eclipse.core.runtime"/>
+      <import feature="fr.lip6.move.coloane.features.main"/>
+      <import feature="fr.lip6.move.coloane.features.thirdparty"/>
    </requires>
 
    <plugin

@@ -25,8 +25,8 @@
    </url>
 
    <requires>
-      <import plugin="fr.lip6.move.coloane.core" match="greaterOrEqual"/>
       <import plugin="fr.lip6.move.coloane.projects.expressions"/>
+      <import feature="fr.lip6.move.coloane.features.main"/>
    </requires>
 
    <plugin
