@@ -1,9 +1,0 @@
-package fr.lip6.dependance_calcul;
-
-public class Operation_dependance {
-
-	public Operation_dependance() {
-		// TODO Auto-generated constructor stub
-	}
-
-}

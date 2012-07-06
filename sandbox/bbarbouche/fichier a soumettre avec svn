@@ -1,5 +1,0 @@
-Lors d'une soumission d'un projet maven,il faut tout soumettre sauf le repertoire target,les fichiers IDE et tout autre fichier /repertoire généré par le build  
-(classpath,.project,.checkstyle...),cela amène des problèmes sinon.
-
-suggestion: vous avec la propriété svn:ignore mais ca je pense que vous le savez deja :-)
-

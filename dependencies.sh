@@ -162,10 +162,11 @@ function addStat() {
 }
 
 function main() {
+    paths="$@"
     debug "main $@"
     init
     debug "plugin dependencies"
-    for manifest in $(find . -name MANIFEST.MF $IGNORE); do
+    for manifest in $(find $paths -name MANIFEST.MF $IGNORE); do
         id="$(getManifestId $manifest)"
         IFS=$'\n'
         deps="$(getManifestDependencies "$manifest")"
@@ -178,7 +179,7 @@ function main() {
         done
     done
     debug "feature dependencies"
-    for feature in $(find . -name feature.xml $IGNORE); do
+    for feature in $(find $paths -name feature.xml $IGNORE); do
         id="$(getFeatureId $feature)"
         IFS=$'\n'
         deps="$(getFeatureDependencies "$feature")"
@@ -191,7 +192,7 @@ function main() {
         done
     done
     debug "update-site dependencies"
-    for site in $(find . -name category.xml $IGNORE); do
+    for site in $(find $paths -name category.xml $IGNORE); do
         debug "parse $site"
         id="$(getUpdateSiteId $site)"
         features="$(getUpdateSiteFeatures "$site")"
@@ -207,7 +208,7 @@ function main() {
         print "  $node [label=\"$node\" $(getSize $node)]"
     done
     debug "create nodes from manifests"
-    for manifest in $(find . -name MANIFEST.MF $IGNORE); do
+    for manifest in $(find $paths -name MANIFEST.MF $IGNORE); do
         debug "parse $manifest"
         id="$(getManifestId $manifest)"
         name="$(getManifestName $manifest)"
@@ -226,14 +227,14 @@ function main() {
         fi
     done
     debug "create nodes from features"
-    for feature in $(find . -name feature.xml $IGNORE); do
+    for feature in $(find $paths -name feature.xml $IGNORE); do
         debug "parse $feature"
         id="$(getFeatureId $feature)"
         name="$(getFeatureName $feature)"
         create_feature "$id" "$name"
     done
     debug "create nodes from update-sites"
-    for site in $(find . -name category.xml $IGNORE); do
+    for site in $(find $paths -name category.xml $IGNORE); do
         debug "parse $site"
         id="$(getUpdateSiteId $site)"
         name="$(getUpdateSiteName $site)"

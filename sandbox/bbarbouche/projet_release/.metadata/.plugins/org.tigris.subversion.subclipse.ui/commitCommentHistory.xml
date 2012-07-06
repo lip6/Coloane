@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CommitComments>	<CommitComment>projet fils qui utilise les dependances:projet_maven4</CommitComment>
-	<CommitComment>Mini-projet final,tout les problemes ont été reglé.
-Ceci est le projet pere:projet_maven3</CommitComment>
-	<CommitComment>le projet tourne sous maven sauf qu&apos;il ne m&apos;execute pas les tests unitaires</CommitComment>
-	<CommitComment>Deux projets pour tester les dependances sur maven</CommitComment>
-	<CommitComment>Initial import.</CommitComment>
-</CommitComments>
