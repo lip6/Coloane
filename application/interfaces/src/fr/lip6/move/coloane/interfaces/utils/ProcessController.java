@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Logger;
 
 /**
  * Executes an external process synchronously, allowing the client to define a
@@ -43,6 +44,9 @@ public class ProcessController {
 			super(message);
 		}
 	}
+
+	/** Logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.interfaces"); //$NON-NLS-1$
 
 	private boolean finished;
 	private OutputStream forwardStdErr;
@@ -91,8 +95,9 @@ public class ProcessController {
 					process.waitFor();
 				} catch (InterruptedException e) {
 					// timeout !!
-				} catch (IOException e2) {
-					System.err.println(e2);
+					LOGGER.warning(e.getMessage());
+				} catch (IOException e) {
+					LOGGER.warning(e.getMessage());
 				}
 			}
 		});
@@ -111,7 +116,8 @@ public class ProcessController {
 				forwardStreams();
 			}
 		} catch (InterruptedException e) {
-			finish();
+			markFinished();
+			forwardStreams();
 			return process.exitValue();
 		}
 		if (waiter.isAlive()) {
@@ -122,11 +128,6 @@ public class ProcessController {
 			throw new TimeOutException();
 		}
 		return process.exitValue();
-	}
-
-	private void finish() {
-		markFinished();
-		forwardStreams();
 	}
 
 	/**
@@ -173,7 +174,7 @@ public class ProcessController {
 			}
 			out.flush();
 		} catch (IOException e) {
-			//Coloane.showWarningMsg(e.getMessage());
+			LOGGER.warning(e.getMessage());
 		}
 	}
 
