@@ -1,0 +1,212 @@
+\documentclass{beamer}
+
+\usepackage[french]{babel}
+\usepackage{ucs}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{positioning,calc,shapes.multipart,shapes.geometric,arrows,fit,petri,automata,matrix}
+
+\title{Coloane}
+\subtitle{Environnement et Architecture}
+\author[Clément Démoulins]{Clément Démoulins \\ \texttt{clement.demoulins@lip6.fr}}
+\institute{Lip6}
+\date{7 décembre 2011}
+
+% Theme
+%\usetheme{Hannover}
+%\usetheme{Bergen}
+\usetheme{Warsaw}
+
+\useoutertheme{infolines}
+%\useoutertheme{miniframes}
+
+% logo
+\titlegraphic{\center
+	\parbox{2cm}{\includegraphics[width=2.0cm]{palmier}}
+	\hspace{20pt}
+	\parbox{1.3cm}{\includegraphics[width=1.3cm]{lip6}}
+}
+
+\usebeamercolor{block title}
+\usebeamercolor{block title example}
+\usebeamercolor{block title alerted}
+\colorlet{Green}{block title example.bg}
+\colorlet{Red}{block title alerted.bg}
+
+\begin{document}
+
+\frame{\titlepage}
+
+
+
+\begin{frame}{Environnement}
+\begin{block}{Java {\footnotesize $\geq 5$}}
+\begin{itemize}
+\item Langage de base
+\end{itemize}
+\end{block}
+\begin{block}{Eclipse {\footnotesize $\geq 3.6$ Helios}}
+\begin{itemize}
+\item Plateforme d'exécution
+\item Plateforme de développement
+\item Utilisation du plugin \texttt{Graphical Editing Framework} (GEF)
+\item Utilisation du plugin M2Eclipse
+\end{itemize}
+\end{block}
+\begin{block}{Maven {\footnotesize $\geq 3$} \& Plugin Tycho}
+\begin{itemize}
+\item Gestionnaire de \texttt{build}
+\item Gestionnaire de \texttt{packaging}
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+
+\begin{frame}{Infrastructure}
+\begin{exampleblock}{\texttt{coloane.lip6.fr}}
+\begin{itemize}
+\item Dépôt Subversion
+\item Gestionnaire de ticket \& Wiki (\texttt{Trac})
+\item Dépôts Eclipse (\texttt{Update-site})
+\end{itemize}
+\end{exampleblock}
+\begin{exampleblock}{\texttt{teamcity-systeme.lip6.fr}}
+\begin{itemize}
+\item Platforme d'intégration continue (\texttt{TeamCity})
+\item Dépôt d'artefact Maven (\texttt{Nexus})
+\item Gestionnaire métriques \& tests \& qualité (\texttt{Sonar})
+\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}{Architecture}{Composants}
+\begin{center}
+\begin{tikzpicture}[
+	node distance=5pt,
+	element/.style={draw,rectangle,rounded corners,minimum height=20pt,thick},
+	every text node part/.style={align=center},
+]
+
+\node [element,minimum width=60pt,draw=Green,fill=Green!20] (core)
+	{Core};
+\node [element,minimum width=80pt,draw=Green,fill=Green!20,right=of core] (interfaces)
+	{Interfaces};
+\node [element,dashed,inner sep=2pt,draw=Green,fit=(core) (interfaces)] (middleline) {};
+
+\node [element,fill=black!20,draw=black!75,minimum width=152pt,below=of middleline] (eclipse)
+	{Eclipse framework $+$ GEF};
+
+\draw [very thick,draw=Red] ($(middleline.north west) + (14pt,60pt)$) arc (-180:0:6pt) arc (0:-90:6pt) -- node[color=Red,above,rotate=90] {imports} ($(middleline.north west) + (20pt,0)$);
+\draw [very thick,draw=Red] ($(middleline.north west) + (34pt,60pt)$) arc (-180:0:6pt) arc (0:-90:6pt) -- node[color=Red,above,rotate=90] {exports} ($(middleline.north west) + (40pt,0)$);
+\draw [very thick,draw=Red] ($(middleline.north west) + (54pt,60pt)$) arc (-180:0:6pt) arc (0:-90:6pt) -- node[color=Red,above,rotate=90] {formalisms} ($(middleline.north west) + (60pt,0)$);
+\draw [very thick,draw=Red] ($(middleline.north west) + (74pt,60pt)$) arc (-180:0:6pt) arc (0:-90:6pt) -- node[color=Red,above,rotate=90] {examples} ($(middleline.north west) + (80pt,0)$);
+\draw [very thick,draw=Red] ($(middleline.north west) + (94pt,60pt)$) arc (-180:0:6pt) arc (0:-90:6pt) -- node[color=Red,above,rotate=90] {apis} ($(middleline.north west) + (100pt,0)$);
+\draw [very thick,draw=Red] ($(middleline.north west) + (114pt,60pt)$) arc (-180:0:6pt) arc (0:-90:6pt) -- node[color=Red,above,rotate=90] {tools} ($(middleline.north west) + (120pt,0)$);
+\draw [very thick,draw=Red] ($(middleline.north west) + (134pt,60pt)$) arc (-180:0:6pt) arc (0:-90:6pt) -- node[color=Red,above,rotate=90] {reports} ($(middleline.north west) + (140pt,0)$);
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}{Extensions existantes}
+\begin{itemize}
+\item \textbf{Formalismes} : PT Net, CPN, Reachibility Graph, Decision Diagram, Cosmos, GSPN, ITS, TPN
+\item \textbf{Imports/Exports} : CAMI, PNML, ITS, ROMEO, TINA
+\item \textbf{Imports} : PROD, SGROMEO
+\item \textbf{Exports} : DOT, GML, PGF, SVG
+\item \textbf{Outils} : Crocodile, Dot layout
+\item \textbf{APIs} : AlligatorApi
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Architecture}{Core}
+\footnotesize
+\begin{itemize}
+\item \textbf{core.extensions} Chargement et gestion de la plus part des points d'extensions
+\item \textbf{core.formalisms.*} Chargement et gestion des formalismes
+\item \textbf{core.models.*} Classes de la partie Modèle du MVC pour l'éditeur \texttt{ColoaneEditor}
+\item \textbf{core.session} Un objet Session est lié à chaque \texttt{ColoaneEditor}
+\item \textbf{core.ui.commands.*} Controlleurs
+\item \textbf{core.ui.editpart} Vues
+\item \textbf{core.ui.figures.*} Classes se chargeant du dessin des nœuds, arcs, notes, …
+\item \textbf{core.ui.files} Gestion du chargement et de l'écriture des modèles dans le workspace
+\item \textbf{core.ui.properties.*} Affichage des propriétés d'un modèles dans la vue \texttt{Properties} d'Eclipse
+\item \textbf{core.ui.views} Navigateur de modèles
+\item \textbf{core.ui.wizard} «Boîte de dialogue évoluée» pour l'export, l'import et la création de modèles
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Liens utiles}
+\begin{itemize}
+\item \url{https://coloane.lip6.fr/trac/} Trac de Coloane
+\item \url{https://teamcity-systeme.lip6.fr/} TeamCity
+\item \url{https://teamcity-systeme.lip6.fr/nexus/} Nexus
+\item \url{https://teamcity-systeme.lip6.fr/sonar/} Sonar
+\item \url{https://coloane.lip6.fr/trac/wiki/perso/demoulins} Information technique pouvant être utiles
+\item \url{http://www.eclipsezone.com/eclipse/forums/c5605.html} Forum avec des informations liées au développement de plugin Eclipse
+\item \url{http://keulkeul.blogspot.com/} Tutoriels
+\item \url{http://www.psykokwak.com/blog/index.php/tag/gef} Tutoriels
+\item \url{http://wiki.eclipse.org/Category:Tycho} Wiki du plugin Tycho
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Mécanisme d'extension}
+\begin{block}{Point d'extension}
+	\begin{itemize}
+	\item Système d'extension d'Eclipse
+	\item Description XML
+	\item Spécification d'attributs simple ou de code
+	\end{itemize}
+\end{block}
+\begin{exampleblock}{Example : exports}
+	\begin{itemize}
+	\item Identifiant
+	\item Nom
+	\item Wizard
+	\item Extension
+	\item Classe implémentant l'interface \texttt{IExportTo}
+	\item Liste des formalismes supportés
+	\end{itemize}
+\end{exampleblock}
+\end{frame}
+
+
+
+\begin{frame}{Build de Coloane}
+\begin{columns}[t]
+	\begin{column}{6cm}
+		\begin{block}{Développeur}
+			\begin{enumerate}
+			\item Checkout de : core, interfaces et des extensions
+			\item (Optionnel) Récupérer les dépendances de certaine extension, \textit{Run As/Maven generate-sources}
+			\item Démarrer Coloane, \textit{Run Eclipse Application}
+			\end{enumerate}
+		\end{block}
+	\end{column}
+	\begin{column}{5cm}
+		\begin{alertblock}{Intégration continue}
+			\begin{enumerate}
+			\item Checkout du trunk complet de Coloane
+			\item Build avec la commande \texttt{mvn package}
+			\item Un \texttt{Update-site} est créé dans le dossier /trunk/update-site/target/repository/
+			\end{enumerate}
+		\end{alertblock}
+	\end{column}
+\end{columns}
+\end{frame}
+
+
+
+\end{document}
