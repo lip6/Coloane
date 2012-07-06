@@ -1,8 +1,0 @@
-Main-Class: emasliah.proxy.ProxyThread
-Specification-Title: "Transparent proxy"
-Specification-Version: "1.0" 
-Specification-Vendor: "Didier Frick (dfrick@dial.eunet.ch)"
-Implementation-Title: "emasliah.proxy"
-Implementation-Vendor: "Didier Frick (dfrick@dial.eunet.ch)"
-Implementation-Version: "Tue Jul 11 14:16:50 CEST 2007"
-

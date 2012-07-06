@@ -1,4 +1,0 @@
-mvn deploy:deploy-file -Dfile=/home/emasliah/mojos/maven-pst/maven-psteclipse-plugin/target/org.foo.bar.baz.foo-1.0.0.jar -DgroupId=null -DartifactId=org.foo.bar.baz.foo -Dversion=1.0.0 -Dpackaging=jar -DrepositoryId=pstapollodev -Durl=scp://nobox/norepo
-mvn deploy:deploy-file -Dfile=/home/emasliah/mojos/maven-pst/maven-psteclipse-plugin/target/org.foo.bar.baz.bar-1.0.0.jar -DgroupId=null -DartifactId=org.foo.bar.baz.bar -Dversion=1.0.0 -Dpackaging=jar -DrepositoryId=pstapollodev -Durl=scp://nobox/norepo
-mvn deploy:deploy-file -Dfile=/home/emasliah/mojos/maven-pst/maven-psteclipse-plugin/target/org.foo.bar.baz.baz-1.0.0.jar -DgroupId=null -DartifactId=org.foo.bar.baz.baz -Dversion=1.0.0 -Dpackaging=jar -DrepositoryId=pstapollodev -Durl=scp://nobox/norepo
-mvn -f /home/emasliah/mojos/maven-pst/maven-psteclipse-plugin/target/org.foo.bar.baz-1.0.0.pom deploy:deploy

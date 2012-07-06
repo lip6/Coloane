@@ -1,8 +1,0 @@
-INDEX VERSION 1.121+/home/mchaouki/workspace3/.metadata/.plugins/org.eclipse.jdt.core
-4013420152.index
-590602864.index
-554473446.index
-2999469018.index
-553951902.index
-3499257025.index
-7551155.index
