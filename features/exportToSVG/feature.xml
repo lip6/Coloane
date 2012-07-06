@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.features.alligator"
-      label="Coloane - Alligator Platform"
+      id="fr.lip6.move.coloane.features.exportToSVG"
+      label="Coloane - Export to SVG"
       version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This feature brings Alligator connection.
+      This feature brings SVG export to Coloane.
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -21,18 +21,16 @@
    </license>
 
    <url>
-      <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
+      <update label="Coloane Incubation-Updates Site" url="http://coloane.lip6.fr/incubation-updates/"/>
    </url>
 
    <requires>
       <import feature="fr.lip6.move.coloane.features.main"/>
-      <import feature="fr.lip6.move.coloane.features.exportToGML"/>
-      <import feature="fr.lip6.move.coloane.features.importExportCAMI"/>
-      <import feature="fr.lip6.move.coloane.features.importExportLOLA"/>
+      <import feature="fr.lip6.move.coloane.features.thirdparty"/>
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.apis.alligator"
+         id="fr.lip6.move.coloane.extensions.exportToSVG"
          download-size="0"
          install-size="0"
          version="0.0.0"

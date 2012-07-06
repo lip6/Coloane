@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.features.alligator"
-      label="Coloane - Alligator Platform"
+      id="fr.lip6.move.coloane.features.importExportLOLA"
+      label="Coloane - Import/Export From LOLA"
       version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This feature brings Alligator connection.
+      This feature brings LOLA interchange for Petri nets in the low-level format used by the tool LOLA (Rostock Univ.)
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -26,13 +26,10 @@
 
    <requires>
       <import feature="fr.lip6.move.coloane.features.main"/>
-      <import feature="fr.lip6.move.coloane.features.exportToGML"/>
-      <import feature="fr.lip6.move.coloane.features.importExportCAMI"/>
-      <import feature="fr.lip6.move.coloane.features.importExportLOLA"/>
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.apis.alligator"
+         id="fr.lip6.move.coloane.extensions.importExportLOLA"
          download-size="0"
          install-size="0"
          version="0.0.0"
