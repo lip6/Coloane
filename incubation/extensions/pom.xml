@@ -16,12 +16,10 @@
 
     <modules>
         <module>importExportROMEO</module>
-        <module>importExportLOLA</module>
         <module>importFromPROD</module>
         <module>importFromSGROMEO</module>
         <module>importExportITS</module>
         <module>importExportTINA</module>
-        <module>exportToSVG</module>
         <module>examples</module>
     </modules>
 </project>

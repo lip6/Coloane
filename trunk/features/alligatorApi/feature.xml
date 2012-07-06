@@ -28,6 +28,7 @@
       <import feature="fr.lip6.move.coloane.features.main"/>
       <import feature="fr.lip6.move.coloane.features.exportToGML"/>
       <import feature="fr.lip6.move.coloane.features.importExportCAMI"/>
+      <import feature="fr.lip6.move.coloane.features.importExportLOLA"/>
    </requires>
 
    <plugin

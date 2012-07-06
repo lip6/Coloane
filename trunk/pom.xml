@@ -34,11 +34,7 @@
     </organization>
 
     <properties>
-        <!-- A changer lors du passage à Maven 2.1 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!-- Pour le déploiement (uniquement sur la machine coloane.lip6.fr) -->
-        <project.deployPath>/data/coloane</project.deployPath>
-
         <tycho-version>0.14.0</tycho-version>
         <sonar.exclusions>**/Messages.java</sonar.exclusions>
     </properties>
@@ -48,6 +44,11 @@
             <id>helios</id>
             <layout>p2</layout>
             <url>http://download.eclipse.org/releases/helios</url>
+        </repository>
+        <repository>
+            <id>gef</id>
+            <layout>p2</layout>
+            <url>http://download.eclipse.org/tools/gef/updates/releases/</url>
         </repository>
 <!--        <repository>-->
 <!--            <id>coloane</id>-->
@@ -72,19 +73,6 @@
             <organizationUrl>http://www.lip6.fr</organizationUrl>
             <roles>
                 <role>team-leader</role>
-            </roles>
-            <timezone>+1</timezone>
-        </developer>
-        <developer>
-            <id>jbvoron</id>
-            <name>Jean-Baptiste Voron</name>
-            <email>Jean-Baptiste.Voron@lip6.fr</email>
-            <url>http://pagesperso-systeme.lip6.fr/Jean-Baptiste.Voron/</url>
-            <organization>LIP6</organization>
-            <organizationUrl>http://www.lip6.fr</organizationUrl>
-            <roles>
-                <role>project-manager</role>
-                <role>developer</role>
             </roles>
             <timezone>+1</timezone>
         </developer>
@@ -126,6 +114,18 @@
 
     <!-- Les contributeurs : Anciens développeurs -->
     <contributors>
+        <contributor>
+            <name>Jean-Baptiste Voron</name>
+            <email>Jean-Baptiste.Voron@lip6.fr</email>
+            <url>http://pagesperso-systeme.lip6.fr/Jean-Baptiste.Voron/</url>
+            <organization>LIP6</organization>
+            <organizationUrl>http://www.lip6.fr</organizationUrl>
+            <roles>
+                <role>project-manager</role>
+                <role>developer</role>
+            </roles>
+            <timezone>+1</timezone>
+        </contributor>
         <contributor>
             <name>Alban Linard</name>
             <organization>LIP6</organization>

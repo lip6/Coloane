@@ -31,10 +31,8 @@
     </organization>
 
     <properties>
-        <!-- A changer lors du passage à Maven 2.1 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <tycho-version>0.13.0</tycho-version>
+        <tycho-version>0.14.0</tycho-version>
         <sonar.exclusions>**/Messages.java</sonar.exclusions>
     </properties>
 

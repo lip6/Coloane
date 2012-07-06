@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.feature.importExportLOLA"
-      label="Coloane - Import/Export From LOLA"
+      id="fr.lip6.move.coloane.features.exportToSVG"
+      label="Coloane - Export to SVG"
       version="1.0.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This feature brings LOLA interchange for Petri nets in the low-level format used by the tool LOLA (Rostock Univ.)
+      This feature brings SVG export to Coloane.
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -21,15 +21,16 @@
    </license>
 
    <url>
-      <update label="Coloane Night-Updates Site" url="http://coloane.lip6.fr/night-updates/"/>
+      <update label="Coloane Incubation-Updates Site" url="http://coloane.lip6.fr/incubation-updates/"/>
    </url>
 
    <requires>
       <import feature="fr.lip6.move.coloane.features.main"/>
+      <import feature="fr.lip6.move.coloane.features.thirdparty"/>
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.extensions.importExportLOLA"
+         id="fr.lip6.move.coloane.extensions.exportToSVG"
          download-size="0"
          install-size="0"
          version="0.0.0"
