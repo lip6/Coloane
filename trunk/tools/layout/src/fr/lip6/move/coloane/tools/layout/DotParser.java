@@ -32,6 +32,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.draw2d.geometry.PrecisionPoint;
 
 /**
  The plain and plain-ext formats produce output using a simple, line-based language.<br>
@@ -186,7 +187,7 @@ public final class DotParser {
 	private static Point parsePoint(StringTokenizer st) {
 		float x = 100 * Float.parseFloat(st.nextToken());
 		float y = 100 * Float.parseFloat(st.nextToken());
-		return new Point(x, y);
+		return new PrecisionPoint(x, y);
 	}
 	
 	/**
