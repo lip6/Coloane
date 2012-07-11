@@ -81,6 +81,9 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 	/** The import type */
 	private String importType;
 
+	/** The currently selected ressource */
+	private IStructuredSelection selection;
+
 	/**
 	 * Constructor
 	 * @param workbench The current workbench
@@ -97,6 +100,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		this.workbench = workbench;
 		this.worker = worker;
 		this.importType = importType;
+		this.selection = selection;
 	}
 
 	/** {@inheritDoc} */
@@ -136,9 +140,23 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		for (IFormalism formalism : listOfFormalisms) {
 			formSelect.add(formalism.getName());
 		}
+		// Pre selecty the formalism if any are available. Very useful when there is only one supported formalism. 
+		if (listOfFormalisms.size() > 0) {
+			formSelect.select(0);
+		}
 
 		String[] extensions = new String[] {"*.*"}; //$NON-NLS-1$
 		fileSelect = new FileFieldEditor("fileSelect", "Select File: ", fileSelectionArea); //$NON-NLS-1$ //$NON-NLS-2$
+		
+		
+		// This piece of code tries to grab the currently selected resource.
+		try {
+			String path = ((IFile) selection.getFirstElement()).getLocation().toString();
+			fileSelect.setStringValue(path);
+		} catch (ClassCastException e) {
+			// NOP, it's not really a problem. The user perhaps triggred import using a  menu action rather than a right click.
+		}
+		
 		fileSelect.getTextControl(fileSelectionArea).addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
