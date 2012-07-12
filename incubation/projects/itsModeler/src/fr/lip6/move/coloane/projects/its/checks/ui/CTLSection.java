@@ -67,10 +67,14 @@ public class CTLSection {
 	private void createDetails(Composite parent2) {
 
 		if (section != null) {
-			section.dispose();
-			section = null;
-			helpSection.dispose();
-			helpSection = null;
+			try  {
+				section.dispose();
+				section = null;
+				helpSection.dispose();
+				helpSection = null;
+			} catch (SWTException e) {
+				// might happen that the widgets are already disposed. This is not really a problem.
+			}
 		}
 		{
 			section = toolkit.createSection(parent,
