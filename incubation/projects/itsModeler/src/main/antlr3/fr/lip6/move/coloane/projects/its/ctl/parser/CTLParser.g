@@ -30,13 +30,16 @@ import fr.lip6.move.coloane.projects.its.variables.*;
     public void setErrorReporter(CTLText errorReporter) {
         this.errorReporter = errorReporter;
     }
-    public void emitErrorMessage(String msg,int charAt) {
-        errorReporter.reportError(msg,charAt);
+    public void emitErrorMessage(String msg, int charAt, int len) {
+        errorReporter.reportError(msg, charAt, len);
     }
     public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
       super.displayRecognitionError(tokenNames, e);
-      errorReporter.reportError(getErrorMessage(e, tokenNames),e.charPositionInLine);
-      
+      int len = 1;
+      if (e.token != null && e.token.getText() != null) {
+        len = e.token.getText().length();
+      }
+      errorReporter.reportError(getErrorMessage(e, tokenNames),e.charPositionInLine, len);
     };
     private CheckList cl; 
     public void setCheckList (CheckList cl) {
@@ -170,9 +173,9 @@ predicate returns [CTLFormula form] :
                       String name = var.getText();
                         IModelVariable  v = cl.getType().findQualifiedVariable(name);
                         if (v == null) {
-                          emitErrorMessage("Token " + name + " does not seem to designate a variable of your model.", var.getCharPositionInLine());
+                          emitErrorMessage("Token " + name + " does not seem to designate a variable of your model.", var.getCharPositionInLine(), var.getText().length());
                         } else if (! (v instanceof LeafModelVariable)) {
-                          emitErrorMessage("Token " + name + " does not designate an integer variable of your model. Qualify with \".\"", var.getCharPositionInLine());                         
+                          emitErrorMessage("Token " + name + " does not designate an integer variable of your model. Qualify with \".\"", var.getCharPositionInLine(), var.getText().length());                         
                         } else {
                           name = v.getId();
                         }
@@ -185,7 +188,7 @@ predicate returns [CTLFormula form] :
 
                     CTLFormulaDescription cfd = cl.findCtlFormula (formName);
                     if (cfd == null) {
-                      emitErrorMessage("Token @" + formName + " does not designate an existing CTL formula.", var.getCharPositionInLine());                                               
+                      emitErrorMessage("Token @" + formName + " does not designate an existing CTL formula.", var.getCharPositionInLine(), var.getText().length());                                               
                     } else { 
                       ((CTLFormulaReference) form).setFormulaDescription (cfd.getCtlFormula());
                     }
@@ -212,7 +215,7 @@ NUMBER : DIGIT (DIGIT)*
 INFINITY : 'inf'
   ;
 
-VARIABLE  : ( STRING | (LETTER (LETTER | DIGIT)*) )
+VARIABLE  : ( STRING | ( (LETTER | DIGIT)+ ) )
   ;
   
 // LABEL : ' ' ( options{greedy=false;}: .* ) ' ';
