@@ -20,6 +20,7 @@ import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
 import fr.lip6.move.coloane.projects.its.checks.ui.controls.CTLText;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
