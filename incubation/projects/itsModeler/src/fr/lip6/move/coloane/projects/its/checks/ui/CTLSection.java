@@ -68,14 +68,15 @@ public class CTLSection {
 	private void createDetails(Composite parent2) {
 
 		if (section != null) {
-			try  {
-				section.dispose();
-				section = null;
-				helpSection.dispose();
-				helpSection = null;
-			} catch (SWTException e) {
-				// might happen that the widgets are already disposed. This is not really a problem.
-			}
+			return;
+//			try  {
+//				section.dispose();
+//				section = null;
+//				helpSection.dispose();
+//				helpSection = null;
+//			} catch (SWTException e) {
+//				// might happen that the widgets are already disposed. This is not really a problem.
+//			}
 		}
 		{
 			section = toolkit.createSection(parent,
@@ -131,9 +132,8 @@ public class CTLSection {
 
 			toolkit.createLabel(client, "CTL formula"); //$NON-NLS-1$
 
-			ctlField = new CTLText(client, SWT.SINGLE);
 			gd.heightHint = 25;
-			ctlField.setLayoutData(gd);
+			ctlField = new CTLText(client, gd);
 			ctlField.addModifyListener(new ModifyListener() {
 
 				public void modifyText(ModifyEvent e) {
