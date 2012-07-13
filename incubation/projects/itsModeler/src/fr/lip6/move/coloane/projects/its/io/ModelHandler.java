@@ -18,7 +18,9 @@ package fr.lip6.move.coloane.projects.its.io;
 
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.Concept;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.TypeDeclarationFactory;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
@@ -229,9 +231,9 @@ public class ModelHandler extends DefaultHandler {
 
 
 		// Get parent with maximum safeguards
-		TypeDeclaration parent;
+		ITypeDeclaration parent;
 		try {
-			parent = (TypeDeclaration) ids.get(idParent);
+			parent = (ITypeDeclaration) ids.get(idParent);
 		} catch (ClassCastException e) {
 			throw new SAXException("Corrupted XML file, id " + idParent + " should refer to a type declaration");
 		}
@@ -268,9 +270,9 @@ public class ModelHandler extends DefaultHandler {
 		if ((file == null) || (!file.exists())) {
 			throw new SAXException("Could not open referenced file " + filePath, null);
 		}
-		TypeDeclaration type;
+		ITypeDeclaration type;
 		try {
-			type = TypeDeclaration.create(name, file, types);
+			type = TypeDeclarationFactory.create(name, file, types);
 		} catch (IOException e) {
 			throw new SAXException("Could not open referenced file " + filePath, null);
 		}
