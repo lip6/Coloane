@@ -104,4 +104,12 @@ public class CheckList extends SimpleObservable implements
 		return Collections.EMPTY_LIST;
 	}
 
+	public List<String> getCtlFomulaNames() {
+		List<String> toret = new ArrayList<String>();
+		for (CTLFormulaDescription form : getCTLFormulas()) {
+			toret.add(form.getName());
+		}
+		return toret;
+	}
+
 }
