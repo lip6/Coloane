@@ -18,7 +18,7 @@ package fr.lip6.move.coloane.projects.its.ui.forms;
 
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.Concept;
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
 
@@ -43,7 +43,7 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 	public Object[] getElements(Object inputElement) {
 		TypeList tl = (TypeList) inputElement;
 		List<Object> al = new ArrayList<Object>();
-		for (TypeDeclaration td : tl) {
+		for (ITypeDeclaration td : tl) {
 			al.add(td);
 		}
 		return al.toArray();
@@ -74,8 +74,8 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 				children.add(concept.getEffective());
 			}
 		}
-		if (element instanceof TypeDeclaration) {
-			TypeDeclaration td = (TypeDeclaration) element;
+		if (element instanceof ITypeDeclaration) {
+			ITypeDeclaration td = (ITypeDeclaration) element;
 			IEvaluationContext params = td.getParameters();
 			children.addAll(params.getBindings());
 		}
@@ -89,8 +89,8 @@ public class TypeListTreeProvider implements ITreeContentProvider {
 		if (element instanceof Concept) {
 			Concept concept = (Concept) element;
 			return concept.getParent();
-		} else if (element instanceof TypeDeclaration) {
-			TypeDeclaration td = (TypeDeclaration) element;
+		} else if (element instanceof ITypeDeclaration) {
+			ITypeDeclaration td = (ITypeDeclaration) element;
 			return td.getTypeList();
 		}
 		return null;

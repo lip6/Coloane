@@ -18,7 +18,8 @@ package fr.lip6.move.coloane.projects.its.ui.forms;
 
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.Concept;
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.GALTypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.expression.IVariableBinding;
 
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -44,8 +45,8 @@ public class TypeTreeLabelProvider
 	 */
 	@Override
 	public String getText(Object element) {
-		if (element instanceof TypeDeclaration) {
-			TypeDeclaration type = (TypeDeclaration) element;
+		if (element instanceof ITypeDeclaration) {
+			ITypeDeclaration type = (ITypeDeclaration) element;
 			String ret = "";
 			if (!type.isSatisfied()) {
 				ret += "!!!  ";
@@ -82,7 +83,11 @@ public class TypeTreeLabelProvider
 			return ITSEditorPlugin.getDefault().getImage(
 					ITSEditorPlugin.IMG_COMPOSITE);
 		}
-		if (element instanceof TypeDeclaration) {
+		if (element instanceof GALTypeDeclaration) {
+			return ITSEditorPlugin.getDefault().getImage(
+					ITSEditorPlugin.IMG_GAL);
+		}
+		if (element instanceof ITypeDeclaration) {
 			return ITSEditorPlugin.getDefault().getImage(
 					ITSEditorPlugin.IMG_TPNFORM);
 		} else if (element instanceof Concept) {

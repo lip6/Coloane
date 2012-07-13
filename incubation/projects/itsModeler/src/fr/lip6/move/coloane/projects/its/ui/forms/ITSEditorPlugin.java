@@ -73,6 +73,7 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	public static final String IMG_INSTANCE = "instance";
 	public static final String IMG_TRANSITION = "transition";
 	public static final String IMG_PLACE = "place";
+	public static final String IMG_GAL = "gal";
 
 	public static final String ITS_REACH_NAME = "its-reach";
 	public static final String ITS_CTL_NAME = "its-ctl";
@@ -130,6 +131,9 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 		registerImage(registry, IMG_RESULTNOK, "error_check.gif"); //$NON-NLS-1$
 		registerImage(registry, IMG_RESULTFAIL, "problem_check.gif"); //$NON-NLS-1$
 
+		registerImage(registry, IMG_GAL, "set_variable.gif"); //$NON-NLS-1$
+		
+		
 		// images stolen from other plugins
 		registry.put(
 				IMG_REACH_SERVICE,

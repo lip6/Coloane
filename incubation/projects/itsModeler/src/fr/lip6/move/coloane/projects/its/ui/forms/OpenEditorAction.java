@@ -16,7 +16,7 @@
  */
 package fr.lip6.move.coloane.projects.its.ui.forms;
 
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
@@ -37,7 +37,7 @@ public abstract class OpenEditorAction {
 	 * @param td
 	 *            current selected type
 	 */
-	public static void openEditor(TypeDeclaration td) {
+	public static void openEditor(ITypeDeclaration td) {
 		if (td != null) {
 			IWorkbenchPage page = PlatformUI.getWorkbench()
 					.getActiveWorkbenchWindow().getActivePage();

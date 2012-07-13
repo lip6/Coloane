@@ -21,6 +21,8 @@ import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
+import fr.lip6.move.coloane.projects.its.GALTypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.actions.FlattenModelAction;
 import fr.lip6.move.coloane.projects.its.plugin.editors.MultiPageEditor;
@@ -247,12 +249,12 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 		 * {@inheritDoc}
 		 */
 		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof CompositeTypeDeclaration) {
-				TypeDeclaration td = (TypeDeclaration) inputElement;
+			if (inputElement instanceof CompositeTypeDeclaration || inputElement instanceof GALTypeDeclaration) {
+				ITypeDeclaration td = (ITypeDeclaration) inputElement;
 				String[] items = td.getLabels().toArray(new String[td.getLabels().size()]);
 				Arrays.sort(items);
 				return items;
-			} else if (inputElement instanceof TypeDeclaration) {
+			} else if (inputElement instanceof ITypeDeclaration) {
 				TypeDeclaration td = (TypeDeclaration) inputElement;
 				IGraph graph = td.getGraph();
 				IGraphFormalism formalism = graph.getFormalism().getRootGraph();
@@ -297,7 +299,7 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 	 * Update the state of the viewers
 	 */
 	protected void update() {
-		TypeDeclaration input = getInput();
+		ITypeDeclaration input = getInput();
 
 		// CHECKSTYLE OFF
 		typeNametf.setText(input != null && input.getTypeName() != null ? input.getTypeName() : ""); //$NON-NLS-1$

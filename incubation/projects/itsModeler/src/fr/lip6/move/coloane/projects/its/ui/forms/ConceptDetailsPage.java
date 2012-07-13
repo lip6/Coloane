@@ -17,8 +17,8 @@
 package fr.lip6.move.coloane.projects.its.ui.forms;
 
 import fr.lip6.move.coloane.projects.its.Concept;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.ITypeListProvider;
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -118,7 +118,7 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 					String[] suggs = effectiveEditor.getItems();
 
 					if (concept.getEffective()== null || ! concept.getEffective().getTypeName().equals(suggs[n])) {
-						for (TypeDeclaration type : types.getTypes()) {
+						for (ITypeDeclaration type : types.getTypes()) {
 							if (type.getTypeName().equals(suggs[n])) {
 								concept.setEffective(type);
 								break;
@@ -203,7 +203,7 @@ public final class ConceptDetailsPage extends ITSDetailsPage<Concept> {
 		// build suggestion list
 		List<String> req = concept.getLabels();
 		List<String> suggestions = new ArrayList<String>();
-		for (TypeDeclaration type : types.getTypes()) {
+		for (ITypeDeclaration type : types.getTypes()) {
 			if (type == concept.getParent()) {
 				continue;
 			}
