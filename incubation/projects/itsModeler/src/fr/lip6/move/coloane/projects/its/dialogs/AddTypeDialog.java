@@ -16,7 +16,8 @@
  */
 package fr.lip6.move.coloane.projects.its.dialogs;
 
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
+import fr.lip6.move.coloane.projects.its.TypeDeclarationFactory;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 
@@ -46,7 +47,7 @@ import org.eclipse.swt.widgets.Text;
  */
 public final class AddTypeDialog extends TitleAreaDialog {
 
-	private TypeDeclaration type;
+	private ITypeDeclaration type;
 	private FileBrowserField fileField;
 	private Text newTypeTextfield;
 	private TypeList types;
@@ -66,7 +67,7 @@ public final class AddTypeDialog extends TitleAreaDialog {
 	 * Getter for the type declaration.
 	 * @return null if not set correctly.
 	 */
-	public TypeDeclaration getDeclaration() {
+	public ITypeDeclaration getDeclaration() {
 		return type;
 	}
 
@@ -143,7 +144,7 @@ public final class AddTypeDialog extends TitleAreaDialog {
 	 * @return a valid name
 	 */
 	protected String generateValidName(String name) {
-		for (TypeDeclaration td : types) {
+		for (ITypeDeclaration td : types) {
 			if (td.getTypeName().equals(name)) {
 				return generateValidName(name + "1");
 			}
@@ -192,14 +193,14 @@ public final class AddTypeDialog extends TitleAreaDialog {
 			setErrorMessage("The model type name cannot be empty.");
 			return;
 		}
-		for (TypeDeclaration itType : types) {
+		for (ITypeDeclaration itType : types) {
 			if (itType.getTypeName().equals(typeName)) {
 				setErrorMessage("Type name already exists");
 				return;
 			}
 		}
 		try {
-			type = TypeDeclaration.create(typeName, file, types);
+			type = TypeDeclarationFactory.create(typeName, file, types);
 		} catch (IOException ex) {
 			setErrorMessage("Error loading model file: "
 					+ "Your file does not seem to contain a recognized Coloane model. Details:\n" + ex.getMessage());
@@ -212,7 +213,7 @@ public final class AddTypeDialog extends TitleAreaDialog {
 	 * getter for type declaration.
 	 * @return null if not set.
 	 */
-	public TypeDeclaration getType() {
+	public ITypeDeclaration getType() {
 		return type;
 	}
 
