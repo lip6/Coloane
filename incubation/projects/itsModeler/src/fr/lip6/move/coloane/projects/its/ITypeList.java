@@ -28,12 +28,12 @@ public interface ITypeList  {
 	 * Add a type declaration to this model.
 	 * @param t the type declaration
 	 */
-	void addTypeDeclaration(TypeDeclaration t);
+	void addTypeDeclaration(ITypeDeclaration t);
 	/**
 	 * Remove a type declaration from the model.
 	 * @param t to remove
 	 */
-	void removeTypeDeclaration(TypeDeclaration t);
+	void removeTypeDeclaration(ITypeDeclaration t);
 	
 	/**
 	 * An array of type declarations, for table editor.
