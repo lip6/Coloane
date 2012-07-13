@@ -32,16 +32,16 @@ import java.util.List;
  * @author Yann
  *
  */
-public final class TypeList extends SimpleObservable implements ITypeList, Iterable<TypeDeclaration>, ISimpleObserver {
+public final class TypeList extends SimpleObservable implements ITypeList, Iterable<ITypeDeclaration>, ISimpleObserver {
 
-	private List<TypeDeclaration> table = new ArrayList<TypeDeclaration>();
+	private List<ITypeDeclaration> table = new ArrayList<ITypeDeclaration>();
 	private List<CheckList> checks = new ArrayList<CheckList>();
 	
 	/**
 	 * Add a type declaration to the set.
 	 * @param t the type to add
 	 */
-	public void addTypeDeclaration(TypeDeclaration t) {
+	public void addTypeDeclaration(ITypeDeclaration t) {
 		table.add(t);
 		t.addObserver(this);
 		notifyObservers();
@@ -50,9 +50,9 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 	/**
 	 * {@inheritDoc}
 	 */
-	public void removeTypeDeclaration(TypeDeclaration t) {
+	public void removeTypeDeclaration(ITypeDeclaration t) {
 		table.remove(t);
-		for (TypeDeclaration td : this) {
+		for (ITypeDeclaration td : this) {
 			td.unsetTypeDeclaration(t);
 		}
 		t.deleteObserver(this);
@@ -64,7 +64,7 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 	 * iterable behavior of the type list
 	 * @return free foreach statements
 	 */
-	public Iterator<TypeDeclaration> iterator() {
+	public Iterator<ITypeDeclaration> iterator() {
 		return table.iterator();
 	}
 
@@ -105,7 +105,7 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 	 * problems post reload.
 	 */
 	public void reload() {
-		for (TypeDeclaration td : this) {
+		for (ITypeDeclaration td : this) {
 			try {
 				td.reload();
 			} catch (IOException e) {
