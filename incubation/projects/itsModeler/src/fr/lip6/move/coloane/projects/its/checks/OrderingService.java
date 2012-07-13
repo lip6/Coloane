@@ -24,6 +24,7 @@ import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult.Status;
@@ -99,7 +100,7 @@ public class OrderingService extends AbstractCheckService implements
 		String report = "";
 		IGraph graph;
 		// Step 1 : flatten the model if necessary
-		TypeDeclaration td = getParent().getType();
+		ITypeDeclaration td = getParent().getType();
 		if (td instanceof CompositeTypeDeclaration) {
 			ModelFlattener mf = new ModelFlattener();
 			try {
@@ -112,8 +113,10 @@ public class OrderingService extends AbstractCheckService implements
 				return report;
 			}
 			graph = mf.getFlatModel();
+		} else if (td instanceof TypeDeclaration) {
+			graph = ((TypeDeclaration)td).getInstantiatedGraph();
 		} else {
-			graph = td.getInstantiatedGraph();
+			throw new UnsupportedOperationException("Ordering heuristic is only available for TPN.");
 		}
 
 		// Step 2 : export to CAMI to build input for Silien's ordering tool
