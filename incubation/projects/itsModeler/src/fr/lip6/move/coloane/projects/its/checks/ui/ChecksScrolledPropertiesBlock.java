@@ -18,6 +18,8 @@ package fr.lip6.move.coloane.projects.its.checks.ui;
 
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.Concept;
+import fr.lip6.move.coloane.projects.its.GALTypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
@@ -214,7 +216,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock
 			public void doubleClick(DoubleClickEvent event) {
 				try {
 					TreeSelection o = (TreeSelection) event.getSelection();
-					TypeDeclaration td = (TypeDeclaration) o.getFirstElement();
+					ITypeDeclaration td = (ITypeDeclaration) o.getFirstElement();
 					OpenEditorAction.openEditor(td);
 				} catch (ClassCastException e) {
 					// a concept was double clicked
@@ -266,6 +268,8 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock
 		detailsPart.registerPage(CompositeTypeDeclaration.class,
 				new TypeDeclarationDetailsPage());
 		detailsPart.registerPage(TypeDeclaration.class,
+				new TypeDeclarationDetailsPage());
+		detailsPart.registerPage(GALTypeDeclaration.class,
 				new TypeDeclarationDetailsPage());
 		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(this));
 		detailsPart.registerPage(VariableBinding.class,
