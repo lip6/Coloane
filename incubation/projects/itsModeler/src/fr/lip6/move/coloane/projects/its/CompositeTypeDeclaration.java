@@ -165,8 +165,7 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 										+ concept.getEffective().getTypeName(),
 								i);
 
-						List<IModelVariable> subvars = concept.getEffective()
-								.computeVariables();
+						List<IModelVariable> subvars = concept.getEffective().getVariables();
 						for (IModelVariable v : subvars) {
 							var.addChild(v);
 						}
@@ -179,7 +178,7 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 							concept.getEffective().getTypeType() + " "
 									+ concept.getEffective().getTypeName());
 
-					List<IModelVariable> subvars = concept.getEffective().computeVariables();
+					List<IModelVariable> subvars = concept.getEffective().getVariables();
 					for (IModelVariable v : subvars) {
 						var.addChild(v);
 					}
@@ -298,7 +297,7 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 	 * @param t the type decl that is being removed.
 	 */
 	@Override
-	public void unsetTypeDeclaration(TypeDeclaration t) {
+	public void unsetTypeDeclaration(ITypeDeclaration t) {
 		super.unsetTypeDeclaration(t);
 		for (Concept concept : concepts) {
 			if (concept.getEffective().equals(t)) {
