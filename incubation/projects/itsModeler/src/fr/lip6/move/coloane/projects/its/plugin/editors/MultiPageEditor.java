@@ -19,6 +19,7 @@ package fr.lip6.move.coloane.projects.its.plugin.editors;
 
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.ITypeListProvider;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
@@ -83,7 +84,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	/** The checks pages */
 	private List<ChecksMasterDetailsPage> checkPages = new LinkedList<ChecksMasterDetailsPage>();
 
-	private Map<TypeDeclaration, Integer> checkPagesIndex = new HashMap<TypeDeclaration, Integer>();
+	private Map<ITypeDeclaration, Integer> checkPagesIndex = new HashMap<ITypeDeclaration, Integer>();
 
 	private FlattenModelAction flattenAction;
 
