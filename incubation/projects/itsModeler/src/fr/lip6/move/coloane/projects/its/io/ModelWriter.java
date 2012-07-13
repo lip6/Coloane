@@ -18,7 +18,7 @@ package fr.lip6.move.coloane.projects.its.io;
 
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.Concept;
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
 import fr.lip6.move.coloane.projects.its.checks.CheckList;
@@ -138,7 +138,7 @@ public final class ModelWriter {
 	private static String translateTypesToXML(TypeList types) {
 		StringBuilder sb = new StringBuilder();
 		// Pour chaque noeud...
-		for (TypeDeclaration type : types) {
+		for (ITypeDeclaration type : types) {
 			int myID = nextID++;
 			ids.put(type, myID);
 			// Debut du noeud
@@ -162,7 +162,7 @@ public final class ModelWriter {
 	private static String translateConceptsToXML(TypeList types) {
 		StringBuilder sb = new StringBuilder();
 		// Pour chaque noeud...
-		for (TypeDeclaration type : types) {
+		for (ITypeDeclaration type : types) {
 			if (type instanceof CompositeTypeDeclaration) {
 				CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) type;
 				for (Concept concept : ctd.listConcepts()) {
@@ -193,7 +193,7 @@ public final class ModelWriter {
 	private static String translateParametersToXML(TypeList types) {
 		StringBuilder sb = new StringBuilder();
 		// Pour chaque noeud...
-		for (TypeDeclaration type : types) {
+		for (ITypeDeclaration type : types) {
 			IEvaluationContext params = type.getParameters();
 			if (!params.getVariables().isEmpty()) {
 				for (IVariableBinding vb : params.getBindings()) {
