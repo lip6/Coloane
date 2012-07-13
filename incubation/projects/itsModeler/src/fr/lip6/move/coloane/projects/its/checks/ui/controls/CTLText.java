@@ -31,8 +31,10 @@ import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.bindings.keys.ParseException;
+import org.eclipse.jface.fieldassist.ContentProposal;
 import org.eclipse.jface.fieldassist.ContentProposalAdapter;
-import org.eclipse.jface.fieldassist.SimpleContentProposalProvider;
+import org.eclipse.jface.fieldassist.IContentProposal;
+import org.eclipse.jface.fieldassist.IContentProposalProvider;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -80,7 +82,7 @@ public class CTLText {
 		// ContentProposalAdapter adapter = 
 		new ContentProposalAdapter(
 			text, new StyledTextContentAdapter(), 
-			new SimpleContentProposalProvider(new String [] {"ProposalOne", "ProposalTwo", "ProposalThree"}),
+			new CTLContentProposalProvider(),
 			keyStroke, autoActivationCharacters);
 		
 		errorText = new Text(comp, SWT.MULTI);
@@ -89,6 +91,21 @@ public class CTLText {
 		errorText.setForeground(errorText.getDisplay().getSystemColor(SWT.COLOR_RED));
 	}
 
+	
+	class CTLContentProposalProvider implements IContentProposalProvider {
+
+		public IContentProposal[] getProposals(String contents, int position) {
+			List<IContentProposal> props = new ArrayList<IContentProposal>();
+			for (ParseError error : errors) {
+				if (error.getCharAt() == position) {
+					for (String sug : error.getSuggs())
+						props.add(new ContentProposal(sug));
+				}
+			}
+			return props.toArray(new IContentProposal[props.size()]);
+		}
+		
+	}
 	
 	public void setCheckList(CheckList cl) {
 		this.cl = cl;
@@ -158,8 +175,8 @@ public class CTLText {
 	}
 	
 
-	public void reportError(String msg, int charAt, int len) {
-		errors.add(new ParseError(msg,charAt,len));
+	public void reportError(String msg, int charAt, int len, List<String> suggs) {
+		errors.add(new ParseError(msg,charAt,len, suggs));
 	}
 	
 	public void updateErrors () {

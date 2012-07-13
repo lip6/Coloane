@@ -16,6 +16,8 @@ package main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser;
 
 package main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser;
 
+import java.util.Collections;
+
 import fr.lip6.move.coloane.projects.its.checks.*;
 import fr.lip6.move.coloane.projects.its.ctl.*;
 import fr.lip6.move.coloane.projects.its.antlrutil.*;
@@ -30,18 +32,23 @@ import fr.lip6.move.coloane.projects.its.variables.*;
     public void setErrorReporter(CTLText errorReporter) {
         this.errorReporter = errorReporter;
     }
-    public void emitErrorMessage(String msg, int charAt, int len) {
-        errorReporter.reportError(msg, charAt, len);
+    public void emitErrorMessage(String msg, int charAt, int len, List<String> suggs) {
+            errorReporter.reportError(msg, charAt, len, suggs);
     }
     public void displayRecognitionError(String[] tokenNames, RecognitionException e) {
-      super.displayRecognitionError(tokenNames, e);
-      int len = 1;
-      if (e.token != null && e.token.getText() != null) {
-        len = e.token.getText().length();
+          super.displayRecognitionError(tokenNames, e);
+          int len = 1;
+          if (e.token != null && e.token.getText() != null) {
+            len = e.token.getText().length();
+          }
+          List<String> suggs = new ArrayList<String>();
+          if (e instanceof MismatchedTokenException) {
+      MismatchedTokenException e2 = (MismatchedTokenException) e;
+      suggs.add(tokenNames [e2.expecting]);
       }
-      errorReporter.reportError(getErrorMessage(e, tokenNames),e.charPositionInLine, len);
-    };
-    private CheckList cl; 
+          errorReporter.reportError(getErrorMessage(e, tokenNames),e.charPositionInLine, len, suggs);
+        };
+            private CheckList cl; 
     public void setCheckList (CheckList cl) {
       this.cl = cl;
     }
@@ -173,9 +180,9 @@ predicate returns [CTLFormula form] :
                       String name = var.getText();
                         IModelVariable  v = cl.getType().findQualifiedVariable(name);
                         if (v == null) {
-                          emitErrorMessage("Token " + name + " does not seem to designate a variable of your model.", var.getCharPositionInLine(), var.getText().length());
+                          emitErrorMessage("Token " + name + " does not seem to designate a variable of your model.", var.getCharPositionInLine(), var.getText().length(), Collections.EMPTY_LIST);
                         } else if (! (v instanceof LeafModelVariable)) {
-                          emitErrorMessage("Token " + name + " does not designate an integer variable of your model. Qualify with \".\"", var.getCharPositionInLine(), var.getText().length());                         
+                          emitErrorMessage("Token " + name + " does not designate an integer variable of your model. Qualify with \".\"", var.getCharPositionInLine(), var.getText().length(), Collections.EMPTY_LIST);                         
                         } else {
                           name = v.getId();
                         }
@@ -188,7 +195,7 @@ predicate returns [CTLFormula form] :
 
                     CTLFormulaDescription cfd = cl.findCtlFormula (formName);
                     if (cfd == null) {
-                      emitErrorMessage("Token @" + formName + " does not designate an existing CTL formula.", var.getCharPositionInLine(), var.getText().length());                                               
+                      emitErrorMessage("Token @" + formName + " does not designate an existing CTL formula.", var.getCharPositionInLine(), var.getText().length(), cl.getCtlFomulaNames());                                               
                     } else { 
                       ((CTLFormulaReference) form).setFormulaDescription (cfd.getCtlFormula());
                     }
