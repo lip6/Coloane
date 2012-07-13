@@ -16,7 +16,7 @@
  */
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLCheckService;
 import fr.lip6.move.coloane.projects.its.checks.CTLFormulaDescription;
@@ -105,8 +105,8 @@ public class CheckListTreeProvider implements ITreeContentProvider {
 			for (Ordering o2 : o) {
 				children.add(o2);
 			}
-		} else if (element instanceof TypeDeclaration) {
-			TypeDeclaration td = (TypeDeclaration) element;
+		} else if (element instanceof ITypeDeclaration) {
+			ITypeDeclaration td = (ITypeDeclaration) element;
 			for (IModelVariable v : td.getVariables()) {
 				children.add(v);
 			}
