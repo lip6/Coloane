@@ -16,7 +16,7 @@
  */
 package fr.lip6.move.coloane.projects.its.actions;
 
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
 
 import org.eclipse.jface.action.Action;
@@ -29,14 +29,14 @@ import org.eclipse.jface.action.Action;
 public final class RemoveTypeAction extends Action {
 
 	private TypeList types;
-	private TypeDeclaration td;
+	private ITypeDeclaration td;
 
 	/**
 	 * Ctor
 	 * @param types the owning type list
 	 * @param td the type to remove
 	 */
-	public RemoveTypeAction(TypeList types, TypeDeclaration td) {
+	public RemoveTypeAction(TypeList types, ITypeDeclaration td) {
 		this.types = types;
 		this.td = td;
 	}
