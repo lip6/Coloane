@@ -35,7 +35,6 @@ import fr.lip6.move.coloane.projects.its.expression.Infinity;
 import fr.lip6.move.coloane.projects.its.expression.IntegerExpression;
 import fr.lip6.move.coloane.projects.its.expression.Variable;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
-import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
 import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
 import fr.lip6.move.coloane.projects.its.variables.TransitionClockVariable;
@@ -61,15 +60,9 @@ import org.eclipse.core.resources.IFile;
  * @author Yann
  * 
  */
-public class TypeDeclaration extends SimpleObservable implements
-		ISimpleObserver {
-	private String typeName;
-	private IFile typeFile;
+public class TypeDeclaration extends AbstractTypeDeclaration implements ISimpleObserver {
 	/** The underlying coloane Graph */
 	private IGraph graph;
-	private Set<String> labels = null;
-	private List<IModelVariable> variables = null;
-	private TypeList typeList;
 	private IEvaluationContext context;
 	private Map<IAttribute, IntegerExpression> attribs = new HashMap<IAttribute, IntegerExpression>();
 
@@ -87,20 +80,10 @@ public class TypeDeclaration extends SimpleObservable implements
 	 */
 	protected TypeDeclaration(String typeName, IFile modelFile, IGraph graph,
 			TypeList types) {
-		this.typeName = typeName;
-		typeFile = modelFile;
+		super(typeName,modelFile,types);
 		this.graph = graph;
-		typeList = types;
 	}
 
-	/**
-	 * Accessor, return the (unique in the types list) name of this type.
-	 * 
-	 * @return the name of this type
-	 */
-	public final String getTypeName() {
-		return typeName;
-	}
 
 	/**
 	 * Compute the resulting value of the attribute, when substituting variables
@@ -122,41 +105,10 @@ public class TypeDeclaration extends SimpleObservable implements
 		}
 	}
 
-	/**
-	 * Update the type name, notify observers.
-	 * 
-	 * @param typeName
-	 *            the new name
-	 */
-	public final void setTypeName(String typeName) {
-		if (!this.typeName.equals(typeName)) {
-			this.typeName = typeName;
-			notifyObservers();
-		}
-	}
 
-	/**
-	 * Workspace path to file resource.
-	 * 
-	 * @return path to the resource
-	 */
-	public final String getTypePath() {
-		return typeFile.getFullPath().toString();
-	}
 
-	/**
-	 * The resource this type is built upon.
-	 * 
-	 * @return the file resource of the coloane model
-	 */
-	public final IFile getTypeFile() {
-		return typeFile;
-	}
-
-	/**
-	 * The formalism name of this type's graph.
-	 * 
-	 * @return qualified formalism name
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.projects.its.ITypeDeclaration#getTypeType()
 	 */
 	public final String getTypeType() {
 		return graph.getFormalism().getName();
@@ -180,7 +132,7 @@ public class TypeDeclaration extends SimpleObservable implements
 	 * @throws IOException
 	 *             if any problems during parse or file load.
 	 */
-	private static IGraph loadGraph(IFile typePath) throws IOException {
+	static IGraph loadGraph(IFile typePath) throws IOException {
 		// Construction d'un modele en memoire a partir de se representation en
 		// XML
 		IGraph graph = ModelLoader.loadGraphFromXML(typePath);
@@ -190,30 +142,6 @@ public class TypeDeclaration extends SimpleObservable implements
 			throw new IOException("Load from XML file failed !");
 		}
 		return graph;
-	}
-
-	/**
-	 * Factory operation to build concrete TypeDescriptions
-	 * 
-	 * @param name
-	 *            name of the resulting type
-	 * @param file
-	 *            the base file containing a coloane model
-	 * @param types
-	 *            the types to load into
-	 * @return an initialized type declaration instance
-	 * @throws IOException
-	 *             in case of XML read/file open problems
-	 */
-	public static TypeDeclaration create(String name, IFile file, TypeList types)
-			throws IOException {
-		IGraph graph = loadGraph(file);
-		String form = graph.getFormalism().getName();
-		if (form.equals("ITSComposite") || form.equals("Scalar Set Composite")|| form.equals("Circular Set Composite")) {
-			return new CompositeTypeDeclaration(name, file, graph, types);
-		} else {
-			return new TypeDeclaration(name, file, graph, types);
-		}
 	}
 
 	/**
@@ -239,65 +167,6 @@ public class TypeDeclaration extends SimpleObservable implements
 		return labels;
 	}
 
-	/**
-	 * Handle caching of computeLabels.
-	 * 
-	 * @return the interface (ITS action alphabet) of this type
-	 */
-	public final Collection<String> getLabels() {
-		if (labels == null) {
-			labels = computeLabels();
-		}
-		return labels;
-	}
-
-	/**
-	 * Handle caching of computeVariables.
-	 * 
-	 * @return the interface (ITS action alphabet) of this type
-	 */
-	public final Collection<IModelVariable> getVariables() {
-		if (variables == null) {
-			variables = computeVariables();
-		}
-		return variables;
-	}
-
-	/**
-	 * Attempt to resolve a name as a qualified variable. 
-	 * e.g. V1.V2.X
-	 * @param name the variable fully qualified name
-	 * @return the corresponding variable or null if it could not be resolved.
-	 */
-	public final IModelVariable findQualifiedVariable(String name) {
-		for (IModelVariable var : getVariables()) {
-			IModelVariable found = findQualifiedVariableRec(var, name);
-			if (found != null) {
-				return found;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Private recursive part of resolve variable behavior.
-	 * @param var a variable, could have children variables.
-	 * @param name the name we are trying to resolve.
-	 * @return the variable or null if not found.
-	 */
-	private IModelVariable findQualifiedVariableRec(IModelVariable var,
-			String name) {
-		if (var.getQualifiedName().equals(name)) {
-			return var;
-		}
-		for (IModelVariable child : var) {
-			IModelVariable found = findQualifiedVariableRec(child, name);
-			if (found != null) {
-				return found;
-			}
-		}
-		return null;
-	}
 
 	/** 
 	 * Computes the set of variables of this model.
@@ -333,40 +202,11 @@ public class TypeDeclaration extends SimpleObservable implements
 		return variables;
 	}
 
-	/**
-	 * Specifies if all the concepts of this type have an effective realization.
-	 * 
-	 * @return true for a basic type declaration
-	 */
-	public boolean isSatisfied() {
-		return true;
-	}
 
-	/**
-	 * Return the parent types list.
-	 * 
-	 * @return the parent types instance
-	 */
-	public final TypeList getTypeList() {
-		return typeList;
-	}
+	
 
-	/**
-	 * Clear any references to this type (see behavior in composite type decl.
-	 * 
-	 * @param t
-	 *            the type to be removed
-	 */
-	public void unsetTypeDeclaration(TypeDeclaration t) {
-		// NOP
-	}
-
-	/**
-	 * Return the evaluation context that allow to resolve all integer
-	 * expressions in the model. side effect: load the attributes that use these
-	 * int expressions if not done already.
-	 * 
-	 * @return the integer parameters of this type
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.projects.its.ITypeDeclaration#getParameters()
 	 */
 	public final IEvaluationContext getParameters() {
 		if (context == null) {
@@ -461,8 +301,8 @@ public class TypeDeclaration extends SimpleObservable implements
 		}
 	}
 
-	/**
-	 * Notify a model change has occurred. {@inheritDoc}
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.projects.its.ITypeDeclaration#update()
 	 */
 	public final void update() {
 		notifyObservers();
@@ -497,10 +337,8 @@ public class TypeDeclaration extends SimpleObservable implements
 		return copy;
 	}
 
-	/**
-	 * Force to reload all model types from their respective files, ensuring
-	 * that we are up to date w.r.t. changes outside this program.
-	 * @throws IOException if any model files have disappeared, are corrupted etc...
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.projects.its.ITypeDeclaration#reload()
 	 */
 	public void reload() throws IOException {
 		// free the current data
@@ -512,9 +350,8 @@ public class TypeDeclaration extends SimpleObservable implements
 			ct.deleteObserver(this);
 		}
 		context = null;
-		labels = null;
-		variables = null;
-		graph = loadGraph(typeFile);
+		clearCaches();
+		graph = loadGraph(getTypeFile());
 		// refresh the caches
 		getLabels();
 		getParameters();
