@@ -33,7 +33,7 @@ public final class Concept extends SimpleObservable {
 	/** The list of labels required in this composite for a given type name */
 	private List<String> labels;
 	/** The resolved map from Type name in the composite, to effective Type in the Model*/
-	private TypeDeclaration effective;
+	private ITypeDeclaration effective;
 	private CompositeTypeDeclaration parent;
 
 	/**
@@ -66,14 +66,14 @@ public final class Concept extends SimpleObservable {
 	 * 
 	 * @return the effective type assigned to this concept or null if not set
 	 */
-	public TypeDeclaration getEffective() {
+	public ITypeDeclaration getEffective() {
 		return effective;
 	}
 	/**
 	 * Update value and notify observers
 	 * @param effective new effective type
 	 */
-	public void setEffective(TypeDeclaration effective) {
+	public void setEffective(ITypeDeclaration effective) {
 		if (this.effective != effective) {
 			this.effective = effective;
 			notifyObservers();
