@@ -16,7 +16,7 @@
  */
 package fr.lip6.move.coloane.projects.its.checks;
 
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 import fr.lip6.move.coloane.projects.its.order.Orders;
@@ -29,10 +29,10 @@ import java.util.List;
 public class CheckList extends SimpleObservable implements
 		Iterable<AbstractCheckService>, ISimpleObserver {
 
-	private TypeDeclaration type;
+	private ITypeDeclaration type;
 	private List<AbstractCheckService> services;
 
-	public CheckList(TypeDeclaration td) {
+	public CheckList(ITypeDeclaration td) {
 		type = td;
 		services = new ArrayList<AbstractCheckService>();
 		addCheck(new OrderingService(this));
@@ -40,7 +40,7 @@ public class CheckList extends SimpleObservable implements
 		addCheck(new CTLCheckService(this));
 	}
 
-	public TypeDeclaration getType() {
+	public ITypeDeclaration getType() {
 		return type;
 	}
 
