@@ -17,7 +17,7 @@
 package fr.lip6.move.coloane.projects.its.order;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -48,7 +48,7 @@ public final class ITSOrderWriter {
 	 * @throws ExtensionException
 	 *             if any issues with I/O...
 	 */
-	public void writeOrder(String orderFileName, TypeDeclaration td,
+	public void writeOrder(String orderFileName, ITypeDeclaration td,
 			Ordering order) throws ExtensionException {
 		try {
 			// test folder existence, create if it does not exist
