@@ -24,6 +24,8 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.Concept;
+import fr.lip6.move.coloane.projects.its.GALTypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeList;
 
@@ -57,19 +59,19 @@ public final class ITSModelWriter {
 	 * 
 	 * @param types
 	 *            The set of types
-	 * @param type
+	 * @param iTypeDeclaration
 	 *            the type to export
 	 * @param directory
 	 *            the folder to export to
 	 * @throws ExtensionException
 	 *             in case of any IO or instantiation error.
 	 */
-	public void exportITSModel(TypeList types, TypeDeclaration type,
+	public void exportITSModel(TypeList types, ITypeDeclaration iTypeDeclaration,
 			String directory) throws ExtensionException {
 		// the types which need to be declared.
 
-		List<TypeDeclaration> toProcess = new ArrayList<TypeDeclaration>();
-		getDependentTypes(types, type, toProcess);
+		List<ITypeDeclaration> toProcess = new ArrayList<ITypeDeclaration>();
+		getDependentTypes(types, iTypeDeclaration, toProcess);
 
 		try {
 			// test folder existence, create if it does not exist
@@ -84,53 +86,66 @@ public final class ITSModelWriter {
 			sb.append("<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'>\n");
 			sb.append("<types>\n");
 
-			for (TypeDeclaration td : toProcess) {
-				assert td.isSatisfied();
+			for (ITypeDeclaration tdd : toProcess) {
+				assert tdd.isSatisfied();
 
-				// handle parameter instantiation
-				IGraph satGraph = td.getInstantiatedGraph();
+				if (tdd instanceof TypeDeclaration) {
+					TypeDeclaration td = (TypeDeclaration) tdd;
+					// handle parameter instantiation
+					IGraph satGraph = td.getInstantiatedGraph();
 
-				// composite case
-				if (td instanceof CompositeTypeDeclaration) {
-					CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) td;
-					assert ctd.isSatisfied();
+					// composite case
+					if (td instanceof CompositeTypeDeclaration) {
+						CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) td;
+						assert ctd.isSatisfied();
 
-					// replace the instance types by their corresponding concept
-					// name
-					for (INode node : satGraph.getNodes()) {
-						if ("instance"
-								.equals(node.getNodeFormalism().getName())) {
-							IAttribute instType = node.getAttribute("type");
-							instType.setValue(ctd
-									.getConcept(instType.getValue())
-									.getEffective().getTypeName());
+						// replace the instance types by their corresponding concept
+						// name
+						for (INode node : satGraph.getNodes()) {
+							if ("instance"
+									.equals(node.getNodeFormalism().getName())) {
+								IAttribute instType = node.getAttribute("type");
+								instType.setValue(ctd
+										.getConcept(instType.getValue())
+										.getEffective().getTypeName());
+							}
 						}
-					}
-					// export the composite ITS to simple xml format.
-					new ExportToCompositeITS().export(satGraph, directory + "/"
-							+ ctd.getTypeName() + ".xml",
-							new NullProgressMonitor());
-					sb.append("<type name='" + ctd.getTypeName()
-							+ "' formalism='" + ctd.getTypeType()
-							+ "' format='Composite' path='./"
-							+ ctd.getTypeName() + ".xml' />\n");
-				} else {
-					// Basic case
-					// currently no parameters to instantiate
+						// export the composite ITS to simple xml format.
+						new ExportToCompositeITS().export(satGraph, directory + "/"
+								+ ctd.getTypeName() + ".xml",
+								new NullProgressMonitor());
+						sb.append("<type name='" + ctd.getTypeName()
+								+ "' formalism='" + ctd.getTypeType()
+								+ "' format='Composite' path='./"
+								+ ctd.getTypeName() + ".xml' />\n");
+					} else {
+						// Basic case
+						// currently no parameters to instantiate
 
-					// export the TPN to Romeo xml format.
-					new ExportToRomeo().export(satGraph,
-							directory + "/" + td.getTypeName() + ".xml",
-							new NullProgressMonitor());
-					sb.append("<type name='"
-							+ td.getTypeName()
-							+ "' formalism='Time Petri Net' format='Romeo' path='./"
-							+ td.getTypeName() + ".xml' />\n");
+						// export the TPN to Romeo xml format.
+						new ExportToRomeo().export(satGraph,
+								directory + "/" + td.getTypeName() + ".xml",
+								new NullProgressMonitor());
+						sb.append("<type name='"
+								+ td.getTypeName()
+								+ "' formalism='Time Petri Net' format='Romeo' path='./"
+								+ td.getTypeName() + ".xml' />\n");
+					}
+				} else {
+					if (tdd instanceof GALTypeDeclaration) {
+						GALTypeDeclaration gal = (GALTypeDeclaration) tdd;
+						
+						gal.writeToFile(directory + "/" + gal.getTypeName() + ".gal");
+						sb.append("<type name='"
+							+ gal.getTypeName()
+							+ "' formalism='GAL' format='GAL' path='./"
+							+ gal.getTypeName() + ".gal' />\n");
+					}
 				}
 			}
 
 			sb.append("</types>\n");
-			sb.append("<main type='" + type.getTypeName() + "' state='' />\n");
+			sb.append("<main type='" + iTypeDeclaration.getTypeName() + "' state='' />\n");
 			sb.append("</model>\n\n");
 
 			// End of writing : clean & close
@@ -159,8 +174,8 @@ public final class ITSModelWriter {
 	 * @param todo
 	 *            used in recursive calls
 	 */
-	private void getDependentTypes(TypeList types, TypeDeclaration type,
-			List<TypeDeclaration> todo) {
+	private void getDependentTypes(TypeList types, ITypeDeclaration type,
+			List<ITypeDeclaration> todo) {
 
 		if (type instanceof CompositeTypeDeclaration) {
 			CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) type;
