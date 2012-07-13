@@ -60,5 +60,9 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 		return Collections.EMPTY_SET;
 	}
 
+	public void writeToFile(String path) {
+		// create and write a GAL file based on model in memory
+	}
+
 	
 }
