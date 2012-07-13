@@ -28,6 +28,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.Concept;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public final class ModelFlattener {
 	private Map<String, Map<INode, INode>> idsPerInstance;
 	private List<List<ResolvedTrans>> emptyEffect;
 	// hold instantiated graphs
-	private Map<TypeDeclaration, IGraph> typeGraphs;
+	private Map<ITypeDeclaration, IGraph> typeGraphs;
 	private boolean shouldInstantiate;
 
 	/**
@@ -81,7 +82,7 @@ public final class ModelFlattener {
 		flatModel = new GraphModelFactory().createGraph(FormalismManager
 				.getInstance().getFormalismByName("Time Petri Net"));
 		idsPerInstance = new HashMap<String, Map<INode, INode>>();
-		typeGraphs = new HashMap<TypeDeclaration, IGraph>();
+		typeGraphs = new HashMap<ITypeDeclaration, IGraph>();
 		this.shouldInstantiate = shouldInstantiate;
 		try {
 			flatten(root, "");
@@ -139,13 +140,16 @@ public final class ModelFlattener {
 								.getValue();
 
 						Concept concept = ctd.getConcept(instConcept);
-						TypeDeclaration t = concept.getEffective();
+						ITypeDeclaration t = concept.getEffective();
 
 						if (t instanceof CompositeTypeDeclaration) {
 							CompositeTypeDeclaration ctd2 = (CompositeTypeDeclaration) t;
 							flatten(ctd2, newPrefix(prefix, instName));
+						} else if ( t instanceof TypeDeclaration ){
+							TypeDeclaration tt = (TypeDeclaration) t;
+							flatten(tt, newPrefix(prefix, instName));
 						} else {
-							flatten(t, newPrefix(prefix, instName));
+							throw new UnsupportedOperationException("Flattening is only applicable to (Time) Petri nets and their compotsition.");
 						}
 					}
 				}
@@ -170,13 +174,16 @@ public final class ModelFlattener {
 					String instConcept = node.getAttribute("type").getValue();
 
 					Concept concept = ctd.getConcept(instConcept);
-					TypeDeclaration t = concept.getEffective();
+					ITypeDeclaration t = concept.getEffective();
 
 					if (t instanceof CompositeTypeDeclaration) {
 						CompositeTypeDeclaration ctd2 = (CompositeTypeDeclaration) t;
 						flatten(ctd2, newPrefix(prefix, instName));
+					} else if ( t instanceof TypeDeclaration ){
+						TypeDeclaration tt = (TypeDeclaration) t;
+						flatten(tt, newPrefix(prefix, instName));
 					} else {
-						flatten(t, newPrefix(prefix, instName));
+						throw new UnsupportedOperationException("Flattening is only applicable to (Time) Petri nets and their compositions.");
 					}
 				}
 			}
@@ -195,17 +202,22 @@ public final class ModelFlattener {
 	 * graph if shouldInstantiate is false, otherwise it is the instantiated
 	 * graph.
 	 * 
-	 * @param td the type
+	 * @param instType the type
 	 * @return a flat graph
 	 */
-	private IGraph getGraph(TypeDeclaration td) {
-		if (shouldInstantiate) {
-			if (!typeGraphs.containsKey(td)) {
-				typeGraphs.put(td, td.getInstantiatedGraph());
+	private IGraph getGraph(ITypeDeclaration instType) {
+		if (instType instanceof TypeDeclaration) {
+			TypeDeclaration inst = (TypeDeclaration) instType;
+			if (shouldInstantiate) {
+				if (!typeGraphs.containsKey(instType)) {
+					typeGraphs.put(instType, inst.getInstantiatedGraph());
+				}
+				return typeGraphs.get(instType);
 			}
-			return typeGraphs.get(td);
+			return inst.getGraph();
+		} else {
+			throw new UnsupportedOperationException("Can only flattent Time Petri nets and their compositions.");
 		}
-		return td.getGraph();
 	}
 
 	/**
@@ -368,7 +380,7 @@ public final class ModelFlattener {
 
 			IElementFormalism inst = formalism.getElementFormalism("instance");
 			INode instance = null;
-			TypeDeclaration instType = null;
+			ITypeDeclaration instType = null;
 			for (INode node : nodes) {
 				if (node.getNodeFormalism().equals(inst)) {
 					instance = node;
@@ -532,7 +544,7 @@ public final class ModelFlattener {
 				for (IArc arc : matchSync.getIncomingArcs()) {
 					// Grab the node "instance"
 					INode instance = arc.getSource();
-					TypeDeclaration instType = ctd.getConcept(
+					ITypeDeclaration instType = ctd.getConcept(
 							instance.getAttribute("type").getValue())
 							.getEffective();
 					String instName = instance.getAttribute("name").getValue();
@@ -552,7 +564,7 @@ public final class ModelFlattener {
 				for (IArc arc : matchSync.getOutgoingArcs()) {
 					// Grab the node "instance"
 					INode instance = arc.getTarget();
-					TypeDeclaration instType = ctd.getConcept(
+					ITypeDeclaration instType = ctd.getConcept(
 							instance.getAttribute("type").getValue())
 							.getEffective();
 					String instName = instance.getAttribute("name").getValue();
@@ -608,7 +620,7 @@ public final class ModelFlattener {
 	 * Add to tset the effects of the label lab the instance represented by Node
 	 * inst.
 	 * 
-	 * @param type
+	 * @param instType
 	 *            the type of the instance (a TPN)
 	 * @param inst
 	 *            the instance node in the original net(s)
@@ -620,18 +632,18 @@ public final class ModelFlattener {
 	 *            the instance prefix of this transition
 	 * @return the set of set of effects under construction
 	 */
-	private List<List<ResolvedTrans>> cumulateLabelEffect(TypeDeclaration type,
+	private List<List<ResolvedTrans>> cumulateLabelEffect(ITypeDeclaration instType,
 			INode inst, String lab, String prefix,
 			List<List<ResolvedTrans>> tset) {
 
 		// Test for recursion composite case
-		if (type instanceof CompositeTypeDeclaration) {
-			CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) type;
+		if (instType instanceof CompositeTypeDeclaration) {
+			CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) instType;
 			return cumulateLabelEffect(ctd, lab, prefix, tset);
 		}
 		// We are now sure this is a TPN
 		// grab the appropriate formalism elements to analyze an ITS Composite
-		IGraphFormalism formalism = getGraph(type).getFormalism()
+		IGraphFormalism formalism = getGraph(instType).getFormalism()
 				.getRootGraph();
 		IElementFormalism trans = formalism.getElementFormalism("transition");
 
@@ -641,7 +653,7 @@ public final class ModelFlattener {
 		 */
 		List<INode> matchingTrans = new ArrayList<INode>();
 
-		Collection<INode> nodes = getGraph(type).getNodes();
+		Collection<INode> nodes = getGraph(instType).getNodes();
 		for (INode node : nodes) {
 			// A transition
 			if (node.getNodeFormalism().equals(trans)) {
