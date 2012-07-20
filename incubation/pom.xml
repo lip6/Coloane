@@ -52,6 +52,17 @@
             <layout>p2</layout>
             <url>http://pnml.lip6.fr/pnmlframework/updatesite</url>
         </repository>
+    <!--
+	<repository>
+	<id>spray-dependencies</id>
+	<layout>p2</layout>
+	<url>https://spray.ci.cloudbees.com/job/spray-ci-targetplatform/lastSuccessfulBuild/artifact/releng/org.eclipselabs.spray.repository/target/repository/</url>    </repository>
+    -->
+    <repository>
+      <id>spray-dependencies-juno</id>
+      <layout>p2</layout>
+      <url>https://spray.ci.cloudbees.com/job/spray-ci-targetplatform-juno/lastSuccessfulBuild/artifact/releng/org.eclipselabs.spray.repository/target/repository/</url>
+    </repository>
     </repositories>
 
     <!-- L'équipe de développement (actifs)-->
@@ -359,18 +370,6 @@
         </plugins>
     </build>
 
-  <repositories>
-    <!--
-	<repository>
-	<id>spray-dependencies</id>
-	<layout>p2</layout>
-	<url>https://spray.ci.cloudbees.com/job/spray-ci-targetplatform/lastSuccessfulBuild/artifact/releng/org.eclipselabs.spray.repository/target/repository/</url>    </repository>
-    -->
-    <repository>
-      <id>spray-dependencies-juno</id>
-      <layout>p2</layout>
-      <url>https://spray.ci.cloudbees.com/job/spray-ci-targetplatform-juno/lastSuccessfulBuild/artifact/releng/org.eclipselabs.spray.repository/target/repository/</url>
-    </repository>
-  </repositories>
+
 
 </project>
