@@ -20,6 +20,7 @@ import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
 import fr.lip6.move.coloane.projects.its.flatten.ModelFlattener;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
@@ -63,16 +64,16 @@ import org.eclipse.ui.ide.IDE;
 public final class FlattenNewModelWizard extends Wizard implements INewWizard {
 	private FlattenNewWizardPage page;
 	private ISelection selection;
-	private TypeDeclaration td;
+	private ITypeDeclaration td;
 
 	/**
 	 * Constructor for SampleNewWizard.
-	 * @param td the type
+	 * @param td2 the type
 	 */
-	public FlattenNewModelWizard(TypeDeclaration td) {
+	public FlattenNewModelWizard(ITypeDeclaration td2) {
 		super();
 		setNeedsProgressMonitor(true);
-		this.td = td;
+		this.td = td2;
 	}
 
 	/**
@@ -157,8 +158,12 @@ public final class FlattenNewModelWizard extends Wizard implements INewWizard {
 				mf.doFlatten(ctd, shouldInstantiate);
 				monitor.worked(1);
 				graph = mf.getFlatModel();
+			} else if (td instanceof TypeDeclaration) {
+				TypeDeclaration tpn = (TypeDeclaration) td;
+				graph = tpn.getInstantiatedGraph();
 			} else {
-				graph = td.getInstantiatedGraph();
+				ITSEditorPlugin.warning("Cannot flatten this type :" + td.getTypeType());
+				return;
 			}
 
 			String xml = ModelWriter.translateToXML(graph);
