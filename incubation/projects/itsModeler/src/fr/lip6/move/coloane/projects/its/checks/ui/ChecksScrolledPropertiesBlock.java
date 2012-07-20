@@ -36,6 +36,7 @@ import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 import fr.lip6.move.coloane.projects.its.ui.forms.OpenEditorAction;
 import fr.lip6.move.coloane.projects.its.ui.forms.TypeDeclarationDetailsPage;
 import fr.lip6.move.coloane.projects.its.ui.forms.VariableBindingDetailsPage;
+import fr.lip6.move.coloane.projects.its.variables.GalVariable;
 import fr.lip6.move.coloane.projects.its.variables.InstanceVariable;
 import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
 import fr.lip6.move.coloane.projects.its.variables.ScalarInstanceVariable;
@@ -291,6 +292,8 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock
 				new CTLFormulaDescriptionDetailsPage());
 		// Variables
 		detailsPart.registerPage(PlaceMarkingVariable.class,
+				new VariableDetailsPage());
+		detailsPart.registerPage(GalVariable.class,
 				new VariableDetailsPage());
 		detailsPart.registerPage(TransitionClockVariable.class,
 				new VariableDetailsPage());
