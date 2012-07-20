@@ -58,7 +58,7 @@ import org.eclipse.ui.part.FileEditorInput;
  * A type declaration detail page.
  * @author Yann
  */
-public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclaration> {
+public final class TypeDeclarationDetailsPage extends ITSDetailsPage<ITypeDeclaration> {
 	private Text typeNametf;
 	private Text typeFormalismtf;
 	private Text typeFiletf;
@@ -167,7 +167,7 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				try {
-					TypeDeclaration td = getInput();
+					ITypeDeclaration td = getInput();
 					flat.setTypeDeclaration(td);
 					IFile path =  ((FileEditorInput) ((MasterDetailsPage) TypeDeclarationDetailsPage.this.getMform().getContainer()).getEditor().getEditorInput()).getFile() ;
 					flat.setPath(path.getProject());
@@ -185,7 +185,7 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<TypeDeclara
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				try {
-					TypeDeclaration td = getInput();
+					ITypeDeclaration td = getInput();
 					MultiPageEditor mpe = (MultiPageEditor) ((MasterDetailsPage) TypeDeclarationDetailsPage.this.getMform().getContainer()).getEditor() ;
 					mpe.createCheckPage(td);
 					//parent.getParent().getParent();
