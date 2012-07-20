@@ -37,7 +37,7 @@ public abstract class AbstractTypeDeclaration extends SimpleObservable implement
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.projects.its.ITypeDeclaration#setTypeName(java.lang.String)
 	 */
-	public final void setTypeName(String typeName) {
+	public void setTypeName(String typeName) {
 		if (!this.typeName.equals(typeName)) {
 			this.typeName = typeName;
 			notifyObservers();

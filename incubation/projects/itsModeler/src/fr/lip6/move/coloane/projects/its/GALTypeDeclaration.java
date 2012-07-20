@@ -23,11 +23,19 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 		
 		// load and store handle to GAL System
 		this.galSystem = SerializationUtil.fileToGalSystem(file.getLocation().makeAbsolute().toPortableString());
+		galSystem.setName(name);
 	}
 
 	public String getTypeType() {
 		return "Guarded Action Language";
 	}
+	
+	@Override
+	public void setTypeName(String typeName) {
+		super.setTypeName(typeName);
+		galSystem.setName(typeName);
+	}
+	
 
 	
 	@Override
