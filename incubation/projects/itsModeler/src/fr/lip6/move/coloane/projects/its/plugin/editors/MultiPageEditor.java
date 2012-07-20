@@ -338,7 +338,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	 * Tests are performed to only create one check page per main type.
 	 * @param td the main type to analyze.
 	 */
-	public void createCheckPage(TypeDeclaration td) {
+	public void createCheckPage(ITypeDeclaration td) {
 		if (td != null) {
 			if (!checkPagesIndex .containsKey(td)) {
 				CheckList cl = new CheckList(td);
