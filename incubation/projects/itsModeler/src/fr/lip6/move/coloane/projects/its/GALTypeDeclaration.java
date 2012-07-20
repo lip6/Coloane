@@ -1,7 +1,8 @@
 package fr.lip6.move.coloane.projects.its;
 
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,15 +10,19 @@ import org.eclipse.core.resources.IFile;
 
 import fr.lip6.move.coloane.projects.its.expression.EvaluationContext;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
+import fr.lip6.move.coloane.projects.its.variables.GalVariable;
 import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
+import fr.lip6.move.gal.Variable;
+import fr.lip6.move.serialization.SerializationUtil;
 
 public class GALTypeDeclaration extends AbstractTypeDeclaration {
+	private fr.lip6.move.gal.System galSystem;
 	
 	public GALTypeDeclaration(String name, IFile file, TypeList types) {
 		super (name,file,types);
 		
-		// Todo : load and store handle to GAL System
-	
+		// load and store handle to GAL System
+		this.galSystem = SerializationUtil.fileToGalSystem(file.getLocation().makeAbsolute().toPortableString());
 	}
 
 	public String getTypeType() {
@@ -27,12 +32,19 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 	
 	@Override
 	public List<IModelVariable> computeVariables() {
-		// TODO la liste des variables, il faut creer des classes dérivées de LeafModelVariable, cf PlaceMarkingVariable par exemple
+		// TODO la liste des variables, il faut creer des classes dérivées de LeafModelVariable, 
+		// cf PlaceMarkingVariable par exemple
 		// Un pour chaque variable de type int
 		// Un (avec des fils ?) pour chaque tableau
 		// un par liste ?
 		
-		return Collections.EMPTY_LIST;
+		List<IModelVariable> variables = new ArrayList<IModelVariable>();
+		
+		for(Variable var : galSystem.getVariables()){
+			variables.add(new GalVariable(var));
+		}
+		
+		return variables;
 	}
 
 
@@ -48,21 +60,39 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 	public void reload() throws IOException {
 		// Il faut recharger l'instance de systeme en la lisant depuis le fichier + eventuellement flusher les caches
 		// i.e. invoquer clearLabels()
+		clearCaches();
+		
+		galSystem = SerializationUtil.fileToGalSystem(getTypeFile().getName());
+		
+		
 	}
 
 	
 	/**
 	 * 
+	 * @return the set of public labels of this type
+	 * A transition is public if it has a Gal label
 	 */
 	@Override
 	protected Set<String> computeLabels() {
-		// TODO rendre la liste des labels de transitions "public"
-		return Collections.EMPTY_SET;
+		Set<String> labels = new HashSet<String>();
+		
+		for(fr.lip6.move.gal.Transition trans : galSystem.getTransitions()){
+			final String label = trans.getLabel();
+			if(label!=null){
+				labels.add(label);
+			}
+		}
+		
+		return labels;
 	}
 
 	public void writeToFile(String path) {
 		// create and write a GAL file based on model in memory
+		SerializationUtil.systemToFile(galSystem, path);
 	}
 
 	
 }
+
+
