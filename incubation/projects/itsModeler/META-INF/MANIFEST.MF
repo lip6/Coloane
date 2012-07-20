@@ -19,7 +19,9 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.filesystem,
  fr.lip6.move.coloane.extensions.importExportCAMI,
  fr.lip6.move.coloane.tools.layout,
- fr.lip6.move.coloane.projects.expressions
+ fr.lip6.move.coloane.projects.expressions,
+ org.eclipse.emf.common;bundle-version="2.7.0",
+ fr.lip6.move.gal
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
