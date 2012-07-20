@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import fr.lip6.move.coloane.projects.its.TypeDeclaration;
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.plugin.wizards.FlattenNewModelWizard;
 
 import org.eclipse.core.resources.IResource;
@@ -37,7 +37,7 @@ import org.eclipse.ui.PlatformUI;
  */
 public final class FlattenModelAction extends Action {
 
-	private TypeDeclaration td;
+	private ITypeDeclaration td;
 	private IResource path;
 
 	
@@ -50,7 +50,7 @@ public final class FlattenModelAction extends Action {
 	 * Position the TypeDeclaration we are working with.
 	 * @param td the TypeDeclaration to set
 	 */
-	public void setTypeDeclaration(TypeDeclaration td) {
+	public void setTypeDeclaration(ITypeDeclaration td) {
 		this.td = td;		
 	}
 
