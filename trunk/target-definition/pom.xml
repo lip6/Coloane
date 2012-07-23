@@ -34,6 +34,11 @@
                                     <type>target</type>
                                     <classifier>helios</classifier>
                                 </artifact>
+                                <artifact>
+                                    <file>juno.target</file>
+                                    <type>target</type>
+                                    <classifier>juno</classifier>
+                                </artifact>
                             </artifacts>
                         </configuration>
                     </execution>
