@@ -35,7 +35,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tycho-version>0.14.0</tycho-version>
+        <tycho-version>0.15.0</tycho-version>
         <sonar.exclusions>**/Messages.java</sonar.exclusions>
     </properties>
 
