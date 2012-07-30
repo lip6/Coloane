@@ -17,6 +17,7 @@ package fr.lip6.move.coloane.extensions.exporttogml;
 
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativePartLexer;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativePartParserSN;
+import fr.lip6.move.coloane.extensions.exporttogml.antlr.DeclarativePartParserSN.declaration_return;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.GuardLexer;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.GuardParser;
 import fr.lip6.move.coloane.extensions.exporttogml.antlr.ValuationLexerSNB;
@@ -220,7 +221,13 @@ public class SNBExport implements IGMLExport {
 			exportValuation(attr.getValue(), currentST, monitor, symbols);
 			LOGGER.finer("export valuation");
 		} else {
-			StringTemplate tmp = templates.getInstanceOf("balise", new STAttrMap().put("name", attr.getName()).put("content", attr.getValue()));
+			STAttrMap stAttrMap = new STAttrMap();
+			stAttrMap.put("name", attr.getName());
+			stAttrMap.put("x", attr.getGraphicInfo().getLocation().x());
+			stAttrMap.put("y", attr.getGraphicInfo().getLocation().y());
+			stAttrMap.put("content", attr.getValue());
+
+			StringTemplate tmp = templates.getInstanceOf("locbalise", stAttrMap);
 			currentST.setAttribute("content", tmp);
 			LOGGER.finer("export generic attribute");
 		}
@@ -242,7 +249,8 @@ public class SNBExport implements IGMLExport {
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			parser = new DeclarativePartParserSN(tokens);
 			parser.setTemplateLib(templates);
-			modelST.setAttribute("content", parser.declaration(formalism));
+			declaration_return declaration = parser.declaration(formalism);
+			modelST.setAttribute("content", declaration);
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Error in the declarative part at : " + value.split("\n")[e.line - 1]);
 		}
@@ -334,7 +342,13 @@ public class SNBExport implements IGMLExport {
 	 * @throws ExtensionException if the parser throws an exception
 	 */
 	private void exportNode(INode node, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException {
-		StringTemplate currentST = templates.getInstanceOf("node", new STAttrMap().put("id", node.getId()).put("type", node.getNodeFormalism().getName()));
+		STAttrMap stAttrMap = new STAttrMap();
+		stAttrMap.put("id", node.getId());
+		stAttrMap.put("type", node.getNodeFormalism().getName());
+		stAttrMap.put("x", node.getGraphicInfo().getLocation().x());
+		stAttrMap.put("y", node.getGraphicInfo().getLocation().y());
+
+		StringTemplate currentST = templates.getInstanceOf("node", stAttrMap);
 		for (IAttribute attr : node.getAttributes()) {
 			try {
 				exportAttribute(attr, currentST, monitor, symbols);
