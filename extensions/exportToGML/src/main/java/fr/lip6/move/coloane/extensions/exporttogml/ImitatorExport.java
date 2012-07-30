@@ -40,9 +40,9 @@ import java.io.StringReader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Iterator;
 
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.xpath.XPath;
@@ -174,7 +174,7 @@ public class ImitatorExport implements IGMLExport {
 				}
 
 				// Dummy implementation - not used!
-				public Iterator getPrefixes(String val) {
+				public Iterator<?> getPrefixes(String val) {
 					return null;
 				}
 
@@ -582,7 +582,13 @@ public class ImitatorExport implements IGMLExport {
 	 * @throws ExtensionException if the parser throws an exception
 	 */
 	private void exportNode(INode node, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbols) throws ExtensionException {
-		StringTemplate currentST = templates.getInstanceOf("node", new STAttrMap().put("id", node.getId()).put("type", node.getNodeFormalism().getName()));
+		STAttrMap stAttrMap = new STAttrMap();
+		stAttrMap.put("id", node.getId());
+		stAttrMap.put("type", node.getNodeFormalism().getName());
+		stAttrMap.put("x", node.getGraphicInfo().getLocation().x());
+		stAttrMap.put("y", node.getGraphicInfo().getLocation().y());
+
+		StringTemplate currentST = templates.getInstanceOf("node", stAttrMap);
 		for (IAttribute attr : node.getAttributes()) {
 			try {
 				exportAttribute(attr, currentST, monitor, symbols);

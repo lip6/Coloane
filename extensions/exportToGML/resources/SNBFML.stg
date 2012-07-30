@@ -8,8 +8,8 @@ modelBalise(version, encoding, form, content) ::= <<
 \</model\>
 >>
 
-node(id, type, content) ::= <<
-\<node id="<id>" nodeType="<type>"\>
+node(id, type, x, y, content) ::= <<
+\<node id="<id>" nodeType="<type>" x="<x>" y="<y>"\>
   <content; separator="\n">
 \</node\>
 >>
@@ -22,6 +22,12 @@ arc(id, type, source, target, content) ::= <<
 
 balise(name,content) ::= <<
 \<attribute name="<name>"\>
+  <content; separator="\n">
+\</attribute\>
+>>
+
+locbalise(name,x,y,content) ::= <<
+\<attribute name="<name>" x="<x>" y="<y>"\>
   <content; separator="\n">
 \</attribute\>
 >>
