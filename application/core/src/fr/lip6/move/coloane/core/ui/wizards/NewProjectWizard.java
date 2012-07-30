@@ -22,6 +22,7 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -81,12 +82,12 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		try {
 			// Check whether the project does not already exist
 			if (!newProject.exists()) {
-				newProject.create(basicDescription, null);
+				newProject.create(basicDescription, new NullProgressMonitor());
 			}
 
 			// Open the project if it is not
 			if (!newProject.isOpen()) {
-				newProject.open(null);
+				newProject.open(new NullProgressMonitor());
 			}
 		} catch (CoreException e) {
 			e.printStackTrace();

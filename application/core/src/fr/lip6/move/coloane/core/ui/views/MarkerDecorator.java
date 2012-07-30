@@ -39,7 +39,7 @@ public class MarkerDecorator implements ILabelDecorator {
 	/** {@inheritDoc} */
 	@Override
 	public final Image decorateImage(Image image, Object element) {
-		if (element instanceof IResource) {
+		if (element instanceof IResource && ((IResource) element).isAccessible()) {
 			IResource resource = (IResource) element;
 			if (resource.isAccessible()) {
 				try {
