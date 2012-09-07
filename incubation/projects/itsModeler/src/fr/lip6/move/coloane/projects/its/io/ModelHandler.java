@@ -200,11 +200,11 @@ public class ModelHandler extends DefaultHandler {
 			throw new SAXException("Corrupted XML file, Dangling parent type id " + idParent + " in concept " + name);
 		}
 		// Get effective with maximum safeguards
-		TypeDeclaration effective;
+		ITypeDeclaration effective;
 		try {
-			effective = (TypeDeclaration) ids.get(idEffective);
+			effective = (ITypeDeclaration) ids.get(idEffective);
 		} catch (ClassCastException e) {
-			throw new SAXException("Corrupted XML file, effective id " + idParent + " should refer to a type declaration");
+			throw new SAXException("Corrupted XML file, effective id " + idEffective + " should refer to a type declaration");
 		}
 		if (effective == null) {
 			throw new SAXException("Corrupted XML file, Dangling Effective type id " + idEffective + " in concept " + name);
