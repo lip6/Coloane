@@ -134,6 +134,8 @@ public class ProcessController {
 	 * Forwards the process standard output and error output.
 	 */
 	private void forwardStreams() {
+		if (process == null)
+			return;
 		if (forwardStdErr != null) {
 			forwardStream("stderr", process.getErrorStream(), forwardStdErr);
 		}
