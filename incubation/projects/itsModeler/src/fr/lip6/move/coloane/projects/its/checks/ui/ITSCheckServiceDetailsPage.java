@@ -111,7 +111,7 @@ public class ITSCheckServiceDetailsPage extends CheckServiceDetailsPage {
 	}
 
 	/**
-	 * Extract the required labels andd scan type list for matching types.
+	 * Extract the required labels and scan type list for matching types.
 	 * 
 	 * @param input
 	 *            the concept to satisfy
