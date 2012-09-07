@@ -9,7 +9,7 @@ public class GalVariable extends LeafModelVariable {
 
 	public GalVariable(fr.lip6.move.gal.Variable variable) {
 		super(variable.getName());
-		setId("GV_"+variable.getName());
+		setId(variable.getName());
 		this.variable = variable;
 	}
 
