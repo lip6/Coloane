@@ -133,7 +133,8 @@ public final class AddTypeDialog extends TitleAreaDialog {
 		Path path = new Path(fileField.getText());
 		path.removeFileExtension();
 		String name = path.lastSegment();
-		name.replace(".model", "");
+		name = name.replace(".model", "");
+		name = name.replace(".gal", "");
 		name = generateValidName(name);
 		newTypeTextfield.setText(name);
 	}
