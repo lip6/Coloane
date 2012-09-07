@@ -288,6 +288,9 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 			if (concept.getEffective() == null) {
 				return false;
 			}
+			if (! concept.getEffective().isSatisfied()) {
+				return false;
+			}
 		}
 		return true;
 	}

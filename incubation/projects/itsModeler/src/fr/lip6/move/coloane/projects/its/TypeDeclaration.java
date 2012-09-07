@@ -364,6 +364,21 @@ public class TypeDeclaration extends AbstractTypeDeclaration implements ISimpleO
 		}
 	}
 
+	
+	@Override
+	public boolean isSatisfied() {
+		if (!super.isSatisfied()) {
+			return false;
+		}
+		for (IVariableBinding concept : getParameters().getBindings()) {
+			if (concept.getVariableValue() == null) {
+				return false;
+			}
+		}
+		return true;
+	}	
+	
+	
 	// protected List<INode> computeStateVariables () {
 	// List<INode> vars;
 	// EvaluationContext context = new EvaluationContext();
