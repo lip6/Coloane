@@ -26,10 +26,6 @@ import org.eclipse.swt.widgets.Composite;
 
 public class CTLCheckServiceDetailsPage extends ITSCheckServiceDetailsPage {
 
-	public CTLCheckServiceDetailsPage() {
-		setShowRunButton(false);
-	}
-
 	@Override
 	public CTLCheckService getInput() {
 		return (CTLCheckService) super.getInput();
