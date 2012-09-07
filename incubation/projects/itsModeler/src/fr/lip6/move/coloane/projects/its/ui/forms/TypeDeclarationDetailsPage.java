@@ -16,11 +16,13 @@
  */
 package fr.lip6.move.coloane.projects.its.ui.forms;
 
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.interfaces.formalism.IElementFormalism;
 import fr.lip6.move.coloane.interfaces.formalism.IGraphFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 import fr.lip6.move.coloane.projects.its.CompositeTypeDeclaration;
+import fr.lip6.move.coloane.projects.its.Concept;
 import fr.lip6.move.coloane.projects.its.GALTypeDeclaration;
 import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.TypeDeclaration;
@@ -166,6 +168,14 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<ITypeDeclar
 		b3.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
+				if (! getInput().isSatisfied()) {
+					Coloane.showWarningMsg("Please assign a value to each concept and variable of your model.");
+					return;
+				}
+				if (! canFlatten(getInput())) {
+					Coloane.showWarningMsg("Please select a Composite or TPN type ! Your model must only contain Time Petri net to allow flattening.");
+					return;
+				}
 				try {
 					ITypeDeclaration td = getInput();
 					flat.setTypeDeclaration(td);
@@ -173,7 +183,26 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<ITypeDeclar
 					flat.setPath(path.getProject());
 					flat.run();
 				} catch (ClassCastException e) {
-					System.err.println("Select a type");
+					Coloane.showWarningMsg("Please select a Composite or TPN type ! " + e.getMessage());
+				}
+			}
+			
+			private boolean canFlatten (ITypeDeclaration td) {
+				if (td == null)
+					return false;
+				if (td instanceof CompositeTypeDeclaration) {
+					CompositeTypeDeclaration ctd = (CompositeTypeDeclaration) td;
+					for (Concept c : ctd.listConcepts()) {
+						if (! canFlatten(c.getEffective())) {
+							return false;
+						}
+					}
+					return true;
+				} else if (td.getTypeType().equals("Time Petri Net") || td.getTypeType().equals("Petri Net")) {
+					return true;					
+				} else {
+					Coloane.showWarningMsg("Please ensure your model description only contains Time Petri Nets and their composition. Type " + td.getTypeName() + " which is of type " + td.getTypeType() + " cannot be flattened.");
+					return false;
 				}
 			}
 		});
@@ -184,6 +213,11 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<ITypeDeclar
 		b4.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
+				if (! getInput().isSatisfied()) {
+					Coloane.showWarningMsg("Please assign a value to each concept and variable of your model.");
+					return;
+				}
+				
 				try {
 					ITypeDeclaration td = getInput();
 					MultiPageEditor mpe = (MultiPageEditor) ((MasterDetailsPage) TypeDeclarationDetailsPage.this.getMform().getContainer()).getEditor() ;
