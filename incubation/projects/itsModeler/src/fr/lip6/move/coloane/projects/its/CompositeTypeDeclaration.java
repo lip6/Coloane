@@ -167,7 +167,7 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 
 						List<IModelVariable> subvars = concept.getEffective().getVariables();
 						for (IModelVariable v : subvars) {
-							var.addChild(v);
+							var.addChild(v.clone());
 						}
 						vars.add(var);
 
