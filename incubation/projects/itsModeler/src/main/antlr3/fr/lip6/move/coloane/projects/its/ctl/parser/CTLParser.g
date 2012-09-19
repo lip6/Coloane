@@ -206,7 +206,7 @@ predicate returns [CTLFormula form] :
 
 comparator returns [String val] : tok=('=' | '>=' | '<=' | '<' | '>')  {
 	val = tok.getText();
-}
+};
 
 
 fragment LETTER : 'a'..'z' | 'A'..'Z' | '_' | '.'
