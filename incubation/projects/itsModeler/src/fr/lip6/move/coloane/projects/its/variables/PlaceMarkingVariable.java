@@ -37,6 +37,10 @@ public class PlaceMarkingVariable extends LeafModelVariable {
 		setId("P_" + node.getId() + getName());
 	}
 
+	private PlaceMarkingVariable(PlaceMarkingVariable other) {
+		super(other);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -44,4 +48,8 @@ public class PlaceMarkingVariable extends LeafModelVariable {
 		return "An integer representing the marking of a Time Petri net place";
 	}
 
+	public PlaceMarkingVariable clone () {
+		return new PlaceMarkingVariable(this);
+	}
+	
 }

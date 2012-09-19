@@ -47,6 +47,11 @@ public abstract class AbstractModelVariable implements IModelVariable {
 		this.name = name;
 	}
 
+	public AbstractModelVariable (AbstractModelVariable other) {
+		this.name = other.name;
+		this.id = other.id;
+	}
+	
 	/**
 	 * Position the id. Call during construction.
 	 * 
@@ -112,5 +117,7 @@ public abstract class AbstractModelVariable implements IModelVariable {
 		}
 		return s + id;
 	}
+	
+	public abstract IModelVariable clone ();
 
 }

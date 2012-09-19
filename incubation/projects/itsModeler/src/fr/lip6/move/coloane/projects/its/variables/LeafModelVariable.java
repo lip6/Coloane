@@ -37,6 +37,10 @@ public abstract class LeafModelVariable extends AbstractModelVariable implements
 	public LeafModelVariable(String name) {
 		super(name);
 	}
+	
+	public LeafModelVariable(LeafModelVariable other) {
+		super(other);
+	}
 
 	/**
 	 * A leaf has no children.
@@ -47,5 +51,7 @@ public abstract class LeafModelVariable extends AbstractModelVariable implements
 	public final Iterator<IModelVariable> iterator() {
 		return Collections.EMPTY_LIST.iterator();
 	}
+	
+	public abstract IModelVariable clone();
 
 }

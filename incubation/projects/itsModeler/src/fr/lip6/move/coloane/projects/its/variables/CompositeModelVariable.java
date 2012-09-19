@@ -62,4 +62,14 @@ public abstract class CompositeModelVariable extends AbstractModelVariable
 		children.add(var);
 		var.setParent(this);
 	}
+
+	public CompositeModelVariable (CompositeModelVariable other) {
+		super(other.getName());
+		for (IModelVariable v: other) {
+			this.addChild(v.clone());
+		}
+	}
+	
+	public abstract IModelVariable clone();
+
 }

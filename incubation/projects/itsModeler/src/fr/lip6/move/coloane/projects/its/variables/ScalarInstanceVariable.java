@@ -44,6 +44,11 @@ public class ScalarInstanceVariable extends CompositeModelVariable {
 		this.type = inst.getAttribute("type").getValue() + " (" + type + ")";
 	}
 
+	public ScalarInstanceVariable(ScalarInstanceVariable other) {
+		super(other);
+		type = other.type;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -58,6 +63,10 @@ public class ScalarInstanceVariable extends CompositeModelVariable {
 	 */
 	public final String getInstanceName() {
 		return "tab[ " + getName() + " ]:" + type;
+	}
+	
+	public ScalarInstanceVariable clone() {
+		return new ScalarInstanceVariable(this);
 	}
 
 }

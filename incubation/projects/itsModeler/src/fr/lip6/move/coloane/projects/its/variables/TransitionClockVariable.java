@@ -41,6 +41,15 @@ public class TransitionClockVariable extends LeafModelVariable {
 				+ ", " + transition.getAttribute("latestFiringTime").getValue()
 				+ " ]";
 	}
+	
+	
+
+	public TransitionClockVariable(TransitionClockVariable other) {
+		super(other);
+		this.clock = other.clock;
+	}
+
+
 
 	/**
 	 * {@inheritDoc}
@@ -48,5 +57,9 @@ public class TransitionClockVariable extends LeafModelVariable {
 	public final String getDescription() {
 		return "An integer representing a transition clock value " + clock
 				+ ".";
+	}
+	
+	public TransitionClockVariable clone () {
+		return new TransitionClockVariable(this);
 	}
 }

@@ -45,6 +45,11 @@ public class InstanceVariable extends CompositeModelVariable {
 		this.type = inst.getAttribute("type").getValue() + " (" + type + ")";
 	}
 
+	private InstanceVariable(InstanceVariable other) {
+		super(other);
+		this.type = other.type;
+	}
+
 	/**
 	 * Compose the name UML style as: name:Type.
 	 * {@inheritDoc}
@@ -60,6 +65,10 @@ public class InstanceVariable extends CompositeModelVariable {
 	 */
 	public final String getInstanceName() {
 		return getName() + ":" + type;
+	}
+	
+	public InstanceVariable clone () {
+		return new InstanceVariable(this);
 	}
 
 }

@@ -73,4 +73,7 @@ public interface IModelVariable extends Iterable<IModelVariable> {
 	 *            new parent.
 	 */
 	void setParent(IModelVariable parent);
+
+	/** Deep copy this variable */
+	IModelVariable clone();
 }

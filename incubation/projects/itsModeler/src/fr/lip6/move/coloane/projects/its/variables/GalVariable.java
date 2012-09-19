@@ -13,6 +13,11 @@ public class GalVariable extends LeafModelVariable {
 		this.variable = variable;
 	}
 
+	public GalVariable(GalVariable other) {
+		super(other);
+		this.variable = other.variable;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
@@ -20,4 +25,7 @@ public class GalVariable extends LeafModelVariable {
 		return "An integer" ;// representing a simple variable of a GAL System";
 	}
 
+	public GalVariable clone () {
+		return new GalVariable(this);
+	}
 }
