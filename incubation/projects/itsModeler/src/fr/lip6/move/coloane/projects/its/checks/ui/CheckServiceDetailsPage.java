@@ -61,8 +61,8 @@ public class CheckServiceDetailsPage extends
 
 		FormToolkit toolkit = getToolkit();
 		Section s1 = toolkit.createSection(parent,
-				ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE
-						| ExpandableComposite.COMPACT);
+				ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE);
+//						| ExpandableComposite.COMPACT);
 		s1.marginWidth = 4;
 		s1.marginHeight = 4;
 		s1.setText("Check Service Description"); //$NON-NLS-1$
@@ -141,6 +141,23 @@ public class CheckServiceDetailsPage extends
 		// /// ADD THE PARAMS HERE
 		params = new ParameterSection("Tool Settings", getToolkit(), parent,
 				true);
+	
+		updateFolder();
+	}
+
+
+	private void updateFolder() {
+		AbstractCheckService input = getInput();
+		try {
+			IFile pos = ((FileEditorInput) PlatformUI.getWorkbench()
+					.getActiveWorkbenchWindow().getActivePage()
+					.getActiveEditor().getEditorInput()).getFile();
+			foldertf.setText(input != null && input.getWorkDir(pos) != null ? input
+					.getWorkDir() : "");
+		} catch (RuntimeException e) {
+			// it's ok, we didnt find the editor, tough luck.
+			foldertf.setText("");
+		}
 	}
 
 
@@ -154,16 +171,7 @@ public class CheckServiceDetailsPage extends
 		// CHECKSTYLE OFF
 		serviceNametf.setText(input != null && input.getName() != null ? input
 				.getName() : "");
-		try {
-			IFile pos = ((FileEditorInput) PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getActivePage()
-					.getActiveEditor().getEditorInput()).getFile();
-			foldertf.setText(input != null && input.getWorkDir(pos) != null ? input
-					.getWorkDir() : "");
-		} catch (RuntimeException e) {
-			// it's ok, we didnt find the editor, tough luck.
-			foldertf.setText("");
-		}
+		updateFolder();
 		// CHECKSTYLE ON
 	}
 
