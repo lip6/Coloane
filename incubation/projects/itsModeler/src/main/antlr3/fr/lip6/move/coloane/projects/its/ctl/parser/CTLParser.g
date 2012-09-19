@@ -175,7 +175,7 @@ predicate returns [CTLFormula form] :
   'FALSE'
   { form = CTLFormula.FALSE; }
   |
-  var=VARIABLE '=' val=NUMBER
+  var=VARIABLE comp=comparator val=NUMBER
   { 
                       String name = var.getText();
                         IModelVariable  v = cl.getType().findQualifiedVariable(name);
@@ -186,7 +186,7 @@ predicate returns [CTLFormula form] :
                         } else {
                           name = v.getId();
                         }
-                        form = new CTLVariablePredicate(name, "=", val.getText() );   }
+                        form = new CTLVariablePredicate(name, comp, val.getText() );   }
   |
   '@' var=VARIABLE
   { 
@@ -204,6 +204,9 @@ predicate returns [CTLFormula form] :
   ;
 
 
+comparator returns [String val] : tok=('=' | '>=' | '<=' | '<' | '>')  {
+	val = tok.getText();
+}
 
 
 fragment LETTER : 'a'..'z' | 'A'..'Z' | '_' | '.'
@@ -224,6 +227,7 @@ INFINITY : 'inf'
 
 VARIABLE  : ( STRING | ( (LETTER | DIGIT)+ ) )
   ;
+  
   
 // LABEL : ' ' ( options{greedy=false;}: .* ) ' ';
 
