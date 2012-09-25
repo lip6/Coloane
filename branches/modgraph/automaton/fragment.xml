@@ -3,85 +3,94 @@
 <fragment>
    <extension
          point="fr.lip6.move.coloane.core.formalisms">
-    <formalism 
+    <Formalism
     	id="automaton" 
     	name="Automaton" 
+        fkname="automaton.Formalism1"
     	extension="aut">
     	<XmlDescription>
     		<Graph 
     			name="Automaton">
 				
 				<Node container="false" name="state">
-					<GraphicInfo 
-						associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
-						description="state" 
-						drawable = "true"
-						height = "15"
-						palettable="true"
-						paletteName="State"
-						width="15">
+					<GraphicInfo
+           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+           description="state"
+           drawable="true"
+           height="15"
+           icon16px="resources/state_16.png"
+           icon24px="resources/state_24.png"
+           palettable="true"
+           paletteName="State"
+           width="15">
 					</GraphicInfo> 					
 					<Attribute
 						name = "name"
-						drawable = "true"
-						unique = "true">
+						multiline="false"
+						drawable = "true">
 					</Attribute>
 				</Node>
 				
 				<Node container="false" name="initial_state">
-					<GraphicInfo 
-						associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"			
-						description="initial state" 
-						drawable = "true"
-						height = "15"
-						palettable="true"
-						paletteName="Initial state"
-						width="15">
+					<GraphicInfo
+           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
+           description="initial state"
+           drawable="true"
+           height="15"
+           icon16px="resources/initial_16.png"
+           icon24px="resources/initial_24.png"
+           palettable="true"
+           paletteName="Initial state"
+           width="15">
 					</GraphicInfo> 					
 					<Attribute
 						name = "name"
-						drawable = "true"
-						unique = "true">
+						multiline="false"
+						drawable = "true">
 					</Attribute>
 				</Node>
 				
 				<Node container="false" name="terminal_state">
-					<GraphicInfo 
-						associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.TriangleNode"								
-						description="terminal state" 
-						drawable = "true"
-						height = "15"
-						palettable="true"
-						paletteName="Terminal state"
-						width="15">
+					<GraphicInfo
+           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.TriangleNode"
+           description="terminal state"
+           drawable="true"
+           fill="true"
+           height="15"
+           icon16px="resources/terminal_16.png"
+           icon24px="resources/terminal_24.png"
+           palettable="true"
+           paletteName="Terminal state"
+           width="15">
 					</GraphicInfo> 					
 					<Attribute
 						name = "name"
-						drawable = "true"
-						unique = "true">
+						multiline="false"
+						drawable = "true">
 					</Attribute>
 				</Node>
 				
 				<Arc name="arc">
-					<GraphicInfo 
-						associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
-						description="arc" 
-						drawable = "true"
-						height = "7"
-						palettable="true"
-						paletteName="Arc">
+					<GraphicInfo
+           associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+           description="arc"
+           drawable="true"
+           height="7"
+           icon16px="resources/arc_16.png"
+           icon24px="resources/arc_24.png"
+           palettable="true"
+           paletteName="Arc">
 					</GraphicInfo> 					
 					<Attribute
 						name = "label"
 						drawable = "true"
-						multiline = "false"
-						unique = "true">
+						multiline = "false">
 					</Attribute>
 				</Arc>
 								
 			</Graph>
 		</XmlDescription>
-	</formalism>
+    </Formalism>
    </extension>
 </fragment>
 
