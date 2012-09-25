@@ -25,7 +25,7 @@
         <module>exportToGML</module>
         <module>exportToSVG</module>
         <module>importExportCAMI</module>
-        <module>importExportPNML</module>
+        <!-- <module>importExportPNML</module> -->
         <module>importExportLOLA</module>
         <!-- EXAMPLES -->
         <module>modelExamples</module>

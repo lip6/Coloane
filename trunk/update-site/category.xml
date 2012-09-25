@@ -24,9 +24,9 @@
    <feature url="features/fr.lip6.move.coloane.features.importExportCAMI_0.0.0.jar" id="fr.lip6.move.coloane.features.importExportCAMI" version="0.0.0">
       <category name="ImportExportWizards"/>
    </feature>
-   <feature url="features/fr.lip6.move.coloane.features.importExportPNML_0.0.0.jar" id="fr.lip6.move.coloane.features.importExportPNML" version="0.0.0">
-      <category name="ImportExportWizards"/>
-   </feature>
+   <!-- <feature url="features/fr.lip6.move.coloane.features.importExportPNML_0.0.0.jar" id="fr.lip6.move.coloane.features.importExportPNML" version="0.0.0"> -->
+   <!--    <category name="ImportExportWizards"/> -->
+   <!-- </feature> -->
    <feature url="features/fr.lip6.move.coloane.features.languagepack_0.0.0.jar" id="fr.lip6.move.coloane.features.languagepack" version="0.0.0">
       <category name="Others"/>
    </feature>
