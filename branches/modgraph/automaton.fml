@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<formalism name="automaton"
+        xmlns="http://gml.lip6.fr/formalism">
+
+    <leafAttribute name="initialState" />
+    <leafAttribute name="finalState" />
+
+    <complexAttribute name="type" refType="state">
+            <child refName="initialState" minOccurs="0" maxOccurs="1"/>
+            <child refName="finalState" minOccurs="0" maxOccurs="1"/>
+    </complexAttribute>
+	
+    <leafAttribute name="name" refType="state"/>
+    <leafAttribute name="label" refType="transition"/>
+
+    <nodeType name="state"/>
+    <arcType name="transition"/>
+
+    <!-- state names shoud all be unique -->
+</formalism>
+
+
+
