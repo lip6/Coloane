@@ -1,6 +1,8 @@
-package fr.lip6.move.coloane.extensions.exporttogml;
+package fr.lip6.move.coloane.extensions.exporttogml.automaton;
+
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
+
 /**
  * The activator class controls the plug-in life cycle
  */

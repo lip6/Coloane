@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extensions.exporttogml;
+package fr.lip6.move.coloane.extensions.exporttogml.automaton;
 
 import java.io.IOException;
 import java.io.Writer;
