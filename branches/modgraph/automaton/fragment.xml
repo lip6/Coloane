@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="fr.lip6.move.coloane.core.formalisms">
+    <formalism 
+    	id="automaton" 
+    	name="Automaton" 
+    	extension="aut">
+    	<XmlDescription>
+    		<Graph 
+    			name="Automaton">
+				
+				<Node container="false" name="state">
+					<GraphicInfo 
+						associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+						description="state" 
+						drawable = "true"
+						height = "15"
+						palettable="true"
+						paletteName="State"
+						width="15">
+					</GraphicInfo> 					
+					<Attribute
+						name = "name"
+						drawable = "true"
+						unique = "true">
+					</Attribute>
+				</Node>
+				
+				<Node container="false" name="initial_state">
+					<GraphicInfo 
+						associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"			
+						description="initial state" 
+						drawable = "true"
+						height = "15"
+						palettable="true"
+						paletteName="Initial state"
+						width="15">
+					</GraphicInfo> 					
+					<Attribute
+						name = "name"
+						drawable = "true"
+						unique = "true">
+					</Attribute>
+				</Node>
+				
+				<Node container="false" name="terminal_state">
+					<GraphicInfo 
+						associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.TriangleNode"								
+						description="terminal state" 
+						drawable = "true"
+						height = "15"
+						palettable="true"
+						paletteName="Terminal state"
+						width="15">
+					</GraphicInfo> 					
+					<Attribute
+						name = "name"
+						drawable = "true"
+						unique = "true">
+					</Attribute>
+				</Node>
+				
+				<Arc name="arc">
+					<GraphicInfo 
+						associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+						description="arc" 
+						drawable = "true"
+						height = "7"
+						palettable="true"
+						paletteName="Arc">
+					</GraphicInfo> 					
+					<Attribute
+						name = "label"
+						drawable = "true"
+						multiline = "false"
+						unique = "true">
+					</Attribute>
+				</Arc>
+								
+			</Graph>
+		</XmlDescription>
+	</formalism>
+   </extension>
+</fragment>
+
+
+  <!--  <leafAttribute name="initialState" />
+    <leafAttribute name="finalState" />
+
+    <complexAttribute name="type" refType="state">
+            <child refName="initialState" minOccurs="0" maxOccurs="1"/>
+            <child refName="finalState" minOccurs="0" maxOccurs="1"/>
+    </complexAttribute>
+	
+    <leafAttribute name="name" refType="state"/>
+    <leafAttribute name="label" refType="transition"/>
+
+    <nodeType name="state"/>
+    <arcType name="transition"/>-->
