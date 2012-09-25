@@ -17,6 +17,7 @@ package fr.lip6.move.coloane.extensions.exporttogml;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
@@ -27,9 +28,11 @@ import org.osgi.framework.BundleContext;
  * The activator class controls the plug-in life cycle
  */
 public class Activator extends AbstractUIPlugin {
-
 	// The plug-in ID
 	public static final String PLUGIN_ID = "fr.lip6.move.coloane.extensions.exportToGML";
+	
+	/** The logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 	
 	/**
 	 * Extension attributes
@@ -60,6 +63,7 @@ public class Activator extends AbstractUIPlugin {
 		IConfigurationElement[] contributions = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID);
 		for (int i = 0; i < contributions.length; i++) {
 			String key = contributions[i].getAttribute(NAME_EXTENSION);
+			LOGGER.info("Export to gml for the formalism '" + key + "'");
 			contributionMap.put(key, new Exporter(contributions[i]));
 		}
 

@@ -9,27 +9,6 @@
             extension="gml"
             id="fr.lip6.move.coloane.extensions.exporttogml"
             wizard_id="fr.lip6.move.coloane.wizard.export.gml">
-         <AcceptedFormalism
-               id="PT-Net">
-         </AcceptedFormalism>
-         <AcceptedFormalism
-               id="CPN">
-         </AcceptedFormalism>
-         <AcceptedFormalism
-               id="SNB">
-         </AcceptedFormalism>
-         <AcceptedFormalism
-               id="fr.lip6.move.coloane.formalism.cosmos.gspn">
-         </AcceptedFormalism>
-         <AcceptedFormalism
-               id="Timed Automata">
-         </AcceptedFormalism>
-         <AcceptedFormalism
-               id="fr.lip6.move.coloane.formalism.cosmosLHA">
-         </AcceptedFormalism>
-         <AcceptedFormalism
-               id="fr.lip6.move.coloane.formalism.pta">
-         </AcceptedFormalism>
       </Export>
    </extension>
    <extension
