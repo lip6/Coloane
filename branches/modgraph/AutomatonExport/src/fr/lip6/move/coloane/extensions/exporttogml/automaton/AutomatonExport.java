@@ -44,10 +44,6 @@ public class AutomatonExport implements IGMLExport {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<node id=\"").append(node.getId()).append("\"");
 		sb.append(" nodeType=\"").append(node.getNodeFormalism().getName())
-				.append("\"");
-		sb.append(" x=\"").append(node.getGraphicInfo().getLocation().x())
-				.append("\"");
-		sb.append(" y=\"").append(node.getGraphicInfo().getLocation().y())
 				.append("\">\n");
 		for (IAttribute attribute : node.getAttributes()) {
 			sb.append(exportAttribute(attribute));
