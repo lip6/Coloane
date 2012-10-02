@@ -14,15 +14,15 @@
 				
 				<Node container="false" name="state">
 					<GraphicInfo
-           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
-           description="state"
-           drawable="true"
-           height="15"
-           icon16px="resources/state_16.png"
-           icon24px="resources/state_24.png"
-           palettable="true"
-           paletteName="State"
-           width="15">
+			           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+			           description="state"
+			           drawable="true"
+			           height="15"
+			           icon16px="resources/state_16.png"
+			           icon24px="resources/state_24.png"
+			           palettable="true"
+			           paletteName="State"
+			           width="15">
 					</GraphicInfo> 					
 					<Attribute
 						name = "name"
@@ -31,17 +31,17 @@
 					</Attribute>
 				</Node>
 				
-				<Node container="false" name="initial_state">
+				<Node container="false" name="initialState">
 					<GraphicInfo
-           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
-           description="initial state"
-           drawable="true"
-           height="15"
-           icon16px="resources/initial_16.png"
-           icon24px="resources/initial_24.png"
-           palettable="true"
-           paletteName="Initial state"
-           width="15">
+			           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
+			           description="initial state"
+			           drawable="true"
+			           height="15"
+			           icon16px="resources/initial_16.png"
+			           icon24px="resources/initial_24.png"
+			           palettable="true"
+			           paletteName="Initial state"
+			           width="15">
 					</GraphicInfo> 					
 					<Attribute
 						name = "name"
@@ -50,18 +50,18 @@
 					</Attribute>
 				</Node>
 				
-				<Node container="false" name="terminal_state">
-					<GraphicInfo
-           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.TriangleNode"
-           description="terminal state"
-           drawable="true"
-           fill="true"
-           height="15"
-           icon16px="resources/terminal_16.png"
-           icon24px="resources/terminal_24.png"
-           palettable="true"
-           paletteName="Terminal state"
-           width="15">
+				<Node container="false" name="finalState">			
+				<GraphicInfo
+			           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.TriangleNode"
+			           description="final state"
+			           drawable="true"
+			           fill="true"
+			           height="15"
+			           icon16px="resources/terminal_16.png"
+			           icon24px="resources/terminal_24.png"
+			           palettable="true"
+			           paletteName="Final state"
+			           width="15">
 					</GraphicInfo> 					
 					<Attribute
 						name = "name"
@@ -72,17 +72,22 @@
 				
 				<Arc name="arc">
 					<GraphicInfo
-           associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
-           description="arc"
-           drawable="true"
-           height="7"
-           icon16px="resources/arc_16.png"
-           icon24px="resources/arc_24.png"
-           palettable="true"
-           paletteName="Arc">
+				       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+				       description="arc"
+				       drawable="true"
+				       height="7"
+				       icon16px="resources/arc_16.png"
+				       icon24px="resources/arc_24.png"
+				       palettable="true"
+				       paletteName="Arc">
 					</GraphicInfo> 					
 					<Attribute
 						name = "label"
+						drawable = "true"
+						multiline = "false">
+					</Attribute>
+					<Attribute
+						name = "shared"
 						drawable = "true"
 						multiline = "false">
 					</Attribute>
@@ -93,18 +98,3 @@
     </Formalism>
    </extension>
 </fragment>
-
-
-  <!--  <leafAttribute name="initialState" />
-    <leafAttribute name="finalState" />
-
-    <complexAttribute name="type" refType="state">
-            <child refName="initialState" minOccurs="0" maxOccurs="1"/>
-            <child refName="finalState" minOccurs="0" maxOccurs="1"/>
-    </complexAttribute>
-	
-    <leafAttribute name="name" refType="state"/>
-    <leafAttribute name="label" refType="transition"/>
-
-    <nodeType name="state"/>
-    <arcType name="transition"/>-->
