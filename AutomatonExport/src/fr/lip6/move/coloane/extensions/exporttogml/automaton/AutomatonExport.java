@@ -14,7 +14,9 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 public class AutomatonExport implements IGMLExport {
 
-	private static final String AUTOMATON_URL = "http://formalisms.cosyverif.org/automaton.fml";
+	
+	//private static final String AUTOMATON_URL = "http://formalisms.cosyverif.org/automaton.fml";
+	private static final String AUTOMATON_URL = "http://lipn.univ-paris13.fr/~lembachar/automata.fml";
 	private static final String GML_NAMESPACE = "http://cosyverif.org/ns/model";
 
 	public void export(IGraph graph, Writer writer, String filePath,
@@ -44,6 +46,10 @@ public class AutomatonExport implements IGMLExport {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<node id=\"").append(node.getId()).append("\"");
 		sb.append(" nodeType=\"").append(node.getNodeFormalism().getName())
+				.append("\"");
+		sb.append(" x=\"").append(node.getGraphicInfo().getLocation().x())
+				.append("\"");
+		sb.append(" y=\"").append(node.getGraphicInfo().getLocation().y())
 				.append("\">\n");
 		for (IAttribute attribute : node.getAttributes()) {
 			sb.append(exportAttribute(attribute));
@@ -69,6 +75,10 @@ public class AutomatonExport implements IGMLExport {
 	private String exportAttribute(IAttribute attribute) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<attribute name=\"").append(attribute.getName())
+				.append("\"");
+		sb.append(" x=\"").append(attribute.getGraphicInfo().getLocation().x())
+				.append("\"");
+		sb.append(" y=\"").append(attribute.getGraphicInfo().getLocation().y())
 				.append("\">");
 		sb.append(attribute.getValue());
 		sb.append("</attribute>\n");
