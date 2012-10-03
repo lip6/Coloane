@@ -266,41 +266,41 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock
 	 */
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		TypeDeclarationDetailsPage tdp = new TypeDeclarationDetailsPage();
-		detailsPart.registerPage(CompositeTypeDeclaration.class,tdp);
-		detailsPart.registerPage(TypeDeclaration.class,tdp);
-		detailsPart.registerPage(GALTypeDeclaration.class,tdp);
+		detailsPart.registerPage(CompositeTypeDeclaration.class,
+				new TypeDeclarationDetailsPage());
+		detailsPart.registerPage(TypeDeclaration.class,
+				new TypeDeclarationDetailsPage());
+		detailsPart.registerPage(GALTypeDeclaration.class,
+				new TypeDeclarationDetailsPage());
 		detailsPart.registerPage(Concept.class, new ConceptDetailsPage(this));
 		detailsPart.registerPage(VariableBinding.class,
 				new VariableBindingDetailsPage());
 		// checks
 		detailsPart.registerPage(CheckService.class,
-				new ITSReachServiceDetailsPage());
+				new ITSCheckServiceDetailsPage());
 		detailsPart.registerPage(CTLCheckService.class,
 				new CTLCheckServiceDetailsPage());
 		detailsPart.registerPage(ServiceResult.class,
 				new ServiceResultDetailsPage());
 		detailsPart.registerPage(OrderingService.class,
-				new OrderServiceDetailsPage());
+				new CheckServiceDetailsPage());
 		// orders
-		OrderingDetailsPage odp = new OrderingDetailsPage();
-		detailsPart.registerPage(Group.class, odp);
-		detailsPart.registerPage(Variable.class, odp);
+		detailsPart.registerPage(Group.class, new OrderingDetailsPage());
+		detailsPart.registerPage(Variable.class, new OrderingDetailsPage());
 		// CTL formula
 		detailsPart.registerPage(CTLFormulaDescription.class,
 				new CTLFormulaDescriptionDetailsPage());
 		// Variables
-		VariableDetailsPage vdp = new VariableDetailsPage();
 		detailsPart.registerPage(PlaceMarkingVariable.class,
-				vdp);
+				new VariableDetailsPage());
 		detailsPart.registerPage(GalVariable.class,
-				vdp);
+				new VariableDetailsPage());
 		detailsPart.registerPage(TransitionClockVariable.class,
-				vdp);
+				new VariableDetailsPage());
 		detailsPart.registerPage(InstanceVariable.class,
-				vdp);
+				new VariableDetailsPage());
 		detailsPart.registerPage(ScalarInstanceVariable.class,
-				vdp);
+				new VariableDetailsPage());
 	}
 
 	/**
