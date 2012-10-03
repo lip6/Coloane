@@ -281,7 +281,7 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock
 		detailsPart.registerPage(ServiceResult.class,
 				new ServiceResultDetailsPage());
 		detailsPart.registerPage(OrderingService.class,
-				new CheckServiceDetailsPage());
+				new OrderServiceDetailsPage());
 		// orders
 		OrderingDetailsPage odp = new OrderingDetailsPage();
 		detailsPart.registerPage(Group.class, odp);

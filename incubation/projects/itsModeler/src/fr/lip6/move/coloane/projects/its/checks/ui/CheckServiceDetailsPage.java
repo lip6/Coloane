@@ -61,8 +61,9 @@ public class CheckServiceDetailsPage extends
 
 		FormToolkit toolkit = getToolkit();
 		Section s1 = toolkit.createSection(parent,
-				ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE);
-//						| ExpandableComposite.COMPACT);
+				ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE
+						| ExpandableComposite.EXPANDED);
+// 		| ExpandableComposite.COMPACT);
 		s1.marginWidth = 4;
 		s1.marginHeight = 4;
 		s1.setText("Check Service Description"); //$NON-NLS-1$
@@ -160,6 +161,23 @@ public class CheckServiceDetailsPage extends
 		}
 	}
 
+
+	
+	/**
+	 * Adds a button to run the tool if necessary.
+	 * @param parent the container to add the button to.
+	 */
+	protected void createRunButton(Composite parent) {
+		Button runb = getToolkit().createButton(parent, "Run service", SWT.PUSH);
+
+		runb.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				getInput().run();
+			}
+		});
+
+	}
 
 	/**
 	 * refresh the state

@@ -2,7 +2,7 @@ package fr.lip6.move.coloane.projects.its.checks.ui;
 
 import org.eclipse.swt.widgets.Composite;
 
-public class ITSReachServiceDetailsPage extends ITSCheckServiceDetailsPage {
+public class OrderServiceDetailsPage extends CheckServiceDetailsPage {
 
 	/**
 	 * {@inheritDoc} (non-Javadoc)
@@ -17,6 +17,5 @@ public class ITSReachServiceDetailsPage extends ITSCheckServiceDetailsPage {
 		parent.pack();
 	}
 	
-		
 	
 }
