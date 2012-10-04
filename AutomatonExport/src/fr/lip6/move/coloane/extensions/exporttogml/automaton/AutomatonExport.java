@@ -14,8 +14,8 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 public class AutomatonExport implements IGMLExport {
 
-	
-	//private static final String AUTOMATON_URL = "http://formalisms.cosyverif.org/automaton.fml";
+	// private static final String AUTOMATON_URL =
+	// "http://formalisms.cosyverif.org/automaton.fml";
 	private static final String AUTOMATON_URL = "http://lipn.univ-paris13.fr/~lembachar/automata.fml";
 	private static final String GML_NAMESPACE = "http://cosyverif.org/ns/model";
 
@@ -23,7 +23,7 @@ public class AutomatonExport implements IGMLExport {
 			IProgressMonitor monitor) throws ExtensionException {
 
 		try {
-			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n");
+			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			writer.write("<model formalismUrl=\"" + AUTOMATON_URL + "\"");
 			writer.write(" xmlns=\"" + GML_NAMESPACE + "\">\n");
 			for (IAttribute attribute : graph.getAttributes()) {
@@ -74,14 +74,34 @@ public class AutomatonExport implements IGMLExport {
 
 	private String exportAttribute(IAttribute attribute) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<attribute name=\"").append(attribute.getName())
-				.append("\"");
-		sb.append(" x=\"").append(attribute.getGraphicInfo().getLocation().x())
-				.append("\"");
-		sb.append(" y=\"").append(attribute.getGraphicInfo().getLocation().y())
-				.append("\">");
-		sb.append(attribute.getValue());
-		sb.append("</attribute>\n");
-		return sb.toString();
+
+		if (attribute.getName().equals("type")) {
+			sb.append("<attribute name=\"").append(attribute.getName())
+					.append("\"");
+			sb.append(" x=\"")
+					.append(attribute.getGraphicInfo().getLocation().x())
+					.append("\"");
+			sb.append(" y=\"")
+					.append(attribute.getGraphicInfo().getLocation().y())
+					.append("\">");
+			sb.append("<attribute name=\"").append(attribute.getValue())
+					.append("\"/>");
+			sb.append("</attribute>\n");
+			return sb.toString();
+		}
+
+		else {
+			sb.append("<attribute name=\"").append(attribute.getName())
+					.append("\"");
+			sb.append(" x=\"")
+					.append(attribute.getGraphicInfo().getLocation().x())
+					.append("\"");
+			sb.append(" y=\"")
+					.append(attribute.getGraphicInfo().getLocation().y())
+					.append("\">");
+			sb.append(attribute.getValue());
+			sb.append("</attribute>\n");
+			return sb.toString();
+		}
 	}
 }
