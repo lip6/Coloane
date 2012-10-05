@@ -1,23 +1,23 @@
-package fr.lip6.move.coloane.extensions.exporttogml.automaton;
+package fr.lip6.move.coloane.extensions.exporttogrml.automaton;
 
 import java.io.IOException;
 import java.io.Writer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import fr.lip6.move.coloane.extensions.exporttogml.IGMLExport;
+import fr.lip6.move.coloane.extensions.exporttogrml.IGrMLExport;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-public class AutomatonExport implements IGMLExport {
+public class AutomatonExport implements IGrMLExport {
 
 	// private static final String AUTOMATON_URL =
 	// "http://formalisms.cosyverif.org/automaton.fml";
 	private static final String AUTOMATON_URL = "http://lipn.univ-paris13.fr/~lembachar/automata.fml";
-	private static final String GML_NAMESPACE = "http://cosyverif.org/ns/model";
+	private static final String GRML_NAMESPACE = "http://cosyverif.org/ns/model";
 
 	public void export(IGraph graph, Writer writer, String filePath,
 			IProgressMonitor monitor) throws ExtensionException {
@@ -25,7 +25,7 @@ public class AutomatonExport implements IGMLExport {
 		try {
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			writer.write("<model formalismUrl=\"" + AUTOMATON_URL + "\"");
-			writer.write(" xmlns=\"" + GML_NAMESPACE + "\">\n");
+			writer.write(" xmlns=\"" + GRML_NAMESPACE + "\">\n");
 			for (IAttribute attribute : graph.getAttributes()) {
 				writer.write(exportAttribute(attribute));
 			}

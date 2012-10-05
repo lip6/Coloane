@@ -3,11 +3,11 @@ Bundle-ManifestVersion: 2
 Bundle-Name: AutomatonExport
 Bundle-SymbolicName: AutomatonExport;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: fr.lip6.move.coloane.extensions.exporttogml.automaton.Activator
+Bundle-Activator: fr.lip6.move.coloane.extensions.exporttogrml.automaton.Activator
 Require-Bundle: org.eclipse.core.runtime,
- fr.lip6.move.coloane.extensions.exportToGML,
+ fr.lip6.move.coloane.extensions.exportToGrML,
  fr.lip6.move.coloane.interfaces,
  fr.lip6.move.coloane.core
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Export-Package: fr.lip6.move.coloane.extensions.exporttogml.automaton
+Export-Package: fr.lip6.move.coloane.extensions.exporttogrml.automaton

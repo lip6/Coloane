@@ -1,4 +1,4 @@
-package fr.lip6.move.coloane.extensions.exporttogml.automaton;
+package fr.lip6.move.coloane.extensions.exporttogrml.automaton;
 
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
