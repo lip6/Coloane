@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="fr.lip6.move.coloane.core.formalisms">
+      <formalism
+            href="http://alligator.lip6.fr/s-net.fml"
+            id="snet"
+            image="resources/snet.png"
+            name="Symmetric-Net">
+         <GraphicInfo
+               associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+               description="Create a place"
+               drawable="true"
+               height="15"
+               icon16px="resources/place_16.png"
+               icon24px="resources/place_24.png"
+               palettable="true"
+               paletteName="Place"
+               refName="place"
+               width="15">
+         </GraphicInfo>
+         <GraphicInfo
+               associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+               description="Create a transition"
+               drawable="true"
+               height="7"
+               icon16px="resources/transition_16.png"
+               icon24px="resources/transition_24.png"
+               palettable="true"
+               paletteName="Transition"
+               refName="transition"
+               width="25">
+         </GraphicInfo>
+         <GraphicInfo
+               associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+               description="Create an arc"
+               drawable="true"
+               icon16px="resources/arc_16.png"
+               icon24px="resources/arc_24.png"
+               palettable="true"
+               paletteName="Arc"
+               refName="arc">
+         </GraphicInfo>
+      </formalism>
+   </extension>
+
+</fragment>

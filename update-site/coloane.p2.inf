@@ -1,3 +1,0 @@
-instructions.configure=\
-  addRepository(type:0,location:http${#58}//coloane.lip6.fr/night-updates);\
-  addRepository(type:1,location:http${#58}//coloane.lip6.fr/night-updates);
