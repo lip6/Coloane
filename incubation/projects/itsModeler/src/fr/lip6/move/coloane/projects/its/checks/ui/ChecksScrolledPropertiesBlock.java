@@ -277,13 +277,13 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock
 				new VariableBindingDetailsPage());
 		// checks
 		detailsPart.registerPage(CheckService.class,
-				new ITSCheckServiceDetailsPage());
+				new ITSReachServiceDetailsPage());
 		detailsPart.registerPage(CTLCheckService.class,
 				new CTLCheckServiceDetailsPage());
 		detailsPart.registerPage(ServiceResult.class,
 				new ServiceResultDetailsPage());
 		detailsPart.registerPage(OrderingService.class,
-				new CheckServiceDetailsPage());
+				new OrderServiceDetailsPage());
 		// orders
 		detailsPart.registerPage(Group.class, new OrderingDetailsPage());
 		detailsPart.registerPage(Variable.class, new OrderingDetailsPage());
