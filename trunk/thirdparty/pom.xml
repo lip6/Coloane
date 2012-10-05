@@ -14,9 +14,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>gml-check</groupId>
-            <artifactId>gml-check</artifactId>
-            <version>1.3</version>
+            <groupId>grml-check</groupId>
+            <artifactId>grml-check</artifactId>
+            <version>1.4</version>
         </dependency>
         <dependency>
             <groupId>org.antlr</groupId>
