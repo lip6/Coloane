@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar
+        ns="http://cosyverif.org/ns/model"
+        xmlns="http://relaxng.org/ns/structure/1.0"
+        xmlns:a="http://relaxng.org/ns/compatibility/annotations/1.0"
+        datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+
+    <a:documentation>
+        Graph Markup Language (GrML) schema.
+    </a:documentation>
+
+    <start>
+        <ref name="model.element"/>
+    </start>
+
+    <define name="model.element">
+        <a:documentation>
+            A model is a graph : a set of nodes connected with arcs. The model is typed
+            by a formalism.
+        </a:documentation>
+        <element name="model">
+            <attribute name="formalismUrl">
+                <text/>
+            </attribute>
+            <zeroOrMore>
+                <ref name="model.content"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="model.content">
+        <choice>
+            <ref name="attribute.element"/>
+            <ref name="node.element"/>
+            <ref name="arc.element"/>
+            <ref name="sticky.element"/>
+        </choice>
+    </define>
+
+    <define name="identifier">
+        <attribute name="id">
+            <data type="positiveInteger"/>
+        </attribute>
+    </define>
+    
+    <define name="xposition">
+        <attribute name="xposition">
+            <data type="int"/>
+        </attribute>
+    </define>
+    
+    <define name="yposition">
+        <attribute name="yposition">
+            <data type="int"/>
+        </attribute>
+    </define>
+
+    <define name="attribute.element">
+        <a:documentation>
+            An attribute is a name-value pair.
+        </a:documentation>
+        <element name="attribute">
+            <attribute name="name"><text/></attribute>
+            <optional> <ref name="xposition"/> </optional>
+            <optional> <ref name="yposition"/> </optional>
+            <choice>
+                <oneOrMore>
+                    <ref name="attribute.element"/>
+                </oneOrMore>
+                <text/>
+            </choice>
+        </element>
+    </define>
+
+    <define name="node.element">
+        <a:documentation>
+            A node of the graph with a type defined by the associated formalism.
+        </a:documentation>
+        <element name="node">
+            <ref name="identifier"/>
+            <optional> <ref name="xposition"/> </optional>
+            <optional> <ref name="yposition"/> </optional>
+            <attribute name="nodeType"><text/></attribute>
+            <zeroOrMore>
+                <ref name="node.content"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="node.content">
+        <choice>
+            <ref name="attribute.element"/>
+            <ref name="ref.element"/>
+        </choice>
+    </define>
+
+    <define name="arc.element">
+        <a:documentation>
+            An arc connect two nodes and is typed by the associated formalism.
+        </a:documentation>
+        <element name="arc">
+            <ref name="identifier"/>
+            <optional> <ref name="xposition"/> </optional>
+            <optional> <ref name="yposition"/> </optional>
+            <attribute name="arcType"><text/></attribute>
+            <attribute name="source">
+                <data type="positiveInteger"/>
+            </attribute>
+            <attribute name="target">
+                <data type="positiveInteger"/>
+            </attribute>
+            <zeroOrMore>
+                <ref name="arc.content"/>
+            </zeroOrMore>
+        </element>
+    </define>
+
+    <define name="arc.content">
+        <choice>
+            <ref name="ref.element"/>
+            <ref name="attribute.element"/>
+            <ref name="pi.element"/>
+        </choice>
+    </define>
+
+    <define name="pi.element">
+        <a:documentation>
+            Pi elements describe inflection points of the arc that contains them
+        </a:documentation>
+        <element name="pi">
+            <ref name="xposition"/>
+            <ref name="yposition"/>
+        </element>
+    </define>
+    
+        <define name="ref.element">
+        <a:documentation>
+            A ref is a link between two element or an element and a model. An element is
+            an identified element (node, arc).
+        </a:documentation>
+        <element name="ref">
+            <attribute name="href">
+                <data type="anyURI"/>
+            </attribute>
+        </element>
+    </define>
+    
+    <define name="sticky.element">
+        <a:documentation>
+            A sticky note is a source of random information.
+        </a:documentation>
+        <element name="sticky">
+			<optional> <ref name="xposition"/> </optional>
+      		<optional> <ref name="yposition"/> </optional>
+      	 	<optional> <attribute name="width"><data type="int"/></attribute> </optional>
+        	<optional> <attribute name="height"><data type="int"/></attribute> </optional>
+            <ref name="value.element"/>
+            <zeroOrMore> <ref name="link.element"/> </zeroOrMore>
+        </element>
+    </define>
+    
+    <define name="value.element">
+    	<element name="value">
+    		<text/>
+    	</element>
+    </define>
+    
+    <define name="link.element">
+    	<element name="link">
+      		<attribute name="linkId"><data type="positiveInteger"/></attribute>
+    	</element>
+    </define>
+
+</grammar>

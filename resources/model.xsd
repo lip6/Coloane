@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cosyverif.org/ns/model" xmlns:model="http://cosyverif.org/ns/model">
+  <xs:element name="model">
+    <xs:complexType>
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="model:model.content"/>
+      <xs:attribute name="formalismUrl" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="model.content">
+    <xs:choice>
+      <xs:element ref="model:attribute"/>
+      <xs:element ref="model:node"/>
+      <xs:element ref="model:arc"/>
+      <xs:element ref="model:sticky"/>
+    </xs:choice>
+  </xs:group>
+  <xs:attributeGroup name="identifier">
+    <xs:attribute name="id" use="required" type="xs:positiveInteger"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="xposition">
+    <xs:attribute name="xposition" use="required" type="xs:int"/>
+  </xs:attributeGroup>
+  <xs:attributeGroup name="yposition">
+    <xs:attribute name="yposition" use="required" type="xs:int"/>
+  </xs:attributeGroup>
+  <xs:element name="attribute">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model:attribute"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="xposition" type="xs:int"/>
+      <xs:attribute name="yposition" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="node">
+    <xs:complexType>
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="model:node.content"/>
+      <xs:attributeGroup ref="model:identifier"/>
+      <xs:attribute name="xposition" type="xs:int"/>
+      <xs:attribute name="yposition" type="xs:int"/>
+      <xs:attribute name="nodeType" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="node.content">
+    <xs:choice>
+      <xs:element ref="model:attribute"/>
+      <xs:element ref="model:ref"/>
+    </xs:choice>
+  </xs:group>
+  <xs:element name="arc">
+    <xs:complexType>
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="model:arc.content"/>
+      <xs:attributeGroup ref="model:identifier"/>
+      <xs:attribute name="xposition" type="xs:int"/>
+      <xs:attribute name="yposition" type="xs:int"/>
+      <xs:attribute name="arcType" use="required"/>
+      <xs:attribute name="source" use="required" type="xs:positiveInteger"/>
+      <xs:attribute name="target" use="required" type="xs:positiveInteger"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="arc.content">
+    <xs:choice>
+      <xs:element ref="model:attribute"/>
+      <xs:element ref="model:pi"/>
+      <xs:element ref="model:ref"/>
+    </xs:choice>
+  </xs:group>
+  <xs:element name="pi">
+    <xs:complexType>
+      <xs:attributeGroup ref="model:xposition"/>
+      <xs:attributeGroup ref="model:yposition"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ref">
+    <xs:complexType>
+      <xs:attribute name="href" use="required" type="xs:anyURI"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="sticky">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="model:value"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="model:link"/>
+      </xs:sequence>
+      <xs:attribute name="xposition" type="xs:int"/>
+      <xs:attribute name="yposition" type="xs:int"/>
+      <xs:attribute name="width" type="xs:int"/>
+      <xs:attribute name="height" type="xs:int"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="value" type="xs:string"/>
+  <xs:element name="link">
+    <xs:complexType>
+      <xs:attribute name="linkId" use="required" type="xs:positiveInteger"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
