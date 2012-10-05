@@ -15,7 +15,7 @@
 DEBUG=1
 
 # Find options to ignore some directories
-IGNORE="-not -path '*/.svn/*' -not -path '*/target/*'"
+IGNORE='-not -path "*/.svn/*" -not -path "*/target/*"'
 
 # Initialize the dot file with some headers
 function init() {
@@ -36,6 +36,13 @@ function debug() {
     if [ "c$DEBUG" == "c1" ]; then
         print "# $@" >&2
     fi
+}
+
+function find_files() {
+    local name="$1"
+    shift
+    local paths="$@"
+    eval "find $paths -name $name $IGNORE"
 }
 
 function print() {
@@ -91,20 +98,35 @@ function clean_id() {
     sed -rn 's/ *(fr.*coloane\.)?([^,]*)(;.*)?,?/\2/p' \
         | sed 's/fr.*pnml\.framework/pnml_f/' \
         | sed 's/org\.eclipse/o_e/' \
+        | sed 's/-/_/g' \
         | sed 's/\./_/g'
 }
 
 function getManifestId() {
     local manifest="$1"
-    sed -rn '/SymbolicName/ {s/.*: (fr.*coloane\.)?([^;]*)(;.*)?/\2/p}' $manifest | sed 's/\./_/g'
+    sed -rn '/SymbolicName/ {s/.*: (fr.*coloane\.)?([^;]*)(;.*)?/\2/p}' $manifest | clean_id
+}
+
+function find_property() {
+    local key="$1"
+    shift
+    local paths="$@"
+    for f in $(find_files '*.properties' $paths); do
+        if grep -q -E "^${key} *=.*" "$f"; then
+            echo "$f"
+        fi
+    done
 }
 
 function getManifestName() {
     local manifest="$1"
     local name="$(sed -rn '/Bundle-Name/ {s/.*: (.*)/\1/p}' $manifest)"
-    local properties="$(dirname $manifest)/../plugin.properties"
-    if ([ "c${name:0:1}" == "c%" ] && grep -q "${name:1}" "$properties"); then
-        pcregrep -o1 "${name:1} = (.*)" "$properties"
+    if [ "c${name:0:1}" == "c%" ]; then
+        local key="${name:1}"
+        local properties="$(find_property "$key" "$(dirname $manifest)/..")"
+        if ([ -f "$properties" ] && grep -q "${name:1}" "$properties"); then
+            pcregrep -o1 "${name:1} *= *(.*)" "$properties"
+        fi
     elif [ "c$name" == "c" ]; then
         getManifestId $manifest
     else
@@ -124,7 +146,16 @@ function getFeatureId() {
 
 function getFeatureName() {
     local feature="$1"
-    xmlstarlet sel -t -v '/feature/@label' $feature | clean_id
+    local name="$(xmlstarlet sel -t -v '/feature/@label' $feature)"
+    if [ "c${name:0:1}" == "c%" ]; then
+        local key="${name:1}"
+        local properties="$(find_property "$key" "$(dirname $feature)")"
+        if ([ -f "$properties" ] && grep -q "${name:1}" "$properties"); then
+            pcregrep -o1 "${name:1} *= *(.*)" "$properties"
+        fi
+    else
+        echo "$name"
+    fi
 }
 
 function getFeatureDependencies() {
@@ -137,7 +168,7 @@ function getFeatureDependencies() {
 
 function getUpdateSiteId() {
     local site="$1"
-    xmlstarlet sel -t -v '/site/description' "$site" | pcregrep -o1 "\s*(.*\w)\s*" | sed 's/ /_/g'
+    xmlstarlet sel -t -v '/site/description' "$site" | pcregrep -o1 "\s*(.*\w)\s*" | clean_id
 }
 
 function getUpdateSiteName() {
@@ -166,7 +197,7 @@ function main() {
     debug "main $@"
     init
     debug "plugin dependencies"
-    for manifest in $(find $paths -name MANIFEST.MF $IGNORE); do
+    for manifest in $(find_files MANIFEST.MF $paths); do
         id="$(getManifestId $manifest)"
         IFS=$'\n'
         deps="$(getManifestDependencies "$manifest")"
@@ -179,7 +210,7 @@ function main() {
         done
     done
     debug "feature dependencies"
-    for feature in $(find $paths -name feature.xml $IGNORE); do
+    for feature in $(find_files feature.xml $paths); do
         id="$(getFeatureId $feature)"
         IFS=$'\n'
         deps="$(getFeatureDependencies "$feature")"
@@ -192,7 +223,7 @@ function main() {
         done
     done
     debug "update-site dependencies"
-    for site in $(find $paths -name category.xml $IGNORE); do
+    for site in $(find_files category.xml $paths); do
         debug "parse $site"
         id="$(getUpdateSiteId $site)"
         features="$(getUpdateSiteFeatures "$site")"
@@ -208,7 +239,7 @@ function main() {
         print "  $node [label=\"$node\" $(getSize $node)]"
     done
     debug "create nodes from manifests"
-    for manifest in $(find $paths -name MANIFEST.MF $IGNORE); do
+    for manifest in $(find_files MANIFEST.MF $paths); do
         debug "parse $manifest"
         id="$(getManifestId $manifest)"
         name="$(getManifestName $manifest)"
@@ -227,14 +258,14 @@ function main() {
         fi
     done
     debug "create nodes from features"
-    for feature in $(find $paths -name feature.xml $IGNORE); do
+    for feature in $(find_files feature.xml $paths); do
         debug "parse $feature"
         id="$(getFeatureId $feature)"
         name="$(getFeatureName $feature)"
         create_feature "$id" "$name"
     done
     debug "create nodes from update-sites"
-    for site in $(find $paths -name category.xml $IGNORE); do
+    for site in $(find_files category.xml $paths); do
         debug "parse $site"
         id="$(getUpdateSiteId $site)"
         name="$(getUpdateSiteName $site)"

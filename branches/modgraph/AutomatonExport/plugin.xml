@@ -2,9 +2,9 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="fr.lip6.move.coloane.extensions.exportToGML.exportGML">
+         point="fr.lip6.move.coloane.extensions.exportToGrML.exportGrML">
        	<exportedFormalism
-         	class = "fr.lip6.move.coloane.extensions.exporttogml.automaton.AutomatonExport"
+         	class = "fr.lip6.move.coloane.extensions.exporttogrml.automaton.AutomatonExport"
          	fmlurl="http://formalisms.cosyverif.org/automaton.fml"
          	name="automaton">
          </exportedFormalism>

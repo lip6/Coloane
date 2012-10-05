@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <formalism name="automaton"
-        xmlns="http://gml.lip6.fr/formalism">
+        xmlns="http://formalisms.cosyverif.org/formalism">
 
     <leafAttribute name="initialState" />
     <leafAttribute name="finalState" />

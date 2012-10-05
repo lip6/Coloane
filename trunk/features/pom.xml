@@ -22,7 +22,7 @@
         <!-- IMPORT / EXPORT -->
         <module>exportToDOT</module>
         <module>exportToPGF</module>
-        <module>exportToGML</module>
+        <module>exportToGrML</module>
         <module>exportToSVG</module>
         <module>importExportCAMI</module>
         <!-- <module>importExportPNML</module> -->

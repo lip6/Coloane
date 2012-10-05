@@ -20,7 +20,7 @@ import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
-import fr.lip6.move.coloane.extensions.exporttogml.ExportToGML;
+import fr.lip6.move.coloane.extensions.exporttogrml.ExportToGrML;
 import fr.lip6.move.coloane.extensions.importExportLola.ExportToLola;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
@@ -67,11 +67,11 @@ public class ParametersWizard extends Wizard {
 	/**
 	 * The list of formats currently supported for MODEL elements.
 	 * According to the type, the appropriate IExportTo extension is called on the coloane models.
-	 * The default value is GML.
+	 * The default value is GrML.
 	 */
-	private enum ModelFormat { GML, LOLA };
+	private enum ModelFormat { GRML, LOLA };
 	
-	private ModelFormat format = ModelFormat.GML;
+	private ModelFormat format = ModelFormat.GRML;
 
 	/**
 	 * Constructor
@@ -150,9 +150,9 @@ public class ParametersWizard extends Wizard {
 				case LOLA :
 					exporter = new ExportToLola();
 					break;
-				case GML :
+				case GRML :
 				default:
-					exporter = new ExportToGML();
+					exporter = new ExportToGrML();
 					break;
 			}
 

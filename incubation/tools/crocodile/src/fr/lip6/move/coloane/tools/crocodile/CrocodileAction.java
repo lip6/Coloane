@@ -16,7 +16,7 @@
  */
 package fr.lip6.move.coloane.tools.crocodile;
 
-import fr.lip6.move.coloane.extensions.exporttogml.ExportToGML;
+import fr.lip6.move.coloane.extensions.exporttogrml.ExportToGrML;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
@@ -205,19 +205,19 @@ public class CrocodileAction implements IService {
 	}
 	
 	/**
-	 * Exports the model (in GML format) to a temp file, and returns the absolute path to this file.
+	 * Exports the model (in GrML format) to a temp file, and returns the absolute path to this file.
 	 * 
 	 * @param model the model to export
 	 * @param monitor the monitor
-	 * @return the absolute path to a temp file that contains the GML export of the model
+	 * @return the absolute path to a temp file that contains the GrML export of the model
 	 * @throws IOException if a problem occurs with the temp file
-	 * @throws ExtensionException if a problem occurs during the export to GML
+	 * @throws ExtensionException if a problem occurs during the export to GrML
 	 */
 	private String exportModel(IGraph model, SubMonitor monitor) throws IOException, ExtensionException {
-		File tmpFile = File.createTempFile("tmp", ".gml");
+		File tmpFile = File.createTempFile("tmp", ".grml");
 		tmpFile.deleteOnExit();
 
-		ExportToGML exporter = new ExportToGML();
+		ExportToGrML exporter = new ExportToGrML();
 		/// TODO find an appropriate number of ticks for the sub-monitor
 		exporter.export(model, tmpFile.getAbsolutePath(), monitor.newChild(10));
 
