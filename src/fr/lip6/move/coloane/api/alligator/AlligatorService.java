@@ -21,7 +21,7 @@ import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.alligator.interfaces.ServiceDescription;
 import fr.lip6.move.alligator.interfaces.ServiceManager;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
-import fr.lip6.move.coloane.extensions.exporttogml.ExportToGML;
+import fr.lip6.move.coloane.extensions.exporttogrml.ExportToGrML;
 import fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
@@ -56,7 +56,7 @@ public class AlligatorService implements IApiService {
 	/** Logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
-	private static final ExportToGML GRAPH_TO_GML = new ExportToGML();
+	private static final ExportToGrML GRAPH_TO_GRML = new ExportToGrML();
 	
 	private ServiceDescription service;
 
@@ -89,7 +89,7 @@ public class AlligatorService implements IApiService {
 			for (final DescriptionItem dItem : dItems) {
 				if (dItem.getType() == ItemType.MODEL) {
 					StringWriter stringModel = new StringWriter();
-					GRAPH_TO_GML.export(model, stringModel, monitor);
+					GRAPH_TO_GRML.export(model, stringModel, monitor);
 					params.add(new Item(ItemType.MODEL, model.getFormalism().getName(), stringModel.toString()));
 				} else if (dItem.getType() == ItemType.STRING) {
 					Display.getDefault().syncExec(new Runnable() {
