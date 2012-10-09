@@ -1,31 +1,30 @@
-package fr.lip6.move.coloane.extensions.exporttogrml.automaton;
+package fr.lip6.move.coloane.extensions.exporttogml.automaton;
 
 import java.io.IOException;
 import java.io.Writer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import fr.lip6.move.coloane.extensions.exporttogrml.IGrMLExport;
+import fr.lip6.move.coloane.extensions.exporttogml.IGMLExport;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-public class AutomatonExport implements IGrMLExport {
+public class AutomatonExport implements IGMLExport {
 
 	// private static final String AUTOMATON_URL =
-	// "http://formalisms.cosyverif.org/automaton.fml";
-	private static final String AUTOMATON_URL = "http://lipn.univ-paris13.fr/~lembachar/automata.fml";
-	private static final String GRML_NAMESPACE = "http://cosyverif.org/ns/model";
+	// "http://alligator.lip6.fr/automaton.fml";
+	private static final String AUTOMATON_URL = "http://lipn.univ-paris13.fr/~lembachar/automaton.fml";
+	private static final String GML_NAMESPACE = "http://cosyverif.org/ns/model";
 
 	public void export(IGraph graph, Writer writer, String filePath,
 			IProgressMonitor monitor) throws ExtensionException {
-
 		try {
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			writer.write("<model formalismUrl=\"" + AUTOMATON_URL + "\"");
-			writer.write(" xmlns=\"" + GRML_NAMESPACE + "\">\n");
+			writer.write(" xmlns=\"" + GML_NAMESPACE + "\">\n");
 			for (IAttribute attribute : graph.getAttributes()) {
 				writer.write(exportAttribute(attribute));
 			}
@@ -74,24 +73,7 @@ public class AutomatonExport implements IGrMLExport {
 
 	private String exportAttribute(IAttribute attribute) {
 		StringBuilder sb = new StringBuilder();
-
-		if (attribute.getName().equals("type")) {
-			sb.append("<attribute name=\"").append(attribute.getName())
-					.append("\"");
-			sb.append(" x=\"")
-					.append(attribute.getGraphicInfo().getLocation().x())
-					.append("\"");
-			sb.append(" y=\"")
-					.append(attribute.getGraphicInfo().getLocation().y())
-					.append("\">");
-			sb.append("<attribute name=\"").append(attribute.getValue())
-					.append("\"/>");
-			sb.append("</attribute>\n");
-			return sb.toString();
-		}
-
-		else {
-			sb.append("<attribute name=\"").append(attribute.getName())
+		sb.append("<attribute name=\"").append(attribute.getName())
 					.append("\"");
 			sb.append(" x=\"")
 					.append(attribute.getGraphicInfo().getLocation().x())
@@ -102,6 +84,5 @@ public class AutomatonExport implements IGrMLExport {
 			sb.append(attribute.getValue());
 			sb.append("</attribute>\n");
 			return sb.toString();
-		}
 	}
 }
