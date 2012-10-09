@@ -28,24 +28,49 @@
 						multiline="false"
 						drawable = "true">
 					</Attribute>
-					<Attribute
-                        displayed_default="false"
-                        drawable="true"
-                        multiline="false"
-                        name="type">
-                     		<EnumerationValue
-                           		name="initialState">
-	                     	</EnumerationValue>
-	                     	<EnumerationValue
-	                           name="finalState">
-	                     	</EnumerationValue>
-	                     	<EnumerationValue
-	                           name="intermediateState">
-	                     	</EnumerationValue>
-                    </Attribute>
 				</Node>
 				
-				<Arc name="arc">
+				<Node container="false" name="initialState">
+					<GraphicInfo
+			           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
+			           description="initial state"
+			           drawable="true"
+			           height="15"
+			           icon16px="resources/initial_16.png"
+			           icon24px="resources/initial_24.png"
+			           palettable="true"
+			           paletteName="Initial state"
+			           width="15">
+					</GraphicInfo> 					
+					<Attribute
+						name = "name"
+						multiline="false"
+						drawable = "true">
+					</Attribute>
+				</Node>
+				
+				<Node container="false" name="finalState">			
+				<GraphicInfo
+			           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.TriangleNode"
+			           description="final state"
+			           drawable="true"
+			           fill="true"
+			           height="15"
+			           icon16px="resources/terminal_16.png"
+			           icon24px="resources/terminal_24.png"
+			           palettable="true"
+			           paletteName="Final state"
+			           width="15">
+					</GraphicInfo> 					
+					<Attribute
+						name = "name"
+						multiline="false"
+						drawable = "true">
+					</Attribute>
+				</Node>
+				
+				
+				<Arc name="transition">
 					<GraphicInfo
 				       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
 				       description="arc"
@@ -61,18 +86,6 @@
 						drawable = "true"
 						multiline = "false">
 					</Attribute>
-					<Attribute
-                        displayed_default="false"
-                        drawable="true"
-                        multiline="false"
-                        name="shared">
-                     <EnumerationValue
-                           name="0">
-                     </EnumerationValue>
-                     <EnumerationValue
-                           name="1">
-                     </EnumerationValue>                    
-                  </Attribute>
 				</Arc>
 								
 			</Graph>
