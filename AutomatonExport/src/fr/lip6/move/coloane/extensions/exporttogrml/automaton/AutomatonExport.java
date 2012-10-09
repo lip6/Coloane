@@ -1,18 +1,18 @@
-package fr.lip6.move.coloane.extensions.exporttogml.automaton;
+package fr.lip6.move.coloane.extensions.exporttogrml.automaton;
 
 import java.io.IOException;
 import java.io.Writer;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
-import fr.lip6.move.coloane.extensions.exporttogml.IGMLExport;
+import fr.lip6.move.coloane.extensions.exporttogml.IGrMLExport;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
-public class AutomatonExport implements IGMLExport {
+public class AutomatonExport implements IGrMLExport {
 
 	// private static final String AUTOMATON_URL =
 	// "http://alligator.lip6.fr/automaton.fml";
