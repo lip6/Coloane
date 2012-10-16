@@ -89,7 +89,11 @@ public final class FormalismManager {
 		name = description.getAttribute("name");  //$NON-NLS-1$
 		fkname = description.getAttribute("fkname");  //$NON-NLS-1$
 		xschema = description.getAttribute("xschema"); //$NON-NLS-1$
+
 		image = description.getAttribute("image"); //$NON-NLS-1$
+		if (image == null) {
+			image = "resources/formalisms/unknown.png"; //$NON-NLS-1$
+		}
 
 		LOGGER.fine("Build a formalism " + name + "(FK ID: " + fkname + ")"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		LOGGER.finer("XSchema : " + xschema + " - Image : " + image); //$NON-NLS-1$ //$NON-NLS-2$
