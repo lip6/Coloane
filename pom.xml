@@ -285,7 +285,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-checkstyle-plugin</artifactId>
-                    <version>2.6</version>
+                    <version>2.9.1</version>
                 </plugin>
                 <plugin>
                     <groupId>com.google.code.maven-license-plugin</groupId>
@@ -506,28 +506,20 @@
 <!--                    <verify>true</verify>-->
 <!--                </configuration>-->
 <!--            </plugin>-->
-
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-dependency-plugin</artifactId>-->
-<!--                <version>2.2</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>copy-dependencies</id>-->
-<!--                        <phase>generate-sources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>copy-dependencies</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration>-->
-<!--                            <excludeScope>provided</excludeScope>-->
-<!--                            <excludeGroupIds>junit,p2.eclipse-plugin</excludeGroupIds>-->
-<!--                            <stripVersion>true</stripVersion>-->
-<!--                            <outputDirectory>${basedir}/lib</outputDirectory>-->
-<!--                        </configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
         </plugins>
 
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <configLocation>https://coloane.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
