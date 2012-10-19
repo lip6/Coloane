@@ -56,5 +56,6 @@ Export-Package: org.antlr.runtime,
  net.sf.saxon.s9api,
  org.apache.cxf.frontend,
  org.apache.cxf.jaxws,
- org.apache.cxf.databinding
-
+ org.apache.cxf.databinding,
+ org.apache.cxf.service,
+ org.apache.cxf.service.factory
