@@ -40,7 +40,6 @@ Bundle-ClassPath: lib/antlr-runtime.jar,
  lib/xalan.jar,
  lib/xercesImpl.jar,
  lib/xml-apis-ext.jar,
- lib/xml-apis.jar,
  lib/xml-resolver.jar,
  lib/xmlschema-core.jar
 Export-Package: org.antlr.runtime,
