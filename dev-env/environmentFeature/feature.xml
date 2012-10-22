@@ -37,7 +37,7 @@
         <import feature="org.eclipse.m2e.logback.feature"/>
         <import feature="org.eclipse.team.svn"/>
         <import plugin="org.polarion.eclipse.team.svn.connector"/>
-        <import plugin="org.polarion.eclipse.team.svn.connector.svnkit16"/>
+        <import plugin="org.polarion.eclipse.team.svn.connector.svnkit17"/>
         <import feature="fr.lip6.move.coloane.features.main"/>
         <import feature="fr.lip6.move.coloane.features.main.source"/>
         <import feature="fr.lip6.move.coloane.features.thirdparty"/>
