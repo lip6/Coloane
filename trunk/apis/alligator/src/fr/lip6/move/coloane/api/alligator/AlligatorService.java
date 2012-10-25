@@ -24,7 +24,6 @@ import fr.lip6.move.coloane.api.alligator.wizard.ParametersWizard;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
-import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.objects.result.IResult;
@@ -162,7 +161,8 @@ public class AlligatorService implements IApiService {
 				}
 			}
 			results.add(result);
-		} catch (ExtensionException e) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ServiceException(e.getMessage());
 		}
 		return results;
