@@ -60,7 +60,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.xml.sax.InputSource;
 
 /**
- * A class to export the Cosmos formalism to GrML
+ * A class to export the Parametric timed automata formalism to GrML
  * 
  * @author Etienne    Andre
  * @author Benoît     Barbot
@@ -147,9 +147,13 @@ public class ImitatorExport implements IGrMLExport {
 		}
 	}
 
+	/**
+	 * FIXME: add a comment
+	 * @param fmlUrl FIXME: add a comment
+	 */
 	private void initInputSource(String fmlUrl) {
 		try {
-			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://cosyverif.org/ns/model'/>");
+			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='" + fmlUrl + "' xmlns='http://cosyverif.org/ns/model'/>");
 			Model fakeModel = new Model(new GrmlCheckExecutables(), content);
 			fmlXml = fakeModel.getFormalism().getData();
 			System.out.println(fmlXml);
@@ -163,14 +167,20 @@ public class ImitatorExport implements IGrMLExport {
 		}
 	}
 
-	private boolean xPathRequest(String request){
+	/**
+	 * FIXME: add a comment
+	 * @param request FIXME: add a comment
+	 * @return FIXME: add a comment
+	 */
+	private boolean xPathRequest(String request) {
 		try {
 			NamespaceContext ctx = new NamespaceContext() {
 				public String getNamespaceURI(String prefix) {
-					if (prefix.equals("fml"))
+					if (prefix.equals("fml")) {
 						return "http://cosyverif.org/ns/formalism";
-					else
+					} else {
 						return null;
+					}
 				}
 
 				// Dummy implementation - not used!
@@ -197,12 +207,17 @@ public class ImitatorExport implements IGrMLExport {
 			e1.printStackTrace();
 
 			return false;
-		} 
+		}
 
 	}
 
+	/**
+	 * FIXME: add a comment
+	 * @param s FIXME: add a comment
+	 * @return FIXME: add a comment
+	 */
 	private boolean hasAttribute(String s) {
-		return xPathRequest("/fml:formalism/fml:complexAttribute[@name='"+s+"']");
+		return xPathRequest("/fml:formalism/fml:complexAttribute[@name='" + s + "']");
 	}
 
 //	// TODO: redo this function using a list
@@ -232,23 +247,25 @@ public class ImitatorExport implements IGrMLExport {
 		// Export model attributes
 		monitor.setTaskName("Export model attributes");
 
-		if(hasAttribute("declaration")) {
+		if (hasAttribute("declaration")) {
 			// Case IMITATOR (most probably)
-			if(hasAttribute("discretes")) {
-				exportDeclarativePTA(graph, result,monitor);
+			if (hasAttribute("discretes")) {
+				exportDeclarativePTA(graph, result, monitor);
 				// Case COSMOS (most probably)
-			}else{
+			} else {
 				IAttribute declarativePart = graph.getAttribute("declarations");
 				if (declarativePart != null) {
 					if (!declarativePart.getValue().equals("")) {
 						symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
-					} 
-				} else throw new ExtensionException("Expecting a 'declarations' field required by the formalism");
+					}
+				} else {
+					throw new ExtensionException("Expecting a 'declarations' field required by the formalism");
+				}
 			}
 		}
-		
+
 		// Case HASL formula
-		if(hasAttribute("HASLFormula")){
+		if (hasAttribute("HASLFormula")) {
 			IAttribute HASLPart = graph.getAttribute("HASL Formula");
 			if (HASLPart != null) {
 				if (!HASLPart.getValue().equals("")) {
@@ -259,15 +276,17 @@ public class ImitatorExport implements IGrMLExport {
 						e.printStackTrace();
 					}
 				}
-			} else throw new ExtensionException("Expecting a 'HASL Formula' field required by the formalism");
+			} else {
+				throw new ExtensionException("Expecting a 'HASL Formula' field required by the formalism");
+			}
 		}
-		
-		
+
+
 		// Initial constraint (for IMITATOR)
 		// WARNING: the FML formalism name and the Coloane "zone" name must have the same name!!!!!!
-		if(hasAttribute("initialConstraint")) {
+		if (hasAttribute("initialConstraint")) {
 			IAttribute attr = graph.getAttribute("initialConstraint");
-			
+
 			if (attr != null) {
 				if (!attr.getValue().equals("")) {
 					try {
@@ -279,7 +298,7 @@ public class ImitatorExport implements IGrMLExport {
 				}
 			} //else throw new ExtensionException("Expecting an initial constraint field required by the formalism");
 		}
-		
+
 
 		/*for (IAttribute attr : graph.getAttributes()) {
 			if (!attr.getName().equals("declarations")) {
@@ -293,7 +312,7 @@ public class ImitatorExport implements IGrMLExport {
 				}
 			}
 		}*/
-		
+
 
 		/*// Specific code for PTAs
 		if(hasAttribute("discretes")) {
@@ -400,7 +419,7 @@ public class ImitatorExport implements IGrMLExport {
 		parser.setTemplateLib(templates);
 
 		try {
-			modelST.setAttribute("content", parser.const_list(hasAttribute("constants"),hasAttribute("variables")));
+			modelST.setAttribute("content", parser.const_list(hasAttribute("constants"), hasAttribute("variables")));
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Fail to parse Declarative part");
 		}
@@ -435,7 +454,7 @@ public class ImitatorExport implements IGrMLExport {
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
-					tmpVars.add((StringTemplate)parser.name_list("discretes", "discrete").getTemplate());
+					tmpVars.add((StringTemplate) parser.name_list("discretes", "discrete").getTemplate());
 				} catch (RecognitionException e) {
 					throw new ExtensionException("Fail to parse Declarative part");
 				}
@@ -455,7 +474,7 @@ public class ImitatorExport implements IGrMLExport {
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
-					tmpVars.add((StringTemplate)parser.name_list("clocks", "clock").getTemplate());
+					tmpVars.add((StringTemplate) parser.name_list("clocks", "clock").getTemplate());
 				} catch (RecognitionException e) {
 					throw new ExtensionException("Fail to parse clocks part");
 				}
@@ -475,7 +494,7 @@ public class ImitatorExport implements IGrMLExport {
 				try {
 					// et là je parse
 					// d'après la grammaire, la règle "name_list" renvoie un StringTemplate que je stocke
-					tmpConsts.add((StringTemplate)parser.name_list("parameters", "parameter").getTemplate());
+					tmpConsts.add((StringTemplate) parser.name_list("parameters", "parameter").getTemplate());
 				} catch (RecognitionException e) {
 					throw new ExtensionException("Fail to parse parameters part");
 				}
