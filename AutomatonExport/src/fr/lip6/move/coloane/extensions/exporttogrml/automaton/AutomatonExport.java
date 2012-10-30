@@ -14,17 +14,16 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 public class AutomatonExport implements IGrMLExport {
 
-	// private static final String AUTOMATON_URL =
-	// "http://formalisms.cosyverif.org/automaton.fml";
-	private static final String AUTOMATON_URL = "http://lipn.univ-paris13.fr/~lembachar/automata.fml";
+	private static final String AUTOMATON_URL = "http://lipn.univ-paris13.fr/~lembachar/automaton.fml";
 	private static final String GRML_NAMESPACE = "http://cosyverif.org/ns/model";
 
 	public void export(IGraph graph, Writer writer, String filePath,
 			IProgressMonitor monitor) throws ExtensionException {
 		try {
+			
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			writer.write("<model formalismUrl=\"" + AUTOMATON_URL + "\"");
-			writer.write(" xmlns=\"" + GRML_NAMESPACE + "\">\n");
+			writer.write(" xmlns=\"" + GEML_NAMESPACE + "\">\n");
 			for (IAttribute attribute : graph.getAttributes()) {
 				writer.write(exportAttribute(attribute));
 			}
@@ -59,14 +58,26 @@ public class AutomatonExport implements IGrMLExport {
 
 	private String exportArc(IArc arc) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<arc name=\"").append(arc.getId()).append("\"");
+		StringBuilder tempSb = new StringBuilder();
+
+		sb.append("<arc id=\"").append(arc.getId()).append("\"");
+
+		for (IAttribute attribute : arc.getAttributes()) {
+			if (attribute.getName().equals("name"))
+				sb.append(" name=\"").append(attribute.getValue()).append("\"");
+			else {
+				if (attribute.getName().equals("shared")
+						&& attribute.getValue().equals("1"))
+					tempSb.append(exportAttribute(attribute));
+			}
+		}
+
 		sb.append(" source=\"").append(arc.getSource().getId()).append("\"");
 		sb.append(" target=\"").append(arc.getTarget().getId()).append("\"");
 		sb.append(" arcType=\"").append(arc.getArcFormalism().getName())
 				.append("\">\n");
-		for (IAttribute attribute : arc.getAttributes()) {
-			sb.append(exportAttribute(attribute));
-		}
+
+		sb.append(tempSb.toString());
 		sb.append("</arc>\n");
 		return sb.toString();
 	}
@@ -74,15 +85,13 @@ public class AutomatonExport implements IGrMLExport {
 	private String exportAttribute(IAttribute attribute) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<attribute name=\"").append(attribute.getName())
-					.append("\"");
-			sb.append(" x=\"")
-					.append(attribute.getGraphicInfo().getLocation().x())
-					.append("\"");
-			sb.append(" y=\"")
-					.append(attribute.getGraphicInfo().getLocation().y())
-					.append("\">");
-			sb.append(attribute.getValue());
-			sb.append("</attribute>\n");
-			return sb.toString();
+				.append("\"");
+		sb.append(" x=\"").append(attribute.getGraphicInfo().getLocation().x())
+				.append("\"");
+		sb.append(" y=\"").append(attribute.getGraphicInfo().getLocation().y())
+				.append("\">");
+		sb.append(attribute.getValue());
+		sb.append("</attribute>\n");
+		return sb.toString();
 	}
 }
