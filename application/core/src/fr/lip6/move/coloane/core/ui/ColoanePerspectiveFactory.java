@@ -39,7 +39,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 	public static final String MODEL_WIZARD = "fr.lip6.move.coloane.wizard.modelWizard"; //$NON-NLS-1$
 
 	/** ID for the "Coloane results" view */
-	public static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.ResultsView"; //$NON-NLS-1$
+//	public static final String RESULTS_VIEW = "fr.lip6.move.coloane.views.ResultsView"; //$NON-NLS-1$
 
 	/** ID for the "Models Navigator" view */
 	public static final String MODEL_NAVIGATOR = "fr.lip6.move.coloane.views.NavigatorView"; //$NON-NLS-1$
@@ -73,7 +73,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		//layout.addActionSet(ACT_PLATFORM);
 
 		//  Add "show views". They will be present in "show view" menu
-		layout.addShowViewShortcut(RESULTS_VIEW);
+//		layout.addShowViewShortcut(RESULTS_VIEW);
 
 		layout.addShowViewShortcut(IPageLayout.ID_PROP_SHEET);
 		layout.addShowViewShortcut(MODEL_NAVIGATOR);
@@ -107,7 +107,7 @@ public class ColoanePerspectiveFactory implements IPerspectiveFactory {
 		IFolderLayout bottom = layout.createFolder("BOTTOM", IPageLayout.BOTTOM, bottomRatio, editorArea); //$NON-NLS-1$
 
 		bottom.addView(IPageLayout.ID_PROP_SHEET);
-		bottom.addView(RESULTS_VIEW);
+//		bottom.addView(RESULTS_VIEW);
 
 		// Right of bottom folder : Console
 		IFolderLayout consoleFolder = layout.createFolder("CONSOLE", IPageLayout.RIGHT, consoleRatio, "BOTTOM");  //$NON-NLS-1$ //$NON-NLS-2$

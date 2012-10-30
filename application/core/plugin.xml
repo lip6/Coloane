@@ -53,13 +53,6 @@
        <view
              allowMultiple="false"
              category="fr.lip6.move.coloane.views"
-             class="fr.lip6.move.coloane.core.ui.panels.ResultsView"
-             icon="resources/icons/results_view.gif"
-             id="fr.lip6.move.coloane.views.ResultsView"
-             name="%RESULTS_VIEW"/>
-       <view
-             allowMultiple="false"
-             category="fr.lip6.move.coloane.views"
              class="org.eclipse.ui.navigator.CommonNavigator"
              icon="resources/icons/models_navigator.gif"
              id="fr.lip6.move.coloane.views.NavigatorView"
