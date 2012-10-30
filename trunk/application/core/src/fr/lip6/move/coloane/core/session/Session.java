@@ -21,6 +21,7 @@ import fr.lip6.move.coloane.core.extensions.ApiExtension;
 import fr.lip6.move.coloane.core.model.interfaces.ICoreTip;
 import fr.lip6.move.coloane.core.results.ResultManager;
 import fr.lip6.move.coloane.core.ui.checker.Checker;
+import fr.lip6.move.coloane.core.ui.panels.ConsoleResultHandler;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -94,12 +95,9 @@ public final class Session implements ISession {
 			throw new ColoaneException("The session name must not be empty"); //$NON-NLS-1$
 		}
 		this.sessionId = sessionId;
-
-		// The graph associated with the session must not be null
-//		if (graph == null) {
-//			throw new ColoaneException("The session must be associated with a graph"); //$NON-NLS-1$
-//		}
 		this.graph = graph;
+
+		new ConsoleResultHandler().init(this);
 	}
 
 	/** {@inheritDoc} */

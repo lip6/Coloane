@@ -120,7 +120,7 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 		map.put(serviceName, newResult);
 
 		// Ask to update the result view (through observers)
-		update(null, getWidth(newResult));
+		update(null, newResult);
 	}
 
 	/**
@@ -150,19 +150,19 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	 * @param node L'arbre de resultat qu'on souhaite analyser
 	 * @return Le nombre d'elements composant l'arbre (colonnes)
 	 */
-	private int getWidth(IResultTree node) {
-		if (node == null) {
-			return -1;
-		}
-		// Pour le premier niveau
-		int max = node.getElement().size();
-
-		// Parcours en profondeur
-		for (IResultTree child : node.getChildren()) {
-			max = Math.max(max, getWidth(child));
-		}
-		return max;
-	}
+//	private int getWidth(IResultTree node) {
+//		if (node == null) {
+//			return -1;
+//		}
+//		// Pour le premier niveau
+//		int max = node.getElement().size();
+//
+//		// Parcours en profondeur
+//		for (IResultTree child : node.getChildren()) {
+//			max = Math.max(max, getWidth(child));
+//		}
+//		return max;
+//	}
 
 	/** {@inheritDoc} */
 	@Override
@@ -225,13 +225,13 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	@Override
 	public final void update(Observable o, Object arg) {
 		setChanged();
-		Integer width;
-		if (arg != null) {
-			width = (Integer) arg;
-		} else {
-			width = 0;
-		}
-		notifyObservers(width);
+//		Integer width;
+//		if (arg != null) {
+//			width = (Integer) arg;
+//		} else {
+//			width = 0;
+//		}
+		notifyObservers(arg);
 	}
 
 	/** {@inheritDoc} */
@@ -253,7 +253,7 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	public final void remove(String serviceName) {
 		if (serviceName != null) {
 			map.remove(serviceName);
-			update(null, 0);
+			update(null, null);
 		}
 	}
 
@@ -262,7 +262,7 @@ public class ResultManager extends Observable implements IResultTree, Observer {
 	 */
 	public final void removeAll() {
 		map.clear();
-		update(null, 0);
+		update(null, null);
 	}
 
 	/**
