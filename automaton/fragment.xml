@@ -82,12 +82,20 @@
 				       paletteName="Arc">
 					</GraphicInfo> 					
 					<Attribute
-						name = "label"
+						name = "name"
 						drawable = "true"
 						multiline = "false">
 					</Attribute>
+					<Attribute
+						name = "shared"
+						drawable = "true"
+						multiline = "false">
+						<EnumerationValue name="true">0
+						</EnumerationValue>
+						<EnumerationValue name="false">1
+						</EnumerationValue>
+					</Attribute>
 				</Arc>
-								
 			</Graph>
 		</XmlDescription>
     </Formalism>
