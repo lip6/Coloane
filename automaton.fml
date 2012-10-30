@@ -80,18 +80,20 @@
 	<!-- Transition attribute definitions -->
 	<!-- ================================ -->
 	
-	!-- A transition label is required -->
+	!-- A transition name is required -->
     
-   	<leafAttribute name="label" refType="transition"/>
+   	<leafAttribute name="name" refType="transition"/>
+
+	<leafAttribute name="shared" refType="transition"/>
    	   	
 	<sch:rule context="/gml:model/gml:arc">
-   	<sch:assert test="string-length(normalize-space(gml:attribute[@name = 'label'])) > 0"> Every transition should have a label.</sch:assert>
+   	<sch:assert test="string-length(normalize-space(gml:attribute[@name = 'name'])) > 0"> Every transition should have a name.</sch:assert>
    	</sch:rule>
 	
-    <!-- A transition label is unique -->
+    <!-- A transition name is unique -->
     
-	<sch:rule context="/gml:model/gml:arc/gml:attribute[@name = 'label']">
-	<sch:assert test="count(//gml:attribute[@name = 'label' and . = current()]) = 1"> A transition label must be unique.</sch:assert>
+	<sch:rule context="/gml:model/gml:arc/gml:attribute[@name = 'name']">
+	<sch:assert test="count(//gml:attribute[@name = 'name' and . = current()]) = 1"> A transition name must be unique.</sch:assert>
 	</sch:rule>
 		
 </formalism>
