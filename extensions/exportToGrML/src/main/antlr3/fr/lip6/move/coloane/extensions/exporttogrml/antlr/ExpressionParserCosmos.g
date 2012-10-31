@@ -185,7 +185,7 @@ update[Map<String,String> s]
   ;
   
   updatevar
-  : a=IDENTIFIER {is_variable($a.getText())}? '=' e=realExpr {
+  : a=IDENTIFIER '=' e=realExpr {
       StringTemplate tmp = templateLib.getInstanceOf("balise");
       tmp.setAttribute("name", "name");
       tmp.setAttribute("content", $a.getText());
@@ -216,7 +216,7 @@ flow[Map<String,String> s]
   ;
   
   flowvar
-  : a=IDENTIFIER {is_variable($a.getText())}? '\'' '=' e=realExpr {
+  : a=IDENTIFIER  '\'' '=' e=realExpr {
       StringTemplate tmp = templateLib.getInstanceOf("balise");
       tmp.setAttribute("name", "name");
       tmp.setAttribute("content", $a.getText());
