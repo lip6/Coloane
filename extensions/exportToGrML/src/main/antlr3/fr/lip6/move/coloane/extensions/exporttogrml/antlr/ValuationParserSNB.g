@@ -165,18 +165,17 @@ varClassElement
   | id=IDENTIFIER PLUSPLUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier ++ n
   { Integer.parseInt($n.getText()) > 0 }?
   {
-    tmp = %balise(name={"name"}, content={$id.getText()});
-    for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) {
-      tmp = %balise(name={"++"}, content={tmp});
-    }
+    tmpl.add( %balise(name={"name"}, content={$id.getText()});
+    tmpl.add( %balise(name={"intValue"}, content={$n.getText()});
+    tmp = %balise(name={"++"}, content={tmpl});
   }
   -> balise(name={"function"}, content={tmp})
   | id=IDENTIFIER MINUSMINUS n=INTEGER { is_variable($id.getText()) }? // variableIdentifier -- n
   { Integer.parseInt($n.getText()) > 0 }?
   {
-    tmp = %balise(name={"name"}, content={$id.getText()});
-    for (int j=0 ; j<Integer.parseInt($n.getText()) ; ++j) {
-      tmp = %balise(name={"--"}, content={tmp});
+    tmpl.add( %balise(name={"name"}, content={$id.getText()});
+    tmpl.add( %balise(name={"intValue"}, content={$n.getText()});
+    tmp = %balise(name={"--"}, content={tmpl});
     }
   } -> balise(name={"function"}, content={tmp})
   ;
