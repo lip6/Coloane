@@ -176,8 +176,8 @@ varClassElement
     tmpl.add( %balise(name={"name"}, content={$id.getText()}));
     tmpl.add( %balise(name={"intValue"}, content={$n.getText()}));
     tmp = %balise(name={"--"}, content={tmpl});
-    }
-  } -> balise(name={"function"}, content={tmp})
+  }
+  -> balise(name={"function"}, content={tmp})
   ;
 /* end of the copy */
 
