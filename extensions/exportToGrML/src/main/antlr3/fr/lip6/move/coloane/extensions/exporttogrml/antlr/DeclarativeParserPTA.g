@@ -16,16 +16,21 @@ options {
   import java.util.HashMap;
 }
 
-
 name_list[String typename1, String typename2]
   : -> { %{""} }
   | a+=STRING (COMMA a+=STRING)*
   {
     List<StringTemplate> tmp = new ArrayList();
     for (Object x : $a) {
+    
+   	  StringTemplate strTemplate = templateLib.getInstanceOf("balise");
+      strTemplate.setAttribute("name", "name");
+      strTemplate.setAttribute("content",((CommonToken)x).getText());
+    
       StringTemplate tmpConst2 = templateLib.getInstanceOf("balise");
       tmpConst2.setAttribute("name", typename2);
-      tmpConst2.setAttribute("content", ((CommonToken)x).getText()); /* StringTemplate */
+      
+      tmpConst2.setAttribute("content", strTemplate); /* StringTemplate */
       tmp.add(tmpConst2);
     }
     
