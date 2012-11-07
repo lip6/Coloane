@@ -23,7 +23,7 @@ public class AutomatonExport implements IGrMLExport {
 			
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			writer.write("<model formalismUrl=\"" + AUTOMATON_URL + "\"");
-			writer.write(" xmlns=\"" + GEML_NAMESPACE + "\">\n");
+			writer.write(" xmlns=\"" + GRML_NAMESPACE + "\">\n");
 			for (IAttribute attribute : graph.getAttributes()) {
 				writer.write(exportAttribute(attribute));
 			}
