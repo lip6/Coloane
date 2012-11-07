@@ -51,7 +51,12 @@ guard
   : c+=clause (AND c+=clause)*
   {
     if ($c.size() == 1) {
-      retval.st = %balise( name={"boolExpr"}, content={$c} );
+      StringTemplate tmp = $c.get(0);
+      if (tmp.getAttributes().get("name").equals("boolExpr")) {
+        retval.st = tmp;
+      } else {
+        retval.st = %balise( name={"boolExpr"}, content={$c} );
+      }
     } else {
       StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "and").put("content", $c));
       retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp));
