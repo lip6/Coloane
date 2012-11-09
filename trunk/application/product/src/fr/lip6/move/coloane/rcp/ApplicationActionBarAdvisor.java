@@ -53,6 +53,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	register(ActionFactory.PREFERENCES.create(window));
     	register(ActionFactory.DELETE.create(window));
     	register(ActionFactory.SELECT_ALL.create(window));
+    	register(ActionFactory.RESET_PERSPECTIVE.create(window));
     }
 
 	/** {@inheritDoc} */
@@ -66,13 +67,12 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
     	fileMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
 
     	IMenuManager settingsMenu = new MenuManager("&Settings", IWorkbenchActionConstants.M_HELP);
+    	settingsMenu.add(getAction(ActionFactory.RESET_PERSPECTIVE.getId()));
     	settingsMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
     	settingsMenu.add(getAction(ActionFactory.ABOUT.getId()));
-    	
+
     	menuBar.add(fileMenu);
     	menuBar.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
     	menuBar.add(settingsMenu);
     }
-    
 }
-		
