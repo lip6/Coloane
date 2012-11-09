@@ -26,13 +26,23 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
+/**
+ * @author Clément Démoulins
+ */
 public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
+    /**
+     * Creates a new action bar advisor to configure a workbench
+     * window's action bars via the given action bar configurer.
+     * 
+     * @param configurer the action bar configurer
+     */
 	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
         super(configurer);
     }
 
-    protected void makeActions(IWorkbenchWindow window) {
+    /** {@inheritDoc} */
+    protected final void makeActions(IWorkbenchWindow window) {
     	IWorkbenchAction newFile = ActionFactory.NEW_WIZARD_DROP_DOWN.create(window);
     	newFile.setText("New");
     	register(newFile);
@@ -61,7 +71,8 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	protected void fillCoolBar(ICoolBarManager coolBar) {
 	}
 
-	protected void fillMenuBar(IMenuManager menuBar) {
+	/** {@inheritDoc} */
+	protected final void fillMenuBar(IMenuManager menuBar) {
     	IMenuManager fileMenu = new MenuManager("&File", "file");
     	fileMenu.add(getAction(ActionFactory.NEW_WIZARD_DROP_DOWN.getId()));
     	fileMenu.add(new GroupMarker(IWorkbenchActionConstants.MB_ADDITIONS));
