@@ -68,6 +68,7 @@
      </product>
  </extension>
    <extension
+         id="org.eclipse.ui.main.menu"
          point="org.eclipse.ui.menus">
       <menuContribution
             allPopups="false"
