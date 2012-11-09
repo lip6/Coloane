@@ -127,9 +127,9 @@ public class AlligatorApi extends AbstractApi implements IApi,
 		JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
 		factory.setAddress(address);
 		serverManager = factory.create(ServiceManager.class);
-		System.err.println("# " + serverManager.getClass());
+
+		// Configure the HTTPConduit used to communicate with Alligator
 		HTTPConduit conduit = (HTTPConduit) ClientProxy.getClient(serverManager).getConduit();
-		System.err.println(ClientProxy.getClient(serverManager).getConduit());
 		conduit.getClient().setAllowChunking(false);
 		conduit.getClient().setReceiveTimeout(600000); // 10 minutes
 	}
