@@ -63,4 +63,5 @@ Export-Package: org.antlr.runtime,
  org.apache.cxf.jaxws.support,
  org.apache.cxf.endpoint,
  org.apache.cxf.transport.http,
- org.apache.cxf.transport
+ org.apache.cxf.transport,
+ org.apache.cxf.transports.http.configuration
