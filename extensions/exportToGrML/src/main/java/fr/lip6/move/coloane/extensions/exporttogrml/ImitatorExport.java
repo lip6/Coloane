@@ -250,7 +250,7 @@ public class ImitatorExport implements IGrMLExport {
 		if (hasAttribute("declaration")) {
 			// Case IMITATOR (most probably)
 			if (hasAttribute("discretes")) {
-				exportDeclarativePTA(graph, result, monitor);
+				exportDeclarativePTA(graph, result, monitor, symbolTable);
 				// Case COSMOS (most probably)
 			} else {
 				IAttribute declarativePart = graph.getAttribute("declarations");
@@ -282,22 +282,6 @@ public class ImitatorExport implements IGrMLExport {
 		}
 
 
-		// Initial constraint (for IMITATOR)
-		// WARNING: the FML formalism name and the Coloane "zone" name must have the same name!!!!!!
-		if (hasAttribute("initialConstraint")) {
-			IAttribute attr = graph.getAttribute("initialConstraint");
-
-			if (attr != null) {
-				if (!attr.getValue().equals("")) {
-					try {
-						exportBoolFormula(attr, result, symbolTable);
-					} catch (RecognitionException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			} //else throw new ExtensionException("Expecting an initial constraint field required by the formalism");
-		}
 
 
 		/*for (IAttribute attr : graph.getAttributes()) {
@@ -433,9 +417,10 @@ public class ImitatorExport implements IGrMLExport {
 	 * @param graph graph whose declarative part is exported
 	 * @param modelST the result being built
 	 * @param monitor monitors the export
+	 * @param symbolTable 
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private void exportDeclarativePTA(IGraph graph, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
+	private void exportDeclarativePTA(IGraph graph, StringTemplate modelST, IProgressMonitor monitor, Map<String, String> symbolTable) throws ExtensionException {
 		// la liste des blocks XML que je vais générer
 		List<StringTemplate> tmpConsts = new ArrayList<StringTemplate>();
 		List<StringTemplate> tmpVars = new ArrayList<StringTemplate>();
@@ -532,6 +517,26 @@ public class ImitatorExport implements IGrMLExport {
 		// </attribute>
 		decl.setAttribute("content", vars);
 		decl.setAttribute("content", consts);
+		
+		
+		
+		// Initial constraint (for IMITATOR)
+		// WARNING: the FML formalism name and the Coloane "zone" name must have the same name!!!!!!
+		if (hasAttribute("initialConstraint")) {
+			IAttribute attr = graph.getAttribute("initialConstraint");
+
+			if (attr != null) {
+				if (!attr.getValue().equals("")) {
+					try {
+						exportBoolFormula(attr, decl, symbolTable);
+					} catch (RecognitionException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			} //else throw new ExtensionException("Expecting an initial constraint field required by the formalism");
+		}
+		
 		// je pousse le tout dans le modèle
 		modelST.setAttribute("content", decl);
 
