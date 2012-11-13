@@ -41,6 +41,7 @@ Contributors list : https://coloane.lip6.fr/developers
       <import plugin="org.eclipse.core.resources"/>
       <import feature="fr.lip6.move.coloane.features.alligator"/>
       <import feature="fr.lip6.move.coloane.features.main"/>
+      <import feature="fr.lip6.move.coloane.features.modelexamples"/>
    </requires>
 
    <plugin
