@@ -28,48 +28,17 @@
 						multiline="false"
 						drawable = "true">
 					</Attribute>
-				</Node>
-				
-				<Node container="false" name="initialState">
-					<GraphicInfo
-			           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.DoubleEllipseNode"
-			           description="initial state"
-			           drawable="true"
-			           height="15"
-			           icon16px="resources/initial_16.png"
-			           icon24px="resources/initial_24.png"
-			           palettable="true"
-			           paletteName="Initial state"
-			           width="15">
-					</GraphicInfo> 					
 					<Attribute
-						name = "name"
+						name = "initialState"
 						multiline="false"
-						drawable = "true">
+						drawable = "false">
+					</Attribute>
+					<Attribute
+						name = "finalState"
+						multiline="false"
+						drawable = "false">
 					</Attribute>
 				</Node>
-				
-				<Node container="false" name="finalState">			
-				<GraphicInfo
-			           associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.TriangleNode"
-			           description="final state"
-			           drawable="true"
-			           fill="true"
-			           height="15"
-			           icon16px="resources/terminal_16.png"
-			           icon24px="resources/terminal_24.png"
-			           palettable="true"
-			           paletteName="Final state"
-			           width="15">
-					</GraphicInfo> 					
-					<Attribute
-						name = "name"
-						multiline="false"
-						drawable = "true">
-					</Attribute>
-				</Node>
-				
-				
 				<Arc name="transition">
 					<GraphicInfo
 				       associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
@@ -82,17 +51,17 @@
 				       paletteName="Arc">
 					</GraphicInfo> 					
 					<Attribute
-						name = "name"
+						name = "label"
 						drawable = "true"
 						multiline = "false">
 					</Attribute>
 					<Attribute
 						name = "shared"
-						drawable = "true"
+						drawable = "false"
 						multiline = "false">
-						<EnumerationValue name="true">0
+						<EnumerationValue name="false">0
 						</EnumerationValue>
-						<EnumerationValue name="false">1
+						<EnumerationValue name="true">1
 						</EnumerationValue>
 					</Attribute>
 				</Arc>
