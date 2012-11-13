@@ -5,7 +5,7 @@
          point="fr.lip6.move.coloane.extensions.exportToGrML.exportGrML">
        	<exportedFormalism
          	class = "fr.lip6.move.coloane.extensions.exporttogrml.automaton.AutomatonExport"
-         	fmlurl="http://formalisms.cosyverif.org/automaton.fml"
+         	fmlurl="http://lipn.univ-paris13.fr/~lembachar/automaton.fml"
          	name="automaton">
          </exportedFormalism>
    </extension>
