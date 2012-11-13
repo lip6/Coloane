@@ -40,7 +40,7 @@ public class Philosophers implements IExample {
 	 * {@inheritDoc}
 	 */
 	public final IGraph buildModel(IFormalism formalism) throws PluginException {
-		URL xmlExample = Activator.class.getResource("/resources/Philo.model");
+		URL xmlExample = Activator.class.getResource("/src/main/resources/Philo.model");
 		IGraph model = null;
 		try {
 			model = ModelLoader.loadGraphFromXML(xmlExample.toURI());
