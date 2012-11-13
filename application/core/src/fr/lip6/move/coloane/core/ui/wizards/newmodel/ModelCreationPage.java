@@ -224,7 +224,7 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 		InputStream inputS;
 
 		try {
-			// Choosen formalism
+			// Chosen formalism
 			IFormalism formalism = ((NewModelWizard) getWizard()).getFormalism();
 			LOGGER.fine("Choosen formalism: " + formalism.getName()); //$NON-NLS-1$
 
@@ -239,11 +239,6 @@ public class ModelCreationPage extends WizardNewFileCreationPage {
 
 			// Build the input stream from the string
 			inputS = new ByteArrayInputStream(xmlString.getBytes());
-		} catch (CoreException e) {
-			LOGGER.warning("Unable to get the example source"); //$NON-NLS-1$
-			LOGGER.warning(e.getMessage());
-			Coloane.showErrorMsg(e.getMessage());
-			return null;
 		} catch (ColoaneException pluginException) {
 			LOGGER.warning("Plugin failure"); //$NON-NLS-1$
 			LOGGER.warning(pluginException.getMessage());
