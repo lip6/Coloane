@@ -25,3 +25,5 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
+Export-Package: fr.lip6.move.coloane.projects.its,
+ fr.lip6.move.coloane.projects.its.io
