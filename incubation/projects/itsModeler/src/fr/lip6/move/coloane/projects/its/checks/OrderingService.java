@@ -213,9 +213,10 @@ public class OrderingService extends AbstractCheckService implements
 			for (INode node : graph.getNodes()) {
 				if (node.getNodeFormalism().getName().equals("transition")) {
 					if (!(node.getAttribute("earliestFiringTime").getValue()
-							.equals("0") && node
+							.equals("0") && (node
 							.getAttribute("latestFiringTime").getValue()
-							.equals("inf"))) {
+							.equals("inf")) ||  node
+							.getAttribute("latestFiringTime").getValue().equals("0") )) {
 						int index = 0;
 						for (IArc a : node.getIncomingArcs()) {
 							index = Math.max(
