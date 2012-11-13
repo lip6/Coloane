@@ -20,7 +20,7 @@ public class AutomatonExport implements IGrMLExport {
 	public void export(IGraph graph, Writer writer, String filePath,
 			IProgressMonitor monitor) throws ExtensionException {
 		try {
-			
+
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			writer.write("<model formalismUrl=\"" + AUTOMATON_URL + "\"");
 			writer.write(" xmlns=\"" + GRML_NAMESPACE + "\">\n");
@@ -42,6 +42,7 @@ public class AutomatonExport implements IGrMLExport {
 
 	private String exportNode(INode node) {
 		StringBuilder sb = new StringBuilder();
+		StringBuilder typeSb = new StringBuilder();
 		sb.append("<node id=\"").append(node.getId()).append("\"");
 		sb.append(" nodeType=\"").append(node.getNodeFormalism().getName())
 				.append("\"");
@@ -50,8 +51,18 @@ public class AutomatonExport implements IGrMLExport {
 		sb.append(" y=\"").append(node.getGraphicInfo().getLocation().y())
 				.append("\">\n");
 		for (IAttribute attribute : node.getAttributes()) {
-			sb.append(exportAttribute(attribute));
+			if (attribute.getName().equals("initialState")
+					|| attribute.getName().equals("finalState")) {
+				if (attribute.getValue().equals("1"))
+					typeSb.append(exportAttribute(attribute));
+			} else
+				sb.append(exportAttribute(attribute));
 		}
+
+		sb.append("<attribute name=\"type\">");
+		sb.append(typeSb);
+		sb.append("</attribute>\n");
+
 		sb.append("</node>\n");
 		return sb.toString();
 	}
@@ -59,25 +70,49 @@ public class AutomatonExport implements IGrMLExport {
 	private String exportArc(IArc arc) {
 		StringBuilder sb = new StringBuilder();
 		StringBuilder tempSb = new StringBuilder();
+		StringBuilder shared = new StringBuilder();
 
 		sb.append("<arc id=\"").append(arc.getId()).append("\"");
-
-		for (IAttribute attribute : arc.getAttributes()) {
-			if (attribute.getName().equals("name"))
-				sb.append(" name=\"").append(attribute.getValue()).append("\"");
-			else {
-				if (attribute.getName().equals("shared")
-						&& attribute.getValue().equals("1"))
-					tempSb.append(exportAttribute(attribute));
-			}
-		}
-
 		sb.append(" source=\"").append(arc.getSource().getId()).append("\"");
 		sb.append(" target=\"").append(arc.getTarget().getId()).append("\"");
 		sb.append(" arcType=\"").append(arc.getArcFormalism().getName())
 				.append("\">\n");
 
 		sb.append(tempSb.toString());
+
+		for (IAttribute attribute : arc.getAttributes()) {
+			if (attribute.getName().equals("label")) {
+				sb.append("<attribute name=\"").append(attribute.getName())
+						.append("\"");
+				sb.append(" x=\"")
+						.append(attribute.getGraphicInfo().getLocation().x())
+						.append("\"");
+				sb.append(" y=\"")
+						.append(attribute.getGraphicInfo().getLocation().y())
+						.append("\"");
+				sb.append(" value=\"").append(attribute.getValue())
+						.append("\">");
+				sb.append("</attribute>\n");
+
+			} else {
+				if (attribute.getName().equals("shared")) {
+
+					shared.append("<attribute name=\"").append(attribute.getName())
+							.append("\"");
+					shared.append(" x=\"")
+							.append(attribute.getGraphicInfo().getLocation()
+									.x()).append("\"");
+					shared.append(" y=\"")
+							.append(attribute.getGraphicInfo().getLocation()
+									.y()).append("\"");
+					shared.append(" value=\"").append(attribute.getValue())
+							.append("\">");
+					shared.append("</attribute>\n");
+				}
+			}
+		}
+
+		sb.append(shared.toString());
 		sb.append("</arc>\n");
 		return sb.toString();
 	}
