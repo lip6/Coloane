@@ -27,16 +27,14 @@ import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.projects.its.expression.IVariable;
 import fr.lip6.move.coloane.projects.its.expression.Variable;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Logger;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -59,6 +57,14 @@ public class ModelHandler extends DefaultHandler {
 	private TypeList types;
 
 	private String readString;
+
+	private String workDir;
+
+	public ModelHandler(String canonicalPath) {
+		this.workDir = canonicalPath;
+	}
+
+
 
 	/** {@inheritDoc} */
 	@Override
@@ -263,11 +269,12 @@ public class ModelHandler extends DefaultHandler {
 
 		String name = attributes.getValue("name"); //$NON-NLS-1$
 		String formalism = attributes.getValue("formalism"); //$NON-NLS-1$
-		String filePath = attributes.getValue("path"); //$NON-NLS-1$
-
-		IPath path = new Path(filePath);
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-		if ((file == null) || (!file.exists())) {
+		String filePath = workDir +"/" + attributes.getValue("path"); //$NON-NLS-1$
+		
+		
+		URI file = new File(filePath).toURI();
+		
+		if (file == null ||  ! new File(filePath).canRead() ) {
 			throw new SAXException("Could not open referenced file " + filePath, null);
 		}
 		ITypeDeclaration type;
@@ -277,7 +284,7 @@ public class ModelHandler extends DefaultHandler {
 			throw new SAXException("Could not open referenced file " + filePath, null);
 		}
 		if (!formalism.equals(type.getTypeType())) {
-			String errmsg = "Model formalism type for file " + path + " does not match file contents.\n "
+			String errmsg = "Model formalism type for file " + filePath + " does not match file contents.\n "
 			+ "Expected type " + formalism + " read type " + type.getTypeType();
 			logger.fine(errmsg);
 

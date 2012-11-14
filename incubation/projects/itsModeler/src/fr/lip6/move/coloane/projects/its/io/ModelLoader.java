@@ -18,6 +18,7 @@ package fr.lip6.move.coloane.projects.its.io;
 
 import fr.lip6.move.coloane.projects.its.TypeList;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.logging.Logger;
@@ -32,7 +33,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.eclipse.core.resources.IFile;
 import org.xml.sax.SAXException;
 
 
@@ -67,19 +67,17 @@ public final class ModelLoader {
 	}
 
 	/**
-	 * @param xmlFile File of the input XML file .xmlits
-	 * @return type list read from file
-	 */
-	public static TypeList loadFromXML(IFile xmlFile) {
-		return loadFromXML(xmlFile.getLocationURI());
-	}
-
-	/**
 	 * @param xmlURI URI of the input XML file .xmlits
 	 * @return type list read from file
 	 */
 	public static TypeList loadFromXML(URI xmlURI) {
-		ModelHandler modelHandler = new ModelHandler();
+		String workDir = "";
+		try {
+			workDir = new File(xmlURI).getParentFile().getCanonicalPath();
+		} catch (IOException e1) {
+			LOGGER.warning("Parse error while analyzing file " + xmlURI + ".\n details:" + e1.getMessage()); //$NON-NLS-1$
+		}
+		ModelHandler modelHandler = new ModelHandler(workDir);
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		Schema schema = loadSchema();
 
