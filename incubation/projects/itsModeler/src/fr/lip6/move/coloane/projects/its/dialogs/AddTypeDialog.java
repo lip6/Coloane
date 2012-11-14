@@ -21,12 +21,10 @@ import fr.lip6.move.coloane.projects.its.TypeDeclarationFactory;
 import fr.lip6.move.coloane.projects.its.TypeList;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 
+import java.io.File;
 import java.io.IOException;
 
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -186,8 +184,7 @@ public final class AddTypeDialog extends TitleAreaDialog {
 			setErrorMessage("Please Specify a model file using the \"Browse\" button");
 			return;
 		}
-		IPath path = new Path(filePath);
-		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFileForLocation(path);
+
 
 		String typeName = newTypeTextfield.getText();
 		if (typeName == null || typeName.equals("")) {
@@ -201,7 +198,7 @@ public final class AddTypeDialog extends TitleAreaDialog {
 			}
 		}
 		try {
-			type = TypeDeclarationFactory.create(typeName, file, types);
+			type = TypeDeclarationFactory.create(typeName, new File(filePath).toURI(), types);
 		} catch (IOException ex) {
 			setErrorMessage("Error loading model file: "
 					+ "Your file does not seem to contain a recognized Coloane model. Details:\n" + ex.getMessage());
