@@ -128,27 +128,29 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		fileSelectionArea.setLayout(fileSelectionLayout);
 		formalismSelectionArea.setLayout(fileSelectionLayout);
 
-		// Select the formalism
-		Label formLabel = new Label(formalismSelectionArea, SWT.NONE);
-		formLabel.setText(Messages.ImportWizardPage_3);
-		formSelect = new Combo(formalismSelectionArea, SWT.BORDER | SWT.READ_ONLY);
-		formSelect.addListener(SWT.Modify, this);
-
-		// Fetch available formalisms
 		List<IFormalism> listOfFormalisms = ImportFromExtension.getFormalisms(importType);
-		LOGGER.fine("Managed formalisms for the import plugin \"" + importType + "\": " + listOfFormalisms); //$NON-NLS-1$ //$NON-NLS-2$
-		for (IFormalism formalism : listOfFormalisms) {
-			formSelect.add(formalism.getName());
-		}
-		// Pre selecty the formalism if any are available. Very useful when there is only one supported formalism. 
-		if (listOfFormalisms.size() > 0) {
-			formSelect.select(0);
+		if (!listOfFormalisms.isEmpty()) {
+			// Select the formalism
+			Label formLabel = new Label(formalismSelectionArea, SWT.NONE);
+			formLabel.setText(Messages.ImportWizardPage_3);
+			formSelect = new Combo(formalismSelectionArea, SWT.BORDER | SWT.READ_ONLY);
+			formSelect.addListener(SWT.Modify, this);
+
+			// Fetch available formalisms
+			LOGGER.fine("Managed formalisms for the import plugin \"" + importType + "\": " + listOfFormalisms); //$NON-NLS-1$ //$NON-NLS-2$
+			for (IFormalism formalism : listOfFormalisms) {
+				formSelect.add(formalism.getName());
+			}
+			// Pre selecty the formalism if any are available. Very useful when there is only one supported formalism.
+			if (listOfFormalisms.size() > 0) {
+				formSelect.select(0);
+			}
 		}
 
 		String[] extensions = new String[] {"*.*"}; //$NON-NLS-1$
 		fileSelect = new FileFieldEditor("fileSelect", "Select File: ", fileSelectionArea); //$NON-NLS-1$ //$NON-NLS-2$
-		
-		
+
+
 		// This piece of code tries to grab the currently selected resource.
 		try {
 			String path = ((IFile) selection.getFirstElement()).getLocation().toString();
@@ -156,7 +158,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		} catch (ClassCastException e) {
 			// NOP, it's not really a problem. The user perhaps triggred import using a  menu action rather than a right click.
 		}
-		
+
 		fileSelect.getTextControl(fileSelectionArea).addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(ModifyEvent e) {
@@ -208,10 +210,12 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		// Fetch available formalisms
 		IFormalism inputFormalism = null;
 		List<IFormalism> listOfFormalisms = ImportFromExtension.getFormalisms(importType);
-		for (IFormalism formalism : listOfFormalisms) {
-			if (formalism.getName().equals(formSelect.getText())) {
-				inputFormalism = formalism;
-				break;
+		if (!listOfFormalisms.isEmpty()) {
+			for (IFormalism formalism : listOfFormalisms) {
+				if (formalism.getName().equals(formSelect.getText())) {
+					inputFormalism = formalism;
+					break;
+				}
 			}
 		}
 
