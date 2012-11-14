@@ -65,6 +65,7 @@
 						</EnumerationValue>
 					</Attribute>
 				</Arc>
+				<Attribute name = "uniqueId"/>
 			</Graph>
 		</XmlDescription>
     </Formalism>
