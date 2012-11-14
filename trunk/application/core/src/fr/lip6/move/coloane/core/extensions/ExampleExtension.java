@@ -23,8 +23,8 @@ import fr.lip6.move.coloane.interfaces.extensions.IExample;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,8 +79,8 @@ public final class ExampleExtension {
 					}
 				} else if (FROM_FILE.equals(type)) {
 					Bundle bundle = Platform.getBundle(contribution.getDeclaringExtension().getNamespaceIdentifier());
-					URL url = (URL) bundle.findEntries("/", contribution.getAttribute(FILE), true).nextElement(); //$NON-NLS-1$
-					IFormalism f = ModelLoader.loadFromXML(url.toURI(), new FormalismHandler()).getFormalism();
+					URI uri = bundle.findEntries("/", contribution.getAttribute(FILE), true).nextElement().toURI(); //$NON-NLS-1$
+					IFormalism f = ModelLoader.loadFromXML(uri, new FormalismHandler()).getFormalism();
 					if (f.getId().equals(formalism.getId())) {
 						keep = true;
 					}
@@ -114,8 +114,8 @@ public final class ExampleExtension {
 						return convertInstance.buildModel(formalism);
 					} else if (FROM_FILE.equals(type)) {
 						Bundle bundle = Platform.getBundle(contribution.getDeclaringExtension().getNamespaceIdentifier());
-						URL url = (URL) bundle.findEntries("/", contribution.getAttribute(FILE), true).nextElement(); //$NON-NLS-1$
-						return ModelLoader.loadGraphFromXML(url.toURI());
+						URI uri = bundle.findEntries("/", contribution.getAttribute(FILE), true).nextElement().toURI(); //$NON-NLS-1$
+						return ModelLoader.loadGraphFromXML(uri);
 					} else {
 						LOGGER.warning("Unknown element '" + type + "' for example extension point.");  //$NON-NLS-1$//$NON-NLS-2$
 					}
