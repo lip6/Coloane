@@ -1,10 +1,9 @@
 package fr.lip6.move.coloane.projects.its;
 
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-
-import org.eclipse.core.resources.IFile;
 
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
@@ -13,13 +12,13 @@ public abstract class AbstractTypeDeclaration extends SimpleObservable implement
 
 	
 	private String typeName;
-	private IFile typeFile;
+	private URI typeFile;
 	private Set<String> labels = null;
 	private TypeList typeList;
 	private List<IModelVariable> variables = null;
 
 	
-	public AbstractTypeDeclaration(String typeName, IFile modelFile, TypeList types) {
+	public AbstractTypeDeclaration(String typeName, URI modelFile, TypeList types) {
 		this.typeName = typeName;
 		typeFile = modelFile;
 		this.typeList = types;
@@ -48,13 +47,13 @@ public abstract class AbstractTypeDeclaration extends SimpleObservable implement
 	 * @see fr.lip6.move.coloane.projects.its.ITypeDeclaration#getTypePath()
 	 */
 	public final String getTypePath() {
-		return typeFile.getFullPath().toString();
+		return typeFile.getPath();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.projects.its.ITypeDeclaration#getTypeFile()
 	 */
-	public final IFile getTypeFile() {
+	public final URI getTypeFile() {
 		return typeFile;
 	}
 

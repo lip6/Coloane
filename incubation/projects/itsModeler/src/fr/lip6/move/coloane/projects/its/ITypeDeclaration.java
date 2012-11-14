@@ -1,10 +1,9 @@
 package fr.lip6.move.coloane.projects.its;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collection;
 import java.util.List;
-
-import org.eclipse.core.resources.IFile;
 
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObservable;
@@ -39,7 +38,7 @@ public interface ITypeDeclaration extends ISimpleObservable {
 	 * 
 	 * @return the file resource of the coloane model
 	 */
-	public abstract IFile getTypeFile();
+	public abstract URI getTypeFile();
 
 	/**
 	 * The formalism name of this type's graph.

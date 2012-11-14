@@ -32,14 +32,13 @@ import fr.lip6.move.coloane.projects.its.variables.InstanceVariable;
 import fr.lip6.move.coloane.projects.its.variables.ScalarInstanceVariable;
 
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
-
-import org.eclipse.core.resources.IFile;
 
 /**
  * A class to handle composite type declarations => nested concepts.
@@ -59,7 +58,7 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 	 * @param graph the graph loaded from that file
 	 * @param types the type list / ITS model
 	 */
-	public CompositeTypeDeclaration(String typeName, IFile typePath, IGraph graph, TypeList types) {
+	public CompositeTypeDeclaration(String typeName, URI typePath, IGraph graph, TypeList types) {
 		// loads the graph object
 		super(typeName, typePath, graph, types);
 		concepts = new ArrayList<Concept>();

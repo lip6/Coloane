@@ -1,12 +1,11 @@
 package fr.lip6.move.coloane.projects.its;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.eclipse.core.resources.IFile;
 
 import fr.lip6.move.coloane.projects.its.expression.EvaluationContext;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
@@ -18,11 +17,11 @@ import fr.lip6.move.serialization.SerializationUtil;
 public class GALTypeDeclaration extends AbstractTypeDeclaration {
 	private fr.lip6.move.gal.System galSystem;
 	
-	public GALTypeDeclaration(String name, IFile file, TypeList types) {
+	public GALTypeDeclaration(String name, URI file, TypeList types) {
 		super (name,file,types);
 		
 		// load and store handle to GAL System
-		this.galSystem = SerializationUtil.fileToGalSystem(file.getLocation().makeAbsolute().toPortableString());
+		this.galSystem = SerializationUtil.fileToGalSystem(file.getPath());
 		galSystem.setName(name);
 	}
 
@@ -70,7 +69,7 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 		// i.e. invoquer clearLabels()
 		clearCaches();
 		
-		galSystem = SerializationUtil.fileToGalSystem(getTypeFile().getName());
+		galSystem = SerializationUtil.fileToGalSystem(getTypeFile().getPath());
 		
 		
 	}

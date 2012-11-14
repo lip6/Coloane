@@ -40,6 +40,7 @@ import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
 import fr.lip6.move.coloane.projects.its.variables.TransitionClockVariable;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -49,8 +50,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import org.eclipse.core.resources.IFile;
 
 /**
  * A type declaration, base class for {@link CompositeTypeDeclaration}. Handles
@@ -78,7 +77,7 @@ public class TypeDeclaration extends AbstractTypeDeclaration implements ISimpleO
 	 * @param types
 	 *            types to add to (parent)
 	 */
-	protected TypeDeclaration(String typeName, IFile modelFile, IGraph graph,
+	protected TypeDeclaration(String typeName, URI modelFile, IGraph graph,
 			TypeList types) {
 		super(typeName,modelFile,types);
 		this.graph = graph;
@@ -132,7 +131,7 @@ public class TypeDeclaration extends AbstractTypeDeclaration implements ISimpleO
 	 * @throws IOException
 	 *             if any problems during parse or file load.
 	 */
-	static IGraph loadGraph(IFile typePath) throws IOException {
+	static IGraph loadGraph(URI typePath) throws IOException {
 		// Construction d'un modele en memoire a partir de se representation en
 		// XML
 		IGraph graph = ModelLoader.loadGraphFromXML(typePath);
