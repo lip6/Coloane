@@ -65,9 +65,9 @@ public final class ModelLoader {
 			schema = schemaFactory.newSchema(schemaSource);
 			return schema;
 		} catch (SAXException e) {
-			LOGGER.warning("Unable to load the XML Schame"); //$NON-NLS-1$
+			LOGGER.warning("Unable to load the XML Schema"); //$NON-NLS-1$
 			LOGGER.warning("Details: " + e.getMessage()); //$NON-NLS-1$
-			return null;
+			throw new AssertionError(e.getMessage());
 		}
 	}
 
