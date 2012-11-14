@@ -17,21 +17,32 @@ public class AutomatonExport implements IGrMLExport {
 	private static final String AUTOMATON_URL = "http://lipn.univ-paris13.fr/~lembachar/automaton.fml";
 	private static final String GRML_NAMESPACE = "http://cosyverif.org/ns/model";
 
+	// Modgraph: Used to construct a unique id for every node. Defines the
+	// maximal number of automaton models used when
+	// invoking the tool (4 allows for up to 997 automata)
+	private static final int TOTAL_ID_LENGTH = 4;
+
 	public void export(IGraph graph, Writer writer, String filePath,
 			IProgressMonitor monitor) throws ExtensionException {
 		try {
 
+			String modelId = new String("");
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
 			writer.write("<model formalismUrl=\"" + AUTOMATON_URL + "\"");
 			writer.write(" xmlns=\"" + GRML_NAMESPACE + "\">\n");
+
 			for (IAttribute attribute : graph.getAttributes()) {
-				writer.write(exportAttribute(attribute));
+				if (attribute.getName().equals("uniqueId"))
+					modelId = attribute.getValue();
+				else
+					writer.write(exportAttribute(attribute));
 			}
+
 			for (INode node : graph.getNodes()) {
-				writer.write(exportNode(node));
+				writer.write(exportNode(node, modelId));
 			}
 			for (IArc arc : graph.getArcs()) {
-				writer.write(exportArc(arc));
+				writer.write(exportArc(arc, modelId));
 			}
 			writer.write("</model>\n");
 
@@ -40,10 +51,13 @@ public class AutomatonExport implements IGrMLExport {
 		}
 	}
 
-	private String exportNode(INode node) {
+	private String exportNode(INode node, String modelId) {
 		StringBuilder sb = new StringBuilder();
 		StringBuilder typeSb = new StringBuilder();
-		sb.append("<node id=\"").append(node.getId()).append("\"");
+		String id = ConstructUniqueId(node.getId(), modelId);
+
+		sb.append("<node id=\"").append(id).append("\"");
+
 		sb.append(" nodeType=\"").append(node.getNodeFormalism().getName())
 				.append("\"");
 		sb.append(" x=\"").append(node.getGraphicInfo().getLocation().x())
@@ -67,14 +81,36 @@ public class AutomatonExport implements IGrMLExport {
 		return sb.toString();
 	}
 
-	private String exportArc(IArc arc) {
+	/**
+	 * Constructs a unique identifier for every node by concatenating the model
+	 * uniqueId attribute and the Coloane node id. (Modgraph requires that nodes
+	 * from different models have different identifiers)
+	 * 
+	 * @param nodeId
+	 * @param modelId
+	 * @return
+	 */
+	private String ConstructUniqueId(int nodeId, String modelId) {
+		int idLength = String.valueOf(nodeId).length();
+		StringBuilder sb = new StringBuilder();
+		sb.append(modelId);
+		for (int i = 0; i < (TOTAL_ID_LENGTH - idLength); i++)
+			sb.append("0");
+		sb.append(nodeId);
+		return sb.toString();
+	}
+
+	private String exportArc(IArc arc, String modelId) {
 		StringBuilder sb = new StringBuilder();
 		StringBuilder tempSb = new StringBuilder();
 		StringBuilder shared = new StringBuilder();
 
+		String sourceId = ConstructUniqueId(arc.getSource().getId(), modelId);
+		String targetId = ConstructUniqueId(arc.getTarget().getId(), modelId);
+
 		sb.append("<arc id=\"").append(arc.getId()).append("\"");
-		sb.append(" source=\"").append(arc.getSource().getId()).append("\"");
-		sb.append(" target=\"").append(arc.getTarget().getId()).append("\"");
+		sb.append(" source=\"").append(sourceId).append("\"");
+		sb.append(" target=\"").append(targetId).append("\"");
 		sb.append(" arcType=\"").append(arc.getArcFormalism().getName())
 				.append("\">\n");
 
@@ -97,8 +133,8 @@ public class AutomatonExport implements IGrMLExport {
 			} else {
 				if (attribute.getName().equals("shared")) {
 
-					shared.append("<attribute name=\"").append(attribute.getName())
-							.append("\"");
+					shared.append("<attribute name=\"")
+							.append(attribute.getName()).append("\"");
 					shared.append(" x=\"")
 							.append(attribute.getGraphicInfo().getLocation()
 									.x()).append("\"");
