@@ -1,99 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- ==================== -->
-<!-- Automaton definition -->
-<!-- ==================== -->
-
-<formalism xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:gml="http://cosyverif.org/ns/model" xmlns="http://cosyverif.org/ns/formalism" name="automaton">
-
-	<!-- =================== -->
-	<!-- Element definitions -->
-	<!-- =================== -->
-	
-	<nodeType name="state"/>
-	
-	<nodeType name="initialState"/>
-	
-	<nodeType name="finalState"/>
-	
-	<arcType name="transition"/>
-	
-	<!-- ==================================== -->
-	<!-- Initial and final state constraints -->
-	<!-- ==================================== -->
-
-   	<!-- The initial state is required. -->
-    
-	<sch:rule context="/gml:model">
-	<sch:assert test="/gml:model/gml:node[@nodeType = 'initialState']"> An initial state is required.</sch:assert>	
-	</sch:rule>
-	
-	<!-- The initial state is unique. -->
-	
-	<sch:rule context="/gml:model/gml:node[@nodeType = 'initialState']">
-	<sch:assert test="count(//gml:node[@nodeType = 'initialState' and . = current()]) = 1"> The initial state must be unique.</sch:assert>
-	</sch:rule>
-	
-	<!-- The final state is required. -->
-    
-	<sch:rule context="/gml:model">
-	<sch:assert test="/gml:model/gml:node[@nodeType = 'finalState']"> A final state is required.</sch:assert>
-	</sch:rule>
-	
-	<!-- The final state is unique. -->
-	
-	<sch:rule context="/gml:model/gml:node[@nodeType = 'finalState']">
-	<sch:assert test="count(//gml:node[@nodeType = 'finalState' and . = current()]) = 1"> The final state must be unique.</sch:assert>
-	</sch:rule>
-
-	<!-- =========================== -->
-	<!-- State attribute definitions -->
-	<!-- =========================== -->
-	
-	!-- A state name is required -->
-    
-    <leafAttribute name="name" refType="state"/>
-    
-   	<leafAttribute name="name" refType="initialState"/>
-   	
-   	<leafAttribute name="name" refType="finalState"/>
-   	
-	<sch:rule context="/gml:model/gml:node[@nodeType = 'state']">
-   	<sch:assert test="string-length(normalize-space(gml:attribute[@name = 'name'])) > 0"> Every state should have a name.</sch:assert>
-   	</sch:rule>
-   	
-   	<sch:rule context="/gml:model/gml:node[@nodeType = 'initialState']">
-   	<sch:assert test="string-length(normalize-space(gml:attribute[@name = 'name'])) > 0"> The initial state should have a name.</sch:assert>
-   	</sch:rule>
-   	
-   	<sch:rule context="/gml:model/gml:node[@nodeType = 'finalState']">
-   	<sch:assert test="string-length(normalize-space(gml:attribute[@name = 'name'])) > 0"> The final state should have a name.</sch:assert>
-   	</sch:rule>
-   	
-    
-    <!-- A state name is unique -->
-    
-    <sch:rule context="/gml:model/gml:node/gml:attribute[@name = 'name']">
-	<sch:assert test="count(//gml:attribute[@name = 'name' and . = current()]) = 1"> A state name must be unique.</sch:assert>
-	</sch:rule>
-	    
-   	<!-- ================================ -->
-	<!-- Transition attribute definitions -->
-	<!-- ================================ -->
-	
-	!-- A transition name is required -->
-    
-   	<leafAttribute name="name" refType="transition"/>
-
-	<leafAttribute name="shared" refType="transition"/>
-   	   	
-	<sch:rule context="/gml:model/gml:arc">
-   	<sch:assert test="string-length(normalize-space(gml:attribute[@name = 'name'])) > 0"> Every transition should have a name.</sch:assert>
-   	</sch:rule>
-	
-    <!-- A transition name is unique -->
-    
-	<sch:rule context="/gml:model/gml:arc/gml:attribute[@name = 'name']">
-	<sch:assert test="count(//gml:attribute[@name = 'name' and . = current()]) = 1"> A transition name must be unique.</sch:assert>
-	</sch:rule>
-		
+<!--  ====================  -->
+<!--  Automaton definition  -->
+<!--  ====================  -->
+<formalism xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:sch="http://purl.oclc.org/dsdl/schematron" xmlns:grml="http://cosyverif.org/ns/model" xmlns="http://cosyverif.org/ns/formalism" name="automaton">
+<leafAttribute name="initialState"/>
+<leafAttribute name="finalState"/>
+<complexAttribute name="type" refType="state">
+<child refName="initialState" minOccurs="0" maxOccurs="1"/>
+<child refName="finalState" minOccurs="0" maxOccurs="1"/>
+</complexAttribute>
+<leafAttribute name="name" refType="state" maxOccurs="1"/>
+<leafAttribute name="label" refType="transition" maxOccurs="1"/>
+<leafAttribute name="shared" refType="transition" maxOccurs="1"/>
+<nodeType name="state"/>
+<arcType name="transition"/>
 </formalism>
