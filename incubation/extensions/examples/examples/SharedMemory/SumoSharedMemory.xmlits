@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/fr.lip6.move.coloane.its.xsd'>
 <types>
-<type name='SharedMem.model' id='7000' formalism='ITSComposite' path='/fr.lip6.move.coloane.examples.tpn.SharedMemory/SharedMem.model'/>
-<type name='ProcSet.model' id='7001' formalism='Scalar Set Composite' path='/fr.lip6.move.coloane.examples.tpn.SharedMemory/ProcSet.model'/>
-<type name='Process.model' id='7002' formalism='Time Petri Net' path='/fr.lip6.move.coloane.examples.tpn.SharedMemory/Process.model'/>
-<type name='Bus.model' id='7003' formalism='Time Petri Net' path='/fr.lip6.move.coloane.examples.tpn.SharedMemory/Bus.model'/>
+<type name='SharedMem.model' id='7000' formalism='ITSComposite' path='SharedMem.model'/>
+<type name='ProcSet.model' id='7001' formalism='Scalar Set Composite' path='ProcSet.model'/>
+<type name='Process.model' id='7002' formalism='Time Petri Net' path='Process.model'/>
+<type name='Bus.model' id='7003' formalism='Time Petri Net' path='Bus.model'/>
 </types>
 <concepts>
 <concept name='ProcSet' id='7004' effective='7001' parent='7000'/>
