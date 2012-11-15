@@ -236,7 +236,14 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		if (job.getResult() != Status.OK_STATUS) {
+			try {
+				newFile.delete(true, null);
+			} catch (CoreException e) {
+				LOGGER.warning("Import job failed, but could not delete generated file '" + newFile.getName() + "', because '" + e.getMessage() + "'.");  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
+			}
+			return true;
+		}
 		// Open the new model
 		Job job2 = new Job("Open editor") { //$NON-NLS-1$
 			@Override
@@ -286,7 +293,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			return false;
 		}
 
-		if (formSelect.getText().equals("")) { //$NON-NLS-1$
+		if ((formSelect != null) && (formSelect.getText().equals(""))) { //$NON-NLS-1$
 			setErrorMessage(Messages.ImportWizardPage_9);
 			return false;
 		}
