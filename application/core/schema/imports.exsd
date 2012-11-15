@@ -50,7 +50,7 @@
    <element name="Import">
       <complexType>
          <sequence>
-            <element ref="AcceptedFormalism" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="AcceptedFormalism" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="id" type="string" use="required">
             <annotation>
