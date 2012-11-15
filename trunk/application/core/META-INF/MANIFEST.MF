@@ -12,6 +12,7 @@ Export-Package: fr.lip6.move.coloane.core.main;
    org.osgi.framework,
    org.eclipse.swt.widgets",
  fr.lip6.move.coloane.core.model.factory,
+ fr.lip6.move.coloane.core.model.interfaces,
  fr.lip6.move.coloane.core.ui.figures;
   uses:="org.eclipse.draw2d.geometry,
    org.eclipse.swt.graphics,
