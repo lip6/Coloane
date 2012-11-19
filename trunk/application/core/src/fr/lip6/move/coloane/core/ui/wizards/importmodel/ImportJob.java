@@ -22,7 +22,7 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.logging.Logger;
@@ -32,7 +32,12 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.ide.IDE;
 
 /**
  * Dedicated Job for importing models
@@ -54,50 +59,72 @@ public class ImportJob extends Job {
 
 	/** The new file (will be created to handle the new model) */
 	private IFile newFile;
+	
+	private IWorkbench workbench;
 
 	/**
 	 * Constructor
 	 * @param name Job name
 	 * @param worker import extension that does the job
+	 * @param workbench The workbench
 	 * @param formalism The formalism use by the new model
 	 * @param path the source path
 	 * @param newFile The file that will handle the new model data
 	 */
-	public ImportJob(String name, IImportFrom worker, IFormalism formalism, String path, IFile newFile) {
+	public ImportJob(String name, IImportFrom worker, IWorkbench workbench, IFormalism formalism, String path, IFile newFile) {
 		super(name);
 		this.worker = worker;
+		this.workbench = workbench;
 		this.formalism = formalism;
 		this.path = path;
 		this.newFile = newFile;
+		this.setUser(true);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	protected final IStatus run(IProgressMonitor monitor) {
 		try {
-			int totalWork = new Long(new File(path).length()).intValue();
-			monitor.beginTask("Import " + path, totalWork + 100); //$NON-NLS-1$
-
-			monitor.subTask("Create graph"); //$NON-NLS-1$
-			IGraph model = worker.importFrom(path, formalism, monitor);
-
-			// Translate model to XML
-			monitor.subTask("Convert to XML"); //$NON-NLS-1$
+			// Create model:
+			monitor.beginTask("Importing " + path, IProgressMonitor.UNKNOWN); //$NON-NLS-1$
+			IProgressMonitor workerMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
+			workerMonitor.setTaskName("Importing model"); //$NON-NLS-1$
+			IGraph model = worker.importFrom(path, formalism, workerMonitor);
+			// Translate model to XML:
 			String xmlString = ModelWriter.translateToXML(model);
 			InputStream inputS = new ByteArrayInputStream(xmlString.getBytes("UTF-8")); //$NON-NLS-1$
-
-			// Write result into a file
-			newFile.setContents(inputS, true, false, null);
+			IProgressMonitor xmlMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
+			xmlMonitor.beginTask("Writing XML file", inputS.available()); //$NON-NLS-1$
+			newFile.setContents(inputS, true, false, xmlMonitor);
+			xmlMonitor.done();
+			// Open editor:
+			IProgressMonitor editorMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
+			editorMonitor.beginTask("Opening editor", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
+			Display.getDefault().syncExec(new Runnable() {
+				@Override
+				public void run() {
+					IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
+					try {
+						IDE.openEditor(page, newFile, true);
+					} catch (CoreException ce) {
+						LOGGER.warning(ce.getMessage());
+					}
+				}
+			});
+			editorMonitor.done();
 			monitor.done();
 		} catch (CoreException e) {
-			LOGGER.warning("Fail during the file creation"); //$NON-NLS-1$
-			return e.getStatus();
+			LOGGER.warning("Fail during file creation: " + e.getMessage()); //$NON-NLS-1$
+			return new Status(IStatus.ERROR, "coloane", "Import failed."); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (ExtensionException e) {
 			LOGGER.warning("Fail during the import process: " + e.getMessage()); //$NON-NLS-1$
-			return new Status(IStatus.ERROR, "coloane", "Fail during the import process: " + e.getMessage()); //$NON-NLS-1$ //$NON-NLS-2$
+			return new Status(IStatus.ERROR, "coloane", "Import failed."); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (UnsupportedEncodingException e) {
-			LOGGER.warning("Fail during the XML writing (invalid charset)"); //$NON-NLS-1$
-			return new Status(IStatus.ERROR, "coloane", "Fail during the XML writing (invalid charset)", e); //$NON-NLS-1$ //$NON-NLS-2$
+			LOGGER.warning("Fail during XML writing (invalid charset): " + e.getMessage()); //$NON-NLS-1$
+			return new Status(IStatus.ERROR, "coloane", "Import failed."); //$NON-NLS-1$ //$NON-NLS-2$
+		} catch (IOException e) {
+			LOGGER.warning("Fail during XML writing: " + e.getMessage()); //$NON-NLS-1$
+			return new Status(IStatus.ERROR, "coloane", "Import failed."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return Status.OK_STATUS;
 	}
