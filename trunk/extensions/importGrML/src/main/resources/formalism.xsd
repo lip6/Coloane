@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://cosyverif.org/ns/formalism" xmlns:schematron="http://purl.oclc.org/dsdl/schematron" xmlns:formalism="http://cosyverif.org/ns/formalism" xmlns:xinclude="http://www.w3.org/2001/XInclude">
+  <xs:import namespace="http://purl.oclc.org/dsdl/schematron" schemaLocation="schematron.xsd"/>
+  <xs:import namespace="http://www.w3.org/2001/XInclude" schemaLocation="xinclude.xsd"/>
+  <xs:element name="formalism">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="formalism:formalism.content"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="abstract" type="xs:boolean"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="formalism.content" abstract="true"/>
+  <xs:group name="anything.element">
+    <xs:sequence>
+      <xs:any processContents="skip"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="leafAttribute" substitutionGroup="formalism:formalism.content">
+    <xs:complexType>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="defaultValue"/>
+      <xs:attribute name="refType"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="complexAttribute" substitutionGroup="formalism:formalism.content">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="formalism:child"/>
+      </xs:sequence>
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="refType"/>
+      <xs:attribute name="combineChild">
+        <xs:simpleType>
+          <xs:restriction base="xs:token">
+            <xs:enumeration value="interleave"/>
+            <xs:enumeration value="choice"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="child">
+    <xs:complexType>
+      <xs:attribute name="refName" use="required"/>
+      <xs:attribute name="minOccurs" type="xs:nonNegativeInteger"/>
+      <xs:attribute name="maxOccurs" type="xs:positiveInteger"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="nodeType" substitutionGroup="formalism:formalism.content">
+    <xs:complexType>
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="formalism:nodeType.content"/>
+      <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="nodeType.content">
+    <xs:sequence>
+      <xs:element ref="formalism:ref"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="arcType" substitutionGroup="formalism:formalism.content">
+    <xs:complexType>
+      <xs:group minOccurs="0" maxOccurs="unbounded" ref="formalism:arcType.content"/>
+      <xs:attribute name="name" use="required"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:group name="arcType.content">
+    <xs:sequence>
+      <xs:element ref="formalism:ref"/>
+    </xs:sequence>
+  </xs:group>
+  <xs:element name="ref">
+    <xs:complexType>
+      <xs:attribute name="href" use="required" type="xs:anyURI"/>
+      <xs:attribute name="minOccurs" type="xs:nonNegativeInteger"/>
+      <xs:attribute name="maxOccurs" type="xs:positiveInteger"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

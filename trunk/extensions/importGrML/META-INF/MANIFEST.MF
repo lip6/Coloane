@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ImportGrML
+Bundle-SymbolicName: fr.lip6.move.coloane.extensions.importGrML;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: fr.lip6.move.coloane.extensions.importgrml.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ fr.lip6.move.coloane.core
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Import-Package: fr.lip6.move.coloane.interfaces.exceptions,
+ fr.lip6.move.coloane.interfaces.extensions,
+ fr.lip6.move.coloane.interfaces.formalism,
+ fr.lip6.move.coloane.interfaces.model
+Export-Package: fr.lip6.move.coloane.extensions.importgrml,
+ org.cosyverif.ns.model
