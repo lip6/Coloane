@@ -28,9 +28,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
@@ -44,12 +42,9 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
-import org.eclipse.ui.ide.IDE;
 
 /**
  * Wizard page for import process.<br>
@@ -156,7 +151,7 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 			String path = ((IFile) selection.getFirstElement()).getLocation().toString();
 			fileSelect.setStringValue(path);
 		} catch (ClassCastException e) {
-			// NOP, it's not really a problem. The user perhaps triggred import using a  menu action rather than a right click.
+			// NOP, it's not really a problem. The user perhaps triggered import using a  menu action rather than a right click.
 		}
 
 		fileSelect.getTextControl(fileSelectionArea).addModifyListener(new ModifyListener() {
@@ -222,54 +217,15 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 		// Use a job to import the new model
 		final Job job = new ImportJob("Import " + path, //$NON-NLS-1$
 						worker,
+						workbench,
 						inputFormalism,
 						fileSelect.getStringValue(),
 						newFile);
 
-		job.setPriority(Job.LONG);
 		job.setRule(newFile);
+		job.setPriority(Job.LONG);
 		job.setUser(true);
 		job.schedule();
-		try {
-			job.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		if (job.getResult() != Status.OK_STATUS) {
-			try {
-				newFile.delete(true, null);
-			} catch (CoreException e) {
-				LOGGER.warning("Import job failed, but could not delete generated file '" + newFile.getName() + "', because '" + e.getMessage() + "'.");  //$NON-NLS-1$ //$NON-NLS-2$//$NON-NLS-3$
-			}
-			return true;
-		}
-		// Open the new model
-		Job job2 = new Job("Open editor") { //$NON-NLS-1$
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				Display.getDefault().asyncExec(new Runnable() {
-					@Override
-					public void run() {
-						IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
-						if (newFile != null && page != null) {
-							try {
-								IDE.openEditor(page, newFile, true);
-							} catch (CoreException ce) {
-								LOGGER.warning(ce.getMessage());
-//							} catch (InterruptedException e) {
-//								LOGGER.warning(e.getMessage());
-							}
-						}
-					}
-				});
-				return Status.OK_STATUS;
-			}
-		};
-		job2.setPriority(Job.LONG);
-		job2.setRule(newFile);
-		job2.setSystem(true);
-		job2.schedule();
 		return true;
 	}
 
