@@ -15,7 +15,9 @@
  */
 package fr.lip6.move.coloane.core.model.interfaces;
 
+import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
+import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.util.List;
 
@@ -60,4 +62,27 @@ public interface ICoreGraph extends IGraph {
 	 * @return All graph sticky notes
 	 */
 	List<IStickyNote> getStickyNotes();
+	
+	/**
+	 * Create a new link between a sticky note and a node.
+	 * @param note The sticky note
+	 * @param node The graph node
+	 * @return The created link, that can also be obtained through the sticky note
+	 */
+	ILink createLink(IStickyNote note, INode node);
+	
+	/**
+	 * Create a new link between a sticky note and an arc.
+	 * @param note The sticky note
+	 * @param arc The graph arc
+	 * @return The created link, that can also be obtained through the sticky note
+	 */
+	ILink createLink(IStickyNote note, IArc arc);
+
+	/**
+	 * Remove the link between a sticky note and an element
+	 * @param link The link to remove
+	 */
+	void deleteLink(ILink link);
+	
 }

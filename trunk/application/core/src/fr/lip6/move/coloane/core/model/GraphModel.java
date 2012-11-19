@@ -16,6 +16,8 @@
 package fr.lip6.move.coloane.core.model;
 
 import fr.lip6.move.coloane.core.model.interfaces.ICoreGraph;
+import fr.lip6.move.coloane.core.model.interfaces.ILink;
+import fr.lip6.move.coloane.core.model.interfaces.ILinkableElement;
 import fr.lip6.move.coloane.core.model.interfaces.IStickyNote;
 import fr.lip6.move.coloane.interfaces.exceptions.ModelException;
 import fr.lip6.move.coloane.interfaces.formalism.IArcFormalism;
@@ -389,4 +391,27 @@ public class GraphModel extends AbstractElement implements IGraph, ICoreGraph {
 			addSticky(sticky);
 		}
 	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final ILink createLink(IStickyNote note, INode node) {
+		ILink link = new LinkModel(note, (ILinkableElement) node);
+		link.connect();
+		return link;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final ILink createLink(IStickyNote note, IArc arc) {
+		ILink link = new LinkModel(note, (ILinkableElement) arc);
+		link.connect();
+		return link;
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public final void deleteLink(ILink link) {
+		link.disconnect();
+	}
+
 }
