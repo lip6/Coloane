@@ -16,24 +16,21 @@
 package fr.lip6.move.coloane.core.ui.wizards.importmodel;
 
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
-import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.util.concurrent.CancellationException;
 import java.util.logging.Logger;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
@@ -82,56 +79,65 @@ public class ImportJob extends Job {
 		this.path = path;
 		this.newFile = newFile;
 		this.setUser(true);
-		this.setRule(newFile);
 		this.setPriority(Job.LONG);
 		this.setUser(true);
+		this.setRule(newFile);
 	}
 
 	/** {@inheritDoc} */
 	@Override
 	protected final IStatus run(IProgressMonitor monitor) {
 		try {
-			// Create model:
 			monitor.beginTask("Importing " + path, 100); //$NON-NLS-1$
-			IProgressMonitor workerMonitor = new SubProgressMonitor(monitor, 98, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
-			workerMonitor.setTaskName("Importing model"); //$NON-NLS-1$
-			IGraph model = worker.importFrom(path, formalism, workerMonitor);
-			// Translate model to XML:
-			IProgressMonitor xmlMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
-			xmlMonitor.beginTask("Writing XML file", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
-			Writer writer = new BufferedWriter(new FileWriter(newFile.getRawLocation().toFile()));
-			ModelWriter.translateToXML(model, writer);
-			writer.close();
-			xmlMonitor.done();
+			{
+				// Create model:
+				IProgressMonitor workerMonitor = new SubProgressMonitor(monitor, 97, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
+				workerMonitor.setTaskName("Importing model"); //$NON-NLS-1$
+				IGraph model = worker.importFrom(path, formalism, workerMonitor);
+				// Translate model to XML:
+				IProgressMonitor xmlMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
+				xmlMonitor.beginTask("Writing XML file", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
+				Writer writer = new BufferedWriter(new FileWriter(newFile.getRawLocation().toFile()));
+				ModelWriter.translateToXML(model, writer);
+				writer.close();
+				newFile.touch(null);
+				xmlMonitor.done();
+			} // Allow to clean memory
 			// Open editor:
-			// TODO: shitty condition
-			if (model.getNodes().size() + model.getArcs().size() < 1000) {
-				IProgressMonitor editorMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
-				editorMonitor.beginTask("Opening editor", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
-				Display.getDefault().syncExec(new Runnable() {
-					@Override
-					public void run() {
-						IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
-						try {
-							IDE.openEditor(page, newFile, true);
-						} catch (CoreException ce) {
-							LOGGER.warning(ce.getMessage());
-						}
+			IProgressMonitor editorMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
+			editorMonitor.beginTask("Opening editor", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
+			Display.getDefault().syncExec(new Runnable() {
+				@Override
+				public void run() {
+					IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
+					try {
+						IDE.openEditor(page, newFile, true);
+					} catch (CoreException ce) {
+						LOGGER.warning(ce.getMessage());
 					}
-				});
-				editorMonitor.done();
-			}
-			newFile.touch(null);
+				}
+			});
+			editorMonitor.done();
 			monitor.done();
+		} catch (CancellationException e) {
+			return new Status(IStatus.CANCEL, "coloane", "Import canceled."); //$NON-NLS-1$ //$NON-NLS-2$
 		} catch (Exception e) {
+			e.printStackTrace();
 			LOGGER.warning("Import failed: " + e.getMessage()); //$NON-NLS-1$
-			try {
-				newFile.delete(true, monitor);
-			} catch (CoreException e1) {
-			}
 			return new Status(IStatus.ERROR, "coloane", "Import failed."); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return Status.OK_STATUS;
+	}
+	
+	@Override
+	protected final void canceling() {
+		try {
+			this.join();
+			newFile.delete(true, null);
+		} catch (CoreException e) {
+			LOGGER.warning("Could not delete file: " + e.getMessage()); //$NON-NLS-1$
+		} catch (InterruptedException e) {
+		}
 	}
 
 }

@@ -43,10 +43,15 @@ import fr.lip6.move.coloane.core.ui.views.ModelLabelProvider;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EventObject;
 import java.util.List;
 import java.util.logging.Logger;
@@ -104,6 +109,7 @@ import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gef.ui.rulers.RulerComposite;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.viewers.DecoratingLabelProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
@@ -119,6 +125,7 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
@@ -268,6 +275,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 	private static final String CONTRIBUTOR_ID = "fr.lip6.move.coloane.properties.contributor"; //$NON-NLS-1$
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
+	private static final int MAXIMUM_FILE_SIZE = 2 * 1024 * 1024;
 
 	/**
 	 * Focus listener.<br>
@@ -460,6 +468,19 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	}
 
 	/**
+	 * Close the editor.
+	 */
+	private void closeEditor() {
+		setEditDomain(new DefaultEditDomain(this));
+		Display.getDefault().asyncExec(new Runnable() {
+			@Override
+			public void run() {
+				getSite().getPage().closeEditor(ColoaneEditor.this, false);
+			}
+		});
+	}
+	
+	/**
 	 * Set editor contents.<br>
 	 * Contents are read from a file (previously created by the creation wizard).
 	 * @param input All information about the model
@@ -471,6 +492,32 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		// Default id
 		String id = input.getName();
 
+		long fileSize = 0;
+		if (input instanceof IFileEditorInput) {
+			final IFile file = ((IFileEditorInput) input).getFile();
+			fileSize = file.getRawLocation().toFile().length();
+		} else if (input instanceof FileStoreEditorInput) {
+			URL url;
+			try {
+				url = ((FileStoreEditorInput) input).getURI().toURL();
+				fileSize = new File(url.getFile()).length();
+			} catch (MalformedURLException e) {
+			}
+		}
+		Shell shell = null;
+		for (Shell s: Arrays.asList(Display.getCurrent().getShells())) {
+			if (s.isEnabled()) {
+				shell = s;
+			}
+		}
+		if ((shell != null) && (fileSize > MAXIMUM_FILE_SIZE)) {
+			boolean continueEditor = MessageDialog.openQuestion(shell, "Open a huge model?", //$NON-NLS-1$
+					"This model is stored in a file of size " + (fileSize / 1024 / 1024) + "Mbytes. Coloane is very likely to hang. Note that you can still send the model to Alligator services, even if it it closed. Are you sure that you want to open the model?");  //$NON-NLS-1$//$NON-NLS-2$
+			if (!continueEditor) {
+				closeEditor();
+				return;
+			}
+		}
 		// Fetch the XML file and set the name of the editor
 		if (input instanceof IFileEditorInput) {
 			final IFile file = ((IFileEditorInput) input).getFile();
@@ -508,13 +555,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// If the loading fails... Display a message and quit
 		if (this.graph == null) {
-			setEditDomain(new DefaultEditDomain(this));
-			Display.getDefault().asyncExec(new Runnable() {
-				@Override
-				public void run() {
-					getSite().getPage().closeEditor(ColoaneEditor.this, false);
-				}
-			});
+			closeEditor();
 			return;
 		}
 
