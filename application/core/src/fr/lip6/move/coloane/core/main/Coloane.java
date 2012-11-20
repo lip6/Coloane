@@ -192,7 +192,7 @@ public class Coloane extends AbstractUIPlugin {
 	private void initializeLogger() {
 		LOGGER = Logger.getLogger("fr.lip6.move.coloane"); //$NON-NLS-1$
 		// TODO: Should be defined in a property page...
-		LOGGER.setLevel(Level.FINEST); // Finer/Finest messages are discarded
+		LOGGER.setLevel(Level.INFO); // Finer/Finest messages are discarded
 
 		// Log messages are displayed in the system console
 		LOGGER.addHandler(new ConsoleHandler());

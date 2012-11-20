@@ -222,9 +222,6 @@ public class ImportWizardPage extends WizardNewFileCreationPage {
 						fileSelect.getStringValue(),
 						newFile);
 
-		job.setRule(newFile);
-		job.setPriority(Job.LONG);
-		job.setUser(true);
 		job.schedule();
 		return true;
 	}
