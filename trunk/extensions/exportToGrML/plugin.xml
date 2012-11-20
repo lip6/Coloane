@@ -16,6 +16,7 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.export.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
+            icon="resources/crocodile-icon.png"
             id="fr.lip6.move.coloane.wizard.export.grml"
             name="GrML file">
       </wizard>

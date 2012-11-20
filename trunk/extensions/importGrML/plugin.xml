@@ -15,6 +15,7 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.import.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.importmodel.ImportWizard"
+            icon="src/main/resources/crocodile-icon.png"
             id="fr.lip6.move.coloane.wizard.import.grml"
             name="GrML File">
          <description>
