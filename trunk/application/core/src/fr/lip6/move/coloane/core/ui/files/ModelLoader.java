@@ -16,8 +16,11 @@
 package fr.lip6.move.coloane.core.ui.files;
 
 import fr.lip6.move.coloane.core.main.Coloane;
+import fr.lip6.move.coloane.core.model.factory.FormalismManager;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
@@ -27,6 +30,9 @@ import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -34,6 +40,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -173,6 +180,32 @@ public final class ModelLoader {
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
 			LOGGER.warning("Wrong parser initialization: " + e.getMessage()); //$NON-NLS-1$
+		}
+		return null;
+	}
+	
+	/**
+	 * Load a formalism from a model file.
+	 * @param xmlFile IFile of the model
+	 * @return corresponding formalism instance
+	 */
+	public static IFormalism loadFormalismFromXML(IFile xmlFile) {
+		XMLInputFactory factory = XMLInputFactory.newFactory();
+		try {
+			XMLStreamReader reader = factory.createXMLStreamReader(new BufferedInputStream(xmlFile.getContents()));
+			reader.nextTag();
+			for (int i = 0; i < reader.getAttributeCount(); i++) {
+				if ("formalism".equals(reader.getAttributeLocalName(i))) { //$NON-NLS-1$
+					return FormalismManager.getInstance().getFormalismByName(reader.getAttributeValue(i));
+				}
+			}
+			reader.close();
+		} catch (XMLStreamException e) {
+			LOGGER.warning("Unable to parse the file: " + e.getMessage()); //$NON-NLS-1$
+		} catch (CoreException e) {
+			LOGGER.warning("Unable to access the resource: " + e.getMessage()); //$NON-NLS-1$
+		} catch (IllegalArgumentException e) {
+			LOGGER.warning("The formalism is not defined: " + e.getMessage()); //$NON-NLS-1$
 		}
 		return null;
 	}
