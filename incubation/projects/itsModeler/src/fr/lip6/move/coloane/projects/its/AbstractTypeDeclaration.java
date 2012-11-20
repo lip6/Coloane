@@ -1,6 +1,7 @@
 package fr.lip6.move.coloane.projects.its;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -114,7 +115,11 @@ public abstract class AbstractTypeDeclaration extends SimpleObservable implement
 		if (variables == null) {
 			variables = computeVariables();
 		}
-		return variables;
+		ArrayList<IModelVariable> toret = new ArrayList<IModelVariable>(variables.size());
+		for (IModelVariable m : variables) {
+			toret.add(m.clone());
+		}
+		return toret;
 	}
 	
 	protected abstract List<IModelVariable> computeVariables() ;
