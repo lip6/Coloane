@@ -16,7 +16,6 @@
 package fr.lip6.move.coloane.core.ui.views;
 
 import fr.lip6.move.coloane.core.main.Coloane;
-import fr.lip6.move.coloane.core.ui.files.FormalismHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
@@ -57,24 +56,21 @@ public final class ModelLabelProvider extends LabelProvider implements ILabelPro
 		if (element instanceof IFile) {
 			IFile f = (IFile) element;
 			if (f.getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
-				FormalismHandler formalismHandler = ModelLoader.loadFromXML(f, new FormalismHandler());
-				if (formalismHandler != null) {
-					IFormalism formalism = formalismHandler.getFormalism();
-					if (formalism != null) {
-						Image image;
-						String imagePath = formalism.getImageName();
+				IFormalism formalism = ModelLoader.loadFormalismFromXML(f);
+				if (formalism != null) {
+					Image image;
+					String imagePath = formalism.getImageName();
 
-						if ("/null".equals(imagePath)) { //$NON-NLS-1$
-							image = unknown;
-						} else {
-							image = localResourceManager.createImage(ImageDescriptor.createFromFile(Coloane.class, imagePath));
-						}
-						Image decoratedImage = PlatformUI.getWorkbench().getDecoratorManager().decorateImage(image, element);
-						if (decoratedImage != null) {
-							return decoratedImage;
-						}
-						return image;
+					if ("/null".equals(imagePath)) { //$NON-NLS-1$
+						image = unknown;
+					} else {
+						image = localResourceManager.createImage(ImageDescriptor.createFromFile(Coloane.class, imagePath));
 					}
+					Image decoratedImage = PlatformUI.getWorkbench().getDecoratorManager().decorateImage(image, element);
+					if (decoratedImage != null) {
+						return decoratedImage;
+					}
+					return image;
 				}
 			}
 		}
@@ -96,12 +92,9 @@ public final class ModelLabelProvider extends LabelProvider implements ILabelPro
 		if (element instanceof IFile) {
 			IFile f = (IFile) element;
 			if (f.getFileExtension().equals(Coloane.getParam("MODEL_EXTENSION"))) { //$NON-NLS-1$
-				FormalismHandler formalismHandler = ModelLoader.loadFromXML(f, new FormalismHandler());
-				if (formalismHandler != null) {
-					IFormalism formalism = formalismHandler.getFormalism();
-					if (formalism != null) {
-						return f.getFullPath() + "  —  " + formalism.getName(); //$NON-NLS-1$
-					}
+				IFormalism formalism = ModelLoader.loadFormalismFromXML(f);
+				if (formalism != null) {
+					return f.getFullPath() + "  —  " + formalism.getName(); //$NON-NLS-1$
 				}
 			}
 		}
