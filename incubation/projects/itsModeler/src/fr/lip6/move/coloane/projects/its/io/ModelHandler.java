@@ -30,9 +30,10 @@ import fr.lip6.move.coloane.projects.its.expression.Variable;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 import java.util.logging.Logger;
 
 import org.xml.sax.Attributes;
@@ -48,7 +49,7 @@ import org.xml.sax.helpers.DefaultHandler;
 public class ModelHandler extends DefaultHandler {
 	private final Logger logger = Logger.getLogger("fr.lip6.move.coloane.its"); //$NON-NLS-1$
 
-	private Stack<Object> stack = new Stack<Object>();
+	private Deque<Object> stack = new ArrayDeque<Object>();
 
 	// Correspondance entre les id du document xml et celle des nouveaux objets.
 	private Map<Integer, Object> ids = new HashMap<Integer, Object>();
