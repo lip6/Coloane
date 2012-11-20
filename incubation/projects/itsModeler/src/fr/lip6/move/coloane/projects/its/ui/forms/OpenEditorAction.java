@@ -18,12 +18,11 @@ package fr.lip6.move.coloane.projects.its.ui.forms;
 
 import java.net.URI;
 
+import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
@@ -50,10 +49,12 @@ public abstract class OpenEditorAction {
 			try {
 				if (td != null) {
 					URI filePath = td.getTypeFile();
-					IPath path = new Path(filePath.getPath());
-					IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);				
-				
-					IDE.openEditor(page, file );
+					IFile[] res = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(filePath); 
+					if (res.length != 0) {
+						IDE.openEditor(page, res[0] );
+					} else {
+						Coloane.showWarningMsg("Could not open referenced model file "+ filePath + ". It has to be in the workspace to allow editing.");
+					}
 				}
 			} catch (PartInitException e) {
 				e.printStackTrace();
