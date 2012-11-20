@@ -269,7 +269,12 @@ public class ModelHandler extends DefaultHandler {
 
 		String name = attributes.getValue("name"); //$NON-NLS-1$
 		String formalism = attributes.getValue("formalism"); //$NON-NLS-1$
-		String filePath = workDir +"/" + attributes.getValue("path"); //$NON-NLS-1$
+		String filePath;
+		try {
+			filePath = new File(workDir).getCanonicalPath() +"/" + attributes.getValue("path");
+		} catch (IOException e1) {
+			throw new SAXException("Work dir is not an existing folder " + workDir, null);
+		} //$NON-NLS-1$
 		
 		
 		URI file = new File(filePath).toURI();

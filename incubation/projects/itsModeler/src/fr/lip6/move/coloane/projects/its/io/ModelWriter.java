@@ -25,7 +25,6 @@ import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.projects.its.expression.IVariableBinding;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 

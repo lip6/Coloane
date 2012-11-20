@@ -191,12 +191,10 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		try {
-			String xmlStr = fr.lip6.move.coloane.projects.its.io.ModelWriter.translateToXML(types, new File(((FileEditorInput) getEditorInput()).getFile().getLocationURI()).getParentFile().getCanonicalPath());
+			String xmlStr = fr.lip6.move.coloane.projects.its.io.ModelWriter.translateToXML(types, new File(((FileEditorInput) getEditorInput()).getFile().getLocationURI()).getParentFile().toURI().getPath());
 			InputStream is = new ByteArrayInputStream(xmlStr.getBytes());
 			((FileEditorInput) getEditorInput()).getFile().setContents(is, false, false, null);
 		} catch (CoreException e) {
-			Coloane.showWarningMsg("Could not save file ! " + e.getMessage());
-		} catch (IOException e) {
 			Coloane.showWarningMsg("Could not save file ! " + e.getMessage());
 		}
 		setDirty(false);
