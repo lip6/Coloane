@@ -5,8 +5,10 @@ import fr.lip6.move.coloane.interfaces.extensions.IImportFrom;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Arrays;
+import java.util.concurrent.CancellationException;
 import java.util.logging.Logger;
 
 import javax.xml.stream.XMLInputFactory;
@@ -30,11 +32,11 @@ public final class Importer implements IImportFrom {
 	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.extensions.importgrml"; //$NON-NLS-1$
 
 	@Override
-	public IGraph importFrom(String file, IFormalism formalism, IProgressMonitor monitor) throws ExtensionException {
+	public IGraph importFrom(String file, IFormalism formalism, IProgressMonitor monitor) throws ExtensionException, CancellationException {
 		try {
 			// Step 1. extract formalism:
 			XMLInputFactory factory = XMLInputFactory.newInstance();
-			XMLStreamReader prereader = factory.createXMLStreamReader(new FileReader(file));
+			XMLStreamReader prereader = factory.createXMLStreamReader(new BufferedReader(new FileReader(file)));
 			String formalismUrl = null;
 			while (true) {
 			    int event = prereader.next();
@@ -68,6 +70,8 @@ public final class Importer implements IImportFrom {
 				LOGGER.fine(converter.getName() + " does not handle formalism '" + formalismUrl + "'.");
 			}
 			throw new ExtensionException("Could not find any converter for formalism '" + formalismUrl + "'.");
+		} catch (CancellationException e) {
+			throw e;
 		} catch (Exception e) {
 			LOGGER.warning("Error during import from GrML: " + e.getMessage());
 			throw new ExtensionException();

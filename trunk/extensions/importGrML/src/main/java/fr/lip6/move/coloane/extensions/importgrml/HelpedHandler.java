@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.CancellationException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
@@ -63,12 +65,7 @@ public final class HelpedHandler implements ModelHandler {
 				this.container = container;
 			}
 		}
-		public String getType() {
-			return type;
-		}
-		public String getContainer() {
-			return container;
-		}
+
 		@Override
 		public int hashCode() {
 			return type.hashCode() ^ container.hashCode();
@@ -216,8 +213,8 @@ public final class HelpedHandler implements ModelHandler {
 				throw new ExtensionException("Model conversion is incomplete because of conversion errors.");
 			}
 			return result;
-		} catch (IllegalStateException e) {
-			throw new ExtensionException("Model conversion has been canceled.");
+		} catch (CancellationException e) {
+			throw e;
 		} finally {
 			monitor.done();
 		}
@@ -233,7 +230,7 @@ public final class HelpedHandler implements ModelHandler {
 	 */
 	private boolean importAttribute(IElement result, Attribute attribute, String container, IProgressMonitor monitor) {
 		if (monitor.isCanceled()) {
-			throw new IllegalStateException("Import canceled.");
+			throw new CancellationException("Import canceled.");
 		}
 		try {
 			AttributeEntry entry = new AttributeEntry(attribute.getName(), container);
@@ -283,7 +280,7 @@ public final class HelpedHandler implements ModelHandler {
 	 */
 	private boolean importNode(ICoreGraph result, Node node, IProgressMonitor monitor) {
 		if (monitor.isCanceled()) {
-			throw new IllegalStateException("Import canceled.");
+			throw new CancellationException("Import canceled.");
 		}
 		boolean hasErrors = false;
 		try {
@@ -319,7 +316,7 @@ public final class HelpedHandler implements ModelHandler {
 			}
 			monitor.worked(1);
 			return hasErrors;
-		} catch (IllegalStateException e) {
+		} catch (CancellationException e) {
 			throw e;
 		} catch (Exception e) {
 			LOGGER.warning("Something wrong happened during conversion of node '" + node.getId() + "' (" + e.getMessage() + ").");
@@ -336,7 +333,7 @@ public final class HelpedHandler implements ModelHandler {
 	 */
 	private boolean importArc(ICoreGraph result, Arc arc, IProgressMonitor monitor) {
 		if (monitor.isCanceled()) {
-			throw new IllegalStateException("Import canceled.");
+			throw new CancellationException("Import canceled.");
 		}
 		boolean hasErrors = false;
 		try {
@@ -369,7 +366,7 @@ public final class HelpedHandler implements ModelHandler {
 			}
 			monitor.worked(1);
 			return hasErrors;
-		} catch (IllegalStateException e) {
+		} catch (CancellationException e) {
 			throw e;
 		} catch (Exception e) {
 			LOGGER.warning("Something wrong happened during conversion of node '" + arc.getId() + "' (" + e.getMessage() + ").");
@@ -386,7 +383,7 @@ public final class HelpedHandler implements ModelHandler {
 	 */
 	private boolean importNote(ICoreGraph result, Note note, IProgressMonitor monitor) {
 		if (monitor.isCanceled()) {
-			throw new IllegalStateException("Import canceled.");
+			throw new CancellationException("Import canceled.");
 		}
 		try {
 			IStickyNote created = result.createStickyNote();
@@ -418,7 +415,7 @@ public final class HelpedHandler implements ModelHandler {
 			created.setLocation(point);
 			monitor.worked(1);
 			return false;
-		} catch (IllegalStateException e) {
+		} catch (CancellationException e) {
 			throw e;
 		} catch (Exception e) {
 			LOGGER.warning("Something wrong happened during conversion of note (" + e.getMessage() + ").");
@@ -429,8 +426,11 @@ public final class HelpedHandler implements ModelHandler {
 	@Override
 	public IGraph importFrom(XMLStreamReader reader, IProgressMonitor monitor) throws ExtensionException {
 		try {
+			LOGGER.setLevel(Level.INFO);
 			populateConfiguration();
 			return transformModel(loadModel(reader), monitor);
+		} catch (CancellationException e) {
+			throw e;
 		} catch (Exception e) {
 			LOGGER.warning("Could not import model because: " + e.getMessage());
 			throw new ExtensionException("Could not import model.");
