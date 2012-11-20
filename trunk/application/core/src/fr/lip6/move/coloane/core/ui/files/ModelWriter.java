@@ -25,6 +25,10 @@ import fr.lip6.move.coloane.interfaces.model.IElement;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+
 import org.eclipse.draw2d.Bendpoint;
 import org.eclipse.swt.graphics.Color;
 
@@ -81,44 +85,55 @@ public final class ModelWriter implements IModelHandler {
 	 * @return The entire model description
 	 */
 	public static String translateToXML(IGraph graph) {
-
+		try {
+			StringWriter writer = new StringWriter();
+			translateToXML(graph, writer);
+			return writer.toString();
+		} catch (IOException e) {
+			throw new AssertionError(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Put the XML representation of the model in a writer.
+	 * @param graph The graph model object
+	 * @param writer The writer for the XML representation
+	 * @throws IOException if something goes wrong
+	 */
+	public static void translateToXML(IGraph graph, Writer writer) throws IOException {
 		// Headers
-		StringBuilder line = new StringBuilder("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
-
+		writer.write("<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
 		// Formalism
-		line.append("<" + MODEL_MARKUP + " xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$ //$NON-NLS-2$
-		line.append(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'"); //$NON-NLS-1$
-		line.append(" " + MODEL_FORMALISM_MARKUP + "='").append(graph.getFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		line.append(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
-
+		writer.write("<" + MODEL_MARKUP + " xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'"); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write(" xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd'"); //$NON-NLS-1$
+		writer.write(" " + MODEL_FORMALISM_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+		writer.write(graph.getFormalism().getName());
+		writer.write("'"); //$NON-NLS-1$
+		writer.write(" xposition='0' yposition='0'>\n"); //$NON-NLS-1$
 		// Graph attributes
-		line.append(translateAttributesToXML(graph));
-
+		translateAttributesToXML(graph, writer);
 		// Nodes
-		line.append(printOpenMarkup(NODES_LIST_MARKUP));
-		line.append(translateNodesToXML(graph));
-		line.append(printCloseMarkup(NODES_LIST_MARKUP));
-
+		writer.write(printOpenMarkup(NODES_LIST_MARKUP));
+		translateNodesToXML(graph, writer);
+		writer.write(printCloseMarkup(NODES_LIST_MARKUP));
 		// Arcs
-		line.append(printOpenMarkup(ARCS_LIST_MARKUP));
-		line.append(translateArcsToXML(graph));
-		line.append(printCloseMarkup(ARCS_LIST_MARKUP));
-
+		writer.write(printOpenMarkup(ARCS_LIST_MARKUP));
+		translateArcsToXML(graph, writer);
+		writer.write(printCloseMarkup(ARCS_LIST_MARKUP));
 		// Sticky notes
-		line.append(printOpenMarkup(STICKYS_LIST_MARKUP));
-		line.append(translateStickyNotesToXML(graph));
-		line.append(printCloseMarkup(STICKYS_LIST_MARKUP));
-
-		line.append("</model>"); //$NON-NLS-1$
-		return line.toString();
+		writer.write(printOpenMarkup(STICKYS_LIST_MARKUP));
+		translateStickyNotesToXML(graph, writer);
+		writer.write(printCloseMarkup(STICKYS_LIST_MARKUP));
+		writer.write("</model>"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Convert a Color {@link Color} into a String of type "#RGB"
 	 * @param color The SWT Color object
-	 * @return A string that can be dump into a XML representation
+	 * @param writer The model writer
+	 * @throws IOException if something goes wrong
 	 */
-	private static String color2String(Color color) {
+	private static void color2String(Color color, Writer writer) throws IOException {
 		String red = Integer.toHexString(color.getRed());
 		String green = Integer.toHexString(color.getGreen());
 		String blue = Integer.toHexString(color.getBlue());
@@ -131,154 +146,181 @@ public final class ModelWriter implements IModelHandler {
 		if (blue.length() == 1) {
 			blue = "0" + blue; //$NON-NLS-1$
 		}
-		return "#" + red + green + blue; //$NON-NLS-1$
+		writer.write("#" + red + green + blue); //$NON-NLS-1$
 	}
 
 	/**
 	 * Translate a node
 	 * @param graph The graph to translate
-	 * @return A string that describes all nodes of the graph
+	 * @param writer The model writer
+	 * @throws IOException if something goes wrong
 	 */
-	private static String translateNodesToXML(IGraph graph) {
-		StringBuilder sb = new StringBuilder();
-
+	private static void translateNodesToXML(IGraph graph, Writer writer) throws IOException {
 		// For each node
 		for (INode node : graph.getNodes()) {
-
-			sb.append("<" + NODE_MARKUP + " " + NODE_TYPE_MARKUP + "='").append(node.getNodeFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			sb.append(" " + NODE_ID_MARKUP + " ='").append(node.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_X_MARKUP + "='").append(node.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_Y_MARKUP + "='").append(node.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_SCALE_MARKUP + "='").append(node.getGraphicInfo().getScale()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_INTERFACE_MARKUP + "='").append(node.isInterface()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			writer.write("<" + NODE_MARKUP + " " + NODE_TYPE_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			writer.write(node.getNodeFormalism().getName());
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + NODE_ID_MARKUP + " ='");  //$NON-NLS-1$//$NON-NLS-2$
+			writer.write(node.getId() + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + NODE_X_MARKUP + "='");  //$NON-NLS-1$//$NON-NLS-2$
+			writer.write(node.getGraphicInfo().getLocation().x + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + NODE_Y_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(node.getGraphicInfo().getLocation().y + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + NODE_SCALE_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(node.getGraphicInfo().getScale() + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + NODE_INTERFACE_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(Boolean.toString(node.isInterface()));
+			writer.write("'"); //$NON-NLS-1$
 			if (node.getNodeLink() != null) {
-				sb.append(" " + NODE_LINK_MARKUP + "='").append(node.getNodeLink()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				writer.write(" " + NODE_LINK_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+				writer.write(node.getNodeLink());
+				writer.write("'"); //$NON-NLS-1$
 			}
-			sb.append(" " + NODE_ALTERNATE_MARKUP + "='").append(node.getGraphicInfo().getGdIndex()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_FOREGROUND_MARKUP + "='").append(color2String(node.getGraphicInfo().getForeground())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + NODE_BACKGROUND_MARKUP + "='").append(color2String(node.getGraphicInfo().getBackground())).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
+			writer.write(" " + NODE_ALTERNATE_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(node.getGraphicInfo().getGdIndex() + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + NODE_FOREGROUND_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			color2String(node.getGraphicInfo().getForeground(), writer);
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + NODE_BACKGROUND_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			color2String(node.getGraphicInfo().getBackground(), writer);
+			writer.write("'>\n"); //$NON-NLS-1$
 			// Translate attributes
-			sb.append(translateAttributesToXML(node));
-
+			translateAttributesToXML(node, writer);
 			// End of the node
-			sb.append(printCloseMarkup(NODE_MARKUP));
+			writer.write(printCloseMarkup(NODE_MARKUP));
 		}
-		return sb.toString();
 	}
 
 	/**
 	 * Translate a sticky note
 	 * @param graph The graph to translate
-	 * @return A string that describes all stocky notes
+	 * @param writer The model writer
+	 * @throws IOException if something goes wrong
 	 */
-	private static String translateStickyNotesToXML(IGraph graph) {
-		StringBuilder sb = new StringBuilder();
-
+	private static void translateStickyNotesToXML(IGraph graph, Writer writer) throws IOException {
 		// For each sticky note
 		for (IStickyNote note : ((GraphModel) graph).getStickyNotes()) {
-
-			sb.append("<" + STICKY_MARKUP); //$NON-NLS-1$
-			sb.append(" " + STICKY_X_MARKUP + "='").append(note.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + STICKY_Y_MARKUP + "='").append(note.getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + STICKY_WIDTH_MARKUP + "='").append(note.getSize().width).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + STICKY_HEIGHT_MARKUP + "='").append(note.getSize().height).append("'>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-
+			writer.write("<" + STICKY_MARKUP); //$NON-NLS-1$
+			writer.write(" " + STICKY_X_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(note.getLocation().x + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + STICKY_Y_MARKUP + "='");  //$NON-NLS-1$//$NON-NLS-2$
+			writer.write(note.getLocation().y + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + STICKY_WIDTH_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(note.getSize().width + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + STICKY_HEIGHT_MARKUP + "='");  //$NON-NLS-1$//$NON-NLS-2$
+			writer.write(note.getSize().height + ""); //$NON-NLS-1$
+			writer.write("'>\n"); //$NON-NLS-1$
 			// Sticky note value
-			sb.append(printOpenMarkup(STICKY_VALUE_MARKUP, false)).append(format(note.getLabelContents())).append(printCloseMarkup(STICKY_VALUE_MARKUP));
-
+			writer.write(printOpenMarkup(STICKY_VALUE_MARKUP, false));
+			writer.write(format(note.getLabelContents()));
+			writer.write(printCloseMarkup(STICKY_VALUE_MARKUP));
 			// Links
 			for (ILink link : note.getLinks()) {
 				if (link.getElement() instanceof IElement) {
 					int linkId = ((IElement) link.getElement()).getId();
-					sb.append("<" + LINK_MARKUP + " " + LINK_REFERENCE_MARKUP + "='").append(linkId).append("' />\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+					writer.write("<" + LINK_MARKUP + " " + LINK_REFERENCE_MARKUP + "='");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$
+					writer.write(linkId);
+					writer.write("' />\n"); //$NON-NLS-1$
 				}
 			}
-
 			// End of the note
-			sb.append(printCloseMarkup(STICKY_MARKUP));
+			writer.write(printCloseMarkup(STICKY_MARKUP));
 		}
-		return sb.toString();
 	}
 
 	/**
-	 * Translate arcs
+	 * Translate an arc
 	 * @param graph The graph to translate
-	 * @return A string that describes all graph arcs
+	 * @param writer The model writer
+	 * @throws IOException if something goes wrong
 	 */
-	private static String translateArcsToXML(IGraph graph) {
-		StringBuilder sb = new StringBuilder();
-
+	private static void translateArcsToXML(IGraph graph, Writer writer) throws IOException {
 		// For each arc
 		for (IArc arc : graph.getArcs()) {
-
-			sb.append("<" + ARC_MARKUP + " " + ARC_TYPE_MARKUP + "='").append(arc.getArcFormalism().getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-			sb.append(" " + ARC_ID_MARKUP + "='").append(arc.getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + ARC_STARTID_MARKUP + "='").append(arc.getSource().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + ARC_ENDID_MARKUP + "='").append(arc.getTarget().getId()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + ARC_COLOR_MARKUP + "='").append(color2String(arc.getGraphicInfo().getColor())).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + ARC_CURVED_MARKUP + "='").append(arc.getGraphicInfo().getCurve()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(">\n"); //$NON-NLS-1$
-
+			writer.write("<" + ARC_MARKUP + " " + ARC_TYPE_MARKUP + "='");   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+			writer.write(arc.getArcFormalism().getName());
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + ARC_ID_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(arc.getId() + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + ARC_STARTID_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(arc.getSource().getId() + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + ARC_ENDID_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(arc.getTarget().getId() + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + ARC_COLOR_MARKUP + "='");  //$NON-NLS-1$//$NON-NLS-2$
+			color2String(arc.getGraphicInfo().getColor(), writer);
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + ARC_CURVED_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(Boolean.toString(arc.getGraphicInfo().getCurve()));
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(">\n"); //$NON-NLS-1$
 			// Inflex points
-			sb.append(translateInflexToXML(arc));
-
+			translateInflexToXML(arc, writer);
 			// Arc attributes
-			sb.append(translateAttributesToXML(arc));
-
+			translateAttributesToXML(arc, writer);
 			// End of the arc
-			sb.append("</" + ARC_MARKUP + ">\n"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write("</" + ARC_MARKUP + ">\n"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		return sb.toString();
 	}
 
 	/**
-	 * Translate infelx points
+	 * Translate inflexion points
 	 * @param arc The arc to translate
-	 * @return A string that describe all arc inflex points
+	 * @param writer The model writer
+	 * @throws IOException if something goes wrong
 	 */
-	private static String translateInflexToXML(IArc arc) {
-		StringBuilder sb = new StringBuilder();
-
+	private static void translateInflexToXML(IArc arc, Writer writer) throws IOException {
 		// For each inflex point
 		for (Bendpoint inflex : arc.getInflexPoints()) {
-			sb.append("<" + PI_MARKUP + ""); //$NON-NLS-1$ //$NON-NLS-2$
-			sb.append(" " + PI_X_MARKUP + "='").append(inflex.getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-			sb.append(" " + PI_Y_MARKUP + "='").append(inflex.getLocation().y).append("'/>\n"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			writer.write("<" + PI_MARKUP + ""); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(" " + PI_X_MARKUP + "='");  //$NON-NLS-1$//$NON-NLS-2$
+			writer.write(inflex.getLocation().x + ""); //$NON-NLS-1$
+			writer.write("'"); //$NON-NLS-1$
+			writer.write(" " + PI_Y_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+			writer.write(inflex.getLocation().y + ""); //$NON-NLS-1$
+			writer.write("'/>\n"); //$NON-NLS-1$
 		}
-		return sb.toString();
 	}
 
 	/**
 	 * Translate the attributes of an element
 	 * @param elt The element
-	 * @return A string that describes all node attributes
+	 * @param writer The model writer
+	 * @throws IOException if something goes wrong
 	 */
-	private static String translateAttributesToXML(IElement elt) {
-		StringBuilder sb = new StringBuilder();
-
-		sb.append(printOpenMarkup(ATTRIBUTES_LIST_MARKUP));
-
+	private static void translateAttributesToXML(IElement elt, Writer writer) throws IOException {
+		writer.write(printOpenMarkup(ATTRIBUTES_LIST_MARKUP));
 		// For each attribute
 		for (IAttribute att : elt.getAttributes()) {
-
 			// Do not take into account empty attributes
 			if (!att.getValue().equals("")) { //$NON-NLS-1$
 				String balise = att.getName();
-				sb.append("<" + ATTRIBUTE_MARKUP + " " + ATTRIBUTE_NAME_MARKUP + "='").append(balise).append("'");  //$NON-NLS-1$//$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
-				sb.append(" " + ATTRIBUTE_X_MARKUP + "='").append(att.getGraphicInfo().getLocation().x).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				sb.append(" " + ATTRIBUTE_Y_MARKUP + "='").append(att.getGraphicInfo().getLocation().y).append("'"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				sb.append(">"); //$NON-NLS-1$
-
-				sb.append(format(att.getValue()));
-
-				sb.append(printCloseMarkup(ATTRIBUTE_MARKUP));
+				writer.write("<" + ATTRIBUTE_MARKUP + " " + ATTRIBUTE_NAME_MARKUP + "='");   //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
+				writer.write(balise);
+				writer.write("'");  //$NON-NLS-1$
+				writer.write(" " + ATTRIBUTE_X_MARKUP + "='"); //$NON-NLS-1$ //$NON-NLS-2$
+				writer.write(att.getGraphicInfo().getLocation().x + ""); //$NON-NLS-1$
+				writer.write("'"); //$NON-NLS-1$
+				writer.write(" " + ATTRIBUTE_Y_MARKUP + "='");  //$NON-NLS-1$//$NON-NLS-2$
+				writer.write(att.getGraphicInfo().getLocation().y + ""); //$NON-NLS-1$
+				writer.write("'"); //$NON-NLS-1$
+				writer.write(">"); //$NON-NLS-1$
+				writer.write(format(att.getValue()));
+				writer.write(printCloseMarkup(ATTRIBUTE_MARKUP));
 			}
 		}
-
-		sb.append(printCloseMarkup(ATTRIBUTES_LIST_MARKUP));
-
-		return sb.toString();
+		writer.write(printCloseMarkup(ATTRIBUTES_LIST_MARKUP));
 	}
 
 	/**
