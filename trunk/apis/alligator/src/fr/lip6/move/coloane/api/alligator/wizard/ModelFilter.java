@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.api.alligator.wizard;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 
 /**
@@ -14,6 +15,9 @@ public class ModelFilter implements IResourceFilter {
 	 */
 	@Override
 	public final boolean isFiltered(IResource resource) {
+		if (resource instanceof IContainer && !resource.getName().startsWith(".")) {
+			return false;
+		}
 		return !resource.getName().endsWith("model");
 	}
 
