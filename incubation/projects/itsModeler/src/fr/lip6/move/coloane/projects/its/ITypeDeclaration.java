@@ -108,5 +108,11 @@ public interface ITypeDeclaration extends ISimpleObservable {
 	 */
 	public void unsetTypeDeclaration(ITypeDeclaration t) ;
 
+	/**
+	 * Returns a path relative to the TypeList
+	 * @return a normalized path, w.r.t. the owning TypeList.
+	 */
+	public String getRelativePath();
+
 	
 }
