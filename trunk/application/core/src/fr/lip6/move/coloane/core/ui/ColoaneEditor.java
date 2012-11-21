@@ -133,6 +133,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.ide.FileStoreEditorInput;
 import org.eclipse.ui.ide.IGotoMarker;
+import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.part.IPageSite;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
@@ -526,7 +527,23 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 				public void resourceChanged(IResourceChangeEvent event) {
 					if ((event.getType() & IResourceChangeEvent.POST_CHANGE) == IResourceChangeEvent.POST_CHANGE) {
 						IResourceDelta delta = event.getDelta().findMember(file.getFullPath());
-						if (delta != null && delta.getKind() == IResourceDelta.REMOVED) {
+						if (event.getDelta() != null && event.getDelta().getKind() == IResourceDelta.CHANGED) {
+							for (IResourceDelta c: Arrays.asList(event.getDelta().getAffectedChildren())) {
+							for (IResourceDelta d: Arrays.asList(c.getAffectedChildren())) {
+								LOGGER.warning(Integer.toBinaryString(d.getKind()) + ": " + d.getResource());
+								if ((d.getKind() & IResourceDelta.ADDED) == IResourceDelta.ADDED) {
+									final IFile file = (IFile) d.getResource();
+									Display.getDefault().asyncExec(new Runnable() {
+										@Override
+										public void run() {
+											ColoaneEditor.super.setInputWithNotify(new FileEditorInput(file));
+											ColoaneEditor.super.setPartName(file.getName());
+										}
+									});
+									return;
+								}
+							}}
+						} else if (delta != null && delta.getKind() == IResourceDelta.REMOVED) {
 							LOGGER.info("The editor on \"" + delta.getFullPath() + "\" will be closed because the resource has been deleted."); //$NON-NLS-1$ //$NON-NLS-2$
 							Display.getDefault().asyncExec(new Runnable() {
 								@Override
