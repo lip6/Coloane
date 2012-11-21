@@ -102,16 +102,14 @@ atom
 }
   : TRUE
   {
-    StringTemplate tmp0 = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolValue").put("content", "true"));
-    tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp0));
+    tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolValue").put("content", "true"));
   }
-  -> balise(name={"guard"}, content={ tmp })
+  -> balise(name={"boolExpr"}, content={ tmp })
   | FALSE
   {
-    StringTemplate tmp0 = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolValue").put("content", "false"));
-    tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp0));
+    tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolValue").put("content", "false"));
   }
-  -> balise(name={"guard"}, content={ tmp })
+  -> balise(name={"boolExpr"}, content={ tmp })
   | g1=guardOperator oper=gOp g2=guardOperator
   {
     tmpl.add( %balise(name={"expr"}, content={$g1.st}) );
