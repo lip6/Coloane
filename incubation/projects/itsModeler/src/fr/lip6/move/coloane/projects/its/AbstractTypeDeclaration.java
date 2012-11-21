@@ -1,5 +1,6 @@
 package fr.lip6.move.coloane.projects.its;
 
+import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -50,6 +51,57 @@ public abstract class AbstractTypeDeclaration extends SimpleObservable implement
 	public final String getTypePath() {
 		return typeFile.getPath();
 	}
+	
+	
+	
+	/** Build a String representing a canonical path to file, starting by "folder".
+	 * e.g. given the folder "C:/toto/titi" and the file "C:/toto/foo.txt" this function returns "../foo.txt"
+	 * @param file a file's canonical absolute path
+	 * @param folder a folder's canonical absolute path.
+	 * @return a path to file relative to folder.
+	 */
+	private static String getRelativePath(URI fileU, URI folderU) {
+		String file = "";
+		String folder = "";
+		file = new File(fileU).toURI().getPath();
+		folder = new File(folderU).getParentFile().toURI().getPath();
+		String[] ffpath = file.split("/");
+		String[] dpath = folder.split("/");
+		
+		int common=0;
+		while ( common < dpath.length && common < ffpath.length ) {
+			if (ffpath[common].equals(dpath[common])) {
+				// shared segments of the folder name, skip
+				common++;
+			} else {
+				break;
+			}
+		}
+		// So, now common is the index of the first element that differs in the path.
+		// For each element in dpath after this index, we need to backtrack out of the folder (using ..)
+		// elements in ffpath after common are put back into the resulting path
+		
+		String toret="";
+		for (int i=common; i < dpath.length ; i++) {
+			toret += "../";
+		}
+		for (int i=common; i < ffpath.length ; i++) {
+			toret += ffpath[i];
+			if (i != ffpath.length-1) {
+				toret += "/";
+			}
+		}
+		
+		return toret;
+	}
+
+	/* (non-Javadoc)
+	 * @see fr.lip6.move.coloane.projects.its.ITypeDeclaration#getTypePath()
+	 */
+	public final String getRelativePath() {
+		return getRelativePath(getTypeFile(), getTypeList().getPath());
+	}
+
 
 	/* (non-Javadoc)
 	 * @see fr.lip6.move.coloane.projects.its.ITypeDeclaration#getTypeFile()
