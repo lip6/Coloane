@@ -219,10 +219,14 @@ public class SNBExport implements IGrMLExport {
 			LOGGER.finer("export marking");
 		} else if ("valuation".equals(attr.getName())) {
 			exportValuation(attr.getValue(), currentST, monitor, symbols);
-			LOGGER.finer("export valuation");
+			LOGGER.finer("export valuation");	
 		} else {
 			STAttrMap stAttrMap = new STAttrMap();
-			stAttrMap.put("name", attr.getName());
+			if ("note".equals(attr.getName())) {
+				stAttrMap.put("name", "comments");
+			} else {
+				stAttrMap.put("name", attr.getName());
+			}
 			stAttrMap.put("x", attr.getGraphicInfo().getLocation().x());
 			stAttrMap.put("y", attr.getGraphicInfo().getLocation().y());
 			stAttrMap.put("content", attr.getValue());
