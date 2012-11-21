@@ -530,7 +530,6 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 						if (event.getDelta() != null && event.getDelta().getKind() == IResourceDelta.CHANGED) {
 							for (IResourceDelta c: Arrays.asList(event.getDelta().getAffectedChildren())) {
 							for (IResourceDelta d: Arrays.asList(c.getAffectedChildren())) {
-								LOGGER.warning(Integer.toBinaryString(d.getKind()) + ": " + d.getResource());
 								if ((d.getKind() & IResourceDelta.ADDED) == IResourceDelta.ADDED) {
 									final IFile file = (IFile) d.getResource();
 									Display.getDefault().asyncExec(new Runnable() {
