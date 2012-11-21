@@ -104,20 +104,23 @@ public class ImportJob extends Job {
 				xmlMonitor.done();
 			} // Allow to clean memory
 			// Open editor:
-			IProgressMonitor editorMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
-			editorMonitor.beginTask("Opening editor", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
-			Display.getDefault().syncExec(new Runnable() {
-				@Override
-				public void run() {
-					IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
-					try {
-						IDE.openEditor(page, newFile, true);
-					} catch (CoreException ce) {
-						LOGGER.warning(ce.getMessage());
+			if (!monitor.isCanceled()) {
+				IProgressMonitor editorMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
+				editorMonitor.beginTask("Opening editor", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
+				Display.getDefault().syncExec(new Runnable() {
+					@Override
+					public void run() {
+						IWorkbenchPage page = workbench.getActiveWorkbenchWindow().getActivePage();
+						try {
+							IDE.openEditor(page, newFile, true);
+						} catch (CoreException ce) {
+							LOGGER.warning(ce.getMessage());
+						}
 					}
-				}
-			});
-			editorMonitor.done();
+				});
+				editorMonitor.done();
+			}
+			newFile.touch(null);
 			monitor.done();
 		} catch (CancellationException e) {
 			return new Status(IStatus.CANCEL, "coloane", "Import canceled."); //$NON-NLS-1$ //$NON-NLS-2$
