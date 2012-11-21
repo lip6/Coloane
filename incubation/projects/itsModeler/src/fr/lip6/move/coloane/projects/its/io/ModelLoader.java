@@ -18,7 +18,6 @@ package fr.lip6.move.coloane.projects.its.io;
 
 import fr.lip6.move.coloane.projects.its.TypeList;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.logging.Logger;
@@ -71,13 +70,7 @@ public final class ModelLoader {
 	 * @return type list read from file
 	 */
 	public static TypeList loadFromXML(URI xmlURI) {
-		String workDir = "";
-		try {
-			workDir = new File(xmlURI).getParentFile().getCanonicalPath();
-		} catch (IOException e1) {
-			LOGGER.warning("Parse error while analyzing file " + xmlURI + ".\n details:" + e1.getMessage()); //$NON-NLS-1$
-		}
-		ModelHandler modelHandler = new ModelHandler(workDir);
+		ModelHandler modelHandler = new ModelHandler(xmlURI);
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		Schema schema = loadSchema();
 

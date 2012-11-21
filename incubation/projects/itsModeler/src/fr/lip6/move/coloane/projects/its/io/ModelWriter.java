@@ -34,7 +34,6 @@ import java.util.Map;
 public final class ModelWriter {
 	private static Map<Object, Integer> ids = null;
 	private static int nextID;
-	private static String workDir;
 
 	/**
 	 * No instance of utility class.
@@ -50,11 +49,10 @@ public final class ModelWriter {
 	 *            the types to export
 	 * @return a string containing the file
 	 */
-	public static String translateToXML(TypeList types, String workingDir) {
+	public static String translateToXML(TypeList types) {
 		// Initialize ids for this file
 		ids = new HashMap<Object, Integer>();
 		nextID = 7000;
-		workDir = workingDir;
 		// XML header
 		StringBuilder line = new StringBuilder(
 				"<?xml version='1.0' encoding='UTF-8'?>\n"); //$NON-NLS-1$
@@ -91,7 +89,6 @@ public final class ModelWriter {
 
 		// explicit free of memory + clear
 		ids = null;
-		workDir = null;
 		return line.toString();
 	}
 
@@ -147,48 +144,11 @@ public final class ModelWriter {
 			sb.append("<type name='").append(type.getTypeName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" id='").append(Integer.toString(myID)).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			sb.append(" formalism='").append(type.getTypeType()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$		
-			sb.append(" path='").append(getRelativePath(type.getTypePath(), workDir)).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+			sb.append(" path='").append(type.getRelativePath()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 			// Fin du noeud
 			sb.append("/>\n"); //$NON-NLS-1$
 		}
 		return sb.toString();
-	}
-
-	/** Build a String representing a canonical path to file, starting by "folder".
-	 * e.g. given the folder "C:/toto/titi" and the file "C:/toto/foo.txt" this function returns "../foo.txt"
-	 * @param file a file's canonical absolute path
-	 * @param folder a folder's canonical absolute path.
-	 * @return a path to file relative to folder.
-	 */
-	private static String getRelativePath(String file, String folder) {		
-		String[] ffpath = file.split("/");
-		String[] dpath = folder.split("/");
-		
-		int common=0;
-		while ( common < dpath.length && common < ffpath.length ) {
-			if (ffpath[common].equals(dpath[common])) {
-				// shared segments of the folder name, skip
-				common++;
-			} else {
-				break;
-			}
-		}
-		// So, now common is the index of the first element that differs in the path.
-		// For each element in dpath after this index, we need to backtrack out of the folder (using ..)
-		// elements in ffpath after common are put back into the resulting path
-		
-		String toret="";
-		for (int i=common; i < dpath.length ; i++) {
-			toret += "../";
-		}
-		for (int i=common; i < ffpath.length ; i++) {
-			toret += ffpath[i];
-			if (i != ffpath.length-1) {
-				toret += "/";
-			}
-		}
-		
-		return toret;
 	}
 
 	/**

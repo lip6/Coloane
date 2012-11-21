@@ -59,10 +59,10 @@ public class ModelHandler extends DefaultHandler {
 
 	private String readString;
 
-	private String workDir;
+	private URI workFile;
 
-	public ModelHandler(String canonicalPath) {
-		this.workDir = canonicalPath;
+	public ModelHandler(URI workFile) {
+		this.workFile = workFile;
 	}
 
 
@@ -75,7 +75,7 @@ public class ModelHandler extends DefaultHandler {
 			// NOP
 		} else if ("types".equals(baliseName)) { //$NON-NLS-1$
 			// stack a new TypeList
-			stack.push(new TypeList());
+			stack.push(new TypeList(workFile));
 		} else if ("type".equals(baliseName)) { //$NON-NLS-1$
 			startType(attributes);
 		} else if ("concept".equals(baliseName)) { //$NON-NLS-1$
@@ -270,12 +270,9 @@ public class ModelHandler extends DefaultHandler {
 
 		String name = attributes.getValue("name"); //$NON-NLS-1$
 		String formalism = attributes.getValue("formalism"); //$NON-NLS-1$
-		String filePath;
-		try {
-			filePath = new File(workDir).getCanonicalPath() +"/" + attributes.getValue("path");
-		} catch (IOException e1) {
-			throw new SAXException("Work dir is not an existing folder " + workDir, null);
-		} //$NON-NLS-1$
+		
+		String workDir = new File(workFile).getParentFile().toURI().getPath();
+		String filePath = workDir + "/" + attributes.getValue("path");
 		
 		
 		URI file = new File(filePath).toURI();
