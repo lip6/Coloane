@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: ImportGrML
-Bundle-SymbolicName: fr.lip6.move.coloane.extensions.importGrML;singleton:=true
+Bundle-Name: ImportFromGrML
+Bundle-SymbolicName: fr.lip6.move.coloane.extensions.importFromGrML;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.extensions.importgrml.Activator
 Require-Bundle: org.eclipse.ui,

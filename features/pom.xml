@@ -27,6 +27,7 @@
         <module>importExportCAMI</module>
         <!-- <module>importExportPNML</module> -->
         <module>importExportLOLA</module>
+        <module>importFromGrML</module>        
         <!-- EXAMPLES -->
         <module>modelExamples</module>
         <!-- FRAGMENTS -->
