@@ -32,8 +32,6 @@ import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.ui.forms.MasterDetailsPage;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -96,7 +94,6 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	public MultiPageEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-		setTypes(new TypeList());
 	}
 
 	/** 
@@ -191,7 +188,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 		try {
-			String xmlStr = fr.lip6.move.coloane.projects.its.io.ModelWriter.translateToXML(types, new File(((FileEditorInput) getEditorInput()).getFile().getLocationURI()).getParentFile().toURI().getPath());
+			String xmlStr = fr.lip6.move.coloane.projects.its.io.ModelWriter.translateToXML(types);
 			InputStream is = new ByteArrayInputStream(xmlStr.getBytes());
 			((FileEditorInput) getEditorInput()).getFile().setContents(is, false, false, null);
 		} catch (CoreException e) {
@@ -318,7 +315,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	protected void addPages() {
 		TypeList tmptypes = fr.lip6.move.coloane.projects.its.io.ModelLoader.loadFromXML(((FileEditorInput) getEditorInput()).getFile().getLocationURI());
 		if (tmptypes == null) {
-			tmptypes = new TypeList();
+			tmptypes = new TypeList(((FileEditorInput) getEditorInput()).getFile().getLocationURI());
 		}
 		setTypes(tmptypes);
 		try {
