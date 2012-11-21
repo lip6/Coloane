@@ -35,10 +35,4 @@ public interface ITypeList  {
 	 */
 	void removeTypeDeclaration(ITypeDeclaration t);
 	
-	/**
-	 * An array of type declarations, for table editor.
-	 * @return the set of constituent typedeclarations.
-	 * TODO : kill me when you have the time and no more table editor.
-	 */
-	Object[] toArray();
 }
