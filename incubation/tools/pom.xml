@@ -15,6 +15,7 @@
 
     <modules>
         <module>crocodile</module>
+        <module>its</module>
     </modules>
 
 </project>
