@@ -338,7 +338,7 @@ public final class TypeDeclarationDetailsPage extends ITSDetailsPage<ITypeDeclar
 		// CHECKSTYLE OFF
 		typeNametf.setText(input != null && input.getTypeName() != null ? input.getTypeName() : ""); //$NON-NLS-1$
 		typeFormalismtf.setText(input != null && input.getTypeType() != null ? input.getTypeType() : "");
-		typeFiletf.setText(input != null && input.getTypePath() != null ? input.getTypePath() : "");
+		typeFiletf.setText(input != null && input.getRelativePath() != null ? input.getRelativePath() : "");
 		// CHECKSTYLE ON
 		lviewer.setInput(input);
 	}
