@@ -21,6 +21,7 @@ import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,11 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 
 	private List<ITypeDeclaration> table = new ArrayList<ITypeDeclaration>();
 	private List<CheckList> checks = new ArrayList<CheckList>();
+	private URI path;
+	
+	public TypeList (URI path) {
+		this.path = path;
+	}
 	
 	/**
 	 * Add a type declaration to the set.
@@ -130,5 +136,10 @@ public final class TypeList extends SimpleObservable implements ITypeList, Itera
 	 */
 	public void addCheckList(CheckList cl) {
 		checks.add(cl);
+	}
+	
+	
+	public URI getPath() {
+		return path;
 	}
 }
