@@ -26,9 +26,6 @@
    <extension
          point="fr.lip6.move.coloane.extensions.importgrml">
       <converter>
-         <formalism
-               fml-url="http://formalisms.cosyverif.org/pt-net.fml">
-         </formalism>
          <semi-automatic-converter>
             <formalism-conversion
                   coloane-formalism-id="PT-Net"

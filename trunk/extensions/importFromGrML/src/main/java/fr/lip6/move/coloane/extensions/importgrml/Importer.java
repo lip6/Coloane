@@ -8,6 +8,8 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.concurrent.CancellationException;
 import java.util.logging.Logger;
 
@@ -48,21 +50,33 @@ public final class Importer implements IImportFrom {
 			prereader.close();
 			LOGGER.fine("GrML formalism is '" + formalismUrl + "'.");
 			// Step 2. find converter for this formalism:
-			for (IConfigurationElement converter: Arrays.asList(Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID))) {
+			for (IConfigurationElement c: Arrays.asList(Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_POINT_ID))) {
+				IConfigurationElement converter = c.getChildren()[0];
 				LOGGER.fine("Inspecting '" + converter.getDeclaringExtension().getNamespaceIdentifier() + "' converter...");
-				for (IConfigurationElement handledFormalism: Arrays.asList(converter.getChildren("formalism"))) {
-					String fml = handledFormalism.getAttribute("fml-url");
+				Set<String> formalisms = new HashSet<String>();
+				if (converter.getName().equals("raw-converter")) {
+					for (IConfigurationElement handledFormalism: Arrays.asList(converter.getChildren())) {
+						LOGGER.fine("Add url " + handledFormalism.getAttribute("fml-url"));
+						formalisms.add(handledFormalism.getAttribute("fml-url"));
+					}
+				} else if (converter.getName().equals("semi-automatic-converter")) {
+					for (IConfigurationElement conversion: Arrays.asList(converter.getChildren("formalism-conversion"))) {
+						LOGGER.fine("Add url " + conversion.getAttribute("fml-url"));
+						formalisms.add(conversion.getAttribute("fml-url"));
+					}
+				}
+				for (String fml: formalisms) {
 					if (fml.equals(formalismUrl)) {
 						LOGGER.fine("Formalism " + formalismUrl + " is handled.");
 						XMLStreamReader reader = factory.createXMLStreamReader(new FileReader(file));
 						// Call tool:
 						ModelHandler handler = null;
-						if (!Arrays.asList(converter.getChildren("raw-converter")).isEmpty()) {
+						if (converter.getName().equals("raw-converter")) {
 							LOGGER.fine("Found a raw converter '" + converter.getChildren("raw-converter")[0].getAttribute("handler") + "'.");
-							handler = (ModelHandler) converter.getChildren("raw-converter")[0].createExecutableExtension("handler");
-						} else if (!Arrays.asList(converter.getChildren("semi-automatic-converter")).isEmpty()) {
+							handler = (ModelHandler) converter.createExecutableExtension("handler");
+						} else if (converter.getName().equals("semi-automatic-converter")) {
 							LOGGER.fine("Found a helped converter.");
-							handler = new HelpedHandler(converter.getChildren("semi-automatic-converter")[0]);
+							handler = new HelpedHandler(converter);
 						}
 						return handler.importFrom(reader, monitor);
 					}
