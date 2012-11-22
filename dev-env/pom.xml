@@ -27,13 +27,14 @@
 
     <properties>
         <tycho.version>0.13.0</tycho.version>
+        <eclipse.version>juno</eclipse.version>
     </properties>
 
     <repositories>
         <repository>
-            <id>indigo</id>
+            <id>${eclipse.version}</id>
             <layout>p2</layout>
-            <url>http://download.eclipse.org/releases/indigo</url>
+            <url>http://download.eclipse.org/releases/${eclipse.version}</url>
         </repository>
         <repository>
             <id>coloane</id>
