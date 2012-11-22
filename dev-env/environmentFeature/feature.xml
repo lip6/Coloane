@@ -29,10 +29,13 @@
     </license>
 
     <requires>
-        <import feature="org.eclipse.gef"/>
-        <import feature="org.eclipse.gef.all"/>
+        <!-- <import feature="org.eclipse.gef"/> -->
+        <!-- <import feature="org.eclipse.gef.all"/> -->
+        <!-- <import feature="org.eclipse.gef.sdk"/> -->
+        <!-- <import feature="org.eclipse.gef.source"/> -->
         <import feature="org.eclipse.gef.sdk"/>
-        <import feature="org.eclipse.gef.source"/>
+        <import feature="org.eclipse.draw2d.sdk"/>
+        <import feature="org.eclipse.gef.examples"/>
         <import feature="org.eclipse.m2e.feature"/>
         <import feature="org.eclipse.m2e.logback.feature"/>
         <import feature="org.eclipse.team.svn"/>
