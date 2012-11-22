@@ -26,7 +26,9 @@ import java.io.Writer;
 import java.util.concurrent.CancellationException;
 import java.util.logging.Logger;
 
+import org.eclipse.core.internal.jobs.JobManager;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -78,10 +80,9 @@ public class ImportJob extends Job {
 		this.formalism = formalism;
 		this.path = path;
 		this.newFile = newFile;
-		this.setUser(true);
 		this.setPriority(Job.LONG);
 		this.setUser(true);
-		this.setRule(newFile);
+		this.setRule(newFile.getParent());
 	}
 
 	/** {@inheritDoc} */
@@ -91,11 +92,11 @@ public class ImportJob extends Job {
 			monitor.beginTask("Importing " + path, 100); //$NON-NLS-1$
 			{
 				// Create model:
-				IProgressMonitor workerMonitor = new SubProgressMonitor(monitor, 97, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
+				IProgressMonitor workerMonitor = new SubProgressMonitor(monitor, 95, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
 				workerMonitor.setTaskName("Importing model"); //$NON-NLS-1$
 				IGraph model = worker.importFrom(path, formalism, workerMonitor);
 				// Translate model to XML:
-				IProgressMonitor xmlMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
+				IProgressMonitor xmlMonitor = new SubProgressMonitor(monitor, 3, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
 				xmlMonitor.beginTask("Writing XML file", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
 				Writer writer = new BufferedWriter(new FileWriter(newFile.getRawLocation().toFile()));
 				ModelWriter.translateToXML(model, writer);
@@ -105,7 +106,7 @@ public class ImportJob extends Job {
 			} // Allow to clean memory
 			// Open editor:
 			if (!monitor.isCanceled()) {
-				IProgressMonitor editorMonitor = new SubProgressMonitor(monitor, 1, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
+				IProgressMonitor editorMonitor = new SubProgressMonitor(monitor, 2, SubProgressMonitor.PREPEND_MAIN_LABEL_TO_SUBTASK);
 				editorMonitor.beginTask("Opening editor", IProgressMonitor.UNKNOWN); //$NON-NLS-1$
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
@@ -120,7 +121,7 @@ public class ImportJob extends Job {
 				});
 				editorMonitor.done();
 			}
-			newFile.touch(null);
+			newFile.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 			monitor.done();
 		} catch (CancellationException e) {
 			return new Status(IStatus.CANCEL, "coloane", "Import canceled."); //$NON-NLS-1$ //$NON-NLS-2$
@@ -137,6 +138,7 @@ public class ImportJob extends Job {
 		try {
 			this.join();
 			newFile.delete(true, null);
+			newFile.getProject().refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
 			LOGGER.warning("Could not delete file: " + e.getMessage()); //$NON-NLS-1$
 		} catch (InterruptedException e) {
