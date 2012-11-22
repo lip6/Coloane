@@ -487,20 +487,16 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	 * @param input All information about the model
 	 */
 	@Override
-	protected final void setInput(IEditorInput input) {
+	protected final void setInput(final IEditorInput input) {
 		super.setInput(input);
-
-		// Default id
-		String id = input.getName();
 
 		long fileSize = 0;
 		if (input instanceof IFileEditorInput) {
 			final IFile file = ((IFileEditorInput) input).getFile();
 			fileSize = file.getRawLocation().toFile().length();
 		} else if (input instanceof FileStoreEditorInput) {
-			URL url;
 			try {
-				url = ((FileStoreEditorInput) input).getURI().toURL();
+				URL url = ((FileStoreEditorInput) input).getURI().toURL();
 				fileSize = new File(url.getFile()).length();
 			} catch (MalformedURLException e) {
 			}
@@ -526,48 +522,46 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 				@Override
 				public void resourceChanged(IResourceChangeEvent event) {
 					if ((event.getType() & IResourceChangeEvent.POST_CHANGE) == IResourceChangeEvent.POST_CHANGE) {
-						IResourceDelta delta = event.getDelta().findMember(file.getFullPath());
-						if (event.getDelta() != null && event.getDelta().getKind() == IResourceDelta.CHANGED) {
-							for (IResourceDelta c: Arrays.asList(event.getDelta().getAffectedChildren())) {
-							for (IResourceDelta d: Arrays.asList(c.getAffectedChildren())) {
-								if ((d.getKind() & IResourceDelta.ADDED) == IResourceDelta.ADDED) {
-									final IFile file = (IFile) d.getResource();
+						IFile previousFile = ((IFileEditorInput) ColoaneEditor.super.getEditorInput()).getFile();
+						if (event.getDelta().findMember(previousFile.getFullPath()) != null) {
+							if (event.getDelta() != null && event.getDelta().getKind() == IResourceDelta.CHANGED) {
+								for (IResourceDelta c: Arrays.asList(event.getDelta().getAffectedChildren())) {
+									for (IResourceDelta d: Arrays.asList(c.getAffectedChildren())) {
+										if ((d.getKind() & IResourceDelta.ADDED) == IResourceDelta.ADDED) {
+											final IFile file = (IFile) d.getResource();
+											Display.getDefault().asyncExec(new Runnable() {
+												@Override
+												public void run() {
+													ColoaneEditor.super.setInput(new FileEditorInput(file));
+													ColoaneEditor.super.setPartName(file.getName());
+												}
+											});
+											return;
+										}
+									}
+								}
+								if (event.getDelta().findMember(previousFile.getFullPath()).getKind() == IResourceDelta.REMOVED) {
+									LOGGER.info("The editor on \"" + previousFile.getFullPath() + "\" will be closed because the resource has been deleted."); //$NON-NLS-1$ //$NON-NLS-2$
 									Display.getDefault().asyncExec(new Runnable() {
 										@Override
 										public void run() {
-											ColoaneEditor.super.setInputWithNotify(new FileEditorInput(file));
-											ColoaneEditor.super.setPartName(file.getName());
+											ColoaneEditor.this.getSite().getPage().closeEditor(ColoaneEditor.this, false);
 										}
 									});
-									return;
 								}
-							}}
-						} else if (delta != null && delta.getKind() == IResourceDelta.REMOVED) {
-							LOGGER.info("The editor on \"" + delta.getFullPath() + "\" will be closed because the resource has been deleted."); //$NON-NLS-1$ //$NON-NLS-2$
-							Display.getDefault().asyncExec(new Runnable() {
-								@Override
-								public void run() {
-									ColoaneEditor.this.getSite().getPage().closeEditor(ColoaneEditor.this, false);
-								}
-							});
+							}
 						}
 					}
 				}
 			});
-
 			// Build the model object from its XML representation
 			this.graph = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
-			id = file.getFullPath().toString();
 			setTitleImage(labelProvider.getImage(file));
 		} else if (input instanceof FileStoreEditorInput) {
-			id = ((FileStoreEditorInput) input).getURI().toString();
 			this.graph = ModelLoader.loadGraphFromXML(((FileStoreEditorInput) input).getURI());
 		}
 
 		setPartName(input.getName());
-
-		// Define the session id
-		setPartProperty("session.id", id); //$NON-NLS-1$
 
 		// If the loading fails... Display a message and quit
 		if (this.graph == null) {
@@ -577,7 +571,8 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 
 		// Build a new session
 		try {
-			ISession session = SessionManager.getInstance().createSession(id, this.graph);
+			ISession session = SessionManager.getInstance().createSession(this.graph);
+			setPartProperty("session.id", session.getSessionId()); //$NON-NLS-1$
 			IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(session.getSessionId()));
 			if (resource != null) {
 				CheckerManager.getInstance().checkAll(session.getChecker(), resource, this.graph);
@@ -598,6 +593,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 		if (outlinePage != null) {
 			outlinePage.setContents(getGraph());
 		}
+
 	}
 
 	/** {@inheritDoc} */

@@ -37,6 +37,16 @@ public interface ISessionManager {
 	 * Create a new session and add it to the manager.<br>
 	 * If no session is currently active, this new one becomes the <i>current session</i>.
 	 * The session name must not be <code>null</code> or be empty.
+	 * @param graph The graph associated with the new session
+	 * @return The new session
+	 * @throws ColoaneException If something went wrong during the creation process
+	 */
+	ISession createSession(IGraph graph) throws ColoaneException;
+
+	/**
+	 * Create a new session and add it to the manager.<br>
+	 * If no session is currently active, this new one becomes the <i>current session</i>.
+	 * The session name must not be <code>null</code> or be empty.
 	 * @param sessionId The name of the new session
 	 * @param graph The graph associated with the new session
 	 * @return The new session

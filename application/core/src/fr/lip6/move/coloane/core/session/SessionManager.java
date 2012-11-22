@@ -23,6 +23,7 @@ import fr.lip6.move.coloane.interfaces.model.IGraph;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -59,6 +60,9 @@ public final class SessionManager implements ISessionManager {
 	/** List of available (connected) <b>global</b> APIs */
 	private List<ApiDescription> apis = null;
 
+	/** Automatic session ids. */
+	private BigInteger nextSessionId = BigInteger.ZERO;
+	
 	/**
 	 * Constructor (private)
 	 * @throws ColoaneException The global session cannot be created
@@ -117,6 +121,27 @@ public final class SessionManager implements ISessionManager {
 	@Override
 	public Collection<ISession> getSessions() {
 		return sessions.values();
+	}
+
+	/** {@inheritDoc} */
+	@Override
+	public ISession createSession(IGraph graph) throws ColoaneException {
+		String sessionId = "coloane-session-" + nextSessionId.toString(); //$NON-NLS-1$
+		nextSessionId = nextSessionId.add(BigInteger.ONE);
+		// If a session already exists with the same name
+		if (sessions.containsKey(sessionId)) {
+			throw new ColoaneException("A session with the same name (" + sessionId + ") already exists..."); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		// Otherwise, a new session is created and added to the session list
+		ISession newSession = new Session(sessionId, graph);
+		sessions.put(sessionId, newSession);
+		//		setCurrentSession(newSession); // Set the current session if no session is active yet
+
+		// Before returning the new session, we add it an appropriate checker
+		CheckerManager.getInstance().associateCheckerToSession(newSession);
+
+		return newSession;
 	}
 
 	/** {@inheritDoc} */
