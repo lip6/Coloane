@@ -34,7 +34,7 @@ public class TabListener implements IPartListener2 {
 	/** {@inheritDoc} */
 	@Override
 	public final void partActivated(IWorkbenchPartReference partRef) {
-		String id = partRef.getPartProperty("session.id"); //$NON-NLS-1$
+		final String id = partRef.getPartProperty("session.id"); //$NON-NLS-1$
 		if (id != null) {
 			LOGGER.finer("Tab activated : " + id);  //$NON-NLS-1$
 			SessionManager.getInstance().resumeSession(id);
