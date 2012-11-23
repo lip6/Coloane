@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ITS packaging for binary tools
 Bundle-SymbolicName: fr.lip6.move.coloane.tools.its;singleton:=true
 Bundle-Version: 1.0.0.qualifier
-Bundle-Activator: fr.lip6.move.coloane.tools.its.Activator
+Bundle-Activator: fr.lip6.move.coloane.tools.its.BinaryToolsPlugin
 Eclipse-BundleShape: dir
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui

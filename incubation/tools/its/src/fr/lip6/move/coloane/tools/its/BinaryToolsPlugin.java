@@ -30,21 +30,21 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class BinaryToolsPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "fr.lip6.move.coloane.tools.its"; //$NON-NLS-1$
 
 	// The shared instance
-	private static Activator plugin;
+	private static BinaryToolsPlugin plugin;
 
-	public enum Tool {Reach, CTL, LTL};
+	public enum Tool {reach, ctl, ltl};
 	private static URI toolUri [] = new URI [3];
 	
 	/**
 	 * The constructor
 	 */
-	public Activator() {
+	public BinaryToolsPlugin() {
 	}
 
 	/** {@inheritDoc} */
@@ -64,7 +64,7 @@ public class Activator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static Activator getDefault() {
+	public static BinaryToolsPlugin getDefault() {
 		return plugin;
 	}
 
@@ -75,7 +75,12 @@ public class Activator extends AbstractUIPlugin {
 	
 	public static URI getProgramURI(Tool tool) throws IOException {
 		if (toolUri[tool.ordinal()] == null) {
-			URL tmpURL = FileLocator.toFileURL(Activator.getDefault().getBundle().getResource("bin/its-reach-" + getArchOS()));
+			URL toolff = BinaryToolsPlugin.getDefault().getBundle().getResource("bin/"+ tool.toString() + "-" + getArchOS());
+			if (toolff == null) {
+				log.severe("unable to find an executable [" + tool + "]");
+				throw new IOException("unable to find the tool binary");
+			}
+			URL tmpURL = FileLocator.toFileURL(toolff);
 
 			// use of the multi-argument constructor for URI in order to escape appropriately illegal characters
 			URI uri;
@@ -84,8 +89,8 @@ public class Activator extends AbstractUIPlugin {
 			} catch (URISyntaxException e) {
 				throw new IOException("Could not create a URI to access the binary tool :", e);
 			}
-			 toolUri[tool.ordinal()] = uri;
-			 log.fine("Location of the binary : " + toolUri);
+			toolUri[tool.ordinal()] = uri;
+			log.fine("Location of the binary : " + toolUri);
 
 			File crocExec = new File(uri);
 			if (!crocExec.setExecutable(true)) {
