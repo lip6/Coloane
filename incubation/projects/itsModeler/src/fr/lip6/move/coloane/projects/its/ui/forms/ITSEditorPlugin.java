@@ -21,6 +21,7 @@ import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
 import java.io.File;
+import java.net.URI;
 import java.net.URL;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -350,8 +351,8 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	 * 
 	 * @return the path
 	 */
-	public IPath getITSReachPath() {
-		return makePath(getPreference(ITS_REACH_NAME));
+	public URI getITSReachPath() {
+		return new File(getPreference(ITS_REACH_NAME)).toURI();
 	}
 
 	/**
@@ -359,11 +360,11 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	 * @param preference path name
 	 * @return Path object
 	 */
-	private IPath makePath(String preference) {
+	private URI makePath(String preference) {
 		if (preference == null) {
 			return null;
 		} else {
-			return new Path(preference);
+			return new File(preference).toURI();
 		}
 	}
 
@@ -371,14 +372,14 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	 * Return currently set path in preferences.
 	 * @return current its-ctl designated path.
 	 */
-	public IPath getITSCTLPath() {
+	public URI getITSCTLPath() {
 		return makePath(getPreference(ITS_CTL_NAME));
 	}
 	/**
 	 * Return currently set path for Ordering.py script in preferences.
 	 * @return path to Silien Hong NEOPPOD Order script.
 	 */
-	public IPath getOrderingPath() {
+	public URI getOrderingPath() {
 		return makePath(getPreference(ORDERING_NAME));
 	}
 	
@@ -386,7 +387,7 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	 * Path to python executable.
 	 * @return yep it's necessary on windows.
 	 */
-	public IPath getPythonPath() {
+	public URI getPythonPath() {
 		return makePath(getPreference(PYTHON_PATH));
 	}
 
