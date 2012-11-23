@@ -22,18 +22,14 @@ import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 
 /**
@@ -83,16 +79,14 @@ public abstract class AbstractCheckService extends SimpleObservable implements
 
 	protected abstract List<String> buildCommandArguments();
 
-	public String getDefaultWorkDir(IFile file) {
-		IProject proj = file.getProject();
-		IFolder folder = proj.getFolder(getParent().getType().getTypeName()
+	public String getDefaultWorkDir(URI folder) {
+		
+		File workfolder = new File(folder.getPath(), getParent().getType().getTypeName()
 				+ "_" + getName());
-		try {
-			folder.create(true, true, null);
-		} catch (CoreException e) {
-			// folder exists, it's OK.
+		if (! workfolder.exists() ) {
+			workfolder.mkdir();
 		}
-		return folder.getLocation().toOSString();
+		return workfolder.toURI().getPath();
 	}
 
 	public String getName() {
@@ -111,21 +105,24 @@ public abstract class AbstractCheckService extends SimpleObservable implements
 		return reportText;
 	}
 
-	protected abstract IPath getToolPath();
+	protected abstract URI getToolPath();
 
 	public String getWorkDir() {
+		if (workdir == null) {
+			;
+		}
 		return workdir;
 	}
 
-	public String getWorkDir(IFile position) {
+	public String getWorkDir(URI position) {
 		if (workdir == null) {
 			workdir = getDefaultWorkDir(position);
 		}
 		return getWorkDir();
 	}
 
-	public IPath getWorkDirPath() {
-		return new Path(workdir);
+	public URI getWorkDirPath() {
+		return new File(workdir).toURI();
 	}
 
 	public Iterator<ServiceResult> iterator() {
@@ -142,15 +139,15 @@ public abstract class AbstractCheckService extends SimpleObservable implements
 	 * @return a non-zero integer if errors happened
 	 * @throws IOException
 	 */
-	public IStatus runTool(IPath workdir) {
-		IPath toolFullPath = getToolPath();
-		if (toolFullPath == null || toolFullPath.isEmpty()) {
+	public IStatus runTool(URI workdir) {
+		URI toolFullPath = getToolPath();
+		if (toolFullPath == null || toolFullPath.getPath().isEmpty() ) {
 			return new Status(
 					IStatus.ERROR,
 					ITSEditorPlugin.getID(),
 					"Please specify the absolute path to the tool in the preferences page Coloane->ITS Path.");
 		}
-		if (!toolFullPath.toFile().isFile()) {
+		if (! new File(toolFullPath).isFile()) {
 			return new Status(IStatus.ERROR, ITSEditorPlugin.getID(),
 					"Could not find ITS tool at \"" + toolFullPath + "\"");
 		}
@@ -169,7 +166,7 @@ public abstract class AbstractCheckService extends SimpleObservable implements
 		try {
 			final ProcessController controller = new ProcessController(
 					timeout * 1000, cmd.toArray(new String[cmd.size()]), null,
-					workdir.toFile());
+					new File(workdir));
 			controller.forwardErrorOutput(errorOutput);
 			controller.forwardOutput(stdOutput);
 			int exitCode = controller.execute();
