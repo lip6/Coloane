@@ -16,9 +16,13 @@
  */
 package fr.lip6.move.coloane.projects.its.checks;
 
-import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
+import java.io.IOException;
+import java.net.URI;
 
-import org.eclipse.core.runtime.IPath;
+import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
+import fr.lip6.move.coloane.tools.its.BinaryToolsPlugin;
+import fr.lip6.move.coloane.tools.its.BinaryToolsPlugin.Tool;
+
 
 public class CheckService extends ITSCheckService {
 
@@ -27,8 +31,13 @@ public class CheckService extends ITSCheckService {
 	}
 
 	@Override
-	protected IPath getToolPath() {
-		return ITSEditorPlugin.getDefault().getITSReachPath();
+	protected URI getToolPath() {
+		
+		try {
+			return BinaryToolsPlugin.getProgramURI(Tool.reach);
+		} catch (IOException e) {
+			return ITSEditorPlugin.getDefault().getITSReachPath();
+		}
 	}
 
 }

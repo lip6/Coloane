@@ -19,15 +19,18 @@ package fr.lip6.move.coloane.projects.its.checks;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult.Status;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
+import fr.lip6.move.coloane.tools.its.BinaryToolsPlugin;
+import fr.lip6.move.coloane.tools.its.BinaryToolsPlugin.Tool;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.runtime.IPath;
 
 public class CTLCheckService extends ITSCheckService implements ISimpleObserver {
 
@@ -64,8 +67,12 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 	}
 
 	@Override
-	protected IPath getToolPath() {
-		return ITSEditorPlugin.getDefault().getITSCTLPath();
+	protected URI getToolPath() {
+		try {
+			return BinaryToolsPlugin.getProgramURI(Tool.ctl);
+		} catch (IOException e) {
+			return ITSEditorPlugin.getDefault().getITSReachPath();
+		}
 	}
 
 	public String run(String ctlFormula,
