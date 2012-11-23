@@ -21,8 +21,8 @@ import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
 import java.io.File;
+import java.net.URI;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
@@ -95,9 +95,9 @@ public final class ITSPreferencePage extends PreferencePage implements
 			buttonComposite.setLayoutData(data);
 			buttonComposite.setText("its-reach executable to use");
 			reachField = new FileBrowserField(buttonComposite);
-			IPath path = ITSEditorPlugin.getDefault().getITSReachPath();
+			URI path = ITSEditorPlugin.getDefault().getITSReachPath();
 			if (path != null) {
-				reachField.setText(path.toOSString());
+				reachField.setText(path.getPath());
 			}
 			reachField.setToolTipText("Select its-reach executable.");
 			reachField.setLayoutData(data);
@@ -124,9 +124,9 @@ public final class ITSPreferencePage extends PreferencePage implements
 
 			ctlField = new FileBrowserField(buttonComposite);
 			ctlField.setToolTipText("Select its-reach executable.");
-			IPath path = ITSEditorPlugin.getDefault().getITSCTLPath();
+			URI path = ITSEditorPlugin.getDefault().getITSCTLPath();
 			if (path != null) {
-				ctlField.setText(path.toOSString());
+				ctlField.setText(path.getPath());
 			}
 			ctlField.setLayoutData(data);
 
@@ -151,9 +151,9 @@ public final class ITSPreferencePage extends PreferencePage implements
 			buttonComposite.setText("IGenerateOrder.py executable to use");
 
 			orderField = new FileBrowserField(buttonComposite);
-			IPath path = ITSEditorPlugin.getDefault().getOrderingPath();
+			URI path = ITSEditorPlugin.getDefault().getOrderingPath();
 			if (path != null) {
-				orderField.setText(path.toOSString());
+				orderField.setText(path.getPath());
 			}
 			orderField.setToolTipText("Select IGenerateOrder.py executable.");
 			orderField.setLayoutData(data);
@@ -178,9 +178,9 @@ public final class ITSPreferencePage extends PreferencePage implements
 			buttonComposite.setText("python executable to use");
 
 			pythonField = new FileBrowserField(buttonComposite);
-			IPath path = ITSEditorPlugin.getDefault().getPythonPath();
+			URI path = ITSEditorPlugin.getDefault().getPythonPath();
 			if (path != null) {
-				pythonField.setText(path.toOSString());
+				pythonField.setText(path.getPath());
 			}
 			pythonField.setToolTipText("Select python executable.");
 			pythonField.setLayoutData(data);
