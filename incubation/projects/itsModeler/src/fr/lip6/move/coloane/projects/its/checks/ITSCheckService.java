@@ -36,7 +36,7 @@ public abstract class ITSCheckService extends AbstractCheckService {
 	private static final String DEPTH2 = "Depth2";
 	private static final String DEPTHREC = "DepthRec";
 	private static final String DEPTHSHALLOW = "DepthShallow";
-	private static final String GCTHRESHOLD = "GC Threshold, in Kb";
+	private static final String GCTHRESHOLD = "GC Threshold, in MB";
 	
 	private static final String [] SCALAR_POTENTIAL = {DEPTH2,DEPTHREC,DEPTHSHALLOW};
 	private static final String BLOCK_SIZE_PARAMETER = "Block size in Scalar encoding";
@@ -59,14 +59,14 @@ public abstract class ITSCheckService extends AbstractCheckService {
 						"Set a recursive encoding strategy for scalar sets. \n Depth2 : (depth 2 levels) use 2 level depth for scalar sets. Integer provided defines level 2 block size. [DEFAULT: Depth2, with blocks size 1] \n   -depthRec INT : (depth recursive) use recursive encoding for scalar sets. Integer provided defines number of blocks at highest levels. \n    -DepthShallow INT : (depth shallow recursive) use alternative recursive encoding for scalar sets. Integer provided defines number of blocks at lowest level.",
 						SCALAR_POTENTIAL);
 		getParameters().addParameter(BLOCK_SIZE_PARAMETER, "1", "Sets the block size used as additional setting for encoding of Scalar set.");
-		getParameters().addParameter(GCTHRESHOLD, "1300", "Soft memory limit before starting to invoke GC, should be set to 50-80% of system memory.Default is 1300Kb=1.3Gb. Lower values decrease memory footprint but increase runtime.");
+		getParameters().addParameter(GCTHRESHOLD, "1300", "Soft memory limit before starting to invoke GC, should be set to 50-80% of system memory.Default is 1300MB=1.3GB. Lower values decrease memory footprint but increase runtime.");
 		
 	}
 
 	@Override
 	protected List<String> buildCommandArguments() {
 		List<String> cmd = new ArrayList<String>();
-		cmd.add(getToolPath().toOSString());
+		cmd.add(getToolPath().getPath());
 		if (getParameters().getBoolParameterValue(QUIET_PARAMETER)) {
 			cmd.add("--quiet");
 		}
