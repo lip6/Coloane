@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Enumeration;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -75,9 +76,15 @@ public class BinaryToolsPlugin extends AbstractUIPlugin {
 	
 	public static URI getProgramURI(Tool tool) throws IOException {
 		if (toolUri[tool.ordinal()] == null) {
-			URL toolff = BinaryToolsPlugin.getDefault().getBundle().getResource("bin/"+ tool.toString() + "-" + getArchOS());
+			String relativePath = "bin/its-"+ tool.toString() + "-" + getArchOS();
+			URL toolff = getDefault().getBundle().getResource(relativePath);
 			if (toolff == null) {
-				log.severe("unable to find an executable [" + tool + "]");
+				log.severe("unable to find an executable [" + tool + "] in path " + relativePath);
+				Enumeration<URL> e = getDefault().getBundle().findEntries("bin/", "*", true);
+				log.fine("Lising URL available in bin/");
+				while (e.hasMoreElements()) {
+					log.finer(e.nextElement().toString());
+				}
 				throw new IOException("unable to find the tool binary");
 			}
 			URL tmpURL = FileLocator.toFileURL(toolff);
@@ -111,18 +118,21 @@ public class BinaryToolsPlugin extends AbstractUIPlugin {
 			String archName = System.getProperty("os.arch").toLowerCase();
 			if (osName.contains("mac os x")) {
 				return "Darwin";
-			} else if (osName.contains("linux")) {
-				String result;
-				result = "linux";
-				if (archName.contains("64")) {
-					result = result + "64";
-					return result;
-				} else if (archName.contains("86")) {
-					result = result + "32";
-					return result;
-				}
 			}
-
-			throw new IOException("System architecture not supported : " + osName + " " + archName);
+			String result;
+			if (osName.contains("linux")) {				
+				result = "linux";
+			} else if (osName.contains("windows")) {
+				result = "win";
+			} else {
+				throw new IOException("System architecture not supported : " + osName + " " + archName);				
+			}
+				
+			if (archName.contains("64")) {
+				result = result + "64";
+			} else if (archName.contains("86")) {
+				result = result + "32";
+			}
+			return result;			
 		}
 	}
