@@ -43,8 +43,8 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
-     <plugin
+
+   <plugin
          id="fr.lip6.move.gal"
          download-size="0"
          install-size="0"
@@ -63,7 +63,7 @@
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>      
+         unpack="false"/>
 
    <plugin
          id="fr.lip6.move.coloane.extensions.examples"
@@ -71,5 +71,11 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+
+   <plugin
+         id="fr.lip6.move.coloane.tools.its"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
 </feature>
