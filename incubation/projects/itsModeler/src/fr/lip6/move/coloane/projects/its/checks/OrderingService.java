@@ -35,6 +35,7 @@ import fr.lip6.move.coloane.projects.its.order.Orders;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +45,6 @@ import main.antlr3.fr.lip6.move.coloane.projects.its.order.parser.JSONOrderParse
 import org.antlr.runtime.ANTLRFileStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 
@@ -70,7 +70,7 @@ public class OrderingService extends AbstractCheckService implements
 	}
 
 	@Override
-	protected IPath getToolPath() {
+	protected URI getToolPath() {
 		// return "python";
 		return ITSEditorPlugin.getDefault().getPythonPath();
 	}
@@ -78,8 +78,8 @@ public class OrderingService extends AbstractCheckService implements
 	@Override
 	protected List<String> buildCommandArguments() {
 		ArrayList<String> cmd = new ArrayList<String>();
-		cmd.add(getToolPath().toOSString());
-		cmd.add(ITSEditorPlugin.getDefault().getOrderingPath().toOSString());
+		cmd.add(getToolPath().getPath());
+		cmd.add(ITSEditorPlugin.getDefault().getOrderingPath().getPath());
 		// cmd.add("--quiet");
 		// cmd.add("-T" + format);
 		cmd.add("--model");
