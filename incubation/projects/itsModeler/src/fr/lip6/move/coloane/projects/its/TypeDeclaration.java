@@ -19,6 +19,7 @@ package fr.lip6.move.coloane.projects.its;
 import fr.lip6.move.coloane.core.model.factory.GraphModelFactory;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IElement;
@@ -81,6 +82,42 @@ public class TypeDeclaration extends AbstractTypeDeclaration implements ISimpleO
 			TypeList types) {
 		super(typeName,modelFile,types);
 		this.graph = graph;
+		checkAndSetUnique();
+	}
+
+
+	private void checkAndSetUnique() {
+		// for unnamed objects
+		int nextId = 0;
+		Map<INodeFormalism, Set<String>> idMap = new HashMap<INodeFormalism, Set<String>>();
+		for (INode node : graph.getNodes()) {
+			Set<String> formMap = idMap.get(node.getNodeFormalism());
+			if (formMap == null) {
+				formMap = new HashSet<String>();
+				idMap.put(node.getNodeFormalism(), formMap);
+			}
+			IAttribute name = node.getAttribute("name");
+			if (name==null) {
+				name = node.getAttribute("label");
+				if (name ==null) {
+					return;
+				}
+			}
+			if (name.getValue()==null || name.getValue().isEmpty()) {
+				name.setValue(node.getNodeFormalism().getName().substring(0,4)+nextId++);
+			}
+			if (formMap.contains(name.getValue())) {
+				for (int i=0; i < graph.getNodes().size() ; i++) {
+					String test = name.getValue()+i;
+					if (! formMap.contains(test)) {
+						name.setValue(test);
+						break;
+					}
+				}
+			}
+			assert(!formMap.contains(name.getValue()));
+			formMap.add(name.getValue());
+		}
 	}
 
 
@@ -351,6 +388,7 @@ public class TypeDeclaration extends AbstractTypeDeclaration implements ISimpleO
 		context = null;
 		clearCaches();
 		graph = loadGraph(getTypeFile());
+		checkAndSetUnique();
 		// refresh the caches
 		getLabels();
 		getParameters();
