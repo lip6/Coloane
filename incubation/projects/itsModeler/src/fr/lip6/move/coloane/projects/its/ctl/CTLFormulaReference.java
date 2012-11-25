@@ -54,7 +54,7 @@ public final class CTLFormulaReference implements CTLFormula {
 	 * @param subformula string of subformula.
 	 */
 	public void setFormulaDescription(String subformula) {
-		this.formulaDescription = subformula;
+		this.formulaDescription = subformula.replace(";", "");
 	}
 	
 	/**
