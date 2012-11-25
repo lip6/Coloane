@@ -66,8 +66,8 @@ public class CheckServiceDetailsPage extends
 		FormToolkit toolkit = getToolkit();
 		Section s1 = toolkit.createSection(parent,
 				ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE
-						| ExpandableComposite.EXPANDED);
-// 		| ExpandableComposite.COMPACT);
+		 		| ExpandableComposite.COMPACT);
+//						| ExpandableComposite.EXPANDED);
 		s1.marginWidth = 4;
 		s1.marginHeight = 4;
 		s1.setText("Check Service Description"); //$NON-NLS-1$
