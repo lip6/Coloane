@@ -19,6 +19,7 @@ package fr.lip6.move.coloane.projects.its.checks;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ import java.util.Set;
  */
 public class ParameterList extends SimpleObservable {
 
-	private Map<String, String> parameters = new HashMap<String, String>();
+	private Map<String, String> parameters = new LinkedHashMap<String, String>();
 	private Map<String, String> eParameters = new HashMap<String, String>();
 	private Map<String, String> helpers = new HashMap<String, String>();
 	private Map<String, Boolean> bParameters = new HashMap<String, Boolean>();
