@@ -18,6 +18,7 @@ package fr.lip6.move.coloane.projects.its.checks;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.List;
 
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 import fr.lip6.move.coloane.tools.its.BinaryToolsPlugin;
@@ -26,8 +27,22 @@ import fr.lip6.move.coloane.tools.its.BinaryToolsPlugin.Tool;
 
 public class CheckService extends ITSCheckService {
 
+	private static final String REACHABLE_PARAM = "Reachable ?";
+
 	public CheckService(CheckList parent) {
-		super(parent, "ITS Reachability");
+		super(parent, "ITS Reachability");		
+		getParameters().addParameter(REACHABLE_PARAM, "", "Test reachability of some condition.");
+	}
+
+	
+	@Override
+	protected List<String> buildCommandArguments() {
+		List<String> cmd = super.buildCommandArguments();
+		if (! getParameters().getParameterValue(REACHABLE_PARAM).isEmpty()) {
+			cmd.add("-reachable");
+			cmd.add(getParameters().getParameterValue(REACHABLE_PARAM));
+		}
+		return cmd;
 	}
 
 	@Override
