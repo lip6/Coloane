@@ -109,20 +109,14 @@ public abstract class AbstractCheckService extends SimpleObservable implements
 
 	public String getWorkDir() {
 		if (workdir == null) {
-			;
+			URI workpos = new File(getParent().getType().getTypeList().getPath()).getParentFile().toURI();
+			workdir = getDefaultWorkDir(workpos);
 		}
 		return workdir;
 	}
 
-	public String getWorkDir(URI position) {
-		if (workdir == null) {
-			workdir = getDefaultWorkDir(position);
-		}
-		return getWorkDir();
-	}
-
 	public URI getWorkDirPath() {
-		return new File(workdir).toURI();
+		return new File(getWorkDir()).toURI();
 	}
 
 	public Iterator<ServiceResult> iterator() {
