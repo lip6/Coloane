@@ -16,11 +16,6 @@
  */
 package fr.lip6.move.coloane.projects.its.checks.ui;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-
-import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.projects.its.checks.AbstractCheckService;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSDetailsPage;
 
@@ -41,7 +36,6 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
-import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * A details page for a variable binding.
@@ -153,32 +147,7 @@ public class CheckServiceDetailsPage extends
 
 	private void updateFolder() {
 		AbstractCheckService input = getInput();
-		URI pos=null;
-		try {
-			pos = ((FileEditorInput) PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getActivePage()
-					.getActiveEditor().getEditorInput()).getFile().getProject().getLocationURI();			
-		} catch (RuntimeException e) {
-			// it's ok, we didnt find the editor, tough luck.
-
-			File temp = null;
-			try {
-				
-				temp = File.createTempFile("work", "its");
-
-				temp.deleteOnExit();
-				temp = new File(temp.getPath() + ".d"); 
-				if(!(temp.mkdir()))
-				{
-					Coloane.showWarningMsg("could not create work folder " + temp);
-				}
-				pos = temp.toURI();
-			} catch (IOException e1) {
-				Coloane.showWarningMsg("could not create work folder " + temp);
-			}
-
-		}
-		foldertf.setText(input != null && input.getWorkDir(pos) != null ? input
+		foldertf.setText(input != null && input.getWorkDir() != null ? input
 				.getWorkDir() : "");
 	}
 
