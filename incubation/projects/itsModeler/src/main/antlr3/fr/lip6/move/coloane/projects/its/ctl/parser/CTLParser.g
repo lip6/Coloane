@@ -28,8 +28,8 @@ import fr.lip6.move.coloane.projects.its.variables.*;
 }
 
 @members {
-    private CTLText errorReporter = null;
-    public void setErrorReporter(CTLText errorReporter) {
+    private ParsedCTLFormula errorReporter = null;
+    public void setErrorReporter(ParsedCTLFormula errorReporter) {
         this.errorReporter = errorReporter;
     }
     public void emitErrorMessage(String msg, int charAt, int len, List<String> suggs) {
@@ -197,7 +197,7 @@ predicate returns [CTLFormula form] :
                     if (cfd == null) {
                       emitErrorMessage("Token @" + formName + " does not designate an existing CTL formula.", var.getCharPositionInLine(), var.getText().length(), cl.getCtlFomulaNames());                                               
                     } else { 
-                      ((CTLFormulaReference) form).setFormulaDescription (cfd.getCtlFormula());
+                      ((CTLFormulaReference) form).setFormulaDescription (cfd.getCtlFormula().toString());
                     }
   
    }   
