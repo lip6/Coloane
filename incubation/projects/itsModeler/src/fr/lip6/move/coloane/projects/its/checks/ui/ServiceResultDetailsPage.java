@@ -41,6 +41,8 @@ public final class ServiceResultDetailsPage extends
 	private Text datetf;
 	private Text reporttf;
 	private ParameterSection params;
+	private ParameterSection results;
+	private Section resSection;
 
 	/**
 	 * {@inheritDoc} (non-Javadoc)
@@ -51,21 +53,27 @@ public final class ServiceResultDetailsPage extends
 		TableWrapLayout layout = new TableWrapLayout();
 		parent.setLayout(layout);
 
-		params = new ParameterSection("Tools settings used in this run",
+		results = new ParameterSection("Results of this run",
 				getToolkit(), parent, false);
+		results.setExpanded(true);
+		
+		params = new ParameterSection("Tool settings used in this run",
+				getToolkit(), parent, false);
+		params.setExpanded(false);
 
 		FormToolkit toolkit = getToolkit();
-		Section s1 = toolkit.createSection(parent,
-				ExpandableComposite.TITLE_BAR);
-		s1.marginWidth = 4;
-		s1.marginHeight = 4;
-		s1.setText("Check Result Description"); //$NON-NLS-1$
+		resSection = toolkit.createSection(parent,
+				ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE
+				| ExpandableComposite.COMPACT);
+		resSection.marginWidth = 4;
+		resSection.marginHeight = 4;
+		resSection.setText("Check Result Description"); //$NON-NLS-1$
 		//		s1.setDescription(Messages.getString("TypeOneDetailsPage.name")); //$NON-NLS-1$
 		TableWrapData td = new TableWrapData(TableWrapData.FILL,
 				TableWrapData.TOP);
 		td.grabHorizontal = true;
-		s1.setLayoutData(td);
-		Composite client = toolkit.createComposite(s1);
+		resSection.setLayoutData(td);
+		Composite client = toolkit.createComposite(resSection);
 		GridLayout glayout = new GridLayout();
 		glayout.marginWidth = 10;
 		glayout.marginHeight = 5;
@@ -100,10 +108,10 @@ public final class ServiceResultDetailsPage extends
 		gd.widthHint = 10;
 		gd.heightHint = 250;
 		reporttf.setLayoutData(gd);
-
-		toolkit.paintBordersFor(s1);
+		
+		toolkit.paintBordersFor(resSection);
 		toolkit.paintBordersFor(client);
-		s1.setClient(client);
+		resSection.setClient(client);
 	}
 
 	/**
@@ -112,7 +120,12 @@ public final class ServiceResultDetailsPage extends
 	@Override
 	protected void update() {
 		ServiceResult input = getInput();
+		if (input.getResults().getParameters().size()==0) {
+			resSection.setExpanded(true);
+		}
 		params.setInput(input.getParameters());
+		results.setInput(input.getResults());
+		
 		// CHECKSTYLE OFF
 		isOktf.setText(input != null ? input.getSuccess().toString() : "");
 		datetf.setText(input != null && input.getDate() != null ? input
