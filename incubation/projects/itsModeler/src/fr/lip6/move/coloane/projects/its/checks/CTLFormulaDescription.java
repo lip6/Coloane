@@ -16,7 +16,7 @@
  */
 package fr.lip6.move.coloane.projects.its.checks;
 
-import fr.lip6.move.coloane.projects.its.ctl.CTLFormula;
+import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.obs.SimpleObservable;
 
 import java.util.Iterator;
@@ -24,19 +24,20 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class CTLFormulaDescription extends SimpleObservable implements
-		IServiceResultProvider {
+		IServiceResultProvider,ISimpleObserver {
 
 	private String name = "formula";
 	private String comments = "New formula";
-	private String ctlFormula = "TRUE;";
-	private CTLFormula parsedFormula;
+	private ParsedCTLFormula ctlFormula;
 	private CTLCheckService parent;
 
+	
 	public CTLFormulaDescription(String name, String formula, String comments,
 			CTLCheckService parent) {
 		this.name = name;
 		this.comments = comments;
-		this.ctlFormula = formula;
+		this.ctlFormula = new ParsedCTLFormula(formula,parent.getParent());
+		ctlFormula.addObserver(this);
 		this.parent = parent;
 	}
 
@@ -48,19 +49,15 @@ public class CTLFormulaDescription extends SimpleObservable implements
 	}
 
 	public void setFormula(String formula) {
-		if (!formula.equals(ctlFormula)) {
-			ctlFormula = formula;
+		if (!formula.equals(ctlFormula.getFormulaString())) {
+			ctlFormula.setFormulaString(formula);
 			notifyObservers();
 		}
 	}
 
-	public void setParsedFormula(CTLFormula f) {
-		this.parsedFormula = f;
-	}
-
 	@Override
 	public String toString() {
-		return parsedFormula.toString();
+		return ctlFormula.getParsedFormula().toString();
 	}
 
 	public void setName(String name) {
@@ -74,7 +71,7 @@ public class CTLFormulaDescription extends SimpleObservable implements
 		return comments;
 	}
 
-	public String getCtlFormula() {
+	public ParsedCTLFormula getCtlFormula() {
 		return ctlFormula;
 	}
 
@@ -95,6 +92,10 @@ public class CTLFormulaDescription extends SimpleObservable implements
 
 	public Iterator<ServiceResult> iterator() {
 		return results.iterator();
+	}
+
+	public void update() {
+		notifyObservers();
 	}
 
 }
