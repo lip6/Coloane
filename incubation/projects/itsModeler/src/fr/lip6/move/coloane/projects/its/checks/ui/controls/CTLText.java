@@ -19,16 +19,8 @@ package fr.lip6.move.coloane.projects.its.checks.ui.controls;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.lip6.move.coloane.projects.its.antlrutil.ErrorReporter;
-import fr.lip6.move.coloane.projects.its.checks.CheckList;
-import fr.lip6.move.coloane.projects.its.ctl.CTLFormula;
+import fr.lip6.move.coloane.projects.its.checks.ParsedCTLFormula;
 
-import main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserLexer;
-import main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser.CTLParserParser;
-
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
 import org.eclipse.jface.bindings.keys.KeyStroke;
 import org.eclipse.jface.bindings.keys.ParseException;
 import org.eclipse.jface.fieldassist.ContentProposal;
@@ -45,33 +37,30 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 
-public class CTLText {
+public class CTLText implements ModifyListener {
 
-	// owning list, used to find variables and other formulas for cross refs
-	private CheckList cl;
-	// current parse errors
-	private List<ParseError> errors = new ArrayList<ParseError>();
+	private ParsedCTLFormula formula;
 	// The user input field that contains the formula
-	private StyledText text;
-	
+	private StyledText text;	
+
 	private Text errorText;
-	
+
 	public CTLText(Composite parent, GridData gd) {
 		Composite comp = new Composite(parent, SWT.BORDER | SWT.FILL);
 		comp.setLayout(new GridLayout());
-		
+
 		GridData gd2 = new GridData(GridData.FILL_HORIZONTAL
 				| GridData.VERTICAL_ALIGN_BEGINNING);
-		
+
 		gd2.heightHint = 60;
 		comp.setLayoutData(gd2);
-		
-	//	gd.heightHint = 25;
+
+		//	gd.heightHint = 25;
 		text = new StyledText(comp, SWT.SINGLE | SWT.BORDER);
 		text.setLayoutData(gd);
-		
-		text.addModifyListener(new GrammarListener());
-		
+
+		text.addModifyListener(this);
+
 		char[] autoActivationCharacters = new char[] { '#', '(' };
 		KeyStroke keyStroke = null;
 		try {
@@ -81,22 +70,22 @@ public class CTLText {
 		}
 		// ContentProposalAdapter adapter = 
 		new ContentProposalAdapter(
-			text, new StyledTextContentAdapter(), 
-			new CTLContentProposalProvider(),
-			keyStroke, autoActivationCharacters);
-		
+				text, new StyledTextContentAdapter(), 
+				new CTLContentProposalProvider(),
+				keyStroke, autoActivationCharacters);
+
 		errorText = new Text(comp, SWT.MULTI);
 		errorText.setLayoutData(gd);
 		errorText.setEditable(false);
 		errorText.setForeground(errorText.getDisplay().getSystemColor(SWT.COLOR_RED));
 	}
 
-	
+
 	class CTLContentProposalProvider implements IContentProposalProvider {
 
 		public IContentProposal[] getProposals(String contents, int position) {
 			List<IContentProposal> props = new ArrayList<IContentProposal>();
-			for (ParseError error : errors) {
+			for (ParseError error : formula.getErrors()) {
 				if (error.getCharAt() == position) {
 					for (String sug : error.getSuggs())
 						props.add(new ContentProposal(sug));
@@ -104,66 +93,10 @@ public class CTLText {
 			}
 			return props.toArray(new IContentProposal[props.size()]);
 		}
-		
-	}
-	
-	public void setCheckList(CheckList cl) {
-		this.cl = cl;
-	}
-
-	private CTLFormula expr;
-
-	private void setExpr(CTLFormula expr) {
-		this.expr = expr;
-	}
-
-	public CTLFormula getFormula() {
-		return expr;
-	}
-
-	class GrammarListener implements ModifyListener {
-		private String previousCTL = "";
-
-		public void modifyText(ModifyEvent e) {
-			String ctl = text.getText();
-			if (ctl != null && !ctl.equals(previousCTL)) {
-
-				clearErrors();
-
-				previousCTL = ctl;
-				CTLParserLexer lexer;
-				lexer = new CTLParserLexer(new ANTLRStringStream(ctl));
-
-				CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-				CTLParserParser parser = new CTLParserParser(tokens);
-				setExpr(null);
-				ErrorReporter report = new ErrorReporter();
-				parser.setErrorReporter(CTLText.this);
-				parser.setCheckList(cl);
-				try {
-					setExpr(parser.ctlformula());
-
-					for (String error : report) {
-						System.err.println(error);
-						// addCheckFail(elt, att, error, result);
-						// testok = false;
-					}
-				} catch (RecognitionException ee) {
-					System.err.println(ee + ee.getMessage());
-					ee.printStackTrace();
-					// addCheckFail(elt, att, e.getLocalizedMessage(), result);
-					// testok = false;
-				}
-
-			}
-			updateErrors();
-		}
 
 	}
 
 	private void clearErrors() {
-		errors = new ArrayList<ParseError>();
 		text.setToolTipText("");
 		errorText.setText("");
 		// setStyleRange(null);
@@ -173,41 +106,45 @@ public class CTLText {
 		sr.underline = false;
 		text.setStyleRange(sr);
 	}
-	
 
-	public void reportError(String msg, int charAt, int len, List<String> suggs) {
-		errors.add(new ParseError(msg,charAt,len, suggs));
-	}
-	
+
+
 	public void updateErrors () {
-		for (ParseError error : errors) {
-			text.setToolTipText(text.getToolTipText() + error.getMsg() + "\n");
-			errorText.setText(errorText.getText() + error.getMsg() + "\n");
-			StyleRange sr = new StyleRange();
-			sr.start = error.getCharAt() == -1 ? text.getText().length() - 1 : error.getCharAt();
-			sr.length = Math.min(error.getLen(), text.getText().length() - sr.start);
-			sr.underline = true;
-			sr.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
-			sr.underlineColor = text.getDisplay().getSystemColor(SWT.COLOR_RED);
-			// sr.underlineStyle = SWT.UNDERLINE_SINGLE;//SWT.UNDERLINE_SQUIGGLE;
-			// sr.underlineColor = getDisplay().getSystemColor(SWT.COLOR_RED);
-			text.setStyleRange(sr);
+		if (formula != null) {
+			clearErrors();
+			for (ParseError error : formula.getErrors()) {
+				text.setToolTipText(text.getToolTipText() + error.getMsg() + "\n");
+				errorText.setText(errorText.getText() + error.getMsg() + "\n");
+				StyleRange sr = new StyleRange();
+				sr.start = error.getCharAt() == -1 ? text.getText().length() - 1 : error.getCharAt();
+				sr.length = Math.min(error.getLen(), text.getText().length() - sr.start);
+				sr.underline = true;
+				sr.underlineStyle = SWT.UNDERLINE_SQUIGGLE;
+				sr.underlineColor = text.getDisplay().getSystemColor(SWT.COLOR_RED);
+				// sr.underlineStyle = SWT.UNDERLINE_SINGLE;//SWT.UNDERLINE_SQUIGGLE;
+				// sr.underlineColor = getDisplay().getSystemColor(SWT.COLOR_RED);
+				text.setStyleRange(sr);
+			}
 		}
 	}
 
 
-	public void addModifyListener(ModifyListener modifyListener) {
-		text.addModifyListener(modifyListener);
+
+	public void setInput(ParsedCTLFormula ctlFormula) {
+		
+		String form =ctlFormula.getFormulaString(); 
+		formula = ctlFormula;
+		if (form!=null && form!=text.getText() ){
+			text.setText(form);
+			updateErrors();
+		}
 	}
 
 
-	public String getText() {
-		return text.getText();
-	}
 
-
-	public void setText(String ctlFormula) {
-		text.setText(ctlFormula);
+	public void modifyText(ModifyEvent e) {
+		formula.setFormulaString(text.getText());
+		updateErrors();
 	}
 
 }
