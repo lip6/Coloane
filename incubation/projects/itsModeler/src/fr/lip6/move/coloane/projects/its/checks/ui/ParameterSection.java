@@ -51,6 +51,7 @@ public class ParameterSection {
 	private Composite parent;
 	private boolean isEditable;
 	private String title;
+	private boolean isExpanded=true;
 
 	public ParameterSection(String title, final FormToolkit formToolkit,
 			Composite parent, boolean isEditable) {
@@ -70,6 +71,10 @@ public class ParameterSection {
 			createDetails(parent);
 		}
 		update();
+	}
+	
+	public void setExpanded(boolean isExpanded) {
+		this.isExpanded = isExpanded;
 	}
 
 	public void update() {
@@ -110,9 +115,13 @@ public class ParameterSection {
 			section = null;
 		}
 		if (!input.getParameters().isEmpty()) {
-			section = toolkit.createSection(parent,
-					ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE
-							| ExpandableComposite.EXPANDED);
+			int style = ExpandableComposite.TITLE_BAR | ExpandableComposite.TWISTIE;
+			if (isExpanded) {
+				style |= ExpandableComposite.EXPANDED;
+			} else {	
+				style |= ExpandableComposite.COMPACT;
+			}
+			section = toolkit.createSection(parent,style);
 			section.marginWidth = 4;
 			section.marginHeight = 4;
 			section.setText(title);
