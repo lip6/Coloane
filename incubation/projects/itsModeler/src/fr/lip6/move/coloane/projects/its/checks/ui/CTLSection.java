@@ -133,15 +133,6 @@ public class CTLSection {
 
 			gd.heightHint = 25;
 			ctlField = new CTLText(client, gd);
-			ctlField.addModifyListener(new ModifyListener() {
-
-				public void modifyText(ModifyEvent e) {
-					if (getInput() != null) {
-						getInput().setParsedFormula(ctlField.getFormula());
-						getInput().setFormula(ctlField.getText());
-					}
-				}
-			});
 
 			Button runb = toolkit.createButton(client, "Run check", SWT.PUSH);
 			gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING
@@ -151,7 +142,7 @@ public class CTLSection {
 				@Override
 				public void widgetSelected(SelectionEvent event) {
 					getInput().getParent().run(
-							ctlField.getFormula().toString() + ";", getInput());
+							getInput().getCtlFormula().toString() + ";", getInput());
 				}
 			});
 
@@ -201,8 +192,7 @@ public class CTLSection {
 	public void update() {
 		if (input != null) {
 			nameField.setText(input.getName());
-			ctlField.setCheckList(input.getParent().getParent());
-			ctlField.setText(input.getCtlFormula());
+			ctlField.setInput(input.getCtlFormula());
 			commentsField.setText(input.getComments());
 		}
 	}
