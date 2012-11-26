@@ -15,29 +15,51 @@
  */
 package fr.lip6.move.coloane.api.alligator;
 
-import java.util.logging.Level;
+import fr.lip6.move.coloane.api.alligator.preferences.AlligatorPreferencePage;
+import fr.lip6.move.coloane.api.alligator.preferences.AlligatorPreferencePage.Data;
+import fr.lip6.move.coloane.api.alligator.preferences.PreferenceConstants;
+import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle
  */
-public class Activator extends AbstractUIPlugin {
+public class Activator extends AbstractUIPlugin implements IPropertyChangeListener {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "fr.lip6.move.coloane.api.alligator"; //$NON-NLS-1$
 	
-	private static Logger LOGGER;
+	private static Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator");
 
 	// The shared instance
 	private static Activator plugin;
+	
+	private List<Connection> connections;
 	
 	/**
 	 * The constructor
 	 */
 	public Activator() {
+		connections = new ArrayList<Connection>();
+	}
+
+	/**
+	 * @return The menus defined by Alligators.
+	 */
+	public final List<IItemMenu> getMenus() {
+		List<IItemMenu> result = new ArrayList<IItemMenu>();
+		for (Connection connection: connections) {
+			result.add(connection.getMenu());
+		}
+		return result;
 	}
 
 	/** {@inheritDoc}
@@ -46,9 +68,11 @@ public class Activator extends AbstractUIPlugin {
 	public final void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
-
-		LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator");
-		LOGGER.setLevel(Level.ALL);
+		// Create connections to Alligators and fetch their menus:
+		for (AlligatorPreferencePage.Data data: AlligatorPreferencePage.fromPreferences()) {
+			connections.add(new Connection(data));
+		}
+		getPreferenceStore().addPropertyChangeListener(plugin);
 	}
 
 	/** {@inheritDoc}
@@ -66,6 +90,22 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public static Activator getDefault() {
 		return plugin;
+	}
+
+	@Override
+	public final void propertyChange(PropertyChangeEvent event) {
+		LOGGER.fine("Receive property change: " + event.getProperty());
+		if (event.getProperty().equals(PreferenceConstants.P_ALLIGATOR_LIST)) {
+			// Cancel all connections:
+			for (Connection connection: connections) {
+				connection.cancel();
+			}
+			connections.clear();
+			// Connect:
+			for (Data data: AlligatorPreferencePage.fromPreferences()) {
+				connections.add(new Connection(data));
+			}
+		}
 	}
 
 }

@@ -100,5 +100,10 @@ public class ServiceMenu extends ItemMenu implements IServiceMenu {
 	public final boolean isGlobal() {
 		return global;
 	}
-
+	
+	@Override
+	public final String toString() {
+		return "<" + associatedService.getName() + ">";
+	}
+	
 }

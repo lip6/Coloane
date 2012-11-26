@@ -221,9 +221,7 @@ public final class SessionManager implements ISessionManager {
 	/** {@inheritDoc} */
 	@Override
 	public List<ApiDescription> getAvailableGlobalApis() {
-		if (apis == null) {
-			apis = ApiExtension.getAvailableApis(null, true);
-		}
+		apis = ApiExtension.getAvailableApis(null, true);
 		return apis;
 	}
 

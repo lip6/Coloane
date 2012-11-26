@@ -57,7 +57,7 @@ public class AlligatorService implements IApiService {
 
 	private ServiceDescription service;
 
-	private AlligatorApi api;
+	private Connection alligatorConnection;
 
 	/**
 	 * Runnable to manage the dialog box
@@ -101,11 +101,11 @@ public class AlligatorService implements IApiService {
 	/**
 	 * Constructor
 	 * @param service Associated service
-	 * @param api Alligator api
+	 * @param alligatorConnection Connection to an Alligator
 	 */
-	public AlligatorService(ServiceDescription service, AlligatorApi api) {
+	public AlligatorService(ServiceDescription service, Connection alligatorConnection) {
 		this.service = service;
-		this.api = api;
+		this.alligatorConnection = alligatorConnection;
 	}
 
 	/** {@inheritDoc}
@@ -114,7 +114,7 @@ public class AlligatorService implements IApiService {
 	public final List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
 		List<IResult> results = new ArrayList<IResult>();
 		try {
-			ServiceManager manager = api.getServerManager();
+			ServiceManager manager = alligatorConnection.getServiceManager();
 			if (manager == null) {
 				throw new ServiceException("The connection is not available.");
 			}

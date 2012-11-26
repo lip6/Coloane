@@ -102,4 +102,31 @@ public class SubMenu extends ItemMenu implements ISubMenu {
 	public final List<ISubMenu> getSubMenus() {
 		return this.submenus;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final ISubMenu getSubMenu(String name) {
+		for (ISubMenu submenu: submenus) {
+			if (submenu.getName().equals(name)) {
+				return submenu;
+			}
+		}
+		return null;
+	}
+	
+	@Override
+	public final String toString() {
+		String result = getName() + " {";
+		for (IItemMenu submenu: getSubMenus()) {
+			result = result + submenu.toString();
+		}
+		for (IItemMenu submenu: getServiceMenus()) {
+			result = result + submenu.toString() + "\n";
+		}
+		result = result + "}";
+		return result;
+	}
+	
 }

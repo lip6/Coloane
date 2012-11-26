@@ -44,6 +44,12 @@ public interface ISubMenu extends IItemMenu {
 	List<ISubMenu> getSubMenus();
 
 	/**
+	 * @param name The name to search
+	 * @return The sub-menu with name 'name' or null if it does not exist
+	 */
+	ISubMenu getSubMenu(String name);
+
+	/**
 	 * Add an option to the sub-menu
 	 * @param option The option to add
 	 */

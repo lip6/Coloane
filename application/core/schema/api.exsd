@@ -99,6 +99,13 @@ On the contrary, LOCAL APIs require at least one model to be opened. It is becau
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="builds-menu" type="boolean">
+            <annotation>
+               <documentation>
+                  If set to true, the API builds its menu itself.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

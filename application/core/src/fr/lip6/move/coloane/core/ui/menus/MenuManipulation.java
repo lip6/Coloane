@@ -15,12 +15,15 @@
  */
 package fr.lip6.move.coloane.core.ui.menus;
 
+import fr.lip6.move.coloane.core.extensions.ApiDescription;
 import fr.lip6.move.coloane.core.ui.actions.OptionAction;
 import fr.lip6.move.coloane.core.ui.actions.ServiceAction;
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
+
+import java.util.logging.Logger;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
@@ -119,4 +122,38 @@ public final class MenuManipulation {
 		item.setEnabled(active && option.isVisible());
 		return item;
 	}
+	
+	/**
+	 * Build a root menu from an item tree and an API description
+	 * @param menu The menu
+	 * @return A root menu that corresponds to the menu description
+	 */
+	public static MenuManager fromItemMenu(IItemMenu menu) {
+		if (menu instanceof ISubMenu) {
+			String id = menu.getName().toLowerCase().replaceAll("\\W", "-").replaceAll("[-]+", "-").trim();  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$//$NON-NLS-4$
+			MenuManager root = new MenuManager(menu.getName(), menu.getIcon(), id);
+			for (IItemMenu sub: ((ISubMenu) menu).getSubMenus()) {
+				if (sub.isVisible()) {
+					root.add(fromItemMenu(sub));
+				}
+			}
+			for (IServiceMenu service: ((ISubMenu) menu).getServiceMenus()) {
+				if (service.isVisible()) {
+					IAction action = new ServiceAction(service);
+					action.setEnabled(service.isVisible());
+					action.setImageDescriptor(service.getIcon());
+					root.add(action);
+				}
+			}
+			for (IOptionMenu option: ((ISubMenu) menu).getOptions()) {
+				if (option.isVisible()) {
+					IAction action = new OptionAction(option);
+					action.setEnabled(option.isVisible());
+				}
+			}
+			return root;
+		}
+		throw new AssertionError();
+	}
+	
 }
