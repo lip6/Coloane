@@ -33,14 +33,15 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <tycho.version>0.14.0</tycho.version>
+        <eclipse.version>juno</eclipse.version>
         <sonar.exclusions>**/Messages.java</sonar.exclusions>
     </properties>
 
     <repositories>
         <repository>
-            <id>helios</id>
+            <id>${eclipse.version}</id>
             <layout>p2</layout>
-            <url>http://download.eclipse.org/releases/helios</url>
+            <url>http://download.eclipse.org/releases/${eclipse.version}</url>
         </repository>
         <repository>
             <id>coloane</id>
