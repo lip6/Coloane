@@ -15,6 +15,7 @@
  */
 package fr.lip6.move.coloane.core.main;
 
+import fr.lip6.move.coloane.core.extensions.ApiExtension;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogFormatter;
 import fr.lip6.move.coloane.interfaces.utils.ColoaneLogHandler;
 import fr.lip6.move.coloane.interfaces.utils.ConsoleHandler;
@@ -23,11 +24,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -82,7 +86,18 @@ public class Coloane extends AbstractUIPlugin {
 		if (Boolean.parseBoolean(getInstance().getPreference("STATS_STATUS"))) { //$NON-NLS-1$
 			this.sendProperties();
 		}
+		// Load all APIs:
+		for (IConfigurationElement api: Arrays.asList(Platform.getExtensionRegistry().getConfigurationElementsFor(ApiExtension.EXTENSION_POINT_ID))) {
+			if (Boolean.parseBoolean(api.getAttribute(ApiExtension.GLOBAL))) {
+				try {
+					api.createExecutableExtension(ApiExtension.CLASS);
+				} catch (CoreException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
+
 
 	/**
 	 * To ease the debug of recurrent bugs, some information is very useful for developers.<br>

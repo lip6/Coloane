@@ -25,6 +25,7 @@ import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.CoreException;
@@ -49,26 +50,27 @@ import org.eclipse.jface.action.MenuManager;
  * @author Jean-Baptiste Voron
  */
 public final class ApiExtension {
-	/** The logger */
-	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-
 	/**
 	 * Extension attributes
 	 */
-	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.apis"; //$NON-NLS-1$
-	private static final String NAME = "name"; //$NON-NLS-1$
-	private static final String DESCRIPTION = "description"; //$NON-NLS-1$
-	private static final String ICON = "icon"; //$NON-NLS-1$
-	private static final String FORMALISM = "formalism"; //$NON-NLS-1$
-	private static final String CLASS = "class"; //$NON-NLS-1$
-	private static final String GLOBAL = "global"; //$NON-NLS-1$
+	public static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.core.apis"; //$NON-NLS-1$
+	public static final String NAME = "name"; //$NON-NLS-1$
+	public static final String DESCRIPTION = "description"; //$NON-NLS-1$
+	public static final String ICON = "icon"; //$NON-NLS-1$
+	public static final String FORMALISM = "formalism"; //$NON-NLS-1$
+	public static final String CLASS = "class"; //$NON-NLS-1$
+	public static final String GLOBAL = "global"; //$NON-NLS-1$
+	public static final String BUILDS_MENU = "builds-menu"; //$NON-NLS-1$
+
+	/** The logger */
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
 
 	/**
 	 * Utility class, the constructor is forbidden
 	 */
 	private ApiExtension() {
 	}
-
+	
 	/**
 	 * Looks for all available APIs (for a given formalism)
 	 * @param session filter on the formalism of the session
@@ -101,31 +103,40 @@ public final class ApiExtension {
 
 			try {
 				IApi apiClass = (IApi) contributions[i].createExecutableExtension(CLASS);
+				boolean buildsMenu = Boolean.parseBoolean(contributions[i].getAttribute(BUILDS_MENU));
 				ApiDescription api = new ApiDescription(apiClass, contributions[i].getAttribute(NAME), contributions[i].getAttribute(DESCRIPTION), contributions[i].getAttribute(ICON));
-
-				// Build the root menu
-				LOGGER.finer("Building the " + api.getName() + " root-menu associated with the session"); //$NON-NLS-1$ //$NON-NLS-2$
-				MenuManager apiMenu = MenuManipulation.buildRootMenu(api.getName(), api.getDescription(), api.getIcon());
-				// Attach menu observer
-				apiClass.addPropertyChangeListener(IApi.API_MENU, new MenuObserver(apiMenu));
-				// Attach console messages observer (only if the API is attached to an existing session)
-				if (session != null) {
-					apiClass.addPropertyChangeListener(IApi.API_MESSAGE, new ConsoleMessageObserver(session.getConsole()));
-				}
-
-				// Build sub-menus
-				LOGGER.finer("Fetching sub-menus"); //$NON-NLS-1$
-				List<IItemMenu> submenus = api.getApiClass().getInitialApiMenus();
-				for (IItemMenu submenu : submenus) {
-					MenuManager newMenu = MenuManipulation.buildSubMenu(apiMenu, submenu);
-					if (newMenu != null) {
-						apiMenu.add(newMenu);
+				if (buildsMenu) { // API builds root menu itself:
+					LOGGER.setLevel(Level.ALL);
+					for (IItemMenu menu: apiClass.getInitialApiMenus()) {
+						menu.setHelps(api.getDescription());
+						menu.setIcon(api.getIcon());
+						ApiDescription subapi = new ApiDescription(apiClass, menu.getName(), menu.getHelps(), contributions[i].getAttribute(ICON));
+						subapi.setRootMenu(MenuManipulation.fromItemMenu(menu));
+						availableApis.add(subapi);
+					}
+				} else {
+					LOGGER.finer("Building the " + api.getName() + " root-menu associated with the session"); //$NON-NLS-1$ //$NON-NLS-2$
+					// Build the root menu
+					MenuManager menu = MenuManipulation.buildRootMenu(api.getName(), api.getDescription(), api.getIcon());
+					// Build sub-menus
+					LOGGER.finer("Fetching sub-menus"); //$NON-NLS-1$
+					List<IItemMenu> submenus = apiClass.getInitialApiMenus();
+					for (IItemMenu submenu : submenus) {
+						MenuManager newMenu = MenuManipulation.buildSubMenu(menu, submenu);
+						if (newMenu != null) {
+							menu.add(newMenu);
+						}
+					}
+					api.setRootMenu(menu);
+					// Add the API description to the list of available APi for this formalism
+					availableApis.add(api);
+					// Attach menu observer
+					apiClass.addPropertyChangeListener(IApi.API_MENU, new MenuObserver(menu));
+					// Attach console messages observer (only if the API is attached to an existing session)
+					if (session != null) {
+						apiClass.addPropertyChangeListener(IApi.API_MESSAGE, new ConsoleMessageObserver(session.getConsole()));
 					}
 				}
-				api.setRootMenu(apiMenu);
-
-				// Add the API description to the list of available APi for this formalism
-				availableApis.add(api);
 			} catch (ColoaneException e) {
 				LOGGER.warning("Something went wrong during the association with the API : " + contributions[i].getAttribute(NAME)); //$NON-NLS-1$
 				LOGGER.warning(e.getLogMessage());
@@ -137,4 +148,5 @@ public final class ApiExtension {
 		}
 		return availableApis;
 	}
+
 }

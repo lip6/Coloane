@@ -50,4 +50,14 @@ public class OptionMenu extends ItemMenu implements IOptionMenu {
 	public final int getType() {
 		return IOptionMenu.TYPE_CHECKBOX;
 	}
+	
+	@Override
+	public final String toString() {
+		String c = "";
+		if (isChecked()) {
+			c = "x";
+		}
+		return "[" + c + "] " + getName();
+	}
+	
 }

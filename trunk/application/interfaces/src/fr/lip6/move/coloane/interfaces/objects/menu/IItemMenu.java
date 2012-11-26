@@ -31,17 +31,41 @@ public interface IItemMenu {
 	String getName();
 
 	/**
+	 * @param name The item name
+	 */
+	void setName(String name);
+
+	/**
      * @return The visible state of the item
      */
 	boolean isVisible();
 
+	/**
+	 */
+	void setVisible();
+
+	/**
+	 */
+	void setInvisible();
+	
 	/**
 	 * @return An icon associated with the menu item
 	 */
 	ImageDescriptor getIcon();
 
 	/**
+	 * @param icon An icon associated with the menu item
+	 */
+	void setIcon(ImageDescriptor icon);
+
+	/**
      * @return An help message (a tip) associated with the item
      */
 	String getHelps();
+
+	/**
+     * @param help An help message (a tip) associated with the item
+     */
+	void setHelps(String help);
+	
 }

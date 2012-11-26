@@ -86,11 +86,28 @@ public class ItemMenu implements IItemMenu {
 		return this.visible;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public final String toString() {
-		return name;
+	public final void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public final void setVisible() {
+		this.visible = true;
+	}
+
+	@Override
+	public final void setInvisible() {
+		this.visible = false;
+	}
+
+	@Override
+	public final void setIcon(ImageDescriptor icon) {
+		this.icon = icon;
+	}
+
+	@Override
+	public final void setHelps(String help) {
+		this.helpMessage = help;
 	}
 }
