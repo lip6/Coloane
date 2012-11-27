@@ -7,6 +7,8 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 
@@ -14,6 +16,17 @@ import org.eclipse.core.runtime.IProgressMonitor;
 public class PTExport implements IGrMLExport {
 	private static final String PTNET_URL = "http://formalisms.cosyverif.org/pt-net.fml";
 	private static final String GRML_NAMESPACE = "http://cosyverif.org/ns/model";
+	
+	private static final Map<String, String> attrMap = new HashMap<String, String>();
+	static {
+		attrMap.put("title", "name");
+		attrMap.put("version", "version");
+		attrMap.put("authors", "authors");
+		attrMap.put("note", "comments");
+		attrMap.put("name", "name");
+		attrMap.put("valuation", "valuation");
+		attrMap.put("marking", "marking");
+	}
 
 	public void export(IGraph graph, Writer writer, String formalismURL, IProgressMonitor monitor) throws ExtensionException {
 		try {
@@ -64,8 +77,10 @@ public class PTExport implements IGrMLExport {
 	}
 
 	private String exportAttribute(IAttribute attribute) {
+		if (!attrMap.containsKey(attribute.getName())) { return ""; }
+		String name = attrMap.get(attribute.getName());
 		StringBuilder sb = new StringBuilder();
-		sb.append("<attribute name=\"").append(attribute.getName()).append("\"");
+		sb.append("<attribute name=\"").append(name).append("\"");
 		sb.append(" x=\"").append(attribute.getGraphicInfo().getLocation().x()).append("\"");
 		sb.append(" y=\"").append(attribute.getGraphicInfo().getLocation().y()).append("\">");
 		sb.append(attribute.getValue());
