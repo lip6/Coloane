@@ -35,7 +35,7 @@ public class PTExport implements IGrMLExport {
 			writer.write(" xmlns=\"" + GRML_NAMESPACE + "\">\n");
 
 			for (IAttribute attribute : graph.getAttributes()) {
-				writer.write(exportAttribute(attribute));
+				writer.write(exportAttribute(attribute, "  "));
 			}
 			for (INode node : graph.getNodes()) {
 				writer.write(exportNode(node));
@@ -52,34 +52,35 @@ public class PTExport implements IGrMLExport {
 
 	private String exportNode(INode node) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<node id=\"").append(node.getId()).append("\"");
+		sb.append("  <node id=\"").append(node.getId()).append("\"");
 		sb.append(" nodeType=\"").append(node.getNodeFormalism().getName()).append("\"");
 		sb.append(" x=\"").append(node.getGraphicInfo().getLocation().x()).append("\"");
 		sb.append(" y=\"").append(node.getGraphicInfo().getLocation().y()).append("\">\n");
 		for (IAttribute attribute : node.getAttributes()) {
-			sb.append(exportAttribute(attribute));
+			sb.append(exportAttribute(attribute, "    "));
 		}
-		sb.append("</node>\n");
+		sb.append("  </node>\n");
 		return sb.toString();
 	}
 
 	private String exportArc(IArc arc) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("<arc id=\"").append(arc.getId()).append("\"");
+		sb.append("  <arc id=\"").append(arc.getId()).append("\"");
 		sb.append(" source=\"").append(arc.getSource().getId()).append("\"");
 		sb.append(" target=\"").append(arc.getTarget().getId()).append("\"");
 		sb.append(" arcType=\"").append(arc.getArcFormalism().getName()).append("\">\n");
 		for (IAttribute attribute : arc.getAttributes()) {
-			sb.append(exportAttribute(attribute));
+			sb.append(exportAttribute(attribute, "    "));
 		}
-		sb.append("</arc>\n");
+		sb.append("  </arc>\n");
 		return sb.toString();
 	}
 
-	private String exportAttribute(IAttribute attribute) {
+	private String exportAttribute(IAttribute attribute, String indent) {
 		if (!attrMap.containsKey(attribute.getName())) { return ""; }
 		String name = attrMap.get(attribute.getName());
 		StringBuilder sb = new StringBuilder();
+		sb.append(indent);
 		sb.append("<attribute name=\"").append(name).append("\"");
 		sb.append(" x=\"").append(attribute.getGraphicInfo().getLocation().x()).append("\"");
 		sb.append(" y=\"").append(attribute.getGraphicInfo().getLocation().y()).append("\">");
