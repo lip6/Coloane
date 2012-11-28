@@ -145,6 +145,7 @@ public final class SessionManager implements ISessionManager {
 	}
 
 	/** {@inheritDoc} */
+	@Deprecated
 	@Override
 	public ISession createSession(String sessionId, IGraph graph) throws ColoaneException {
 		// If a session already exists with the same name
