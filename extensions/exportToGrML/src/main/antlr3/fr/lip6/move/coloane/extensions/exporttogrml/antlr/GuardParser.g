@@ -48,34 +48,44 @@ transitionGuard[Map<String,String> s]
   ;
 
 guard
-  : c+=clause (AND c+=clause)*
+@init {
+  boolean alone = true;
+  List<StringTemplate> tmpl = new ArrayList<StringTemplate>();
+}
+  : c=clause (AND g=guard { alone = false; })?
   {
-    if ($c.size() == 1) {
-      StringTemplate tmp = (StringTemplate)($c.get(0));
-      if (tmp.getAttributes().get("name").equals("boolExpr")) {
-        retval.st = tmp;
+    if (alone) {
+      if ($c.getAttributes().get("name").equals("boolExpr")) {
+        retval.st = $c;
       } else {
         retval.st = %balise( name={"boolExpr"}, content={$c} );
       }
     } else {
-      StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "and").put("content", $c));
+      tmpl.add( $c );
+      tmpl.add( $g );
+      StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "and").put("content", tmpl));
       retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp));
     }
   }
   ;
   
 clause
-  : t+=term (OR t+=term)*
+@init {
+  boolean alone = true;
+  List<StringTemplate> tmpl = new ArrayList<StringTemplate>();
+}
+  : t=term (OR c=clause { alone = false; })?
   {
-    if ($t.size() == 1) {
-      StringTemplate tmp = (StringTemplate)($t.get(0));
-      if (tmp.getAttributes().get("name").equals("boolExpr")) {
-        retval.st = tmp;
+    if (alone) {
+      if ($t.getAttributes().get("name").equals("boolExpr")) {
+        retval.st = $t;
       } else {
         retval.st = %balise( name={"boolExpr"}, content={$t} );
       }
     } else {
-      StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "or").put("content", $t));
+      tmpl.add( $t );
+      tmpl.add( $c );
+      StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "or").put("content", tmpl));
       retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp));
     }
   }
