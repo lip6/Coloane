@@ -32,7 +32,6 @@ import fr.lip6.move.coloane.core.ui.actions.ResetAttributesLocationAction;
 import fr.lip6.move.coloane.core.ui.checker.CheckerManager;
 import fr.lip6.move.coloane.core.ui.checker.CommandStackListener;
 import fr.lip6.move.coloane.core.ui.checker.MarkerManager;
-import fr.lip6.move.coloane.core.ui.files.ModelHandler;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.core.ui.files.ModelWriter;
 import fr.lip6.move.coloane.core.ui.palette.PaletteFactory;
@@ -48,7 +47,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -124,8 +122,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IFileEditorInput;
-import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.ActionFactory;
@@ -145,7 +143,7 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
  * This class describes a <b>model editor</b>
  */
 public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements ITabbedPropertySheetPageContributor, IGotoMarker {
-
+	
 	/**
 	 * Deals with the model outline
 	 */
@@ -482,14 +480,53 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	}
 	
 	/**
-	 * Set editor contents.<br>
-	 * Contents are read from a file (previously created by the creation wizard).
-	 * @param input All information about the model
+	 * The resource listener that updates file name, editor icon...
 	 */
-	@Override
-	protected final void setInput(final IEditorInput input) {
-		super.setInput(input);
-
+	protected class ResourceListener implements IResourceChangeListener {
+		@Override
+		public final void resourceChanged(IResourceChangeEvent event) {
+			if ((event.getType() & IResourceChangeEvent.POST_CHANGE) == IResourceChangeEvent.POST_CHANGE) {
+				IFile previousFile = ((IFileEditorInput) ColoaneEditor.super.getEditorInput()).getFile();
+				if (event.getDelta().findMember(previousFile.getFullPath()) != null) {
+					if (event.getDelta() != null && event.getDelta().getKind() == IResourceDelta.CHANGED) {
+						for (IResourceDelta c: Arrays.asList(event.getDelta().getAffectedChildren())) {
+							for (IResourceDelta d: Arrays.asList(c.getAffectedChildren())) {
+								if ((d.getKind() & IResourceDelta.ADDED) == IResourceDelta.ADDED) {
+									final IFile file = (IFile) d.getResource();
+									Display.getDefault().asyncExec(new Runnable() {
+										@Override
+										public void run() {
+											ColoaneEditor.super.setInput(new FileEditorInput(file));
+											ColoaneEditor.super.setPartName(file.getName());
+											ColoaneEditor.super.setTitleImage(labelProvider.getImage(file));
+										}
+									});
+									return;
+								}
+							}
+						}
+						if (event.getDelta().findMember(previousFile.getFullPath()).getKind() == IResourceDelta.REMOVED) {
+							LOGGER.info("The editor on \"" + previousFile.getFullPath() + "\" will be closed because the resource has been deleted."); //$NON-NLS-1$ //$NON-NLS-2$
+							Display.getDefault().asyncExec(new Runnable() {
+								@Override
+								public void run() {
+									ColoaneEditor.this.getSite().getPage().closeEditor(ColoaneEditor.this, false);
+								}
+							});
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Open a dialog to check that the user really wants to open a big file.
+	 * @param input The editor input
+	 * @return true if the suer wants to open the editor
+	 */
+	private boolean askOpen(final IEditorInput input) {
+		// Ask if the model should be opened if the file is big:
 		long fileSize = 0;
 		if (input instanceof IFileEditorInput) {
 			final IFile file = ((IFileEditorInput) input).getFile();
@@ -512,63 +549,57 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 					"This model is stored in a file of size " + (fileSize / 1024 / 1024) + "Mbytes. Coloane is very likely to hang. Note that you can still send the model to Alligator services, even if it it closed. Are you sure that you want to open the model?");  //$NON-NLS-1$//$NON-NLS-2$
 			if (!continueEditor) {
 				closeEditor();
-				return;
+				return false;
 			}
+		}
+		return true;
+	}
+
+	/**
+	 * Remove file extension
+	 * @param filename The file name
+	 * @return filename without extension
+	 */
+	private String nameOfFilename(String filename) {
+		return filename.substring(0, filename.lastIndexOf('.'));
+	}
+	
+	/**
+	 * Set editor contents.<br>
+	 * Contents are read from a file (previously created by the creation wizard).
+	 * @param input All information about the model
+	 */
+	@Override
+	protected final void setInput(final IEditorInput input) {
+		super.setInput(input);
+		if (!askOpen(input)) {
+			return;
+		}
+		String name = ""; //$NON-NLS-1$
+		if (input instanceof IFileEditorInput) {
+			final IFile file = ((IFileEditorInput) input).getFile();
+			name = nameOfFilename(file.getName());
+		} else if (input instanceof FileStoreEditorInput) {
+			name = nameOfFilename(input.getName());
 		}
 		// Fetch the XML file and set the name of the editor
 		if (input instanceof IFileEditorInput) {
 			final IFile file = ((IFileEditorInput) input).getFile();
-			file.getWorkspace().addResourceChangeListener(new IResourceChangeListener() {
-				@Override
-				public void resourceChanged(IResourceChangeEvent event) {
-					if ((event.getType() & IResourceChangeEvent.POST_CHANGE) == IResourceChangeEvent.POST_CHANGE) {
-						IFile previousFile = ((IFileEditorInput) ColoaneEditor.super.getEditorInput()).getFile();
-						if (event.getDelta().findMember(previousFile.getFullPath()) != null) {
-							if (event.getDelta() != null && event.getDelta().getKind() == IResourceDelta.CHANGED) {
-								for (IResourceDelta c: Arrays.asList(event.getDelta().getAffectedChildren())) {
-									for (IResourceDelta d: Arrays.asList(c.getAffectedChildren())) {
-										if ((d.getKind() & IResourceDelta.ADDED) == IResourceDelta.ADDED) {
-											final IFile file = (IFile) d.getResource();
-											Display.getDefault().asyncExec(new Runnable() {
-												@Override
-												public void run() {
-													ColoaneEditor.super.setInput(new FileEditorInput(file));
-													ColoaneEditor.super.setPartName(file.getName());
-												}
-											});
-											return;
-										}
-									}
-								}
-								if (event.getDelta().findMember(previousFile.getFullPath()).getKind() == IResourceDelta.REMOVED) {
-									LOGGER.info("The editor on \"" + previousFile.getFullPath() + "\" will be closed because the resource has been deleted."); //$NON-NLS-1$ //$NON-NLS-2$
-									Display.getDefault().asyncExec(new Runnable() {
-										@Override
-										public void run() {
-											ColoaneEditor.this.getSite().getPage().closeEditor(ColoaneEditor.this, false);
-										}
-									});
-								}
-							}
-						}
-					}
-				}
-			});
-			// Build the model object from its XML representation
-			this.graph = ModelLoader.loadFromXML(file, new ModelHandler()).getGraph();
+			file.getWorkspace().addResourceChangeListener(new ResourceListener());
+			this.graph = ModelLoader.loadGraphFromXML(file);
 			setTitleImage(labelProvider.getImage(file));
+			setPartName(name);
 		} else if (input instanceof FileStoreEditorInput) {
+			final File file = new File(((FileStoreEditorInput) input).getURI());
 			this.graph = ModelLoader.loadGraphFromXML(((FileStoreEditorInput) input).getURI());
+			setTitleImage(labelProvider.getImage(file));
+			setPartName("..." + name); //$NON-NLS-1$
 		}
-
-		setPartName(input.getName());
-
 		// If the loading fails... Display a message and quit
 		if (this.graph == null) {
 			closeEditor();
 			return;
 		}
-
 		// Build a new session
 		try {
 			ISession session = SessionManager.getInstance().createSession(this.graph);
@@ -582,18 +613,15 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 			LOGGER.warning(ce.getLogMessage());
 			Coloane.showErrorMsg("Cannot create the session : " + ce.getMessage()); //$NON-NLS-1$
 		}
-
 		// Set the editor.
 		// This operation cannot be performed earlier since the model formalism is not knew.
 		// This information is needed to determine the palette to associate with the editor.
 		// Do not move this instruction !
 		setEditDomain(new DefaultEditDomain(this));
-
 		// If the outline page has been built, display the graph inside
 		if (outlinePage != null) {
 			outlinePage.setContents(getGraph());
 		}
-
 	}
 
 	/** {@inheritDoc} */
@@ -683,6 +711,10 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	/** {@inheritDoc} */
 	@Override
 	public final void createPartControl(Composite parent) {
+		// Walk through all existing editors to show their icons:
+		for (IEditorReference editor: Arrays.asList(this.getSite().getPage().getEditorReferences())) {
+			editor.getEditor(true);
+		}
 		if (listener == null) {
 			LOGGER.config("Set the focus listener"); //$NON-NLS-1$
 			listener = new TabListener();
