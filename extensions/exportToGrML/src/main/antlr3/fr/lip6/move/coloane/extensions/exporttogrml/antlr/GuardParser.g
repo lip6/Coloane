@@ -55,14 +55,14 @@ guard
   : c=clause (AND g=guard { alone = false; })?
   {
     if (alone) {
-      if ($c.getAttributes().get("name").equals("boolExpr")) {
-        retval.st = $c;
+      if ($c.st.getAttributes().get("name").equals("boolExpr")) {
+        retval.st = $c.st;
       } else {
-        retval.st = %balise( name={"boolExpr"}, content={$c} );
+        retval.st = %balise( name={"boolExpr"}, content={$c.st} );
       }
     } else {
-      tmpl.add( $c );
-      tmpl.add( $g );
+      tmpl.add( $c.st );
+      tmpl.add( $g.st );
       StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "and").put("content", tmpl));
       retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp));
     }
@@ -77,14 +77,14 @@ clause
   : t=term (OR c=clause { alone = false; })?
   {
     if (alone) {
-      if ($t.getAttributes().get("name").equals("boolExpr")) {
-        retval.st = $t;
+      if ($t.st.getAttributes().get("name").equals("boolExpr")) {
+        retval.st = $t.st;
       } else {
-        retval.st = %balise( name={"boolExpr"}, content={$t} );
+        retval.st = %balise( name={"boolExpr"}, content={$t.st} );
       }
     } else {
-      tmpl.add( $t );
-      tmpl.add( $c );
+      tmpl.add( $t.st );
+      tmpl.add( $c.st );
       StringTemplate tmp = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "or").put("content", tmpl));
       retval.st = templateLib.getInstanceOf("balise", new STAttrMap().put("name", "boolExpr").put("content", tmp));
     }
