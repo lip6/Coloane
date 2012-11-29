@@ -94,7 +94,7 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 		return labels;
 	}
 
-	public void writeToFile(String path) {
+	public void writeToFile(String path) throws IOException {
 		// create and write a GAL file based on model in memory
 		SerializationUtil.systemToFile(galSystem, path);
 	}
