@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: PNexamples Plug-in
+Bundle-SymbolicName: fr.lip6.move.coloane.extensions.PNexamples;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: fr.lip6.move.coloane.extensions.pnexamples.Activator
+Bundle-Vendor: LIP6 / MoVe
+Require-Bundle: fr.lip6.move.coloane.core,
+ fr.lip6.move.coloane.interfaces
+Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

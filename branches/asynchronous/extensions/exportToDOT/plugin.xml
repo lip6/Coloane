@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="fr.lip6.move.coloane.core.exports">
+      <Export
+            class="fr.lip6.move.coloane.extensions.exportToDOT.ExportToImpl"
+            id="fr.lip6.move.coloane.extensions.exportdot"
+            extension="dot"
+            wizard_id="fr.lip6.move.coloane.wizard.export.dot">
+         <AcceptedFormalism
+               id="PT-Net">
+         </AcceptedFormalism>
+         <AcceptedFormalism
+               id="CPN">
+         </AcceptedFormalism>
+      </Export>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="fr.lip6.move.coloane.wizard.export.coloane"
+            class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
+            icon="resources/dotfile.png"
+            id="fr.lip6.move.coloane.wizard.export.dot"
+            name="Dot File">
+		 <description>
+            Export local models to your file system using DOT syntax.
+         </description>
+      </wizard>
+   </extension>
+</plugin>

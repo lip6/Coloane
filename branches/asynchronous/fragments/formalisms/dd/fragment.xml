@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="fr.lip6.move.coloane.core.formalisms">
+          <Formalism
+                extension="dd"
+                fkname="DD"
+                id="Decision Diagram"
+                image="resources/formalisms/dd/dd.png"
+                name="Decision Diagram">
+       <XmlDescription>
+          <Graph
+                name="DecisionDiagram">
+             <Node
+                   container="false"
+                   name="node">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                      description="Node"
+                      drawable="true"
+                      height="22"
+                      icon16px="resources/formalisms/dd/node_16.png"
+                      icon24px="resources/formalisms/dd/node_24.png"
+                      palettable="true"
+                      paletteName="Node"
+                      width="22">
+                </GraphicInfo>
+                <Attribute
+                      bold="true"
+                      drawable="true"
+                      multiline="false"
+                      name="variable">
+                </Attribute>
+             </Node>
+             <Node
+                   container="false"
+                   name="terminal">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.RectangleNode"
+                      description="Terminal Node"
+                      drawable="true"
+                      height="22"
+                      icon16px="resources/formalisms/dd/terminal_16.png"
+                      icon24px="resources/formalisms/dd/terminal_24.png"
+                      palettable="true"
+                      paletteName="Terminal"
+                      width="22">
+                </GraphicInfo>
+                <Attribute
+                      bold="true"
+                      drawable="true"
+                      multiline="false"
+                      name="value">
+                </Attribute>
+             </Node>
+             <Arc
+                   name="arc">
+                <GraphicInfo
+                      associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                      description="Arc"
+                      drawable="true"
+                      icon16px="resources/formalisms/dd/arc_16.png"
+                      icon24px="resources/formalisms/dd/arc_24.png"
+                      palettable="true"
+                      paletteName="Arc">
+                </GraphicInfo>
+                <Attribute
+                      drawable="true"
+                      italic="true"
+                      multiline="false"
+                      name="valuation">
+                </Attribute>
+             </Arc>
+          </Graph>
+          <Constraint
+                link="true"
+                name="Terminal (No output arc)"
+                type="fr.lip6.move.coloane.interfaces.formalism.constraints.CardinalityConstraint">
+             <parameter
+                   name="maxIn"
+                   value="-1">
+             </parameter>
+             <parameter
+                   name="maxOut"
+                   value="0">
+             </parameter>
+             <parameter
+                   name="element"
+                   value="terminal">
+             </parameter>
+          </Constraint>
+       </XmlDescription>
+    </Formalism>
+   </extension>
+
+</fragment>
