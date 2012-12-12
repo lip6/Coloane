@@ -15,30 +15,30 @@
  */
 package fr.lip6.move.coloane.api.alligator.wizard;
 
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.IWizardPage;
+import org.cosyverif.alligator.service.parameter.FileParameter;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 
 /**
  * Create a wizard page to allow the user to choose the models to send to Alligator
  * 
  * @author Clément Démoulins
  */
-public class ChooseModelsPage extends FilteredResourcesPage implements IWizardPage {
+public final class SelectFilePage extends SelectResourcePage {
+	
+	private final class ModelFilter implements IResourceFilter {
 
-	/**
-	 * @param pageName Name of this wizard page used as a title
-	 * @param selection initial selection
-	 */
-	protected ChooseModelsPage(String pageName, IStructuredSelection selection) {
-		super(pageName, new ModelFilter(), selection);
+		@Override
+		public boolean isFiltered(IResource resource) {
+			return (resource instanceof IFile);
+		}
+
+	}
+	
+	public SelectFilePage(FileParameter parameter) {
+		super("SelectFile", "Select file for '" + parameter.getName() + "' (" + parameter.getHelp() + ").", parameter);
+		this.filter = new ModelFilter();
 	}
 
-	/** {@inheritDoc}
-	 * @see org.eclipse.ui.dialogs.WizardDataTransferPage#validateSourceGroup()
-	 */
-	@Override
-	protected final boolean validate() {
-		return !getSelectedResources().isEmpty();
-	}
-
+	
 }

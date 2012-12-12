@@ -15,12 +15,7 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.alligator.interfaces.DescriptionItem;
-import fr.lip6.move.alligator.interfaces.Item;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import org.cosyverif.alligator.service.parameter.MultipleChoiceParameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -29,57 +24,67 @@ import org.eclipse.swt.widgets.Label;
 /**
  * @author Clément Démoulins
  */
-public class MultiChoicesDialogConstructor implements ItemDialogConstructor {
+public final class MultiChoicesDialogConstructor implements ItemDialogConstructor<MultipleChoiceParameter> {
 
-	private DescriptionItem description;
+	private MultipleChoiceParameter parameter;
 	private org.eclipse.swt.widgets.List list;
 	private Label label;
 
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#create(org.eclipse.swt.widgets.Composite, fr.lip6.move.alligator.interfaces.DescriptionItem)
-	 */
-	public final void create(Composite parent, DescriptionItem description) {
-		this.description = description;
+	@Override
+	public void create(Composite parent, MultipleChoiceParameter parameter) {
+		this.parameter = parameter;
 
 		this.label = new Label(parent, SWT.WRAP);
-		this.label.setText(description.getName() + ":");
+		this.label.setText(parameter.getName() + ":");
+		this.label.setToolTipText(parameter.getHelp());
 		this.label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
 
 		this.list = new org.eclipse.swt.widgets.List(parent, SWT.MULTI | SWT.BORDER);
 		this.list.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
-		for (String choice : description.getChoices()) {
+		for (String choice : parameter.getChoices()) {
 			this.list.add(choice);
 		}
-	}
-
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#getParameters()
-	 */
-	public final List<Item> getParameters() {
-		List<Item> parameters = new ArrayList<Item>();
-		for (String selection : list.getSelection()) {
-			parameters.add(new Item(description.getType(), description.getName(), selection));
+		if (parameter.isSet()) {
+			for (String choice : parameter.getChoices()) {
+				if (parameter.getChosenValues().contains(choice)) {
+					this.list.select(Math.max(0, parameter.getChoices().indexOf(choice)));
+				} else {
+					this.list.deselect(Math.max(0, parameter.getChoices().indexOf(choice)));
+				}
+			}
+		} else if (parameter.hasDefaultSelection()) {
+			for (String choice : parameter.getChoices()) {
+				if (parameter.getDefaultValues().contains(choice)) {
+					this.list.select(Math.max(0, parameter.getChoices().indexOf(choice)));
+				} else {
+					this.list.deselect(Math.max(0, parameter.getChoices().indexOf(choice)));
+				}
+			}
 		}
-		return parameters;
+		this.list.setToolTipText(parameter.getHelp());
 	}
 
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#setParameterValues(java.util.List)
-	 */
-	public final void setParameterValues(List<Item> oldValues) {
-		for (Item item : oldValues) {
-			if (item.getName().equals(description.getName())) {
-				this.list.select(Math.max(0, description.getChoices().indexOf(item.getValue())));
+	@Override
+	public boolean isValid() {
+		return true;
+	}
+
+	@Override
+	public void reset() {
+		for (String choice : parameter.getChoices()) {
+			if (parameter.hasDefaultSelection() && (parameter.getDefaultValues().contains(choice))) {
+				this.list.select(Math.max(0, parameter.getChoices().indexOf(choice)));
+			} else {
+				this.list.deselect(Math.max(0, parameter.getChoices().indexOf(choice)));
 			}
 		}
 	}
-	
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#dispose()
-	 */
-	public final void dispose() {
-		label.dispose();
-		list.dispose();
+
+	@Override
+	public void performFinish() {
+		for (String selected: list.getSelection()) {
+			parameter.addChosenValue(selected);
+		}
 	}
 
 }

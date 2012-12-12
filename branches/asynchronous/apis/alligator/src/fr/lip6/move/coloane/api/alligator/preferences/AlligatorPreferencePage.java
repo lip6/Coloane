@@ -92,14 +92,14 @@ public class AlligatorPreferencePage extends FieldEditorPreferencePage implement
 		public AlligatorListEditor() {
 			super(PreferenceConstants.P_ALLIGATOR_LIST,
 					"Available alligator servers",
-					new String[]{"Name", "URL"},
-					new int[]{100, 100},
+					new String[]{"Name", "URL", "Refresh"},
+					new int[]{100, 100, 30},
 					getFieldEditorParent());
 		}
 
 		@Override
 		protected final String[] getNewInputObject() {
-			return new String[]{"New name", "New URL"};
+			return new String[]{"New name", "New URL", "5"};
 		}
 
 		@Override
@@ -109,9 +109,9 @@ public class AlligatorPreferencePage extends FieldEditorPreferencePage implement
 			while (itemTokenizer.hasMoreElements()) {
 				String subList = itemTokenizer.nextToken();
 				StringTokenizer partTokenizer = new StringTokenizer(subList, PART_SEPARATOR);
-				result.add(new String[]{unprotect(partTokenizer.nextToken()), partTokenizer.nextToken()});
+				result.add(new String[]{unprotect(partTokenizer.nextToken()), partTokenizer.nextToken(), partTokenizer.nextToken()});
 			}
-			return result.toArray(new String[result.size()][2]);
+			return result.toArray(new String[result.size()][3]);
 		}
 
 		@Override
@@ -124,7 +124,7 @@ public class AlligatorPreferencePage extends FieldEditorPreferencePage implement
 				} else {
 					result.append(ITEM_SEPARATOR);
 				}
-				result.append(protect(current[0]) + PART_SEPARATOR + current[1]);
+				result.append(protect(current[0]) + PART_SEPARATOR + current[1] + PART_SEPARATOR + current[2]);
 			}
 			return result.toString();
 		}
@@ -153,10 +153,10 @@ public class AlligatorPreferencePage extends FieldEditorPreferencePage implement
 		 * @param name Its name
 		 * @param address Its URL
 		 */
-		public Data(String name, URL address) {
+		public Data(String name, URL address, long refresh) {
 			this.name = name;
 			this.address = address;
-			this.refresh = 60;
+			this.refresh = refresh;
 		}
 
 		/**
@@ -168,9 +168,19 @@ public class AlligatorPreferencePage extends FieldEditorPreferencePage implement
 
 		/**
 		 * @return the URL of the server
+		 * @throws MalformedURLException 
 		 */
-		public final URL getAddress() {
-			return address;
+		@Deprecated
+		public final URL getOldAddress() throws MalformedURLException {
+			return new URL(address.toString() + "servicemanager");
+		}
+
+		/**
+		 * @return the URL of the server
+		 * @throws MalformedURLException 
+		 */
+		public final URL getAddress() throws MalformedURLException {
+			return new URL(address.toString() + "services");
 		}
 
 		/**
@@ -193,7 +203,7 @@ public class AlligatorPreferencePage extends FieldEditorPreferencePage implement
 			String subList = itemTokenizer.nextToken();
 			StringTokenizer partTokenizer = new StringTokenizer(subList, AlligatorPreferencePage.PART_SEPARATOR);
 			try {
-				result.add(new Data(unprotect(partTokenizer.nextToken()), new URL(partTokenizer.nextToken())));
+				result.add(new Data(unprotect(partTokenizer.nextToken()), new URL(partTokenizer.nextToken()), Long.parseLong(partTokenizer.nextToken())));
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			}

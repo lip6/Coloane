@@ -15,24 +15,24 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import org.cosyverif.alligator.service.parameter.SingleChoiceParameter;
+import org.cosyverif.alligator.service.parameter.IntegerParameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 /**
  * @author Clément Démoulins
  */
-public final class SingleChoiceDialogConstructor implements ItemDialogConstructor<SingleChoiceParameter> {
+public final class IntegerDialogConstructor implements ItemDialogConstructor<IntegerParameter> {
 
-	private Combo combo;
-	private SingleChoiceParameter parameter;
+	private Text input;
 	private Label label;
+	private IntegerParameter parameter;
 
 	@Override
-	public void create(Composite parent, SingleChoiceParameter parameter) {
+	public void create(Composite parent, IntegerParameter parameter) {
 		this.parameter = parameter;
 
 		this.label = new Label(parent, SWT.WRAP);
@@ -40,31 +40,34 @@ public final class SingleChoiceDialogConstructor implements ItemDialogConstructo
 		this.label.setToolTipText(parameter.getHelp());
 		this.label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 
-		this.combo = new Combo(parent, SWT.NONE);
-		this.combo.setItems(parameter.getChoices().toArray(new String[0]));
-		this.combo.select(Math.max(0, parameter.getChoices().indexOf(parameter.getDefaultValue())));
-		this.combo.setToolTipText(parameter.getHelp());
-		this.combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		this.input = new Text(parent, SWT.BORDER | SWT.SINGLE);
 		if (parameter.isSet()) {
-			combo.select(Math.max(0, parameter.getChoices().indexOf(parameter.getChosenValue())));
-		} else if (parameter.hasDefaultSelection()) {
-			combo.select(Math.max(0, parameter.getChoices().indexOf(parameter.getDefaultValue())));
+			input.setText(parameter.getValue().toString());
+		} else if (parameter.hasDefaultValue()) {
+			this.input.setText(parameter.getDefaultValue().toString());
 		}
+		this.input.setToolTipText(parameter.getHelp());
+		this.input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 	}
 
 	@Override
 	public boolean isValid() {
-		return !combo.getText().equals("");
+		try {
+			Integer.valueOf(input.getText());
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 
 	@Override
 	public void reset() {
-		combo.select(Math.max(0, parameter.getChoices().indexOf(parameter.getDefaultValue())));
+		input.setText(parameter.getDefaultValue().toString());
 	}
 
 	@Override
 	public void performFinish() {
-		parameter.setChosenValue(combo.getText());
+		input.setText(parameter.getValue().toString());
 	}
-
+	
 }
