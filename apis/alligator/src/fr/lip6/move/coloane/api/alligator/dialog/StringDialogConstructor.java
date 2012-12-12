@@ -15,12 +15,7 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.alligator.interfaces.DescriptionItem;
-import fr.lip6.move.alligator.interfaces.Item;
-
-import java.util.Collections;
-import java.util.List;
-
+import org.cosyverif.alligator.service.parameter.SingleLineTextParameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -30,56 +25,44 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Clément Démoulins
  */
-public class StringDialogConstructor implements ItemDialogConstructor {
+public final class StringDialogConstructor implements ItemDialogConstructor<SingleLineTextParameter> {
 
 	private Text input;
-	private DescriptionItem description;
 	private Label label;
+	private SingleLineTextParameter parameter;
 
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#create(org.eclipse.swt.widgets.Composite, fr.lip6.move.alligator.interfaces.DescriptionItem)
-	 */
-	public final void create(Composite parent, DescriptionItem description) {
-		this.description = description;
+	@Override
+	public void create(Composite parent, SingleLineTextParameter parameter) {
+		this.parameter = parameter;
 
 		this.label = new Label(parent, SWT.WRAP);
-		this.label.setText(description.getName() + ":");
+		this.label.setText(parameter.getName() + ":");
+		this.label.setToolTipText(parameter.getHelp());
 		this.label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 
 		this.input = new Text(parent, SWT.BORDER | SWT.SINGLE);
-		this.input.setText(description.getDefaultValue());
+		if (parameter.isSet()) {
+			input.setText(parameter.getValue());
+		} else if (parameter.hasDefaultValue()) {
+			this.input.setText(parameter.getDefaultValue());
+		}
+		this.input.setToolTipText(parameter.getHelp());
 		this.input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 	}
 
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#getParameters()
-	 */
-	public final List<Item> getParameters() {
-		try {
-			return Collections.singletonList(new Item(description.getType(), description.getName(), input.getText()));
-		} finally {
-			input.dispose();
-		}
-	}
-	
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#setParameterValues(java.util.List)
-	 */
-	public final void setParameterValues(List<Item> oldValues) {
-		for (Item item : oldValues) {
-			if (item.getName().equals(description.getName())) {
-				input.setText(item.getValue());
-				return;
-			}
-		}
+	@Override
+	public boolean isValid() {
+		return true;
 	}
 
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#dispose()
-	 */
-	public final void dispose() {
-		label.dispose();
-		input.dispose();
+	@Override
+	public void reset() {
+		input.setText(parameter.getDefaultValue());
+	}
+
+	@Override
+	public void performFinish() {
+		parameter.setValue(input.getText());
 	}
 
 }

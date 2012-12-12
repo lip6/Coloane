@@ -15,12 +15,7 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.alligator.interfaces.DescriptionItem;
-import fr.lip6.move.alligator.interfaces.Item;
-
-import java.util.Collections;
-import java.util.List;
-
+import org.cosyverif.alligator.service.parameter.BooleanParameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
@@ -29,47 +24,40 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * @author Clément Démoulins
  */
-public class BooleanDialogConstructor implements ItemDialogConstructor {
+public final class BooleanDialogConstructor implements ItemDialogConstructor<BooleanParameter> {
 
 	private Button button;
-	private DescriptionItem description;
+	private BooleanParameter parameter;
 
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#create(org.eclipse.swt.widgets.Composite, fr.lip6.move.alligator.interfaces.DescriptionItem)
-	 */
-	public final void create(Composite parent, DescriptionItem description) {
-		this.description = description;
+	@Override
+	public void create(Composite parent, BooleanParameter parameter) {
+		this.parameter = parameter;
 		this.button = new Button(parent, SWT.CHECK);
-		this.button.setSelection(Boolean.valueOf(description.getDefaultValue()));
-		this.button.setText(description.getName());
+		if (parameter.isSet()) {
+			button.setSelection(parameter.getValue());
+		} else 	if (parameter.hasDefaultValue()) {
+			this.button.setSelection(parameter.getDefaultValue());
+		}
+		this.button.setText(parameter.getName());
+		this.button.setToolTipText(parameter.getHelp());
 		this.button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
 	}
 
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#getParameters()
-	 */
-	public final List<Item> getParameters() {
-		return Collections.singletonList(new Item(description.getType(), description.getName(), button.getSelection() + ""));
+	@Override
+	public boolean isValid() {
+		return true;
 	}
 
-	
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#setParameterValues(java.util.List)
-	 */
-	public final void setParameterValues(List<Item> oldValues) {
-		for (Item item : oldValues) {
-			if (item.getName().equals(description.getName())) {
-				this.button.setSelection(Boolean.valueOf(item.getValue()));
-				return;
-			}
-		}
+	@Override
+	public void reset() {
+		button.setSelection(parameter.getDefaultValue());
+	}
+
+	@Override
+	public void performFinish() {
+		parameter.setValue(button.getSelection());
 	}
 	
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#dispose()
-	 */
-	public final void dispose() {
-		button.dispose();
-	}
+	
 
 }

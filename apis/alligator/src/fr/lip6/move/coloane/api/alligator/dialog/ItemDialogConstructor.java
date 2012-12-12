@@ -15,38 +15,20 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.alligator.interfaces.DescriptionItem;
-import fr.lip6.move.alligator.interfaces.Item;
-
-import java.util.List;
-
+import org.cosyverif.alligator.service.Parameter;
 import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Clément Démoulins
  */
-public interface ItemDialogConstructor {
+public interface ItemDialogConstructor<P extends Parameter<P>> {
 
-	/**
-	 * Create a part of the {@link ParametersDialog}
-	 * @param parent parent composite
-	 * @param description description of the item
-	 */
-	void create(Composite parent, DescriptionItem description);
-
-	/**
-	 * @return list of parameters for this item
-	 */
-	List<Item> getParameters();
-
-	/**
-	 * Dispose this object
-	 */
-	void dispose();
-
-	/**
-	 * Update the values shown for the parameters using previous values.
-	 * @param oldValues previously provided values (may include Items that are not those of this ItemDialog)
-	 */
-	void setParameterValues(List<Item> oldValues);
+	void create(Composite parent, P parameter);
+	
+	void reset();
+	
+	void performFinish();
+	
+	boolean isValid();
+	
 }

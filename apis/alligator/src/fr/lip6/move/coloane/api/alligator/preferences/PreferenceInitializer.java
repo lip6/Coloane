@@ -31,7 +31,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	public final void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		store.setDefault(PreferenceConstants.P_ALLIGATOR_LIST,
-			"Public Alligator&http://publigator.cosyverif.org/servicemanager#Snapshot Alligator&http://snapligator.cosyverif.org/servicemanager#Local Alligator&http://localhost:9000/servicemanager");
+			"Public Alligator&http://publigator.cosyverif.org/&2#Snapshot Alligator&http://snapligator.cosyverif.org/&2#Local Alligator&http://localhost:9000/&2");
 	}
 
 }

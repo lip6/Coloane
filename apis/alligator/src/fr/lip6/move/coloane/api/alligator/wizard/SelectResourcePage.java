@@ -1,21 +1,42 @@
+/**
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6).
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
+ *   Clément DÉMOULINS (LIP6) - Project Manager
+ *
+ * Official contacts:
+ *   coloane@lip6.fr
+ *   http://coloane.lip6.fr
+ */
 package fr.lip6.move.coloane.api.alligator.wizard;
 
 import fr.lip6.move.coloane.core.ui.views.ModelLabelProvider;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
+import org.cosyverif.alligator.service.parameter.ResourceParameter;
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
@@ -27,42 +48,45 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 /**
- * Wizard page to select a list of resources using a filter.
- *
+ * Create a wizard page to allow the user to choose the models to send to Alligator
+ * 
  * @author Clément Démoulins
  */
-public class FilteredResourcesPage extends WizardPage {
+public abstract class SelectResourcePage extends WizardPage {
 
-	private final IResourceFilter filter;
+	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
+
+	protected IResourceFilter filter;
+	
 	private CheckboxTreeViewer checkboxTreeViewer;
-	private IStructuredSelection initialSelection;
-
-	/**
-	 * Create the wizard.
-	 * @param pageName Name of this wizard page used as a title
-	 * @param filter resources filter
-	 * @param selection initial selection or <code>null</code>
-	 */
-	public FilteredResourcesPage(String pageName, IResourceFilter filter, IStructuredSelection selection) {
-		super(pageName);
-		setTitle(pageName);
-		setDescription("Wizard Page description");
-		this.filter = filter;
-		this.initialSelection = selection;
+	
+	private IFile defaultSelection;
+	
+	private ResourceParameter<?,?> parameter;
+	
+	public SelectResourcePage(String name, String title, ResourceParameter<?,?> parameter) {
+		super(name, title, ImageDescriptor.createFromFile(SelectResourcePage.class, "alligator-logo.png"));
+		this.parameter = parameter;
+		try {
+			LOGGER.info("Before source");
+			this.defaultSelection = getIFile(parameter.getSource());
+			LOGGER.info("Found source: " + defaultSelection);
+		} catch (IllegalArgumentException e)
+		{}
 	}
+
 
 	/**
 	 * Create contents of the wizard.
 	 * @param parent parent
 	 */
-	public final void createControl(Composite parent) {
+	public void createControl(Composite parent) {
 		Composite container = new Composite(parent, SWT.NULL);
 
 		setControl(container);
 		container.setLayout(new FillLayout(SWT.VERTICAL));
 
-		//create the input element, which has the root resource
-        //as its only child
+		//create the input element, which has the root resource as its only child
         List<IProject> input = new ArrayList<IProject>();
         IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
         for (int i = 0; i < projects.length; i++) {
@@ -148,36 +172,19 @@ public class FilteredResourcesPage extends WizardPage {
 		});
 		checkboxTreeViewer.setInput(input);
 		checkboxTreeViewer.expandAll();
-		if (initialSelection != null) {
-			checkInitialSelection();
-		}
-
 		checkboxTreeViewer.addCheckStateListener(new ICheckStateListener() {
 			@Override
 			public void checkStateChanged(CheckStateChangedEvent event) {
 				if (event.getElement() instanceof IContainer) {
 					checkboxTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
 				}
-				setPageComplete(validate());
+				setPageComplete(isValid());
 			}
 		});
-		setPageComplete(validate());
-	}
-
-	/**
-	 * 
-	 */
-	private void checkInitialSelection() {
-		Iterator< ? > it = initialSelection.iterator();
-		while (it.hasNext()) {
-			Object element = it.next();
-			if (!(element instanceof IResource)) {
-				continue;
-			}
-			checkboxTreeViewer.setChecked(element, true);
-			if (element instanceof IContainer) {
-				checkboxTreeViewer.setSubtreeChecked(element, true);
-			}
+		setPageComplete(isValid());
+		if (defaultSelection != null) {
+			checkboxTreeViewer.setCheckedElements(new Object[]{defaultSelection});
+			checkboxTreeViewer.refresh();
 		}
 	}
 
@@ -195,23 +202,23 @@ public class FilteredResourcesPage extends WizardPage {
 		return fResources;
 	}
 
-	/**
-	 * @return list of selected resources
-	 */
-	public final List<IResource> getSelectedResources() {
-		List<IResource> resources = new ArrayList<IResource>();
-		for (Object o : checkboxTreeViewer.getCheckedElements()) {
-			if (o instanceof IResource) {
-				resources.add((IResource) o);
-			}
-		}
-		return resources;
+	public final IFile getSelectedFile() {
+		return (IFile) checkboxTreeViewer.getCheckedElements()[0];
 	}
-
-	/**
-	 * @return <code>true</code> if the selection is valid
-	 */
-	protected boolean validate() {
-		return true;
+	
+	public final boolean isValid() {
+		return checkboxTreeViewer.getCheckedElements().length == 1;
 	}
+		
+	protected final IFile getIFile(File file) {
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IPath location = Path.fromOSString(file.getAbsolutePath());
+		return workspace.getRoot().getFileForLocation(location); 
+	}
+	
+	public final void performFinish() {
+		parameter.setSource(getSelectedFile().getLocation().toFile());		
+		parameter.setFile(getSelectedFile().getLocation().toFile());		
+	}
+	
 }
