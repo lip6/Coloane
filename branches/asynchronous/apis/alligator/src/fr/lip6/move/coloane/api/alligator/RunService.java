@@ -42,13 +42,12 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
+import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Identifier;
 import org.cosyverif.alligator.service.Parameter;
-import org.cosyverif.alligator.service.Service.Description;
 import org.cosyverif.alligator.service.parameter.ForeignModelParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
 import org.cosyverif.alligator.util.ParameterConversion;
-import org.cosyverif.alligator.util.ServiceConversion;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -81,7 +80,7 @@ public final class RunService implements IApiService {
 
 		private int code;
 		private final ParametersWizard wizard;
-		
+
 		public ParametersRunnable(ParametersWizard w) {
 			wizard = w;
 		}
@@ -105,7 +104,7 @@ public final class RunService implements IApiService {
 	 * @param alligatorConnection Connection to an Alligator
 	 */
 	public RunService(Description service, Connection alligator) {
-		this.service = service.copy();
+		this.service = service.clone();
 		this.alligator = alligator;
 	}
 
@@ -141,7 +140,7 @@ public final class RunService implements IApiService {
 	 * @param alligatorConnection Connection to an Alligator
 	 */
 	public RunService(ServiceDescription service, Connection alligatorConnection) {
-		this.service = ServiceConversion.from(service);
+		this.service = new Description(service);
 		this.alligator = alligatorConnection;
 	}
 	
@@ -155,7 +154,7 @@ public final class RunService implements IApiService {
 	 * @see fr.lip6.move.coloane.interfaces.objects.services.IService#run(fr.lip6.move.coloane.interfaces.model.IGraph, org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
-		Description configured = service.copy();
+		Description configured = service.clone();
 		ParametersWizard wizard = new ParametersWizard(configured);
 		try {
 			// Run wizard to get parameters:
@@ -203,13 +202,16 @@ public final class RunService implements IApiService {
 				}
 			}
 			// Expand all input parameters:
+			System.out.println(configured);
 			for (Parameter<?> parameter: configured.getParameters()) {
+				System.out.println(parameter);
 				if (parameter.isInput()) {
 					parameter.expandForTransfer();
 				}
+				System.out.println(parameter);
 			}
 			if (alligator.getServices() != null) {
-				LOGGER.info("Launching service '" + configured.getIdentifier() + "'...");
+				LOGGER.info("Launching service '" + configured + "'...");
 				Identifier identifier = alligator.getServices().asynchronousCall(configured);
 				// Store identifier
 				synchronized (Connection.STORE) {
@@ -223,7 +225,7 @@ public final class RunService implements IApiService {
 				return Collections.emptyList();
 			} else {
 				IResult result = new Result(configured.getName());
-				LOGGER.info("Invoking service '" + configured.getIdentifier() + "' (oldstyle)...");
+				LOGGER.info("Invoking service '" + configured + "' (oldstyle)...");
 				List<Item> params = ParameterConversion.valueFrom(configured.getParameters());
 				List<Item> resultItems = alligator.getOldServices().invoke(configured.getIdentifier(), params);
 				LOGGER.fine("Getting " + resultItems.size() + " result items.");

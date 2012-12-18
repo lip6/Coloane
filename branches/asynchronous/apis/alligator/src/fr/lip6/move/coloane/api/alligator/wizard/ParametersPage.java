@@ -19,12 +19,13 @@ import fr.lip6.move.coloane.api.alligator.dialog.BooleanDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.FloatDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.HelpDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.IntegerDialogConstructor;
-import fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor;
+import fr.lip6.move.coloane.api.alligator.dialog.ItemDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.MultiChoicesDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.SingleChoiceDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.StringDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.TextDialogConstructor;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,9 +34,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.Parameter.Direction;
-import org.cosyverif.alligator.service.Service.Description;
 import org.cosyverif.alligator.service.parameter.BooleanParameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.FloatParameter;
@@ -55,47 +56,63 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * Wizard page to create a custom page from a list of DescriptionItem provided by an Alligator Service.
+ * Wizard page to create a custom page from a list of DescriptionItem provided
+ * by an Alligator Service.
  * 
  * @author Clément Démoulins
  */
-public final class ParametersPage extends WizardPage implements IWizardPage {
+public final class ParametersPage extends WizardPage {
 	/** Logger */
-	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
+	private static final Logger LOGGER = Logger
+			.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
+
+	/**
+	 * Errors
+	 */
+	private Map<Object, String> errors = new HashMap<Object, String>();
 
 	@SuppressWarnings("rawtypes")
-	private static final Map<Class<? extends Parameter>, Class<? extends ItemDialogConstructor>> DIALOGS = new HashMap<Class<? extends Parameter>, Class<? extends ItemDialogConstructor>>();
+	private static final Map<Class<? extends Parameter>, Class<? extends ItemDialog>> DIALOGS = new HashMap<Class<? extends Parameter>, Class<? extends ItemDialog>>();
 	static {
-		DIALOGS.put(SingleLineTextParameter.class, StringDialogConstructor.class);
+		DIALOGS.put(SingleLineTextParameter.class,
+				StringDialogConstructor.class);
 		DIALOGS.put(MultiLineTextParameter.class, TextDialogConstructor.class);
 		DIALOGS.put(BooleanParameter.class, BooleanDialogConstructor.class);
 		DIALOGS.put(IntegerParameter.class, IntegerDialogConstructor.class);
 		DIALOGS.put(FloatParameter.class, FloatDialogConstructor.class);
-		DIALOGS.put(SingleChoiceParameter.class, SingleChoiceDialogConstructor.class);
-		DIALOGS.put(MultipleChoiceParameter.class, MultiChoicesDialogConstructor.class);
+		DIALOGS.put(SingleChoiceParameter.class,
+				SingleChoiceDialogConstructor.class);
+		DIALOGS.put(MultipleChoiceParameter.class,
+				MultiChoicesDialogConstructor.class);
 	}
 
 	private static final Map<String, Description> STORED_PARAMETERS = new HashMap<String, Description>();
-	private final List<ItemDialogConstructor<?>> dialogs = new ArrayList<ItemDialogConstructor<?>>();
-	
+	private final List<ItemDialog<?>> dialogs = new ArrayList<ItemDialog<?>>();
+
 	private Description description;
 	private List<Parameter<?>> parameters = new ArrayList<Parameter<?>>();
 
 	public ParametersPage(Description service) {
-		super("Parameters", "Parameters for " + service.getName(), ImageDescriptor.createFromFile(ParametersPage.class, "alligator-logo.png"));
+		super("Parameters", "Parameters for " + service.getName(),
+				ImageDescriptor.createFromFile(ParametersPage.class,
+						"alligator-logo.png"));
 		this.description = service;
 		// Retrieve previously set values:
-		Description previous = STORED_PARAMETERS.get(service.getIdentifier());
+		Description previous = STORED_PARAMETERS.get(service);
 		if (previous == null) {
 			previous = service;
 		}
 		// Select only parameters that are neither files nor models.
-		for (Parameter<?> parameter: description.getParameters()) {
-			if (parameter.isInput() && !(parameter instanceof ModelParameter) && !(parameter instanceof ForeignModelParameter) && !(parameter instanceof FileParameter)) {
+		for (Parameter<?> parameter : description.getParameters()) {
+			if (parameter.isInput() && !(parameter instanceof ModelParameter)
+					&& !(parameter instanceof ForeignModelParameter)
+					&& !(parameter instanceof FileParameter)) {
 				this.parameters.add(parameter);
 				// Fill with previously set value:
-				for (Parameter<?> p: previous.getParameters()) {
-					if ((parameter != p) && parameter.isSame(p) && p.isSet()) {
+				for (Parameter<?> p : previous.getParameters()) {
+					if ((parameter != p)
+							&& parameter.forComparison().equals(
+									p.forComparison()) && p.isActualParameter()) {
 						parameter.populate(p);
 					}
 				}
@@ -120,48 +137,89 @@ public final class ParametersPage extends WizardPage implements IWizardPage {
 		layout.marginRight = 10;
 		layout.horizontalSpacing = 10;
 		composite.setLayout(layout);
-		for (Parameter<?> parameter: parameters) {
-			Class<? extends ItemDialogConstructor> dialogClass = DIALOGS.get(parameter.getClass());
+		// help zone:
+		HelpDialogConstructor hdc = new HelpDialogConstructor(this, composite,
+				description);
+		setControl(composite);
+		for (Parameter<?> parameter : parameters) {
+			Class<? extends ItemDialog> dialogClass = DIALOGS.get(parameter
+					.getClass());
 			if (dialogClass != null) {
 				try {
-					ItemDialogConstructor dialog = dialogClass.newInstance();
-					dialog.create(composite, parameter);
+					ItemDialog dialog = dialogClass.getConstructor(
+							this.getClass(), Composite.class,
+							parameter.getClass()).newInstance(this, composite,
+							parameter);
 					dialogs.add(dialog);
 				} catch (InstantiationException e) {
-					LOGGER.warning("Cannot instantiate the class : " + dialogClass.getName());
+					LOGGER.warning("Cannot instantiate the class : "
+							+ dialogClass.getName());
 				} catch (IllegalAccessException e) {
-					LOGGER.warning("Cannot access to the class : " + dialogClass.getName());
+					LOGGER.warning("Cannot access to the class : "
+							+ dialogClass.getName());
+				} catch (IllegalArgumentException e) {
+					LOGGER.warning("Cannot access to the class : "
+							+ dialogClass.getName());
+				} catch (SecurityException e) {
+					LOGGER.warning("Cannot access to the class : "
+							+ dialogClass.getName());
+				} catch (InvocationTargetException e) {
+					LOGGER.warning("Cannot access to the class : "
+							+ dialogClass.getName());
+				} catch (NoSuchMethodException e) {
+					LOGGER.warning("Cannot access to the class : "
+							+ dialogClass.getName());
 				}
 			} else {
-				String message = "Cannot find dialog for parameter type '" + parameter.getClass().getName() + "'.";
+				String message = "Cannot find dialog for parameter type '"
+						+ parameter.getClass().getName() + "'.";
 				LOGGER.warning(message);
 				throw new AssertionError(message);
 			}
 		}
-		// help zone
-		HelpDialogConstructor hdc = new HelpDialogConstructor();
-		hdc.create(composite, new SingleLineTextParameter(description.getName(), Direction.IN));
-		dialogs.add(hdc);
-		setControl(composite);
+
 	}
-	
+
 	@Override
 	public boolean isPageComplete() {
-		for (ItemDialogConstructor<?> dialog : dialogs) {
+		for (ItemDialog<?> dialog : dialogs) {
 			if (!dialog.isValid()) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	public void performFinish() {
 		LOGGER.finer("Dispose the ParametersPage");
-		for (ItemDialogConstructor<?> dialog : dialogs) {
+		for (ItemDialog<?> dialog : dialogs) {
 			dialog.performFinish();
 		}
-		// Store values:
-		STORED_PARAMETERS.put(description.getIdentifier(), description);
+		try {
+			// Store values:
+			STORED_PARAMETERS.put(description.getIdentifier(), description);
+		} catch (IllegalArgumentException e) {}
 	}
 
+	private void setError() {
+		String message = "";
+		for (String msg : errors.values()) {
+			message = message + msg + "\n";
+		}
+		setErrorMessage(message);
+	}
+
+	public final void addError(Object control, String message) {
+		errors.put(control, message);
+		setError();
+	}
+
+	public final void removeError(Object control) {
+		errors.remove(control);
+		if (errors.size() == 0) {
+			this.setErrorMessage(null);
+		} else {
+			setError();
+		}
+	}
 }

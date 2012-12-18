@@ -15,8 +15,12 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.ParametersPage;
+
 import org.cosyverif.alligator.service.parameter.SingleLineTextParameter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -25,26 +29,38 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Clément Démoulins
  */
-public final class StringDialogConstructor implements ItemDialogConstructor<SingleLineTextParameter> {
+public final class StringDialogConstructor implements ItemDialog<SingleLineTextParameter> {
 
-	private Text input;
-	private Label label;
-	private SingleLineTextParameter parameter;
+	private final ParametersPage page;
+	private final Text input;
+	private final Label label;
+	private final SingleLineTextParameter parameter;
 
-	@Override
-	public void create(Composite parent, SingleLineTextParameter parameter) {
+	public StringDialogConstructor(final ParametersPage page, final Composite parent, final SingleLineTextParameter parameter) {
 		this.parameter = parameter;
-
+		this.page = page;
 		this.label = new Label(parent, SWT.WRAP);
 		this.label.setText(parameter.getName() + ":");
 		this.label.setToolTipText(parameter.getHelp());
 		this.label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 
 		this.input = new Text(parent, SWT.BORDER | SWT.SINGLE);
-		if (parameter.isSet()) {
+		ModifyListener listener = new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				page.setPageComplete(page.isPageComplete());
+				parameter.setValue(input.getText());
+			}
+
+		};
+		this.input.addModifyListener(listener);
+		if (parameter.isActualParameter()) {
 			input.setText(parameter.getValue());
 		} else if (parameter.hasDefaultValue()) {
 			this.input.setText(parameter.getDefaultValue());
+		} else {
+			this.input.setText("");
 		}
 		this.input.setToolTipText(parameter.getHelp());
 		this.input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
@@ -62,7 +78,6 @@ public final class StringDialogConstructor implements ItemDialogConstructor<Sing
 
 	@Override
 	public void performFinish() {
-		parameter.setValue(input.getText());
 	}
 
 }

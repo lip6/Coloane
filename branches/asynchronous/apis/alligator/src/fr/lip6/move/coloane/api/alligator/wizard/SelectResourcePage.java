@@ -65,7 +65,8 @@ public abstract class SelectResourcePage extends WizardPage {
 	private ResourceParameter<?,?> parameter;
 	
 	public SelectResourcePage(String name, String title, ResourceParameter<?,?> parameter) {
-		super(name, title, ImageDescriptor.createFromFile(SelectResourcePage.class, "alligator-logo.png"));
+		super(name, title, ImageDescriptor.createFromFile(SelectResourcePage.class, "/resources/alligator-logo.png"));
+		setMessage(parameter.getHelp());
 		this.parameter = parameter;
 		try {
 			LOGGER.info("Before source");
@@ -178,10 +179,9 @@ public abstract class SelectResourcePage extends WizardPage {
 				if (event.getElement() instanceof IContainer) {
 					checkboxTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
 				}
-				setPageComplete(isValid());
+				setPageComplete(isPageComplete());
 			}
 		});
-		setPageComplete(isValid());
 		if (defaultSelection != null) {
 			checkboxTreeViewer.setCheckedElements(new Object[]{defaultSelection});
 			checkboxTreeViewer.refresh();
@@ -206,19 +206,20 @@ public abstract class SelectResourcePage extends WizardPage {
 		return (IFile) checkboxTreeViewer.getCheckedElements()[0];
 	}
 	
-	public final boolean isValid() {
+	@Override
+	public final boolean isPageComplete() {
 		return checkboxTreeViewer.getCheckedElements().length == 1;
 	}
-		
+
 	protected final IFile getIFile(File file) {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IPath location = Path.fromOSString(file.getAbsolutePath());
-		return workspace.getRoot().getFileForLocation(location); 
+		return workspace.getRoot().getFileForLocation(location);
 	}
 	
 	public final void performFinish() {
-		parameter.setSource(getSelectedFile().getLocation().toFile());		
-		parameter.setFile(getSelectedFile().getLocation().toFile());		
+		parameter.setSource(getSelectedFile().getLocation().toFile());
+		parameter.setFile(getSelectedFile().getLocation().toFile());
 	}
 	
 }

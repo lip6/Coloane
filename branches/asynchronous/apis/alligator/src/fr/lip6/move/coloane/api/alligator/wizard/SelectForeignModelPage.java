@@ -33,19 +33,13 @@ public final class SelectForeignModelPage extends SelectResourcePage {
 
 		@Override
 		public boolean isFiltered(IResource resource) {
-			if (resource instanceof IFile && resource.getName().endsWith("model")) {
-				IFormalism formalism = ModelLoader.loadFormalismFromXML((IFile) resource);
-				// TODO build conversion table for formalisms.
-				return false;
-			} else {
-				return true;
-			}
+			return !(resource instanceof IFile);
 		}
 
 	}
 	
 	public SelectForeignModelPage(ForeignModelParameter parameter) {
-		super("SelectForeignModel", "Select model for '" + parameter.getName() + "' (" + parameter.getHelp() + ").", parameter);
+		super("SelectForeignModel", "Select model for parameter '" + parameter.getName() + "'", parameter);
 		this.filter = new ModelFilter();
 	}
 	

@@ -15,6 +15,7 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.ParametersPage;
 import fr.lip6.move.coloane.core.main.Coloane;
 
 import java.io.BufferedReader;
@@ -23,6 +24,8 @@ import java.io.IOException;
 
 import org.cosyverif.alligator.service.parameter.MultiLineTextParameter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -35,19 +38,17 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Clément Démoulins
  */
-public final class TextDialogConstructor implements ItemDialogConstructor<MultiLineTextParameter> {
+public final class TextDialogConstructor implements ItemDialog<MultiLineTextParameter> {
 
-	private MultiLineTextParameter parameter;
-	private Label label;
-	private Text input;
-	private Button importButton;
+	private final ParametersPage page;
+	private final MultiLineTextParameter parameter;
+	private final Label label;
+	private final Text input;
+	private final Button importButton;
 
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialogConstructor#create(org.eclipse.swt.widgets.Composite, fr.lip6.move.alligator.interfaces.DescriptionItem)
-	 */
-	public void create(final Composite parent, MultiLineTextParameter parameter) {
+	public TextDialogConstructor(final ParametersPage page, final Composite parent, final MultiLineTextParameter parameter) {
 		this.parameter = parameter;
-
+		this.page = page;
 		this.label = new Label(parent, SWT.WRAP);
 		this.label.setText(parameter.getName() + ":");
 		this.label.setToolTipText(parameter.getHelp());
@@ -57,10 +58,22 @@ public final class TextDialogConstructor implements ItemDialogConstructor<MultiL
 		layoutData.heightHint = 50;
 		this.input = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 		this.input.setLayoutData(layoutData);
-		if (parameter.isSet()) {
+		ModifyListener listener = new ModifyListener() {
+
+			@Override
+			public void modifyText(ModifyEvent e) {
+				page.setPageComplete(page.isPageComplete());
+				parameter.setValue(input.getText());
+			}
+
+		};
+		this.input.addModifyListener(listener);
+		if (parameter.isActualParameter()) {
 			input.setText(parameter.getValue());
 		} else if (parameter.hasDefaultValue()) {
 			this.input.setText(parameter.getDefaultValue());
+		} else {
+			this.input.setText("");
 		}
 		this.input.setToolTipText(parameter.getHelp());
 
@@ -107,7 +120,6 @@ public final class TextDialogConstructor implements ItemDialogConstructor<MultiL
 
 	@Override
 	public void performFinish() {
-		parameter.setValue(input.getText());
 	}
 
 }
