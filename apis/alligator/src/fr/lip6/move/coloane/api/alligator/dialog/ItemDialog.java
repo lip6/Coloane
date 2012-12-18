@@ -16,14 +16,11 @@
 package fr.lip6.move.coloane.api.alligator.dialog;
 
 import org.cosyverif.alligator.service.Parameter;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Clément Démoulins
  */
-public interface ItemDialogConstructor<P extends Parameter<P>> {
-
-	void create(Composite parent, P parameter);
+public interface ItemDialog<P extends Parameter<P>> {
 	
 	void reset();
 	

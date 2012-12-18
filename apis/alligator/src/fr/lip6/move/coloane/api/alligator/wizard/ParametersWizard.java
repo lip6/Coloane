@@ -16,10 +16,12 @@
 package fr.lip6.move.coloane.api.alligator.wizard;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Parameter;
-import org.cosyverif.alligator.service.Service.Description;
 import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.ForeignModelParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
@@ -38,7 +40,15 @@ public final class ParametersWizard extends Wizard {
 	public ParametersWizard(Description service) {
 		super();
 		boolean addParametersPage = false;
-		for (Parameter<?> parameter: service.getParameters()) {
+		Comparator<Parameter<?>> comparator = new Comparator<Parameter<?>>() {
+			@Override
+			public int compare(Parameter<?> lhs, Parameter<?> rhs) {
+				return lhs.getName().compareToIgnoreCase(rhs.getName());
+			}
+		};
+		List<Parameter<?>> parameters = new ArrayList<Parameter<?>>(service.getParameters());
+		Collections.sort(parameters, comparator);
+		for (Parameter<?> parameter: parameters) {
 			if (parameter.isInput()) {
 				if (parameter instanceof ModelParameter) {
 					ModelParameter p = ModelParameter.of(parameter);

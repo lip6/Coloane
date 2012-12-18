@@ -45,7 +45,7 @@ public final class SelectModelPage extends SelectResourcePage {
 	}
 	
 	public SelectModelPage(ModelParameter parameter) {
-		super("SelectModel", "Select model for '" + parameter.getName() + "' (" + parameter.getHelp() + ").", parameter);
+		super("SelectModel", "Select model for parameter '" + parameter.getName() + "'", parameter);
 		this.filter = new ModelFilter();
 	}
 

@@ -15,8 +15,12 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.ParametersPage;
+
 import org.cosyverif.alligator.service.parameter.MultipleChoiceParameter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -24,16 +28,16 @@ import org.eclipse.swt.widgets.Label;
 /**
  * @author Clément Démoulins
  */
-public final class MultiChoicesDialogConstructor implements ItemDialogConstructor<MultipleChoiceParameter> {
+public final class MultiChoicesDialogConstructor implements ItemDialog<MultipleChoiceParameter> {
 
-	private MultipleChoiceParameter parameter;
-	private org.eclipse.swt.widgets.List list;
-	private Label label;
+	private final ParametersPage page;
+	private final MultipleChoiceParameter parameter;
+	private final org.eclipse.swt.widgets.List list;
+	private final Label label;
 
-	@Override
-	public void create(Composite parent, MultipleChoiceParameter parameter) {
+	public MultiChoicesDialogConstructor(final ParametersPage page, final Composite parent, final MultipleChoiceParameter parameter) {
 		this.parameter = parameter;
-
+		this.page = page;
 		this.label = new Label(parent, SWT.WRAP);
 		this.label.setText(parameter.getName() + ":");
 		this.label.setToolTipText(parameter.getHelp());
@@ -44,9 +48,31 @@ public final class MultiChoicesDialogConstructor implements ItemDialogConstructo
 		for (String choice : parameter.getChoices()) {
 			this.list.add(choice);
 		}
-		if (parameter.isSet()) {
+		SelectionListener listener = new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				page.setPageComplete(page.isPageComplete());
+				parameter.resetValues();
+				for (String selected: list.getSelection()) {
+					parameter.selectValue(selected);
+				}
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				page.setPageComplete(page.isPageComplete());
+				parameter.resetValues();
+				for (String selected: list.getSelection()) {
+					parameter.selectValue(selected);
+				}
+			}
+
+		};
+		list.addSelectionListener(listener);
+		if (parameter.isActualParameter()) {
 			for (String choice : parameter.getChoices()) {
-				if (parameter.getChosenValues().contains(choice)) {
+				if (parameter.getValues().contains(choice)) {
 					this.list.select(Math.max(0, parameter.getChoices().indexOf(choice)));
 				} else {
 					this.list.deselect(Math.max(0, parameter.getChoices().indexOf(choice)));
@@ -60,6 +86,8 @@ public final class MultiChoicesDialogConstructor implements ItemDialogConstructo
 					this.list.deselect(Math.max(0, parameter.getChoices().indexOf(choice)));
 				}
 			}
+		} else {
+			parameter.resetValues();
 		}
 		this.list.setToolTipText(parameter.getHelp());
 	}
@@ -82,9 +110,6 @@ public final class MultiChoicesDialogConstructor implements ItemDialogConstructo
 
 	@Override
 	public void performFinish() {
-		for (String selected: list.getSelection()) {
-			parameter.addChosenValue(selected);
-		}
 	}
 
 }

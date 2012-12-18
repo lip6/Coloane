@@ -32,16 +32,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Identifier;
 import org.cosyverif.alligator.service.Parameter;
-import org.cosyverif.alligator.service.Service.Description;
 import org.cosyverif.alligator.service.parameter.ForeignModelParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
-import org.cosyverif.alligator.util.ParameterConversion;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 
@@ -65,7 +63,7 @@ public final class ResultService implements IApiService {
 			if (alligator.getServices() != null) {
 				LOGGER.info("Obtaining results from service '" + identifier.getKey() + "' on '" + identifier.getServer() + "'...");
 				boolean isFinished = alligator.getServices().isFinished(identifier);
-				Description description = alligator.runningDescriptions.get(identifier);
+				Description description = alligator.getServices().getResult(identifier);
 				if (description == null) {
 					throw new AssertionError();
 				}

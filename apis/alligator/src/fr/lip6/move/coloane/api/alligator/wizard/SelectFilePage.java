@@ -30,13 +30,13 @@ public final class SelectFilePage extends SelectResourcePage {
 
 		@Override
 		public boolean isFiltered(IResource resource) {
-			return (resource instanceof IFile);
+			return !(resource instanceof IFile);
 		}
 
 	}
 	
 	public SelectFilePage(FileParameter parameter) {
-		super("SelectFile", "Select file for '" + parameter.getName() + "' (" + parameter.getHelp() + ").", parameter);
+		super("SelectFile", "Select file for parameter '" + parameter.getName() +"'", parameter);
 		this.filter = new ModelFilter();
 	}
 

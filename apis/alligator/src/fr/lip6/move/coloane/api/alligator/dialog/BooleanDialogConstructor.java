@@ -15,8 +15,12 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.ParametersPage;
+
 import org.cosyverif.alligator.service.parameter.BooleanParameter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -24,23 +28,44 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * @author Clément Démoulins
  */
-public final class BooleanDialogConstructor implements ItemDialogConstructor<BooleanParameter> {
+public final class BooleanDialogConstructor implements ItemDialog<BooleanParameter> {
 
-	private Button button;
-	private BooleanParameter parameter;
+	private final ParametersPage page;
+	private final Button button;
+	private final BooleanParameter parameter;
 
-	@Override
-	public void create(Composite parent, BooleanParameter parameter) {
+	public BooleanDialogConstructor(final ParametersPage page, final Composite parent, final BooleanParameter parameter) {
 		this.parameter = parameter;
+		this.page = page;
 		this.button = new Button(parent, SWT.CHECK);
-		if (parameter.isSet()) {
-			button.setSelection(parameter.getValue());
-		} else 	if (parameter.hasDefaultValue()) {
-			this.button.setSelection(parameter.getDefaultValue());
-		}
 		this.button.setText(parameter.getName());
 		this.button.setToolTipText(parameter.getHelp());
 		this.button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+		SelectionListener listener = new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				page.setPageComplete(page.isPageComplete());
+				parameter.setValue(button.getSelection());
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				page.setPageComplete(page.isPageComplete());
+				parameter.setValue(button.getSelection());
+			}
+
+		};
+		this.button.addSelectionListener(listener);
+		if (parameter.isActualParameter()) {
+			button.setSelection(parameter.getValue());
+		} else 	if (parameter.hasDefaultValue()) {
+			parameter.setValue(parameter.getDefaultValue());
+			this.button.setSelection(parameter.getDefaultValue());
+		} else {
+			parameter.setValue(false);
+			this.button.setSelection(false);
+		}
 	}
 
 	@Override
@@ -55,7 +80,6 @@ public final class BooleanDialogConstructor implements ItemDialogConstructor<Boo
 
 	@Override
 	public void performFinish() {
-		parameter.setValue(button.getSelection());
 	}
 	
 	
