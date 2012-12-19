@@ -29,20 +29,23 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Clément Démoulins
  */
-public final class StringDialogConstructor implements ItemDialog<SingleLineTextParameter> {
+public final class StringDialogConstructor implements
+		ItemDialog<SingleLineTextParameter> {
 
 	private final ParametersPage page;
 	private final Text input;
 	private final Label label;
 	private final SingleLineTextParameter parameter;
 
-	public StringDialogConstructor(final ParametersPage page, final Composite parent, final SingleLineTextParameter parameter) {
+	public StringDialogConstructor(final ParametersPage page,
+			final Composite parent, final SingleLineTextParameter parameter) {
 		this.parameter = parameter;
 		this.page = page;
 		this.label = new Label(parent, SWT.WRAP);
 		this.label.setText(parameter.getName() + ":");
 		this.label.setToolTipText(parameter.getHelp());
-		this.label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+		this.label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false,
+				false, 1, 1));
 
 		this.input = new Text(parent, SWT.BORDER | SWT.SINGLE);
 		ModifyListener listener = new ModifyListener() {
@@ -63,7 +66,8 @@ public final class StringDialogConstructor implements ItemDialog<SingleLineTextP
 			this.input.setText("");
 		}
 		this.input.setToolTipText(parameter.getHelp());
-		this.input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		this.input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+				false, 1, 1));
 		input.setEditable(page.enabled);
 		input.setEnabled(page.enabled);
 	}
@@ -75,7 +79,12 @@ public final class StringDialogConstructor implements ItemDialog<SingleLineTextP
 
 	@Override
 	public void reset() {
-		input.setText(parameter.getDefaultValue());
+		parameter.unset();
+		try {
+			input.setText(parameter.getDefaultValue());
+		} catch (IllegalArgumentException e) {
+			input.setText("");
+		}
 	}
 
 	@Override

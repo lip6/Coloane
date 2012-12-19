@@ -76,7 +76,12 @@ public final class BooleanDialogConstructor implements ItemDialog<BooleanParamet
 
 	@Override
 	public void reset() {
-		button.setSelection(parameter.getDefaultValue());
+		parameter.unset();
+		try {
+			button.setSelection(parameter.getDefaultValue());
+		} catch (IllegalArgumentException e) {
+			button.setSelection(false);
+		}
 	}
 
 	@Override

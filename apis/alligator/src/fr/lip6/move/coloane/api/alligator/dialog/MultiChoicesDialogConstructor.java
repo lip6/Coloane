@@ -100,6 +100,7 @@ public final class MultiChoicesDialogConstructor implements ItemDialog<MultipleC
 
 	@Override
 	public void reset() {
+		parameter.resetValues();
 		for (String choice : parameter.getChoices()) {
 			if (parameter.hasDefaultSelection() && (parameter.getDefaultValues().contains(choice))) {
 				this.list.select(Math.max(0, parameter.getChoices().indexOf(choice)));

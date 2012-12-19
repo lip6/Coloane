@@ -108,6 +108,7 @@ public final class RunService implements IApiService {
 	 * @param alligatorConnection Connection to an Alligator
 	 */
 	public RunService(Description service, Connection alligator) {
+		System.out.println(service);
 		this.service = service.clone();
 		this.alligator = alligator;
 	}
@@ -157,8 +158,8 @@ public final class RunService implements IApiService {
 	@Override
 	public List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
 		Description configured;
-		if (CONFIGURATIONS.containsKey(service)) {
-			configured = CONFIGURATIONS.get(service).clone();
+		if (CONFIGURATIONS.containsKey(service.unset())) {
+			configured = CONFIGURATIONS.get(service.unset()).clone();
 		} else {
 			configured = service.clone();
 		}
@@ -172,7 +173,7 @@ public final class RunService implements IApiService {
 					return Collections.emptyList();
 				}
 			}
-			CONFIGURATIONS.put(service, configured);
+			CONFIGURATIONS.put(service.unset(), configured);
 			// Convert input parameters:
 			for (Parameter<?> parameter: configured.getParameters()) {
 				try {

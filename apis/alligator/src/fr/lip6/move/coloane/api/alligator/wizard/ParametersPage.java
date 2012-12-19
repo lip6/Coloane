@@ -15,6 +15,8 @@
  */
 package fr.lip6.move.coloane.api.alligator.wizard;
 
+import fr.lip6.move.coloane.api.alligator.Connection;
+import fr.lip6.move.coloane.api.alligator.Utility;
 import fr.lip6.move.coloane.api.alligator.dialog.BooleanDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.FloatDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.HelpDialogConstructor;
@@ -26,6 +28,7 @@ import fr.lip6.move.coloane.api.alligator.dialog.StringDialogConstructor;
 import fr.lip6.move.coloane.api.alligator.dialog.TextDialogConstructor;
 
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,13 +50,18 @@ import org.cosyverif.alligator.service.parameter.MultiLineTextParameter;
 import org.cosyverif.alligator.service.parameter.MultipleChoiceParameter;
 import org.cosyverif.alligator.service.parameter.SingleChoiceParameter;
 import org.cosyverif.alligator.service.parameter.SingleLineTextParameter;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.osgi.framework.Bundle;
 
 /**
  * Wizard page to create a custom page from a list of DescriptionItem provided
@@ -94,9 +102,7 @@ public final class ParametersPage extends WizardPage {
 	public boolean enabled;
 	
 	public ParametersPage(Description service, boolean enabled) {
-		super("Parameters", "Parameters for " + service.getName(),
-				ImageDescriptor.createFromFile(ParametersPage.class,
-						"alligator-logo.png"));
+		super("Parameters", "Parameters for " + service.getName(), Utility.getImage("alligator-logo.png"));
 		this.description = service;
 		this.enabled = enabled;
 		// Retrieve previously set values:
@@ -112,9 +118,8 @@ public final class ParametersPage extends WizardPage {
 				this.parameters.add(parameter);
 				// Fill with previously set value:
 				for (Parameter<?> p : previous.getParameters()) {
-					if ((parameter != p)
-							&& parameter.forComparison().equals(
-									p.forComparison()) && p.isActualParameter()) {
+					if ((parameter != p) && parameter.unset().equals(p.unset())
+							&& p.isActualParameter()) {
 						parameter.populate(p);
 					}
 				}
@@ -179,7 +184,35 @@ public final class ParametersPage extends WizardPage {
 				throw new AssertionError(message);
 			}
 		}
+		if (enabled) {
+			Button reset = new Button(composite, SWT.PUSH);
+			reset.setText("Reset");
+			reset.setToolTipText("Reset to default values.");
+			reset.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false,
+					false, 2, 1));
+			SelectionListener listener = new SelectionListener() {
 
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					for (ItemDialog<?> dialog : dialogs) {
+						dialog.reset();
+					}
+					ParametersPage.this.setPageComplete(ParametersPage.this
+							.isPageComplete());
+				}
+
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+					for (ItemDialog<?> dialog : dialogs) {
+						dialog.reset();
+					}
+					ParametersPage.this.setPageComplete(ParametersPage.this
+							.isPageComplete());
+				}
+
+			};
+			reset.addSelectionListener(listener);
+		}
 	}
 
 	@Override
@@ -200,7 +233,8 @@ public final class ParametersPage extends WizardPage {
 		try {
 			// Store values:
 			STORED_PARAMETERS.put(description.getIdentifier(), description);
-		} catch (IllegalArgumentException e) {}
+		} catch (IllegalArgumentException e) {
+		}
 	}
 
 	private void setError() {

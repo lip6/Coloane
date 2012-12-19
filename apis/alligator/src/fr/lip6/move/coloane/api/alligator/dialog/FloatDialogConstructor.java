@@ -82,7 +82,12 @@ public final class FloatDialogConstructor implements ItemDialog<FloatParameter> 
 
 	@Override
 	public void reset() {
-		input.setText(parameter.getDefaultValue().toString());
+		parameter.unset();
+		try {
+			input.setText(parameter.getDefaultValue().toString());
+		} catch (IllegalArgumentException e) {
+			input.setText("");
+		}
 	}
 
 	@Override

@@ -117,7 +117,12 @@ public final class TextDialogConstructor implements ItemDialog<MultiLineTextPara
 
 	@Override
 	public void reset() {
-		input.setText(parameter.getDefaultValue());
+		parameter.unset();
+		try {
+			input.setText(parameter.getDefaultValue());
+		} catch (IllegalArgumentException e) {
+			input.setText("");
+		}
 	}
 
 	@Override

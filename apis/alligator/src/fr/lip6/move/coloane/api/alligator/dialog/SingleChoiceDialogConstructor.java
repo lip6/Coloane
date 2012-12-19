@@ -81,7 +81,12 @@ public final class SingleChoiceDialogConstructor implements ItemDialog<SingleCho
 
 	@Override
 	public void reset() {
-		combo.select(Math.max(0, parameter.getChoices().indexOf(parameter.getDefaultValue())));
+		parameter.unset();
+		try {
+			combo.select(Math.max(0, parameter.getChoices().indexOf(parameter.getDefaultValue())));
+		} catch (IllegalArgumentException e) {
+			combo.select(-1);
+		}
 	}
 
 	@Override
