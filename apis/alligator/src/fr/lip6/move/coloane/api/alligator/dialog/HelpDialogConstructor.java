@@ -33,9 +33,6 @@ public final class HelpDialogConstructor {
 	private final Label label;
 	private final Text input;
 
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.api.alligator.dialog.ItemDialog#create(org.eclipse.swt.widgets.Composite, fr.lip6.move.alligator.interfaces.DescriptionItem)
-	 */
 	public HelpDialogConstructor(final ParametersPage page, final Composite parent, final Description description) {
 		this.page = page;
 		this.label = new Label(parent, SWT.WRAP);
@@ -47,6 +44,7 @@ public final class HelpDialogConstructor {
 		GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
 		layoutData.heightHint = 50;
 		this.input.setLayoutData(layoutData);
+		this.input.setEnabled(false);
 	}
 
 }

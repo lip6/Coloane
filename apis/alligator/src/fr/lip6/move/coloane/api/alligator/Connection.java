@@ -289,7 +289,7 @@ public final class Connection extends Job {
 									identifier, this);
 							if (newServices.isFinished(identifier)) {
 								submenu = new SubMenu(identifier.getKey(),
-										true, getImage("/resources/stopped.png"));
+										true, getImage("/resources/stopped-small.png"));
 								submenu.addServiceMenu(new ServiceMenu(
 										"Get results",
 										true,
@@ -297,14 +297,13 @@ public final class Connection extends Job {
 										getResultsService, true));
 							} else {
 								submenu = new SubMenu(identifier.getKey(),
-										true, getImage("/resources/running.png"));
+										true, getImage("/resources/running-small.png"));
 								submenu.addServiceMenu(new ServiceMenu(
 										"Get results",
 										true,
 										"Obtains the temporary results of the service.",
 										getResultsService, true));
 							}
-							/*
 							IApiService cloneService = new RunService(
 									identifier, this);
 							submenu.addServiceMenu(new ServiceMenu("Clone",
@@ -315,7 +314,6 @@ public final class Connection extends Job {
 							submenu.addServiceMenu(new ServiceMenu("Kill",
 									true, "Kills the service.", killService,
 									true));
-							*/
 							menu.addSubMenu(submenu);
 
 						}

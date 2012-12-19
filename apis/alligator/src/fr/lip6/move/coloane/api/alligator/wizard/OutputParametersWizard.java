@@ -33,11 +33,11 @@ import org.eclipse.jface.wizard.Wizard;
  * 
  * @author Clément Démoulins
  */
-public final class ParametersWizard extends Wizard {
+public final class OutputParametersWizard extends Wizard {
 	
 	private List<IWizardPage> pages = new ArrayList<IWizardPage>();
 
-	public ParametersWizard(Description service) {
+	public OutputParametersWizard(Description service, boolean isFinished) {
 		super();
 		boolean addParametersPage = false;
 		Comparator<Parameter<?>> comparator = new Comparator<Parameter<?>>() {
@@ -49,23 +49,21 @@ public final class ParametersWizard extends Wizard {
 		List<Parameter<?>> parameters = new ArrayList<Parameter<?>>(service.getParameters());
 		Collections.sort(parameters, comparator);
 		for (Parameter<?> parameter: parameters) {
-			if (parameter.isInput()) {
 				if (parameter instanceof ModelParameter) {
-					ModelParameter p = ModelParameter.of(parameter);
-					pages.add(new SelectModelPage(p));
 				} else if (parameter instanceof ForeignModelParameter) {
-					ForeignModelParameter p = ForeignModelParameter.of(parameter);
-					pages.add(new SelectForeignModelPage(p));
 				} else if (parameter instanceof FileParameter) {
-					FileParameter p = FileParameter.of(parameter);
-					pages.add(new SelectFilePage(p));
 				} else {
 					addParametersPage = true;
 				}
-			}
 		}
 		if (addParametersPage) {
-			pages.add(new ParametersPage(service));
+			ParametersPage page = new ParametersPage(service, false);
+			if (isFinished) {
+				page.setMessage("Service has finished.");
+			} else {
+				page.setMessage("Service is still running.");
+			}
+			pages.add(page);
 		}
 		for (IWizardPage page: pages) {
 			this.addPage(page);

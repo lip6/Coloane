@@ -90,6 +90,7 @@ public final class MultiChoicesDialogConstructor implements ItemDialog<MultipleC
 			parameter.resetValues();
 		}
 		this.list.setToolTipText(parameter.getHelp());
+		this.list.setEnabled(page.enabled);
 	}
 
 	@Override

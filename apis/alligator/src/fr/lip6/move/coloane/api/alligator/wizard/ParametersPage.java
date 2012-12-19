@@ -91,12 +91,14 @@ public final class ParametersPage extends WizardPage {
 
 	private Description description;
 	private List<Parameter<?>> parameters = new ArrayList<Parameter<?>>();
-
-	public ParametersPage(Description service) {
+	public boolean enabled;
+	
+	public ParametersPage(Description service, boolean enabled) {
 		super("Parameters", "Parameters for " + service.getName(),
 				ImageDescriptor.createFromFile(ParametersPage.class,
 						"alligator-logo.png"));
 		this.description = service;
+		this.enabled = enabled;
 		// Retrieve previously set values:
 		Description previous = STORED_PARAMETERS.get(service);
 		if (previous == null) {

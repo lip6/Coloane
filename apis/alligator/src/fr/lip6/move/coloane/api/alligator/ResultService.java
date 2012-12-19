@@ -17,6 +17,7 @@ package fr.lip6.move.coloane.api.alligator;
 
 import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
+import fr.lip6.move.coloane.api.alligator.wizard.OutputParametersWizard;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
@@ -32,6 +33,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -42,6 +44,9 @@ import org.cosyverif.alligator.service.parameter.ForeignModelParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
 
 public final class ResultService implements IApiService {
 	/** Logger */
@@ -56,6 +61,31 @@ public final class ResultService implements IApiService {
 		this.alligator = alligator;
 	}
 
+	/**
+	 * Runnable to manage the dialog box
+	 */
+	private static class ParametersRunnable implements Runnable {
+
+		private int code;
+		private final OutputParametersWizard wizard;
+
+		public ParametersRunnable(OutputParametersWizard w) {
+			wizard = w;
+		}
+
+		@Override
+		public void run() {
+			WizardDialog dialog = new WizardDialog(Display.getDefault().getActiveShell(), wizard);
+			dialog.setBlockOnOpen(true);
+			code = dialog.open();
+		}
+
+		public int getReturnedCode() {
+			return code;
+		}
+
+	}
+	
 	@Override
 	public List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
 		try {
@@ -97,6 +127,15 @@ public final class ResultService implements IApiService {
 				} else {
 					Description serviceResult = alligator.getServices().getResult(identifier);
 					IResult result = new Result(identifier.getKey());
+					// Run wizard to get parameters:
+					if (!serviceResult.getParameters().isEmpty()) {
+						OutputParametersWizard wizard = new OutputParametersWizard(serviceResult, isFinished);
+						ParametersRunnable runnable = new ParametersRunnable(wizard);
+						Display.getDefault().syncExec(runnable);
+						if (runnable.getReturnedCode() == Dialog.CANCEL) {
+							return Collections.emptyList();
+						}
+					}
 					for (Parameter<?> parameter: serviceResult.getParameters()) {
 						try {
 						if (parameter.isOutput()) {
@@ -108,10 +147,10 @@ public final class ResultService implements IApiService {
 								// TODO
 							} else if (parameter instanceof ForeignModelParameter &&
 									((ForeignModelParameter) parameter).getType().equalsIgnoreCase("cami")) {
-								ForeignModelParameter p = ForeignModelParameter.of(parameter);
-								ImportFromImpl camiImport = new ImportFromImpl();
-								IGraph newGraph = camiImport.importFrom(p.getFile().getAbsolutePath(), FormalismManager.getInstance().getFormalismById("PT-Net"), SubMonitor.convert(null));
-								result.setNewGraph(newGraph);
+								//ForeignModelParameter p = ForeignModelParameter.of(parameter);
+								//ImportFromImpl camiImport = new ImportFromImpl();
+								//IGraph newGraph = camiImport.importFrom(p.getFile().getAbsolutePath(), FormalismManager.getInstance().getFormalismById("PT-Net"), SubMonitor.convert(null));
+								//result.setNewGraph(newGraph);
 							} else {
 								// TODO: add method "valueAsString" to Parameter
 								ISubResult sub = new SubResult(parameter.getName(), parameter.toString());
