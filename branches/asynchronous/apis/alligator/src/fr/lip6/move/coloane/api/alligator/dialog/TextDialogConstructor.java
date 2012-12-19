@@ -76,6 +76,8 @@ public final class TextDialogConstructor implements ItemDialog<MultiLineTextPara
 			this.input.setText("");
 		}
 		this.input.setToolTipText(parameter.getHelp());
+		input.setEditable(page.enabled);
+		input.setEnabled(page.enabled);
 
 		final Text input = this.input;
 		this.importButton = new Button(parent, SWT.PUSH);

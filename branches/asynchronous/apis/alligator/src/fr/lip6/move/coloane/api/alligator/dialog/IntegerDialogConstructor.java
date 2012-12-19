@@ -66,6 +66,8 @@ public final class IntegerDialogConstructor implements ItemDialog<IntegerParamet
 		} else if (parameter.hasDefaultValue()) {
 			this.input.setText(parameter.getDefaultValue().toString());
 		}
+		input.setEditable(page.enabled);
+		input.setEnabled(page.enabled);
 	}
 
 	@Override

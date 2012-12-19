@@ -66,6 +66,7 @@ public final class BooleanDialogConstructor implements ItemDialog<BooleanParamet
 			parameter.setValue(false);
 			this.button.setSelection(false);
 		}
+		button.setEnabled(page.enabled);
 	}
 
 	@Override

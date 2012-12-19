@@ -65,6 +65,7 @@ public final class SingleChoiceDialogConstructor implements ItemDialog<SingleCho
 		} else if (parameter.hasDefaultSelection()) {
 			combo.select(Math.max(0, parameter.getChoices().indexOf(parameter.getDefaultValue())));
 		}
+		this.combo.setEnabled(page.enabled);
 	}
 
 	@Override

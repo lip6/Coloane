@@ -18,7 +18,7 @@ package fr.lip6.move.coloane.api.alligator;
 import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.alligator.interfaces.ServiceDescription;
-import fr.lip6.move.coloane.api.alligator.wizard.ParametersWizard;
+import fr.lip6.move.coloane.api.alligator.wizard.InputParametersWizard;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.extensions.exporttogrml.ExportToGrML;
@@ -38,7 +38,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
@@ -73,15 +75,17 @@ public final class RunService implements IApiService {
 
 	private Connection alligator;
 	
+	private static Map<Description, Description> CONFIGURATIONS = new HashMap<Description, Description>();
+	
 	/**
 	 * Runnable to manage the dialog box
 	 */
-	private final class ParametersRunnable implements Runnable {
+	private static class ParametersRunnable implements Runnable {
 
 		private int code;
-		private final ParametersWizard wizard;
+		private final InputParametersWizard wizard;
 
-		public ParametersRunnable(ParametersWizard w) {
+		public ParametersRunnable(InputParametersWizard w) {
 			wizard = w;
 		}
 
@@ -150,12 +154,15 @@ public final class RunService implements IApiService {
 		return workspace.getRoot().getFileForLocation(location);
 	}
 	
-	/** {@inheritDoc}
-	 * @see fr.lip6.move.coloane.interfaces.objects.services.IService#run(fr.lip6.move.coloane.interfaces.model.IGraph, org.eclipse.core.runtime.IProgressMonitor)
-	 */
+	@Override
 	public List<IResult> run(IGraph model, IProgressMonitor monitor) throws ServiceException {
-		Description configured = service.clone();
-		ParametersWizard wizard = new ParametersWizard(configured);
+		Description configured;
+		if (CONFIGURATIONS.containsKey(service)) {
+			configured = CONFIGURATIONS.get(service).clone();
+		} else {
+			configured = service.clone();
+		}
+		InputParametersWizard wizard = new InputParametersWizard(configured);
 		try {
 			// Run wizard to get parameters:
 			if (!configured.getParameters().isEmpty()) {
@@ -165,6 +172,7 @@ public final class RunService implements IApiService {
 					return Collections.emptyList();
 				}
 			}
+			CONFIGURATIONS.put(service, configured);
 			// Convert input parameters:
 			for (Parameter<?> parameter: configured.getParameters()) {
 				try {
@@ -202,13 +210,10 @@ public final class RunService implements IApiService {
 				}
 			}
 			// Expand all input parameters:
-			System.out.println(configured);
 			for (Parameter<?> parameter: configured.getParameters()) {
-				System.out.println(parameter);
 				if (parameter.isInput()) {
 					parameter.expandForTransfer();
 				}
-				System.out.println(parameter);
 			}
 			if (alligator.getServices() != null) {
 				LOGGER.info("Launching service '" + configured + "'...");

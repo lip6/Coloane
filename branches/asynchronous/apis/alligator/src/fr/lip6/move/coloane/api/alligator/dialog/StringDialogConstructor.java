@@ -64,6 +64,8 @@ public final class StringDialogConstructor implements ItemDialog<SingleLineTextP
 		}
 		this.input.setToolTipText(parameter.getHelp());
 		this.input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		input.setEditable(page.enabled);
+		input.setEnabled(page.enabled);
 	}
 
 	@Override
