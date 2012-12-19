@@ -148,7 +148,7 @@ public final class Connection extends Job {
 				oldServices = services;
 			}
 			ISubMenu menu = new SubMenu(data.getName() + " (old server)", true,
-					getImage("alligator-logo.png"));
+					Utility.getImage("alligator-logo.png"));
 			IApiService refreshService = new RefreshService(this);
 			menu.addServiceMenu(new ServiceMenu("(Refresh)", true,
 					"Refresh thes menu.", refreshService, true));
@@ -198,13 +198,6 @@ public final class Connection extends Job {
 		}
 	}
 
-	private ImageDescriptor getImage(String name) {
-		Bundle bundle = Platform
-				.getBundle("fr.lip6.move.coloane.apis.alligator");
-		URL fullPathString = bundle.getResource(name);
-		return ImageDescriptor.createFromURL(fullPathString);
-	}
-
 	/**
 	 * Obtain the Alligator menu
 	 * 
@@ -232,7 +225,7 @@ public final class Connection extends Job {
 			}
 			// Add "Refresh" submenu:
 			ISubMenu menu = new SubMenu(data.getName(), true,
-					getImage("alligator-logo.png"));
+					Utility.getImage("alligator-logo.png"));
 			IApiService refreshService = new RefreshService(this);
 			menu.addServiceMenu(new ServiceMenu("(Refresh)", true,
 					"Refresh thes menu.", refreshService, true));
@@ -289,7 +282,7 @@ public final class Connection extends Job {
 									identifier, this);
 							if (newServices.isFinished(identifier)) {
 								submenu = new SubMenu(identifier.getKey(),
-										true, getImage("/resources/stopped-small.png"));
+										true, Utility.getImage("stopped-small.png"));
 								submenu.addServiceMenu(new ServiceMenu(
 										"Get results",
 										true,
@@ -297,7 +290,7 @@ public final class Connection extends Job {
 										getResultsService, true));
 							} else {
 								submenu = new SubMenu(identifier.getKey(),
-										true, getImage("/resources/running-small.png"));
+										true, Utility.getImage("running-small.png"));
 								submenu.addServiceMenu(new ServiceMenu(
 										"Get results",
 										true,

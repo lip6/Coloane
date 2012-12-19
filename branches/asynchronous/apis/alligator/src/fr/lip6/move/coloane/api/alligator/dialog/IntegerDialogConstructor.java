@@ -84,7 +84,12 @@ public final class IntegerDialogConstructor implements ItemDialog<IntegerParamet
 
 	@Override
 	public void reset() {
-		input.setText(parameter.getDefaultValue().toString());
+		parameter.unset();
+		try {
+			input.setText(parameter.getDefaultValue().toString());
+		} catch (IllegalArgumentException e) {
+			input.setText("");
+		}
 	}
 
 	@Override
