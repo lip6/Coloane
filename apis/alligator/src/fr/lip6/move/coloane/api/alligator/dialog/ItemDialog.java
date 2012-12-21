@@ -5,19 +5,23 @@
  * Project Head / Initial contributor Clément DÉMOULINS (LIP6) - Project Manager Official contacts: coloane@lip6.fr
  * http://coloane.lip6.fr
  */
-package fr.lip6.move.coloane.api.alligator.preferences;
+package fr.lip6.move.coloane.api.alligator.dialog;
+
+import org.cosyverif.alligator.service.Parameter;
 
 /**
- * Constant definitions for plug-in preferences
+ * @author Clément Démoulins
  */
-public final class PreferenceConstants {
+public interface ItemDialog<P extends Parameter<P>> {
 
-    public static final String P_ALLIGATOR_LIST = "alligatorListPreferences";
+        P getParameter();
 
-    /**
-     * Private Constructor
-     */
-    private PreferenceConstants() {
-    }
+        void update(Parameter<?> parameter);
+
+        void reset();
+
+        void performFinish();
+
+        boolean isValid();
 
 }
