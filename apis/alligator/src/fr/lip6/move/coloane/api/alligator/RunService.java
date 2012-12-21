@@ -109,7 +109,6 @@ public final class RunService
      *        Connection to an Alligator
      */
     public RunService(Description service, Connection alligator) {
-        System.out.println(service);
         this.service = service.clone();
         this.alligator = alligator;
     }
