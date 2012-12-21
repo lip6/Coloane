@@ -9,9 +9,11 @@ package fr.lip6.move.coloane.api.alligator.dialog;
 
 import fr.lip6.move.coloane.api.alligator.wizard.ParametersPage;
 
+import java.awt.Color;
+
 import org.cosyverif.alligator.service.Parameter;
-import org.cosyverif.alligator.service.parameter.MultiLineTextParameter;
-import org.cosyverif.alligator.service.parameter.SingleLineTextParameter;
+import org.cosyverif.alligator.service.parameter.BooleanParameter;
+import org.cosyverif.alligator.service.parameter.FloatParameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -23,15 +25,15 @@ import org.eclipse.swt.widgets.Text;
 /**
  * @author Clément Démoulins
  */
-public final class StringDialogConstructor
-    implements ItemDialog<SingleLineTextParameter> {
+public final class FloatDialogConstructor
+    implements ItemDialog<FloatParameter> {
 
     private final ParametersPage page;
     private final Text input;
     private final Label label;
-    private final SingleLineTextParameter parameter;
+    private final FloatParameter parameter;
 
-    public StringDialogConstructor(final ParametersPage page, final Composite parent, final SingleLineTextParameter parameter) {
+    public FloatDialogConstructor(final ParametersPage page, final Composite parent, final FloatParameter parameter) {
         this.parameter = parameter;
         this.page = page;
         this.label = new Label(parent, SWT.WRAP);
@@ -40,33 +42,45 @@ public final class StringDialogConstructor
         this.label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
 
         this.input = new Text(parent, SWT.BORDER | SWT.SINGLE);
+        this.input.setToolTipText(parameter.getHelp());
+        this.input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
         ModifyListener listener = new ModifyListener() {
 
             @Override
             public
                 void modifyText(ModifyEvent e) {
                 page.setPageComplete(page.isPageComplete());
-                parameter.setValue(input.getText());
+                if (isValid()) {
+                    parameter.setValue(Float.valueOf(input.getText()));
+                }
             }
 
         };
         this.input.addModifyListener(listener);
         if (parameter.isActualParameter()) {
-            input.setText(parameter.getValue());
+            input.setText(parameter.getValue()
+                                   .toString());
         } else if (parameter.hasDefaultValue()) {
-            this.input.setText(parameter.getDefaultValue());
-        } else {
-            this.input.setText("");
+            this.input.setText(parameter.getDefaultValue()
+                                        .toString());
         }
-        this.input.setToolTipText(parameter.getHelp());
-        this.input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
         input.setEditable(page.enabled);
     }
 
     @Override
     public
         boolean isValid() {
-        return true;
+        try {
+            Float.valueOf(input.getText());
+            page.removeError(this);
+            input.setBackground(null);
+            return true;
+        } catch (NumberFormatException e) {
+            page.addError(this, "For parameter '" + parameter.getName() + "', value '" + input.getText() + "' must be a float.");
+            input.setBackground(input.getDisplay()
+                                     .getSystemColor(SWT.COLOR_RED));
+            return false;
+        }
     }
 
     @Override
@@ -74,7 +88,8 @@ public final class StringDialogConstructor
         void reset() {
         parameter.cloneUnset();
         try {
-            input.setText(parameter.getDefaultValue());
+            input.setText(parameter.getDefaultValue()
+                                   .toString());
         } catch (IllegalArgumentException e) {
             input.setText("");
         }
@@ -88,11 +103,12 @@ public final class StringDialogConstructor
     @Override
     public
         void update(Parameter<?> parameter) {
-        SingleLineTextParameter that = SingleLineTextParameter.of(parameter);
+        FloatParameter that = FloatParameter.of(parameter);
         if (this.parameter.equals(that)) {
             input.setBackground(null);
         } else {
-            input.setText(that.getValue());
+            input.setText(that.getValue()
+                              .toString());
             input.setBackground(input.getDisplay()
                                      .getSystemColor(SWT.COLOR_DARK_YELLOW));
         }
@@ -100,7 +116,7 @@ public final class StringDialogConstructor
 
     @Override
     public
-        SingleLineTextParameter getParameter() {
+        FloatParameter getParameter() {
         return parameter;
     }
 
