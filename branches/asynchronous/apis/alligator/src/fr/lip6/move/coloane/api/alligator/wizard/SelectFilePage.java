@@ -1,17 +1,9 @@
 /**
- * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6).
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
- *   Clément DÉMOULINS (LIP6) - Project Manager
- *
- * Official contacts:
- *   coloane@lip6.fr
- *   http://coloane.lip6.fr
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6). All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Jean-Baptiste VORON (LIP6) -
+ * Project Head / Initial contributor Clément DÉMOULINS (LIP6) - Project Manager Official contacts: coloane@lip6.fr
+ * http://coloane.lip6.fr
  */
 package fr.lip6.move.coloane.api.alligator.wizard;
 
@@ -24,21 +16,23 @@ import org.eclipse.core.resources.IResource;
  * 
  * @author Clément Démoulins
  */
-public final class SelectFilePage extends SelectResourcePage {
-	
-	private final class ModelFilter implements IResourceFilter {
+public final class SelectFilePage
+    extends SelectResourcePage {
 
-		@Override
-		public boolean isFiltered(IResource resource) {
-			return !(resource instanceof IFile);
-		}
+    private final class ModelFilter
+        implements IResourceFilter {
 
-	}
-	
-	public SelectFilePage(FileParameter parameter) {
-		super("SelectFile", "Select file for parameter '" + parameter.getName() +"'", parameter);
-		this.filter = new ModelFilter();
-	}
+        @Override
+        public
+            boolean isFiltered(IResource resource) {
+            return !(resource instanceof IFile);
+        }
 
-	
+    }
+
+    public SelectFilePage(FileParameter parameter) {
+        super("SelectFile", "Select file for parameter '" + parameter.getName() + "'", parameter);
+        this.filter = new ModelFilter();
+    }
+
 }
