@@ -1,0 +1,424 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='Colored Petri Net' xposition='0' yposition='0'>
+<attributes>
+<attribute name='declaration' xposition='90' yposition='25'>CLASS
+  Process is 0..2;
+  Tour is 0..1;
+  Bool is [T, F];
+DOMAIN
+  ProcTour is &lt;Process, Tour&gt;;
+  TourProc is &lt;Tour, Process&gt;;
+  ProcTourProc is &lt;Process, Tour, Process&gt;;
+  ProcBool is &lt;Process, Bool&gt;;
+VAR
+  i in Process;
+  k in Process; 
+  j in Tour;</attribute>
+<attribute name='note' xposition='0' yposition='0'>Designed with Coloane</attribute>
+<attribute name='version' xposition='0' yposition='0'>0,0</attribute>
+</attributes>
+<nodes>
+<node nodetype='transition' id ='3' xposition='580' yposition='732' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='545' yposition='745'>BecomeIdle</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='4' xposition='581' yposition='666' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='600' yposition='665'>CS</attribute>
+<attribute name='domain' xposition='600' yposition='680'>Process</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='5' xposition='580' yposition='617' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='600' yposition='615'>AccessCS</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='6' xposition='510' yposition='617' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='guard' xposition='500' yposition='640'>[j &lt; Tour.1]</attribute>
+<attribute name='name' xposition='490' yposition='625'>ProgressTurn</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='7' xposition='225' yposition='672' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='217' yposition='681'>Identity</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='8' xposition='185' yposition='672' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='guard' xposition='145' yposition='680'>[i &lt;&gt; k]</attribute>
+<attribute name='name' xposition='126' yposition='665'>NoIdentity</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='9' xposition='226' yposition='631' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='165' yposition='613'>TestIdentity</attribute>
+<attribute name='domain' xposition='148' yposition='625'>ProcTourProc</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='10' xposition='455' yposition='312' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='385' yposition='300'>UpdateTurn</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='11' xposition='606' yposition='306' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='624' yposition='295'>Turn</attribute>
+<attribute name='domain' xposition='627' yposition='309'>TourProc</attribute>
+<attribute name='marking' xposition='628' yposition='325'>&lt;Tour.all, Process.0&gt;</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='12' xposition='456' yposition='351' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='478' yposition='344'>TestTurn</attribute>
+<attribute name='domain' xposition='476' yposition='364'>ProcTour</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='13' xposition='11' yposition='226' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='10' yposition='200'>WantSection</attribute>
+<attribute name='domain' xposition='31' yposition='242'>ProcBool</attribute>
+<attribute name='marking' xposition='10' yposition='212'>&lt;Process.all, F&gt;</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='14' xposition='361' yposition='271' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='270' yposition='263'>AskForSection</attribute>
+<attribute name='domain' xposition='265' yposition='275'>ProcTour</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='15' xposition='357' yposition='232' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='384' yposition='222'>Ask</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='17' xposition='361' yposition='186' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='360' yposition='170'>Idle</attribute>
+<attribute name='domain' xposition='385' yposition='177'>Process</attribute>
+<attribute name='marking' xposition='282' yposition='187'>&lt;Process.all&gt;</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='16' xposition='330' yposition='402' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='265' yposition='400'>TurnEqual</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='19' xposition='336' yposition='506' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='275' yposition='486'>BeginLoop</attribute>
+<attribute name='domain' xposition='262' yposition='500'>ProcTourProc</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='18' xposition='550' yposition='467' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='guard' xposition='522' yposition='476'>[i&lt;&gt;k]</attribute>
+<attribute name='name' xposition='495' yposition='450'>TurnDiff</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='21' xposition='551' yposition='561' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='568' yposition='545'>EndTurn</attribute>
+<attribute name='domain' xposition='572' yposition='560'>ProcTour</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='20' xposition='225' yposition='567' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='144' yposition='560'>ContinueLoop</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='23' xposition='186' yposition='736' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='205' yposition='725'>TestAlone</attribute>
+<attribute name='domain' xposition='114' yposition='725'>ProcTourProc</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='22' xposition='95' yposition='792' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='97' yposition='801'>NotAlone</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='25' xposition='185' yposition='792' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='143' yposition='783'>Alone1</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='24' xposition='335' yposition='752' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='guard' xposition='358' yposition='749'>[k &lt; Process.2]</attribute>
+<attribute name='name' xposition='353' yposition='735'>Loop</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='27' xposition='276' yposition='786' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='216' yposition='801'>IsEndLoop</attribute>
+<attribute name='domain' xposition='205' yposition='811'>ProcTourProc</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='26' xposition='445' yposition='792' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='449' yposition='803'>EndLoop</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='arc' id='68' startid='22' endid='13' color='#000000' curved='true'>
+<pi xposition='17' yposition='792'/>
+<attributes>
+<attribute name='valuation' xposition='31' yposition='795'>&lt;k, Bool.T&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='69' startid='25' endid='13' color='#000000' curved='true'>
+<pi xposition='195' yposition='833'/>
+<pi xposition='17' yposition='833'/>
+<attributes>
+<attribute name='valuation' xposition='124' yposition='838'>&lt;k, Bool.F&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='64' startid='23' endid='25' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='151' yposition='767'>&lt;i, j, k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='65' startid='19' endid='20' color='#000000' curved='true'>
+<pi xposition='232' yposition='512'/>
+<attributes>
+<attribute name='valuation' xposition='193' yposition='542'>&lt;i, j, k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='66' startid='22' endid='12' color='#000000' curved='true'>
+<pi xposition='102' yposition='344'/>
+<pi xposition='430' yposition='344'/>
+<attributes>
+<attribute name='valuation' xposition='70' yposition='425'>&lt;i, j&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='67' startid='13' endid='22' color='#000000' curved='true'>
+<pi xposition='29' yposition='269'/>
+<pi xposition='29' yposition='783'/>
+<pi xposition='85' yposition='783'/>
+<attributes>
+<attribute name='valuation' xposition='42' yposition='770'>&lt;k, Bool.T&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='29' startid='7' endid='27' color='#000000' curved='true'>
+<pi xposition='282' yposition='672'/>
+<attributes>
+<attribute name='valuation' xposition='244' yposition='745'>&lt;i, j , i&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='28' startid='26' endid='21' color='#000000' curved='true'>
+<pi xposition='452' yposition='567'/>
+<attributes>
+<attribute name='valuation' xposition='423' yposition='715'>&lt;i, j&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='31' startid='25' endid='27' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='225' yposition='780'>&lt;i, j ,k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='30' startid='24' endid='19' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='284' yposition='631'>&lt;i, j, k++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='34' startid='13' endid='3' color='#000000' curved='true'>
+<pi xposition='29' yposition='269'/>
+<pi xposition='29' yposition='825'/>
+<pi xposition='583' yposition='825'/>
+<attributes>
+<attribute name='valuation' xposition='360' yposition='810'>&lt;i, Bool.T&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='35' startid='3' endid='13' color='#000000' curved='true'>
+<pi xposition='590' yposition='833'/>
+<pi xposition='17' yposition='833'/>
+<attributes>
+<attribute name='valuation' xposition='360' yposition='840'>&lt;i, Bool.F&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='32' startid='27' endid='24' color='#000000' curved='true'>
+<pi xposition='296' yposition='782'/>
+<pi xposition='342' yposition='782'/>
+<attributes>
+<attribute name='valuation' xposition='300' yposition='769'>&lt;i, j, k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='33' startid='27' endid='26' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='364' yposition='778'>&lt;i, j, Process.2&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='38' startid='21' endid='5' color='#000000' curved='true'>
+<pi xposition='587' yposition='585'/>
+<attributes>
+<attribute name='valuation' xposition='595' yposition='596'>&lt;i, Tour.1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='39' startid='21' endid='6' color='#000000' curved='true'>
+<pi xposition='517' yposition='584'/>
+<attributes>
+<attribute name='valuation' xposition='491' yposition='594'>&lt;i, j&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='36' startid='3' endid='17' color='#000000' curved='true'>
+<pi xposition='663' yposition='732'/>
+<pi xposition='663' yposition='192'/>
+<attributes>
+<attribute name='valuation' xposition='620' yposition='740'>&lt;i&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='37' startid='6' endid='14' color='#000000' curved='true'>
+<pi xposition='367' yposition='617'/>
+<attributes>
+<attribute name='valuation' xposition='375' yposition='490'>&lt;i, j++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='42' startid='9' endid='7' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='240' yposition='655'>&lt;i, j , i&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='43' startid='20' endid='9' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='185' yposition='595'>&lt;i, j, k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='40' startid='4' endid='3' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='595' yposition='705'>&lt;i&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='41' startid='5' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='595' yposition='639'>&lt;i&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='46' startid='10' endid='12' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='439' yposition='322'>&lt;i, j&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='47' startid='14' endid='10' color='#000000' curved='true'>
+<pi xposition='463' yposition='277'/>
+<attributes>
+<attribute name='valuation' xposition='408' yposition='266'>&lt;i, j&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='44' startid='8' endid='23' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='155' yposition='704'>&lt;i, j, k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='45' startid='9' endid='8' color='#000000' curved='true'>
+<pi xposition='192' yposition='637'/>
+<attributes>
+<attribute name='valuation' xposition='155' yposition='642'>&lt;i, j, k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='51' startid='17' endid='15' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='345' yposition='200'>&lt;i&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='50' startid='15' endid='14' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='329' yposition='242'>&lt;i, Tour.0&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='49' startid='10' endid='11' color='#000000' curved='true'>
+<pi xposition='489' yposition='305'/>
+<pi xposition='579' yposition='305'/>
+<attributes>
+<attribute name='valuation' xposition='529' yposition='292'>&lt;j, i&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='48' startid='11' endid='10' color='#000000' curved='true'>
+<pi xposition='586' yposition='323'/>
+<pi xposition='489' yposition='323'/>
+<attributes>
+<attribute name='valuation' xposition='529' yposition='330'>&lt;j, k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='55' startid='12' endid='18' color='#000000' curved='true'>
+<pi xposition='553' yposition='357'/>
+<attributes>
+<attribute name='valuation' xposition='560' yposition='365'>&lt;i, j&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='54' startid='18' endid='21' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='565' yposition='523'>&lt;i, j&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='53' startid='15' endid='13' color='#000000' curved='true'>
+<pi xposition='325' yposition='222'/>
+<pi xposition='52' yposition='222'/>
+<attributes>
+<attribute name='valuation' xposition='166' yposition='209'>&lt;i, T&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='52' startid='13' endid='15' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='163' yposition='240'>&lt;i, F&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='59' startid='18' endid='11' color='#000000' curved='true'>
+<pi xposition='579' yposition='457'/>
+<pi xposition='602' yposition='457'/>
+<pi xposition='602' yposition='347'/>
+<attributes>
+<attribute name='valuation' xposition='569' yposition='445'>&lt;j, k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='58' startid='11' endid='18' color='#000000' curved='true'>
+<pi xposition='612' yposition='467'/>
+<attributes>
+<attribute name='valuation' xposition='567' yposition='475'>&lt;j, k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='57' startid='12' endid='16' color='#000000' curved='true'>
+<pi xposition='338' yposition='357'/>
+<attributes>
+<attribute name='valuation' xposition='303' yposition='365'>&lt;i, j&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='56' startid='16' endid='19' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='253' yposition='445'>&lt;i, j, Process.0&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='63' startid='23' endid='22' color='#000000' curved='true'>
+<pi xposition='107' yposition='742'/>
+<attributes>
+<attribute name='valuation' xposition='130' yposition='752'>&lt;i, j, k&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='62' startid='13' endid='25' color='#000000' curved='true'>
+<pi xposition='29' yposition='269'/>
+<pi xposition='29' yposition='825'/>
+<pi xposition='188' yposition='825'/>
+<attributes>
+<attribute name='valuation' xposition='122' yposition='812'>&lt;k, Bool.F&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='61' startid='16' endid='11' color='#000000' curved='true'>
+<pi xposition='361' yposition='387'/>
+<pi xposition='602' yposition='387'/>
+<pi xposition='602' yposition='347'/>
+<attributes>
+<attribute name='valuation' xposition='432' yposition='375'>&lt;j, i&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='60' startid='11' endid='16' color='#000000' curved='true'>
+<pi xposition='612' yposition='402'/>
+<attributes>
+<attribute name='valuation' xposition='433' yposition='410'>&lt;j, i&gt;</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>

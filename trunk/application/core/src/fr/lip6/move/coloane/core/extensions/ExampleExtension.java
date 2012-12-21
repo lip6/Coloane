@@ -72,14 +72,16 @@ public final class ExampleExtension {
 			try {
 				boolean keep = false;
 				String type = contribution.getName();
+				LOGGER.info("Inspectiong example model '" + contribution.getAttribute(NAME) + "'...");
 				// Select only the models that correspond to the formalism:
 				if (FROM_CODE.equals(type)) {
 					if (contribution.getAttribute(FORMALISM).equalsIgnoreCase(formalism.getName())) {
 						keep = true;
 					}
 				} else if (FROM_FILE.equals(type)) {
+					LOGGER.info("Defined in file '" + contribution.getAttribute(FILE) + "'.");
 					Bundle bundle = Platform.getBundle(contribution.getDeclaringExtension().getNamespaceIdentifier());
-					URI uri = bundle.findEntries("/", contribution.getAttribute(FILE), true).nextElement().toURI(); //$NON-NLS-1$
+					URI uri = bundle.getEntry("/" + contribution.getAttribute(FILE)).toURI();
 					IFormalism f = ModelLoader.loadFromXML(uri, new FormalismHandler()).getFormalism();
 					if (f.getId().equals(formalism.getId())) {
 						keep = true;
@@ -114,7 +116,7 @@ public final class ExampleExtension {
 						return convertInstance.buildModel(formalism);
 					} else if (FROM_FILE.equals(type)) {
 						Bundle bundle = Platform.getBundle(contribution.getDeclaringExtension().getNamespaceIdentifier());
-						URI uri = bundle.findEntries("/", contribution.getAttribute(FILE), true).nextElement().toURI(); //$NON-NLS-1$
+						URI uri = bundle.getEntry("/" + contribution.getAttribute(FILE)).toURI();
 						return ModelLoader.loadGraphFromXML(uri);
 					} else {
 						LOGGER.warning("Unknown element '" + type + "' for example extension point.");  //$NON-NLS-1$//$NON-NLS-2$

@@ -3,18 +3,41 @@
 <plugin>
    <extension
          point="fr.lip6.move.coloane.core.examples">
-      <example
-            build="fr.lip6.move.coloane.extensions.pnexamples.SimpleExample"
-            description="Simple PetriNet example"
-            formalism="Place/Transition Net"
-            name="SimpleOne">
-      </example>
-      <example
-            build="fr.lip6.move.coloane.extensions.pnexamples.Philosophers"
-            description="Classical Philosopher Problem (colored)"
-            formalism="Colored Petri Net"
-            name="Philosophers">
-      </example>
+      <example-from-file
+            description="Five concurrent transitions make use of read arcs to test for tokens in place &apos;p&apos;, produced by &apos;u&apos; and consumed by &apos;v&apos;."
+            file="src/main/resources/PT/5-readers-cont.model"
+            name="Five reading transitions">
+      </example-from-file>
+      <example-from-file
+            description="A process may fire &apos;try&apos; and set a flag to signal intention to enter the critical section. It can then &apos;enter&apos; the critical section p3 if the other process is not trying. Otherwise it may &apos;withdraw&apos; its intention and unset the flag. Read arcs allow &apos;enter&apos; and &apos;withdraw&apos; to read the flag of the other process.  Mutual exclusion (unreachability of p3/a, p3/b) and deadlock freeness are guaranteed, but not starvation."
+            file="src/main/resources/PT/dekker02.model"
+            name="A variant of Dekker&apos;s protocol for two process">
+      </example-from-file>
+      <example-from-file
+            description="The well-known dining philosophers problem, with 5 philosophers."
+            file="src/main/resources/SN/philosophers-5.model"
+            name="Five dining philophers">
+      </example-from-file>
+      <example-from-file
+            description="This is a model for a tandem queue with two queues. It is a classic example in queuing theory. Details about this model can be foundin [1] L. Kleinrock. Queueing Systems, volume II: Computer Applications. Wiley Interscience, 1976. WARNING: import also Tandem as a Linear Hybrid Automaton!"
+            file="src/main/resources/SPN/tandem.model"
+            name="Tandem">
+      </example-from-file>
+      <example-from-file
+            description="This is a linear hybrid automata representing the CSL formula P(not( number of client =0 ) U ( number of client = 5)). The synchronized product of the this formula with the Tandem Petri net model computes the probability that 5 clients are in the two queues before there is no client in the two queues. WARNING: import also Tandem as a Stochastic Petri net!"
+            file="src/main/resources/LHA/tandemlha.model"
+            name="Tandem (lha)">
+      </example-from-file>
+      <example-from-file
+            description="TODO"
+            file="src/main/resources/SN/Dot&amp;Boxes2.model"
+            name="Dots and Boxes">
+      </example-from-file>
+      <example-from-file
+            description="This is a model of the Peterson’s algorithm for the mutual exclusion problem, in its generalized version for N processes. This algorithm is based on shared memory communication and uses a loop with N-1 iterations, each iteration is in charge of stopping one of the competing processes."
+            file="src/main/resources/SN/peterson3.model"
+            name="Peterson (3 processes)">
+      </example-from-file>
    </extension>
 
 </plugin>
