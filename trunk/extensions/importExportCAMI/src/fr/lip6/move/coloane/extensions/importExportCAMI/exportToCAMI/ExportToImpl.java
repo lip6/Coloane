@@ -32,6 +32,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.AbsoluteBendpoint;
@@ -173,6 +175,20 @@ public class ExportToImpl implements IExportTo {
 		if (attributeValue.equals("")) { //$NON-NLS-1$
 			return toReturn;
 		}
+
+		// Search parts like C.1:
+		Pattern prefixpattern = Pattern.compile("(\\w+)\\.(\\w+)");
+		Matcher matcher = prefixpattern.matcher(attributeValue);
+		StringBuffer s = new StringBuffer();
+	    while (matcher.find()) {
+	        if (matcher.group(2).equalsIgnoreCase("all")) {
+                matcher.appendReplacement(s, matcher.group(1) + "." + matcher.group(2));
+	        } else {
+	            matcher.appendReplacement(s, matcher.group(2));
+	        }
+	    }
+	    matcher.appendTail(s);
+	    attributeValue = s.toString();
 
 		// Split string if it contains any new line (or return)
 		String[] valueTable = attributeValue.split("(\n\r)|(\r\n)|(\n)|(\r)"); //$NON-NLS-1$
