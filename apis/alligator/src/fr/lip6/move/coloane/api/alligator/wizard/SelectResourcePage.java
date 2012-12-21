@@ -1,17 +1,9 @@
 /**
- * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6).
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *   Jean-Baptiste VORON (LIP6) - Project Head / Initial contributor
- *   Clément DÉMOULINS (LIP6) - Project Manager
- *
- * Official contacts:
- *   coloane@lip6.fr
- *   http://coloane.lip6.fr
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6). All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Jean-Baptiste VORON (LIP6) -
+ * Project Head / Initial contributor Clément DÉMOULINS (LIP6) - Project Manager Official contacts: coloane@lip6.fr
+ * http://coloane.lip6.fr
  */
 package fr.lip6.move.coloane.api.alligator.wizard;
 
@@ -53,193 +45,207 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.osgi.framework.Bundle;
 
 /**
- * Create a wizard page to allow the user to choose the models to send to
- * Alligator
+ * Create a wizard page to allow the user to choose the models to send to Alligator
  * 
  * @author Clément Démoulins
  */
-public abstract class SelectResourcePage extends WizardPage {
+public abstract class SelectResourcePage
+    extends WizardPage {
 
-	private static final Logger LOGGER = Logger
-			.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
+    private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
-	protected IResourceFilter filter;
+    protected IResourceFilter filter;
 
-	private CheckboxTreeViewer checkboxTreeViewer;
+    private CheckboxTreeViewer checkboxTreeViewer;
 
-	private IFile defaultSelection;
+    private IFile defaultSelection;
 
-	private ResourceParameter<?, ?> parameter;
-	
-	public SelectResourcePage(String name, String title,
-			ResourceParameter<?, ?> parameter) {
-		super(name, title, Utility.getImage("alligator-logo.png"));
-		setMessage(parameter.getHelp());
-		this.parameter = parameter;
-		try {
-			LOGGER.info("Before source");
-			this.defaultSelection = getIFile(parameter.getSource());
-			LOGGER.info("Found source: " + defaultSelection);
-		} catch (IllegalArgumentException e) {
-		}
-	}
+    private ResourceParameter<?, ?> parameter;
 
-	/**
-	 * Create contents of the wizard.
-	 * 
-	 * @param parent
-	 *            parent
-	 */
-	public void createControl(Composite parent) {
-		Composite container = new Composite(parent, SWT.NULL);
+    public SelectResourcePage(String name, String title, ResourceParameter<?, ?> parameter) {
+        super(name, title, Utility.getImage("alligator-logo.png"));
+        setMessage(parameter.getHelp());
+        this.parameter = parameter;
+        try {
+            this.defaultSelection = getIFile(parameter.getSource());
+        } catch (IllegalArgumentException e) {
+        }
+    }
 
-		setControl(container);
-		container.setLayout(new FillLayout(SWT.VERTICAL));
+    /**
+     * Create contents of the wizard.
+     * 
+     * @param parent
+     *        parent
+     */
+    public
+        void createControl(Composite parent) {
+        Composite container = new Composite(parent, SWT.NULL);
 
-		// create the input element, which has the root resource as its only
-		// child
-		List<IProject> input = new ArrayList<IProject>();
-		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot()
-				.getProjects();
-		for (int i = 0; i < projects.length; i++) {
-			if (projects[i].isOpen()) {
-				input.add(projects[i]);
-			}
-		}
+        setControl(container);
+        container.setLayout(new FillLayout(SWT.VERTICAL));
 
-		checkboxTreeViewer = new CheckboxTreeViewer(container, SWT.BORDER);
-		checkboxTreeViewer.setContentProvider(new ITreeContentProvider() {
-			@Override
-			public void inputChanged(Viewer viewer, Object oldInput,
-					Object newInput) {
-			}
+        // create the input element, which has the root resource as its only
+        // child
+        List<IProject> input = new ArrayList<IProject>();
+        IProject[] projects = ResourcesPlugin.getWorkspace()
+                                             .getRoot()
+                                             .getProjects();
+        for (int i = 0; i < projects.length; i++) {
+            if (projects[i].isOpen()) {
+                input.add(projects[i]);
+            }
+        }
 
-			@Override
-			public void dispose() {
-			}
+        checkboxTreeViewer = new CheckboxTreeViewer(container, SWT.BORDER);
+        checkboxTreeViewer.setContentProvider(new ITreeContentProvider() {
+            @Override
+            public
+                void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+            }
 
-			@Override
-			public boolean hasChildren(Object element) {
-				if (element instanceof IContainer) {
-					IContainer container = (IContainer) element;
-					try {
-						// FIXME: can be improved
-						return filtered(container.members()).size() > 0;
-					} catch (CoreException e) {
-						return false;
-					}
-				}
-				return false;
-			}
+            @Override
+            public
+                void dispose() {
+            }
 
-			@Override
-			public Object getParent(Object element) {
-				if (element instanceof IProject) {
-					return null;
-				}
-				return ((IResource) element).getParent();
-			}
+            @Override
+            public
+                boolean hasChildren(Object element) {
+                if (element instanceof IContainer) {
+                    IContainer container = (IContainer) element;
+                    try {
+                        // FIXME: can be improved
+                        return filtered(container.members()).size() > 0;
+                    } catch (CoreException e) {
+                        return false;
+                    }
+                }
+                return false;
+            }
 
-			@Override
-			public Object[] getElements(Object inputElement) {
-				if (inputElement instanceof List<?>) {
-					List<?> l = (List<?>) inputElement;
-					return l.toArray();
-				}
-				return null;
-			}
+            @Override
+            public
+                Object getParent(Object element) {
+                if (element instanceof IProject) {
+                    return null;
+                }
+                return ((IResource) element).getParent();
+            }
 
-			@Override
-			public Object[] getChildren(Object parentElement) {
-				if (parentElement instanceof IContainer) {
-					IContainer container = (IContainer) parentElement;
-					try {
-						return filtered(container.members()).toArray();
-					} catch (CoreException e) {
-						return null;
-					}
-				}
-				return null;
-			}
-		});
-		checkboxTreeViewer.setLabelProvider(new LabelProvider() {
-			private ModelLabelProvider imageProvider = new ModelLabelProvider();
-			private ILabelProvider workbenchProvider = WorkbenchLabelProvider
-					.getDecoratingWorkbenchLabelProvider();
+            @Override
+            public
+                Object[] getElements(Object inputElement) {
+                if (inputElement instanceof List<?>) {
+                    List<?> l = (List<?>) inputElement;
+                    return l.toArray();
+                }
+                return null;
+            }
 
-			@Override
-			public String getText(Object element) {
-				return ((IResource) element).getName();
-			}
+            @Override
+            public
+                Object[] getChildren(Object parentElement) {
+                if (parentElement instanceof IContainer) {
+                    IContainer container = (IContainer) parentElement;
+                    try {
+                        return filtered(container.members()).toArray();
+                    } catch (CoreException e) {
+                        return null;
+                    }
+                }
+                return null;
+            }
+        });
+        checkboxTreeViewer.setLabelProvider(new LabelProvider() {
+            private ModelLabelProvider imageProvider = new ModelLabelProvider();
+            private ILabelProvider workbenchProvider = WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider();
 
-			@Override
-			public Image getImage(Object element) {
-				Image image = imageProvider.getImage(element);
-				if (image == null) {
-					return workbenchProvider.getImage(element);
-				}
-				return image;
-			}
+            @Override
+            public
+                String getText(Object element) {
+                return ((IResource) element).getName();
+            }
 
-			@Override
-			public void dispose() {
-				super.dispose();
-				imageProvider.dispose();
-				workbenchProvider.dispose();
-			}
-		});
-		checkboxTreeViewer.setInput(input);
-		checkboxTreeViewer.expandAll();
-		checkboxTreeViewer.addCheckStateListener(new ICheckStateListener() {
-			@Override
-			public void checkStateChanged(CheckStateChangedEvent event) {
-				if (event.getElement() instanceof IContainer) {
-					checkboxTreeViewer.setSubtreeChecked(event.getElement(),
-							event.getChecked());
-				}
-				setPageComplete(isPageComplete());
-			}
-		});
-		if (defaultSelection != null) {
-			checkboxTreeViewer
-					.setCheckedElements(new Object[] { defaultSelection });
-			checkboxTreeViewer.refresh();
-		}
-	}
+            @Override
+            public
+                Image getImage(Object element) {
+                Image image = imageProvider.getImage(element);
+                if (image == null) {
+                    return workbenchProvider.getImage(element);
+                }
+                return image;
+            }
 
-	/**
-	 * @param resources
-	 *            resources
-	 * @return a list a filtered resources
-	 */
-	private List<IResource> filtered(IResource[] resources) {
-		List<IResource> fResources = new ArrayList<IResource>();
-		for (IResource resource : resources) {
-			if (!filter.isFiltered(resource)) {
-				fResources.add(resource);
-			}
-		}
-		return fResources;
-	}
+            @Override
+            public
+                void dispose() {
+                super.dispose();
+                imageProvider.dispose();
+                workbenchProvider.dispose();
+            }
+        });
+        checkboxTreeViewer.setInput(input);
+        checkboxTreeViewer.expandAll();
+        checkboxTreeViewer.addCheckStateListener(new ICheckStateListener() {
+            @Override
+            public
+                void checkStateChanged(CheckStateChangedEvent event) {
+                if (event.getElement() instanceof IContainer) {
+                    checkboxTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
+                }
+                setPageComplete(isPageComplete());
+            }
+        });
+        if (defaultSelection != null) {
+            checkboxTreeViewer.setCheckedElements(new Object[] {
+                defaultSelection
+            });
+            checkboxTreeViewer.refresh();
+        }
+    }
 
-	public final IFile getSelectedFile() {
-		return (IFile) checkboxTreeViewer.getCheckedElements()[0];
-	}
+    /**
+     * @param resources
+     *        resources
+     * @return a list a filtered resources
+     */
+    private
+        List<IResource> filtered(IResource[] resources) {
+        List<IResource> fResources = new ArrayList<IResource>();
+        for (IResource resource : resources) {
+            if (!filter.isFiltered(resource)) {
+                fResources.add(resource);
+            }
+        }
+        return fResources;
+    }
 
-	@Override
-	public final boolean isPageComplete() {
-		return checkboxTreeViewer.getCheckedElements().length == 1;
-	}
+    public final
+        IFile getSelectedFile() {
+        return (IFile) checkboxTreeViewer.getCheckedElements()[0];
+    }
 
-	protected final IFile getIFile(File file) {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IPath location = Path.fromOSString(file.getAbsolutePath());
-		return workspace.getRoot().getFileForLocation(location);
-	}
+    @Override
+    public final
+        boolean isPageComplete() {
+        return checkboxTreeViewer.getCheckedElements().length == 1;
+    }
 
-	public final void performFinish() {
-		parameter.setSource(getSelectedFile().getLocation().toFile());
-		parameter.setFile(getSelectedFile().getLocation().toFile());
-	}
+    protected final
+        IFile getIFile(File file) {
+        IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IPath location = Path.fromOSString(file.getAbsolutePath());
+        return workspace.getRoot()
+                        .getFileForLocation(location);
+    }
+
+    public final
+        void performFinish() {
+        parameter.setSource(getSelectedFile().getLocation()
+                                             .toFile());
+        parameter.setFile(getSelectedFile().getLocation()
+                                           .toFile());
+    }
 
 }
