@@ -14,7 +14,4 @@ public final class Utility {
         return ImageDescriptor.createFromURL(fullPathString);
     }
 
-    /* public static ImageDescriptor getImage(String name) { Bundle bundle = Platform
-     * .getBundle("fr.lip6.move.coloane.apis.alligator"); URL fullPathString = bundle.getResource(name); return
-     * ImageDescriptor.createFromURL(fullPathString); } */
 }

@@ -5,19 +5,17 @@
  * Project Head / Initial contributor Clément DÉMOULINS (LIP6) - Project Manager Official contacts: coloane@lip6.fr
  * http://coloane.lip6.fr
  */
-package fr.lip6.move.coloane.api.alligator.wizard;
+package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.Connection;
-import fr.lip6.move.coloane.api.alligator.Utility;
+import fr.lip6.move.coloane.api.alligator.wizard.Wizard;
 import fr.lip6.move.coloane.core.ui.views.ModelLabelProvider;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.cosyverif.alligator.service.parameter.ResourceParameter;
+import org.cosyverif.alligator.service.Parameter;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -27,8 +25,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
@@ -36,68 +32,62 @@ import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
-import org.osgi.framework.Bundle;
 
-/**
- * Create a wizard page to allow the user to choose the models to send to Alligator
- * 
- * @author Clément Démoulins
- */
-public abstract class SelectResourcePage
-    extends WizardPage {
+public abstract class InputResourceDialog<P extends Parameter<P>>
+    extends Dialog<P> {
 
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
-    protected IResourceFilter filter;
+    protected Label label;
+    protected Label help;
+    protected Label error;
+    protected CheckboxTreeViewer checkboxTreeViewer;
 
-    private CheckboxTreeViewer checkboxTreeViewer;
-
-    private IFile defaultSelection;
-
-    private ResourceParameter<?, ?> parameter;
-
-    public SelectResourcePage(String name, String title, ResourceParameter<?, ?> parameter) {
-        super(name, title, Utility.getImage("alligator-logo.png"));
-        setMessage(parameter.getHelp());
-        this.parameter = parameter;
-        try {
-            this.defaultSelection = getIFile(parameter.getSource());
-        } catch (IllegalArgumentException e) {
-        }
+    public InputResourceDialog(P parameter, boolean editable) {
+        super(parameter, editable);
+        /* setMessage(parameter.getHelp()); this.parameter = parameter; try { this.defaultSelection =
+         * getIFile(parameter.getSource()); } catch (IllegalArgumentException e) { } */
     }
 
-    /**
-     * Create contents of the wizard.
-     * 
-     * @param parent
-     *        parent
-     */
+    @Override
     public
-        void createControl(Composite parent) {
-        Composite container = new Composite(parent, SWT.NULL);
+        int size() {
+        return Wizard.PAGE_SIZE;
+    }
 
-        setControl(container);
-        container.setLayout(new FillLayout(SWT.VERTICAL));
-
+    @Override
+    public
+        void create(Composite parent) {
+        // Label:
+        label = new Label(parent, SWT.WRAP);
+        label.setText(parameter.getName() + ":");
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+        // Error:
+        error = new Label(parent, SWT.WRAP);
+        error.setText("");
+        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        error.setForeground(errorFontColor);
+        // Help message:
+        help = new Label(parent, SWT.WRAP);
+        help.setText(parameter.getHelp());
+        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
         // create the input element, which has the root resource as its only
         // child
         List<IProject> input = new ArrayList<IProject>();
-        IProject[] projects = ResourcesPlugin.getWorkspace()
-                                             .getRoot()
-                                             .getProjects();
-        for (int i = 0; i < projects.length; i++) {
-            if (projects[i].isOpen()) {
-                input.add(projects[i]);
+        for (IProject project : ResourcesPlugin.getWorkspace()
+                                               .getRoot()
+                                               .getProjects()) {
+            if (project.isOpen()) {
+                input.add(project);
             }
         }
-
-        checkboxTreeViewer = new CheckboxTreeViewer(container, SWT.BORDER);
+        checkboxTreeViewer = new CheckboxTreeViewer(parent, SWT.BORDER);
         checkboxTreeViewer.setContentProvider(new ITreeContentProvider() {
             @Override
             public
@@ -194,42 +184,43 @@ public abstract class SelectResourcePage
                 if (event.getElement() instanceof IContainer) {
                     checkboxTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
                 }
-                setPageComplete(isPageComplete());
             }
         });
-        if (defaultSelection != null) {
-            checkboxTreeViewer.setCheckedElements(new Object[] {
-                defaultSelection
-            });
-            checkboxTreeViewer.refresh();
-        }
-    }
-
-    /**
-     * @param resources
-     *        resources
-     * @return a list a filtered resources
-     */
-    private
-        List<IResource> filtered(IResource[] resources) {
-        List<IResource> fResources = new ArrayList<IResource>();
-        for (IResource resource : resources) {
-            if (!filter.isFiltered(resource)) {
-                fResources.add(resource);
-            }
-        }
-        return fResources;
-    }
-
-    public final
-        IFile getSelectedFile() {
-        return (IFile) checkboxTreeViewer.getCheckedElements()[0];
     }
 
     @Override
-    public final
-        boolean isPageComplete() {
-        return checkboxTreeViewer.getCheckedElements().length == 1;
+    public
+        String errorMessage() {
+        if (checkboxTreeViewer.getCheckedElements().length == 1) {
+            return null;
+        } else {
+            return "Only one resource cam be selected.";
+        }
+    }
+
+    @Override
+    public
+        void update(Parameter<?> that) {
+
+    }
+
+    abstract
+        boolean keepResource(IResource resource);
+
+    private
+        List<IResource> filtered(IResource[] resources) {
+        List<IResource> result = new ArrayList<IResource>();
+        for (IResource resource : resources) {
+            if (keepResource(resource)) {
+                result.add(resource);
+            }
+        }
+        return result;
+    }
+
+    protected final
+        IFile getSelectedFile() {
+        return (IFile) checkboxTreeViewer.getCheckedElements()[0];
     }
 
     protected final
@@ -238,14 +229,6 @@ public abstract class SelectResourcePage
         IPath location = Path.fromOSString(file.getAbsolutePath());
         return workspace.getRoot()
                         .getFileForLocation(location);
-    }
-
-    public final
-        void performFinish() {
-        parameter.setSource(getSelectedFile().getLocation()
-                                             .toFile());
-        parameter.setFile(getSelectedFile().getLocation()
-                                           .toFile());
     }
 
 }

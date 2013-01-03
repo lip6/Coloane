@@ -1,0 +1,42 @@
+/**
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6). All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Jean-Baptiste VORON (LIP6) -
+ * Project Head / Initial contributor Clément DÉMOULINS (LIP6) - Project Manager Official contacts: coloane@lip6.fr
+ * http://coloane.lip6.fr
+ */
+package fr.lip6.move.coloane.api.alligator.dialog;
+
+import org.cosyverif.alligator.service.parameter.FileParameter;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
+
+public final class InputFileDialog
+    extends InputResourceDialog<FileParameter> {
+
+    public InputFileDialog(FileParameter parameter) {
+        super(parameter, true);
+    }
+
+    @Override
+    protected
+        boolean keepResource(IResource resource) {
+        return (resource instanceof IFile);
+    }
+
+    @Override
+    protected
+        void updateDialog() {
+        throw new AssertionError();
+    }
+
+    @Override
+    protected
+        void updateParameter() {
+        parameter.setSource(getSelectedFile().getLocation()
+                                             .toFile());
+        parameter.setFile(getSelectedFile().getLocation()
+                                           .toFile());
+    }
+
+}
