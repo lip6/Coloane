@@ -9,7 +9,7 @@ package fr.lip6.move.coloane.api.alligator;
 
 import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
-import fr.lip6.move.coloane.api.alligator.wizard.OutputParametersWizard;
+import fr.lip6.move.coloane.api.alligator.wizard.OutputWizard;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
@@ -62,9 +62,9 @@ public final class ResultService
         implements Runnable {
 
         private int code;
-        private final OutputParametersWizard wizard;
+        private final OutputWizard wizard;
 
-        public ParametersRunnable(OutputParametersWizard w) {
+        public ParametersRunnable(OutputWizard w) {
             wizard = w;
         }
 
@@ -136,7 +136,7 @@ public final class ResultService
                     // Run wizard to get parameters:
                     if (!serviceResult.getParameters()
                                       .isEmpty()) {
-                        OutputParametersWizard wizard = new OutputParametersWizard(alligator, identifier);
+                        OutputWizard wizard = new OutputWizard(alligator, identifier);
                         ParametersRunnable runnable = new ParametersRunnable(wizard);
                         Display.getDefault()
                                .syncExec(runnable);

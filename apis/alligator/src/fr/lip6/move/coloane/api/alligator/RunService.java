@@ -10,7 +10,7 @@ package fr.lip6.move.coloane.api.alligator;
 import fr.lip6.move.alligator.interfaces.Item;
 import fr.lip6.move.alligator.interfaces.ItemType;
 import fr.lip6.move.alligator.interfaces.ServiceDescription;
-import fr.lip6.move.coloane.api.alligator.wizard.InputParametersWizard;
+import fr.lip6.move.coloane.api.alligator.wizard.InputWizard;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.extensions.exporttogrml.ExportToGrML;
@@ -78,9 +78,9 @@ public final class RunService
         implements Runnable {
 
         private int code;
-        private final InputParametersWizard wizard;
+        private final InputWizard wizard;
 
-        public ParametersRunnable(InputParametersWizard w) {
+        public ParametersRunnable(InputWizard w) {
             wizard = w;
         }
 
@@ -176,7 +176,9 @@ public final class RunService
         } else {
             configured = service.clone();
         }
-        InputParametersWizard wizard = new InputParametersWizard(configured);
+        // TODO: use default values
+        // TODO retrieve & store description
+        InputWizard wizard = new InputWizard(configured);
         try {
             // Run wizard to get parameters:
             if (!configured.getParameters()

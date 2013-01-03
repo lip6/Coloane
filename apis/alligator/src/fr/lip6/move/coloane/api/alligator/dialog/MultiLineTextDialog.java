@@ -7,7 +7,6 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.ParametersPage;
 import fr.lip6.move.coloane.core.main.Coloane;
 
 import java.io.BufferedReader;
@@ -15,7 +14,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.cosyverif.alligator.service.Parameter;
-import org.cosyverif.alligator.service.parameter.IntegerParameter;
 import org.cosyverif.alligator.service.parameter.MultiLineTextParameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -29,56 +27,86 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-/**
- * @author Clément Démoulins
- */
-public final class TextDialogConstructor
-    implements ItemDialog<MultiLineTextParameter> {
+public final class MultiLineTextDialog
+    extends Dialog<MultiLineTextParameter> {
 
-    private final ParametersPage page;
-    private final MultiLineTextParameter parameter;
-    private final Label label;
-    private final Text input;
-    private final Button importButton;
+    private Label label;
+    private Text input;
+    private Label help;
+    private Label error;
+    private Button importButton;
 
-    public TextDialogConstructor(final ParametersPage page, final Composite parent, final MultiLineTextParameter parameter) {
-        this.parameter = parameter;
-        this.page = page;
-        this.label = new Label(parent, SWT.WRAP);
-        this.label.setText(parameter.getName() + ":");
-        this.label.setToolTipText(parameter.getHelp());
-        this.label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+    public MultiLineTextDialog(MultiLineTextParameter parameter, boolean editable) {
+        super(parameter, editable);
+    }
 
+    @Override
+    public
+        String errorMessage() {
+        return null;
+    }
+
+    @Override
+    public
+        void update(Parameter<?> p) {
+        MultiLineTextParameter that = (MultiLineTextParameter) p;
+        if (that != null) {
+            if (parameter.equals(that)) {
+                input.setBackground(null);
+            } else {
+                input.setBackground(updateColor);
+                // TODO: parameter.copy(that);
+                updateDialog();
+            }
+        }
+    }
+
+    @Override
+    public
+        int size() {
+        return 5;
+    }
+
+    @Override
+    public
+        void create(final Composite parent) {
+        // Label:
+        label = new Label(parent, SWT.WRAP);
+        label.setText(parameter.getName() + ":");
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+        // Help message:
+        help = new Label(parent, SWT.WRAP);
+        help.setText(parameter.getHelp());
+        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        // Error:
+        error = new Label(parent, SWT.WRAP);
+        error.setText("");
+        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        error.setForeground(errorFontColor);
+        // Input:
         GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
         layoutData.heightHint = 50;
-        this.input = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
-        this.input.setLayoutData(layoutData);
-        ModifyListener listener = new ModifyListener() {
+        input = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
+        input.setLayoutData(layoutData);
+        input.addModifyListener(new ModifyListener() {
 
             @Override
             public
                 void modifyText(ModifyEvent e) {
-                page.setPageComplete(page.isPageComplete());
-                parameter.setValue(input.getText());
+                String error = errorMessage();
+                if (error == null) {
+                    updateParameter();
+                }
             }
 
-        };
-        this.input.addModifyListener(listener);
-        if (parameter.isActualParameter()) {
-            input.setText(parameter.getValue());
-        } else if (parameter.hasDefaultValue()) {
-            this.input.setText(parameter.getDefaultValue());
-        } else {
-            this.input.setText("");
-        }
-        this.input.setToolTipText(parameter.getHelp());
-        input.setEditable(page.enabled);
-
+        });
+        input.setEditable(editable);
+        // Import button:
         final Text input = this.input;
-        this.importButton = new Button(parent, SWT.PUSH);
-        this.importButton.setText("Import…");
-        this.importButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 2, 1));
-        this.importButton.addSelectionListener(new SelectionAdapter() {
+        importButton = new Button(parent, SWT.PUSH);
+        importButton.setText("Import…");
+        importButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        importButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public
                 void widgetSelected(SelectionEvent e) {
@@ -109,44 +137,20 @@ public final class TextDialogConstructor
     }
 
     @Override
-    public
-        boolean isValid() {
-        return true;
-    }
-
-    @Override
-    public
-        void reset() {
-        parameter.cloneUnset();
-        try {
-            input.setText(parameter.getDefaultValue());
-        } catch (IllegalArgumentException e) {
+    protected
+        void updateDialog() {
+        if (parameter.isActualParameter()) {
+            input.setText(parameter.getValue()
+                                   .toString());
+        } else {
             input.setText("");
         }
     }
 
     @Override
-    public
-        void performFinish() {
-    }
-
-    @Override
-    public
-        void update(Parameter<?> parameter) {
-        MultiLineTextParameter that = MultiLineTextParameter.of(parameter);
-        if (this.parameter.equals(that)) {
-            input.setBackground(null);
-        } else {
-            input.setText(that.getValue());
-            input.setBackground(input.getDisplay()
-                                     .getSystemColor(SWT.COLOR_DARK_YELLOW));
-        }
-    }
-
-    @Override
-    public
-        MultiLineTextParameter getParameter() {
-        return parameter;
+    protected
+        void updateParameter() {
+        parameter.setValue(input.getText());
     }
 
 }
