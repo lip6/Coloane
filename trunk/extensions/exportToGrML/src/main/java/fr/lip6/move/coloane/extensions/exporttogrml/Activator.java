@@ -30,18 +30,18 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 	// The plug-in ID
 	public static final String PLUGIN_ID = "fr.lip6.move.coloane.extensions.exportToGrML";
+
+    /**
+     * Extension attributes
+     */
+    public static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.extensions.exportToGrML.exportGrML"; //$NON-NLS-1$
+    public static final String NAME_EXTENSION = "name"; //$NON-NLS-1$
+    public static final String DESCRIPTION_EXTENSION = "description"; //$NON-NLS-1$
+    public static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
+    public static final String FMLURL_EXTENSION = "fmlurl"; //$NON-NLS-1$
 	
 	/** The logger */
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.core"); //$NON-NLS-1$
-	
-	/**
-	 * Extension attributes
-	 */
-	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.extensions.exportToGrML.exportGrML"; //$NON-NLS-1$
-	private static final String NAME_EXTENSION = "name"; //$NON-NLS-1$
-	//private static final String DESCRIPTION_EXTENSION = "description"; //$NON-NLS-1$
-	//private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
-	//private static final String FMLURL_EXTENSION = "fmlurl"; //$NON-NLS-1$
 	
 	// The shared instance
 	private static Activator plugin;
