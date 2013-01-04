@@ -7,13 +7,15 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
+
 import org.cosyverif.alligator.service.parameter.FloatParameter;
 
 public final class FloatDialog
     extends ValueDialog<FloatParameter> {
 
-    public FloatDialog(FloatParameter parameter, boolean editable) {
-        super(parameter, editable);
+    public FloatDialog(WizardPage page, FloatParameter parameter, boolean editable) {
+        super(page, parameter, editable);
     }
 
     @Override

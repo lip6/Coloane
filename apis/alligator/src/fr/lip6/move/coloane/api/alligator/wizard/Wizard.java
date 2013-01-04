@@ -9,6 +9,7 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 
 import fr.lip6.move.coloane.api.alligator.dialog.BooleanDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
+import fr.lip6.move.coloane.api.alligator.dialog.DummyDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.FloatDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.InputFileDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.InputForeignModelDialog;
@@ -27,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CancellationException;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Description;
@@ -41,16 +43,20 @@ import org.cosyverif.alligator.service.parameter.MultiLineTextParameter;
 import org.cosyverif.alligator.service.parameter.MultipleChoiceParameter;
 import org.cosyverif.alligator.service.parameter.SingleChoiceParameter;
 import org.cosyverif.alligator.service.parameter.SingleLineTextParameter;
+import org.eclipse.jface.window.Window;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Display;
 
 public abstract class Wizard
-    extends org.eclipse.jface.wizard.Wizard {
+    extends org.eclipse.jface.wizard.Wizard
+    implements Runnable {
 
     public static int PAGE_SIZE = 10;
 
     /** Logger */
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
-    protected Map<Parameter<?>, Dialog<?>> dialogs = new HashMap<Parameter<?>, Dialog<?>>();
+    protected List<Dialog<?>> dialogs = new ArrayList<Dialog<?>>();
 
     protected List<WizardPage> pages = new ArrayList<WizardPage>();
 
@@ -73,67 +79,76 @@ public abstract class Wizard
             Collections.sort(parameters, comparator);
             // Create dialogs:
             for (Parameter<?> parameter : parameters) {
+                LOGGER.info("Creating dialog for " + parameter.getName() + "...");
                 boolean editable = isInput && parameter.isInput();
+                Dialog<?> newDialog;
                 if (parameter instanceof BooleanParameter) {
-                    dialogs.put(parameter, new BooleanDialog(BooleanParameter.of(parameter), editable));
+                    newDialog = new BooleanDialog(null, BooleanParameter.of(parameter), false);
                 } else if (parameter instanceof FloatParameter) {
-                    dialogs.put(parameter, new FloatDialog(FloatParameter.of(parameter), editable));
+                    newDialog = new FloatDialog(null, FloatParameter.of(parameter), false);
                 } else if (parameter instanceof IntegerParameter) {
-                    dialogs.put(parameter, new IntegerDialog(IntegerParameter.of(parameter), editable));
+                    newDialog = new IntegerDialog(null, IntegerParameter.of(parameter), false);
                 } else if (parameter instanceof MultiLineTextParameter) {
-                    dialogs.put(parameter, new MultiLineTextDialog(MultiLineTextParameter.of(parameter), editable));
+                    newDialog = new MultiLineTextDialog(null, MultiLineTextParameter.of(parameter), false);
                 } else if (parameter instanceof MultipleChoiceParameter) {
-                    dialogs.put(parameter, new MultipleChoiceDialog(MultipleChoiceParameter.of(parameter), editable));
+                    newDialog = new MultipleChoiceDialog(null, MultipleChoiceParameter.of(parameter), false);
                 } else if (parameter instanceof SingleChoiceParameter) {
-                    dialogs.put(parameter, new SingleChoiceDialog(SingleChoiceParameter.of(parameter), editable));
+                    newDialog = new SingleChoiceDialog(null, SingleChoiceParameter.of(parameter), false);
                 } else if (parameter instanceof SingleLineTextParameter) {
-                    dialogs.put(parameter, new SingleLineTextDialog(SingleLineTextParameter.of(parameter), editable));
-                } else if (parameter instanceof FileParameter) {
+                    newDialog = new SingleLineTextDialog(null, SingleLineTextParameter.of(parameter), false);
+                } else {
+                    newDialog = new DummyDialog(null, parameter, false);
+                } /*else if (parameter instanceof FileParameter) {
                     if (isInput && parameter.isInput()) {
-                        dialogs.put(parameter, new InputFileDialog(FileParameter.of(parameter)));
+                        newDialog = new InputFileDialog(FileParameter.of(parameter)));
                     } else if (!isInput) {
-                        dialogs.put(parameter, new OutputResourceDialog<FileParameter>(FileParameter.of(parameter)));
+                        newDialog = new OutputResourceDialog<FileParameter>(FileParameter.of(parameter)));
                     } else {
                         throw new AssertionError();
                     }
                 } else if (parameter instanceof ModelParameter) {
                     if (isInput && parameter.isInput()) {
-                        dialogs.put(parameter, new InputModelDialog(ModelParameter.of(parameter)));
+                        newDialog = new InputModelDialog(ModelParameter.of(parameter)));
                     } else if (!isInput) {
-                        dialogs.put(parameter, new OutputResourceDialog<ModelParameter>(ModelParameter.of(parameter)));
+                        newDialog = new OutputResourceDialog<ModelParameter>(ModelParameter.of(parameter)));
                     } else {
                         throw new AssertionError();
                     }
                 } else if (parameter instanceof ForeignModelParameter) {
                     if (isInput && parameter.isInput()) {
-                        dialogs.put(parameter, new InputForeignModelDialog(ForeignModelParameter.of(parameter)));
+                        newDialog = new InputForeignModelDialog(ForeignModelParameter.of(parameter)));
                     } else if (!isInput) {
-                        dialogs.put(parameter,
-                                    new OutputResourceDialog<ForeignModelParameter>(ForeignModelParameter.of(parameter)));
+                        newDialog = new OutputResourceDialog<ForeignModelParameter>(ForeignModelParameter.of(parameter)));
                     } else {
                         throw new AssertionError();
                     }
-                }
+                }*/
+                newDialog.setEditable(editable);
+                dialogs.add(newDialog);
             }
             // Create pages using a simple algorithm:
-            int currentSize = 0;
-            WizardPage currentPage = null;
-            for (Dialog<?> dialog : dialogs.values()) {
-                if (currentPage == null) {
-                    currentPage = new WizardPage(description);
-                    currentSize = 0;
-                } else if ((currentSize != 0) && (currentSize + dialog.size() > PAGE_SIZE)) {
-                    pages.add(currentPage);
-                    currentPage = new WizardPage(description);
-                    currentSize = 0;
+            for (Dialog<?> dialog : dialogs) {
+                LOGGER.info("Adding dialog for parameter " + dialog.getParameter().getName() + " to a page...");
+                boolean added = false;
+                for (WizardPage page: pages) {
+                    if (page.size() + dialog.size() <= PAGE_SIZE) {
+                        dialog.setPage(page);
+                        page.addDialog(dialog);
+                        added = true;
+                        break;
+                    }
                 }
-                currentPage.addDialog(dialog);
-                currentSize += dialog.size();
+                if (!added) {
+                    WizardPage newPage = new WizardPage(description);
+                    dialog.setPage(newPage);
+                    newPage.addDialog(dialog);
+                    pages.add(newPage);
+                }
             }
-            // Add last page:
-            if ((currentPage == null) && (currentSize != 0)) {
-                pages.add(currentPage);
-            }
+        }
+        LOGGER.info("Adding all wizard pages to the wizard...");
+        for (WizardPage page: pages) {
+            addPage(page);
         }
     }
 
@@ -146,5 +161,20 @@ public abstract class Wizard
      */
     abstract
         List<Set<Parameter<?>>> splitParameters(Description description);
+
+    @Override
+    public final
+        void run() {
+        WizardDialog dialog = new WizardDialog(Display.getDefault()
+                                                      .getActiveShell(), this);
+        dialog.setBlockOnOpen(true);
+        if (dialog.open() == Window.OK) {
+            return;
+        } else if (dialog.open() == Window.CANCEL) {
+            throw new CancellationException();
+        } else {
+            throw new AssertionError();
+        }
+    }
 
 }

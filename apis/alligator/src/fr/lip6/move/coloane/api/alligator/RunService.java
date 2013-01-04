@@ -33,6 +33,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
@@ -50,8 +51,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.jface.dialogs.Dialog;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 
 /**
@@ -69,58 +68,19 @@ public final class RunService
 
     private Connection alligator;
 
-    private static Map<Description, Description> CONFIGURATIONS = new HashMap<Description, Description>();
-
-    /**
-     * Runnable to manage the dialog box
-     */
-    private static class ParametersRunnable
-        implements Runnable {
-
-        private int code;
-        private final InputWizard wizard;
-
-        public ParametersRunnable(InputWizard w) {
-            wizard = w;
-        }
-
-        @Override
-        public
-            void run() {
-            WizardDialog dialog = new WizardDialog(Display.getDefault()
-                                                          .getActiveShell(), wizard);
-            dialog.setBlockOnOpen(true);
-            code = dialog.open();
-        }
-
-        public
-            int getReturnedCode() {
-            return code;
-        }
-
-    }
-
     /**
      * Constructor
      * 
      * @param service
      *        Associated service
-     * @param alligatorConnection
+     * @param alligator
      *        Connection to an Alligator
      */
     public RunService(Description service, Connection alligator) {
-        this.service = service.clone();
+        this.service = Descriptions.get(service);
         this.alligator = alligator;
     }
 
-    /**
-     * Constructor
-     * 
-     * @param service
-     *        Associated service
-     * @param alligatorConnection
-     *        Connection to an Alligator
-     */
     public RunService(Identifier identifier, Connection alligator) {
         LOGGER.info("Retrieving description of configured service '" + identifier + "' for cloning.");
         this.service = alligator.runningDescriptions.get(identifier);
@@ -153,7 +113,7 @@ public final class RunService
      *        Connection to an Alligator
      */
     public RunService(ServiceDescription service, Connection alligatorConnection) {
-        this.service = new Description(service);
+        this.service = Descriptions.get(new Description(service));
         this.alligator = alligatorConnection;
     }
 
@@ -169,32 +129,14 @@ public final class RunService
     public
         List<IResult> run(IGraph model, IProgressMonitor monitor)
             throws ServiceException {
-        Description configured;
-        Description copy = service.clone();
-        copy.unset();
-        if (CONFIGURATIONS.containsKey(copy)) {
-            configured = CONFIGURATIONS.get(copy)
-                                       .clone();
-        } else {
-            configured = service.clone();
-        }
-        // TODO: use default values
-        // TODO retrieve & store description
-        InputWizard wizard = new InputWizard(configured);
+        InputWizard wizard = new InputWizard(service);
         try {
             // Run wizard to get parameters:
-            if (!configured.getParameters()
-                           .isEmpty()) {
-                ParametersRunnable runnable = new ParametersRunnable(wizard);
-                Display.getDefault()
-                       .syncExec(runnable);
-                if (runnable.getReturnedCode() == Dialog.CANCEL) {
-                    return Collections.emptyList();
-                }
-            }
-            CONFIGURATIONS.put(copy, configured);
+            Display.getDefault()
+                   .syncExec(wizard);
+            Descriptions.add(service);
             // Convert input parameters:
-            for (Parameter<?> parameter : configured.getParameters()) {
+            for (Parameter<?> parameter : service.getParameters()) {
                 try {
                     if (parameter.isInput()) {
                         if (parameter instanceof ModelParameter) {
@@ -232,31 +174,28 @@ public final class RunService
                 }
             }
             // Expand all input parameters:
-            for (Parameter<?> parameter : configured.getParameters()) {
+            for (Parameter<?> parameter : service.getParameters()) {
                 if (parameter.isInput()) {
                     parameter.expandForTransfer();
                 }
             }
             if (alligator.getServices() != null) {
-                LOGGER.info("Launching service '" + configured + "'...");
+                LOGGER.info("Launching service '" + service + "'...");
                 Identifier identifier = alligator.getServices()
-                                                 .asynchronousCall(configured);
-                // Store identifier
-                synchronized (Connection.STORE) {
-                    LOGGER.info("Storing task identifier '" + identifier + "'...");
-                    Connection.STORE.load();
-                    Connection.STORE.setValue(identifier.toString(), identifier.toString());
-                    Connection.STORE.save();
-                }
-                alligator.runningDescriptions.put(identifier, configured);
+                                                 .asynchronousCall(service);
+                Identifiers.add(identifier);
+                alligator.runningDescriptions.put(identifier, service);
                 alligator.wakeUp();
-                return Collections.emptyList();
+                IResult result = new Result(service.getName());
+                ISubResult sub = new SubResult("Identifier of the service execution", identifier.toString());
+                result.addSubResult(sub);
+                return Collections.singletonList(result);
             } else {
-                IResult result = new Result(configured.getName());
-                LOGGER.info("Invoking service '" + configured + "' (oldstyle)...");
-                List<Item> params = ParameterConversion.valueFrom(configured.getParameters());
+                IResult result = new Result(service.getName());
+                LOGGER.info("Invoking service '" + service + "' (oldstyle)...");
+                List<Item> params = ParameterConversion.valueFrom(service.getParameters());
                 List<Item> resultItems = alligator.getOldServices()
-                                                  .invoke(configured.getIdentifier(), params);
+                                                  .invoke(service.getIdentifier(), params);
                 LOGGER.fine("Getting " + resultItems.size() + " result items.");
                 // For all result items give the better feedback to the user
                 for (Item item : resultItems) {
@@ -285,6 +224,8 @@ public final class RunService
                 }
                 return Collections.singletonList(result);
             }
+        } catch (CancellationException e) {
+            return Collections.emptyList();
         } catch (Exception e) {
             e.printStackTrace();
             throw new ServiceException(e.getMessage());

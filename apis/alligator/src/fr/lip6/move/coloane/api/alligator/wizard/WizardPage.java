@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Description;
@@ -59,7 +60,6 @@ public final class WizardPage
     @Override
     public
         boolean isPageComplete() {
-        // Keep this loop (no return inside) as it also fills the errors...
         for (Dialog<?> dialog : dialogs) {
             String message = dialog.errorMessage();
             if (message != null) {
@@ -77,9 +77,11 @@ public final class WizardPage
         if (errors.size() == 0) {
             this.setErrorMessage(null);
         } else {
-            String message = "";
-            for (String msg : errors.values()) {
-                message = message + msg + "\n";
+            String message = "\t";
+            for (Entry<Dialog<?>, String> e : errors.entrySet()) {
+                message = message + "For parameter " + e.getKey()
+                                                        .getParameter()
+                                                        .getName() + ": " + e.getValue() + "\n\t";
             }
             setErrorMessage(message);
         }
@@ -88,6 +90,27 @@ public final class WizardPage
     public
         List<Dialog<?>> getDialogs() {
         return dialogs;
+    }
+
+    public
+        int size() {
+        int result = 0;
+        for (Dialog<?> dialog : dialogs) {
+            result += dialog.size();
+        }
+        return result;
+    }
+
+    private boolean inRefresh = false;
+
+    public
+        void refresh() {
+        if (!inRefresh) {
+            inRefresh = true;
+            LOGGER.info("Refreshing wizard page...");
+            setPageComplete(isPageComplete());
+            inRefresh = false;
+        }
     }
 
 }

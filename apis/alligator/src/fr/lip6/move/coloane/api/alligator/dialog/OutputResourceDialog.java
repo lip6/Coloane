@@ -7,13 +7,15 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
+
 import org.cosyverif.alligator.service.parameter.ResourceParameter;
 
 public final class OutputResourceDialog<P extends ResourceParameter<?, P>>
     extends ValueDialog<P> {
 
-    public OutputResourceDialog(P parameter) {
-        super(parameter, false);
+    public OutputResourceDialog(WizardPage page, P parameter) {
+        super(page, parameter, false);
     }
 
     @Override

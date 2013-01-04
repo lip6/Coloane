@@ -7,6 +7,7 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.extensions.exporttogrml.Activator;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
@@ -22,8 +23,8 @@ import org.eclipse.core.runtime.Platform;
 public final class InputModelDialog
     extends InputResourceDialog<ModelParameter> {
 
-    public InputModelDialog(ModelParameter parameter) {
-        super(parameter, true);
+    public InputModelDialog(WizardPage page, ModelParameter parameter) {
+        super(page, parameter, true);
     }
 
     @Override
@@ -31,6 +32,9 @@ public final class InputModelDialog
         boolean keepResource(IResource resource) {
         if (resource instanceof IFile && resource.getName()
                                                  .endsWith("model")) {
+            if (parameter.getFormalism() == null) {
+                return true;
+            }
             IFormalism formalism = ModelLoader.loadFormalismFromXML((IFile) resource);
             // Step 2. find converter for this formalism:
             for (IConfigurationElement contribution: Arrays.asList(Platform.getExtensionRegistry().getConfigurationElementsFor(Activator.EXTENSION_POINT_ID))) {

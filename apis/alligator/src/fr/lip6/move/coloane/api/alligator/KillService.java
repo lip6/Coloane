@@ -39,27 +39,16 @@ public final class KillService
     public
         List<IResult> run(IGraph model, IProgressMonitor monitor)
             throws ServiceException {
-        try {
-            if (alligator.getServices() != null) {
-                LOGGER.info("Killing service '" + identifier.getKey() + "' on '" + identifier.getServer() + "'...");
-                alligator.getServices()
-                         .kill(identifier);
-                // Remove identifier
-                synchronized (Connection.STORE) {
-                    LOGGER.info("Storing task identifier '" + identifier + "'...");
-                    Connection.STORE.load();
-                    Connection.STORE.setToDefault(identifier.toString());
-                    Connection.STORE.save();
-                }
-                alligator.runningDescriptions.remove(identifier);
-                alligator.wakeUp();
-                return Collections.emptyList();
-            } else {
-                throw new AssertionError();
-            }
-        } catch (IOException e) {
-            throw new ServiceException(e.getMessage());
-        } finally {
+        if (alligator.getServices() != null) {
+            LOGGER.info("Killing service '" + identifier.getKey() + "' on '" + identifier.getServer() + "'...");
+            alligator.getServices()
+                     .kill(identifier);
+            Identifiers.remove(identifier);
+            alligator.runningDescriptions.remove(identifier);
+            alligator.wakeUp();
+            return Collections.emptyList();
+        } else {
+            throw new AssertionError();
         }
     }
 
