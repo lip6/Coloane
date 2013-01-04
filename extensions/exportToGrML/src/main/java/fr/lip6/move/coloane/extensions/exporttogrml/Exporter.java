@@ -36,8 +36,8 @@ public final class Exporter {
 	//private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.extensions.exporttogrml"; //$NON-NLS-1$
 	//private static final String NAME_EXTENSION = "name"; //$NON-NLS-1$
 	//private static final String DESCRIPTION_EXTENSION = "description"; //$NON-NLS-1$
-	private static final String CLASS_EXTENSION = "class"; //$NON-NLS-1$
-	private static final String FMLURL_EXTENSION = "fmlurl"; //$NON-NLS-1$
+	private static final String CLASS_EXTENSION = Activator.CLASS_EXTENSION; //$NON-NLS-1$
+	private static final String FMLURL_EXTENSION = Activator.FMLURL_EXTENSION; //$NON-NLS-1$
 	
 	private String formalismURL;
 	private IGrMLExport instance;
