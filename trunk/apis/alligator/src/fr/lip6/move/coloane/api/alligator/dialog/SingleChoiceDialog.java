@@ -7,6 +7,8 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
+
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.SingleChoiceParameter;
 import org.eclipse.swt.SWT;
@@ -25,19 +27,26 @@ public final class SingleChoiceDialog
     private Label help;
     private Label error;
 
-    public SingleChoiceDialog(SingleChoiceParameter parameter, boolean editable) {
-        super(parameter, editable);
+    public SingleChoiceDialog(WizardPage page, SingleChoiceParameter parameter, boolean editable) {
+        super(null, parameter, editable);
     }
 
     @Override
     public
         String errorMessage() {
+        String result;
         if (combo.getText()
                  .equals("")) {
-            return "Value is not selected.";
+            result = "Value is not selected.";
+            error.setText(result);
+            combo.setBackground(errorColor);
         } else {
-            return null;
+            result = null;
+            combo.setBackground(null);
+            error.setText("");
         }
+        page.refresh();
+        return result;
     }
 
     @Override
@@ -53,6 +62,7 @@ public final class SingleChoiceDialog
                 updateDialog();
             }
         }
+        page.refresh();
     }
 
     @Override
@@ -73,7 +83,7 @@ public final class SingleChoiceDialog
         this.combo.setItems(parameter.getChoices()
                                      .toArray(new String[0]));
         this.combo.setToolTipText(parameter.getHelp());
-        this.combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        this.combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
         this.combo.addModifyListener(new ModifyListener() {
 
             @Override
@@ -90,7 +100,7 @@ public final class SingleChoiceDialog
         // Help message:
         help = new Label(parent, SWT.WRAP);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
         // Error:
         error = new Label(parent, SWT.WRAP);
         error.setText("");

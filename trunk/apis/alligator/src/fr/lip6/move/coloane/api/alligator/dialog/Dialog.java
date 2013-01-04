@@ -7,6 +7,8 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
+
 import org.cosyverif.alligator.service.Parameter;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
@@ -16,19 +18,33 @@ import org.eclipse.swt.widgets.Display;
 public abstract class Dialog<P extends Parameter<P>> {
 
     protected final P parameter;
-    protected final boolean editable;
+    protected WizardPage page;
+    protected Boolean editable = null;
     protected final Color errorFontColor;
     protected final Color errorColor;
     protected final Color updateColor;
 
-    protected Dialog(P parameter, boolean editable) {
+    // TODO: remove page & editable
+    protected Dialog(WizardPage page, P parameter, boolean editable) {
+        this.page = page;
         this.parameter = parameter;
-        this.editable = editable;
         Device device = Display.getCurrent();
         // See http://web.njit.edu/~kevin/rgb.txt.html for colors.
         this.errorFontColor = new Color(device, 205, 38, 38); // firebrick3
         this.errorColor = new Color(device, 240, 128, 128); // LightCoral
         this.updateColor = new Color(device, 112, 219, 147); // Aquamarine
+    }
+
+    public final
+        void setEditable(boolean editable) {
+        if (this.editable == null) {
+            this.editable = editable;
+        }
+    }
+
+    public final
+        void setPage(WizardPage page) {
+        this.page = page;
     }
 
     public final

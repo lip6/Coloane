@@ -7,6 +7,8 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
+
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.BooleanParameter;
 import org.eclipse.swt.SWT;
@@ -23,13 +25,14 @@ public final class BooleanDialog
     private Button button;
     private Label help;
 
-    public BooleanDialog(BooleanParameter parameter, boolean editable) {
-        super(parameter, editable);
+    public BooleanDialog(WizardPage page, BooleanParameter parameter, boolean editable) {
+        super(null, parameter, editable);
     }
 
     @Override
     public
         String errorMessage() {
+        page.refresh();
         return null;
     }
 
@@ -46,6 +49,7 @@ public final class BooleanDialog
                 updateDialog();
             }
         }
+        page.refresh();
     }
 
     @Override
@@ -60,7 +64,7 @@ public final class BooleanDialog
         // Button:
         button = new Button(parent, SWT.CHECK);
         button.setText(parameter.getName());
-        button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+        button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
         button.addSelectionListener(new SelectionListener() {
 
             @Override
@@ -85,7 +89,7 @@ public final class BooleanDialog
         // Help message:
         help = new Label(parent, SWT.WRAP);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
         button.setEnabled(editable);
     }
 

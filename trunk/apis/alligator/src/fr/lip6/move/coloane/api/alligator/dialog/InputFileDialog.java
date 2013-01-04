@@ -7,6 +7,8 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
+
 import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -14,8 +16,8 @@ import org.eclipse.core.resources.IResource;
 public final class InputFileDialog
     extends InputResourceDialog<FileParameter> {
 
-    public InputFileDialog(FileParameter parameter) {
-        super(parameter, true);
+    public InputFileDialog(WizardPage page, FileParameter parameter) {
+        super(page, parameter, true);
     }
 
     @Override

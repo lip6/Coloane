@@ -8,8 +8,6 @@ import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.SubMenu;
 
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -27,12 +25,8 @@ import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Identifier;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.jface.preference.PreferenceStore;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.osgi.framework.Bundle;
 
 /**
  * Connection to an Alligator platform. This connection is used as a Job that repeatedly asks ist Alligator for its services.
@@ -43,20 +37,6 @@ public final class Connection
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
     private static final String PING_VALUE = "ping";
-
-    public static final PreferenceStore STORE = new PreferenceStore("alligator.tasks");
-
-    static {
-        try {
-            Connection.STORE.load();
-        } catch (IOException e) {
-            try {
-                Connection.STORE.save();
-            } catch (IOException ee) {
-                throw new AssertionError(ee);
-            }
-        }
-    }
 
     public Map<Identifier, Description> runningDescriptions = new ConcurrentHashMap<Identifier, Description>();
 
@@ -272,42 +252,36 @@ public final class Connection
                 } while (tokenizer.hasMoreTokens());
             }
             // Create menus for running services:
-            synchronized (Connection.STORE) {
-                // http://findicons.com/pack/109/play_stop_pause
-                Connection.STORE.load();
-                for (String s : Connection.STORE.preferenceNames()) {
-                    try {
-                        Identifier identifier = Identifier.fromString(s);
-                        if (data.getAddress()
-                                .toString()
-                                .startsWith(identifier.getServer()
-                                                      .toString())) {
-                            ISubMenu submenu = null;
-                            IApiService getResultsService = new ResultService(identifier, this);
-                            if (newServices.isFinished(identifier)) {
-                                submenu = new SubMenu(identifier.getKey(), true, Utility.getImage("stopped-small.png"));
-                                submenu.addServiceMenu(new ServiceMenu("Get results", true,
-                                                                       "Obtains the final results of the service.",
-                                                                       getResultsService, true));
-                            } else {
-                                submenu = new SubMenu(identifier.getKey(), true, Utility.getImage("running-small.png"));
-                                submenu.addServiceMenu(new ServiceMenu("Get results", true,
-                                                                       "Obtains the temporary results of the service.",
-                                                                       getResultsService, true));
-                            }
-                            IApiService cloneService = new RunService(identifier, this);
-                            submenu.addServiceMenu(new ServiceMenu("Clone", true, "Clones the service.", cloneService, true));
-                            IApiService killService = new KillService(identifier, this);
-                            submenu.addServiceMenu(new ServiceMenu("Kill", true, "Kills the service.", killService, true));
-                            menu.addSubMenu(submenu);
-
+            for (Identifier identifier : Identifiers.getIdentifiers()) {
+                try {
+                    // Icons taken from http://findicons.com/pack/109/play_stop_pause
+                    if (data.getAddress()
+                            .toString()
+                            .startsWith(identifier.getServer()
+                                                  .toString())) {
+                        ISubMenu submenu = null;
+                        IApiService getResultsService = new ResultService(identifier, this);
+                        if (newServices.isFinished(identifier)) {
+                            submenu = new SubMenu(identifier.getKey(), true, Utility.getImage("stopped-small.png"));
+                            submenu.addServiceMenu(new ServiceMenu("Get results", true,
+                                                                   "Obtains the final results of the service.",
+                                                                   getResultsService, true));
+                        } else {
+                            submenu = new SubMenu(identifier.getKey(), true, Utility.getImage("running-small.png"));
+                            submenu.addServiceMenu(new ServiceMenu("Get results", true,
+                                                                   "Obtains the temporary results of the service.",
+                                                                   getResultsService, true));
                         }
-                    } catch (Exception e) {
-                        LOGGER.warning("Cannot load task identifier '" + s + "'.");
-                        e.printStackTrace();
-                        Connection.STORE.setToDefault(s);
-                        Connection.STORE.save();
+                        IApiService cloneService = new RunService(identifier, this);
+                        submenu.addServiceMenu(new ServiceMenu("Clone", true, "Clones the service.", cloneService, true));
+                        IApiService killService = new KillService(identifier, this);
+                        submenu.addServiceMenu(new ServiceMenu("Kill", true, "Kills the service.", killService, true));
+                        menu.addSubMenu(submenu);
+
                     }
+                } catch (Exception e) {
+                    LOGGER.warning("Cannot load task identifier '" + identifier + "'.");
+                    Identifiers.remove(identifier);
                 }
             }
             setMenu(menu);

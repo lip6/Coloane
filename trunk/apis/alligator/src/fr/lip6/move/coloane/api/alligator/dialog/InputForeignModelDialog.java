@@ -7,6 +7,8 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
+
 import org.cosyverif.alligator.service.parameter.ForeignModelParameter;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -14,8 +16,8 @@ import org.eclipse.core.resources.IResource;
 public final class InputForeignModelDialog
     extends InputResourceDialog<ForeignModelParameter> {
 
-    public InputForeignModelDialog(ForeignModelParameter parameter) {
-        super(parameter, true);
+    public InputForeignModelDialog(WizardPage page, ForeignModelParameter parameter) {
+        super(page, parameter, true);
     }
 
     @Override

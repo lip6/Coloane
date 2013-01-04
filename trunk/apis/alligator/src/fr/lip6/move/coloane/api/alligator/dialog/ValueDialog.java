@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
+
 import org.cosyverif.alligator.service.Parameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -21,8 +23,8 @@ public abstract class ValueDialog<P extends Parameter<P>>
     protected Label help;
     protected Label error;
 
-    protected ValueDialog(P parameter, boolean editable) {
-        super(parameter, editable);
+    protected ValueDialog(WizardPage page, P parameter, boolean editable) {
+        super(page, parameter, editable);
     }
 
     @Override
@@ -40,11 +42,11 @@ public abstract class ValueDialog<P extends Parameter<P>>
         label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
         // Input:
         input = new Text(parent, SWT.BORDER | SWT.SINGLE);
-        input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
         // Help message:
         help = new Label(parent, SWT.WRAP);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
         // Error:
         error = new Label(parent, SWT.WRAP);
         error.setText("");
@@ -78,6 +80,7 @@ public abstract class ValueDialog<P extends Parameter<P>>
             input.setBackground(errorColor);
             error.setText(result);
         }
+        page.refresh();
         return result;
     }
 
@@ -98,6 +101,7 @@ public abstract class ValueDialog<P extends Parameter<P>>
                 updateDialog();
             }
         }
+        page.refresh();
     }
 
 }

@@ -8,6 +8,7 @@
 package fr.lip6.move.coloane.api.alligator.dialog;
 
 import fr.lip6.move.coloane.api.alligator.wizard.Wizard;
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
 import fr.lip6.move.coloane.core.ui.views.ModelLabelProvider;
 
 import java.io.File;
@@ -49,8 +50,8 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
     protected Label error;
     protected CheckboxTreeViewer checkboxTreeViewer;
 
-    public InputResourceDialog(P parameter, boolean editable) {
-        super(parameter, editable);
+    public InputResourceDialog(WizardPage page, P parameter, boolean editable) {
+        super(page, parameter, editable);
         /* setMessage(parameter.getHelp()); this.parameter = parameter; try { this.defaultSelection =
          * getIFile(parameter.getSource()); } catch (IllegalArgumentException e) { } */
     }
@@ -191,17 +192,22 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
     @Override
     public
         String errorMessage() {
+        String result;
         if (checkboxTreeViewer.getCheckedElements().length == 1) {
-            return null;
+            result = null;
+            error.setText("");
         } else {
-            return "Only one resource cam be selected.";
+            result = "Only one resource cam be selected.";
+            error.setText(result);
         }
+        page.refresh();
+        return result;
     }
 
     @Override
     public
         void update(Parameter<?> that) {
-
+        page.refresh();
     }
 
     abstract

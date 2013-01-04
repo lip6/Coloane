@@ -62,7 +62,7 @@ public final class OutputWizard
                 }
                 Description result = connection.getServices()
                                                .getResult(identifier);
-                for (Dialog<?> dialog : dialogs.values()) {
+                for (Dialog<?> dialog : dialogs) {
                     for (Parameter<?> parameter : result.getParameters()) {
                         if (parameter.equalsUnset(dialog.getParameter())) {
                             dialog.update(parameter);

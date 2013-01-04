@@ -7,6 +7,7 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
 import fr.lip6.move.coloane.core.main.Coloane;
 
 import java.io.BufferedReader;
@@ -33,16 +34,16 @@ public final class MultiLineTextDialog
     private Label label;
     private Text input;
     private Label help;
-    private Label error;
     private Button importButton;
 
-    public MultiLineTextDialog(MultiLineTextParameter parameter, boolean editable) {
-        super(parameter, editable);
+    public MultiLineTextDialog(WizardPage page, MultiLineTextParameter parameter, boolean editable) {
+        super(page, parameter, editable);
     }
 
     @Override
     public
         String errorMessage() {
+        page.refresh();
         return null;
     }
 
@@ -59,6 +60,7 @@ public final class MultiLineTextDialog
                 updateDialog();
             }
         }
+        page.refresh();
     }
 
     @Override
@@ -73,18 +75,13 @@ public final class MultiLineTextDialog
         // Label:
         label = new Label(parent, SWT.WRAP);
         label.setText(parameter.getName() + ":");
-        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
         // Help message:
         help = new Label(parent, SWT.WRAP);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-        // Error:
-        error = new Label(parent, SWT.WRAP);
-        error.setText("");
-        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-        error.setForeground(errorFontColor);
+        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
         // Input:
-        GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+        GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 3);
         layoutData.heightHint = 50;
         input = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
         input.setLayoutData(layoutData);
@@ -105,7 +102,7 @@ public final class MultiLineTextDialog
         final Text input = this.input;
         importButton = new Button(parent, SWT.PUSH);
         importButton.setText("Import…");
-        importButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        importButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1));
         importButton.addSelectionListener(new SelectionAdapter() {
             @Override
             public
