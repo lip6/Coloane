@@ -170,8 +170,10 @@ public final class RunService
         List<IResult> run(IGraph model, IProgressMonitor monitor)
             throws ServiceException {
         Description configured;
-        if (CONFIGURATIONS.containsKey(service.unset())) {
-            configured = CONFIGURATIONS.get(service.unset())
+        Description copy = service.clone();
+        copy.unset();
+        if (CONFIGURATIONS.containsKey(copy)) {
+            configured = CONFIGURATIONS.get(copy)
                                        .clone();
         } else {
             configured = service.clone();
@@ -190,7 +192,7 @@ public final class RunService
                     return Collections.emptyList();
                 }
             }
-            CONFIGURATIONS.put(service.unset(), configured);
+            CONFIGURATIONS.put(copy, configured);
             // Convert input parameters:
             for (Parameter<?> parameter : configured.getParameters()) {
                 try {

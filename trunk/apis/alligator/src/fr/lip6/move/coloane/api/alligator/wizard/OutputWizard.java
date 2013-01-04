@@ -64,9 +64,7 @@ public final class OutputWizard
                                                .getResult(identifier);
                 for (Dialog<?> dialog : dialogs.values()) {
                     for (Parameter<?> parameter : result.getParameters()) {
-                        if (parameter.cloneUnset()
-                                     .equals(dialog.getParameter()
-                                                   .cloneUnset())) {
+                        if (parameter.equalsUnset(dialog.getParameter())) {
                             dialog.update(parameter);
                         }
                     }
@@ -116,8 +114,7 @@ public final class OutputWizard
             if (parameter.isOutput() && (parameter instanceof ResourceParameter)) {
                 ResourceParameter<?, ?> theParameter = ResourceParameter.of(parameter);
                 for (Parameter<?> p : parameters) {
-                    if (parameter.cloneUnset()
-                                 .equals(p.cloneUnset())) {
+                    if (parameter.equalsUnset(p)) {
                         theParameter.setSource(ResourceParameter.of(p)
                                                                 .getSource());
                         break;
