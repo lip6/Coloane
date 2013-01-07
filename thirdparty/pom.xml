@@ -29,23 +29,6 @@
 			<version>3.2</version>
 		</dependency>
 
-		<!-- Used by the alligator api -->
-		<dependency>
-			<groupId>fr.lip6.move.alligator</groupId>
-			<artifactId>interfaces</artifactId>
-			<version>0.3-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>2.7.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>2.7.0</version>
-		</dependency>
-
 		<!-- Used by the exportToSVG -->
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>

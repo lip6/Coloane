@@ -11,6 +11,28 @@ Require-Bundle: fr.lip6.move.coloane.core,
  fr.lip6.move.coloane.extensions.importExportCAMI,
  fr.lip6.move.coloane.extensions.importExportLOLA
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/cxf-api.jar,
+ lib/cxf-rt-bindings-soap.jar,
+ lib/cxf-rt-bindings-xml.jar,
+ lib/cxf-rt-core.jar,
+ lib/cxf-rt-databinding-jaxb.jar,
+ lib/cxf-rt-frontend-jaxws.jar,
+ lib/cxf-rt-frontend-simple.jar,
+ lib/cxf-rt-transports-http.jar,
+ lib/cxf-rt-ws-addr.jar,
+ lib/cxf-rt-ws-policy.jar,
+ lib/interfaces.jar,
+ lib/jsr305.jar,
+ lib/cloning.jar,
+ lib/objenesis.jar,
+ lib/jaxb-impl.jar,
+ lib/wsdl4j.jar,
+ lib/xalan.jar,
+ lib/xercesImpl.jar,
+ lib/xml-apis-ext.jar,
+ lib/xml-resolver.jar,
+ lib/xmlschema-core.jar,
+ lib/neethi.jar
 Import-Package: org.eclipse.ui.dialogs
 Bundle-ActivationPolicy: lazy

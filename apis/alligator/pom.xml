@@ -1,16 +1,37 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>fr.lip6.move.coloane.apis</groupId>
-        <artifactId>apis-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<groupId>fr.lip6.move.coloane.apis</groupId>
+		<artifactId>apis-parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
 
-    <artifactId>fr.lip6.move.coloane.apis.alligator</artifactId>
-    <packaging>eclipse-plugin</packaging>
-    <name>API :: Alligator</name>
-    <description>Plugin to access to the new CPNAMI platform : Alligator</description>
+	<artifactId>fr.lip6.move.coloane.apis.alligator</artifactId>
+	<packaging>eclipse-plugin</packaging>
+	<name>API :: Alligator</name>
+	<description>Plugin to access to the new CPNAMI platform : Alligator</description>
+
+
+	<dependencies>
+		<!-- Used by the alligator api -->
+		<dependency>
+			<groupId>fr.lip6.move.alligator</groupId>
+			<artifactId>interfaces</artifactId>
+			<version>0.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-frontend-jaxws</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-rt-transports-http</artifactId>
+			<version>2.7.0</version>
+		</dependency>
+	</dependencies>
 
 </project>
