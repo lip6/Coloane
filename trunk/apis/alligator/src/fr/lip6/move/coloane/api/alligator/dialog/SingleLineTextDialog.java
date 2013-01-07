@@ -7,15 +7,13 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
-
 import org.cosyverif.alligator.service.parameter.SingleLineTextParameter;
 
 public final class SingleLineTextDialog
     extends ValueDialog<SingleLineTextParameter> {
 
-    public SingleLineTextDialog(WizardPage page, SingleLineTextParameter parameter, boolean editable) {
-        super(page, parameter, editable);
+    public SingleLineTextDialog(SingleLineTextParameter parameter) {
+        super(parameter);
     }
 
     @Override
@@ -25,18 +23,19 @@ public final class SingleLineTextDialog
     }
 
     @Override
-    protected
+    public
         void updateDialog() {
         if (parameter.isActualParameter()) {
             input.setText(parameter.getValue()
                                    .toString());
         } else {
             input.setText("");
+            parameter.setValue("");
         }
     }
 
     @Override
-    protected
+    public
         void updateParameter() {
         parameter.setValue(input.getText());
     }

@@ -7,8 +7,6 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
-
 import java.math.BigInteger;
 
 import org.cosyverif.alligator.service.parameter.IntegerParameter;
@@ -16,8 +14,8 @@ import org.cosyverif.alligator.service.parameter.IntegerParameter;
 public final class IntegerDialog
     extends ValueDialog<IntegerParameter> {
 
-    public IntegerDialog(WizardPage page, IntegerParameter parameter, boolean editable) {
-        super(page, parameter, editable);
+    public IntegerDialog(IntegerParameter parameter) {
+        super(parameter);
     }
 
     @Override

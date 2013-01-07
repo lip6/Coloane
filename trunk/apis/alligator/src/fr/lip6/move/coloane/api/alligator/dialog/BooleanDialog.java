@@ -7,8 +7,6 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
-
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.BooleanParameter;
 import org.eclipse.swt.SWT;
@@ -25,14 +23,13 @@ public final class BooleanDialog
     private Button button;
     private Label help;
 
-    public BooleanDialog(WizardPage page, BooleanParameter parameter, boolean editable) {
-        super(null, parameter, editable);
+    public BooleanDialog(BooleanParameter parameter) {
+        super(parameter);
     }
 
     @Override
     public
         String errorMessage() {
-        page.refresh();
         return null;
     }
 
@@ -45,7 +42,7 @@ public final class BooleanDialog
                 button.setBackground(null);
             } else {
                 button.setBackground(updateColor);
-                // TODO: parameter.copy(that);
+                parameter.copy(that);
                 updateDialog();
             }
         }
@@ -70,19 +67,13 @@ public final class BooleanDialog
             @Override
             public
                 void widgetSelected(SelectionEvent e) {
-                String error = errorMessage();
-                if (error == null) {
-                    updateParameter();
-                }
+                updateParameter();
             }
 
             @Override
             public
                 void widgetDefaultSelected(SelectionEvent e) {
-                String error = errorMessage();
-                if (error == null) {
-                    updateParameter();
-                }
+                updateParameter();
             }
 
         });
@@ -91,10 +82,13 @@ public final class BooleanDialog
         help.setText(parameter.getHelp());
         help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
         button.setEnabled(editable);
+        if (!parameter.isActualParameter()) {
+            parameter.setValue(false);
+        }
     }
 
     @Override
-    protected
+    public
         void updateDialog() {
         if (parameter.isActualParameter()) {
             button.setSelection(parameter.getValue());
@@ -104,7 +98,7 @@ public final class BooleanDialog
     }
 
     @Override
-    protected
+    public
         void updateParameter() {
         parameter.setValue(button.getSelection());
     }

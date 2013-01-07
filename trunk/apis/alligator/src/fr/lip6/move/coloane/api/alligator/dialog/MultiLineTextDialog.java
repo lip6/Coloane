@@ -7,7 +7,6 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
 import fr.lip6.move.coloane.core.main.Coloane;
 
 import java.io.BufferedReader;
@@ -36,14 +35,13 @@ public final class MultiLineTextDialog
     private Label help;
     private Button importButton;
 
-    public MultiLineTextDialog(WizardPage page, MultiLineTextParameter parameter, boolean editable) {
-        super(page, parameter, editable);
+    public MultiLineTextDialog(MultiLineTextParameter parameter) {
+        super(parameter);
     }
 
     @Override
     public
         String errorMessage() {
-        page.refresh();
         return null;
     }
 
@@ -56,7 +54,7 @@ public final class MultiLineTextDialog
                 input.setBackground(null);
             } else {
                 input.setBackground(updateColor);
-                // TODO: parameter.copy(that);
+                parameter.copy(that);
                 updateDialog();
             }
         }
@@ -81,7 +79,7 @@ public final class MultiLineTextDialog
         help.setText(parameter.getHelp());
         help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
         // Input:
-        GridData layoutData = new GridData(SWT.FILL, SWT.FILL, true, true, 3, 3);
+        GridData layoutData = new GridData(SWT.FILL, SWT.FILL, false, false, 3, 3);
         layoutData.heightHint = 50;
         input = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
         input.setLayoutData(layoutData);
@@ -134,18 +132,19 @@ public final class MultiLineTextDialog
     }
 
     @Override
-    protected
+    public
         void updateDialog() {
         if (parameter.isActualParameter()) {
             input.setText(parameter.getValue()
                                    .toString());
         } else {
             input.setText("");
+            parameter.setValue("");
         }
     }
 
     @Override
-    protected
+    public
         void updateParameter() {
         parameter.setValue(input.getText());
     }

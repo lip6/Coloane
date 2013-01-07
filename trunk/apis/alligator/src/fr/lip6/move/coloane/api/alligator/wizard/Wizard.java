@@ -51,14 +51,14 @@ public abstract class Wizard
     extends org.eclipse.jface.wizard.Wizard
     implements Runnable {
 
-    public static int PAGE_SIZE = 10;
+    public static int PAGE_SIZE = 15;
 
     /** Logger */
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
-    protected List<Dialog<?>> dialogs = new ArrayList<Dialog<?>>();
+    public List<Dialog<?>> dialogs = new ArrayList<Dialog<?>>();
 
-    protected List<WizardPage> pages = new ArrayList<WizardPage>();
+    public List<WizardPage> pages = new ArrayList<WizardPage>();
 
     protected Description description;
 
@@ -83,54 +83,55 @@ public abstract class Wizard
                 boolean editable = isInput && parameter.isInput();
                 Dialog<?> newDialog;
                 if (parameter instanceof BooleanParameter) {
-                    newDialog = new BooleanDialog(null, BooleanParameter.of(parameter), false);
+                    newDialog = new BooleanDialog(BooleanParameter.of(parameter));
                 } else if (parameter instanceof FloatParameter) {
-                    newDialog = new FloatDialog(null, FloatParameter.of(parameter), false);
+                    newDialog = new FloatDialog(FloatParameter.of(parameter));
                 } else if (parameter instanceof IntegerParameter) {
-                    newDialog = new IntegerDialog(null, IntegerParameter.of(parameter), false);
+                    newDialog = new IntegerDialog(IntegerParameter.of(parameter));
                 } else if (parameter instanceof MultiLineTextParameter) {
-                    newDialog = new MultiLineTextDialog(null, MultiLineTextParameter.of(parameter), false);
+                    newDialog = new MultiLineTextDialog(MultiLineTextParameter.of(parameter));
                 } else if (parameter instanceof MultipleChoiceParameter) {
-                    newDialog = new MultipleChoiceDialog(null, MultipleChoiceParameter.of(parameter), false);
+                    newDialog = new MultipleChoiceDialog(MultipleChoiceParameter.of(parameter));
                 } else if (parameter instanceof SingleChoiceParameter) {
-                    newDialog = new SingleChoiceDialog(null, SingleChoiceParameter.of(parameter), false);
+                    newDialog = new SingleChoiceDialog(SingleChoiceParameter.of(parameter));
                 } else if (parameter instanceof SingleLineTextParameter) {
-                    newDialog = new SingleLineTextDialog(null, SingleLineTextParameter.of(parameter), false);
-                } else {
-                    newDialog = new DummyDialog(null, parameter, false);
-                } /*else if (parameter instanceof FileParameter) {
+                    newDialog = new SingleLineTextDialog(SingleLineTextParameter.of(parameter));
+                } else if (parameter instanceof FileParameter) {
                     if (isInput && parameter.isInput()) {
-                        newDialog = new InputFileDialog(FileParameter.of(parameter)));
+                        newDialog = new InputFileDialog(FileParameter.of(parameter));
                     } else if (!isInput) {
-                        newDialog = new OutputResourceDialog<FileParameter>(FileParameter.of(parameter)));
+                        newDialog = new OutputResourceDialog<FileParameter>(FileParameter.of(parameter));
                     } else {
                         throw new AssertionError();
                     }
                 } else if (parameter instanceof ModelParameter) {
                     if (isInput && parameter.isInput()) {
-                        newDialog = new InputModelDialog(ModelParameter.of(parameter)));
+                        newDialog = new InputModelDialog(ModelParameter.of(parameter));
                     } else if (!isInput) {
-                        newDialog = new OutputResourceDialog<ModelParameter>(ModelParameter.of(parameter)));
+                        newDialog = new OutputResourceDialog<ModelParameter>(ModelParameter.of(parameter));
                     } else {
                         throw new AssertionError();
                     }
                 } else if (parameter instanceof ForeignModelParameter) {
                     if (isInput && parameter.isInput()) {
-                        newDialog = new InputForeignModelDialog(ForeignModelParameter.of(parameter)));
+                        newDialog = new InputForeignModelDialog(ForeignModelParameter.of(parameter));
                     } else if (!isInput) {
-                        newDialog = new OutputResourceDialog<ForeignModelParameter>(ForeignModelParameter.of(parameter)));
+                        newDialog = new OutputResourceDialog<ForeignModelParameter>(ForeignModelParameter.of(parameter));
                     } else {
                         throw new AssertionError();
                     }
-                }*/
+                } else {
+                    newDialog = new DummyDialog(parameter);
+                }
                 newDialog.setEditable(editable);
                 dialogs.add(newDialog);
             }
             // Create pages using a simple algorithm:
             for (Dialog<?> dialog : dialogs) {
-                LOGGER.info("Adding dialog for parameter " + dialog.getParameter().getName() + " to a page...");
+                LOGGER.info("Adding dialog for parameter " + dialog.getParameter()
+                                                                   .getName() + " to a page...");
                 boolean added = false;
-                for (WizardPage page: pages) {
+                for (WizardPage page : pages) {
                     if (page.size() + dialog.size() <= PAGE_SIZE) {
                         dialog.setPage(page);
                         page.addDialog(dialog);
@@ -139,7 +140,7 @@ public abstract class Wizard
                     }
                 }
                 if (!added) {
-                    WizardPage newPage = new WizardPage(description);
+                    WizardPage newPage = new WizardPage(this, description);
                     dialog.setPage(newPage);
                     newPage.addDialog(dialog);
                     pages.add(newPage);
@@ -147,7 +148,7 @@ public abstract class Wizard
             }
         }
         LOGGER.info("Adding all wizard pages to the wizard...");
-        for (WizardPage page: pages) {
+        for (WizardPage page : pages) {
             addPage(page);
         }
     }
@@ -162,16 +163,27 @@ public abstract class Wizard
     abstract
         List<Set<Parameter<?>>> splitParameters(Description description);
 
+    private boolean finished;
+
+    public final
+        boolean finished() {
+        return finished;
+    }
+
     @Override
     public final
         void run() {
+        this.setNeedsProgressMonitor(false);
+        this.setHelpAvailable(false);
+        this.setWindowTitle("Parameters for the " + description.getName() + " service");
         WizardDialog dialog = new WizardDialog(Display.getDefault()
                                                       .getActiveShell(), this);
         dialog.setBlockOnOpen(true);
-        if (dialog.open() == Window.OK) {
-            return;
-        } else if (dialog.open() == Window.CANCEL) {
-            throw new CancellationException();
+        int result = dialog.open();
+        if (result == Window.OK) {
+            finished = true;
+        } else if (result == Window.CANCEL) {
+            finished = false;
         } else {
             throw new AssertionError();
         }

@@ -7,8 +7,6 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
-
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.SingleChoiceParameter;
 import org.eclipse.swt.SWT;
@@ -27,8 +25,8 @@ public final class SingleChoiceDialog
     private Label help;
     private Label error;
 
-    public SingleChoiceDialog(WizardPage page, SingleChoiceParameter parameter, boolean editable) {
-        super(null, parameter, editable);
+    public SingleChoiceDialog(SingleChoiceParameter parameter) {
+        super(parameter);
     }
 
     @Override
@@ -45,7 +43,6 @@ public final class SingleChoiceDialog
             combo.setBackground(null);
             error.setText("");
         }
-        page.refresh();
         return result;
     }
 
@@ -58,7 +55,7 @@ public final class SingleChoiceDialog
                 combo.setBackground(null);
             } else {
                 combo.setBackground(updateColor);
-                // TODO: parameter.copy(that);
+                parameter.copy(that);
                 updateDialog();
             }
         }
@@ -109,7 +106,7 @@ public final class SingleChoiceDialog
     }
 
     @Override
-    protected
+    public
         void updateDialog() {
         if (parameter.isActualParameter()) {
             combo.select(Math.max(0, parameter.getChoices()
@@ -120,7 +117,7 @@ public final class SingleChoiceDialog
     }
 
     @Override
-    protected
+    public
         void updateParameter() {
         parameter.setValue(combo.getText());
     }

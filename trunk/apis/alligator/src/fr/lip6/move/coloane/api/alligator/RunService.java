@@ -30,9 +30,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
@@ -134,6 +132,10 @@ public final class RunService
             // Run wizard to get parameters:
             Display.getDefault()
                    .syncExec(wizard);
+            if (!wizard.finished()) {
+                LOGGER.info("Service wizard has been canceled.");
+                return Collections.emptyList();
+            }
             Descriptions.add(service);
             // Convert input parameters:
             for (Parameter<?> parameter : service.getParameters()) {
@@ -142,7 +144,8 @@ public final class RunService
                         if (parameter instanceof ModelParameter) {
                             ModelParameter p = ModelParameter.of(parameter);
                             ExportToGrML exporter = new ExportToGrML();
-                            IGraph graph = ModelLoader.loadGraphFromXML(fromFile(p.getFile()));
+                            LOGGER.info("Converting file '" + p.getFile() + "' to GrML...");
+                            IGraph graph = ModelLoader.loadGraphFromXML(fromFile(p.getSource()));
                             File temp = File.createTempFile("coloane-exporter", ".grml");
                             temp.deleteOnExit();
                             exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
@@ -152,7 +155,8 @@ public final class RunService
                                                                       .equalsIgnoreCase("lola")) {
                             ForeignModelParameter p = ForeignModelParameter.of(parameter);
                             ExportToLola exporter = new ExportToLola();
-                            IGraph graph = ModelLoader.loadGraphFromXML(fromFile(p.getFile()));
+                            LOGGER.info("Converting file '" + p.getFile() + "' to LoLa...");
+                            IGraph graph = ModelLoader.loadGraphFromXML(fromFile(p.getSource()));
                             File temp = File.createTempFile("coloane-exporter", ".lola");
                             temp.deleteOnExit();
                             exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
@@ -162,7 +166,8 @@ public final class RunService
                                                                       .equalsIgnoreCase("cami")) {
                             ForeignModelParameter p = ForeignModelParameter.of(parameter);
                             ExportToImpl exporter = new ExportToImpl();
-                            IGraph graph = ModelLoader.loadGraphFromXML(fromFile(p.getFile()));
+                            LOGGER.info("Converting file '" + p.getFile() + "' to CAMI...");
+                            IGraph graph = ModelLoader.loadGraphFromXML(fromFile(p.getSource()));
                             File temp = File.createTempFile("coloane-exporter", ".cami");
                             temp.deleteOnExit();
                             exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());

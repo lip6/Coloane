@@ -7,8 +7,6 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
-
 import org.cosyverif.alligator.service.Parameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -21,8 +19,8 @@ public final class DummyDialog<P extends Parameter<P>>
     private Label name;
     private Label help;
 
-    public DummyDialog(WizardPage page, P parameter, boolean editable) {
-        super(null, parameter, editable);
+    public DummyDialog(P parameter) {
+        super(parameter);
     }
 
     @Override
@@ -56,12 +54,12 @@ public final class DummyDialog<P extends Parameter<P>>
     }
 
     @Override
-    protected
+    public
         void updateDialog() {
     }
 
     @Override
-    protected
+    public
         void updateParameter() {
     }
 

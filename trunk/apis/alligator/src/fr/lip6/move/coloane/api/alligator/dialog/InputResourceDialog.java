@@ -8,7 +8,6 @@
 package fr.lip6.move.coloane.api.alligator.dialog;
 
 import fr.lip6.move.coloane.api.alligator.wizard.Wizard;
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
 import fr.lip6.move.coloane.core.ui.views.ModelLabelProvider;
 
 import java.io.File;
@@ -17,6 +16,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Parameter;
+import org.cosyverif.alligator.service.parameter.ResourceParameter;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -36,11 +36,12 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
-public abstract class InputResourceDialog<P extends Parameter<P>>
+public abstract class InputResourceDialog<P extends ResourceParameter<?, P>>
     extends Dialog<P> {
 
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
@@ -50,8 +51,8 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
     protected Label error;
     protected CheckboxTreeViewer checkboxTreeViewer;
 
-    public InputResourceDialog(WizardPage page, P parameter, boolean editable) {
-        super(page, parameter, editable);
+    public InputResourceDialog(P parameter) {
+        super(parameter);
         /* setMessage(parameter.getHelp()); this.parameter = parameter; try { this.defaultSelection =
          * getIFile(parameter.getSource()); } catch (IllegalArgumentException e) { } */
     }
@@ -68,18 +69,12 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
         // Label:
         label = new Label(parent, SWT.WRAP);
         label.setText(parameter.getName() + ":");
-        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
-        // Error:
-        error = new Label(parent, SWT.WRAP);
-        error.setText("");
-        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-        error.setForeground(errorFontColor);
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
         // Help message:
         help = new Label(parent, SWT.WRAP);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-        // create the input element, which has the root resource as its only
-        // child
+        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        // create the input element, which has the root resource as its only child
         List<IProject> input = new ArrayList<IProject>();
         for (IProject project : ResourcesPlugin.getWorkspace()
                                                .getRoot()
@@ -88,7 +83,9 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
                 input.add(project);
             }
         }
-        checkboxTreeViewer = new CheckboxTreeViewer(parent, SWT.BORDER);
+        checkboxTreeViewer = new CheckboxTreeViewer(parent, SWT.BORDER | SWT.V_SCROLL);
+        checkboxTreeViewer.getTree()
+                          .setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, Wizard.PAGE_SIZE - 2));
         checkboxTreeViewer.setContentProvider(new ITreeContentProvider() {
             @Override
             public
@@ -185,8 +182,15 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
                 if (event.getElement() instanceof IContainer) {
                     checkboxTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
                 }
+                updateParameter();
+                page.refresh();
             }
         });
+        // Error:
+        error = new Label(parent, SWT.WRAP);
+        error.setText("");
+        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
+        error.setForeground(errorFontColor);
     }
 
     @Override
@@ -197,16 +201,16 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
             result = null;
             error.setText("");
         } else {
-            result = "Only one resource cam be selected.";
+            result = "Exactly one resource must be selected.";
             error.setText(result);
         }
-        page.refresh();
         return result;
     }
 
     @Override
     public
         void update(Parameter<?> that) {
+        parameter.copy(that);
         page.refresh();
     }
 
@@ -235,6 +239,32 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
         IPath location = Path.fromOSString(file.getAbsolutePath());
         return workspace.getRoot()
                         .getFileForLocation(location);
+    }
+
+    @Override
+    public final
+        void updateDialog() {
+        try {
+            checkboxTreeViewer.setCheckedElements(new Object[] {
+                getIFile(parameter.getSource())
+            });
+        } catch (IllegalArgumentException e) {
+            checkboxTreeViewer.setCheckedElements(new Object[] {});
+        }
+        page.refresh();
+    }
+
+    @Override
+    public final
+        void updateParameter() {
+        try {
+            parameter.setSource(getSelectedFile().getLocation()
+                                                 .toFile());
+            parameter.setFile(getSelectedFile().getLocation()
+                                               .toFile());
+        } catch (Exception e) {
+            parameter.unset();
+        }
     }
 
 }
