@@ -31,7 +31,7 @@ public final class Importer implements IImportFrom {
 
 	private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.extensions.importgrml"); //$NON-NLS-1$
 
-	private static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.extensions.importgrml"; //$NON-NLS-1$
+	public static final String EXTENSION_POINT_ID = "fr.lip6.move.coloane.extensions.importgrml"; //$NON-NLS-1$
 
 	@Override
 	public IGraph importFrom(String file, IFormalism formalism, IProgressMonitor monitor) throws ExtensionException, CancellationException {
