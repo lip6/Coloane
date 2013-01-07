@@ -26,14 +26,13 @@ public final class MultipleChoiceDialog
     private List list;
     private Label help;
 
-    public MultipleChoiceDialog(WizardPage page, MultipleChoiceParameter parameter, boolean editable) {
-        super(null, parameter, editable);
+    public MultipleChoiceDialog(MultipleChoiceParameter parameter) {
+        super(parameter);
     }
 
     @Override
     public
         String errorMessage() {
-        page.refresh();
         return null;
     }
 
@@ -46,7 +45,7 @@ public final class MultipleChoiceDialog
                 list.setBackground(null);
             } else {
                 list.setBackground(updateColor);
-                // TODO: parameter.copy(that);
+                parameter.copy(that);
                 updateDialog();
             }
         }
@@ -101,7 +100,7 @@ public final class MultipleChoiceDialog
     }
 
     @Override
-    protected
+    public
         void updateDialog() {
         if (parameter.isActualParameter()) {
             for (String choice : parameter.getChoices()) {
@@ -120,7 +119,7 @@ public final class MultipleChoiceDialog
     }
 
     @Override
-    protected
+    public
         void updateParameter() {
         parameter.resetValues();
         for (String choice : list.getSelection()) {

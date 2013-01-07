@@ -25,8 +25,7 @@ public abstract class Dialog<P extends Parameter<P>> {
     protected final Color updateColor;
 
     // TODO: remove page & editable
-    protected Dialog(WizardPage page, P parameter, boolean editable) {
-        this.page = page;
+    protected Dialog(P parameter) {
         this.parameter = parameter;
         Device device = Display.getCurrent();
         // See http://web.njit.edu/~kevin/rgb.txt.html for colors.
@@ -75,10 +74,10 @@ public abstract class Dialog<P extends Parameter<P>> {
     public abstract
         void update(Parameter<?> that);
 
-    protected abstract
+    public abstract
         void updateDialog();
 
-    protected abstract
+    public abstract
         void updateParameter();
 
 }

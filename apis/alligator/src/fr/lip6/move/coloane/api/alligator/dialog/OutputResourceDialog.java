@@ -7,15 +7,13 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
-
 import org.cosyverif.alligator.service.parameter.ResourceParameter;
 
 public final class OutputResourceDialog<P extends ResourceParameter<?, P>>
     extends ValueDialog<P> {
 
-    public OutputResourceDialog(WizardPage page, P parameter) {
-        super(page, parameter, false);
+    public OutputResourceDialog(P parameter) {
+        super(parameter);
     }
 
     @Override
@@ -25,7 +23,7 @@ public final class OutputResourceDialog<P extends ResourceParameter<?, P>>
     }
 
     @Override
-    protected
+    public
         void updateDialog() {
         if (parameter.isActualParameter()) {
             input.setText(parameter.getSource()
@@ -36,7 +34,7 @@ public final class OutputResourceDialog<P extends ResourceParameter<?, P>>
     }
 
     @Override
-    protected
+    public
         void updateParameter() {
         throw new AssertionError();
     }

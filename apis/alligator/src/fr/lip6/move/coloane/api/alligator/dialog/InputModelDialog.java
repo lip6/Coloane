@@ -7,7 +7,6 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.extensions.exporttogrml.Activator;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
@@ -23,8 +22,9 @@ import org.eclipse.core.runtime.Platform;
 public final class InputModelDialog
     extends InputResourceDialog<ModelParameter> {
 
-    public InputModelDialog(WizardPage page, ModelParameter parameter) {
-        super(page, parameter, true);
+    public InputModelDialog(ModelParameter parameter) {
+        super(parameter);
+        this.setEditable(true);
     }
 
     @Override
@@ -46,21 +46,6 @@ public final class InputModelDialog
             }
         }
         return false;
-    }
-
-    @Override
-    protected
-        void updateDialog() {
-        throw new AssertionError();
-    }
-
-    @Override
-    protected
-        void updateParameter() {
-        parameter.setSource(getSelectedFile().getLocation()
-                                             .toFile());
-        parameter.setFile(getSelectedFile().getLocation()
-                                           .toFile());
     }
 
 }

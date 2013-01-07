@@ -9,12 +9,12 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 
 import fr.lip6.move.coloane.api.alligator.Utility;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
+import fr.lip6.move.coloane.api.alligator.dialog.ResetDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Description;
@@ -29,14 +29,18 @@ public final class WizardPage
     /** Logger */
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
+    private final Wizard wizard;
+
     /** Dialogs */
-    private List<Dialog<?>> dialogs = new ArrayList<Dialog<?>>();
+    private final List<Dialog<?>> dialogs = new ArrayList<Dialog<?>>();
 
     /** Errors */
-    private Map<Dialog<?>, String> errors = new HashMap<Dialog<?>, String>();
+    private final Map<Dialog<?>, String> errors = new HashMap<Dialog<?>, String>();
 
-    public WizardPage(Description description) {
-        super("Parameters", "Parameters for " + description.getName(), Utility.getImage("alligator-logo.png"));
+    public WizardPage(Wizard wizard, Description description) {
+        super("Parameters", "Parameters for the " + description.getName() + " service", Utility.getImage("alligator-logo.png"));
+        this.wizard = wizard;
+        this.setMessage(description.getHelp());
     }
 
     public
@@ -46,15 +50,18 @@ public final class WizardPage
 
     public
         void createControl(Composite parent) {
+        LOGGER.info("Creating controls in wizard page...");
+        inRefresh = true;
         Composite composite = new Composite(parent, SWT.NONE);
-        composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-        GridLayout layout = new GridLayout(3, false);
-        /* layout.marginLeft = 10; layout.marginRight = 10; layout.horizontalSpacing = 10; */
-        composite.setLayout(layout);
+        composite.setLayout(new GridLayout(3, false));
+        composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, Wizard.PAGE_SIZE));
         setControl(composite);
         for (Dialog<?> dialog : dialogs) {
             dialog.create(composite);
         }
+        new ResetDialog(wizard).create(composite);
+        inRefresh = false;
+        refresh();
     }
 
     @Override
@@ -77,13 +84,7 @@ public final class WizardPage
         if (errors.size() == 0) {
             this.setErrorMessage(null);
         } else {
-            String message = "\t";
-            for (Entry<Dialog<?>, String> e : errors.entrySet()) {
-                message = message + "For parameter " + e.getKey()
-                                                        .getParameter()
-                                                        .getName() + ": " + e.getValue() + "\n\t";
-            }
-            setErrorMessage(message);
+            setErrorMessage("Some parameters are not set.");
         }
     }
 
@@ -94,7 +95,7 @@ public final class WizardPage
 
     public
         int size() {
-        int result = 0;
+        int result = 1;
         for (Dialog<?> dialog : dialogs) {
             result += dialog.size();
         }
@@ -108,6 +109,9 @@ public final class WizardPage
         if (!inRefresh) {
             inRefresh = true;
             LOGGER.info("Refreshing wizard page...");
+            for (Dialog<?> dialog : dialogs) {
+                dialog.updateDialog();
+            }
             setPageComplete(isPageComplete());
             inRefresh = false;
         }

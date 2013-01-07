@@ -1,17 +1,11 @@
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
-
 import org.cosyverif.alligator.service.Parameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Device;
-import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -23,8 +17,8 @@ public abstract class ValueDialog<P extends Parameter<P>>
     protected Label help;
     protected Label error;
 
-    protected ValueDialog(WizardPage page, P parameter, boolean editable) {
-        super(page, parameter, editable);
+    protected ValueDialog(P parameter) {
+        super(parameter);
     }
 
     @Override
@@ -66,7 +60,6 @@ public abstract class ValueDialog<P extends Parameter<P>>
 
         });
         input.setEditable(editable);
-        updateDialog();
     }
 
     @Override
@@ -80,7 +73,6 @@ public abstract class ValueDialog<P extends Parameter<P>>
             input.setBackground(errorColor);
             error.setText(result);
         }
-        page.refresh();
         return result;
     }
 
@@ -97,7 +89,7 @@ public abstract class ValueDialog<P extends Parameter<P>>
                 input.setBackground(null);
             } else {
                 input.setBackground(updateColor);
-                // TODO: parameter.copy(that);
+                parameter.copy(that);
                 updateDialog();
             }
         }
