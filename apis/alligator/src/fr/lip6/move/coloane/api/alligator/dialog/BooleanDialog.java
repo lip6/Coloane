@@ -37,14 +37,12 @@ public final class BooleanDialog
     public
         void update(Parameter<?> p) {
         BooleanParameter that = (BooleanParameter) p;
-        if (that != null) {
-            if (parameter.equals(that)) {
-                button.setBackground(null);
-            } else {
-                button.setBackground(updateColor);
-                parameter.copy(that);
-                updateDialog();
-            }
+        if (parameter.equals(that)) {
+            button.setBackground(null);
+        } else {
+            button.setBackground(updateColor);
+            parameter.copy(that);
+            updateDialog();
         }
         page.refresh();
     }

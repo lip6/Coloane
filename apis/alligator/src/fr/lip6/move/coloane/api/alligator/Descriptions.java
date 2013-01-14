@@ -56,18 +56,27 @@ public final class Descriptions {
         try {
             STORE.load();
             if (STORE.contains(copy.getIdentifier())) {
-                return Description.fromXML(STORE.getString(copy.getIdentifier()));
-            } else {
-                for (Parameter<?> parameter : copy.getParameters()) {
-                    parameter.useDefault();
+                Description result = Description.fromXML(STORE.getString(copy.getIdentifier()));
+                if (result.equalsUnset(copy)) {
+                    return result;
                 }
-                STORE.putValue(copy.getIdentifier(), copy.toXML());
-                STORE.save();
-                return copy;
             }
-        } catch (IOException e) {
-            throw new AssertionError();
+        } catch (Exception e) {
+            String message = "Cannot load description because: " + e.getMessage();
+            LOGGER.warning(message);
         }
+        remove(description);
+        for (Parameter<?> parameter : copy.getParameters()) {
+            parameter.useDefault();
+        }
+        try {
+            STORE.putValue(copy.getIdentifier(), copy.toXML());
+            STORE.save();
+        } catch (IOException e) {
+            String message = "Cannot save description because: " + e.getMessage();
+            LOGGER.warning(message);
+        }
+        return copy;
     }
 
 }

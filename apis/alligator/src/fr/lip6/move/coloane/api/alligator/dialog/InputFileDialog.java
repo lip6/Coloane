@@ -16,13 +16,24 @@ public final class InputFileDialog
 
     public InputFileDialog(FileParameter parameter) {
         super(parameter);
-        this.setEditable(true);
     }
 
     @Override
     protected
         boolean keepResource(IResource resource) {
-        return (resource instanceof IFile);
+        if (parameter.getContentType()
+                     .equalsIgnoreCase("cami")) {
+            return (resource instanceof IFile) && (resource.getFileExtension()
+                                                           .equalsIgnoreCase("cami") || resource.getFileExtension()
+                                                                                                .equalsIgnoreCase("model"));
+        } else if (parameter.getContentType()
+                            .equalsIgnoreCase("cami")) {
+            return (resource instanceof IFile) && (resource.getFileExtension()
+                                                           .equalsIgnoreCase("lola") || resource.getFileExtension()
+                                                                                                .equalsIgnoreCase("model"));
+        } else {
+            return (resource instanceof IFile);
+        }
     }
 
 }

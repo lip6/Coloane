@@ -31,13 +31,9 @@ import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Identifier;
-import org.cosyverif.alligator.service.Parameter;
-import org.cosyverif.alligator.service.parameter.ForeignModelParameter;
-import org.cosyverif.alligator.service.parameter.ModelParameter;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 
@@ -55,35 +51,6 @@ public final class ResultService
         this.alligator = alligator;
     }
 
-    /**
-     * Runnable to manage the dialog box
-     */
-    private static class ParametersRunnable
-        implements Runnable {
-
-        private int code;
-        private final OutputWizard wizard;
-
-        public ParametersRunnable(OutputWizard w) {
-            wizard = w;
-        }
-
-        @Override
-        public
-            void run() {
-            WizardDialog dialog = new WizardDialog(Display.getDefault()
-                                                          .getActiveShell(), wizard);
-            dialog.setBlockOnOpen(true);
-            code = dialog.open();
-        }
-
-        public
-            int getReturnedCode() {
-            return code;
-        }
-
-    }
-
     @Override
     public
         List<IResult> run(IGraph model, IProgressMonitor monitor)
@@ -93,6 +60,7 @@ public final class ResultService
             if (alligator.getServices() != null) {
                 LOGGER.info("Obtaining results from service '" + identifier.getKey() + "' on '" + identifier.getServer() +
                             "'...");
+                boolean kill = true;
                 Description description = alligator.getServices()
                                                    .getResult(identifier);
                 if (description == null) {
@@ -121,7 +89,6 @@ public final class ResultService
                             } catch (IOException e) {
                                 LOGGER.warning(e.getMessage());
                             }
-
                             // Add a textual result in the result view
                         } else {
                             ISubResult sub = new SubResult(item.getName(), item.getValue());
@@ -137,16 +104,15 @@ public final class ResultService
                     if (!serviceResult.getParameters()
                                       .isEmpty()) {
                         OutputWizard wizard = new OutputWizard(alligator, identifier);
-                        ParametersRunnable runnable = new ParametersRunnable(wizard);
                         Display.getDefault()
-                               .syncExec(runnable);
-                        if (runnable.getReturnedCode() == Status.CANCEL) {
-                            return Collections.emptyList();
+                               .syncExec(wizard);
+                        if (wizard.isCanceled()) {
+                            kill = false;
                         }
                     }
                 }
-                if (alligator.getServices()
-                        .isFinished(identifier)) {
+                if (kill && alligator.getServices()
+                                     .isFinished(identifier)) {
                     new KillService(identifier, alligator).run(model, monitor);
                 }
                 return results;
