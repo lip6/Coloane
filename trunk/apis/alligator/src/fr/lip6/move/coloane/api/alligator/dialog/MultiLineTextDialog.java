@@ -58,7 +58,6 @@ public final class MultiLineTextDialog
                 updateDialog();
             }
         }
-        page.refresh();
     }
 
     @Override
@@ -147,6 +146,7 @@ public final class MultiLineTextDialog
     public
         void updateParameter() {
         parameter.setValue(input.getText());
+        page.refresh();
     }
 
 }

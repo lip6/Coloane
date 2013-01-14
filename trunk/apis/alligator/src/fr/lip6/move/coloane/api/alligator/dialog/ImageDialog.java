@@ -9,17 +9,20 @@ package fr.lip6.move.coloane.api.alligator.dialog;
 
 import fr.lip6.move.coloane.api.alligator.Utility;
 
+import java.util.logging.Logger;
+
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
-import org.cosyverif.alligator.service.parameter.ResourceParameter;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
 public final class ImageDialog
     extends Dialog<FileParameter> {
+
+    /** Logger */
+    private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
     private Label image;
 
@@ -33,11 +36,13 @@ public final class ImageDialog
     public
         void updateDialog() {
         if (parameter.isActualParameter()) {
+            LOGGER.info("Setting image...");
             image.setText(null);
             image.setImage(Utility.getImage(parameter.getFile()));
+            image.redraw();
         } else {
             image.setImage(null);
-            image.setText("No image yet.");
+            image.setText(parameter.getName());
         }
     }
 
@@ -58,7 +63,7 @@ public final class ImageDialog
         void create(Composite parent) {
         // Label:
         image = new Label(parent, SWT.WRAP);
-        image.setText(parameter.getName() + ":");
+        image.setText(parameter.getName());
         image.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 5, 3));
     }
 
@@ -74,7 +79,6 @@ public final class ImageDialog
         if (!this.equals(that)) {
             parameter.copy(that);
             updateDialog();
-            page.refresh();
         }
     }
 

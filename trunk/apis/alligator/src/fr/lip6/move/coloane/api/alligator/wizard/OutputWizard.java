@@ -9,8 +9,10 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 
 import fr.lip6.move.coloane.api.alligator.Connection;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
+import fr.lip6.move.coloane.api.alligator.dialog.OutputResourceDialog;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,25 +20,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Identifier;
 import org.cosyverif.alligator.service.Parameter;
-import org.cosyverif.alligator.service.parameter.ResourceParameter;
+import org.cosyverif.alligator.service.parameter.FileParameter;
+import org.cosyverif.alligator.service.parameter.ModelParameter;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.Shell;
 
 /**
  * Wizard to show the results of an Alligator service.
  */
 public final class OutputWizard
     extends Wizard {
+
+    /** Logger */
+    private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
     private static Map<Identifier, Set<Parameter<?>>> SOURCES = new HashMap<Identifier, Set<Parameter<?>>>();
 
@@ -65,13 +69,14 @@ public final class OutputWizard
                 for (Dialog<?> dialog : dialogs) {
                     for (Parameter<?> parameter : result.getParameters()) {
                         if (parameter.equalsUnset(dialog.getParameter())) {
-                            dialog.update(parameter);
+                            try {
+                                dialog.update(parameter);
+                            } catch (Exception e) {
+                            }
                         }
                     }
                 }
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -92,6 +97,7 @@ public final class OutputWizard
                    .syncExec(runner);
             if (!connection.getServices()
                            .isFinished(identifier)) {
+                LOGGER.info("Scheduling updater...");
                 schedule(2000); // TODO
             }
             return Status.OK_STATUS;
@@ -109,32 +115,6 @@ public final class OutputWizard
         if (parameters == null) {
             parameters = new HashSet<Parameter<?>>();
             SOURCES.put(identifier, parameters);
-        }
-        for (Parameter<?> parameter : description.getParameters()) {
-            if (parameter.isOutput() && (parameter instanceof ResourceParameter)) {
-                ResourceParameter<?, ?> theParameter = ResourceParameter.of(parameter);
-                for (Parameter<?> p : parameters) {
-                    if (parameter.equalsUnset(p)) {
-                        theParameter.setSource(ResourceParameter.of(p)
-                                                                .getSource());
-                        break;
-                    }
-                }
-                try {
-                    theParameter.getSource();
-                } catch (IllegalArgumentException e) {
-                    Display display = new Display();
-                    Shell shell = new Shell(display);
-                    shell.open();
-                    FileDialog dialog = new FileDialog(shell, SWT.SAVE);
-                    dialog.setText("Select resource to save parameter " + parameter.getName() + ". " + parameter.getHelp());
-                    dialog.setOverwrite(true);
-                    dialog.open();
-                    theParameter.setSource(new File(dialog.getFileName()));
-                    parameters.add(theParameter);
-                    display.dispose();
-                }
-            }
         }
         updater.schedule();
     }

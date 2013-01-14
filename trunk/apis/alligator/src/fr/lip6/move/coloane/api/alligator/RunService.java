@@ -38,8 +38,9 @@ import java.util.logging.Logger;
 import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Identifier;
 import org.cosyverif.alligator.service.Parameter;
-import org.cosyverif.alligator.service.parameter.ForeignModelParameter;
+import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
+import org.cosyverif.alligator.util.FileSystem;
 import org.cosyverif.alligator.util.ParameterConversion;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
@@ -115,12 +116,11 @@ public final class RunService
         this.alligator = alligatorConnection;
     }
 
-    private static
-        IFile fromFile(File file) {
-        IWorkspace workspace = ResourcesPlugin.getWorkspace();
-        IPath location = Path.fromOSString(file.getAbsolutePath());
-        return workspace.getRoot()
-                        .getFileForLocation(location);
+    private final
+        File getFile(IFile file) {
+        return file.getRawLocation()
+                   .makeAbsolute()
+                   .toFile();
     }
 
     @Override
@@ -132,7 +132,7 @@ public final class RunService
             // Run wizard to get parameters:
             Display.getDefault()
                    .syncExec(wizard);
-            if (!wizard.finished()) {
+            if (wizard.isCanceled()) {
                 LOGGER.info("Service wizard has been canceled.");
                 return Collections.emptyList();
             }
@@ -142,36 +142,51 @@ public final class RunService
                 try {
                     if (parameter.isInput()) {
                         if (parameter instanceof ModelParameter) {
+                            IFile file = wizard.fileFor(parameter);
                             ModelParameter p = ModelParameter.of(parameter);
                             ExportToGrML exporter = new ExportToGrML();
-                            LOGGER.info("Converting file '" + p.getFile() + "' to GrML...");
-                            IGraph graph = ModelLoader.loadGraphFromXML(fromFile(p.getSource()));
+                            LOGGER.info("Converting file '" + file + "' to GrML...");
+                            IGraph graph = ModelLoader.loadGraphFromXML(file);
                             File temp = File.createTempFile("coloane-exporter", ".grml");
                             temp.deleteOnExit();
                             exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
-                            p.setFile(temp);
-                        } else if (parameter instanceof ForeignModelParameter &&
-                                   ((ForeignModelParameter) parameter).getType()
-                                                                      .equalsIgnoreCase("lola")) {
-                            ForeignModelParameter p = ForeignModelParameter.of(parameter);
-                            ExportToLola exporter = new ExportToLola();
-                            LOGGER.info("Converting file '" + p.getFile() + "' to LoLa...");
-                            IGraph graph = ModelLoader.loadGraphFromXML(fromFile(p.getSource()));
-                            File temp = File.createTempFile("coloane-exporter", ".lola");
-                            temp.deleteOnExit();
-                            exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
-                            p.setFile(temp);
-                        } else if (parameter instanceof ForeignModelParameter &&
-                                   ((ForeignModelParameter) parameter).getType()
-                                                                      .equalsIgnoreCase("cami")) {
-                            ForeignModelParameter p = ForeignModelParameter.of(parameter);
-                            ExportToImpl exporter = new ExportToImpl();
-                            LOGGER.info("Converting file '" + p.getFile() + "' to CAMI...");
-                            IGraph graph = ModelLoader.loadGraphFromXML(fromFile(p.getSource()));
-                            File temp = File.createTempFile("coloane-exporter", ".cami");
-                            temp.deleteOnExit();
-                            exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
-                            p.setFile(temp);
+                            p.setModel(FileSystem.modelFromFile(temp));
+                        } else if (parameter instanceof FileParameter && ((FileParameter) parameter).getContentType()
+                                                                                                    .equalsIgnoreCase("lola")) {
+                            IFile file = wizard.fileFor(parameter);
+                            FileParameter p = FileParameter.of(parameter);
+                            if (file.getFileExtension()
+                                    .equalsIgnoreCase("lola")) {
+                                p.setFile(getFile(file));
+                            } else {
+                                ExportToLola exporter = new ExportToLola();
+                                LOGGER.info("Converting file '" + file + "' to LoLa...");
+                                IGraph graph = ModelLoader.loadGraphFromXML(file);
+                                File temp = File.createTempFile("coloane-exporter", ".lola");
+                                temp.deleteOnExit();
+                                exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
+                                p.setFile(temp);
+                            }
+                        } else if (parameter instanceof FileParameter && ((FileParameter) parameter).getContentType()
+                                                                                                    .equalsIgnoreCase("cami")) {
+                            IFile file = wizard.fileFor(parameter);
+                            FileParameter p = FileParameter.of(parameter);
+                            if (file.getFileExtension()
+                                    .equalsIgnoreCase("cami")) {
+                                p.setFile(getFile(file));
+                            } else {
+                                ExportToImpl exporter = new ExportToImpl();
+                                LOGGER.info("Converting file '" + file + "' to CAMI... ");
+                                IGraph graph = ModelLoader.loadGraphFromXML(file);
+                                File temp = File.createTempFile("coloane-exporter", ".cami");
+                                temp.deleteOnExit();
+                                exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
+                                p.setFile(temp);
+                            }
+                        } else if (parameter instanceof FileParameter) {
+                            IFile file = wizard.fileFor(parameter);
+                            FileParameter p = FileParameter.of(parameter);
+                            p.setFile(getFile(file));
                         }
                     }
                 } catch (Exception e) {
@@ -181,6 +196,7 @@ public final class RunService
             // Expand all input parameters:
             for (Parameter<?> parameter : service.getParameters()) {
                 if (parameter.isInput()) {
+                    LOGGER.info("Expanding " + parameter.getName() + "...");
                     parameter.expandForTransfer();
                 }
             }

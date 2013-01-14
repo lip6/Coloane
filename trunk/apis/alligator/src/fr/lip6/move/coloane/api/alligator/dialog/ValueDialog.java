@@ -1,5 +1,7 @@
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import java.util.logging.Logger;
+
 import org.cosyverif.alligator.service.Parameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -11,6 +13,9 @@ import org.eclipse.swt.widgets.Text;
 
 public abstract class ValueDialog<P extends Parameter<P>>
     extends Dialog<P> {
+
+    /** Logger */
+    private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
     protected Text input;
     protected Label label;
@@ -84,16 +89,15 @@ public abstract class ValueDialog<P extends Parameter<P>>
         void update(Parameter<?> p) {
         @SuppressWarnings("unchecked")
         P that = (P) p;
-        if (that != null) {
-            if (parameter.equals(that)) {
-                input.setBackground(null);
-            } else {
-                input.setBackground(updateColor);
-                parameter.copy(that);
-                updateDialog();
-            }
+        if (parameter.equals(that)) {
+            input.setBackground(null);
+            label.setBackground(null);
+        } else {
+            input.setBackground(updateColor);
+            label.setBackground(updateColor);
+            parameter.copy(that);
+            updateDialog();
         }
-        page.refresh();
     }
 
 }

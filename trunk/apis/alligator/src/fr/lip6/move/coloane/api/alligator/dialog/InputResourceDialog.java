@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Parameter;
-import org.cosyverif.alligator.service.parameter.ResourceParameter;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -36,12 +35,11 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
-public abstract class InputResourceDialog<P extends ResourceParameter<?, P>>
+public abstract class InputResourceDialog<P extends Parameter<P>>
     extends Dialog<P> {
 
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
@@ -53,8 +51,6 @@ public abstract class InputResourceDialog<P extends ResourceParameter<?, P>>
 
     public InputResourceDialog(P parameter) {
         super(parameter);
-        /* setMessage(parameter.getHelp()); this.parameter = parameter; try { this.defaultSelection =
-         * getIFile(parameter.getSource()); } catch (IllegalArgumentException e) { } */
     }
 
     @Override
@@ -186,6 +182,9 @@ public abstract class InputResourceDialog<P extends ResourceParameter<?, P>>
                 page.refresh();
             }
         });
+        if (!editable) {
+            checkboxTreeViewer.setGrayedElements(checkboxTreeViewer.getExpandedElements());
+        }
         // Error:
         error = new Label(parent, SWT.WRAP);
         error.setText("");
@@ -228,12 +227,21 @@ public abstract class InputResourceDialog<P extends ResourceParameter<?, P>>
         return result;
     }
 
-    protected final
+    public final
         IFile getSelectedFile() {
         return (IFile) checkboxTreeViewer.getCheckedElements()[0];
     }
 
-    protected final
+    public final
+        void updateParameter() {
+        page.refresh();
+    }
+
+    public final
+        void updateDialog() {
+    }
+
+    private final
         IFile getIFile(File file) {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IPath location = Path.fromOSString(file.getAbsolutePath());
@@ -241,30 +249,9 @@ public abstract class InputResourceDialog<P extends ResourceParameter<?, P>>
                         .getFileForLocation(location);
     }
 
-    @Override
     public final
-        void updateDialog() {
-        try {
-            checkboxTreeViewer.setCheckedElements(new Object[] {
-                getIFile(parameter.getSource())
-            });
-        } catch (IllegalArgumentException e) {
-            checkboxTreeViewer.setCheckedElements(new Object[] {});
-        }
-        page.refresh();
-    }
-
-    @Override
-    public final
-        void updateParameter() {
-        try {
-            parameter.setSource(getSelectedFile().getLocation()
-                                                 .toFile());
-            parameter.setFile(getSelectedFile().getLocation()
-                                               .toFile());
-        } catch (Exception e) {
-            parameter.unset();
-        }
+        void select(File file) {
+        checkboxTreeViewer.setChecked(getIFile(file), true);
     }
 
 }

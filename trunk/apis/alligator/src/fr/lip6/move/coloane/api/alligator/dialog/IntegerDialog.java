@@ -44,6 +44,7 @@ public final class IntegerDialog
     public
         void updateParameter() {
         parameter.setValue(BigInteger.valueOf(Integer.valueOf(input.getText())));
+        page.refresh();
     }
 
 }

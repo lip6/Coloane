@@ -120,6 +120,7 @@ public final class SingleChoiceDialog
     public
         void updateParameter() {
         parameter.setValue(combo.getText());
+        page.refresh();
     }
 
 }

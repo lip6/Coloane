@@ -14,6 +14,7 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import java.util.Arrays;
 
 import org.cosyverif.alligator.service.parameter.ModelParameter;
+import org.cosyverif.alligator.util.FileSystem;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -24,7 +25,6 @@ public final class InputModelDialog
 
     public InputModelDialog(ModelParameter parameter) {
         super(parameter);
-        this.setEditable(true);
     }
 
     @Override
@@ -37,10 +37,13 @@ public final class InputModelDialog
             }
             IFormalism formalism = ModelLoader.loadFormalismFromXML((IFile) resource);
             // Step 2. find converter for this formalism:
-            for (IConfigurationElement contribution: Arrays.asList(Platform.getExtensionRegistry().getConfigurationElementsFor(Activator.EXTENSION_POINT_ID))) {
+            for (IConfigurationElement contribution : Arrays.asList(Platform.getExtensionRegistry()
+                                                                            .getConfigurationElementsFor(Activator.EXTENSION_POINT_ID))) {
                 String id = contribution.getAttribute(Activator.NAME_EXTENSION);
                 String fml = contribution.getAttribute(Activator.FMLURL_EXTENSION);
-                if (fml.equals(parameter.getFormalism().toString()) && formalism.getId().equals(id)) {
+                if (fml.equals(parameter.getFormalism()
+                                        .toString()) && formalism.getId()
+                                                                 .equals(id)) {
                     return true;
                 }
             }

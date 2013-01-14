@@ -42,6 +42,7 @@ public final class FloatDialog
     public
         void updateParameter() {
         parameter.setValue(Float.valueOf(input.getText()));
+        page.refresh();
     }
 
 }

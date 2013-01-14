@@ -10,6 +10,7 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 import fr.lip6.move.coloane.api.alligator.Utility;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
 import fr.lip6.move.coloane.api.alligator.dialog.ResetDialog;
+import fr.lip6.move.coloane.api.alligator.dialog.SetDefaultDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +60,10 @@ public final class WizardPage
         for (Dialog<?> dialog : dialogs) {
             dialog.create(composite);
         }
-        new ResetDialog(wizard).create(composite);
+        if (wizard instanceof InputWizard) {
+            new ResetDialog(wizard).create(composite);
+            new SetDefaultDialog(wizard).create(composite);
+        }
         inRefresh = false;
         refresh();
     }
@@ -84,7 +88,17 @@ public final class WizardPage
         if (errors.size() == 0) {
             this.setErrorMessage(null);
         } else {
-            setErrorMessage("Some parameters are not set.");
+            String parameters = null;
+            for (Dialog<?> dialog : errors.keySet()) {
+                if (parameters == null) {
+                    parameters = dialog.getParameter()
+                                       .getName();
+                } else {
+                    parameters = parameters + ", " + dialog.getParameter()
+                                                           .getName();
+                }
+            }
+            setErrorMessage("Some parameters are not set (" + parameters.trim() + ").");
         }
     }
 
@@ -113,6 +127,7 @@ public final class WizardPage
                 dialog.updateDialog();
             }
             setPageComplete(isPageComplete());
+            setError();
             inRefresh = false;
         }
     }

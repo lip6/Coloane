@@ -7,13 +7,27 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import org.cosyverif.alligator.service.parameter.ResourceParameter;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Logger;
 
-public final class OutputResourceDialog<P extends ResourceParameter<?, P>>
+import org.cosyverif.alligator.service.Parameter;
+
+public final class OutputResourceDialog<P extends Parameter<P>>
     extends ValueDialog<P> {
+
+    /** Logger */
+    private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
+
+    private File file;
 
     public OutputResourceDialog(P parameter) {
         super(parameter);
+        try {
+            file = File.createTempFile(parameter.getName(), ".parameter");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -26,8 +40,7 @@ public final class OutputResourceDialog<P extends ResourceParameter<?, P>>
     public
         void updateDialog() {
         if (parameter.isActualParameter()) {
-            input.setText(parameter.getSource()
-                                   .toString());
+            input.setText(file.toString());
         } else {
             input.setText("");
         }
@@ -36,7 +49,6 @@ public final class OutputResourceDialog<P extends ResourceParameter<?, P>>
     @Override
     public
         void updateParameter() {
-        throw new AssertionError();
     }
 
 }

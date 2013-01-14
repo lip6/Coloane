@@ -11,8 +11,8 @@ import fr.lip6.move.coloane.api.alligator.dialog.BooleanDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
 import fr.lip6.move.coloane.api.alligator.dialog.DummyDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.FloatDialog;
+import fr.lip6.move.coloane.api.alligator.dialog.ImageDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.InputFileDialog;
-import fr.lip6.move.coloane.api.alligator.dialog.InputForeignModelDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.InputModelDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.IntegerDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.MultiLineTextDialog;
@@ -21,14 +21,15 @@ import fr.lip6.move.coloane.api.alligator.dialog.OutputResourceDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.SingleChoiceDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.SingleLineTextDialog;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.CancellationException;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Description;
@@ -36,13 +37,13 @@ import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.BooleanParameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.FloatParameter;
-import org.cosyverif.alligator.service.parameter.ForeignModelParameter;
 import org.cosyverif.alligator.service.parameter.IntegerParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
 import org.cosyverif.alligator.service.parameter.MultiLineTextParameter;
 import org.cosyverif.alligator.service.parameter.MultipleChoiceParameter;
 import org.cosyverif.alligator.service.parameter.SingleChoiceParameter;
 import org.cosyverif.alligator.service.parameter.SingleLineTextParameter;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
@@ -61,6 +62,10 @@ public abstract class Wizard
     public List<WizardPage> pages = new ArrayList<WizardPage>();
 
     protected Description description;
+
+    protected Map<Parameter<?>, IFile> files = new HashMap<Parameter<?>, IFile>();
+
+    protected boolean isCanceled;
 
     public Wizard(Description description, boolean isInput) {
         this.description = description;
@@ -96,32 +101,24 @@ public abstract class Wizard
                     newDialog = new SingleChoiceDialog(SingleChoiceParameter.of(parameter));
                 } else if (parameter instanceof SingleLineTextParameter) {
                     newDialog = new SingleLineTextDialog(SingleLineTextParameter.of(parameter));
-                } else if (parameter instanceof FileParameter) {
-                    if (isInput && parameter.isInput()) {
-                        newDialog = new InputFileDialog(FileParameter.of(parameter));
-                    } else if (!isInput) {
-                        newDialog = new OutputResourceDialog<FileParameter>(FileParameter.of(parameter));
+                } else if (parameter instanceof FileParameter && isInput) {
+                    FileParameter p = FileParameter.of(parameter);
+                    newDialog = new InputFileDialog(p);
+                } else if (parameter instanceof FileParameter && !isInput) {
+                    FileParameter p = FileParameter.of(parameter);
+                    if (p.getContentType()
+                         .startsWith("image/")) {
+                        newDialog = new ImageDialog(p);
                     } else {
-                        throw new AssertionError();
+                        newDialog = new OutputResourceDialog(p);
                     }
-                } else if (parameter instanceof ModelParameter) {
-                    if (isInput && parameter.isInput()) {
-                        newDialog = new InputModelDialog(ModelParameter.of(parameter));
-                    } else if (!isInput) {
-                        newDialog = new OutputResourceDialog<ModelParameter>(ModelParameter.of(parameter));
-                    } else {
-                        throw new AssertionError();
-                    }
-                } else if (parameter instanceof ForeignModelParameter) {
-                    if (isInput && parameter.isInput()) {
-                        newDialog = new InputForeignModelDialog(ForeignModelParameter.of(parameter));
-                    } else if (!isInput) {
-                        newDialog = new OutputResourceDialog<ForeignModelParameter>(ForeignModelParameter.of(parameter));
-                    } else {
-                        throw new AssertionError();
-                    }
+                } else if (parameter instanceof ModelParameter && isInput) {
+                    newDialog = new InputModelDialog(ModelParameter.of(parameter));
+                } else if (parameter instanceof ModelParameter && !isInput) {
+                    ModelParameter p = ModelParameter.of(parameter);
+                    newDialog = new OutputResourceDialog(p);
                 } else {
-                    newDialog = new DummyDialog(parameter);
+                    throw new AssertionError();
                 }
                 newDialog.setEditable(editable);
                 dialogs.add(newDialog);
@@ -163,13 +160,6 @@ public abstract class Wizard
     abstract
         List<Set<Parameter<?>>> splitParameters(Description description);
 
-    private boolean finished;
-
-    public final
-        boolean finished() {
-        return finished;
-    }
-
     @Override
     public final
         void run() {
@@ -181,12 +171,28 @@ public abstract class Wizard
         dialog.setBlockOnOpen(true);
         int result = dialog.open();
         if (result == Window.OK) {
-            finished = true;
+            isCanceled = false;
         } else if (result == Window.CANCEL) {
-            finished = false;
+            isCanceled = true;
         } else {
             throw new AssertionError();
         }
+    }
+
+    public final
+        IFile fileFor(Parameter<?> parameter) {
+        for (Entry<Parameter<?>, IFile> e : files.entrySet()) {
+            if (e.getKey()
+                 .equalsUnset(parameter)) {
+                return e.getValue();
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
+    public
+        boolean isCanceled() {
+        return isCanceled;
     }
 
 }

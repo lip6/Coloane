@@ -7,6 +7,9 @@
  */
 package fr.lip6.move.coloane.api.alligator.wizard;
 
+import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
+import fr.lip6.move.coloane.api.alligator.dialog.InputResourceDialog;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -28,7 +31,7 @@ public final class InputWizard
     @Override
         List<Set<Parameter<?>>> splitParameters(Description description) {
         Set<Parameter<?>> result = new HashSet<Parameter<?>>();
-        for (Parameter<?> parameter: description.getParameters()) {
+        for (Parameter<?> parameter : description.getParameters()) {
             if (parameter.isInput()) {
                 result.add(parameter);
             }
@@ -39,6 +42,15 @@ public final class InputWizard
     @Override
     public
         boolean performFinish() {
+        for (Dialog<?> dialog : dialogs) {
+            if (dialog instanceof InputResourceDialog<?>) {
+                InputResourceDialog<?> theDialog = (InputResourceDialog<?>) dialog;
+                Parameter<?> theParameter = theDialog.getParameter()
+                                                     .clone();
+                theParameter.unset();
+                files.put(theParameter, theDialog.getSelectedFile());
+            }
+        }
         return true;
     }
 

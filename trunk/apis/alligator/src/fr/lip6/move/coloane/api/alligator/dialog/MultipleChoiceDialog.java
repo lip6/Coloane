@@ -125,6 +125,7 @@ public final class MultipleChoiceDialog
         for (String choice : list.getSelection()) {
             parameter.selectValue(choice);
         }
+        page.refresh();
     }
 
 }
