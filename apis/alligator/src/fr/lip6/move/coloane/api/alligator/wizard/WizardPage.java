@@ -38,6 +38,8 @@ public final class WizardPage
     /** Errors */
     private final Map<Dialog<?>, String> errors = new HashMap<Dialog<?>, String>();
 
+    private Composite composite;
+    
     public WizardPage(Wizard wizard, Description description) {
         super("Parameters", "Parameters for the " + description.getName() + " service", Utility.getImage("alligator-logo.png"));
         this.wizard = wizard;
@@ -52,6 +54,7 @@ public final class WizardPage
     public
         void createControl(Composite parent) {
         LOGGER.info("Creating controls in wizard page...");
+        composite = parent;
         inRefresh = true;
         Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(3, false));

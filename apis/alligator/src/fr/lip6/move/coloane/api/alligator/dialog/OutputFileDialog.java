@@ -1,0 +1,150 @@
+/**
+ * Copyright (c) 2006-2010 MoVe - Laboratoire d'Informatique de Paris 6 (LIP6). All rights reserved. This program and the
+ * accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this
+ * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html Contributors: Jean-Baptiste VORON (LIP6) -
+ * Project Head / Initial contributor Clément DÉMOULINS (LIP6) - Project Manager Official contacts: coloane@lip6.fr
+ * http://coloane.lip6.fr
+ */
+package fr.lip6.move.coloane.api.alligator.dialog;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
+import java.util.logging.Logger;
+
+import org.cosyverif.alligator.service.Parameter;
+import org.cosyverif.alligator.service.parameter.FileParameter;
+import org.cosyverif.alligator.util.FileSystem;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+
+public final class OutputFileDialog
+    extends Dialog<FileParameter> {
+
+    /** Logger */
+    private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
+
+    private Text input;
+    private Label label;
+    private Label help;
+    private Label error;
+    private File file = null;
+
+    public OutputFileDialog(FileParameter parameter) {
+        super(parameter);
+    }
+
+    @Override
+    public
+        void updateDialog() {
+        if (parameter.isActualParameter() && file != null) {
+            input.setText(file.toString());
+        } else {
+            input.setText("");
+        }
+    }
+
+    @Override
+    public
+        void updateParameter() {
+    }
+
+    @Override
+    public
+        int size() {
+        return 2;
+    }
+
+    @Override
+    public
+        void create(Composite parent) {
+        // Label:
+        label = new Label(parent, SWT.WRAP);
+        label.setText(parameter.getName() + ":");
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+        // Input:
+        input = new Text(parent, SWT.BORDER | SWT.SINGLE);
+        input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+        input.setText("");
+        input.setEditable(false);
+        // Help message:
+        help = new Label(parent, SWT.WRAP);
+        help.setText(parameter.getHelp());
+        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        // Error:
+        error = new Label(parent, SWT.WRAP);
+        error.setText("");
+        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        error.setForeground(errorFontColor);
+    }
+
+    @Override
+    public
+        String errorMessage() {
+        return null;
+    }
+
+    // http://stackoverflow.com/questions/300559/move-copy-file-operations-in-java
+    public static
+        void copyFile(File sourceFile, File destFile)
+            throws IOException {
+        if (!destFile.exists()) {
+            destFile.createNewFile();
+        }
+        FileChannel source = null;
+        FileChannel destination = null;
+        try {
+            source = new FileInputStream(sourceFile).getChannel();
+            destination = new FileOutputStream(destFile).getChannel();
+            // previous code: destination.transferFrom(source, 0, source.size());
+            // to avoid infinite loops, should be:
+            long count = 0;
+            long size = source.size();
+            while ((count += destination.transferFrom(source, count, size - count)) < size)
+                ;
+        } finally {
+            if (source != null) {
+                source.close();
+            }
+            if (destination != null) {
+                destination.close();
+            }
+        }
+    }
+
+    @Override
+    public
+        void update(Parameter<?> p) {
+        LOGGER.info("Update " + parameter);
+        LOGGER.info("With " + p);
+        try {
+            FileParameter that = (FileParameter) p;
+            if (parameter.isActualParameter() && (file == null)) {
+                file = File.createTempFile(parameter.getName() + "-", ".parameter");
+                file.deleteOnExit();
+            } else if (parameter.isFormalParameter()) {
+                file = null;
+            }
+            if (parameter.isActualParameter() == that.isActualParameter()) {
+                input.setBackground(null);
+                label.setBackground(null);
+            } else {
+                input.setBackground(updateColor);
+                label.setBackground(updateColor);
+                parameter.copy(that);
+            }
+            if (file != null) {
+                copyFile(parameter.getFile(), file);
+            }
+            updateDialog();
+        } catch (IOException e) {
+            throw new AssertionError();
+        }
+    }
+
+}

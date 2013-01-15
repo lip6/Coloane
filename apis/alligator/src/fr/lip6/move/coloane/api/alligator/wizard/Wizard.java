@@ -17,7 +17,8 @@ import fr.lip6.move.coloane.api.alligator.dialog.InputModelDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.IntegerDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.MultiLineTextDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.MultipleChoiceDialog;
-import fr.lip6.move.coloane.api.alligator.dialog.OutputResourceDialog;
+import fr.lip6.move.coloane.api.alligator.dialog.OutputFileDialog;
+import fr.lip6.move.coloane.api.alligator.dialog.OutputModelDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.SingleChoiceDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.SingleLineTextDialog;
 
@@ -110,13 +111,13 @@ public abstract class Wizard
                          .startsWith("image/")) {
                         newDialog = new ImageDialog(p);
                     } else {
-                        newDialog = new OutputResourceDialog(p);
+                        newDialog = new OutputFileDialog(p);
                     }
                 } else if (parameter instanceof ModelParameter && isInput) {
                     newDialog = new InputModelDialog(ModelParameter.of(parameter));
                 } else if (parameter instanceof ModelParameter && !isInput) {
                     ModelParameter p = ModelParameter.of(parameter);
-                    newDialog = new OutputResourceDialog(p);
+                    newDialog = new OutputModelDialog(p);
                 } else {
                     throw new AssertionError();
                 }
@@ -179,7 +180,7 @@ public abstract class Wizard
         }
     }
 
-    public final
+    public
         IFile fileFor(Parameter<?> parameter) {
         for (Entry<Parameter<?>, IFile> e : files.entrySet()) {
             if (e.getKey()

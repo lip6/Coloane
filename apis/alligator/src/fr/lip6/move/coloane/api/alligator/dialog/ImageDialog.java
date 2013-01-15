@@ -14,9 +14,13 @@ import java.util.logging.Logger;
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 public final class ImageDialog
     extends Dialog<FileParameter> {
@@ -25,6 +29,13 @@ public final class ImageDialog
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
     private Label image;
+    private Label label;
+    private Label help;
+
+    private Composite container;
+
+    private int width = 500;
+    private int height = 200;
 
     public ImageDialog(FileParameter parameter) {
         super(parameter);
@@ -37,12 +48,11 @@ public final class ImageDialog
         void updateDialog() {
         if (parameter.isActualParameter()) {
             LOGGER.info("Setting image...");
-            image.setText(null);
-            image.setImage(Utility.getImage(parameter.getFile()));
-            image.redraw();
+            image.setImage(resize(Utility.getImage(parameter.getFile())));
+            container.layout();
         } else {
             image.setImage(null);
-            image.setText(parameter.getName());
+            container.layout();
         }
     }
 
@@ -62,9 +72,42 @@ public final class ImageDialog
     public
         void create(Composite parent) {
         // Label:
-        image = new Label(parent, SWT.WRAP);
-        image.setText(parameter.getName());
-        image.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 5, 3));
+        label = new Label(parent, SWT.WRAP);
+        label.setText(parameter.getName() + ":");
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+        // Help message:
+        help = new Label(parent, SWT.WRAP);
+        help.setText(parameter.getHelp());
+        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        // Image:
+        container = new Composite(parent, SWT.BORDER);
+        container.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 3, 4));
+        image = new Label(container, SWT.CENTER);
+        image.setText("");
+        image.setSize(width, height);
+    }
+
+    private
+        Image resize(Image i) {
+        // Keep aspect ratio:
+        float ratio = (float) i.getBounds().width / (float) i.getBounds().height;
+        int newWidth;
+        int newHeight;
+        if (ratio > (float) width / (float) height) {
+            newWidth = width;
+            newHeight = (int) ((float) newWidth / ratio);
+        } else {
+            newHeight = height;
+            newWidth = (int) ((float) newHeight * ratio);
+        }
+        Image scaled = new Image(Display.getDefault(), newWidth, newHeight);
+        GC gc = new GC(scaled);
+        gc.setAntialias(SWT.ON);
+        gc.setInterpolation(SWT.HIGH);
+        gc.drawImage(i, 0, 0, i.getBounds().width, i.getBounds().height, 0, 0, newWidth, newHeight);
+        gc.dispose();
+        i.dispose(); // don't forget about me!
+        return scaled;
     }
 
     @Override

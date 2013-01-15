@@ -9,7 +9,7 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 
 import fr.lip6.move.coloane.api.alligator.Connection;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
-import fr.lip6.move.coloane.api.alligator.dialog.OutputResourceDialog;
+import fr.lip6.move.coloane.api.alligator.dialog.OutputFileDialog;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +41,7 @@ public final class OutputWizard
 
     /** Logger */
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
+    private static int DELAY = 5;
 
     private static Map<Identifier, Set<Parameter<?>>> SOURCES = new HashMap<Identifier, Set<Parameter<?>>>();
 
@@ -98,7 +99,7 @@ public final class OutputWizard
             if (!connection.getServices()
                            .isFinished(identifier)) {
                 LOGGER.info("Scheduling updater...");
-                schedule(2000); // TODO
+                schedule(DELAY * 1000); // TODO
             }
             return Status.OK_STATUS;
         }
