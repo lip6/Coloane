@@ -193,13 +193,6 @@ public final class RunService
                     e.printStackTrace();
                 }
             }
-            // Expand all input parameters:
-            for (Parameter<?> parameter : service.getParameters()) {
-                if (parameter.isInput()) {
-                    LOGGER.info("Expanding " + parameter.getName() + "...");
-                    parameter.expandForTransfer();
-                }
-            }
             if (alligator.getServices() != null) {
                 LOGGER.info("Launching service '" + service + "'...");
                 Identifier identifier = alligator.getServices()
