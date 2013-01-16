@@ -96,38 +96,40 @@ public final class MultiLineTextDialog
         });
         input.setEditable(editable);
         // Import button:
-        final Text input = this.input;
-        importButton = new Button(parent, SWT.PUSH);
-        importButton.setText("Import…");
-        importButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1));
-        importButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public
-                void widgetSelected(SelectionEvent e) {
-                FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN);
-                final String filePath = dialog.open();
-                if (filePath != null) {
-                    parent.getDisplay()
-                          .asyncExec(new Runnable() {
-                              public
-                                  void run() {
-                                  try {
-                                      BufferedReader reader = new BufferedReader(new FileReader(filePath));
-                                      StringBuilder sb = new StringBuilder();
-                                      int c;
-                                      while ((c = reader.read()) != -1) {
-                                          sb.append((char) c);
+        if (editable) {
+            final Text input = this.input;
+            importButton = new Button(parent, SWT.PUSH);
+            importButton.setText("Import…");
+            importButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1));
+            importButton.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public
+                    void widgetSelected(SelectionEvent e) {
+                    FileDialog dialog = new FileDialog(parent.getShell(), SWT.OPEN);
+                    final String filePath = dialog.open();
+                    if (filePath != null) {
+                        parent.getDisplay()
+                              .asyncExec(new Runnable() {
+                                  public
+                                      void run() {
+                                      try {
+                                          BufferedReader reader = new BufferedReader(new FileReader(filePath));
+                                          StringBuilder sb = new StringBuilder();
+                                          int c;
+                                          while ((c = reader.read()) != -1) {
+                                              sb.append((char) c);
+                                          }
+                                          input.setText(sb.toString());
+                                          reader.close();
+                                      } catch (IOException e) {
+                                          Coloane.showErrorMsg(e.getLocalizedMessage());
                                       }
-                                      input.setText(sb.toString());
-                                      reader.close();
-                                  } catch (IOException e) {
-                                      Coloane.showErrorMsg(e.getLocalizedMessage());
                                   }
-                              }
-                          });
+                              });
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
