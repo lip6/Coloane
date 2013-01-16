@@ -229,7 +229,7 @@ public final class Connection
                 IApiService apiService = new RunService(service, this);
                 LOGGER.finer("Adding to '" + data.getName() + "' service '" + service.getName() + "'...");
                 // Handle sub-menus using name separators:
-                String serviceName = service.getName();
+                String serviceName = service.getName() + " v" + service.getVersion();
                 StringTokenizer tokenizer = new StringTokenizer(serviceName, ":");
                 ISubMenu current = menu;
                 do {
