@@ -70,15 +70,19 @@ public abstract class ValueDialog<P extends Parameter<P>>
     @Override
     public final
         String errorMessage() {
-        String result = _errorMessage();
-        if (result == null) {
-            input.setBackground(null);
-            error.setText("");
+        if (editable) {
+            String result = _errorMessage();
+            if (result == null) {
+                input.setBackground(null);
+                error.setText("");
+            } else {
+                input.setBackground(errorColor);
+                error.setText(result);
+            }
+            return result;
         } else {
-            input.setBackground(errorColor);
-            error.setText(result);
+            return null;
         }
-        return result;
     }
 
     protected abstract

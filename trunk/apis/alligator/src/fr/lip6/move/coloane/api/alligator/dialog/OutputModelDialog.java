@@ -90,8 +90,6 @@ public final class OutputModelDialog
     @Override
     public
         void update(Parameter<?> p) {
-        LOGGER.info("Update " + parameter);
-        LOGGER.info("With " + p);
         try {
             ModelParameter that = (ModelParameter) p;
             if (parameter.isActualParameter() && (file == null)) {

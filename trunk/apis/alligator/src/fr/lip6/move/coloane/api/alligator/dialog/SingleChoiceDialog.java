@@ -32,18 +32,22 @@ public final class SingleChoiceDialog
     @Override
     public
         String errorMessage() {
-        String result;
-        if (combo.getText()
-                 .equals("")) {
-            result = "Value is not selected.";
-            error.setText(result);
-            combo.setBackground(errorColor);
+        if (editable) {
+            String result;
+            if (combo.getText()
+                     .equals("")) {
+                result = "Value is not selected.";
+                error.setText(result);
+                combo.setBackground(errorColor);
+            } else {
+                result = null;
+                combo.setBackground(null);
+                error.setText("");
+            }
+            return result;
         } else {
-            result = null;
-            combo.setBackground(null);
-            error.setText("");
+            return null;
         }
-        return result;
     }
 
     @Override
