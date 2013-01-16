@@ -84,6 +84,7 @@ public abstract class Wizard
             List<Parameter<?>> parameters = new ArrayList<Parameter<?>>(ps);
             Collections.sort(parameters, comparator);
             // Create dialogs:
+            List<Dialog<?>> newDialogs = new ArrayList<Dialog<?>>();
             for (Parameter<?> parameter : parameters) {
                 LOGGER.info("Creating dialog for " + parameter.getName() + "...");
                 boolean editable = isInput && parameter.isInput();
@@ -122,14 +123,16 @@ public abstract class Wizard
                     throw new AssertionError();
                 }
                 newDialog.setEditable(editable);
-                dialogs.add(newDialog);
+                newDialogs.add(newDialog);
             }
+            dialogs.addAll(newDialogs);
             // Create pages using a simple algorithm:
-            for (Dialog<?> dialog : dialogs) {
+            List<WizardPage> newPages = new ArrayList<WizardPage>();
+            for (Dialog<?> dialog : newDialogs) {
                 LOGGER.info("Adding dialog for parameter " + dialog.getParameter()
                                                                    .getName() + " to a page...");
                 boolean added = false;
-                for (WizardPage page : pages) {
+                for (WizardPage page : newPages) {
                     if (page.size() + dialog.size() <= PAGE_SIZE) {
                         dialog.setPage(page);
                         page.addDialog(dialog);
@@ -141,9 +144,10 @@ public abstract class Wizard
                     WizardPage newPage = new WizardPage(this, description);
                     dialog.setPage(newPage);
                     newPage.addDialog(dialog);
-                    pages.add(newPage);
+                    newPages.add(newPage);
                 }
             }
+            pages.addAll(newPages);
         }
         LOGGER.info("Adding all wizard pages to the wizard...");
         for (WizardPage page : pages) {
