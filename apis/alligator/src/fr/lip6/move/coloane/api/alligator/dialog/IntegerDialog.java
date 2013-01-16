@@ -22,7 +22,7 @@ public final class IntegerDialog
     public
         String _errorMessage() {
         try {
-            Integer.valueOf(input.getText());
+            new BigInteger(input.getText());
             return null;
         } catch (NumberFormatException e) {
             return "Value '" + input.getText() + "' must be an integer.";
@@ -43,8 +43,10 @@ public final class IntegerDialog
     @Override
     public
         void updateParameter() {
-        parameter.setValue(BigInteger.valueOf(Integer.valueOf(input.getText())));
-        page.refresh();
+        if (_errorMessage() == null) {
+            parameter.setValue(new BigInteger(input.getText()));
+            page.refresh();
+        }
     }
 
 }

@@ -37,8 +37,10 @@ public final class SingleLineTextDialog
     @Override
     public
         void updateParameter() {
-        parameter.setValue(input.getText());
-        page.refresh();
+        if (_errorMessage() == null) {
+            parameter.setValue(input.getText());
+            page.refresh();
+        }
     }
 
 }

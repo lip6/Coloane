@@ -48,8 +48,11 @@ public final class ImageDialog
         void updateDialog() {
         if (parameter.isActualParameter()) {
             LOGGER.info("Setting image...");
-            image.setImage(resize(Utility.getImage(parameter.getFile())));
-            container.layout();
+            try {
+                image.setImage(resize(Utility.getImage(parameter.getFile())));
+                container.layout();
+            } catch (Exception e) {
+            }
         } else {
             image.setImage(null);
             container.layout();

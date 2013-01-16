@@ -41,8 +41,10 @@ public final class FloatDialog
     @Override
     public
         void updateParameter() {
-        parameter.setValue(Float.valueOf(input.getText()));
-        page.refresh();
+        if (_errorMessage() == null) {
+            parameter.setValue(Float.valueOf(input.getText()));
+            page.refresh();
+        }
     }
 
 }
