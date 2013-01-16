@@ -219,8 +219,8 @@ public final class Connection
                 @Override
                 public
                     int compare(Description lhs, Description rhs) {
-                    return lhs.getName()
-                              .compareToIgnoreCase(rhs.getName());
+                    return (lhs.getName() + " v" + lhs.getVersion()).compareToIgnoreCase(rhs.getName() + " v" +
+                                                                                         lhs.getVersion());
                 }
             };
             Collections.sort(descriptions, comparator);
