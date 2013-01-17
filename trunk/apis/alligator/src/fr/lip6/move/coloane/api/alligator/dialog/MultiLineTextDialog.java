@@ -32,7 +32,7 @@ public final class MultiLineTextDialog
 
     private Label label;
     private Text input;
-    private Label help;
+    private Text help;
     private Button importButton;
 
     public MultiLineTextDialog(MultiLineTextParameter parameter) {
@@ -63,7 +63,7 @@ public final class MultiLineTextDialog
     @Override
     public
         int size() {
-        return 5;
+        return 7;
     }
 
     @Override
@@ -74,11 +74,14 @@ public final class MultiLineTextDialog
         label.setText(parameter.getName() + ":");
         label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
         // Help message:
-        help = new Label(parent, SWT.WRAP);
+        help = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        GridData data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+        data.widthHint = width;
+        help.setLayoutData(data);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        help.setEditable(false);
         // Input:
-        GridData layoutData = new GridData(SWT.FILL, SWT.FILL, false, false, 3, 3);
+        GridData layoutData = new GridData(SWT.FILL, SWT.FILL, false, false, 3, 4);
         layoutData.heightHint = 50;
         input = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
         input.setLayoutData(layoutData);

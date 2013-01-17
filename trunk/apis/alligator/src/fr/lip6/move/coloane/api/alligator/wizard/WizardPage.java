@@ -9,6 +9,7 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 
 import fr.lip6.move.coloane.api.alligator.Utility;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
+import fr.lip6.move.coloane.api.alligator.dialog.EmptyDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.ResetDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.SetDefaultDialog;
 
@@ -23,6 +24,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 
 public final class WizardPage
     extends org.eclipse.jface.wizard.WizardPage {
@@ -32,6 +34,8 @@ public final class WizardPage
 
     private final Wizard wizard;
 
+    private final Description description;
+
     /** Dialogs */
     private final List<Dialog<?>> dialogs = new ArrayList<Dialog<?>>();
 
@@ -39,11 +43,12 @@ public final class WizardPage
     private final Map<Dialog<?>, String> errors = new HashMap<Dialog<?>, String>();
 
     private Composite composite;
-    
+
     public WizardPage(Wizard wizard, Description description) {
         super("Parameters", "Parameters for the " + description.getName() + " service", Utility.getImage("alligator-logo.png"));
         this.wizard = wizard;
-        this.setMessage(description.getHelp());
+        this.description = description;
+        this.setMessage(description.getName() + " version " + description.getVersion());
     }
 
     public
@@ -64,8 +69,18 @@ public final class WizardPage
             dialog.create(composite);
         }
         if (wizard instanceof InputWizard) {
-            new ResetDialog(wizard).create(composite);
-            new SetDefaultDialog(wizard).create(composite);
+            // Buttons:
+            Composite buttons = new Composite(composite, SWT.NONE);
+            buttons.setLayout(new GridLayout(1, false));
+            buttons.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
+            new ResetDialog(wizard).create(buttons);
+            new SetDefaultDialog(wizard).create(buttons);
+            // Description of the service:
+            Text helpMessage = new Text(composite, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+            GridData data = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 2);
+            helpMessage.setLayoutData(data);
+            helpMessage.setText(description.getHelp());
+            helpMessage.setEditable(false);
         }
         inRefresh = false;
         refresh();

@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
-import org.cosyverif.alligator.util.FileSystem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -31,8 +30,7 @@ public final class OutputFileDialog
 
     private Text input;
     private Label label;
-    private Label help;
-    private Label error;
+    private Text help;
     private File file = null;
 
     public OutputFileDialog(FileParameter parameter) {
@@ -73,14 +71,12 @@ public final class OutputFileDialog
         input.setText("");
         input.setEditable(false);
         // Help message:
-        help = new Label(parent, SWT.WRAP);
+        help = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        GridData data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+        data.widthHint = width;
+        help.setLayoutData(data);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
-        // Error:
-        error = new Label(parent, SWT.WRAP);
-        error.setText("");
-        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-        error.setForeground(errorFontColor);
+        help.setEditable(false);
     }
 
     @Override

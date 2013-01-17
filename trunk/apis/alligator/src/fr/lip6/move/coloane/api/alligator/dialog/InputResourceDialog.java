@@ -37,6 +37,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 public abstract class InputResourceDialog<P extends Parameter<P>>
@@ -45,7 +46,7 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
     protected Label label;
-    protected Label help;
+    protected Text help;
     protected Label error;
     protected CheckboxTreeViewer checkboxTreeViewer;
 
@@ -67,9 +68,12 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
         label.setText(parameter.getName() + ":");
         label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
         // Help message:
-        help = new Label(parent, SWT.WRAP);
+        help = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        GridData data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+        data.widthHint = width;
+        help.setLayoutData(data);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        help.setEditable(false);
         // create the input element, which has the root resource as its only child
         List<IProject> input = new ArrayList<IProject>();
         for (IProject project : ResourcesPlugin.getWorkspace()

@@ -170,6 +170,7 @@ public abstract class Wizard
         void run() {
         this.setNeedsProgressMonitor(false);
         this.setHelpAvailable(false);
+        this.setHelpAvailable(false);
         this.setWindowTitle("Parameters for the " + description.getName() + " service");
         WizardDialog dialog = new WizardDialog(Display.getDefault()
                                                       .getActiveShell(), this);
