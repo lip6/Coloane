@@ -203,7 +203,7 @@ public final class RunService
                 IResult result = new Result(service.getName());
                 ISubResult sub = new SubResult("Identifier of the service execution", identifier.toString());
                 result.addSubResult(sub);
-                return Collections.singletonList(result);
+                return new ResultService(identifier, alligator).run(null, monitor);
             } else {
                 IResult result = new Result(service.getName());
                 LOGGER.info("Invoking service '" + service + "' (oldstyle)...");
