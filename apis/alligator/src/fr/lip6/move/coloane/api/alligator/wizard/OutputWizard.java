@@ -146,11 +146,11 @@ public final class OutputWizard
             }
         }
         List<Set<Parameter<?>>> result = new ArrayList<Set<Parameter<?>>>();
-        if (!inputs.isEmpty()) {
-            result.add(inputs);
-        }
         if (!outputs.isEmpty()) {
             result.add(outputs);
+        }
+        if (!inputs.isEmpty()) {
+            result.add(inputs);
         }
         return result;
     }
