@@ -23,7 +23,9 @@ public abstract class Dialog<P extends Parameter<P>> {
     protected final Color errorFontColor;
     protected final Color errorColor;
     protected final Color updateColor;
-
+    protected final int width = 500;
+    protected final int height = 200;
+    
     // TODO: remove page & editable
     protected Dialog(P parameter) {
         this.parameter = parameter;

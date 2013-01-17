@@ -16,13 +16,14 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 public final class SingleChoiceDialog
     extends Dialog<SingleChoiceParameter> {
 
     private Label label;
     private Combo combo;
-    private Label help;
+    private Text help;
     private Label error;
 
     public SingleChoiceDialog(SingleChoiceParameter parameter) {
@@ -69,7 +70,7 @@ public final class SingleChoiceDialog
     @Override
     public
         int size() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -99,13 +100,16 @@ public final class SingleChoiceDialog
         });
         this.combo.setEnabled(editable);
         // Help message:
-        help = new Label(parent, SWT.WRAP);
+        help = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        GridData data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+        data.widthHint = width;
+        help.setLayoutData(data);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        help.setEditable(false);
         // Error:
         error = new Label(parent, SWT.WRAP);
         error.setText("");
-        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
         error.setForeground(errorFontColor);
     }
 

@@ -23,7 +23,7 @@ public final class ResetDialog {
         void create(final Composite parent) {
         reset = new Button(parent, SWT.PUSH);
         reset.setText("Reset");
-        reset.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        reset.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
         reset.addSelectionListener(new SelectionAdapter() {
             @Override
             public

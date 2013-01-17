@@ -30,12 +30,9 @@ public final class ImageDialog
 
     private Label image;
     private Label label;
-    private Label help;
+    private Text help;
 
     private Composite container;
-
-    private int width = 500;
-    private int height = 200;
 
     public ImageDialog(FileParameter parameter) {
         super(parameter);
@@ -68,7 +65,7 @@ public final class ImageDialog
     @Override
     public
         int size() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -79,9 +76,12 @@ public final class ImageDialog
         label.setText(parameter.getName() + ":");
         label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
         // Help message:
-        help = new Label(parent, SWT.WRAP);
+        help = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        GridData data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+        data.widthHint = width;
+        help.setLayoutData(data);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        help.setEditable(false);
         // Image:
         container = new Composite(parent, SWT.BORDER);
         container.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 3, 4));

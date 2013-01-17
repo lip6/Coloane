@@ -7,8 +7,6 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
-import fr.lip6.move.coloane.api.alligator.wizard.WizardPage;
-
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.MultipleChoiceParameter;
 import org.eclipse.swt.SWT;
@@ -18,13 +16,14 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Text;
 
 public final class MultipleChoiceDialog
     extends Dialog<MultipleChoiceParameter> {
 
     private Label label;
     private List list;
-    private Label help;
+    private Text help;
 
     public MultipleChoiceDialog(MultipleChoiceParameter parameter) {
         super(parameter);
@@ -55,7 +54,7 @@ public final class MultipleChoiceDialog
     @Override
     public
         int size() {
-        return 5;
+        return 6;
     }
 
     @Override
@@ -66,9 +65,12 @@ public final class MultipleChoiceDialog
         label.setText(parameter.getName() + ":");
         label.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, false, 1, 1));
         // Help message:
-        help = new Label(parent, SWT.WRAP);
+        help = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        GridData data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+        data.widthHint = width;
+        help.setLayoutData(data);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        help.setEditable(false);
         // Choices:
         list = new org.eclipse.swt.widgets.List(parent, SWT.MULTI | SWT.BORDER);
         list.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 3, 4));

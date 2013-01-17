@@ -3,6 +3,7 @@ package fr.lip6.move.coloane.api.alligator.dialog;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Parameter;
+import org.eclipse.osgi.framework.internal.core.Msg;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -19,7 +20,7 @@ public abstract class ValueDialog<P extends Parameter<P>>
 
     protected Text input;
     protected Label label;
-    protected Label help;
+    protected Text help;
     protected Label error;
 
     protected ValueDialog(P parameter) {
@@ -29,7 +30,7 @@ public abstract class ValueDialog<P extends Parameter<P>>
     @Override
     public final
         int size() {
-        return 2;
+        return 3;
     }
 
     @Override
@@ -43,13 +44,16 @@ public abstract class ValueDialog<P extends Parameter<P>>
         input = new Text(parent, SWT.BORDER | SWT.SINGLE);
         input.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
         // Help message:
-        help = new Label(parent, SWT.WRAP);
+        help = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        GridData data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+        data.widthHint = width;
+        help.setLayoutData(data);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        help.setEditable(false);
         // Error:
         error = new Label(parent, SWT.WRAP);
         error.setText("");
-        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+        error.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 3, 1));
         error.setForeground(errorFontColor);
         // Set listener:
         input.addModifyListener(new ModifyListener() {
@@ -78,6 +82,7 @@ public abstract class ValueDialog<P extends Parameter<P>>
             } else {
                 input.setBackground(errorColor);
                 error.setText(result);
+                LOGGER.info("Set error text: " + result);
             }
             return result;
         } else {

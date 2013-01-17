@@ -15,13 +15,13 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 
 public final class BooleanDialog
     extends Dialog<BooleanParameter> {
 
     private Button button;
-    private Label help;
+    private Text help;
 
     public BooleanDialog(BooleanParameter parameter) {
         super(parameter);
@@ -50,7 +50,7 @@ public final class BooleanDialog
     @Override
     public
         int size() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -76,9 +76,13 @@ public final class BooleanDialog
 
         });
         // Help message:
-        help = new Label(parent, SWT.WRAP);
+        help = new Text(parent, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+        GridData data = new GridData(SWT.LEFT, SWT.CENTER, false, false, 3, 1);
+        data.widthHint = width;
+        help.setLayoutData(data);
         help.setText(parameter.getHelp());
-        help.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 1));
+        help.setEditable(false);
+        //
         button.setEnabled(editable);
         if (!parameter.isActualParameter()) {
             parameter.setValue(false);
