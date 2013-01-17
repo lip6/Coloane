@@ -114,6 +114,7 @@ public final class Connection
     private
         void computeOldMenu(IProgressMonitor monitor) {
         try {
+            LOGGER.info("Connecting to " + data.getOldAddress() + "...");
             // Establish connection:
             JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
             factory.setAddress(data.getOldAddress()
@@ -127,6 +128,7 @@ public final class Connection
             conduit.getClient()
                    .setReceiveTimeout(600000);
             // Compute menu:
+            LOGGER.info("Computing menu...");
             if (services == null || !services.ping(PING_VALUE)
                                              .equals(PING_VALUE)) {
                 throw new IllegalStateException();
@@ -190,6 +192,7 @@ public final class Connection
         void computeMenu(IProgressMonitor monitor) {
         try {
             // Establish connection:
+            LOGGER.info("Connecting to " + data.getAddress() + "...");
             JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
             factory.setAddress(data.getAddress()
                                    .toString());
@@ -200,8 +203,9 @@ public final class Connection
             conduit.getClient()
                    .setAllowChunking(false);
             conduit.getClient()
-                   .setReceiveTimeout(600000);
+                   .setReceiveTimeout(60000);
             // Compute menu:
+            LOGGER.info("Computing menu...");
             if (services == null || !services.ping(PING_VALUE)
                                              .equals(PING_VALUE)) {
                 LOGGER.warning("Cannot use new alligator services.");
@@ -301,8 +305,10 @@ public final class Connection
         }
         try {
             try {
+                LOGGER.info("Trying to compute menu for new-style alligator.");
                 computeMenu(monitor);
             } catch (Exception e) {
+                LOGGER.info("Trying to compute menu for old-style alligator.");
                 computeOldMenu(monitor);
             }
         } catch (Exception e) {

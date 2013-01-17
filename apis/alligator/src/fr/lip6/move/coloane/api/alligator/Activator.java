@@ -82,6 +82,11 @@ public class Activator
     public final
         void stop(BundleContext context)
             throws Exception {
+        // Cancel all connections:
+        for (Connection connection : connections) {
+            connection.cancel();
+        }
+        connections.clear();
         plugin = null;
         super.stop(context);
     }
