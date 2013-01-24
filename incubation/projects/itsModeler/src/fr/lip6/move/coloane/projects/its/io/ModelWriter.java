@@ -116,7 +116,7 @@ public final class ModelWriter {
 				for (CTLFormulaDescription cfd : cl.getCTLFormulas()) {
 					sb.append("<formula name='").append(cfd.getName()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 					sb.append(" description='").append(cfd.getComments()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
-					sb.append(" formula='").append(cfd.getCtlFormula()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
+					sb.append(" formula='").append(cfd.getCtlFormula().getFormulaString()).append("'"); //$NON-NLS-1$ //$NON-NLS-2$
 					// Fin du noeud
 					sb.append("/>\n"); //$NON-NLS-1$
 				}
