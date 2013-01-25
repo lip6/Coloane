@@ -36,9 +36,9 @@ public class CTLFormulaDescription extends SimpleObservable implements
 			CTLCheckService parent) {
 		this.name = name;
 		this.comments = comments;
+		this.parent = parent;
 		this.ctlFormula = new ParsedCTLFormula(formula,parent.getParent());
 		ctlFormula.addObserver(this);
-		this.parent = parent;
 	}
 
 	public void setComments(String comments) {
