@@ -98,10 +98,7 @@ public class TypeDeclaration extends AbstractTypeDeclaration implements ISimpleO
 			}
 			IAttribute name = node.getAttribute("name");
 			if (name==null) {
-				name = node.getAttribute("label");
-				if (name ==null) {
-					return;
-				}
+				continue;	
 			}
 			if (name.getValue()==null || name.getValue().isEmpty()) {
 				name.setValue(node.getNodeFormalism().getName().substring(0,4)+nextId++);
