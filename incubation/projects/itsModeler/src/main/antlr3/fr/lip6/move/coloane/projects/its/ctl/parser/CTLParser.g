@@ -177,16 +177,21 @@ predicate returns [CTLFormula form] :
   |
   var=VARIABLE comp=comparator val=NUMBER
   { 
-                      String name = var.getText();
-                        IModelVariable  v = cl.getType().findQualifiedVariable(name);
-                        if (v == null) {
-                          emitErrorMessage("Token " + name + " does not seem to designate a variable of your model.", var.getCharPositionInLine(), var.getText().length(), Collections.EMPTY_LIST);
-                        } else if (! (v instanceof LeafModelVariable)) {
-                          emitErrorMessage("Token " + name + " does not designate an integer variable of your model. Qualify with \".\"", var.getCharPositionInLine(), var.getText().length(), Collections.EMPTY_LIST);                         
-                        } else {
-                          name = v.getId();
-                        }
-                        form = new CTLVariablePredicate(name, comp, val.getText() );   }
+                                           String name = var.getText();
+                                          ITypeDeclaration type = cl.getType();
+                                            if (type==null) {
+                                                emitErrorMessage("Token " + name + " does not seem to designate a variable of your model.", var.getCharPositionInLine(), var.getText().length(), Collections.EMPTY_LIST);
+                    						} else {                                           	
+                    							IModelVariable  v = type.findQualifiedVariable(name);
+                    							if (v == null) {
+                    								emitErrorMessage("Token " + name + " does not seem to designate a variable of your model.", var.getCharPositionInLine(), var.getText().length(), Collections.EMPTY_LIST);
+                    							} else if (! (v instanceof LeafModelVariable)) {
+                    								emitErrorMessage("Token " + name + " does not designate an integer variable of your model. Qualify with \".\"", var.getCharPositionInLine(), var.getText().length(), Collections.EMPTY_LIST);                         
+                    							} else {
+                    								name = v.getId();
+                    							}
+                    						}
+ 				                       form = new CTLVariablePredicate(name, comp, val.getText() );   }
   |
   '@' var=VARIABLE
   { 
