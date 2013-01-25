@@ -18,6 +18,7 @@ package main.antlr3.fr.lip6.move.coloane.projects.its.ctl.parser;
 
 import java.util.Collections;
 
+import fr.lip6.move.coloane.projects.its.ITypeDeclaration;
 import fr.lip6.move.coloane.projects.its.checks.*;
 import fr.lip6.move.coloane.projects.its.ctl.*;
 import fr.lip6.move.coloane.projects.its.antlrutil.*;
