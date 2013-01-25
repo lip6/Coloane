@@ -37,7 +37,7 @@ public class ParsedCTLFormula extends SimpleObservable {
 		if (formulaString==null) {
 			formulaString = "TRUE;";
 		}
-		if (formulaString != null && ! formulaString.equals(inputForm)) {
+		if (formulaString != null && (! formulaString.equals(inputForm)|| parsedForm==null)) {
 			errors.clear();
 			
 			inputForm = formulaString;
@@ -64,7 +64,11 @@ public class ParsedCTLFormula extends SimpleObservable {
 				ee.printStackTrace();
 				// addCheckFail(elt, att, e.getLocalizedMessage(), result);
 				// testok = false;
+			} catch (NullPointerException error) {
+				System.err.println("Error in formula parse, model not set ?");
+				error.printStackTrace();
 			}
+
 			notifyObservers();
 		}
 	}
@@ -78,12 +82,18 @@ public class ParsedCTLFormula extends SimpleObservable {
 	}
 
 	public CTLFormula getParsedFormula() {
+		if (parsedForm==null) {
+			// try to reparse
+			setFormulaString(inputForm);
+		}
 		return parsedForm;
 	}
 	
 	@Override
 	public String toString() {
-		return parsedForm.toString();
+		if (getParsedFormula() != null)
+			return getParsedFormula().toString();
+		return inputForm;
 	}
 
 }
