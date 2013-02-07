@@ -36,6 +36,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -175,7 +176,7 @@ public class ModelHandler extends DefaultHandler {
 	private void handleFormula(Attributes attributes) {
 		String name = attributes.getValue("name");
 		String comment = attributes.getValue("description");
-		String form = attributes.getValue("formula");
+		String form = StringEscapeUtils.unescapeXml(attributes.getValue("formula"));
 		CheckList cl = (CheckList) stack.peek();
 		cl.addCTLFormula(name, form, comment);
 	}
