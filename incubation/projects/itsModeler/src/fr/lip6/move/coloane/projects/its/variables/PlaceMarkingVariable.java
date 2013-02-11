@@ -34,7 +34,8 @@ public class PlaceMarkingVariable extends LeafModelVariable {
 	 */
 	public PlaceMarkingVariable(INode node) {
 		super(node.getAttribute("name").getValue());
-		setId("P_" + node.getId() + getName());
+		setId(getName());
+//		setId("P_" + node.getId() + getName());
 	}
 
 	private PlaceMarkingVariable(PlaceMarkingVariable other) {

@@ -128,7 +128,7 @@ public final class ITSModelWriter {
 								new NullProgressMonitor());
 						sb.append("<type name='"
 								+ td.getTypeName()
-								+ "' formalism='Time Petri Net' format='Romeo' path='./"
+								+ "' formalism='Time Petri Net' format='URomeo' path='./"
 								+ td.getTypeName() + ".xml' />\n");
 					}
 				} else {

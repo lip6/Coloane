@@ -41,7 +41,8 @@ public class InstanceVariable extends CompositeModelVariable {
 	 */
 	public InstanceVariable(INode inst, String type) {
 		super(inst.getAttribute("name").getValue());
-		setId("i_" + inst.getId() + "_" + getName());
+//		setId("i_" + inst.getId() + "_" + getName());
+		setId(getName());
 		this.type = inst.getAttribute("type").getValue() + " (" + type + ")";
 	}
 
