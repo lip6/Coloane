@@ -43,6 +43,7 @@ public class CircularSetNode extends AbstractNodeFigure {
 	@Override
 	protected final void outlineShape(Graphics graphics) {
 		Rectangle r = getBounds();
+		int lineWidth = getLineWidth(); 
 		int x = r.x + lineWidth / 2;
 		int y = r.y + lineWidth / 2;
 		int w = r.width - Math.max(1, lineWidth);
