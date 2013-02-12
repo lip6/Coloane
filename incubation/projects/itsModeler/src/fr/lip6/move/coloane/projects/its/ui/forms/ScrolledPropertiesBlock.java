@@ -188,6 +188,7 @@ public final class ScrolledPropertiesBlock extends MasterDetailsBlock implements
 				try {
 					TypeDeclaration td = (TypeDeclaration) ((TreeSelection) viewer.getSelection()).getFirstElement();
 					new RemoveTypeAction(page.getMpe().getTypes(), td).run();
+					page.getMpe().getTypes().reload();
 				} catch (ClassCastException e) {
 					System.err.println("Select a type");
 				}
