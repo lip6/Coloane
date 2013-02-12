@@ -15,7 +15,6 @@
  */
 package fr.lip6.move.coloane.core.ui.menus;
 
-import fr.lip6.move.coloane.core.extensions.ApiDescription;
 import fr.lip6.move.coloane.core.ui.actions.OptionAction;
 import fr.lip6.move.coloane.core.ui.actions.ServiceAction;
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
@@ -23,7 +22,6 @@ import fr.lip6.move.coloane.interfaces.objects.menu.IOptionMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.IServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 
-import java.util.logging.Logger;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.MenuManager;
