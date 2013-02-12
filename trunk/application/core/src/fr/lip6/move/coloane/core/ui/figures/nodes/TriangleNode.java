@@ -74,10 +74,10 @@ public class TriangleNode extends AbstractNodeFigure {
 				points[1] = r.getBottomLeft().getTranslated(0, -1);
 				points[2] = r.getBottomRight().getTranslated(0, -1);
 
-				int distMin = Integer.MAX_VALUE;
+				double distMin = Double.MAX_VALUE;
 				int indexMin = 0;
 				for (int i = 0; i < points.length; i++) {
-					int distTmp = points[i].getDistance2(reference);
+					double distTmp = Math.pow(points[i].getDistance(reference),2);
 					if (distTmp < distMin) {
 						indexMin = i;
 						distMin = distTmp;
