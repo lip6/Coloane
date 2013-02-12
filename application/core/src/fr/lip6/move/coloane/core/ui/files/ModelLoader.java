@@ -190,7 +190,7 @@ public final class ModelLoader {
 	 * @return corresponding formalism instance
 	 */
 	public static IFormalism loadFormalismFromXML(IFile xmlFile) {
-		XMLInputFactory factory = XMLInputFactory.newFactory();
+		XMLInputFactory factory = XMLInputFactory.newInstance();
 		try {
 			XMLStreamReader reader = factory.createXMLStreamReader(new BufferedInputStream(xmlFile.getContents()));
 			reader.nextTag();
