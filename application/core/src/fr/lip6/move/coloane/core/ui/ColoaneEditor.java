@@ -523,7 +523,7 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	/**
 	 * Open a dialog to check that the user really wants to open a big file.
 	 * @param input The editor input
-	 * @return true if the suer wants to open the editor
+	 * @return true if the user wants to open the editor
 	 */
 	private boolean askOpen(final IEditorInput input) {
 		// Ask if the model should be opened if the file is big:
