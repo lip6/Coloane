@@ -38,12 +38,14 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 	private static final String CTL_FILE_NAME = "formula.ctl";
 	private static final String CTL_FORWARD_PARAM = "Use Forward CTL model-checking (faster)";
 	private static final String CTL_WITNESS_PARAM = "Produce a witness/counter-example";
+	private static final String CTL_FAIRTIME_PARAM = "Force fair time elapse";
 	private String ctlForm;
 
 	public CTLCheckService(CheckList parent) {
 		super(parent, CTL_NAME);
 		getParameters().addBooleanParameter(CTL_FORWARD_PARAM, true, "Use forward CTL model-checking. This is usually faster and more efficient than traditional backward model-checking.");
 		getParameters().addBooleanParameter(CTL_WITNESS_PARAM, false, "Build an explanation for the truth value of the formula. This is a witness if formula is true, or a counter-example otherwise.");
+		getParameters().addBooleanParameter(CTL_FAIRTIME_PARAM, true, "This option eliminates traces which end in time elapsing indefinitely while other transitions are still enabled.");
 	}
 
 	@Override
@@ -64,6 +66,10 @@ public class CTLCheckService extends ITSCheckService implements ISimpleObserver 
 		if (getParameters().getBoolParameterValue(CTL_WITNESS_PARAM)) {
 			cmd.add("--witness");
 		}
+		if (getParameters().getBoolParameterValue(CTL_FAIRTIME_PARAM)) {
+			cmd.add("--fair-time");
+		}
+		
 		return cmd;
 	}
 
