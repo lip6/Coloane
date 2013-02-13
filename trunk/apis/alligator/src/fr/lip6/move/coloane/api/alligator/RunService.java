@@ -112,7 +112,7 @@ public final class RunService
      *        Connection to an Alligator
      */
     public RunService(ServiceDescription service, Connection alligatorConnection) {
-        this.service = Descriptions.get(new Description(service));
+        this.service = Descriptions.get(Description.fromServiceDescription(service));
         this.alligator = alligatorConnection;
     }
 

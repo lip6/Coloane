@@ -46,7 +46,7 @@ public final class InputWizard
             if (dialog instanceof InputResourceDialog<?>) {
                 InputResourceDialog<?> theDialog = (InputResourceDialog<?>) dialog;
                 Parameter<?> theParameter = theDialog.getParameter()
-                                                     .clone();
+                                                     .copy();
                 theParameter.unset();
                 files.put(theParameter, theDialog.getSelectedFile());
             }
