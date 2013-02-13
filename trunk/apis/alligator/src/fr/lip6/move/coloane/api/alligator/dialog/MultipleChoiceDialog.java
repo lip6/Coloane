@@ -123,7 +123,7 @@ public final class MultipleChoiceDialog
     @Override
     public
         void updateParameter() {
-        parameter.reset();
+        parameter.resetSelection();
         for (String choice : list.getSelection()) {
             parameter.select(choice);
         }
