@@ -21,6 +21,11 @@
 			<version>2.1</version>
 		</dependency>
 		<dependency>
+			<groupId>org.cosyverif</groupId>
+			<artifactId>formalisms</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>fr.lip6.move.alligator</groupId>
 			<artifactId>interfaces</artifactId>
 			<version>0.3-SNAPSHOT</version>
