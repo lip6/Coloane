@@ -106,7 +106,7 @@ public final class MultipleChoiceDialog
         void updateDialog() {
         if (parameter.isActualParameter()) {
             for (String choice : parameter.getChoices()) {
-                if (parameter.getValues()
+                if (parameter.getSelection()
                              .contains(choice)) {
                     this.list.select(Math.max(0, parameter.getChoices()
                                                           .indexOf(choice)));
@@ -123,9 +123,9 @@ public final class MultipleChoiceDialog
     @Override
     public
         void updateParameter() {
-        parameter.resetValues();
+        parameter.reset();
         for (String choice : list.getSelection()) {
-            parameter.selectValue(choice);
+            parameter.select(choice);
         }
         page.refresh();
     }

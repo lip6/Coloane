@@ -118,7 +118,7 @@ public final class SingleChoiceDialog
         void updateDialog() {
         if (parameter.isActualParameter()) {
             combo.select(Math.max(0, parameter.getChoices()
-                                              .indexOf(parameter.getValue())));
+                                              .indexOf(parameter.getSelection())));
         } else {
             combo.deselectAll();
         }
@@ -127,7 +127,7 @@ public final class SingleChoiceDialog
     @Override
     public
         void updateParameter() {
-        parameter.setValue(combo.getText());
+        parameter.select(combo.getText());
         page.refresh();
     }
 
