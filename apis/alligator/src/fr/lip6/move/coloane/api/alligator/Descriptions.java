@@ -51,7 +51,7 @@ public final class Descriptions {
 
     public static synchronized
         Description get(Description description) {
-        Description copy = description.clone();
+        Description copy = description.copy();
         copy.unset();
         try {
             STORE.load();
