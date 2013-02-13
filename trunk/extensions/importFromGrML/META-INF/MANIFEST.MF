@@ -12,6 +12,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
  lib/interfaces.jar,
+ lib/formalisms.jar,
  lib/jsr305.jar,
  lib/cloning.jar,
  lib/objenesis.jar
