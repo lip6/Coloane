@@ -4,14 +4,14 @@
    <extension
          point="fr.lip6.move.coloane.core.formalisms">
       <Formalism
-            extension="cosmos"
+            extension="swn"
             fkname="fr.lip6.move.coloane.formalism.cosmos.Formalism1"
-            id="fr.lip6.move.coloane.formalism.cosmos.gspn"
+            id="fr.lip6.move.coloane.formalism.swn"
             image="resources/red-dice-icon(petit).png"
             name="Cosmos">
          <XmlDescription>
             <Graph
-                  name="Cosmos">
+                  name="swn">
                <Node
                      container="true"
                      name="place">
