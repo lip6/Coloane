@@ -41,7 +41,7 @@ public final class BooleanDialog
             button.setBackground(null);
         } else {
             button.setBackground(updateColor);
-            parameter.copy(that);
+            parameter.populateFrom(that);
             updateDialog();
         }
         page.refresh();

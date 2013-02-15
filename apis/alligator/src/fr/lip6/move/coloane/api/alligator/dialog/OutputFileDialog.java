@@ -132,7 +132,7 @@ public final class OutputFileDialog
             } else {
                 input.setBackground(updateColor);
                 label.setBackground(updateColor);
-                parameter.copy(that);
+                parameter.populateFrom(that);
             }
             if (file != null) {
                 copyFile(parameter.getFile(), file);

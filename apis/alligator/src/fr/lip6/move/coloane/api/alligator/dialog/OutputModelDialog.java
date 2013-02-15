@@ -100,7 +100,7 @@ public final class OutputModelDialog
             } else {
                 input.setBackground(updateColor);
                 label.setBackground(updateColor);
-                parameter.copy(that);
+                parameter.populateFrom(that);
                 if (file != null) {
                     OutputFileDialog.copyFile(FileSystem.modelToFile(parameter.getModel()), file);
                 }

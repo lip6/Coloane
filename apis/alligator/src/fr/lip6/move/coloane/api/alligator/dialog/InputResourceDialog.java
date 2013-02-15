@@ -213,7 +213,7 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
     @Override
     public
         void update(Parameter<?> that) {
-        parameter.copy(that);
+        parameter.populateFrom(that);
         page.refresh();
     }
 
