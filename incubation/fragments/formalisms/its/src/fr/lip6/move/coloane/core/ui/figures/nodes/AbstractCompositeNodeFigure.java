@@ -14,7 +14,6 @@ import fr.lip6.move.coloane.projects.its.ui.forms.OpenEditorAction;
 public abstract class AbstractCompositeNodeFigure extends AbstractNodeFigure implements
 		ICompositeNodeFigure {
 
-	@Override
 	public void handleDoubleClick() {
 		// attempt to find a context.
 		INode node = getModel();
