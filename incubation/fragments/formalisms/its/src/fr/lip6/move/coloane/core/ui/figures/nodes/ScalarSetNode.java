@@ -16,7 +16,6 @@
  */
 package fr.lip6.move.coloane.core.ui.figures.nodes;
 
-import fr.lip6.move.coloane.core.ui.figures.AbstractNodeFigure;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
@@ -42,7 +41,7 @@ import org.eclipse.jface.resource.JFaceResources;
  *
  * @author Y. Thierry-Mieg, based on C. Demoulins RectangleNode class
  */
-public class ScalarSetNode extends AbstractNodeFigure implements PropertyChangeListener {
+public class ScalarSetNode extends AbstractCompositeNodeFigure implements PropertyChangeListener {
 	private String instanceName = ":";
 	private String interfaces = "";
 	private List<INode> delegates = new ArrayList<INode>();

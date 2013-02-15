@@ -16,10 +16,11 @@
  */
 package fr.lip6.move.coloane.core.ui.figures.nodes;
 
-import fr.lip6.move.coloane.core.ui.figures.AbstractNodeFigure;
+import fr.lip6.move.coloane.core.ui.figures.ICompositeNodeFigure;
 import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.INode;
+
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -42,7 +43,7 @@ import org.eclipse.jface.resource.JFaceResources;
  *
  * @author Y. Thierry-Mieg
  */
-public class InstanceNode extends AbstractNodeFigure implements PropertyChangeListener {
+public class InstanceNode extends AbstractCompositeNodeFigure implements PropertyChangeListener, ICompositeNodeFigure {
 	private String instanceName = ":";
 	private String interfaces = "";
 	private List<IArc> edges = new ArrayList<IArc>();
@@ -153,4 +154,5 @@ public class InstanceNode extends AbstractNodeFigure implements PropertyChangeLi
 		}
 		edges.add(a);
 	}
+
 }

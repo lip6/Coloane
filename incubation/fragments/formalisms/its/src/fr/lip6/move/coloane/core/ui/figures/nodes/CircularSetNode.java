@@ -16,8 +16,6 @@
  */
 package fr.lip6.move.coloane.core.ui.figures.nodes;
 
-import fr.lip6.move.coloane.core.ui.figures.AbstractNodeFigure;
-
 import org.eclipse.draw2d.ChopboxAnchor;
 import org.eclipse.draw2d.ConnectionAnchor;
 import org.eclipse.draw2d.Graphics;
@@ -28,7 +26,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
  *
  * @author Y. Thierry-Mieg, based on C. Demoulins RectangleNode class
  */
-public class CircularSetNode extends AbstractNodeFigure {
+public class CircularSetNode extends AbstractCompositeNodeFigure {
 	/**
 	 * {@inheritDoc}
 	 */
