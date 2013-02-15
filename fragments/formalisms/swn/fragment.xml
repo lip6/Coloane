@@ -8,7 +8,7 @@
             fkname="fr.lip6.move.coloane.formalism.cosmos.Formalism1"
             id="fr.lip6.move.coloane.formalism.swn"
             image="resources/red-dice-icon(petit).png"
-            name="Cosmos">
+            name="swn">
          <XmlDescription>
             <Graph
                   name="swn">
@@ -30,6 +30,12 @@
                         drawable="true"
                         multiline="true"
                         name="name">
+                     <AttributeChecker
+                           class_condition="fr.lip6.move.coloane.core.formalisms.checkers.EmptyAttributeChecker"
+                           message="A place have no name"
+                           name="Place Empty name"
+                           severity="Error">
+                     </AttributeChecker>
                   </Attribute>
                   <Attribute
                         bold="true"
@@ -38,6 +44,13 @@
                         drawable="true"
                         multiline="false"
                         name="marking">
+                  </Attribute>
+                  <Attribute
+                        delta_x="20"
+                        delta_y="10"
+                        drawable="true"
+                        multiline="true"
+                        name="domain">
                   </Attribute>
                </Node>
                <Node
@@ -58,6 +71,12 @@
                         drawable="true"
                         multiline="true"
                         name="name">
+                     <AttributeChecker
+                           class_condition="fr.lip6.move.coloane.core.formalisms.checkers.EmptyAttributeChecker"
+                           message="There is a transition with no name"
+                           name="Transition Empty name"
+                           severity="Error">
+                     </AttributeChecker>
                   </Attribute>
                   <Attribute
                         default="EXPONENTIAL"
@@ -98,6 +117,13 @@
                         paletteName="Transition"
                         width="7">
                   </GraphicInfo>
+                  <Attribute
+                        delta_x="20"
+                        delta_y="10"
+                        drawable="true"
+                        multiline="true"
+                        name="guard">
+                  </Attribute>
                </Node>
                <Arc
                      name="arc">
