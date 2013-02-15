@@ -153,35 +153,38 @@ public final class CompositeTypeDeclaration extends TypeDeclaration implements I
 			if (node.getNodeFormalism().equals(inst)) {
 				String typeID = node.getAttribute("type").getValue();
 				Concept concept = getConcept(typeID);
+				if (concept.getEffective()!= null) {
 
-				if (getTypeType().equals("Scalar Set Composite") || getTypeType().equals("Circular Set Composite")) {
-					IAttribute sizeAtt = getGraph().getAttribute("size");
-					int size = getIntegerAttributeValue(sizeAtt);
-					for (int i = 0; i < size; ++i) {
-						CompositeModelVariable var = new ScalarInstanceVariable(
-								node, concept.getEffective().getTypeType()
-										+ " "
-										+ concept.getEffective().getTypeName(),
-								i);
+					if (getTypeType().equals("Scalar Set Composite") || getTypeType().equals("Circular Set Composite")) {
+						IAttribute sizeAtt = getGraph().getAttribute("size");
+						int size = getIntegerAttributeValue(sizeAtt);
+						for (int i = 0; i < size; ++i) {
+							CompositeModelVariable var = new ScalarInstanceVariable(
+									node, concept.getEffective().getTypeType()
+									+ " "
+									+ concept.getEffective().getTypeName(),
+									i);
+
+							List<IModelVariable> subvars = concept.getEffective().getVariables();
+							for (IModelVariable v : subvars) {
+								var.addChild(v.clone());
+							}
+							vars.add(var);
+
+						}
+
+					} else {
+
+						CompositeModelVariable var = new InstanceVariable(node,
+								concept.getEffective().getTypeType() + " "
+										+ concept.getEffective().getTypeName());
 
 						List<IModelVariable> subvars = concept.getEffective().getVariables();
 						for (IModelVariable v : subvars) {
-							var.addChild(v.clone());
+							var.addChild(v);
 						}
 						vars.add(var);
-
 					}
-
-				} else {
-					CompositeModelVariable var = new InstanceVariable(node,
-							concept.getEffective().getTypeType() + " "
-									+ concept.getEffective().getTypeName());
-
-					List<IModelVariable> subvars = concept.getEffective().getVariables();
-					for (IModelVariable v : subvars) {
-						var.addChild(v);
-					}
-					vars.add(var);
 				}
 			}
 		}
