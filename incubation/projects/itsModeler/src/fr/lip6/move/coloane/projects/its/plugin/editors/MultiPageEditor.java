@@ -29,6 +29,7 @@ import fr.lip6.move.coloane.projects.its.checks.CheckList;
 import fr.lip6.move.coloane.projects.its.checks.ui.ChecksMasterDetailsPage;
 import fr.lip6.move.coloane.projects.its.io.model.ITSModelWriter;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
+import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 import fr.lip6.move.coloane.projects.its.ui.forms.MasterDetailsPage;
 
 import java.io.ByteArrayInputStream;
@@ -46,6 +47,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
@@ -65,7 +68,7 @@ import org.eclipse.ui.part.FileEditorInput;
  */
 public final class MultiPageEditor
 extends FormEditor
-implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
+implements IResourceChangeListener, ISimpleObserver, ITypeListProvider, IPageChangedListener {
 
 	/** The text editor used for control/debug. */
 	private TextEditor editor;
@@ -94,6 +97,7 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 	public MultiPageEditor() {
 		super();
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
+		addPageChangedListener(this);
 	}
 
 	/** 
@@ -370,6 +374,16 @@ implements IResourceChangeListener, ISimpleObserver, ITypeListProvider {
 		} catch (PartInitException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	public void pageChanged(PageChangedEvent event) {
+		if (event.getSource()==this) {
+			ITSEditorPlugin a = ITSEditorPlugin.getDefault();
+			if (a != null)
+				a.setCurrentModel(getTypes());			
+		}
+		
 	}
 
 }

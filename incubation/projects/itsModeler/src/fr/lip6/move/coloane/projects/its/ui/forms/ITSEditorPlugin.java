@@ -19,6 +19,7 @@ package fr.lip6.move.coloane.projects.its.ui.forms;
 import fr.lip6.move.coloane.core.main.Coloane;
 import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.projects.its.TypeList;
 
 import java.io.File;
 import java.net.URI;
@@ -430,6 +431,25 @@ public final class ITSEditorPlugin extends AbstractUIPlugin {
 	 */
 	public static void warning(String e) {
 		Logger.getLogger(ID).warning(e);
+	}
+	
+
+	private TypeList currentModel;
+
+	/**
+	 * Returns the last manipulated ITS model. Used to resolve double-click in GUI.
+	 * @return null if unset or the current model otherwise.
+	 */
+	public TypeList getCurrentModel() {
+		return currentModel;
+	}
+	
+	/**
+	 * Update current model according to currently selected model.
+	 * @param currentModel new current model
+	 */
+	public void setCurrentModel(TypeList currentModel) {
+		this.currentModel = currentModel;
 	}
 
 }
