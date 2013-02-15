@@ -30,6 +30,7 @@ import fr.lip6.move.coloane.core.ui.commands.LinkCompleteCmd;
 import fr.lip6.move.coloane.core.ui.commands.LinkCreateCmd;
 import fr.lip6.move.coloane.core.ui.commands.LinkReconnectCmd;
 import fr.lip6.move.coloane.core.ui.commands.NodeDeleteCmd;
+import fr.lip6.move.coloane.core.ui.figures.ICompositeNodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.INodeFigure;
 import fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode;
 import fr.lip6.move.coloane.core.ui.prefs.ColorsPrefs;
@@ -545,6 +546,13 @@ public class NodeEditPart extends AbstractGraphicalEditPart implements ISelectio
 					e.printStackTrace();
 				}
 			}
+		} else if (req.getType().equals(RequestConstants.REQ_OPEN)) {
+			INodeFigure fig = getRealFigure();
+			if (fig != null && fig instanceof ICompositeNodeFigure) {
+				ICompositeNodeFigure cfig = (ICompositeNodeFigure) fig;
+				cfig.handleDoubleClick();
+			}
 		}
+		
 	}
 }
