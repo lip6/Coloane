@@ -44,7 +44,7 @@ public final class MultipleChoiceDialog
                 list.setBackground(null);
             } else {
                 list.setBackground(updateColor);
-                parameter.copy(that);
+                parameter.populateFrom(that);
                 updateDialog();
             }
         }

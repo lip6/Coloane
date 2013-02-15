@@ -60,7 +60,7 @@ public final class SingleChoiceDialog
                 combo.setBackground(null);
             } else {
                 combo.setBackground(updateColor);
-                parameter.copy(that);
+                parameter.populateFrom(that);
                 updateDialog();
             }
         }

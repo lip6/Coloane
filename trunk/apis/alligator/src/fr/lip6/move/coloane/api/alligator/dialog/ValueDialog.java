@@ -104,7 +104,7 @@ public abstract class ValueDialog<P extends Parameter<P>>
         } else {
             input.setBackground(updateColor);
             label.setBackground(updateColor);
-            parameter.copy(that);
+            parameter.populateFrom(that);
             updateDialog();
         }
     }

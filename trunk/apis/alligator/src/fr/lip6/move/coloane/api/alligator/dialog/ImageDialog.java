@@ -123,7 +123,7 @@ public final class ImageDialog
     public
         void update(Parameter<?> that) {
         if (!this.equals(that)) {
-            parameter.copy(that);
+            parameter.populateFrom(that);
             updateDialog();
         }
     }

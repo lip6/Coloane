@@ -54,7 +54,7 @@ public final class MultiLineTextDialog
                 input.setBackground(null);
             } else {
                 input.setBackground(updateColor);
-                parameter.copy(that);
+                parameter.populateFrom(that);
                 updateDialog();
             }
         }
