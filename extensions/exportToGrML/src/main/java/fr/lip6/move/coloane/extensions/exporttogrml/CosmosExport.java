@@ -518,7 +518,7 @@ public class CosmosExport implements IGrMLExport {
 		} else if (attr.getName().equals("guard")
 				| attr.getName().equals("invariant")) {
 			exportBoolFormula(attr, currentST, symbols);
-		} else if (attr.getName().equals("action")) {
+		} else if (attr.getName().equals("label")) {
 			ActionCosmosParserLexer lexer = new ActionCosmosParserLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ActionCosmosParserParser parser = new ActionCosmosParserParser(tokens);
