@@ -16,8 +16,7 @@ options {
 
 
 action:
-  ALL EOF -> balise(name={"action"}, content={ "ALL" })
-  | SHARP EOF -> balise(name={"action"}, content={ "#" })
+   SHARP EOF -> balise(name={"action"}, content={ "#" })
   | a+=actionname (',' a+=actionname)* EOF
   {
     List<StringTemplate> tmp = new ArrayList();
@@ -26,7 +25,15 @@ action:
     }
     
   } -> balise(name={"action"}, content={ tmp })
-  ;
+  | ALL ('\\' '{' a+=actionname (',' a+=actionname)* '}' )? EOF
+  {
+    List<StringTemplate> tmp = new ArrayList();
+    if( $a != null) for (Object x : $a) {
+      tmp.add((StringTemplate)x);
+    }
+    
+  } -> balise(name={"allExcept"}, content={ tmp });
+  
   
   actionname
   : a=IDENTIFIER  {
@@ -37,7 +44,7 @@ action:
       } -> delist(arg={tmp})
       ;
    
-ALL: 'all' | 'ALL';
+ALL: 'all' | 'ALL' | 'All';
 
 fragment LETTER : 'a'..'z' | 'A'..'Z' | '_' ;
 fragment DIGIT : '0'..'9' ;
