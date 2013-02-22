@@ -23,7 +23,8 @@ Require-Bundle: org.eclipse.ui,
  fr.lip6.move.gal,
  fr.lip6.move.gal.runtime.xtext,
  fr.lip6.move.coloane.tools.its,
- org.apache.commons.lang
+ org.apache.commons.lang,
+ fr.lip6.move.coloane.emf.model
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
