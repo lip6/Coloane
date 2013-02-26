@@ -40,7 +40,7 @@ import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.FloatParameter;
 import org.cosyverif.alligator.service.parameter.IntegerParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
-import org.cosyverif.alligator.service.parameter.MultiLineTextParameter;
+import org.cosyverif.alligator.service.parameter.MultipleLineTextParameter;
 import org.cosyverif.alligator.service.parameter.MultipleChoiceParameter;
 import org.cosyverif.alligator.service.parameter.SingleChoiceParameter;
 import org.cosyverif.alligator.service.parameter.SingleLineTextParameter;
@@ -95,8 +95,8 @@ public abstract class Wizard
                     newDialog = new FloatDialog(FloatParameter.of(parameter));
                 } else if (parameter instanceof IntegerParameter) {
                     newDialog = new IntegerDialog(IntegerParameter.of(parameter));
-                } else if (parameter instanceof MultiLineTextParameter) {
-                    newDialog = new MultiLineTextDialog(MultiLineTextParameter.of(parameter));
+                } else if (parameter instanceof MultipleLineTextParameter) {
+                    newDialog = new MultiLineTextDialog(MultipleLineTextParameter.of(parameter));
                 } else if (parameter instanceof MultipleChoiceParameter) {
                     newDialog = new MultipleChoiceDialog(MultipleChoiceParameter.of(parameter));
                 } else if (parameter instanceof SingleChoiceParameter) {

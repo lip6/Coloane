@@ -14,7 +14,7 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.cosyverif.alligator.service.Parameter;
-import org.cosyverif.alligator.service.parameter.MultiLineTextParameter;
+import org.cosyverif.alligator.service.parameter.MultipleLineTextParameter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -28,14 +28,14 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 public final class MultiLineTextDialog
-    extends Dialog<MultiLineTextParameter> {
+    extends Dialog<MultipleLineTextParameter> {
 
     private Label label;
     private Text input;
     private Text help;
     private Button importButton;
 
-    public MultiLineTextDialog(MultiLineTextParameter parameter) {
+    public MultiLineTextDialog(MultipleLineTextParameter parameter) {
         super(parameter);
     }
 
@@ -48,7 +48,7 @@ public final class MultiLineTextDialog
     @Override
     public
         void update(Parameter<?> p) {
-        MultiLineTextParameter that = (MultiLineTextParameter) p;
+        MultipleLineTextParameter that = (MultipleLineTextParameter) p;
         if (that != null) {
             if (parameter.equals(that)) {
                 input.setBackground(null);
