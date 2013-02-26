@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
-import org.cosyverif.alligator.util.FileSystem;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
@@ -102,7 +101,7 @@ public final class OutputModelDialog
                 label.setBackground(updateColor);
                 parameter.populateFrom(that);
                 if (file != null) {
-                    OutputFileDialog.copyFile(FileSystem.modelToFile(parameter.getModel()), file);
+                    OutputFileDialog.copyFile(parameter.getModelAsFile(), file);
                 }
             }
             updateDialog();

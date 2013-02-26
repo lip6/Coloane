@@ -14,7 +14,6 @@ import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 import java.util.Arrays;
 
 import org.cosyverif.alligator.service.parameter.ModelParameter;
-import org.cosyverif.alligator.util.FileSystem;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IConfigurationElement;

@@ -40,7 +40,6 @@ import org.cosyverif.alligator.service.Identifier;
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
-import org.cosyverif.alligator.util.FileSystem;
 import org.cosyverif.alligator.util.ParameterConversion;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspace;
@@ -150,7 +149,7 @@ public final class RunService
                             File temp = File.createTempFile("coloane-exporter", ".grml");
                             temp.deleteOnExit();
                             exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
-                            p.setModel(FileSystem.modelFromFile(temp));
+                            p.setModelFromFile(temp);
                         } else if (parameter instanceof FileParameter && ((FileParameter) parameter).getContentType()
                                                                                                     .equalsIgnoreCase("lola")) {
                             IFile file = wizard.fileFor(parameter);
