@@ -62,7 +62,7 @@ public final class ResultService
                             "'...");
                 boolean kill = true;
                 Description description = alligator.getServices()
-                                                   .getResult(identifier);
+                                                   .getCurrentState(identifier);
                 if (description == null) {
                     throw new AssertionError();
                 }
@@ -98,7 +98,7 @@ public final class ResultService
                     results.add(result);
                 } else {
                     Description serviceResult = alligator.getServices()
-                                                         .getResult(identifier);
+                                                         .getCurrentState(identifier);
                     IResult result = new Result(identifier.getKey());
                     // Run wizard to get parameters:
                     if (!serviceResult.getParameters()
