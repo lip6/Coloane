@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.transport.http.HTTPConduit;
-import org.cosyverif.alligator.ExportedServices;
+import org.cosyverif.alligator.ToolServices;
 import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Identifier;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -47,7 +47,7 @@ public final class Connection
     @Deprecated
     private volatile ServiceManager oldServices = null;
 
-    private volatile ExportedServices newServices = null;
+    private volatile ToolServices newServices = null;
 
     /**
      * Create a connection from configuration data:
@@ -77,7 +77,7 @@ public final class Connection
      * @return The service manager
      */
     public
-        ExportedServices getServices() {
+        ToolServices getServices() {
         return newServices;
     }
 
@@ -196,7 +196,7 @@ public final class Connection
             JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
             factory.setAddress(data.getAddress()
                                    .toString());
-            ExportedServices services = factory.create(ExportedServices.class);
+            ToolServices services = factory.create(ToolServices.class);
             // Configure the HTTPConduit used to communicate with Alligator
             HTTPConduit conduit = (HTTPConduit) ClientProxy.getClient(services)
                                                            .getConduit();
@@ -206,8 +206,7 @@ public final class Connection
                    .setReceiveTimeout(60000);
             // Compute menu:
             LOGGER.info("Computing menu...");
-            if (services == null || !services.ping(PING_VALUE)
-                                             .equals(PING_VALUE)) {
+            if (services == null || !"".equals(services.getName())) {
                 LOGGER.warning("Cannot use new alligator services.");
                 throw new IllegalStateException();
             } else {

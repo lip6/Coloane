@@ -66,7 +66,7 @@ public final class OutputWizard
                     }
                 }
                 Description result = connection.getServices()
-                                               .getResult(identifier);
+                                               .getCurrentState(identifier);
                 for (Dialog<?> dialog : dialogs) {
                     for (Parameter<?> parameter : result.getParameters()) {
                         if (parameter.equalsUnset(dialog.getParameter())) {
@@ -109,7 +109,7 @@ public final class OutputWizard
     public OutputWizard(Connection connection, Identifier identifier)
         throws IllegalArgumentException, ExecutionException {
         super(connection.getServices()
-                        .getDescription(identifier), false);
+                        .getCurrentState(identifier), false);
         this.connection = connection;
         this.identifier = identifier;
         Set<Parameter<?>> parameters = SOURCES.get(identifier);

@@ -90,7 +90,7 @@ public final class RunService
                 LOGGER.info("Description of configured service '" + identifier +
                             "' is not locally available, asking alligator server.");
                 this.service = alligator.getServices()
-                                        .getDescription(identifier);
+                                        .getCurrentState(identifier);
                 alligator.runningDescriptions.put(identifier, this.service);
                 LOGGER.info("Description of configured service '" + identifier + "' was taken from server.");
             } catch (IllegalStateException e) {
