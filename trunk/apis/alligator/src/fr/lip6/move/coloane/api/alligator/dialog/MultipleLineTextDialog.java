@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public final class MultiLineTextDialog
+public final class MultipleLineTextDialog
     extends Dialog<MultipleLineTextParameter> {
 
     private Label label;
@@ -35,7 +35,7 @@ public final class MultiLineTextDialog
     private Text help;
     private Button importButton;
 
-    public MultiLineTextDialog(MultipleLineTextParameter parameter) {
+    public MultipleLineTextDialog(MultipleLineTextParameter parameter) {
         super(parameter);
     }
 

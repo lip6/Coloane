@@ -42,12 +42,8 @@ import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
 import org.cosyverif.alligator.util.ParameterConversion;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.swt.widgets.Display;
 
