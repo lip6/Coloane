@@ -60,6 +60,7 @@ public final class BooleanDialog
         button = new Button(parent, SWT.CHECK);
         button.setText(parameter.getName());
         button.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1));
+        button.setSelection(false);
         button.addSelectionListener(new SelectionListener() {
 
             @Override

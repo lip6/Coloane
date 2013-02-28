@@ -9,20 +9,18 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 
 import fr.lip6.move.coloane.api.alligator.dialog.BooleanDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
-import fr.lip6.move.coloane.api.alligator.dialog.DummyDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.FloatDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.ImageDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.InputFileDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.InputModelDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.IntegerDialog;
-import fr.lip6.move.coloane.api.alligator.dialog.MultiLineTextDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.MultipleChoiceDialog;
+import fr.lip6.move.coloane.api.alligator.dialog.MultipleLineTextDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.OutputFileDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.OutputModelDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.SingleChoiceDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.SingleLineTextDialog;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -40,8 +38,8 @@ import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.FloatParameter;
 import org.cosyverif.alligator.service.parameter.IntegerParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
-import org.cosyverif.alligator.service.parameter.MultipleLineTextParameter;
 import org.cosyverif.alligator.service.parameter.MultipleChoiceParameter;
+import org.cosyverif.alligator.service.parameter.MultipleLineTextParameter;
 import org.cosyverif.alligator.service.parameter.SingleChoiceParameter;
 import org.cosyverif.alligator.service.parameter.SingleLineTextParameter;
 import org.eclipse.core.resources.IFile;
@@ -96,7 +94,7 @@ public abstract class Wizard
                 } else if (parameter instanceof IntegerParameter) {
                     newDialog = new IntegerDialog(IntegerParameter.of(parameter));
                 } else if (parameter instanceof MultipleLineTextParameter) {
-                    newDialog = new MultiLineTextDialog(MultipleLineTextParameter.of(parameter));
+                    newDialog = new MultipleLineTextDialog(MultipleLineTextParameter.of(parameter));
                 } else if (parameter instanceof MultipleChoiceParameter) {
                     newDialog = new MultipleChoiceDialog(MultipleChoiceParameter.of(parameter));
                 } else if (parameter instanceof SingleChoiceParameter) {
