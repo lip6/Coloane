@@ -206,7 +206,7 @@ public final class Connection
                    .setReceiveTimeout(60000);
             // Compute menu:
             LOGGER.info("Computing menu...");
-            if (services == null || !"".equals(services.getName())) {
+            if (services == null || "".equals(services.getName())) {
                 LOGGER.warning("Cannot use new alligator services.");
                 throw new IllegalStateException();
             } else {
