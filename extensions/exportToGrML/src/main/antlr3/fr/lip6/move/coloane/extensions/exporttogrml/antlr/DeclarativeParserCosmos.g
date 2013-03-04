@@ -144,9 +144,29 @@ const_list[boolean hasConstants, boolean hasVariables]
       
       initValues.put($c.getText(),tmp2);
       } -> delist(arg={tmp2})
+    | COLORVARIABLE c=STRING IN d=STRING {
+      symbols.put($c.getText(),"colvariable");
+      StringTemplate tmp1 = templateLib.getInstanceOf("balise");
+      tmp1.setAttribute("name", "name");
+      tmp1.setAttribute("content", $c.getText());
+      StringTemplate tmp2 = templateLib.getInstanceOf("balise");
+      tmp2.setAttribute("name", "domain");
+      tmp2.setAttribute("content", $d.getText());
+      StringTemplate tmp3 = templateLib.getInstanceOf("balise");
+      tmp3.setAttribute("name", "color");
+      
+      List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
+      tmplist.add(tmp1);
+      tmplist.add(tmp2);
+      
+      tmp3.setAttribute("content", tmplist);
+      
+      initValues.put($c.getText(),tmp3);
+      } -> delist(arg={tmp3})
   ;
   
-
+  IN : 'IN' | 'in'; 
+  COLORVARIABLE : 'colvar';
   VARIABLE : 'var';
   DISCRETEVAR : 'discvar';
   EQUAL : '=';

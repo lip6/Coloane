@@ -161,7 +161,7 @@ public class CosmosExport implements IGrMLExport {
 		}
 	}
 
-	private boolean xPathRequest(String request){
+	/*private boolean xPathRequest(String request){
 		try {
 			NamespaceContext ctx = new NamespaceContext() {
 				public String getNamespaceURI(String prefix) {
@@ -197,10 +197,28 @@ public class CosmosExport implements IGrMLExport {
 			return false;
 		} 
 
-	}
+	}*/
 
-	private boolean hasAttribute(String s) {
-		return xPathRequest("/fml:formalism/fml:complexAttribute[@name='"+s+"']");
+	private boolean hasAttribute(String fmlname, String s) throws ExtensionException {
+		if(fmlname.compareTo("sptgd-net.fml")==0){
+			if(s.compareTo("declaration")==0)return true;
+			if(s.compareTo("constants")==0)return true;
+			return false;
+		} else if (fmlname.compareTo("HASL-formula.fml")==0){
+			if(s.compareTo("declaration")==0)return true;
+			if(s.compareTo("constants")==0)return true;
+			if(s.compareTo("variables")==0)return true;
+			if(s.compareTo("HASLFormula")==0)return true;
+			return false;
+		} else if (fmlname.compareTo("parametric-timed-automaton.fml")==0){
+			if(s.compareTo("declaration")==0)return true;
+			if(s.compareTo("constants")==0)return true;
+			if(s.compareTo("variables")==0)return true;
+			if(s.compareTo("initialConstrain")==0)return true;
+			return false;
+		} else throw new ExtensionException("Unknown formalism "+fmlname);
+		//return xPathRequest("/fml:formalism/fml:complexAttribute[@name='"+s+"']");
+		
 	}
 
 //	// TODO: redo this function using a list
@@ -230,18 +248,18 @@ public class CosmosExport implements IGrMLExport {
 		// Export model attributes
 		monitor.setTaskName("Export model attributes");
 
-		if(hasAttribute("declaration")) {
+		if(hasAttribute(fmlUrl, "declaration")) {
 			
 			IAttribute declarativePart = graph.getAttribute("declarations");
 			if (declarativePart != null) {
 				if (!declarativePart.getValue().equals("")) {
-					symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
+					symbolTable = exportDeclarativePart(declarativePart.getValue(),fmlUrl, result, monitor);
 				} 
 			} else throw new ExtensionException("Expecting a 'declarations' field required by the formalism");
 		}
 		
 		// Case HASL formula
-		if(hasAttribute("HASLFormula")){
+		if(hasAttribute(fmlUrl,"HASLFormula")){
 			IAttribute HASLPart = graph.getAttribute("HASL Formula");
 			if (HASLPart != null) {
 				if (!HASLPart.getValue().equals("")) {
@@ -258,7 +276,7 @@ public class CosmosExport implements IGrMLExport {
 		
 		// Initial constraint (for IMITATOR)
 		// WARNING: the FML formalism name and the Coloane "zone" name must have the same name!!!!!!
-		if(hasAttribute("initialConstraint")) {
+		if(hasAttribute(fmlUrl,"initialConstraint")) {
 			IAttribute attr = graph.getAttribute("initialConstraint");
 			
 			if (attr != null) {
@@ -385,7 +403,7 @@ public class CosmosExport implements IGrMLExport {
 	 * @param monitor monitors the export
 	 * @throws ExtensionException if the parser throws an exception
 	 */
-	private Map<String, String> exportDeclarativePart(String value, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
+	private Map<String, String> exportDeclarativePart(String value,String fmlUrl, StringTemplate modelST, IProgressMonitor monitor) throws ExtensionException {
 
 		DeclarativeParserCosmosLexer lexer = new DeclarativeParserCosmosLexer(new ANTLRStringStream(value));
 		CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -393,7 +411,7 @@ public class CosmosExport implements IGrMLExport {
 		parser.setTemplateLib(templates);
 
 		try {
-			modelST.setAttribute("content", parser.const_list(hasAttribute("constants"),hasAttribute("variables")));
+			modelST.setAttribute("content", parser.const_list(hasAttribute(fmlUrl,"constants"),hasAttribute(fmlUrl,"variables")));
 		} catch (RecognitionException e) {
 			throw new ExtensionException("Fail to parse Declarative part");
 		}

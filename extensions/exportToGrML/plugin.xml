@@ -55,7 +55,8 @@
             name="fr.lip6.move.coloane.formalism.pta">
       </exportedFormalism>
       <exportedFormalism
-            class="fr.lip6.move.coloane.extensions.exporttogrml.CosmosExport"
+            class="fr.lip6.move.coloane.extensions.exporttogrml.SNBExport"
+            description="Stochastic Well Formed Net"
             fmlurl="http://formalisms.cosyverif.org/swn.fml"
             name="fr.lip6.move.coloane.formalism.swn">
       </exportedFormalism>
