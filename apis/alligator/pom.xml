@@ -22,8 +22,8 @@
 			<version>0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>fr.lip6.move.alligator</groupId>
-			<artifactId>interfaces</artifactId>
+			<groupId>org.cosyverif.alligator</groupId>
+			<artifactId>interface</artifactId>
 			<version>0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
