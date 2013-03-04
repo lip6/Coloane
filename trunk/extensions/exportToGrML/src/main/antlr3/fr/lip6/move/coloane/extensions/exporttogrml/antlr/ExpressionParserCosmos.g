@@ -48,7 +48,7 @@ arg_list
     List<StringTemplate> tmp = new ArrayList();
     int compteur = 0;
     for (Object x : $a) {
-      StringTemplate tmp1 = templateLib.getInstanceOf("balise");
+      /*StringTemplate tmp1 = templateLib.getInstanceOf("balise");
       tmp1.setAttribute("name", "number");
       tmp1.setAttribute("content", compteur);
      // StringTemplate tmp2 = templateLib.getInstanceOf("balise");
@@ -57,11 +57,11 @@ arg_list
       
       List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
       tmplist.add(tmp1);
-      tmplist.add((StringTemplate)x);
+      tmplist.add((StringTemplate)x);*/
       
       StringTemplate tmp0 = templateLib.getInstanceOf("balise");
       tmp0.setAttribute("name", "param");
-      tmp0.setAttribute("content", tmplist);
+      tmp0.setAttribute("content", (StringTemplate)x);
       tmp.add(tmp0);
       ++compteur;
     }

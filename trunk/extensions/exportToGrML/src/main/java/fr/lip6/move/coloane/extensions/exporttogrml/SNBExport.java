@@ -18,6 +18,8 @@ package fr.lip6.move.coloane.extensions.exporttogrml;
 import fr.lip6.move.coloane.extensions.exporttogrml.antlr.DeclarativePartLexer;
 import fr.lip6.move.coloane.extensions.exporttogrml.antlr.DeclarativePartParserSN;
 import fr.lip6.move.coloane.extensions.exporttogrml.antlr.DeclarativePartParserSN.declaration_return;
+import fr.lip6.move.coloane.extensions.exporttogrml.antlr.ExpressionParserCosmosLexer;
+import fr.lip6.move.coloane.extensions.exporttogrml.antlr.ExpressionParserCosmosParser;
 import fr.lip6.move.coloane.extensions.exporttogrml.antlr.GuardLexer;
 import fr.lip6.move.coloane.extensions.exporttogrml.antlr.GuardParser;
 import fr.lip6.move.coloane.extensions.exporttogrml.antlr.ValuationLexerSNB;
@@ -220,6 +222,12 @@ public class SNBExport implements IGrMLExport {
 		} else if ("valuation".equals(attr.getName())) {
 			exportValuation(attr.getValue(), currentST, monitor, symbols);
 			LOGGER.finer("export valuation");	
+		} else if (attr.getName().equals("distribution")) { // Add by Benoît Barbot to export SWN
+			ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
+			parser.setTemplateLib(templates);
+			currentST.setAttribute("content", parser.distribution(symbols));
 		} else {
 			STAttrMap stAttrMap = new STAttrMap();
 			if ("note".equals(attr.getName())) {
