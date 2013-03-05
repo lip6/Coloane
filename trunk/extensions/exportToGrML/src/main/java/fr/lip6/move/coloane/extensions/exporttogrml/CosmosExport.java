@@ -200,21 +200,21 @@ public class CosmosExport implements IGrMLExport {
 	}*/
 
 	private boolean hasAttribute(String fmlname, String s) throws ExtensionException {
-		if(fmlname.compareTo("sptgd-net.fml")==0){
-			if(s.compareTo("declaration")==0)return true;
-			if(s.compareTo("constants")==0)return true;
+		if(fmlname.equals("http://formalisms.cosyverif.org/sptgd-net.fml")){
+			if(s.equals("declaration"))return true;
+			if(s.equals("constants"))return true;
 			return false;
-		} else if (fmlname.compareTo("HASL-formula.fml")==0){
-			if(s.compareTo("declaration")==0)return true;
-			if(s.compareTo("constants")==0)return true;
-			if(s.compareTo("variables")==0)return true;
-			if(s.compareTo("HASLFormula")==0)return true;
+		} else if (fmlname.equals("http://formalisms.cosyverif.org/HASL-formula.fml")){
+			if(s.equals("declaration"))return true;
+			if(s.equals("constants"))return true;
+			if(s.equals("variables"))return true;
+			if(s.equals("HASLFormula"))return true;
 			return false;
-		} else if (fmlname.compareTo("parametric-timed-automaton.fml")==0){
-			if(s.compareTo("declaration")==0)return true;
-			if(s.compareTo("constants")==0)return true;
-			if(s.compareTo("variables")==0)return true;
-			if(s.compareTo("initialConstrain")==0)return true;
+		} else if (fmlname.equals("http://formalisms.cosyverif.org/parametric-timed-automaton.fml")){
+			if(s.equals("declaration"))return true;
+			if(s.equals("constants"))return true;
+			if(s.equals("variables"))return true;
+			if(s.equals("initialConstrain"))return true;
 			return false;
 		} else throw new ExtensionException("Unknown formalism "+fmlname);
 		//return xPathRequest("/fml:formalism/fml:complexAttribute[@name='"+s+"']");
