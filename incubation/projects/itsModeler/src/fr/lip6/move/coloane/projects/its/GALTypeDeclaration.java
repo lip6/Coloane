@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.projects.its.expression.EvaluationContext;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
 import fr.lip6.move.coloane.projects.its.variables.GalVariable;
 import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
+import fr.lip6.move.gal.Label;
 import fr.lip6.move.gal.Variable;
 import fr.lip6.move.serialization.SerializationUtil;
 
@@ -85,9 +86,9 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 		Set<String> labels = new HashSet<String>();
 		
 		for(fr.lip6.move.gal.Transition trans : galSystem.getTransitions()){
-			final String label = trans.getLabel();
+			final Label label = trans.getLabel();
 			if(label!=null){
-				labels.add(label);
+				labels.add(label.getName());
 			}
 		}
 		
