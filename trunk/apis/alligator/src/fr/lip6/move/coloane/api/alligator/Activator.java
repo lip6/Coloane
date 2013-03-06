@@ -85,6 +85,7 @@ public class Activator
         // Cancel all connections:
         for (Connection connection : connections) {
             connection.cancel();
+            connection.join();
         }
         connections.clear();
         plugin = null;

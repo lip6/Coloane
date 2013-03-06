@@ -53,7 +53,8 @@ public final class OutputWizard
 
         @Override
         public
-            void run() {
+            void
+            run() {
             try {
                 if (connection.getServices()
                               .isFinished(identifier)) {
@@ -67,6 +68,12 @@ public final class OutputWizard
                 }
                 Description result = connection.getServices()
                                                .getCurrentState(identifier);
+                /*
+                for (Parameter<?> p: result.getParameters()) {
+                    System.out.println(p.getName() + ": " + p.isActualParameter());
+                    System.out.println("     " + p);
+                }
+                */
                 for (Dialog<?> dialog : dialogs) {
                     for (Parameter<?> parameter : result.getParameters()) {
                         if (parameter.equalsUnset(dialog.getParameter())) {
@@ -90,7 +97,8 @@ public final class OutputWizard
 
         @Override
         protected
-            IStatus run(IProgressMonitor monitor) {
+            IStatus
+            run(IProgressMonitor monitor) {
             if (monitor.isCanceled()) {
                 return Status.CANCEL_STATUS;
             }
@@ -100,6 +108,10 @@ public final class OutputWizard
                            .isFinished(identifier)) {
                 LOGGER.info("Scheduling updater...");
                 schedule(DELAY * 1000); // TODO
+            } else {
+                // Update one last time:
+                Display.getDefault()
+                       .syncExec(runner);
             }
             return Status.OK_STATUS;
         }
@@ -122,20 +134,23 @@ public final class OutputWizard
 
     @Override
     public
-        boolean performFinish() {
+        boolean
+        performFinish() {
         updater.cancel();
         return true;
     }
 
     @Override
     public
-        boolean performCancel() {
+        boolean
+        performCancel() {
         updater.cancel();
         return true;
     }
 
     @Override
-        List<Set<Parameter<?>>> splitParameters(Description description) {
+        List<Set<Parameter<?>>>
+        splitParameters(Description description) {
         Set<Parameter<?>> inputs = new HashSet<Parameter<?>>();
         Set<Parameter<?>> outputs = new HashSet<Parameter<?>>();
         for (Parameter<?> parameter : description.getParameters()) {
