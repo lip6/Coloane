@@ -28,26 +28,16 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
-import fr.lip6.move.neoppod.grml.GrmlCheckExecutables;
-import fr.lip6.move.neoppod.grml.Model;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.namespace.NamespaceContext;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import net.sf.saxon.s9api.SaxonApiException;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -55,7 +45,6 @@ import org.antlr.runtime.RecognitionException;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.xml.sax.InputSource;
 
 /**
  * A class to export the Cosmos formalism to GrML
@@ -145,59 +134,7 @@ public class CosmosExport implements IGrMLExport {
 		}
 	}
 
-	private void initInputSource(String fmlUrl) {
-		try {
-			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='"+ fmlUrl +"' xmlns='http://cosyverif.org/ns/model'/>");
-			Model fakeModel = new Model(new GrmlCheckExecutables(), content);
-			fmlXml = fakeModel.getFormalism().getData();
-			System.out.println(fmlXml);
-			//fmlXmlSource = new InputSource(new StringReader(fmlXml));
-		} catch (SaxonApiException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	/*private boolean xPathRequest(String request){
-		try {
-			NamespaceContext ctx = new NamespaceContext() {
-				public String getNamespaceURI(String prefix) {
-					if (prefix.equals("fml"))
-						return "http://cosyverif.org/ns/formalism";
-					else
-						return null;
-				}
-
-				// Dummy implementation - not used!
-				public Iterator<?> getPrefixes(String val) {
-					return null;
-				}
-
-				// Dummy implementation - not used!
-				public String getPrefix(String uri) {
-					return null;
-				}
-			};
-
-			XPath xpath = XPathFactory.newInstance().newXPath();
-			xpath.setNamespaceContext(ctx);
-			InputSource fmlXmlSource = new InputSource(new StringReader(fmlXml));
-			String hasDeclaration = xpath.evaluate(request, fmlXmlSource);
-			//System.out.println(hasDeclaration);
-
-			return !hasDeclaration.equals("");
-
-		} catch (XPathExpressionException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-
-			return false;
-		} 
-
-	}*/
+	
 
 	private boolean hasAttribute(String fmlname, String s) throws ExtensionException {
 		if(fmlname.equals("http://formalisms.cosyverif.org/sptgd-net.fml")){
@@ -237,7 +174,7 @@ public class CosmosExport implements IGrMLExport {
 	 * @throws ExtensionException if the export fails
 	 */
 	private StringTemplate exportGraph(IGraph graph, String fmlUrl, IProgressMonitor monitor) throws ExtensionException {
-		initInputSource(fmlUrl);
+		//initInputSource(fmlUrl);
 
 		monitor.setTaskName("Create preamble");
 

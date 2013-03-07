@@ -153,12 +153,13 @@ boolExpr:
    
 atomBoolExpr:
  '(' e=boolExpr ')' -> {$e.st}
-  | '['a=realExpr (o='<>' | o='<' | o='>' | o='<=' | o='>=' | o='=') b=realExpr']' {
+  | '['a=realExpr (o='<>' | o='<' | o='>' | o='<=' | o='>=' | o='=' | o='!=' ) b=realExpr']' {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
     tmplist.add($a.st);
     tmplist.add($b.st);
     String op = "";
     if($o.getText().equals("<>"))op="notEqual";
+    if($o.getText().equals("!="))op="notEqual";
     if($o.getText().equals("="))op="equal";
     if($o.getText().equals("<"))op="less";
     if($o.getText().equals(">"))op="greater";

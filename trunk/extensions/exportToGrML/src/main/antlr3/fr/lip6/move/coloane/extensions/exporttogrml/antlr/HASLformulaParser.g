@@ -48,8 +48,8 @@ MAX: 'max' | 'Max' | 'MAX';
   
 fragment LETTER : 'a'..'z' | 'A'..'Z' ;
 fragment DIGIT : '0'..'9' ;
-INTEGER : DIGIT+ ;
-FLOAT: INTEGER '.' INTEGER  ;
+INTEGER : ('-')? DIGIT+ ;
+FLOAT: INTEGER ('.' DIGIT+)?  ;
 
 IDENTIFIER : LETTER (LETTER | DIGIT)* ;
 
