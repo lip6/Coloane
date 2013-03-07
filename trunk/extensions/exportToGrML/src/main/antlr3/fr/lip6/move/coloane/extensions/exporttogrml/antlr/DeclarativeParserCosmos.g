@@ -59,6 +59,7 @@ const_list[boolean hasConstants, boolean hasVariables]
       List<StringTemplate> tmpConsts = new ArrayList();
       tmpConsts.add(getDef("variable","real"));
       tmpConsts.add(getDef("discvariable","discrete"));
+      tmpConsts.add(getDef("colvariable","color"));
       tmpConst.setAttribute("content", tmpConsts) ;
       tmp.add(tmpConst);
     }
