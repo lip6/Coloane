@@ -41,6 +41,7 @@ import java.util.Map;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
+import org.antlr.runtime.NoViableAltException;
 import org.antlr.runtime.RecognitionException;
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
@@ -125,9 +126,9 @@ public class CosmosExport implements IGrMLExport {
 	public final void export(IGraph graph, Writer writer, String fmlUrl, IProgressMonitor monitor)
 			throws ExtensionException {
 		monitor.beginTask("export", graph.getArcs().size() + graph.getNodes().size() + 1);
-		StringTemplate modelST = exportGraph(graph, fmlUrl, monitor);
 
 		try {
+			StringTemplate modelST = exportGraph(graph, fmlUrl, monitor);
 			writer.write(modelST.toString());
 		} catch (IOException e) {
 			throw new ExtensionException(e.getMessage());
@@ -205,7 +206,7 @@ public class CosmosExport implements IGrMLExport {
 					} catch (RecognitionException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					}
+					} 
 				}
 			} else throw new ExtensionException("Expecting a 'HASL Formula' field required by the formalism");
 		}

@@ -14,6 +14,11 @@ options {
   package fr.lip6.move.coloane.extensions.exporttogrml.antlr;
 }
 
+@rulecatch {
+  catch (RecognitionException re) {
+    throw re;
+  }
+}
 
 action:
    SHARP EOF -> balise(name={"action"}, content={ "#" })
