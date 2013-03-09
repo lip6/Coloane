@@ -25,6 +25,11 @@ options {
     
   }
 
+@rulecatch {
+  catch (RecognitionException re) {
+    throw re;
+  }
+}
   
 distribution[Map<String,String> st]
 @init {
