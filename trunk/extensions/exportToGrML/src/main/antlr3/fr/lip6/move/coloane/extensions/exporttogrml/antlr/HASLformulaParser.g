@@ -31,8 +31,38 @@ a=haslForm EOF -> balise(name={"HASL Formula"}, content={ $a.st });
 
 haslForm: AVG '(' e=algExpr ')' (';')? -> balise(name={"AVG"}, content={ $e.st })
   | PROB (';')? -> balise(name={"PROB"}, content={ $e.st })
-  | CDF  '(' e=algExpr ',' d=FLOAT ',' min=FLOAT ',' max=FLOAT ')' (';')? -> balise(name={"CDF"}, content={ $e.st })
-  | PDF  '(' e=algExpr ',' d=FLOAT ',' min=FLOAT ',' max=FLOAT ')' (';')? -> balise(name={"PDF"}, content={ $e.st });
+  | CDF  '(' e=algExpr ',' d=FLOAT ',' min=FLOAT ',' max=FLOAT ')' (';')? {
+    StringTemplate tmp = templateLib.getInstanceOf("balise");
+    tmp.setAttribute("name", "delta");
+    tmp.setAttribute("content", $d.getText() );
+    StringTemplate tmp2 = templateLib.getInstanceOf("balise");
+    tmp2.setAttribute("name", "min");
+    tmp2.setAttribute("content", $min.getText());
+    StringTemplate tmp3 = templateLib.getInstanceOf("balise");
+    tmp3.setAttribute("name", "max");
+    tmp3.setAttribute("content", $max.getText());
+    List<StringTemplate> listtmp = new ArrayList<StringTemplate>();
+    listtmp.add($e.st);
+    listtmp.add(tmp);
+    listtmp.add(tmp2);
+    listtmp.add(tmp3);
+  } -> balise(name={"CDF"}, content={ listtmp })
+  | PDF  '(' e=algExpr ',' d=FLOAT ',' min=FLOAT ',' max=FLOAT ')' (';')? {
+  StringTemplate tmp = templateLib.getInstanceOf("balise");
+    tmp.setAttribute("name", "delta");
+    tmp.setAttribute("content", $d.getText());
+    StringTemplate tmp2 = templateLib.getInstanceOf("balise");
+    tmp2.setAttribute("name", "min");
+    tmp2.setAttribute("content", $min.getText());
+    StringTemplate tmp3 = templateLib.getInstanceOf("balise");
+    tmp3.setAttribute("name", "max");
+    tmp3.setAttribute("content", $max.getText());
+    List<StringTemplate> listtmp = new ArrayList<StringTemplate>();
+    listtmp.add($e.st);
+    listtmp.add(tmp);
+    listtmp.add(tmp2);
+    listtmp.add(tmp3);
+  }-> balise(name={"PDF"}, content={ listtmp });
 
 
 algExpr: a=lhaFunc -> balise(name={"YHF"}, content = {$a.st});

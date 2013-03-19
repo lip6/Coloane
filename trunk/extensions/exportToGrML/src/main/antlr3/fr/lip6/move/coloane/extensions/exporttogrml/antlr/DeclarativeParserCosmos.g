@@ -175,7 +175,7 @@ const_list[boolean hasConstants, boolean hasVariables]
   IN : 'IN' | 'in'; 
   COLORVARIABLE : 'colvar';
   VARIABLE : 'var';
-  DISCRETEVAR : 'discvar';
+  DISCRETEVARIABLE : 'discvar';
   EQUAL : '=';
   SEMICOLON : ';' ;
   COMMA : ',' ;
