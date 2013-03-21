@@ -11,6 +11,7 @@ import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.extensions.exporttogrml.Activator;
 import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
 
+import java.net.URL;
 import java.util.Arrays;
 
 import org.cosyverif.alligator.service.parameter.ModelParameter;
@@ -31,7 +32,8 @@ public final class InputModelDialog
         boolean keepResource(IResource resource) {
         if (resource instanceof IFile && resource.getName()
                                                  .endsWith("model")) {
-            if (parameter.getFormalism() == null) {
+            
+            if (parameter.getFormalism().length == 0) {
                 return true;
             }
             IFormalism formalism = ModelLoader.loadFormalismFromXML((IFile) resource);
@@ -43,12 +45,11 @@ public final class InputModelDialog
                 assert id != null;
                 String fml = contribution.getAttribute(Activator.FMLURL_EXTENSION);
                 assert fml != null;
-                assert parameter.getFormalism() != null;
                 assert formalism.getId() != null;
-                if (fml.equals(parameter.getFormalism()
-                                        .toString()) && formalism.getId()
-                                                                 .equals(id)) {
+                for (URL url: parameter.getFormalism()) {
+                if (fml.equals(url.toString()) && formalism.getId().equals(id)) {
                     return true;
+                }
                 }
             }
         }
