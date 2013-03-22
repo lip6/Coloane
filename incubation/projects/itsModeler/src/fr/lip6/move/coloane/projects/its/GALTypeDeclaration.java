@@ -9,8 +9,10 @@ import java.util.Set;
 
 import fr.lip6.move.coloane.projects.its.expression.EvaluationContext;
 import fr.lip6.move.coloane.projects.its.expression.IEvaluationContext;
+import fr.lip6.move.coloane.projects.its.variables.GalArrayVariable;
 import fr.lip6.move.coloane.projects.its.variables.GalVariable;
 import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
+import fr.lip6.move.gal.ArrayPrefix;
 import fr.lip6.move.gal.Label;
 import fr.lip6.move.gal.Variable;
 import fr.lip6.move.serialization.SerializationUtil;
@@ -50,6 +52,13 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 		
 		for(Variable var : galSystem.getVariables()){
 			variables.add(new GalVariable(var));
+		}
+		
+		for (ArrayPrefix array: galSystem.getArrays()) {
+			int max = array.getSize();
+			for (int i=0 ; i < max ; i++) {
+				variables.add(new GalArrayVariable(array, i));
+			}
 		}
 		
 		return variables;
