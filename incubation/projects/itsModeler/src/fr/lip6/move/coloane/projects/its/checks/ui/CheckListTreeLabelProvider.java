@@ -24,6 +24,7 @@ import fr.lip6.move.coloane.projects.its.order.Ordering;
 import fr.lip6.move.coloane.projects.its.order.Orders;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 import fr.lip6.move.coloane.projects.its.ui.forms.TypeTreeLabelProvider;
+import fr.lip6.move.coloane.projects.its.variables.GalArrayVariable;
 import fr.lip6.move.coloane.projects.its.variables.GalVariable;
 import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
 import fr.lip6.move.coloane.projects.its.variables.InstanceVariable;
@@ -121,7 +122,7 @@ public final class CheckListTreeLabelProvider extends TypeTreeLabelProvider impl
 		} else if (element instanceof CTLFormulaDescription) {
 			return ITSEditorPlugin.getDefault().getImage(
 					ITSEditorPlugin.IMG_VARIABLE);
-		} else if (element instanceof GalVariable) {
+		} else if (element instanceof GalVariable || element instanceof GalArrayVariable) {
 			return ITSEditorPlugin.getDefault().getImage(
 					ITSEditorPlugin.IMG_VARIABLE);
 		}

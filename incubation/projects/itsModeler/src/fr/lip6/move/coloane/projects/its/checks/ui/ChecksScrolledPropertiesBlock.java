@@ -36,6 +36,7 @@ import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
 import fr.lip6.move.coloane.projects.its.ui.forms.OpenEditorAction;
 import fr.lip6.move.coloane.projects.its.ui.forms.TypeDeclarationDetailsPage;
 import fr.lip6.move.coloane.projects.its.ui.forms.VariableBindingDetailsPage;
+import fr.lip6.move.coloane.projects.its.variables.GalArrayVariable;
 import fr.lip6.move.coloane.projects.its.variables.GalVariable;
 import fr.lip6.move.coloane.projects.its.variables.InstanceVariable;
 import fr.lip6.move.coloane.projects.its.variables.PlaceMarkingVariable;
@@ -301,6 +302,9 @@ public final class ChecksScrolledPropertiesBlock extends MasterDetailsBlock
 				new VariableDetailsPage());
 		detailsPart.registerPage(ScalarInstanceVariable.class,
 				new VariableDetailsPage());
+		detailsPart.registerPage(GalArrayVariable.class,
+				new VariableDetailsPage());
+		
 	}
 
 	/**
