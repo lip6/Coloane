@@ -231,7 +231,7 @@ NUMBER : DIGIT (DIGIT)*
 INFINITY : 'inf'
   ;
 
-VARIABLE  : ( STRING | ( (LETTER | DIGIT)+ ) ) ( '[' DIGIT+ ']' )? )
+VARIABLE  : ( STRING | ( (LETTER | DIGIT)+ ) ) ( '[' DIGIT+ ']' )? 
   ;
   
   
