@@ -8,7 +8,7 @@ import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.ServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.SubMenu;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -217,22 +217,21 @@ public final class Connection
             IApiService refreshService = new RefreshService(this);
             menu.addServiceMenu(new ServiceMenu("(Refresh)", true, "Refresh thes menu.", refreshService, true));
             // Sort services by name:
-            List<Description> descriptions = new ArrayList<Description>(newServices.getAvailableServices());
+            Description[] descriptions = newServices.getAvailableServices();
             Comparator<Description> comparator = new Comparator<Description>() {
                 @Override
                 public
                     int compare(Description lhs, Description rhs) {
-                    return (lhs.getName() + " v" + lhs.getVersion()).compareToIgnoreCase(rhs.getName() + " v" +
-                                                                                         lhs.getVersion());
+                    return (lhs.name() + " (" + lhs.tool() + " v" + lhs.version()).compareToIgnoreCase(rhs.name() + " (" + rhs.tool() + " v" + rhs.version());
                 }
             };
-            Collections.sort(descriptions, comparator);
+            Arrays.sort(descriptions, comparator);
             // Create services menu:
             for (final Description service : descriptions) {
                 IApiService apiService = new RunService(service, this);
-                LOGGER.finer("Adding to '" + data.getName() + "' service '" + service.getName() + "'...");
+                LOGGER.finer("Adding to '" + data.getName() + "' service '" + service.name() + "'...");
                 // Handle sub-menus using name separators:
-                String serviceName = service.getName() + " v" + service.getVersion();
+                String serviceName = service.name() + " (" + service.tool() + " v" + service.version();
                 StringTokenizer tokenizer = new StringTokenizer(serviceName, ":");
                 ISubMenu current = menu;
                 do {
@@ -250,7 +249,7 @@ public final class Connection
                         }
                     } else {
                         // Add service menu:
-                        current.addServiceMenu(new ServiceMenu(name, true, service.getHelp(), apiService, true));
+                        current.addServiceMenu(new ServiceMenu(name, true, service.help(), apiService, true));
                     }
                 } while (tokenizer.hasMoreTokens());
             }
@@ -260,17 +259,16 @@ public final class Connection
                     // Icons taken from http://findicons.com/pack/109/play_stop_pause
                     if (data.getAddress()
                             .toString()
-                            .startsWith(identifier.getServer()
-                                                  .toString())) {
+                            .startsWith(identifier.server().toString())) {
                         ISubMenu submenu = null;
                         IApiService getResultsService = new ResultService(identifier, this);
                         if (newServices.isFinished(identifier)) {
-                            submenu = new SubMenu(identifier.getKey(), true, Utility.getImage("stopped-small.png"));
+                            submenu = new SubMenu(identifier.key(), true, Utility.getImage("stopped-small.png"));
                             submenu.addServiceMenu(new ServiceMenu("Get results", true,
                                                                    "Obtains the final results of the service.",
                                                                    getResultsService, true));
                         } else {
-                            submenu = new SubMenu(identifier.getKey(), true, Utility.getImage("running-small.png"));
+                            submenu = new SubMenu(identifier.key(), true, Utility.getImage("running-small.png"));
                             submenu.addServiceMenu(new ServiceMenu("Get results", true,
                                                                    "Obtains the temporary results of the service.",
                                                                    getResultsService, true));
