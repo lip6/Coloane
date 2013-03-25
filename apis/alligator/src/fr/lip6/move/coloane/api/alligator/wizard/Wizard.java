@@ -169,7 +169,7 @@ public abstract class Wizard
         this.setNeedsProgressMonitor(false);
         this.setHelpAvailable(false);
         this.setHelpAvailable(false);
-        this.setWindowTitle("Parameters for the " + description.getName() + " service");
+        this.setWindowTitle("Parameters for the " + description.name() + " service");
         WizardDialog dialog = new WizardDialog(Display.getDefault()
                                                       .getActiveShell(), this);
         dialog.setBlockOnOpen(true);

@@ -45,10 +45,10 @@ public final class WizardPage
     private Composite composite;
 
     public WizardPage(Wizard wizard, Description description) {
-        super("Parameters", "Parameters for the " + description.getName() + " service", Utility.getImage("alligator-logo.png"));
+        super("Parameters", "Parameters for the " + description.name() + " service", Utility.getImage("alligator-logo.png"));
         this.wizard = wizard;
         this.description = description;
-        this.setMessage(description.getName() + " version " + description.getVersion());
+        this.setMessage(description.name() + " version " + description.version());
     }
 
     public
@@ -79,7 +79,7 @@ public final class WizardPage
             Text helpMessage = new Text(composite, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
             GridData data = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 2);
             helpMessage.setLayoutData(data);
-            helpMessage.setText(description.getHelp());
+            helpMessage.setText(description.help());
             helpMessage.setEditable(false);
         }
         inRefresh = false;

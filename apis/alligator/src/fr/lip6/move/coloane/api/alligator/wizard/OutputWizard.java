@@ -75,7 +75,7 @@ public final class OutputWizard
                 }
                 */
                 for (Dialog<?> dialog : dialogs) {
-                    for (Parameter<?> parameter : result.getParameters()) {
+                    for (Parameter<?> parameter : result.parameters()) {
                         if (parameter.equalsUnset(dialog.getParameter())) {
                             try {
                                 dialog.update(parameter);
@@ -153,7 +153,7 @@ public final class OutputWizard
         splitParameters(Description description) {
         Set<Parameter<?>> inputs = new HashSet<Parameter<?>>();
         Set<Parameter<?>> outputs = new HashSet<Parameter<?>>();
-        for (Parameter<?> parameter : description.getParameters()) {
+        for (Parameter<?> parameter : description.parameters()) {
             if (parameter.isOutput()) {
                 outputs.add(parameter);
             } else {
