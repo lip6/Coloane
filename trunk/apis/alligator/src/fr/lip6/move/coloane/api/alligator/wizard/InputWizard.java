@@ -31,7 +31,7 @@ public final class InputWizard
     @Override
         List<Set<Parameter<?>>> splitParameters(Description description) {
         Set<Parameter<?>> result = new HashSet<Parameter<?>>();
-        for (Parameter<?> parameter : description.getParameters()) {
+        for (Parameter<?> parameter : description.parameters()) {
             if (parameter.isInput()) {
                 result.add(parameter);
             }

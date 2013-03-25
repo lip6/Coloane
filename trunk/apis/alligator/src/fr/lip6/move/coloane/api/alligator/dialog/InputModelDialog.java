@@ -29,11 +29,11 @@ public final class InputModelDialog
 
     @Override
     protected
-        boolean keepResource(IResource resource) {
+        boolean
+        keepResource(IResource resource) {
         if (resource instanceof IFile && resource.getName()
                                                  .endsWith("model")) {
-            
-            if (parameter.getFormalism().length == 0) {
+            if (parameter.getFormalisms() == null) {
                 return true;
             }
             IFormalism formalism = ModelLoader.loadFormalismFromXML((IFile) resource);
@@ -45,11 +45,17 @@ public final class InputModelDialog
                 assert id != null;
                 String fml = contribution.getAttribute(Activator.FMLURL_EXTENSION);
                 assert fml != null;
+                assert parameter.getFormalisms() != null;
                 assert formalism.getId() != null;
-                for (URL url: parameter.getFormalism()) {
-                if (fml.equals(url.toString()) && formalism.getId().equals(id)) {
-                    return true;
-                }
+                System.err.println("Looking for: " + Arrays.toString(parameter.getFormalisms()));
+                System.err.println("Found fml: " + fml);
+                System.err.println("Formalism: " + formalism.getId());
+                System.err.println("Id: " + id);
+                for (URL f : parameter.getFormalisms()) {
+                    if (fml.equals(f.toString()) && formalism.getId()
+                                                             .equals(id)) {
+                        return true;
+                    }
                 }
             }
         }
