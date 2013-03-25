@@ -29,6 +29,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CancellationException;
@@ -133,7 +135,7 @@ public final class RunService
             }
             Descriptions.add(service);
             // Convert input parameters:
-            for (Parameter<?> parameter : service.getParameters()) {
+            for (Parameter<?> parameter : service.parameters()) {
                 try {
                     if (parameter.isInput()) {
                         if (parameter instanceof ModelParameter) {
@@ -195,16 +197,16 @@ public final class RunService
                 Identifiers.add(identifier);
                 alligator.runningDescriptions.put(identifier, service);
                 alligator.wakeUp();
-                IResult result = new Result(service.getName());
+                IResult result = new Result(service.name());
                 ISubResult sub = new SubResult("Identifier of the service execution", identifier.toString());
                 result.addSubResult(sub);
                 return new ResultService(identifier, alligator).run(null, monitor);
             } else {
-                IResult result = new Result(service.getName());
+                IResult result = new Result(service.name());
                 LOGGER.info("Invoking service '" + service + "' (oldstyle)...");
-                List<Item> params = ParameterConversion.valueFrom(service.getParameters());
+                Item[] params = ParameterConversion.valueFrom(service.parameters());
                 List<Item> resultItems = alligator.getOldServices()
-                                                  .invoke(service.getIdentifier(), params);
+                                                  .invoke(service.identifier(), Arrays.asList(params));
                 LOGGER.fine("Getting " + resultItems.size() + " result items.");
                 // For all result items give the better feedback to the user
                 for (Item item : resultItems) {
@@ -244,13 +246,13 @@ public final class RunService
     @Override
     public
         String getName() {
-        return service.getName();
+        return service.name();
     }
 
     @Override
     public
         String getDescription() {
-        return service.getHelp();
+        return service.help();
     }
 
 }

@@ -27,10 +27,10 @@ public final class Descriptions {
 
     public static synchronized
         void add(Description description) {
-        LOGGER.info("Storing service description '" + description.getIdentifier() + "'...");
+        LOGGER.info("Storing service description '" + description.identifier() + "'...");
         try {
             STORE.load();
-            STORE.putValue(description.getIdentifier(), description.toXML());
+            STORE.putValue(description.identifier(), description.toXML());
             STORE.save();
         } catch (IOException e) {
             throw new AssertionError();
@@ -39,10 +39,10 @@ public final class Descriptions {
 
     public static synchronized
         void remove(Description description) {
-        LOGGER.info("Removing service description '" + description.getIdentifier() + "'...");
+        LOGGER.info("Removing service description '" + description.identifier() + "'...");
         try {
             STORE.load();
-            STORE.setToDefault(description.getIdentifier());
+            STORE.setToDefault(description.identifier());
             STORE.save();
         } catch (IOException e) {
             throw new AssertionError();
@@ -55,8 +55,8 @@ public final class Descriptions {
         copy.unset();
         try {
             STORE.load();
-            if (STORE.contains(copy.getIdentifier())) {
-                Description result = Description.fromXML(STORE.getString(copy.getIdentifier()));
+            if (STORE.contains(copy.identifier())) {
+                Description result = Description.fromXML(STORE.getString(copy.identifier()));
                 if (result.equalsUnset(copy)) {
                     return result;
                 }
@@ -66,11 +66,11 @@ public final class Descriptions {
             LOGGER.warning(message);
         }
         remove(description);
-        for (Parameter<?> parameter : copy.getParameters()) {
+        for (Parameter<?> parameter : copy.parameters()) {
             parameter.useDefault();
         }
         try {
-            STORE.putValue(copy.getIdentifier(), copy.toXML());
+            STORE.putValue(copy.identifier(), copy.toXML());
             STORE.save();
         } catch (IOException e) {
             String message = "Cannot save description because: " + e.getMessage();

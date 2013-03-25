@@ -58,7 +58,7 @@ public final class ResultService
         try {
             List<IResult> results = new ArrayList<IResult>();
             if (alligator.getServices() != null) {
-                LOGGER.info("Obtaining results from service '" + identifier.getKey() + "' on '" + identifier.getServer() +
+                LOGGER.info("Obtaining results from service '" + identifier.key() + "' on '" + identifier.server() +
                             "'...");
                 boolean kill = true;
                 Description description = alligator.getServices()
@@ -67,10 +67,10 @@ public final class ResultService
                     throw new AssertionError();
                 }
                 if (description.isOldService()) {
-                    IResult result = new Result(description.getName());
-                    List<Item> resultItems = alligator.getServices()
+                    IResult result = new Result(description.name());
+                    Item[] resultItems = alligator.getServices()
                                                       .getOldResult(identifier);
-                    LOGGER.fine("Getting " + resultItems.size() + " result items.");
+                    LOGGER.fine("Getting " + resultItems.length + " result items.");
                     // For all result items give the better feedback to the user
                     for (Item item : resultItems) {
                         // Create a new model from CAMI
@@ -99,10 +99,9 @@ public final class ResultService
                 } else {
                     Description serviceResult = alligator.getServices()
                                                          .getCurrentState(identifier);
-                    IResult result = new Result(identifier.getKey());
+                    IResult result = new Result(identifier.key());
                     // Run wizard to get parameters:
-                    if (!serviceResult.getParameters()
-                                      .isEmpty()) {
+                    if (serviceResult.parameters().length != 0) {
                         OutputWizard wizard = new OutputWizard(alligator, identifier);
                         Display.getDefault()
                                .syncExec(wizard);
