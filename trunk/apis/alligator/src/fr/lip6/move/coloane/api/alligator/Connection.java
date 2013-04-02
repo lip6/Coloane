@@ -69,7 +69,8 @@ public final class Connection
      */
     @Deprecated
     public
-        ServiceManager getOldServices() {
+        ServiceManager
+        getOldServices() {
         return oldServices;
     }
 
@@ -77,7 +78,8 @@ public final class Connection
      * @return The service manager
      */
     public
-        ToolServices getServices() {
+        ToolServices
+        getServices() {
         return newServices;
     }
 
@@ -85,7 +87,8 @@ public final class Connection
      * @return the Alligator menu
      */
     public
-        ISubMenu getMenu() {
+        ISubMenu
+        getMenu() {
         synchronized (menu) {
             return menu;
         }
@@ -98,7 +101,8 @@ public final class Connection
      *        The new menu
      */
     private
-        void setMenu(ISubMenu menu) {
+        void
+        setMenu(ISubMenu menu) {
         synchronized (this.menu) {
             this.menu = menu;
         }
@@ -112,7 +116,8 @@ public final class Connection
      */
     @Deprecated
     private
-        void computeOldMenu(IProgressMonitor monitor) {
+        void
+        computeOldMenu(IProgressMonitor monitor) {
         try {
             LOGGER.info("Connecting to " + data.getOldAddress() + "...");
             // Establish connection:
@@ -142,7 +147,9 @@ public final class Connection
             Comparator<ServiceDescription> comparator = new Comparator<ServiceDescription>() {
                 @Override
                 public
-                    int compare(ServiceDescription lhs, ServiceDescription rhs) {
+                    int
+                    compare(ServiceDescription lhs,
+                            ServiceDescription rhs) {
                     return lhs.getName()
                               .compareToIgnoreCase(rhs.getName());
                 }
@@ -182,6 +189,13 @@ public final class Connection
         }
     }
 
+    private
+        String
+        nameOf(Description description) {
+        return description.name() + " (" + ("".equals(description.tool()) ? "?" : description.tool()) + " v" +
+               ("".equals(description.version()) ? "?" : description.version()) + ")";
+    }
+
     /**
      * Obtain the Alligator menu
      * 
@@ -189,7 +203,8 @@ public final class Connection
      *        A monitor
      */
     private
-        void computeMenu(IProgressMonitor monitor) {
+        void
+        computeMenu(IProgressMonitor monitor) {
         try {
             // Establish connection:
             LOGGER.info("Connecting to " + data.getAddress() + "...");
@@ -221,8 +236,10 @@ public final class Connection
             Comparator<Description> comparator = new Comparator<Description>() {
                 @Override
                 public
-                    int compare(Description lhs, Description rhs) {
-                    return (lhs.name() + " (" + lhs.tool() + " v" + lhs.version()).compareToIgnoreCase(rhs.name() + " (" + rhs.tool() + " v" + rhs.version());
+                    int
+                    compare(Description lhs,
+                            Description rhs) {
+                    return (nameOf(lhs)).compareToIgnoreCase(nameOf(rhs));
                 }
             };
             Arrays.sort(descriptions, comparator);
@@ -231,7 +248,7 @@ public final class Connection
                 IApiService apiService = new RunService(service, this);
                 LOGGER.finer("Adding to '" + data.getName() + "' service '" + service.name() + "'...");
                 // Handle sub-menus using name separators:
-                String serviceName = service.name() + " (" + service.tool() + " v" + service.version();
+                String serviceName = nameOf(service);
                 StringTokenizer tokenizer = new StringTokenizer(serviceName, ":");
                 ISubMenu current = menu;
                 do {
@@ -259,7 +276,8 @@ public final class Connection
                     // Icons taken from http://findicons.com/pack/109/play_stop_pause
                     if (data.getAddress()
                             .toString()
-                            .startsWith(identifier.server().toString())) {
+                            .startsWith(identifier.server()
+                                                  .toString())) {
                         ISubMenu submenu = null;
                         IApiService getResultsService = new ResultService(identifier, this);
                         if (newServices.isFinished(identifier)) {
@@ -295,7 +313,8 @@ public final class Connection
 
     @Override
     protected
-        IStatus run(IProgressMonitor monitor) {
+        IStatus
+        run(IProgressMonitor monitor) {
         LOGGER.info("Computing menu of server: " + data.getName());
         if (monitor.isCanceled()) {
             return Status.CANCEL_STATUS;

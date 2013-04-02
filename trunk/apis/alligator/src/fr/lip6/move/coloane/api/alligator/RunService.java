@@ -133,7 +133,6 @@ public final class RunService
                 LOGGER.info("Service wizard has been canceled.");
                 return Collections.emptyList();
             }
-            Descriptions.add(service);
             // Convert input parameters:
             for (Parameter<?> parameter : service.parameters()) {
                 try {

@@ -37,20 +37,13 @@ public final class InputModelDialog
                 return true;
             }
             IFormalism formalism = ModelLoader.loadFormalismFromXML((IFile) resource);
-            assert formalism != null;
-            // Step 2. find converter for this formalism:
+            if (formalism == null) {
+                return false;
+            }
             for (IConfigurationElement contribution : Arrays.asList(Platform.getExtensionRegistry()
                                                                             .getConfigurationElementsFor(Activator.EXTENSION_POINT_ID))) {
                 String id = contribution.getAttribute(Activator.NAME_EXTENSION);
-                assert id != null;
                 String fml = contribution.getAttribute(Activator.FMLURL_EXTENSION);
-                assert fml != null;
-                assert parameter.getFormalisms() != null;
-                assert formalism.getId() != null;
-                System.err.println("Looking for: " + Arrays.toString(parameter.getFormalisms()));
-                System.err.println("Found fml: " + fml);
-                System.err.println("Formalism: " + formalism.getId());
-                System.err.println("Id: " + id);
                 for (URL f : parameter.getFormalisms()) {
                     if (fml.equals(f.toString()) && formalism.getId()
                                                              .equals(id)) {
