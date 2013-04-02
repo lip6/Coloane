@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="fr.lip6.move.coloane.core.exports">
+      <Export
+            class="fr.lip6.move.coloane.extension.exportGAL.exportToGAL.ExportToGAL"
+            extension="gal"
+            id="fr.lip6.move.coloane.extensions.exportgal"
+            wizard_id="fr.lip6.move.coloane.wizard.export.gal">
+         <AcceptedFormalism
+               id="Time Petri Net">
+         </AcceptedFormalism>
+      </Export>
+   </extension>
+   <extension
+   		 point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="fr.lip6.move.coloane.wizard.export.coloane"
+            class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
+            icon="resources/romeo.png"
+            id="fr.lip6.move.coloane.wizard.export.gal"
+            name="GAL File">
+		 <description>
+            Export semantically equivalent local timed Petri net model  to your file system using GAL syntax.
+         </description>
+      </wizard>
+   </extension>
+
+</plugin>
