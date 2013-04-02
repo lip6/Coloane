@@ -44,8 +44,10 @@ import fr.lip6.move.coloane.projects.its.variables.*;
           }
           List<String> suggs = new ArrayList<String>();
           if (e instanceof MismatchedTokenException) {
-      MismatchedTokenException e2 = (MismatchedTokenException) e;
-      suggs.add(tokenNames [e2.expecting]);
+      			MismatchedTokenException e2 = (MismatchedTokenException) e;
+      			if (e2.expecting <= 0 && e2.expecting < tokenNames.length ) {
+	      			suggs.add(tokenNames [e2.expecting]);
+	      		}
       }
           errorReporter.reportError(getErrorMessage(e, tokenNames),e.charPositionInLine, len, suggs);
         };
