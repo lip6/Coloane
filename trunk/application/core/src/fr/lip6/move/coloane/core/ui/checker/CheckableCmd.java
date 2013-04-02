@@ -76,6 +76,9 @@ public abstract class CheckableCmd extends Command {
 		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(session.getSessionId()));
 		Checker checker = session.getChecker();
 
+		if (resource==null) {
+			return;
+		}
 		// We call the checker on the graph.
 		CheckerManager.getInstance().checkGraph(checker, resource, graph);
 		// Then for each IElement of checkableElement list, . . .
