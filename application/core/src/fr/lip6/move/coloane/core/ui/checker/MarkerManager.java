@@ -241,10 +241,13 @@ public final class MarkerManager {
 		}
 		if (type.equals(GRAPH_MARKER) || type.equals(GRAPH_ATTRIBUTE_MARKER)) {
 			try {
-				resource.deleteMarkers(type, false, IResource.DEPTH_ZERO);
+				if (resource != null) {
+					// TODO: resource == null does happens in practice. why ? 
+					resource.deleteMarkers(type, false, IResource.DEPTH_ZERO);
+				}
 			} catch (CoreException e) {
 				e.printStackTrace();
-			}
+			} 
 		}
 	}
 
