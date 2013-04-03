@@ -182,7 +182,7 @@ public class ExportToGAL implements IExportTo {
 						t.getActions().add(ass);
 					}
 				}
-				// build actions :  then take tokens, then put tokens
+				// build actions :  then take tokens
 				for (IArc arc : node.getIncomingArcs()) {
 					String arcType = arc.getArcFormalism().getName(); 
 
@@ -201,7 +201,7 @@ public class ExportToGAL implements IExportTo {
 						t.getActions().add(ass);
 					}
 				}
-				// build actions :  then take tokens, then put tokens
+				// build actions :  then put tokens
 				for (IArc arc : node.getOutgoingArcs()) {
 					String arcType = arc.getArcFormalism().getName(); 
 
