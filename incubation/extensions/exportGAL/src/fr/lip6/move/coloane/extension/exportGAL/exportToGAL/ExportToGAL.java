@@ -160,14 +160,9 @@ public class ExportToGAL implements IExportTo {
 				if (eft != 0) {
 					// add clock >= eft to guard condition
 					And and = gf.createAnd();
-					Comparison comp = gf.createComparison();
-					VariableRef c = gf.createVariableRef();
-					c.setReferencedVar(varMap.get(node));
-					comp.setLeft(c);
-					comp.setOperator(ComparisonOperators.GE);
-					Constant c1 = gf.createConstant();
-					c1.setValue(eft);
-					comp.setRight(c1);
+					
+					BooleanExpression comp = createComparison(node, ComparisonOperators.GE, eft, gf, varMap);
+
 					and.setLeft(guard);
 					and.setRight(comp);
 					t.setGuard(and);
@@ -181,19 +176,9 @@ public class ExportToGAL implements IExportTo {
 
 					if ("reset".equals(arcType) ) {
 
-						// A ref to the place : p
-						VariableRef pl = gf.createVariableRef();
-						pl.setReferencedVar(varMap.get(arc.getSource()));
 
 						// p= 0
-						Assignment ass = gf.createAssignment();
-						ass.setLeft(pl);
-
-						Constant c0 = gf.createConstant();
-						c0.setValue(0);
-						ass.setRight(c0);
-
-
+						Assignment ass = assignVarConst(arc.getSource(), 0, gf, varMap);
 						t.getActions().add(ass);
 					}
 				}
@@ -203,32 +188,16 @@ public class ExportToGAL implements IExportTo {
 
 					if ("arc".equals(arcType) ) {
 
-						// A ref to the place : p
-						VariableRef pl = gf.createVariableRef();
-						pl.setReferencedVar(varMap.get(arc.getSource()));
-
-						// p= 0
-						Assignment ass = gf.createAssignment();
-						ass.setLeft(pl);
-
-						Constant c1 = gf.createConstant();
+						// p -= valuation
+						int val;
 						IAttribute iaval = arc.getAttribute("valuation");
 						if (iaval != null) {
-							c1.setValue(Integer.parseInt(iaval.getValue()));
+							val = - Integer.parseInt(iaval.getValue());
 						} else {
-							c1.setValue(1);
+							val = - 1;
 						}
-						BinaryIntExpression add = gf.createBinaryIntExpression();
-
-						VariableRef pl2 = gf.createVariableRef();
-						pl2.setReferencedVar(varMap.get(arc.getSource()));
-
-						add.setLeft(pl2);
-						add.setOp("-");
-						add.setRight(c1);
-
-						ass.setRight(add);
-
+						Assignment ass = incrementVar(arc.getSource(), val, gf, varMap);
+						
 						t.getActions().add(ass);
 					}
 				}
@@ -238,31 +207,16 @@ public class ExportToGAL implements IExportTo {
 
 					if ("arc".equals(arcType) ) {
 
-						// A ref to the place : p
-						VariableRef pl = gf.createVariableRef();
-						pl.setReferencedVar(varMap.get(arc.getTarget()));
-
-						// p= 0
-						Assignment ass = gf.createAssignment();
-						ass.setLeft(pl);
-
-						Constant c1 = gf.createConstant();
+						int value ;
 						IAttribute iaval = arc.getAttribute("valuation");
 						if (iaval != null) {
-							c1.setValue(Integer.parseInt(iaval.getValue()));
+							value = Integer.parseInt(iaval.getValue());
 						} else {
-							c1.setValue(1);
+							value = 1; 
 						}
-						BinaryIntExpression add = gf.createBinaryIntExpression();
-						VariableRef pl2 = gf.createVariableRef();
-						pl2.setReferencedVar(varMap.get(arc.getTarget()));
-
-						add.setLeft(pl2);
-						add.setOp("+");
-						add.setRight(c1);
-
-						ass.setRight(add);
-
+						// p= 0
+						Assignment ass = incrementVar(arc.getTarget(), value, gf, varMap);
+						
 						t.getActions().add(ass);
 					}
 				}
@@ -272,19 +226,10 @@ public class ExportToGAL implements IExportTo {
 				if (isTimed) {
 					if (hasClock(eft,lft)) {
 
-						// A ref to the place : p
-						VariableRef pl = gf.createVariableRef();
-						pl.setReferencedVar(varMap.get(node));
-
+						
 						// p= 0
-						Assignment ass = gf.createAssignment();
-						ass.setLeft(pl);
-
-						Constant c0 = gf.createConstant();
-						c0.setValue(0);
-						ass.setRight(c0);
-
-
+						Assignment ass = assignVarConst(node, 0, gf, varMap);
+						
 						t.getActions().add(ass);
 
 						// also add a term to resetDisabled
@@ -292,7 +237,9 @@ public class ExportToGAL implements IExportTo {
 						Not notGuard = gf.createNot();
 						notGuard.setValue(computeGuard(node, gf, varMap));
 						ite.setCond(notGuard);
-						ite.getIfTrue().add(ass);
+						Assignment ass2 = assignVarConst(node, 0, gf, varMap);
+						ite.getIfTrue().add(ass2);
+						
 						reset.getActions().add(ite);
 					}
 
@@ -321,45 +268,16 @@ public class ExportToGAL implements IExportTo {
 						And and = gf.createAnd();
 						and.setLeft(computeGuard(node, gf, varMap));
 
-						// A ref to the clock 
-						VariableRef tclock = gf.createVariableRef();
-						tclock.setReferencedVar(varMap.get(node));
-
-						Comparison comp = gf.createComparison();
-						comp.setLeft(tclock);
-
-						Constant c = gf.createConstant();
-						c.setValue(eft);
-
-						comp.setOperator(ComparisonOperators.LT);
-						comp.setRight(c);
+						BooleanExpression comp = createComparison(node, ComparisonOperators.LT, eft, gf, varMap);
 
 						and.setRight(comp);
-
 						// condition is : enabled && clock < eft(t)
 						ite.setCond(and);
 
 						// effect if true is :
 						// clock= clock+1
-						Assignment ass = gf.createAssignment();
-						VariableRef tclock2 = gf.createVariableRef();
-						tclock2.setReferencedVar(varMap.get(node));
-						ass.setLeft(tclock2);
-
-						Constant c1 = gf.createConstant();
-						c1.setValue(1);
-
-						BinaryIntExpression add = gf.createBinaryIntExpression();
-
-						VariableRef tclock3 = gf.createVariableRef();
-						tclock3.setReferencedVar(varMap.get(node));
-
-						add.setLeft(tclock3);
-						add.setOp("+");
-						add.setRight(c1);
-
-						ass.setRight(add);
-
+						Assignment ass = incrementVar(node, 1, gf, varMap);
+						
 						ite.getIfTrue().add(ass);
 
 						elapse.getActions().add(ite);
@@ -373,43 +291,14 @@ public class ExportToGAL implements IExportTo {
 						
 						Ite ite2 = gf.createIte();
 						
-						// A ref to the clock 
-						VariableRef tclock = gf.createVariableRef();
-						tclock.setReferencedVar(varMap.get(node));
-
-						Comparison comp = gf.createComparison();
-						comp.setLeft(tclock);
-
-						Constant c = gf.createConstant();
-						c.setValue(lft);
-
-						comp.setOperator(ComparisonOperators.LT);
-						comp.setRight(c);
-
+						BooleanExpression comp = createComparison(node, ComparisonOperators.LT, lft, gf, varMap);	
 						// condition is : clock < lft(t)
 						ite2.setCond(comp);
 						
 						// effect if true is :
 						// clock= clock+1
-						Assignment ass = gf.createAssignment();
-						VariableRef tclock2 = gf.createVariableRef();
-						tclock2.setReferencedVar(varMap.get(node));
-						ass.setLeft(tclock2);
-
-						Constant c1 = gf.createConstant();
-						c1.setValue(1);
-
-						BinaryIntExpression add = gf.createBinaryIntExpression();
-
-						VariableRef tclock3 = gf.createVariableRef();
-						tclock3.setReferencedVar(varMap.get(node));
-
-						add.setLeft(tclock3);
-						add.setOp("+");
-						add.setRight(c1);
-
-						ass.setRight(add);
-
+						Assignment ass = incrementVar(node, 1, gf, varMap);
+						
 						ite2.getIfTrue().add(ass);
 
 						// effect if false is abort !
@@ -451,28 +340,28 @@ public class ExportToGAL implements IExportTo {
 			if ("arc".equals(arcType) || "inhibitor".equals(arcType) || "test".equals(arcType) ) {
 
 				// A ref to the place : p
-				Comparison cmp = gf.createComparison();
-				VariableRef pl = gf.createVariableRef();
-				pl.setReferencedVar(varMap.get(arc.getSource()));
-				cmp.setLeft(pl);
-
+				INode p = arc.getSource();
+				ComparisonOperators op ;
 				if ("arc".equals(arcType) || "test".equals(arcType) ) {
 					// is greater or equal >=
-					cmp.setOperator(ComparisonOperators.GE);
+					op = ComparisonOperators.GE;
 				} else if ("inhibitor".equals(arcType) ) {
 					// is strictly less than
-					cmp.setOperator(ComparisonOperators.LT);							
+					op = ComparisonOperators.LT;							
+				} else {
+					// Should not happen
+					op = ComparisonOperators.EQ;
 				}
-
-				// to valuation of arc
-				Constant val = gf.createConstant();
+				int val;
 				IAttribute iaval = arc.getAttribute("valuation");
 				if (iaval != null) {
-					val.setValue(Integer.parseInt(iaval.getValue()));
+					val = Integer.parseInt(iaval.getValue());
 				} else {
-					val.setValue(1);
+					val = 1;
 				}
-				cmp.setRight(val);
+				
+				
+				BooleanExpression cmp = createComparison(p, op, val,gf, varMap);				
 
 				if (guard==tru) {
 					guard = cmp;
@@ -490,7 +379,67 @@ public class ExportToGAL implements IExportTo {
 		}
 		return guard;
 	}
+	
+	private BooleanExpression createComparison (INode node, ComparisonOperators op, int value, GalFactory gf, Map<INode, Variable> varMap) {
+		Comparison cmp = gf.createComparison();
+		VariableRef pl = gf.createVariableRef();
+		pl.setReferencedVar(varMap.get(node));
+		cmp.setLeft(pl);
 
+		cmp.setOperator(op);
+		
+
+		// to valuation of arc
+		Constant val = gf.createConstant();
+		val.setValue(value);
+		cmp.setRight(val);
+		return cmp;
+	}
+	
+	private Assignment assignVarConst (INode node, int value, GalFactory gf, Map<INode, Variable> varMap) {
+		Assignment ass = gf.createAssignment();
+
+		// A ref to the place : p
+		VariableRef pl = gf.createVariableRef();
+		pl.setReferencedVar(varMap.get(node));
+		ass.setLeft(pl);
+
+		Constant c0 = gf.createConstant();
+		c0.setValue(value);
+		ass.setRight(c0);
+
+		return ass;
+	}
+	
+	private Assignment incrementVar (INode node, int value, GalFactory gf, Map<INode, Variable> varMap) {
+		// A ref to the place : p
+		VariableRef pl = gf.createVariableRef();
+		pl.setReferencedVar(varMap.get(node));
+
+		// p= 0
+		Assignment ass = gf.createAssignment();
+		ass.setLeft(pl);
+
+		Constant c1 = gf.createConstant();
+		c1.setValue(Math.abs(value));
+
+		BinaryIntExpression add = gf.createBinaryIntExpression();
+		VariableRef pl2 = gf.createVariableRef();
+		pl2.setReferencedVar(varMap.get(node));
+
+		add.setLeft(pl2);
+		if (value >= 0) {
+			add.setOp("+");
+		} else {
+			add.setOp("-");
+		}
+		add.setRight(c1);
+
+		ass.setRight(add);
+		return ass;
+	}
+	
+		
 	private boolean hasClock(int eft, int lft) {
 		// [0,0] and [0,inf[ clocks are discarded
 		return eft!=0 ||  (lft!=0 && lft != -1 );
