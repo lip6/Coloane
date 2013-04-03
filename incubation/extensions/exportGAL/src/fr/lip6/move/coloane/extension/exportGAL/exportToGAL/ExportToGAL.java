@@ -235,7 +235,8 @@ public class ExportToGAL implements IExportTo {
 						// also add a term to resetDisabled
 						Ite ite = gf.createIte();
 						Not notGuard = gf.createNot();
-						notGuard.setValue(computeGuard(node, gf, varMap));
+						BooleanExpression g = computeGuard(node, gf, varMap);
+						notGuard.setValue(g);
 						ite.setCond(notGuard);
 						Assignment ass2 = assignVarConst(node, 0, gf, varMap);
 						ite.getIfTrue().add(ass2);
@@ -341,17 +342,14 @@ public class ExportToGAL implements IExportTo {
 
 				// A ref to the place : p
 				INode p = arc.getSource();
-				ComparisonOperators op ;
+				ComparisonOperators op =null;
 				if ("arc".equals(arcType) || "test".equals(arcType) ) {
 					// is greater or equal >=
 					op = ComparisonOperators.GE;
 				} else if ("inhibitor".equals(arcType) ) {
 					// is strictly less than
 					op = ComparisonOperators.LT;							
-				} else {
-					// Should not happen
-					op = ComparisonOperators.EQ;
-				}
+				} 
 				int val;
 				IAttribute iaval = arc.getAttribute("valuation");
 				if (iaval != null) {
