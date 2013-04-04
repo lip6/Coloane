@@ -93,8 +93,6 @@ public final class RunService
                 LOGGER.info("Description of configured service '" + identifier + "' was taken from server.");
             } catch (IllegalStateException e) {
                 throw new IllegalArgumentException(e);
-            } catch (ExecutionException e) {
-                throw new IllegalArgumentException(e);
             }
         }
         this.alligator = alligator;
