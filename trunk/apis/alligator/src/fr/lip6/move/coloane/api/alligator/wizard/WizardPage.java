@@ -10,6 +10,7 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 import fr.lip6.move.coloane.api.alligator.Utility;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
 import fr.lip6.move.coloane.api.alligator.dialog.EmptyDialog;
+import fr.lip6.move.coloane.api.alligator.dialog.ErrorDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.ResetDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.SetDefaultDialog;
 
@@ -17,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Description;
@@ -43,6 +46,7 @@ public final class WizardPage
     private final Map<Dialog<?>, String> errors = new HashMap<Dialog<?>, String>();
 
     private Composite composite;
+    private ErrorDialog error = null;
 
     public WizardPage(Wizard wizard, Description description) {
         super("Parameters", "Parameters for the " + description.name() + " service", Utility.getImage("alligator-logo.png"));
@@ -52,15 +56,21 @@ public final class WizardPage
     }
 
     public
-        void addDialog(Dialog<?> dialog) {
+        void
+        addDialog(Dialog<?> dialog) {
         dialogs.add(dialog);
     }
 
     public
-        void createControl(Composite parent) {
+        void
+        createControl(Composite parent) {
         LOGGER.info("Creating controls in wizard page...");
         composite = parent;
-        inRefresh = true;
+        try {
+            refreshLock.acquire();
+        } catch (InterruptedException e) {
+            throw new AssertionError();
+        }
         Composite composite = new Composite(parent, SWT.NONE);
         composite.setLayout(new GridLayout(3, false));
         composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, Wizard.PAGE_SIZE));
@@ -81,14 +91,23 @@ public final class WizardPage
             helpMessage.setLayoutData(data);
             helpMessage.setText(description.help());
             helpMessage.setEditable(false);
+        } else if ((wizard instanceof OutputWizard) && (error != null)) {
+            error.create(composite);
         }
-        inRefresh = false;
+        refreshLock.release();
         refresh();
+    }
+
+    public
+        void
+        addErrorDialog(final ErrorDialog error) {
+        this.error = error;
     }
 
     @Override
     public
-        boolean isPageComplete() {
+        boolean
+        isPageComplete() {
         for (Dialog<?> dialog : dialogs) {
             String message = dialog.errorMessage();
             if (message != null) {
@@ -102,7 +121,8 @@ public final class WizardPage
     }
 
     private
-        void setError() {
+        void
+        setError() {
         if (errors.size() == 0) {
             this.setErrorMessage(null);
         } else {
@@ -121,12 +141,14 @@ public final class WizardPage
     }
 
     public
-        List<Dialog<?>> getDialogs() {
+        List<Dialog<?>>
+        getDialogs() {
         return dialogs;
     }
 
     public
-        int size() {
+        int
+        size() {
         int result = 1;
         for (Dialog<?> dialog : dialogs) {
             result += dialog.size();
@@ -134,20 +156,20 @@ public final class WizardPage
         return result;
     }
 
-    private boolean inRefresh = false;
-
     public
-        void refresh() {
-        if (!inRefresh) {
-            inRefresh = true;
+        void
+        refresh() {
+        if (refreshLock.tryAcquire()) {
             LOGGER.info("Refreshing wizard page...");
             for (Dialog<?> dialog : dialogs) {
                 dialog.updateDialog();
             }
             setPageComplete(isPageComplete());
             setError();
-            inRefresh = false;
+            refreshLock.release();
         }
     }
+
+    private Semaphore refreshLock = new Semaphore(1);
 
 }

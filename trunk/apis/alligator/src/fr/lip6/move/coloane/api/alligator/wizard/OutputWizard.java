@@ -9,6 +9,7 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 
 import fr.lip6.move.coloane.api.alligator.Connection;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
+import fr.lip6.move.coloane.api.alligator.dialog.ErrorDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.OutputFileDialog;
 
 import java.io.File;
@@ -47,6 +48,7 @@ public final class OutputWizard
 
     private final Connection connection;
     private final Identifier identifier;
+    public final ErrorDialog errors = new ErrorDialog(this);
 
     private class GraphicsRunner
         implements Runnable {
@@ -56,6 +58,8 @@ public final class OutputWizard
             void
             run() {
             try {
+                errors.setErrors(connection.getServices()
+                                           .getErrors(identifier));
                 if (connection.getServices()
                               .isFinished(identifier)) {
                     for (WizardPage page : pages) {
@@ -68,12 +72,6 @@ public final class OutputWizard
                 }
                 Description result = connection.getServices()
                                                .getCurrentState(identifier);
-                /*
-                for (Parameter<?> p: result.getParameters()) {
-                    System.out.println(p.getName() + ": " + p.isActualParameter());
-                    System.out.println("     " + p);
-                }
-                */
                 for (Dialog<?> dialog : dialogs) {
                     for (Parameter<?> parameter : result.parameters()) {
                         if (parameter.equalsUnset(dialog.getParameter())) {
@@ -122,6 +120,7 @@ public final class OutputWizard
         throws IllegalArgumentException, ExecutionException {
         super(connection.getServices()
                         .getCurrentState(identifier), false);
+        pages.get(0).addErrorDialog(errors);
         this.connection = connection;
         this.identifier = identifier;
         Set<Parameter<?>> parameters = SOURCES.get(identifier);
