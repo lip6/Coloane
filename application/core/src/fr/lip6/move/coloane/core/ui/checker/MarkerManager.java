@@ -225,7 +225,7 @@ public final class MarkerManager {
 	 * @param element marker associated to this element will be deleted.
 	 */
 	private static void deleteMarkers(IResource resource, String type, IElement element) {
-		if (element != null) {
+		if (element != null && resource != null) {
 			try {
 				IMarker[] markers = resource.findMarkers(type, false, IResource.DEPTH_ZERO);
 
