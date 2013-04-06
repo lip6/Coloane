@@ -377,7 +377,7 @@ public class TypeDeclaration extends AbstractTypeDeclaration implements ISimpleO
 		// free the current data
 		attribs.clear();
 		// force cache clear
-		IEvaluationContext oldcontext = context;
+		IEvaluationContext oldcontext = getParameters();
 		if (oldcontext instanceof EvaluationContext) {
 			EvaluationContext ct = (EvaluationContext) oldcontext;
 			ct.deleteObserver(this);
