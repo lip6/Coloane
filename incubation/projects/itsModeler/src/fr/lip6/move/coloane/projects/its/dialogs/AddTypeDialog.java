@@ -143,6 +143,9 @@ public final class AddTypeDialog extends TitleAreaDialog {
 	 * @return a valid name
 	 */
 	protected String generateValidName(String name) {
+		name=name.replace(' ', '_');
+		name=name.replace('-', '_');
+		name=name.replace('.', '_');
 		for (ITypeDeclaration td : types) {
 			if (td.getTypeName().equals(name)) {
 				return generateValidName(name + "1");
