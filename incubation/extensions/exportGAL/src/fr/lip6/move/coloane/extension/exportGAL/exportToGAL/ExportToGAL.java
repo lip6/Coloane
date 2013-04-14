@@ -83,7 +83,6 @@ public class ExportToGAL implements IExportTo {
 		gal.setName(name);
 		Transient tr = gf.createTransient();
 		False f = gf.createFalse();
-		f.setValue("False");
 		tr.setValue(f);
 		gal.setTransient(tr);
 
@@ -125,7 +124,6 @@ public class ExportToGAL implements IExportTo {
 		reset.setParams(gf.createParameterList());
 		reset.setLabel(labReset );
 		True tru = gf.createTrue();
-		tru.setValue("True");
 
 		reset.setGuard(tru);
 
@@ -138,7 +136,6 @@ public class ExportToGAL implements IExportTo {
 		elapse.setParams(gf.createParameterList());
 		elapse.setLabel(labElapse);
 		tru = gf.createTrue();
-		tru.setValue("True");
 
 		elapse.setGuard(tru);
 
@@ -336,7 +333,6 @@ public class ExportToGAL implements IExportTo {
 
 	private BooleanExpression computeGuard(INode node, GalFactory gf, Map<INode, Variable> varMap) {
 		True tru = gf.createTrue();
-		tru.setValue("True");
 		BooleanExpression guard = tru ;
 		for (IArc arc : node.getIncomingArcs()) {
 			String arcType = arc.getArcFormalism().getName(); 
