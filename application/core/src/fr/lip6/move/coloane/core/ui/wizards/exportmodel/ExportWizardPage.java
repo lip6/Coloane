@@ -18,6 +18,7 @@ package fr.lip6.move.coloane.core.ui.wizards.exportmodel;
 import java.io.File;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -47,7 +48,8 @@ import org.eclipse.ui.dialogs.WizardExportResourcesPage;
 public class ExportWizardPage extends WizardExportResourcesPage {
 	private Button destinationBrowseButton;
 	private Text destinationNameField;
-
+	private String defaultFolder;
+	
 	/**
 	 * Set up the page
 	 * @param pageName The page name
@@ -58,6 +60,11 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 		super("FileSystemExportPage", selection); //$NON-NLS-1$
 		setTitle(Messages.ExportWizardPage_1);
 		setDescription(Messages.ExportWizardPage_2);
+		if (! selection.isEmpty() && selection.getFirstElement() instanceof IFile) {
+			defaultFolder = (((IFile)selection.getFirstElement()).getParent().getLocation().toOSString());
+		} else {
+			defaultFolder = System.getProperty("user.home", "");
+		}
 	}
 
 	/** {@inheritDoc} */
@@ -84,8 +91,8 @@ public class ExportWizardPage extends WizardExportResourcesPage {
 		data.widthHint = SIZING_TEXT_FIELD_WIDTH;
 		destinationNameField.setLayoutData(data);
 		destinationNameField.setFont(font);
-		destinationNameField.setText(System.getProperty("user.home", "")); //$NON-NLS-1$ //$NON-NLS-2$
-
+		destinationNameField.setText(defaultFolder); //$NON-NLS-1$ //$NON-NLS-2$
+		
 		// destination browse button
 		destinationBrowseButton = new Button(destinationSelectionGroup, SWT.PUSH);
 		destinationBrowseButton.setText(Messages.ExportWizardPage_4);
