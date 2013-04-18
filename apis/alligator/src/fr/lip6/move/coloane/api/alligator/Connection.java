@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.transport.http.HTTPConduit;
-import org.cosyverif.alligator.ToolServices;
+import org.cosyverif.alligator.Execution;
 import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Identifier;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -47,7 +47,7 @@ public final class Connection
     @Deprecated
     private volatile ServiceManager oldServices = null;
 
-    private volatile ToolServices newServices = null;
+    private volatile Execution newServices = null;
 
     /**
      * Create a connection from configuration data:
@@ -78,7 +78,7 @@ public final class Connection
      * @return The service manager
      */
     public
-        ToolServices
+        Execution
         getServices() {
         return newServices;
     }
@@ -211,7 +211,7 @@ public final class Connection
             JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
             factory.setAddress(data.getAddress()
                                    .toString());
-            ToolServices services = factory.create(ToolServices.class);
+            Execution services = factory.create(Execution.class);
             // Configure the HTTPConduit used to communicate with Alligator
             HTTPConduit conduit = (HTTPConduit) ClientProxy.getClient(services)
                                                            .getConduit();
