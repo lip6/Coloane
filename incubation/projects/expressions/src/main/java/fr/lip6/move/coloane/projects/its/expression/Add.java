@@ -21,7 +21,7 @@ package fr.lip6.move.coloane.projects.its.expression;
  * @author Yann
  *
  */
-public final class Add extends NaryExpression implements IntegerExpression {
+public final class Add extends NaryExpression  {
 
 	/**
 	 * {@inheritDoc}

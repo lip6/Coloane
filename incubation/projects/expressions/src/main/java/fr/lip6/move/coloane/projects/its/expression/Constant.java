@@ -37,6 +37,11 @@ public final class Constant implements IntegerExpression {
 	public Constant(int value) {
 		this.value = value;
 	}
+	
+	
+	public int getValue() {
+		return value;
+	}
 	/**
 	 * {@inheritDoc}
 	 */
