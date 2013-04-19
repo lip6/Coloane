@@ -116,6 +116,7 @@ multRealExpr
 realAtom: 
    i=IDENTIFIER ->  exprbalise(name={"name"}, content={ $i.getText() })
   | i=INTEGER -> exprbalise(name={"numValue"}, content={ $i.getText() })
+  | i=REAL ->  exprbalise(name={"numValue"}, content={ $i.getText() })
   | '(' e=realExpr ')' -> {$e.st}
   | MAX '(' a=realExpr ',' b=realExpr ')' {
     List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
@@ -248,6 +249,7 @@ MIN: 'min' | 'MIN';
 fragment LETTER : 'a'..'z' | 'A'..'Z' | '_' ;
 fragment DIGIT : '0'..'9' ;
 INTEGER : DIGIT+ ;
+REAL: '-'? INTEGER ('.' INTEGER)? ;
 
 IDENTIFIER : LETTER (LETTER | DIGIT)* ;
 
