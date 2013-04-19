@@ -22,6 +22,17 @@ import fr.lip6.move.coloane.interfaces.model.IArc;
 import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
+import fr.lip6.move.coloane.projects.its.expression.Add;
+import fr.lip6.move.coloane.projects.its.expression.Div;
+import fr.lip6.move.coloane.projects.its.expression.ExpressionFactory;
+import fr.lip6.move.coloane.projects.its.expression.ExpressionParseResult;
+import fr.lip6.move.coloane.projects.its.expression.IVariable;
+import fr.lip6.move.coloane.projects.its.expression.Infinity;
+import fr.lip6.move.coloane.projects.its.expression.IntegerExpression;
+import fr.lip6.move.coloane.projects.its.expression.Minus;
+import fr.lip6.move.coloane.projects.its.expression.Mult;
+import fr.lip6.move.coloane.projects.its.expression.NaryExpression;
+import fr.lip6.move.coloane.projects.its.expression.UnaryMinus;
 import fr.lip6.move.gal.And;
 import fr.lip6.move.gal.Assignment;
 import fr.lip6.move.gal.BinaryIntExpression;
@@ -29,6 +40,7 @@ import fr.lip6.move.gal.BooleanExpression;
 import fr.lip6.move.gal.Call;
 import fr.lip6.move.gal.Comparison;
 import fr.lip6.move.gal.ComparisonOperators;
+import fr.lip6.move.gal.ConstParameter;
 import fr.lip6.move.gal.Constant;
 import fr.lip6.move.gal.False;
 import fr.lip6.move.gal.GalFactory;
@@ -36,12 +48,14 @@ import fr.lip6.move.gal.IntExpression;
 import fr.lip6.move.gal.Ite;
 import fr.lip6.move.gal.Label;
 import fr.lip6.move.gal.Not;
+import fr.lip6.move.gal.ParamRef;
 import fr.lip6.move.gal.System;
 import fr.lip6.move.gal.Transient;
 import fr.lip6.move.gal.Transition;
 import fr.lip6.move.gal.True;
 import fr.lip6.move.gal.Variable;
 import fr.lip6.move.gal.VariableRef;
+import fr.lip6.move.gal.instantiate.Simplifier;
 import fr.lip6.move.serialization.SerializationUtil;
 
 import java.io.FileNotFoundException;
@@ -87,13 +101,16 @@ public class ExportToGAL implements IExportTo {
 		tr.setValue(f);
 		gal.setTransient(tr);
 
+		Map<IVariable,ConstParameter> evarMap = new HashMap<IVariable, ConstParameter>();
+
+		
 		Map<INode,Variable> varMap = new HashMap<INode, Variable>();
 		// nodes : each place gives rise to a variable
 		for (INode node : model.getNodes()) {
 			if ("place".equals(node.getNodeFormalism().getName())) {
 				Variable var = gf.createVariable();
 				var.setName(node.getAttribute("name").getValue());
-				var.setValue(constant(Integer.parseInt(node.getAttribute("marking").getValue())));
+				var.setValue(toIntExpression(node.getAttribute("marking").getValue(), gal, evarMap));
 				gal.getVariables().add(var);
 				varMap.put(node,var);
 			}
@@ -104,8 +121,8 @@ public class ExportToGAL implements IExportTo {
 		boolean isTimed = false;
 		for (INode node : model.getNodes()) {
 			if ("transition".equals(node.getNodeFormalism().getName())) {
-				int eft = eft(node);
-				int lft = lft(node);
+				IntExpression eft = eft(node,gal,evarMap);
+				IntExpression lft = lft(node,gal,evarMap);
 				if (hasClock(eft,lft)) {
 					isTimed = true;
 					Variable var = gf.createVariable();
@@ -152,12 +169,12 @@ public class ExportToGAL implements IExportTo {
 				}
 
 				// build elapse effect
-				int eft = eft(node);
-				int lft = lft(node);
+				IntExpression eft = eft(node,gal,evarMap);
+				IntExpression lft = lft(node,gal,evarMap);
 
-				BooleanExpression guard = computeGuard(node,gf,varMap);
+				BooleanExpression guard = computeGuard(node,gf,varMap,gal,evarMap);
 
-				if (eft != 0) {
+				if (! (eft instanceof Constant) || ((Constant) eft).getValue() != 0) {
 					// add clock >= eft to guard condition
 					And and = gf.createAnd();
 					
@@ -189,14 +206,14 @@ public class ExportToGAL implements IExportTo {
 					if ("arc".equals(arcType) ) {
 
 						// p -= valuation
-						int val;
+						IntExpression val;
 						IAttribute iaval = arc.getAttribute("valuation");
 						if (iaval != null) {
-							val = - Integer.parseInt(iaval.getValue());
+							val = toIntExpression(iaval.getValue(),gal,evarMap);
 						} else {
-							val = - 1;
+							val = constant(1);
 						}
-						Assignment ass = incrementVar(arc.getSource(), val, gf, varMap);
+						Assignment ass = decrementVar(arc.getSource(), val, gf, varMap);
 						
 						t.getActions().add(ass);
 					}
@@ -207,13 +224,12 @@ public class ExportToGAL implements IExportTo {
 
 					if ("arc".equals(arcType) ) {
 
-						int value ;
+						IntExpression value ;
 						IAttribute iaval = arc.getAttribute("valuation");
 						if (iaval != null) {
-							
-							value =  Integer.parseInt(iaval.getValue());
+							value =  toIntExpression(iaval.getValue(), gal, evarMap);
 						} else {
-							value = 1; 
+							value = constant(1); 
 						}
 						// p= 0
 						Assignment ass = incrementVar(arc.getTarget(), value, gf, varMap);
@@ -236,7 +252,7 @@ public class ExportToGAL implements IExportTo {
 						// also add a term to resetDisabled
 						Ite ite = gf.createIte();
 						Not notGuard = gf.createNot();
-						BooleanExpression g = computeGuard(node, gf, varMap);
+						BooleanExpression g = computeGuard(node, gf, varMap, gal, evarMap);
 						notGuard.setValue(g);
 						ite.setCond(notGuard);
 						Assignment ass2 = assignVarConst(node, 0, gf, varMap);
@@ -251,24 +267,24 @@ public class ExportToGAL implements IExportTo {
 					call.setLabel(labReset);
 					t.getActions().add(call);
 
-
-					if (eft==0 && lft==-1) {
+					
+					if (isZero(eft) && isInf(lft)) {
 						// [0,inf[
 						// nop
-					} else if (eft==0 && lft==0) {
+					} else if (isZero(eft) && isZero(lft)) {
 						// [0,0]
 						// no clock, abort elapse if enabled
 						Ite ite = gf.createIte();
-						ite.setCond(computeGuard(node, gf, varMap));
+						ite.setCond(computeGuard(node, gf, varMap,gal,evarMap));
 						ite.getIfTrue().add(gf.createAbort());
 						elapse.getActions().add(ite);						
-					} else if (lft == -1) {
+					} else if (isInf(lft)) {
 						// [a,inf[
 						// increment clock variable up to a.
 						Ite ite = gf.createIte();
 
 						And and = gf.createAnd();
-						and.setLeft(computeGuard(node, gf, varMap));
+						and.setLeft(computeGuard(node, gf, varMap,gal,evarMap));
 
 						BooleanExpression comp = createComparison(node, ComparisonOperators.LT, eft, gf, varMap);
 
@@ -278,7 +294,7 @@ public class ExportToGAL implements IExportTo {
 
 						// effect if true is :
 						// clock= clock+1
-						Assignment ass = incrementVar(node, 1, gf, varMap);
+						Assignment ass = incrementVar(node, constant(1), gf, varMap);
 						
 						ite.getIfTrue().add(ass);
 
@@ -289,7 +305,7 @@ public class ExportToGAL implements IExportTo {
 						// ite(enabled, ite(clock < lft, clock++, abort ), nop )
 						Ite ite = gf.createIte();
 
-						ite.setCond(computeGuard(node, gf, varMap));
+						ite.setCond(computeGuard(node, gf, varMap,gal,evarMap));
 						
 						Ite ite2 = gf.createIte();
 						
@@ -299,7 +315,7 @@ public class ExportToGAL implements IExportTo {
 						
 						// effect if true is :
 						// clock= clock+1
-						Assignment ass = incrementVar(node, 1, gf, varMap);
+						Assignment ass = incrementVar(node, constant(1), gf, varMap);
 						
 						ite2.getIfTrue().add(ass);
 
@@ -321,7 +337,10 @@ public class ExportToGAL implements IExportTo {
 			gal.getTransitions().add(reset);
 		}
 
+		
 		try {
+			gal = Simplifier.simplify(gal);
+			
 			SerializationUtil.systemToFile(gal, filePath);
 		} catch (FileNotFoundException fe) {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Echec lors de la création du fichier : Nom de fichier invalide");
@@ -329,17 +348,36 @@ public class ExportToGAL implements IExportTo {
 		} catch (IOException ioe) {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Erreur lors de l'écriture dans le fichier");
 			throw new ExtensionException("Write error :" + ioe.getMessage());
+		} catch (Exception e) {
+			throw new ExtensionException("Unexpected exception when instantiating paramters :" + e.getMessage());
 		}
 		monitor.done();
 	}
 
+	private boolean isZero(IntExpression eft) {
+		if (eft instanceof Constant) {
+			Constant cte = (Constant) eft;
+			return cte.getValue() == 0;
+		}
+		return false;
+	}
+
+	private boolean isInf(IntExpression eft) {
+		if (eft instanceof Constant) {
+			Constant cte = (Constant) eft;
+			return cte.getValue() == -1;
+		}
+		return false;
+	}
+
+	
 	private IntExpression constant(int val) {
 		Constant tmp = GalFactory.eINSTANCE.createConstant();
 		tmp.setValue(val);
 		return tmp;
 	}
 
-	private BooleanExpression computeGuard(INode node, GalFactory gf, Map<INode, Variable> varMap) {
+	private BooleanExpression computeGuard(INode node, GalFactory gf, Map<INode, Variable> varMap, System gal, Map<IVariable, ConstParameter> evarMap) {
 		True tru = gf.createTrue();
 		BooleanExpression guard = tru ;
 		for (IArc arc : node.getIncomingArcs()) {
@@ -356,12 +394,12 @@ public class ExportToGAL implements IExportTo {
 					// is strictly less than
 					op = ComparisonOperators.LT;							
 				} 
-				int val;
+				IntExpression val;
 				IAttribute iaval = arc.getAttribute("valuation");
 				if (iaval != null) {
-					val = Integer.parseInt(iaval.getValue());
+					val = toIntExpression(iaval.getValue(),gal,evarMap);
 				} else {
-					val = 1;
+					val = constant(1);
 				}
 				
 				
@@ -384,7 +422,7 @@ public class ExportToGAL implements IExportTo {
 		return guard;
 	}
 	
-	private BooleanExpression createComparison (INode node, ComparisonOperators op, int value, GalFactory gf, Map<INode, Variable> varMap) {
+	private BooleanExpression createComparison (INode node, ComparisonOperators op, IntExpression value, GalFactory gf, Map<INode, Variable> varMap) {
 		Comparison cmp = gf.createComparison();
 		VariableRef pl = gf.createVariableRef();
 		pl.setReferencedVar(varMap.get(node));
@@ -394,7 +432,7 @@ public class ExportToGAL implements IExportTo {
 		
 
 		// to valuation of arc
-		cmp.setRight(constant(value));
+		cmp.setRight(value);
 		return cmp;
 	}
 	
@@ -411,7 +449,12 @@ public class ExportToGAL implements IExportTo {
 		return ass;
 	}
 	
-	private Assignment incrementVar (INode node, int value, GalFactory gf, Map<INode, Variable> varMap) {
+	private Assignment decrementVar (INode node, IntExpression value, GalFactory gf, Map<INode, Variable> varMap) {
+		return touchVar(node, value, "-" , gf, varMap);
+	}
+	
+	private Assignment touchVar(INode node, IntExpression value, String op,
+			GalFactory gf, Map<INode, Variable> varMap) {
 		// A ref to the place : p
 		VariableRef pl = gf.createVariableRef();
 		pl.setReferencedVar(varMap.get(node));
@@ -426,36 +469,103 @@ public class ExportToGAL implements IExportTo {
 		pl2.setReferencedVar(varMap.get(node));
 
 		add.setLeft(pl2);
-		if (value >= 0) {
-			add.setOp("+");
-		} else {
-			add.setOp("-");
-		}
 
-		add.setRight(constant(Math.abs(value)));
+		add.setOp(op);
+
+		add.setRight(value);
 
 		ass.setRight(add);
 		return ass;
 	}
+
+	private Assignment incrementVar (INode node, IntExpression value, GalFactory gf, Map<INode, Variable> varMap) {
+		return touchVar(node, value, "+", gf, varMap);
+	}
 	
 		
-	private boolean hasClock(int eft, int lft) {
+	private boolean hasClock(IntExpression eft, IntExpression lft) {
+		if (! ( eft instanceof Constant && lft instanceof Constant ) ) {
+			return true;
+		}
 		// [0,0] and [0,inf[ clocks are discarded
-		return eft!=0 ||  (lft!=0 && lft != -1 );
+		return ((Constant) eft).getValue()!=0 ||  (((Constant) lft).getValue()!=0 && ((Constant) lft).getValue() != -1 );
 	}
 
-	private int eft(INode node) {
-		return Integer.parseInt(node.getAttribute("earliestFiringTime").getValue() );
+	private IntExpression eft(INode node, System gal, Map<IVariable, ConstParameter> varMap) {
+		return toIntExpression(node.getAttribute("earliestFiringTime").getValue(), gal, varMap);
 	}
 
-	private int lft(INode node) {
-		String lft = node.getAttribute("latestFiringTime").getValue();
-		try {
-			return Integer.parseInt(lft);
-		} catch (NumberFormatException e) {
-			return -1;
+	private IntExpression lft(INode node, System gal, Map<IVariable, ConstParameter> varMap) {
+		return toIntExpression(node.getAttribute("latestFiringTime").getValue(), gal, varMap);
+	}
+
+	
+	private IntExpression toIntExpression (String value, System gal, Map<IVariable, ConstParameter> varMap) {
+		GalFactory gf = GalFactory.eINSTANCE;
+		
+		ExpressionParseResult epr = ExpressionFactory.parseExpression(value);
+		int nberr = epr.getErrorCount();
+		if (nberr != 0) {
+			java.lang.System.err.println("SYNTAX ERRORS IN MODEL, PLEASE RUN SYNTAX CHECK"
+							+ epr.getErrors());
+			return constant(0);
+		} else {
+			IntegerExpression expr = epr.getExpression();
+			
+			for (IVariable v : expr.supportingVariables()) {
+				if (! varMap.containsKey(v)) {
+					ConstParameter cp = gf.createConstParameter();
+					cp.setName(v.getName());
+					// TODO : this is totally arbitrary 
+					cp.setValue(3);
+					gal.getParams().add(cp);
+					varMap.put(v, cp);
+				}
+			}
+			
+			IntExpression res = convertToGAL(expr,varMap);
+			return res;
 		}
 	}
 
+	private IntExpression convertToGAL(IntegerExpression expr,
+			Map<IVariable, ConstParameter> varMap) {
+
+		if (expr instanceof fr.lip6.move.coloane.projects.its.expression.Constant) {
+			int val = ((fr.lip6.move.coloane.projects.its.expression.Constant) expr).getValue();
+			return constant(val);
+		} else if (expr instanceof Infinity) {
+			//Infinity inf = (Infinity) expr;
+			return constant(-1);
+		} else if (expr instanceof IVariable) {
+			IVariable var = (IVariable) expr;
+			ParamRef pr = GalFactory.eINSTANCE.createParamRef();
+			pr.setRefParam(varMap.get(var));
+			return pr;
+		} else if (expr instanceof UnaryMinus) {
+			UnaryMinus um = (UnaryMinus) expr;
+			IntExpression child = convertToGAL(um.getChildren().get(0),varMap);
+			fr.lip6.move.gal.UnaryMinus minus = GalFactory.eINSTANCE.createUnaryMinus();
+			minus.setValue(child);
+			return minus;
+		} else if (expr instanceof NaryExpression) {
+			NaryExpression add = (NaryExpression) expr;
+			BinaryIntExpression bin = GalFactory.eINSTANCE.createBinaryIntExpression();
+			if (add instanceof Add) {
+				bin.setOp("+");
+			} else if (add instanceof Div) {
+				bin.setOp("/");
+			} else if (add instanceof Minus) {
+				bin.setOp("-");
+			} else if (add instanceof Mult) {
+				bin.setOp("*");
+			} 
+			bin.setLeft(convertToGAL(add.getChildren().get(0),varMap));
+			bin.setRight(convertToGAL(add.getChildren().get(1),varMap));
+			return bin;
+		} else {
+			throw new RuntimeException("Unexpected unknown Expression type when parsing net attribute.");
+		}
+	}
 
 }
