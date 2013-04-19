@@ -32,6 +32,7 @@ import fr.lip6.move.gal.ComparisonOperators;
 import fr.lip6.move.gal.Constant;
 import fr.lip6.move.gal.False;
 import fr.lip6.move.gal.GalFactory;
+import fr.lip6.move.gal.IntExpression;
 import fr.lip6.move.gal.Ite;
 import fr.lip6.move.gal.Label;
 import fr.lip6.move.gal.Not;
@@ -92,7 +93,7 @@ public class ExportToGAL implements IExportTo {
 			if ("place".equals(node.getNodeFormalism().getName())) {
 				Variable var = gf.createVariable();
 				var.setName(node.getAttribute("name").getValue());
-				var.setValue(Integer.parseInt(node.getAttribute("marking").getValue()));
+				var.setValue(constant(Integer.parseInt(node.getAttribute("marking").getValue())));
 				gal.getVariables().add(var);
 				varMap.put(node,var);
 			}
@@ -109,7 +110,7 @@ public class ExportToGAL implements IExportTo {
 					isTimed = true;
 					Variable var = gf.createVariable();
 					var.setName(node.getAttribute("label").getValue()+".clock");
-					var.setValue(0);
+					var.setValue(constant(0));
 					gal.getVariables().add(var);					
 					varMap.put(node,var);
 				}
@@ -209,7 +210,8 @@ public class ExportToGAL implements IExportTo {
 						int value ;
 						IAttribute iaval = arc.getAttribute("valuation");
 						if (iaval != null) {
-							value = Integer.parseInt(iaval.getValue());
+							
+							value =  Integer.parseInt(iaval.getValue());
 						} else {
 							value = 1; 
 						}
@@ -331,6 +333,12 @@ public class ExportToGAL implements IExportTo {
 		monitor.done();
 	}
 
+	private IntExpression constant(int val) {
+		Constant tmp = GalFactory.eINSTANCE.createConstant();
+		tmp.setValue(val);
+		return tmp;
+	}
+
 	private BooleanExpression computeGuard(INode node, GalFactory gf, Map<INode, Variable> varMap) {
 		True tru = gf.createTrue();
 		BooleanExpression guard = tru ;
@@ -386,9 +394,7 @@ public class ExportToGAL implements IExportTo {
 		
 
 		// to valuation of arc
-		Constant val = gf.createConstant();
-		val.setValue(value);
-		cmp.setRight(val);
+		cmp.setRight(constant(value));
 		return cmp;
 	}
 	
@@ -400,9 +406,7 @@ public class ExportToGAL implements IExportTo {
 		pl.setReferencedVar(varMap.get(node));
 		ass.setLeft(pl);
 
-		Constant c0 = gf.createConstant();
-		c0.setValue(value);
-		ass.setRight(c0);
+		ass.setRight(constant(value));
 
 		return ass;
 	}
@@ -416,8 +420,6 @@ public class ExportToGAL implements IExportTo {
 		Assignment ass = gf.createAssignment();
 		ass.setLeft(pl);
 
-		Constant c1 = gf.createConstant();
-		c1.setValue(Math.abs(value));
 
 		BinaryIntExpression add = gf.createBinaryIntExpression();
 		VariableRef pl2 = gf.createVariableRef();
@@ -429,7 +431,8 @@ public class ExportToGAL implements IExportTo {
 		} else {
 			add.setOp("-");
 		}
-		add.setRight(c1);
+
+		add.setRight(constant(Math.abs(value)));
 
 		ass.setRight(add);
 		return ass;
