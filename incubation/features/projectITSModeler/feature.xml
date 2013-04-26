@@ -41,7 +41,7 @@
       <import plugin="fr.lip6.move.coloane.tools.layout"/>
       <import plugin="fr.lip6.move.coloane.projects.expressions"/>
       <import plugin="org.apache.commons.lang"/>
-      <import plugin="fr.lip6.move.gal.runtime.xtext" version="1.0.0" match="greaterOrEqual"/>
+      <import plugin="fr.lip6.move.gal.runtime.xtext"/>
       <import plugin="org.eclipse.xtext"/>
       <import plugin="org.eclipse.xtext.util"/>
       <import plugin="org.eclipse.emf.ecore"/>
