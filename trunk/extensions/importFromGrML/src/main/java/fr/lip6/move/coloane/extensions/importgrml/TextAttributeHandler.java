@@ -4,7 +4,7 @@ import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 
 import java.util.logging.Logger;
 
-import org.cosyverif.ns.model.Attribute;
+import org.cosyverif.model.Attribute;
 
 /**
  * Default attribute handler usable for text-only GrML attributes.

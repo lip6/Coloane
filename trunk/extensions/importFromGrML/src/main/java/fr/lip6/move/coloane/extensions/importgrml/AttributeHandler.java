@@ -5,7 +5,7 @@ package fr.lip6.move.coloane.extensions.importgrml;
 
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 
-import org.cosyverif.ns.model.Attribute;
+import org.cosyverif.model.Attribute;
 
 /**
  * Interface for Attribute handlers.

@@ -27,12 +27,12 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLStreamReader;
 
-import org.cosyverif.ns.model.Arc;
-import org.cosyverif.ns.model.Attribute;
-import org.cosyverif.ns.model.Model;
-import org.cosyverif.ns.model.Node;
-import org.cosyverif.ns.model.Note;
-import org.cosyverif.ns.model.Note.Ref;
+import org.cosyverif.model.Arc;
+import org.cosyverif.model.Attribute;
+import org.cosyverif.model.Model;
+import org.cosyverif.model.Node;
+import org.cosyverif.model.Note;
+import org.cosyverif.model.Note.Ref;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.geometry.Point;
@@ -354,7 +354,7 @@ public final class HelpedHandler implements ModelHandler {
 				throw new ExtensionException("Arc target '" + arc.getTarget() + "' does not exist.");
 			}
 			IArc created = result.createArc(formalism, source, target, arc.getId().intValue());
-			for (org.cosyverif.ns.model.Point point: arc.getCoordinatePoints()) {
+			for (org.cosyverif.model.Point point: arc.getCoordinatePoints()) {
 				created.addInflexPoint(new Point(point.getX().intValue(), point.getY().intValue()));
 			}
 			for (Object content: arc.getArcContent()) {
