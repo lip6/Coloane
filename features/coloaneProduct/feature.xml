@@ -42,6 +42,21 @@ Contributors list : https://coloane.lip6.fr/developers
       <import feature="fr.lip6.move.coloane.features.alligator"/>
       <import feature="fr.lip6.move.coloane.features.main"/>
       <import feature="fr.lip6.move.coloane.features.modelexamples"/>
+      
+      <import feature="fr.lip6.move.coloane.features.exportToDOT"/>
+      <import feature="fr.lip6.move.coloane.features.exportToGrML"/>
+      <import feature="fr.lip6.move.coloane.features.exportToPGF"/>
+      <import feature="fr.lip6.move.coloane.features.exportToSVG"/>
+      <import feature="fr.lip6.move.coloane.features.importExportCAMI"/>
+      <import feature="fr.lip6.move.coloane.features.importExportLOLA"/>
+      <import feature="fr.lip6.move.coloane.features.importFromGrML"/>
+      
+      <import feature="fr.lip6.move.coloane.features.formalisms.cosmos"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.cosmosLHA"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.dd"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.gspn"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.pta"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.snb"/>
    </requires>
 
    <plugin
