@@ -82,7 +82,7 @@ public final class MultipleLineTextDialog
         help.setEditable(false);
         // Input:
         GridData layoutData = new GridData(SWT.FILL, SWT.FILL, false, false, 3, 8);
-        layoutData.heightHint = 50;
+        layoutData.heightHint = 200;
         input = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
         input.setLayoutData(layoutData);
         input.addModifyListener(new ModifyListener() {
