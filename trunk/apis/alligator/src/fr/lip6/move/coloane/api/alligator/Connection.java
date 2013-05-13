@@ -192,8 +192,11 @@ public final class Connection
     private
         String
         nameOf(Description description) {
-        return description.name() + " (" + ("".equals(description.tool()) ? "?" : description.tool()) + " v" +
-               ("".equals(description.version()) ? "?" : description.version()) + ")";
+        return description.name() + " (" + ("".equals(description.tool())
+                ? "?"
+                : description.tool()) + " v" + ("".equals(description.version())
+                ? "?"
+                : description.version()) + ")";
     }
 
     /**
