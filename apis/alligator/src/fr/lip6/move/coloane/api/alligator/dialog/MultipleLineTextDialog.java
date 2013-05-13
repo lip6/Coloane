@@ -63,7 +63,7 @@ public final class MultipleLineTextDialog
     @Override
     public
         int size() {
-        return 7;
+        return 10;
     }
 
     @Override
@@ -81,7 +81,7 @@ public final class MultipleLineTextDialog
         help.setText(parameter.getHelp());
         help.setEditable(false);
         // Input:
-        GridData layoutData = new GridData(SWT.FILL, SWT.FILL, false, false, 3, 4);
+        GridData layoutData = new GridData(SWT.FILL, SWT.FILL, false, false, 3, 8);
         layoutData.heightHint = 50;
         input = new Text(parent, SWT.BORDER | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
         input.setLayoutData(layoutData);
