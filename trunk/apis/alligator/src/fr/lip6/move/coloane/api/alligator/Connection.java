@@ -221,7 +221,7 @@ public final class Connection
             conduit.getClient()
                    .setAllowChunking(false);
             conduit.getClient()
-                   .setReceiveTimeout(60000);
+                   .setReceiveTimeout(10000);
             // Compute menu:
             LOGGER.info("Computing menu...");
             if (services == null || "".equals(services.getName())) {
@@ -230,6 +230,8 @@ public final class Connection
             } else {
                 newServices = services;
             }
+            conduit.getClient()
+                   .setReceiveTimeout(0);
             // Add "Refresh" submenu:
             ISubMenu menu = new SubMenu(data.getName(), true, Utility.getImage("alligator-logo.png"));
             IApiService refreshService = new RefreshService(this);
