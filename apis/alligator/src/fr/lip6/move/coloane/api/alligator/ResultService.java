@@ -100,6 +100,7 @@ public final class ResultService
                     Description serviceResult = alligator.getServices()
                                                          .getCurrentState(identifier);
                     IResult result = new Result(identifier.key());
+                    results.add(result);
                     // Run wizard to get parameters:
                     if (serviceResult.parameters().length != 0) {
                         OutputWizard wizard = new OutputWizard(alligator, identifier);
