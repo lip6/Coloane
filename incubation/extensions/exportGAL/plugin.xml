@@ -18,7 +18,7 @@
       <wizard
             category="fr.lip6.move.coloane.wizard.export.coloane"
             class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
-            icon="resources/romeo.png"
+            icon="resources/gal.gif"
             id="fr.lip6.move.coloane.wizard.export.gal"
             name="GAL File">
 		 <description>
