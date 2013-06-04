@@ -139,7 +139,7 @@ public class ExportToGAL implements IExportTo {
 		Label labReset = gf.createLabel();
 		labReset.setName("reset");
 		reset.setName("reset");
-		reset.setParams(gf.createParameterList());
+		
 		reset.setLabel(labReset );
 		True tru = gf.createTrue();
 
@@ -151,7 +151,7 @@ public class ExportToGAL implements IExportTo {
 		Label labElapse = gf.createLabel();
 		labElapse.setName("elapse");
 		elapse.setName("elapse");
-		elapse.setParams(gf.createParameterList());
+		
 		elapse.setLabel(labElapse);
 		tru = gf.createTrue();
 
@@ -161,7 +161,6 @@ public class ExportToGAL implements IExportTo {
 			if ("transition".equals(node.getNodeFormalism().getName())) {
 				Transition t = gf.createTransition();
 				t.setName(node.getAttribute("label").getValue());
-				t.setParams(gf.createParameterList());
 				if ("public".equals(node.getAttribute("visibility").getValue())) {
 					Label lab = gf.createLabel();
 					lab.setName(node.getAttribute("label").getValue());
