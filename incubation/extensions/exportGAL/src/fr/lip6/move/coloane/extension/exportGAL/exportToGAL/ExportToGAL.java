@@ -33,6 +33,7 @@ import fr.lip6.move.coloane.projects.its.expression.Minus;
 import fr.lip6.move.coloane.projects.its.expression.Mult;
 import fr.lip6.move.coloane.projects.its.expression.NaryExpression;
 import fr.lip6.move.coloane.projects.its.expression.UnaryMinus;
+import fr.lip6.move.gal.Actions;
 import fr.lip6.move.gal.And;
 import fr.lip6.move.gal.Assignment;
 import fr.lip6.move.gal.BinaryIntExpression;
@@ -43,11 +44,13 @@ import fr.lip6.move.gal.ComparisonOperators;
 import fr.lip6.move.gal.ConstParameter;
 import fr.lip6.move.gal.Constant;
 import fr.lip6.move.gal.False;
+import fr.lip6.move.gal.Fixpoint;
 import fr.lip6.move.gal.GalFactory;
 import fr.lip6.move.gal.IntExpression;
 import fr.lip6.move.gal.Ite;
 import fr.lip6.move.gal.Label;
 import fr.lip6.move.gal.Not;
+import fr.lip6.move.gal.Or;
 import fr.lip6.move.gal.ParamRef;
 import fr.lip6.move.gal.System;
 import fr.lip6.move.gal.Transient;
@@ -60,11 +63,14 @@ import fr.lip6.move.serialization.SerializationUtil;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 
 /**
@@ -73,6 +79,16 @@ import org.eclipse.core.runtime.IProgressMonitor;
  * @author Yann Thierry-Mieg
  */
 public class ExportToGAL implements IExportTo {
+
+	private boolean isEssentialStates;
+
+	public ExportToGAL(boolean isEssentialStates) {
+		this.isEssentialStates = isEssentialStates;
+	}
+	
+	public ExportToGAL() {
+		this(false);
+	}
 
 	/**
 	 * Export a model to GAL formatted file
@@ -157,6 +173,9 @@ public class ExportToGAL implements IExportTo {
 
 		elapse.setGuard(tru);
 
+		BooleanExpression canElapse = gf.createTrue();
+		List<Actions> elapseAct = new ArrayList<Actions>();
+		
 		for (INode node : model.getNodes()) {
 			if ("transition".equals(node.getNodeFormalism().getName())) {
 				Transition t = gf.createTransition();
@@ -274,14 +293,30 @@ public class ExportToGAL implements IExportTo {
 						// [0,0]
 						// no clock, abort elapse if enabled
 						Ite ite = gf.createIte();
-						ite.setCond(computeGuard(node, gf, varMap,gal,evarMap));
+						BooleanExpression guardd = computeGuard(node, gf, varMap,gal,evarMap); 
+						ite.setCond(guardd);
 						ite.getIfTrue().add(gf.createAbort());
-						elapse.getActions().add(ite);						
+						
+						elapse.getActions().add(ite);
+						
+						// New condition on can elapse : transition is not enabled
+						Not not = gf.createNot();
+						not.setValue(EcoreUtil.copy(guardd));
+						if ( EcoreUtil.equals(canElapse, gf.createTrue())) {
+							canElapse = not; 
+						} else {
+							And and = gf.createAnd();
+							and.setLeft(canElapse);
+							and.setRight(not);
+							canElapse = and;
+						}
+						// no transition elapse effects, since no clock 
+											
 					} else if (isInf(lft)) {
 						// [a,inf[
 						// increment clock variable up to a.
 						Ite ite = gf.createIte();
-
+						
 						And and = gf.createAnd();
 						and.setLeft(computeGuard(node, gf, varMap,gal,evarMap));
 
@@ -296,15 +331,19 @@ public class ExportToGAL implements IExportTo {
 						Assignment ass = incrementVar(node, constant(1), gf, varMap);
 						
 						ite.getIfTrue().add(ass);
-
 						elapse.getActions().add(ite);
+
+						// No particular canelapse guard, since lft is infinite
+						// New effect if firing elapse : increment clock if enabled and less than a
+						elapseAct.add(EcoreUtil.copy(ite));
+						
 					} else {
 						// [a,b] 
 						// general case
 						// ite(enabled, ite(clock < lft, clock++, abort ), nop )
 						Ite ite = gf.createIte();
-
-						ite.setCond(computeGuard(node, gf, varMap,gal,evarMap));
+						BooleanExpression guardd = computeGuard(node, gf, varMap,gal,evarMap); 
+						ite.setCond(guardd);
 						
 						Ite ite2 = gf.createIte();
 						
@@ -324,6 +363,29 @@ public class ExportToGAL implements IExportTo {
 						ite.getIfTrue().add(ite2);
 						
 						elapse.getActions().add(ite);
+						
+						// canelapse guard : ! enabled || clock < lft(t)
+						Not not = gf.createNot();
+						not.setValue(EcoreUtil.copy(guardd));
+						Or or = gf.createOr();
+						or.setLeft(not);
+						or.setRight(EcoreUtil.copy(comp));
+						if ( EcoreUtil.equals(canElapse, gf.createTrue())) {
+							canElapse = or; 
+						} else {
+							And and = gf.createAnd();
+							and.setLeft(canElapse);
+							and.setRight(or);
+							canElapse = and;
+						}
+						
+						
+						// elapse Effect : if (enabled) { clock++ }
+						Ite ite3 = gf.createIte();
+						ite3.setCond(EcoreUtil.copy(guardd));
+						ite3.getIfTrue().add(EcoreUtil.copy(ass));
+						elapseAct.add(ite3);
+						
 					}
 				}
 
@@ -332,8 +394,43 @@ public class ExportToGAL implements IExportTo {
 			
 		}
 		if (isTimed) {
-			gal.getTransitions().add(elapse);
-			gal.getTransitions().add(reset);
+			
+			if (isEssentialStates) {
+				Label lab = gf.createLabel();
+				lab.setName("succ");
+				boolean first = true;
+				for (Transition t : gal.getTransitions()) {
+					if (t.getLabel() == null) {
+						if (first){
+							first = !first;
+							t.setLabel(lab);
+						} else {
+							t.setLabel(EcoreUtil.copy(lab));
+						}
+					}
+				}
+				Transition trel = gf.createTransition();
+				trel.setName("nextState");
+				trel.setGuard(gf.createTrue());
+				
+				Ite ite = gf.createIte();
+				ite.setCond(canElapse);
+				ite.getIfTrue().addAll(elapseAct);
+				Fixpoint fix = gf.createFixpoint();
+				fix.getActions().add(ite);
+				
+				trel.getActions().add(fix);
+				
+				Call call = gf.createCall();
+				call.setLabel(lab);
+				trel.getActions().add(call);
+
+				gal.getTransitions().add(trel);
+				gal.getTransitions().add(reset);
+			} else {
+				gal.getTransitions().add(elapse);			
+				gal.getTransitions().add(reset);
+			}
 		}
 
 		

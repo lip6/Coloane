@@ -12,6 +12,15 @@
                id="Time Petri Net">
          </AcceptedFormalism>
       </Export>
+      <Export
+            class="fr.lip6.move.coloane.extension.exportGAL.exportToGAL.ExportEssentialStatesToGAL"
+            extension="gal"
+            id="fr.lip6.move.coloane.extensions.exportgal.essential"
+            wizard_id="fr.lip6.move.coloane.wizard.export.gal.essential">
+         <AcceptedFormalism
+               id="Time Petri Net">
+         </AcceptedFormalism>
+      </Export>
    </extension>
    <extension
    		 point="org.eclipse.ui.exportWizards">
@@ -23,6 +32,16 @@
             name="GAL File">
 		 <description>
             Export semantically equivalent local timed Petri net model  to your file system using GAL syntax.
+         </description>
+      </wizard>
+      <wizard
+            category="fr.lip6.move.coloane.wizard.export.coloane"
+            class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
+            icon="resources/gal.gif"
+            id="fr.lip6.move.coloane.wizard.export.gal.essential"
+            name="GAL File (Essential States)">
+         <description>
+            Export abstracted timed Petri net model  to your file system using GAL syntax and Popova essential states reduction. This reduction preserves marking reachability.
          </description>
       </wizard>
    </extension>
