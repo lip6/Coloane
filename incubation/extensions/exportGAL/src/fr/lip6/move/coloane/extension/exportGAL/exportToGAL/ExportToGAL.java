@@ -409,23 +409,42 @@ public class ExportToGAL implements IExportTo {
 						}
 					}
 				}
+				
+				
+
+				Transition elEffect = gf.createTransition();
+				elEffect.setName("elapseEffect");
+				Label elEffLab = gf.createLabel();
+				elEffLab.setName("elapseEffect");
+				elEffect.setLabel(elEffLab);
+				elEffect.setGuard(canElapse);
+				elEffect.getActions().addAll(elapseAct);
+				gal.getTransitions().add(elEffect);
+
+				Transition id = gf.createTransition();
+				id.setName("id");
+				id.setGuard(gf.createTrue());
+				id.setLabel(EcoreUtil.copy(elEffLab));
+				gal.getTransitions().add(id);
+
+		
 				Transition trel = gf.createTransition();
 				trel.setName("nextState");
 				trel.setGuard(gf.createTrue());
-				
-				Ite ite = gf.createIte();
-				ite.setCond(canElapse);
-				ite.getIfTrue().addAll(elapseAct);
+				trel.setGuard(gf.createTrue());				
 				Fixpoint fix = gf.createFixpoint();
-				fix.getActions().add(ite);
-				
+				Call callEl = gf.createCall();
+				callEl.setLabel(elEffLab);
+				fix.getActions().add(callEl);
+			
 				trel.getActions().add(fix);
-				
+			
 				Call call = gf.createCall();
 				call.setLabel(lab);
 				trel.getActions().add(call);
 
 				gal.getTransitions().add(trel);
+
 				gal.getTransitions().add(reset);
 			} else {
 				gal.getTransitions().add(elapse);			
