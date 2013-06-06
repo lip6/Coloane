@@ -11,6 +11,9 @@ import fr.lip6.move.coloane.api.alligator.preferences.AlligatorPreferencePage;
 import fr.lip6.move.coloane.api.alligator.preferences.AlligatorPreferencePage.Data;
 import fr.lip6.move.coloane.api.alligator.preferences.PreferenceConstants;
 import fr.lip6.move.coloane.interfaces.objects.menu.IItemMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.ServiceMenu;
+import fr.lip6.move.coloane.interfaces.objects.menu.SubMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +52,16 @@ public class Activator
      * @return The menus defined by Alligators.
      */
     public final
-        List<IItemMenu> getMenus() {
+        List<IItemMenu>
+        getMenus() {
         List<IItemMenu> result = new ArrayList<IItemMenu>();
         for (Connection connection : connections) {
             result.add(connection.getMenu());
         }
+        ISubMenu all = new SubMenu("All alligators", true, Utility.getImage("alligator-logo.png"));
+        all.addServiceMenu(new ServiceMenu("Refresh", true, "Refreshes all alligators.", new RefreshAllService(connections),
+                                           true));
+        result.add(all);
         return result;
     }
 
@@ -63,7 +71,8 @@ public class Activator
      * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
      */
     public final
-        void start(BundleContext context)
+        void
+        start(BundleContext context)
             throws Exception {
         super.start(context);
         plugin = this;
@@ -80,7 +89,8 @@ public class Activator
      * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
      */
     public final
-        void stop(BundleContext context)
+        void
+        stop(BundleContext context)
             throws Exception {
         // Cancel all connections:
         for (Connection connection : connections) {
@@ -98,13 +108,15 @@ public class Activator
      * @return the shared instance
      */
     public static
-        Activator getDefault() {
+        Activator
+        getDefault() {
         return plugin;
     }
 
     @Override
     public final
-        void propertyChange(PropertyChangeEvent event) {
+        void
+        propertyChange(PropertyChangeEvent event) {
         LOGGER.fine("Receive property change: " + event.getProperty());
         if (event.getProperty()
                  .equals(PreferenceConstants.P_ALLIGATOR_LIST)) {
