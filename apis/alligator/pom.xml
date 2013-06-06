@@ -12,7 +12,7 @@
 	<artifactId>fr.lip6.move.coloane.apis.alligator</artifactId>
 	<packaging>eclipse-plugin</packaging>
 	<name>API :: Alligator</name>
-	<description>Plugin to access to the new CPNAMI platform : Alligator</description>
+	<description>Plugin to access CosyVerif servers</description>
 
 
 	<dependencies>
@@ -27,10 +27,15 @@
 			<version>0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-      <groupId>fr.lip6.move.alligator</groupId>
-      <artifactId>interfaces</artifactId>
-      <version>0.3-SNAPSHOT</version>
-    </dependency>
+			<groupId>org.cosyverif.alligator</groupId>
+			<artifactId>client</artifactId>
+			<version>0.3-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.lip6.move.alligator</groupId>
+			<artifactId>interfaces</artifactId>
+			<version>0.3-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
@@ -40,6 +45,12 @@
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-transports-http</artifactId>
 			<version>2.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>0.11.6</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
