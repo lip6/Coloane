@@ -25,16 +25,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Identifier;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 
 public final class ResultService
@@ -53,13 +51,14 @@ public final class ResultService
 
     @Override
     public
-        List<IResult> run(IGraph model, IProgressMonitor monitor)
+        List<IResult>
+        run(IGraph model,
+            IProgressMonitor monitor)
             throws ServiceException {
         try {
             List<IResult> results = new ArrayList<IResult>();
             if (alligator.getServices() != null) {
-                LOGGER.info("Obtaining results from service '" + identifier.key() + "' on '" + identifier.server() +
-                            "'...");
+                LOGGER.info("Obtaining results from service '" + identifier.key() + "' on '" + identifier.server() + "'...");
                 boolean kill = true;
                 Description description = alligator.getServices()
                                                    .getCurrentState(identifier);
@@ -69,7 +68,7 @@ public final class ResultService
                 if (description.isOldService()) {
                     IResult result = new Result(description.name());
                     Item[] resultItems = alligator.getServices()
-                                                      .getOldResult(identifier);
+                                                  .getOldResult(identifier);
                     LOGGER.fine("Getting " + resultItems.length + " result items.");
                     // For all result items give the better feedback to the user
                     for (Item item : resultItems) {
@@ -97,12 +96,10 @@ public final class ResultService
                     }
                     results.add(result);
                 } else {
-                    Description serviceResult = alligator.getServices()
-                                                         .getCurrentState(identifier);
                     IResult result = new Result(identifier.key());
                     results.add(result);
                     // Run wizard to get parameters:
-                    if (serviceResult.parameters().length != 0) {
+                    if (description.parameters().length != 0) {
                         OutputWizard wizard = new OutputWizard(alligator, identifier);
                         Display.getDefault()
                                .syncExec(wizard);
@@ -119,6 +116,8 @@ public final class ResultService
             } else {
                 throw new AssertionError();
             }
+        } catch (javax.xml.ws.soap.SOAPFaultException e) {
+            throw new ServiceException(e.getMessage());
         } catch (Exception e) {
             throw new ServiceException(e.getMessage());
         }
@@ -126,13 +125,15 @@ public final class ResultService
 
     @Override
     public
-        String getName() {
+        String
+        getName() {
         return "Get results";
     }
 
     @Override
     public
-        String getDescription() {
+        String
+        getDescription() {
         return "Obtain final results from the service.";
     }
 
