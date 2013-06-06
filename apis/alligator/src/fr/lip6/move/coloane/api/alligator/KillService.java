@@ -37,30 +37,37 @@ public final class KillService
 
     @Override
     public
-        List<IResult> run(IGraph model, IProgressMonitor monitor)
+        List<IResult>
+        run(IGraph model,
+            IProgressMonitor monitor)
             throws ServiceException {
-        if (alligator.getServices() != null) {
-            LOGGER.info("Killing service '" + identifier.key() + "' on '" + identifier.server() + "'...");
-            alligator.getServices()
-                     .kill(identifier);
+        try {
+            if (alligator.getServices() != null) {
+                LOGGER.info("Killing service '" + identifier.key() + "' on '" + identifier.server() + "'...");
+                alligator.getServices()
+                         .kill(identifier);
+                return Collections.emptyList();
+            } else {
+                throw new AssertionError();
+            }
+        } finally {
             Identifiers.remove(identifier);
             alligator.runningDescriptions.remove(identifier);
             alligator.wakeUp();
-            return Collections.emptyList();
-        } else {
-            throw new AssertionError();
         }
     }
 
     @Override
     public
-        String getName() {
+        String
+        getName() {
         return "Kill";
     }
 
     @Override
     public
-        String getDescription() {
+        String
+        getDescription() {
         return "Kills the service.";
     }
 
