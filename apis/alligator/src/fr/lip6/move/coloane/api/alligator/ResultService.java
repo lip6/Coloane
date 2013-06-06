@@ -55,11 +55,11 @@ public final class ResultService
         run(IGraph model,
             IProgressMonitor monitor)
             throws ServiceException {
+        boolean kill = true;
+        List<IResult> results = new ArrayList<IResult>();
         try {
-            List<IResult> results = new ArrayList<IResult>();
             if (alligator.getServices() != null) {
                 LOGGER.info("Obtaining results from service '" + identifier.key() + "' on '" + identifier.server() + "'...");
-                boolean kill = true;
                 Description description = alligator.getServices()
                                                    .getCurrentState(identifier);
                 if (description == null) {
@@ -117,8 +117,10 @@ public final class ResultService
                 throw new AssertionError();
             }
         } catch (javax.xml.ws.soap.SOAPFaultException e) {
+            new KillService(identifier, alligator).run(model, monitor);
             throw new ServiceException(e.getMessage());
         } catch (Exception e) {
+            new KillService(identifier, alligator).run(model, monitor);
             throw new ServiceException(e.getMessage());
         }
     }
