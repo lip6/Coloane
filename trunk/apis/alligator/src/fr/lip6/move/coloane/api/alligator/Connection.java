@@ -18,6 +18,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
 import org.apache.cxf.frontend.ClientProxy;
+import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.cosyverif.alligator.ExecutionWS;
@@ -124,12 +126,16 @@ public final class Connection
             JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
             factory.setAddress(data.getOldAddress()
                                    .toString());
+            factory.getInInterceptors()
+                   .add(new LoggingInInterceptor());
+            factory.getOutInterceptors()
+                   .add(new LoggingOutInterceptor());
             ServiceManager services = factory.create(ServiceManager.class);
             // Configure the HTTPConduit used to communicate with Alligator
             HTTPConduit conduit = (HTTPConduit) ClientProxy.getClient(services)
                                                            .getConduit();
             conduit.getClient()
-                   .setAllowChunking(false);
+                   .setAllowChunking(true);
             conduit.getClient()
                    .setReceiveTimeout(600000);
             // Compute menu:
@@ -214,12 +220,16 @@ public final class Connection
             JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
             factory.setAddress(data.getAddress()
                                    .toString());
+            factory.getInInterceptors()
+                   .add(new LoggingInInterceptor());
+            factory.getOutInterceptors()
+                   .add(new LoggingOutInterceptor());
             ExecutionWS services = factory.create(ExecutionWS.class);
             // Configure the HTTPConduit used to communicate with Alligator
             HTTPConduit conduit = (HTTPConduit) ClientProxy.getClient(services)
                                                            .getConduit();
             conduit.getClient()
-                   .setAllowChunking(false);
+                   .setAllowChunking(true);
             conduit.getClient()
                    .setReceiveTimeout(10000);
             // Compute menu:
