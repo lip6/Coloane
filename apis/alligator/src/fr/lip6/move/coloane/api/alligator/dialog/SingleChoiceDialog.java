@@ -128,7 +128,6 @@ public final class SingleChoiceDialog
     public
         void updateParameter() {
         parameter.select(combo.getText());
-        page.refresh();
     }
 
 }

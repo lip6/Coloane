@@ -238,7 +238,6 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
 
     public final
         void updateParameter() {
-        page.refresh();
     }
 
     public final

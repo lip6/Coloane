@@ -39,7 +39,6 @@ public final class SingleLineTextDialog
         void updateParameter() {
         if (_errorMessage() == null) {
             parameter.setValue(input.getText());
-            page.refresh();
         }
     }
 
