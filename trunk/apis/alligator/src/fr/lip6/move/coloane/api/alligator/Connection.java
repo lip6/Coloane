@@ -17,11 +17,7 @@ import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
 
-import org.apache.cxf.frontend.ClientProxy;
-import org.apache.cxf.interceptor.LoggingInInterceptor;
-import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.apache.cxf.transport.http.HTTPConduit;
+import org.cosyverif.Client;
 import org.cosyverif.alligator.ExecutionWS;
 import org.cosyverif.alligator.service.Description;
 import org.cosyverif.alligator.service.Identifier;
@@ -123,21 +119,8 @@ public final class Connection
         try {
             LOGGER.info("Connecting to " + data.getOldAddress() + "...");
             // Establish connection:
-            JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-            factory.setAddress(data.getOldAddress()
-                                   .toString());
-            factory.getInInterceptors()
-                   .add(new LoggingInInterceptor());
-            factory.getOutInterceptors()
-                   .add(new LoggingOutInterceptor());
-            ServiceManager services = factory.create(ServiceManager.class);
-            // Configure the HTTPConduit used to communicate with Alligator
-            HTTPConduit conduit = (HTTPConduit) ClientProxy.getClient(services)
-                                                           .getConduit();
-            conduit.getClient()
-                   .setAllowChunking(true);
-            conduit.getClient()
-                   .setReceiveTimeout(600000);
+            Client client = Client.remote(data.getOldAddress());
+            ServiceManager services = client.oldExecution();
             // Compute menu:
             LOGGER.info("Computing menu...");
             if (services == null || !services.ping(PING_VALUE)
@@ -189,7 +172,7 @@ public final class Connection
                 } while (tokenizer.hasMoreTokens());
             }
             setMenu(menu);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             LOGGER.warning("Connection to " + data.getName() + " caught exception:" + e.toString());
             throw new IllegalStateException();
         }
@@ -217,21 +200,8 @@ public final class Connection
         try {
             // Establish connection:
             LOGGER.info("Connecting to " + data.getAddress() + "...");
-            JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
-            factory.setAddress(data.getAddress()
-                                   .toString());
-            factory.getInInterceptors()
-                   .add(new LoggingInInterceptor());
-            factory.getOutInterceptors()
-                   .add(new LoggingOutInterceptor());
-            ExecutionWS services = factory.create(ExecutionWS.class);
-            // Configure the HTTPConduit used to communicate with Alligator
-            HTTPConduit conduit = (HTTPConduit) ClientProxy.getClient(services)
-                                                           .getConduit();
-            conduit.getClient()
-                   .setAllowChunking(true);
-            conduit.getClient()
-                   .setReceiveTimeout(10000);
+            Client client = Client.remote(data.getAddress());
+            ExecutionWS services = client.execution();
             // Compute menu:
             LOGGER.info("Computing menu...");
             if (services == null || "".equals(services.getName())) {
@@ -240,8 +210,6 @@ public final class Connection
             } else {
                 newServices = services;
             }
-            conduit.getClient()
-                   .setReceiveTimeout(0);
             // Add "Refresh" submenu:
             ISubMenu menu = new SubMenu(data.getName(), true, Utility.getImage("alligator-logo.png"));
             IApiService refreshService = new RefreshService(this);
@@ -319,7 +287,7 @@ public final class Connection
                 }
             }
             setMenu(menu);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             LOGGER.warning("Connection to " + data.getName() + " caught exception:" + e.toString());
             throw new IllegalStateException();
