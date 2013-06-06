@@ -151,7 +151,6 @@ public final class MultipleLineTextDialog
     public
         void updateParameter() {
         parameter.setValue(input.getText());
-        page.refresh();
     }
 
 }
