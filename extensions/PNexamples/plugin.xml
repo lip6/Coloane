@@ -38,6 +38,11 @@
             file="src/main/resources/SN/peterson3.model"
             name="Peterson (3 processes)">
       </example-from-file>
+      <example-from-file
+            description="Example given at IWAISE 2012 tutolrial."
+            file="src/main/resources/SN/swimming-pool.model"
+            name="Swimming Pool Management">
+      </example-from-file>
    </extension>
 
 </plugin>
