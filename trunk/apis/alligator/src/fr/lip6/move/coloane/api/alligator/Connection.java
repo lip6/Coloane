@@ -257,32 +257,26 @@ public final class Connection
             for (Identifier identifier : Identifiers.getIdentifiers()) {
                 try {
                     // Icons taken from http://findicons.com/pack/109/play_stop_pause
-                    if (data.getAddress()
-                            .toString()
-                            .startsWith(identifier.server()
-                                                  .toString())) {
-                        ISubMenu submenu = null;
-                        IApiService getResultsService = new ResultService(identifier, this);
-                        if (newServices.isFinished(identifier)) {
-                            submenu = new SubMenu(identifier.key(), true, Utility.getImage("stopped-small.png"));
-                            submenu.addServiceMenu(new ServiceMenu("Get results", true,
-                                                                   "Obtains the final results of the service.",
-                                                                   getResultsService, true));
-                        } else {
-                            submenu = new SubMenu(identifier.key(), true, Utility.getImage("running-small.png"));
-                            submenu.addServiceMenu(new ServiceMenu("Get results", true,
-                                                                   "Obtains the temporary results of the service.",
-                                                                   getResultsService, true));
-                        }
-                        IApiService cloneService = new RunService(identifier, this);
-                        submenu.addServiceMenu(new ServiceMenu("Clone", true, "Clones the service.", cloneService, true));
-                        IApiService killService = new KillService(identifier, this);
-                        submenu.addServiceMenu(new ServiceMenu("Kill", true, "Kills the service.", killService, true));
-                        menu.addSubMenu(submenu);
-
+                    ISubMenu submenu = null;
+                    IApiService getResultsService = new ResultService(identifier, this);
+                    if (newServices.isFinished(identifier)) {
+                        submenu = new SubMenu(identifier.key(), true, Utility.getImage("stopped-small.png"));
+                        submenu.addServiceMenu(new ServiceMenu("Get results", true,
+                                                               "Obtains the final results of the service.", getResultsService,
+                                                               true));
+                    } else {
+                        submenu = new SubMenu(identifier.key(), true, Utility.getImage("running-small.png"));
+                        submenu.addServiceMenu(new ServiceMenu("Get results", true,
+                                                               "Obtains the temporary results of the service.",
+                                                               getResultsService, true));
                     }
+                    IApiService cloneService = new RunService(identifier, this);
+                    submenu.addServiceMenu(new ServiceMenu("Clone", true, "Clones the service.", cloneService, true));
+                    IApiService killService = new KillService(identifier, this);
+                    submenu.addServiceMenu(new ServiceMenu("Kill", true, "Kills the service.", killService, true));
+                    menu.addSubMenu(submenu);
                 } catch (Exception e) {
-                    LOGGER.warning("Cannot load task identifier '" + identifier + "'.");
+                    LOGGER.fine("Cannot load task identifier '" + identifier + "' on '" + data.getAddress() + "'.");
                     Identifiers.remove(identifier);
                 }
             }
