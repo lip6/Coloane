@@ -49,7 +49,8 @@ public class AlligatorPreferencePage
      * @warning Do not use on URLs!
      */
     private static
-        String protect(String s) {
+        String
+        protect(String s) {
         return s.replace(PART_SEPARATOR, "&amp;")
                 .replace(ITEM_SEPARATOR, "&num;");
     }
@@ -63,7 +64,8 @@ public class AlligatorPreferencePage
      * @warning Do not use on URLs!
      */
     private static
-        String unprotect(String s) {
+        String
+        unprotect(String s) {
         return s.replace("&amp;", PART_SEPARATOR)
                 .replace("&num;", ITEM_SEPARATOR);
     }
@@ -74,7 +76,8 @@ public class AlligatorPreferencePage
      * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
      */
     public final
-        void init(IWorkbench workbench) {
+        void
+        init(IWorkbench workbench) {
         setPreferenceStore(Activator.getDefault()
                                     .getPreferenceStore());
         setDescription("Alligator connection settings");
@@ -103,7 +106,8 @@ public class AlligatorPreferencePage
 
         @Override
         protected final
-            String[] getNewInputObject() {
+            String[]
+            getNewInputObject() {
             return new String[] {
                     "New name",
                     "New URL",
@@ -113,7 +117,8 @@ public class AlligatorPreferencePage
 
         @Override
         protected final
-            String[][] parseString(String stringList) {
+            String[][]
+            parseString(String stringList) {
             StringTokenizer itemTokenizer = new StringTokenizer(stringList, ITEM_SEPARATOR);
             List<String[]> result = new ArrayList<String[]>();
             while (itemTokenizer.hasMoreElements()) {
@@ -130,7 +135,8 @@ public class AlligatorPreferencePage
 
         @Override
         protected final
-            String createList(String[][] items) {
+            String
+            createList(String[][] items) {
             StringBuffer result = new StringBuffer("");
             boolean first = true;
             for (String[] current : items) {
@@ -148,7 +154,8 @@ public class AlligatorPreferencePage
 
     @Override
     protected final
-        void createFieldEditors() {
+        void
+        createFieldEditors() {
         this.editor = new AlligatorListEditor();
         addField(editor);
     }
@@ -182,7 +189,8 @@ public class AlligatorPreferencePage
          * @return the name of the server
          */
         public final
-            String getName() {
+            String
+            getName() {
             return name;
         }
 
@@ -192,7 +200,8 @@ public class AlligatorPreferencePage
          */
         @Deprecated
         public final
-            URL getOldAddress()
+            URL
+            getOldAddress()
                 throws MalformedURLException {
             return new URL(address.toString() + "servicemanager");
         }
@@ -202,7 +211,8 @@ public class AlligatorPreferencePage
          * @throws MalformedURLException
          */
         public final
-            URL getAddress()
+            URL
+            getAddress()
                 throws MalformedURLException {
             return new URL(address.toString() + "services");
         }
@@ -211,7 +221,8 @@ public class AlligatorPreferencePage
          * @return the refresh rate for the menu of this server
          */
         public final
-            long getRefresh() {
+            long
+            getRefresh() {
             return refresh;
         }
 
@@ -221,7 +232,8 @@ public class AlligatorPreferencePage
      * @return a list of data read from the plugin preferences
      */
     public static
-        List<Data> fromPreferences() {
+        List<Data>
+        fromPreferences() {
         String s = Activator.getDefault()
                             .getPreferenceStore()
                             .getString(PreferenceConstants.P_ALLIGATOR_LIST);
@@ -231,8 +243,16 @@ public class AlligatorPreferencePage
             String subList = itemTokenizer.nextToken();
             StringTokenizer partTokenizer = new StringTokenizer(subList, AlligatorPreferencePage.PART_SEPARATOR);
             try {
-                result.add(new Data(unprotect(partTokenizer.nextToken()), new URL(partTokenizer.nextToken()),
-                                    Long.parseLong(partTokenizer.nextToken())));
+                String name = partTokenizer.nextToken();
+                String url = partTokenizer.nextToken();
+                String delay = partTokenizer.nextToken();
+                if (!url.startsWith("http://")) {
+                    url = "http://" + url;
+                }
+                if (!url.endsWith("/")) {
+                    url = url + "/";
+                }
+                result.add(new Data(unprotect(name), new URL(url), Long.parseLong(delay)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
