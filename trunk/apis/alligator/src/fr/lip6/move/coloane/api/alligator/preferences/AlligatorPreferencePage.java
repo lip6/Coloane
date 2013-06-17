@@ -98,8 +98,8 @@ public class AlligatorPreferencePage
                     "URL",
                     "Refresh"
             }, new int[] {
-                    100,
-                    100,
+                    200,
+                    200,
                     30
             }, getFieldEditorParent());
         }
@@ -124,10 +124,24 @@ public class AlligatorPreferencePage
             while (itemTokenizer.hasMoreElements()) {
                 String subList = itemTokenizer.nextToken();
                 StringTokenizer partTokenizer = new StringTokenizer(subList, PART_SEPARATOR);
+                String name = partTokenizer.nextToken();
+                String url = partTokenizer.nextToken();
+                String delay = partTokenizer.nextToken();
+                if (!url.startsWith("http://")) {
+                    url = "http://" + url;
+                }
+                if (!url.endsWith("/")) {
+                    url = url + "/";
+                }
+                try {
+                    Long.parseLong(delay);
+                } catch (NumberFormatException e) {
+                    delay = "15";
+                }
                 result.add(new String[] {
-                        unprotect(partTokenizer.nextToken()),
-                        partTokenizer.nextToken(),
-                        partTokenizer.nextToken()
+                        unprotect(name),
+                        url,
+                        delay
                 });
             }
             return result.toArray(new String[result.size()][3]);
@@ -140,12 +154,26 @@ public class AlligatorPreferencePage
             StringBuffer result = new StringBuffer("");
             boolean first = true;
             for (String[] current : items) {
+                String name = current[0];
+                String url = current[1];
+                String delay = current[2];
+                if (!url.startsWith("http://")) {
+                    url = "http://" + url;
+                }
+                if (!url.endsWith("/")) {
+                    url = url + "/";
+                }
+                try {
+                    Long.parseLong(delay);
+                } catch (NumberFormatException e) {
+                    delay = "15";
+                }
                 if (first) {
                     first = false;
                 } else {
                     result.append(ITEM_SEPARATOR);
                 }
-                result.append(protect(current[0]) + PART_SEPARATOR + current[1] + PART_SEPARATOR + current[2]);
+                result.append(protect(name) + PART_SEPARATOR + url + PART_SEPARATOR + delay);
             }
             return result.toString();
         }
@@ -246,12 +274,6 @@ public class AlligatorPreferencePage
                 String name = partTokenizer.nextToken();
                 String url = partTokenizer.nextToken();
                 String delay = partTokenizer.nextToken();
-                if (!url.startsWith("http://")) {
-                    url = "http://" + url;
-                }
-                if (!url.endsWith("/")) {
-                    url = url + "/";
-                }
                 result.add(new Data(unprotect(name), new URL(url), Long.parseLong(delay)));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
