@@ -104,7 +104,7 @@ public abstract class Wizard
                 } else if (parameter instanceof FileParameter && isInput) {
                     FileParameter p = FileParameter.of(parameter);
                     newDialog = new InputFileDialog(p);
-                } else if (parameter instanceof FileParameter && !isInput) {
+                } else if (parameter instanceof FileParameter && parameter.isOutput()) {
                     FileParameter p = FileParameter.of(parameter);
                     if (p.getContentType()
                          .startsWith("image/")) {
@@ -114,11 +114,12 @@ public abstract class Wizard
                     }
                 } else if (parameter instanceof ModelParameter && isInput) {
                     newDialog = new InputModelDialog(ModelParameter.of(parameter));
-                } else if (parameter instanceof ModelParameter && !isInput) {
+                } else if (parameter instanceof ModelParameter && parameter.isOutput()) {
                     ModelParameter p = ModelParameter.of(parameter);
                     newDialog = new OutputModelDialog(p);
                 } else {
-                    throw new AssertionError();
+                    LOGGER.warning("Cannot find control for " + parameter + "!");
+                    continue;
                 }
                 newDialog.setEditable(editable);
                 newDialogs.add(newDialog);

@@ -9,7 +9,6 @@ package fr.lip6.move.coloane.api.alligator.wizard;
 
 import fr.lip6.move.coloane.api.alligator.Utility;
 import fr.lip6.move.coloane.api.alligator.dialog.Dialog;
-import fr.lip6.move.coloane.api.alligator.dialog.EmptyDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.ErrorDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.ResetDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.SetDefaultDialog;
@@ -19,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Description;
@@ -68,33 +66,34 @@ public final class WizardPage
         composite = parent;
         try {
             refreshLock.acquire();
+            Composite composite = new Composite(parent, SWT.NONE);
+            composite.setLayout(new GridLayout(3, false));
+            composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, Wizard.PAGE_SIZE));
+            setControl(composite);
+            for (Dialog<?> dialog : dialogs) {
+                dialog.create(composite);
+            }
+            if (wizard instanceof InputWizard) {
+                // Buttons:
+                Composite buttons = new Composite(composite, SWT.NONE);
+                buttons.setLayout(new GridLayout(1, false));
+                buttons.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
+                new ResetDialog(wizard).create(buttons);
+                new SetDefaultDialog(wizard).create(buttons);
+                // Description of the service:
+                Text helpMessage = new Text(composite, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+                GridData data = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 2);
+                helpMessage.setLayoutData(data);
+                helpMessage.setText(description.help());
+                helpMessage.setEditable(false);
+            } else if ((wizard instanceof OutputWizard) && (error != null)) {
+                error.create(composite);
+            }
         } catch (InterruptedException e) {
             throw new AssertionError();
+        } finally {
+            refreshLock.release();
         }
-        Composite composite = new Composite(parent, SWT.NONE);
-        composite.setLayout(new GridLayout(3, false));
-        composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 3, Wizard.PAGE_SIZE));
-        setControl(composite);
-        for (Dialog<?> dialog : dialogs) {
-            dialog.create(composite);
-        }
-        if (wizard instanceof InputWizard) {
-            // Buttons:
-            Composite buttons = new Composite(composite, SWT.NONE);
-            buttons.setLayout(new GridLayout(1, false));
-            buttons.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
-            new ResetDialog(wizard).create(buttons);
-            new SetDefaultDialog(wizard).create(buttons);
-            // Description of the service:
-            Text helpMessage = new Text(composite, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
-            GridData data = new GridData(SWT.FILL, SWT.CENTER, false, false, 2, 2);
-            helpMessage.setLayoutData(data);
-            helpMessage.setText(description.help());
-            helpMessage.setEditable(false);
-        } else if ((wizard instanceof OutputWizard) && (error != null)) {
-            error.create(composite);
-        }
-        refreshLock.release();
         refresh();
     }
 

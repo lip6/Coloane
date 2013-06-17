@@ -7,18 +7,33 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.core.model.factory.FormalismManager;
+import fr.lip6.move.coloane.core.ui.files.ModelWriter;
+import fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl;
+import fr.lip6.move.coloane.interfaces.formalism.IFormalism;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.channels.FileChannel;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -32,6 +47,7 @@ public final class OutputFileDialog
     private Label label;
     private Text help;
     private File file = null;
+    private Button saveButton;
 
     public OutputFileDialog(FileParameter parameter) {
         super(parameter);
@@ -39,7 +55,8 @@ public final class OutputFileDialog
 
     @Override
     public
-        void updateDialog() {
+        void
+        updateDialog() {
         if (parameter.isActualParameter() && file != null) {
             input.setText(file.toString());
         } else {
@@ -49,18 +66,21 @@ public final class OutputFileDialog
 
     @Override
     public
-        void updateParameter() {
+        void
+        updateParameter() {
     }
 
     @Override
     public
-        int size() {
-        return 2;
+        int
+        size() {
+        return 3;
     }
 
     @Override
     public
-        void create(Composite parent) {
+        void
+        create(final Composite parent) {
         // Label:
         label = new Label(parent, SWT.WRAP);
         label.setText(parameter.getName() + ":");
@@ -77,70 +97,138 @@ public final class OutputFileDialog
         help.setLayoutData(data);
         help.setText(parameter.getHelp());
         help.setEditable(false);
+        // Button:
+        saveButton = new Button(parent, SWT.PUSH);
+        saveButton.setText("Save as…");
+        saveButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1));
+        saveButton.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public
+                void
+                widgetSelected(SelectionEvent e) {
+                FileDialog dialog = new FileDialog(parent.getShell(), SWT.SAVE);
+                dialog.setFilterPath(ResourcesPlugin.getWorkspace()
+                                                    .getRoot()
+                                                    .getLocation()
+                                                    .toString());
+                String[] parts = parameter.getContentType()
+                                          .split("/");
+                if (parts[parts.length - 1].equalsIgnoreCase("cami")) {
+                    dialog.setFilterExtensions(new String[] {
+                        "*.model"
+                    });
+                } else {
+                    dialog.setFilterExtensions(new String[] {
+                        "*." + parts[parts.length - 1]
+                    });
+                }
+                final String filePath = dialog.open();
+                if (filePath != null) {
+                    file = new File(filePath);
+                    copyFile();
+                }
+            }
+        });
     }
 
     @Override
     public
-        String errorMessage() {
+        String
+        errorMessage() {
         return null;
     }
 
     // http://stackoverflow.com/questions/300559/move-copy-file-operations-in-java
-    public static
-        void copyFile(File sourceFile, File destFile)
-            throws IOException {
-        if (!destFile.exists()) {
-            destFile.createNewFile();
+    public
+        void
+        copyFile() {
+        String[] parts = parameter.getContentType()
+                                  .split("/");
+        file.delete();
+        if (parts[parts.length - 1].equalsIgnoreCase("cami")) {
+            ImportFromImpl importer = new ImportFromImpl();
+            LOGGER.info("Importing file '" + file + "' from CAMI " + parameter.getFile() + "...");
+            for (String id : new String[] {
+                    "PT-Net",
+                    "CPN"
+            }) {
+                LOGGER.fine("Trying '" + id + "' formalism...");
+                IFormalism formalism = FormalismManager.getInstance()
+                                                       .getFormalismById(id);
+                try {
+                    IGraph graph = importer.importFrom(parameter.getFile()
+                                                                .getAbsolutePath(), formalism, new NullProgressMonitor());
+                    Writer writer = new BufferedWriter(new FileWriter(file));
+                    ModelWriter.translateToXML(graph, writer);
+                    writer.flush();
+                    LOGGER.fine("Import successful.");
+                    return;
+                } catch (Exception e) {
+                    LOGGER.fine("Import failed.");
+                    e.printStackTrace();
+                }
+            }
+            // If no import was successful, get the CAMI file.
+            file = new File(file.getAbsolutePath() + ".cami");
         }
-        FileChannel source = null;
-        FileChannel destination = null;
         try {
-            source = new FileInputStream(sourceFile).getChannel();
-            destination = new FileOutputStream(destFile).getChannel();
-            // previous code: destination.transferFrom(source, 0, source.size());
-            // to avoid infinite loops, should be:
-            long count = 0;
-            long size = source.size();
-            while ((count += destination.transferFrom(source, count, size - count)) < size)
-                ;
-        } finally {
-            if (source != null) {
-                source.close();
+            if (!file.exists()) {
+                file.createNewFile();
             }
-            if (destination != null) {
-                destination.close();
+            FileChannel source = null;
+            FileChannel destination = null;
+            try {
+                source = new FileInputStream(parameter.getFile()).getChannel();
+                destination = new FileOutputStream(file).getChannel();
+                // previous code: destination.transferFrom(source, 0, source.size());
+                // to avoid infinite loops, should be:
+                long count = 0;
+                long size = source.size();
+                while ((count += destination.transferFrom(source, count, size - count)) < size)
+                    ;
+            } finally {
+                if (source != null) {
+                    source.close();
+                }
+                if (destination != null) {
+                    destination.close();
+                }
             }
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
     }
 
     @Override
     public
-        void update(Parameter<?> p) {
+        void
+        update(Parameter<?> p) {
         LOGGER.info("Update " + parameter);
         LOGGER.info("With " + p);
-        try {
-            FileParameter that = (FileParameter) p;
-            if (parameter.isActualParameter() && (file == null)) {
-                file = File.createTempFile(parameter.getName() + "-", ".parameter");
-                file.deleteOnExit();
-            } else if (parameter.isFormalParameter()) {
-                file = null;
-            }
-            if (parameter.isActualParameter() == that.isActualParameter()) {
-                input.setBackground(null);
-                label.setBackground(null);
-            } else {
-                input.setBackground(updateColor);
-                label.setBackground(updateColor);
-                parameter.populateFrom(that);
-            }
-            if (file != null) {
-                copyFile(parameter.getFile(), file);
-            }
-            updateDialog();
-        } catch (IOException e) {
-            throw new AssertionError();
+        FileParameter that = (FileParameter) p;
+        LOGGER.fine("Before: " + that.getFile()
+                                     .toString());
+        if (parameter.isActualParameter() == that.isActualParameter()) {
+            input.setBackground(null);
+            label.setBackground(null);
+        } else {
+            input.setBackground(updateColor);
+            label.setBackground(updateColor);
+            parameter.populateFrom(that);
         }
+        try {
+            if (parameter.isActualParameter() && (file == null)) {
+                String[] parts = parameter.getContentType()
+                                          .split("/");
+                file = File.createTempFile("coloane-", ".model");
+//                file.deleteOnExit();
+            }
+        } catch (Exception e) {
+        }
+        if (file != null) {
+            copyFile();
+        }
+        updateDialog();
     }
 
 }
