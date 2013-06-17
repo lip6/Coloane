@@ -38,5 +38,6 @@ Bundle-ClassPath: .,
  lib/xml-resolver.jar,
  lib/xmlschema-core.jar,
  lib/neethi.jar
-Import-Package: org.eclipse.ui.dialogs
+Import-Package: fr.lip6.move.coloane.extensions.importgrml,
+ org.eclipse.ui.dialogs
 Bundle-ActivationPolicy: lazy

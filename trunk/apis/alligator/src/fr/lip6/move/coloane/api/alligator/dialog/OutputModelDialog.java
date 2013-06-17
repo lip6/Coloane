@@ -7,15 +7,28 @@
  */
 package fr.lip6.move.coloane.api.alligator.dialog;
 
+import fr.lip6.move.coloane.core.ui.files.ModelWriter;
+import fr.lip6.move.coloane.extensions.importgrml.Importer;
+import fr.lip6.move.coloane.interfaces.model.IGraph;
+
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Writer;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
@@ -29,6 +42,7 @@ public final class OutputModelDialog
     private Label label;
     private Text help;
     private File file = null;
+    private Button saveButton;
 
     public OutputModelDialog(ModelParameter parameter) {
         super(parameter);
@@ -36,7 +50,8 @@ public final class OutputModelDialog
 
     @Override
     public
-        void updateDialog() {
+        void
+        updateDialog() {
         if (parameter.isActualParameter() && file != null) {
             input.setText(file.toString());
         } else {
@@ -46,18 +61,21 @@ public final class OutputModelDialog
 
     @Override
     public
-        void updateParameter() {
+        void
+        updateParameter() {
     }
 
     @Override
     public
-        int size() {
-        return 2;
+        int
+        size() {
+        return 3;
     }
 
     @Override
     public
-        void create(Composite parent) {
+        void
+        create(final Composite parent) {
         // Label:
         label = new Label(parent, SWT.WRAP);
         label.setText(parameter.getName() + ":");
@@ -74,24 +92,48 @@ public final class OutputModelDialog
         help.setLayoutData(data);
         help.setText(parameter.getHelp());
         help.setEditable(false);
+        // Button:
+        saveButton = new Button(parent, SWT.PUSH);
+        saveButton.setText("Save as…");
+        saveButton.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 3, 1));
+        saveButton.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public
+                void
+                widgetSelected(SelectionEvent e) {
+                FileDialog dialog = new FileDialog(parent.getShell(), SWT.SAVE);
+                dialog.setFilterPath(ResourcesPlugin.getWorkspace()
+                                                    .getRoot()
+                                                    .getLocation()
+                                                    .toString());
+                dialog.setFilterExtensions(new String[] {
+                    ".model"
+                });
+                final String filePath = dialog.open();
+                if (filePath != null) {
+                    file = new File(filePath);
+                    copyFile();
+                }
+            }
+        });
     }
 
     @Override
     public
-        String errorMessage() {
+        String
+        errorMessage() {
         return null;
     }
 
     @Override
     public
-        void update(Parameter<?> p) {
+        void
+        update(Parameter<?> p) {
         try {
             ModelParameter that = (ModelParameter) p;
             if (parameter.isActualParameter() && (file == null)) {
                 file = File.createTempFile(parameter.getName() + "-", ".parameter");
-                file.deleteOnExit();
-            } else if (parameter.isFormalParameter()) {
-                file = null;
+//                file.deleteOnExit();
             }
             if (parameter.equals(that)) {
                 input.setBackground(null);
@@ -101,12 +143,30 @@ public final class OutputModelDialog
                 label.setBackground(updateColor);
                 parameter.populateFrom(that);
                 if (file != null) {
-                    OutputFileDialog.copyFile(parameter.getModelAsFile(), file);
+                    copyFile();
                 }
             }
             updateDialog();
         } catch (IOException e) {
             throw new AssertionError();
+        }
+    }
+
+    public
+        void
+        copyFile() {
+        Importer importer = new Importer();
+        LOGGER.info("Importing file '" + file + "' from GrML... ");
+        try {
+            IGraph graph = importer.importFrom(file.getAbsolutePath(), null, new NullProgressMonitor());
+            Writer writer = new BufferedWriter(new FileWriter(file));
+            ModelWriter.translateToXML(graph, writer);
+            writer.flush();
+            LOGGER.fine("Import successful.");
+            return;
+        } catch (Exception e) {
+            LOGGER.fine("Import failed.");
+            e.printStackTrace();
         }
     }
 

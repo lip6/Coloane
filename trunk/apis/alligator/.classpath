@@ -13,10 +13,11 @@
 	<classpathentry exported="true" kind="lib" path="lib/cxf-rt-transports-http.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cxf-rt-ws-addr.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/cxf-rt-ws-policy.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/client.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/interface.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/client.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/interfaces.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/formalisms.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jansi.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/FastInfoset.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/aspectjrt.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jsr305.jar"/>
