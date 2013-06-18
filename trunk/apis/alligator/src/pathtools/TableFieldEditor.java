@@ -129,7 +129,8 @@ public abstract class TableFieldEditor
      * @see #parseString
      */
     protected abstract
-        String createList(String[][] items);
+        String
+        createList(String[][] items);
 
     /**
      * Splits the given string into a array of array of value. This method is the converse of <code>createList</code>.
@@ -143,7 +144,8 @@ public abstract class TableFieldEditor
      * @see #createList
      */
     protected abstract
-        String[][] parseString(String string);
+        String[][]
+        parseString(String string);
 
     /**
      * Creates and returns a new value row for the table.
@@ -154,7 +156,8 @@ public abstract class TableFieldEditor
      * @return a new item
      */
     protected abstract
-        String[] getNewInputObject();
+        String[]
+        getNewInputObject();
 
     /**
      * Creates the Add, Remove, Up, and Down button in the given button box.
@@ -163,7 +166,8 @@ public abstract class TableFieldEditor
      *        the box for the buttons
      */
     private
-        void createButtons(Composite box) {
+        void
+        createButtons(Composite box) {
         addButton = createPushButton(box, "New");
         duplicateButton = createPushButton(box, "Duplicate");
         removeButton = createPushButton(box, "Remove");
@@ -177,7 +181,8 @@ public abstract class TableFieldEditor
      * @return the button
      */
     protected
-        Button getAddButton() {
+        Button
+        getAddButton() {
         return addButton;
     }
 
@@ -187,7 +192,8 @@ public abstract class TableFieldEditor
      * @return the button
      */
     protected
-        Button getDuplicateButton() {
+        Button
+        getDuplicateButton() {
         return duplicateButton;
     }
 
@@ -197,7 +203,8 @@ public abstract class TableFieldEditor
      * @return the button
      */
     protected
-        Button getRemoveButton() {
+        Button
+        getRemoveButton() {
         return removeButton;
     }
 
@@ -207,7 +214,8 @@ public abstract class TableFieldEditor
      * @return the button
      */
     protected
-        Button getUpButton() {
+        Button
+        getUpButton() {
         return upButton;
     }
 
@@ -217,7 +225,8 @@ public abstract class TableFieldEditor
      * @return the button
      */
     protected
-        Button getDownButton() {
+        Button
+        getDownButton() {
         return downButton;
     }
 
@@ -231,7 +240,9 @@ public abstract class TableFieldEditor
      * @return Button
      */
     private
-        Button createPushButton(Composite parent, String key) {
+        Button
+        createPushButton(Composite parent,
+                         String key) {
         Button button = new Button(parent, SWT.PUSH);
         button.setText(key);
         button.setFont(parent.getFont());
@@ -245,7 +256,8 @@ public abstract class TableFieldEditor
 
     /* (non-Javadoc) Method declared on FieldEditor. */
     protected
-        void adjustForNumColumns(int numColumns) {
+        void
+        adjustForNumColumns(int numColumns) {
         Control control = getLabelControl();
         ((GridData) control.getLayoutData()).horizontalSpan = numColumns;
         ((GridData) table.getLayoutData()).horizontalSpan = numColumns - 1;
@@ -255,10 +267,12 @@ public abstract class TableFieldEditor
      * Creates a selection listener.
      */
     public
-        void createSelectionListener() {
+        void
+        createSelectionListener() {
         selectionListener = new SelectionAdapter() {
             public
-                void widgetSelected(SelectionEvent event) {
+                void
+                widgetSelected(SelectionEvent event) {
                 Widget widget = event.widget;
                 if (widget == addButton) {
                     addPressed();
@@ -279,7 +293,9 @@ public abstract class TableFieldEditor
 
     /* (non-Javadoc) Method declared on FieldEditor. */
     protected
-        void doFillIntoGrid(Composite parent, int numColumns) {
+        void
+        doFillIntoGrid(Composite parent,
+                       int numColumns) {
         Control control = getLabelControl(parent);
         GridData gd = new GridData();
         gd.horizontalSpan = numColumns;
@@ -307,7 +323,8 @@ public abstract class TableFieldEditor
 
     /* (non-Javadoc) Method declared on FieldEditor. */
     protected
-        void doLoad() {
+        void
+        doLoad() {
         if (table != null) {
             String s = getPreferenceStore().getString(getPreferenceName());
             String[][] array = parseString(s);
@@ -320,23 +337,23 @@ public abstract class TableFieldEditor
 
     /* (non-Javadoc) Method declared on FieldEditor. */
     protected
-        void doLoadDefault() {
+        void
+        doLoadDefault() {
         if (table != null) {
             table.removeAll();
             String s = getPreferenceStore().getDefaultString(getPreferenceName());
             String[][] array = parseString(s);
             for (int i = 0; i < array.length; i++) {
                 TableItem tableItem = new TableItem(table, SWT.NONE);
-                for (int j = 0; j < array[i].length; j++) {
-                    tableItem.setText(array[i][j]);
-                }
+                tableItem.setText(array[i]);
             }
         }
     }
 
     /* (non-Javadoc) Method declared on FieldEditor. */
     protected
-        void doStore() {
+        void
+        doStore() {
         TableItem[] items = table.getItems();
         String[][] commands = new String[items.length][];
         for (int i = 0; i < items.length; i++) {
@@ -360,7 +377,8 @@ public abstract class TableFieldEditor
      * @return the button box
      */
     public
-        Composite getButtonBoxControl(Composite parent) {
+        Composite
+        getButtonBoxControl(Composite parent) {
         if (buttonBox == null) {
             buttonBox = new Composite(parent, SWT.NULL);
             GridLayout layout = new GridLayout();
@@ -369,7 +387,8 @@ public abstract class TableFieldEditor
             createButtons(buttonBox);
             buttonBox.addDisposeListener(new DisposeListener() {
                 public
-                    void widgetDisposed(DisposeEvent event) {
+                    void
+                    widgetDisposed(DisposeEvent event) {
                     addButton = null;
                     duplicateButton = null;
                     removeButton = null;
@@ -395,7 +414,8 @@ public abstract class TableFieldEditor
      * @return the table control
      */
     public
-        Table getTableControl(Composite parent) {
+        Table
+        getTableControl(Composite parent) {
         if (table == null) {
             table = new Table(parent, SWT.BORDER | SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL | SWT.FULL_SELECTION);
             table.setFont(parent.getFont());
@@ -404,7 +424,8 @@ public abstract class TableFieldEditor
             table.addSelectionListener(getSelectionListener());
             table.addDisposeListener(new DisposeListener() {
                 public
-                    void widgetDisposed(DisposeEvent event) {
+                    void
+                    widgetDisposed(DisposeEvent event) {
                     table = null;
                 }
             });
@@ -429,7 +450,8 @@ public abstract class TableFieldEditor
             editor.grabHorizontal = true;
             table.addListener(SWT.MouseDoubleClick, new Listener() {
                 public
-                    void handleEvent(Event event) {
+                    void
+                    handleEvent(Event event) {
                     Rectangle clientArea = table.getClientArea();
                     Point pt = new Point(event.x, event.y);
                     int index = table.getTopIndex();
@@ -443,7 +465,8 @@ public abstract class TableFieldEditor
                                 final Text text = new Text(table, SWT.NONE);
                                 Listener textListener = new Listener() {
                                     public
-                                        void handleEvent(final Event e) {
+                                        void
+                                        handleEvent(final Event e) {
                                         switch (e.type) {
                                         case SWT.FocusOut:
                                             item.setText(column, text.getText());
@@ -488,7 +511,8 @@ public abstract class TableFieldEditor
 
     /* (non-Javadoc) Method declared on FieldEditor. */
     public
-        int getNumberOfControls() {
+        int
+        getNumberOfControls() {
         return 2;
     }
 
@@ -498,7 +522,8 @@ public abstract class TableFieldEditor
      * @return the selection listener
      */
     private
-        SelectionListener getSelectionListener() {
+        SelectionListener
+        getSelectionListener() {
         if (selectionListener == null) {
             createSelectionListener();
         }
@@ -514,7 +539,8 @@ public abstract class TableFieldEditor
      * @return the shell
      */
     protected
-        Shell getShell() {
+        Shell
+        getShell() {
         if (addButton == null) {
             return null;
         }
@@ -525,7 +551,8 @@ public abstract class TableFieldEditor
      * Notifies that the Add button has been pressed.
      */
     private
-        void addPressed() {
+        void
+        addPressed() {
         setPresentsDefaultValue(false);
         String[] newInputObject = getNewInputObject();
         TableItem tableItem = new TableItem(table, SWT.NONE);
@@ -537,7 +564,8 @@ public abstract class TableFieldEditor
      * Notifies that the Add button has been pressed.
      */
     private
-        void duplicatePressed() {
+        void
+        duplicatePressed() {
         setPresentsDefaultValue(false);
         int index = table.getSelectionIndex();
         int target = index + 1;
@@ -560,7 +588,8 @@ public abstract class TableFieldEditor
      * Notifies that the Remove button has been pressed.
      */
     private
-        void removePressed() {
+        void
+        removePressed() {
         setPresentsDefaultValue(false);
         int index = table.getSelectionIndex();
         if (index >= 0) {
@@ -573,7 +602,8 @@ public abstract class TableFieldEditor
      * Notifies that the Up button has been pressed.
      */
     private
-        void upPressed() {
+        void
+        upPressed() {
         swap(true);
     }
 
@@ -581,7 +611,8 @@ public abstract class TableFieldEditor
      * Notifies that the Down button has been pressed.
      */
     private
-        void downPressed() {
+        void
+        downPressed() {
         swap(false);
     }
 
@@ -596,7 +627,8 @@ public abstract class TableFieldEditor
      * </p>
      */
     protected
-        void selectionChanged() {
+        void
+        selectionChanged() {
         int index = table.getSelectionIndex();
         int size = table.getItemCount();
 
@@ -608,7 +640,8 @@ public abstract class TableFieldEditor
 
     /* (non-Javadoc) Method declared on FieldEditor. */
     public
-        void setFocus() {
+        void
+        setFocus() {
         if (table != null) {
             table.setFocus();
         }
@@ -621,10 +654,13 @@ public abstract class TableFieldEditor
      *        <code>true</code> if the item should move up, and <code>false</code> if it should move down
      */
     private
-        void swap(boolean up) {
+        void
+        swap(boolean up) {
         setPresentsDefaultValue(false);
         int index = table.getSelectionIndex();
-        int target = up ? index - 1 : index + 1;
+        int target = up
+                ? index - 1
+                : index + 1;
 
         if (index >= 0) {
             TableItem[] selection = table.getSelection();
@@ -643,7 +679,9 @@ public abstract class TableFieldEditor
 
     /* @see FieldEditor.setEnabled(boolean,Composite). */
     public
-        void setEnabled(boolean enabled, Composite parent) {
+        void
+        setEnabled(boolean enabled,
+                   Composite parent) {
         super.setEnabled(enabled, parent);
         getTableControl(parent).setEnabled(enabled);
         addButton.setEnabled(enabled);
