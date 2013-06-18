@@ -29,7 +29,7 @@ public class PreferenceInitializer
                                           .getPreferenceStore();
         store.setDefault(PreferenceConstants.P_ALLIGATOR_LIST,
                          "Public Alligator" + "&" + "http://publigator.cosyverif.org/" + "&" + "15" + "#" +
-                         "Testing Alligator" + "&" + "http://testigator.cosyverif.lsv.ens-cachan.fr/" + "&" + "15" + "#" +
+                         "Testing Alligator" + "&" + "http://testigator.cosyverif.org/" + "&" + "15" + "#" +
                          "Snapshot Alligator" + "&" + "http://snapligator.cosyverif.org/" + "&" + "15" + "#" +
                          "Local Alligator" + "&" + "http://localhost:9000/" + "&" + "2"
                          );
