@@ -15,6 +15,7 @@
     <description>Group of Coloane's dedicated extensions</description>
 
     <modules>
+        <module>AutomatonExport</module>
         <module>exportToDOT</module>
         <module>exportToPGF</module>
         <module>exportToGrML</module>

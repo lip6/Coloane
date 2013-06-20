@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='Cosmos' xposition='0' yposition='0'>
+<attributes>
+</attributes>
+<nodes>
+<node nodetype='place' id ='3' xposition='214' yposition='157' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='234' yposition='137'>P1</attribute>
+<attribute name='marking' xposition='237' yposition='149'>1</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='4' xposition='348' yposition='157' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='368' yposition='137'>P2</attribute>
+<attribute name='marking' xposition='368' yposition='137'>0</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='5' xposition='507' yposition='157' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='527' yposition='137'>P3</attribute>
+<attribute name='marking' xposition='527' yposition='137'>0</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='6' xposition='284' yposition='152' scale='100' interface='false' alt='1' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='weight' xposition='304' yposition='132'>1</attribute>
+<attribute name='priority' xposition='304' yposition='132'>1</attribute>
+<attribute name='name' xposition='285' yposition='182'>sampx</attribute>
+<attribute name='service' xposition='304' yposition='132'>1</attribute>
+<attribute name='distribution' xposition='265' yposition='137'>UNIFORM(0,1)</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='7' xposition='445' yposition='152' scale='100' interface='false' alt='1' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='weight' xposition='465' yposition='132'>1</attribute>
+<attribute name='priority' xposition='465' yposition='132'>1</attribute>
+<attribute name='name' xposition='445' yposition='182'>sampy</attribute>
+<attribute name='service' xposition='465' yposition='132'>1</attribute>
+<attribute name='distribution' xposition='410' yposition='137'>UNIFORM(0,1)</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='8' xposition='600' yposition='152' scale='100' interface='false' alt='1' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='weight' xposition='620' yposition='132'>1</attribute>
+<attribute name='priority' xposition='620' yposition='132'>1</attribute>
+<attribute name='name' xposition='620' yposition='132'>fin</attribute>
+<attribute name='service' xposition='620' yposition='132'>1</attribute>
+<attribute name='distribution' xposition='620' yposition='132'>DETERMINISTIC(0)</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='arc' id='9' startid='3' endid='6' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='249' yposition='154'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='10' startid='6' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='316' yposition='154'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='11' startid='4' endid='7' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='396' yposition='154'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='12' startid='7' endid='5' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='476' yposition='154'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='13' startid='5' endid='8' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='553' yposition='154'>1</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>

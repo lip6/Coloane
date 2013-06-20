@@ -43,6 +43,21 @@
             file="src/main/resources/SN/swimming-pool.model"
             name="Swimming Pool Management">
       </example-from-file>
+      <example-from-file
+            description="A simple voting process, where voters choose either yes or no."
+            file="src/main/resources/SNB/voting.model"
+            name="Voting process">
+      </example-from-file>
+      <example-from-file
+            description="This model is a simple stochastic model sampling uniformly a point in the square formed by points (0,0) and (1,1). It works with an LHA example."
+            file="src/main/resources/SPN/pi.model"
+            name="𝜋">
+      </example-from-file>
+      <example-from-file
+            description="This model is an automaton with two clocks accepting trajectories where the square of the two clock is smaller than 1. It works with cosmos example 𝜋."
+            file="src/main/resources/LHA/pilha.model"
+            name="𝜋 (lha)">
+      </example-from-file>
    </extension>
 
 </plugin>
