@@ -20,7 +20,8 @@ public final class InputFileDialog
 
     @Override
     protected
-        boolean keepResource(IResource resource) {
+        boolean
+        keepResource(IResource resource) {
         if (parameter.getContentType()
                      .equalsIgnoreCase("cami")) {
             return (resource instanceof IFile) && (resource.getFileExtension()

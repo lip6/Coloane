@@ -13,9 +13,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
  lib/interface.jar,
  lib/formalisms.jar,
- lib/jsr305.jar,
- lib/cloning.jar,
- lib/objenesis.jar
+ lib/jsr305.jar
 Import-Package: fr.lip6.move.coloane.interfaces.exceptions,
  fr.lip6.move.coloane.interfaces.extensions,
  fr.lip6.move.coloane.interfaces.formalism,

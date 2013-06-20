@@ -42,6 +42,7 @@ import org.cosyverif.alligator.service.Identifier;
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
+import org.cosyverif.alligator.service.parameter.ModelSetParameter;
 import org.cosyverif.alligator.util.ParameterConversion;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -141,7 +142,7 @@ public final class RunService
             for (Parameter<?> parameter : service.parameters()) {
                 if (parameter.isInput()) {
                     if (parameter instanceof ModelParameter) {
-                        IFile file = wizard.fileFor(parameter);
+                        IFile file = wizard.filesFor(parameter)[0];
                         ModelParameter p = ModelParameter.of(parameter);
                         ExportToGrML exporter = new ExportToGrML();
                         LOGGER.info("Converting file '" + file + "' to GrML...");
@@ -150,9 +151,23 @@ public final class RunService
                         temp.deleteOnExit();
                         exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
                         p.setModelFromFile(temp);
+                    } else if (parameter instanceof ModelSetParameter) {
+                        IFile[] files = wizard.filesFor(parameter);
+                        ModelSetParameter p = ModelSetParameter.of(parameter);
+                        ExportToGrML exporter = new ExportToGrML();
+                        File[] converted = new File[files.length];
+                        for (int i = 0; i < files.length; ++i) {
+                            LOGGER.info("Converting file '" + files[i] + "' to GrML...");
+                            IGraph graph = ModelLoader.loadGraphFromXML(files[i]);
+                            File temp = File.createTempFile("coloane-exporter", ".grml");
+                            temp.deleteOnExit();
+                            exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
+                            converted[i] = temp;
+                        }
+                        p.setModelsFromFiles(converted);
                     } else if (parameter instanceof FileParameter && ((FileParameter) parameter).getContentType()
                                                                                                 .equalsIgnoreCase("lola")) {
-                        IFile file = wizard.fileFor(parameter);
+                        IFile file = wizard.filesFor(parameter)[0];
                         FileParameter p = FileParameter.of(parameter);
                         if (file.getFileExtension()
                                 .equalsIgnoreCase("lola")) {
@@ -168,7 +183,7 @@ public final class RunService
                         }
                     } else if (parameter instanceof FileParameter && ((FileParameter) parameter).getContentType()
                                                                                                 .equalsIgnoreCase("cami")) {
-                        IFile file = wizard.fileFor(parameter);
+                        IFile file = wizard.filesFor(parameter)[0];
                         FileParameter p = FileParameter.of(parameter);
                         if (file.getFileExtension()
                                 .equalsIgnoreCase("cami")) {
@@ -183,7 +198,7 @@ public final class RunService
                             p.setFile(temp);
                         }
                     } else if (parameter instanceof FileParameter) {
-                        IFile file = wizard.fileFor(parameter);
+                        IFile file = wizard.filesFor(parameter)[0];
                         FileParameter p = FileParameter.of(parameter);
                         p.setFile(getFile(file));
                     }

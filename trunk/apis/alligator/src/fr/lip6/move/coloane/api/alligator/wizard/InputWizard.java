@@ -48,7 +48,7 @@ public final class InputWizard
                 Parameter<?> theParameter = theDialog.getParameter()
                                                      .copy();
                 theParameter.unset();
-                files.put(theParameter, theDialog.getSelectedFile());
+                files.put(theParameter, theDialog.getSelectedFiles());
             }
         }
         return true;

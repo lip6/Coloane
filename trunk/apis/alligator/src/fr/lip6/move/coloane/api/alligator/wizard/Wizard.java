@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.api.alligator.dialog.FloatDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.ImageDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.InputFileDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.InputModelDialog;
+import fr.lip6.move.coloane.api.alligator.dialog.InputModelSetDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.IntegerDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.MultipleChoiceDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.MultipleLineTextDialog;
@@ -38,6 +39,7 @@ import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.FloatParameter;
 import org.cosyverif.alligator.service.parameter.IntegerParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
+import org.cosyverif.alligator.service.parameter.ModelSetParameter;
 import org.cosyverif.alligator.service.parameter.MultipleChoiceParameter;
 import org.cosyverif.alligator.service.parameter.MultipleLineTextParameter;
 import org.cosyverif.alligator.service.parameter.SingleChoiceParameter;
@@ -62,7 +64,7 @@ public abstract class Wizard
 
     protected Description description;
 
-    protected Map<Parameter<?>, IFile> files = new HashMap<Parameter<?>, IFile>();
+    protected Map<Parameter<?>, IFile[]> files = new HashMap<Parameter<?>, IFile[]>();
 
     protected boolean isCanceled;
 
@@ -114,6 +116,8 @@ public abstract class Wizard
                     }
                 } else if (parameter instanceof ModelParameter && isInput) {
                     newDialog = new InputModelDialog(ModelParameter.of(parameter));
+                } else if (parameter instanceof ModelSetParameter && isInput) {
+                    newDialog = new InputModelSetDialog(ModelSetParameter.of(parameter));
                 } else if (parameter instanceof ModelParameter && parameter.isOutput()) {
                     ModelParameter p = ModelParameter.of(parameter);
                     newDialog = new OutputModelDialog(p);
@@ -185,8 +189,8 @@ public abstract class Wizard
     }
 
     public
-        IFile fileFor(Parameter<?> parameter) {
-        for (Entry<Parameter<?>, IFile> e : files.entrySet()) {
+        IFile[] filesFor(Parameter<?> parameter) {
+        for (Entry<Parameter<?>, IFile[]> e : files.entrySet()) {
             if (e.getKey()
                  .equalsUnset(parameter)) {
                 return e.getValue();
