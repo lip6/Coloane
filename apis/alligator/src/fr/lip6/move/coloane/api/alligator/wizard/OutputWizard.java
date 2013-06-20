@@ -72,6 +72,7 @@ public final class OutputWizard
                 }
                 Description result = connection.getServices()
                                                .getCurrentState(identifier);
+                LOGGER.warning("Description is: " + description);
                 for (Dialog<?> dialog : dialogs) {
                     for (Parameter<?> parameter : result.parameters()) {
                         if (parameter.equalsUnset(dialog.getParameter())) {

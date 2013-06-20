@@ -95,6 +95,7 @@ public final class SingleChoiceDialog
                 if (error == null) {
                     updateParameter();
                 }
+                SingleChoiceDialog.this.page.refresh();
             }
 
         });

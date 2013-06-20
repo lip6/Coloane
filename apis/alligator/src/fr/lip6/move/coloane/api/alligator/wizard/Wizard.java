@@ -15,6 +15,7 @@ import fr.lip6.move.coloane.api.alligator.dialog.InputFileDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.InputModelDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.InputModelSetDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.IntegerDialog;
+import fr.lip6.move.coloane.api.alligator.dialog.ItemsDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.MultipleChoiceDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.MultipleLineTextDialog;
 import fr.lip6.move.coloane.api.alligator.dialog.OutputFileDialog;
@@ -38,6 +39,7 @@ import org.cosyverif.alligator.service.parameter.BooleanParameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.FloatParameter;
 import org.cosyverif.alligator.service.parameter.IntegerParameter;
+import org.cosyverif.alligator.service.parameter.ItemsParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
 import org.cosyverif.alligator.service.parameter.ModelSetParameter;
 import org.cosyverif.alligator.service.parameter.MultipleChoiceParameter;
@@ -95,6 +97,8 @@ public abstract class Wizard
                     newDialog = new FloatDialog(FloatParameter.of(parameter));
                 } else if (parameter instanceof IntegerParameter) {
                     newDialog = new IntegerDialog(IntegerParameter.of(parameter));
+                } else if (parameter instanceof ItemsParameter) {
+                    newDialog = new ItemsDialog(ItemsParameter.of(parameter));
                 } else if (parameter instanceof MultipleLineTextParameter) {
                     newDialog = new MultipleLineTextDialog(MultipleLineTextParameter.of(parameter));
                 } else if (parameter instanceof MultipleChoiceParameter) {

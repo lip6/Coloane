@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='Symmetric Nets with Bags' xposition='0' yposition='0'>
+<attributes>
+<attribute name='declaration' xposition='0' yposition='0'>Class
+	V is 1..10;
+Var
+	x in V;</attribute>
+<attribute name='note' xposition='0' yposition='0'>Designed with Coloane</attribute>
+<attribute name='version' xposition='0' yposition='0'>0,0</attribute>
+</attributes>
+<nodes>
+<node nodetype='place' id ='3' xposition='522' yposition='178' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='542' yposition='173'>idle</attribute>
+<attribute name='domain' xposition='542' yposition='188'>V</attribute>
+<attribute name='marking' xposition='542' yposition='203'>&lt;V.all&gt;</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='4' xposition='423' yposition='398' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='443' yposition='393'>yes</attribute>
+<attribute name='domain' xposition='443' yposition='408'>V</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='5' xposition='636' yposition='400' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='656' yposition='395'>no</attribute>
+<attribute name='domain' xposition='656' yposition='410'>V</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='6' xposition='458' yposition='308' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='478' yposition='303'>tyes</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='7' xposition='600' yposition='316' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='620' yposition='311'>tno</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='arc' id='8' startid='3' endid='6' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='528' yposition='242'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='9' startid='6' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='478' yposition='352'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='10' startid='3' endid='7' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='561' yposition='247'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='11' startid='7' endid='5' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='618' yposition='358'>1</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>
