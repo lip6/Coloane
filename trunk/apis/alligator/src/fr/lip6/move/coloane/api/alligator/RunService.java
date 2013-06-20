@@ -47,7 +47,10 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Implementation of IApiService to manage Alligator service.
@@ -112,7 +115,8 @@ public final class RunService
     }
 
     private final
-        File getFile(IFile file) {
+        File
+        getFile(IFile file) {
         return file.getRawLocation()
                    .makeAbsolute()
                    .toFile();
@@ -120,7 +124,9 @@ public final class RunService
 
     @Override
     public
-        List<IResult> run(IGraph model, IProgressMonitor monitor)
+        List<IResult>
+        run(IGraph model,
+            IProgressMonitor monitor)
             throws ServiceException {
         InputWizard wizard = new InputWizard(service);
         try {
@@ -133,58 +139,54 @@ public final class RunService
             }
             // Convert input parameters:
             for (Parameter<?> parameter : service.parameters()) {
-                try {
-                    if (parameter.isInput()) {
-                        if (parameter instanceof ModelParameter) {
-                            IFile file = wizard.fileFor(parameter);
-                            ModelParameter p = ModelParameter.of(parameter);
-                            ExportToGrML exporter = new ExportToGrML();
-                            LOGGER.info("Converting file '" + file + "' to GrML...");
+                if (parameter.isInput()) {
+                    if (parameter instanceof ModelParameter) {
+                        IFile file = wizard.fileFor(parameter);
+                        ModelParameter p = ModelParameter.of(parameter);
+                        ExportToGrML exporter = new ExportToGrML();
+                        LOGGER.info("Converting file '" + file + "' to GrML...");
+                        IGraph graph = ModelLoader.loadGraphFromXML(file);
+                        File temp = File.createTempFile("coloane-exporter", ".grml");
+                        temp.deleteOnExit();
+                        exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
+                        p.setModelFromFile(temp);
+                    } else if (parameter instanceof FileParameter && ((FileParameter) parameter).getContentType()
+                                                                                                .equalsIgnoreCase("lola")) {
+                        IFile file = wizard.fileFor(parameter);
+                        FileParameter p = FileParameter.of(parameter);
+                        if (file.getFileExtension()
+                                .equalsIgnoreCase("lola")) {
+                            p.setFile(getFile(file));
+                        } else {
+                            ExportToLola exporter = new ExportToLola();
+                            LOGGER.info("Converting file '" + file + "' to LoLa...");
                             IGraph graph = ModelLoader.loadGraphFromXML(file);
-                            File temp = File.createTempFile("coloane-exporter", ".grml");
+                            File temp = File.createTempFile("coloane-exporter", ".lola");
                             temp.deleteOnExit();
                             exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
-                            p.setModelFromFile(temp);
-                        } else if (parameter instanceof FileParameter && ((FileParameter) parameter).getContentType()
-                                                                                                    .equalsIgnoreCase("lola")) {
-                            IFile file = wizard.fileFor(parameter);
-                            FileParameter p = FileParameter.of(parameter);
-                            if (file.getFileExtension()
-                                    .equalsIgnoreCase("lola")) {
-                                p.setFile(getFile(file));
-                            } else {
-                                ExportToLola exporter = new ExportToLola();
-                                LOGGER.info("Converting file '" + file + "' to LoLa...");
-                                IGraph graph = ModelLoader.loadGraphFromXML(file);
-                                File temp = File.createTempFile("coloane-exporter", ".lola");
-                                temp.deleteOnExit();
-                                exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
-                                p.setFile(temp);
-                            }
-                        } else if (parameter instanceof FileParameter && ((FileParameter) parameter).getContentType()
-                                                                                                    .equalsIgnoreCase("cami")) {
-                            IFile file = wizard.fileFor(parameter);
-                            FileParameter p = FileParameter.of(parameter);
-                            if (file.getFileExtension()
-                                    .equalsIgnoreCase("cami")) {
-                                p.setFile(getFile(file));
-                            } else {
-                                ExportToImpl exporter = new ExportToImpl();
-                                LOGGER.info("Converting file '" + file + "' to CAMI... ");
-                                IGraph graph = ModelLoader.loadGraphFromXML(file);
-                                File temp = File.createTempFile("coloane-exporter", ".cami");
-                                temp.deleteOnExit();
-                                exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
-                                p.setFile(temp);
-                            }
-                        } else if (parameter instanceof FileParameter) {
-                            IFile file = wizard.fileFor(parameter);
-                            FileParameter p = FileParameter.of(parameter);
-                            p.setFile(getFile(file));
+                            p.setFile(temp);
                         }
+                    } else if (parameter instanceof FileParameter && ((FileParameter) parameter).getContentType()
+                                                                                                .equalsIgnoreCase("cami")) {
+                        IFile file = wizard.fileFor(parameter);
+                        FileParameter p = FileParameter.of(parameter);
+                        if (file.getFileExtension()
+                                .equalsIgnoreCase("cami")) {
+                            p.setFile(getFile(file));
+                        } else {
+                            ExportToImpl exporter = new ExportToImpl();
+                            LOGGER.info("Converting file '" + file + "' to CAMI... ");
+                            IGraph graph = ModelLoader.loadGraphFromXML(file);
+                            File temp = File.createTempFile("coloane-exporter", ".cami");
+                            temp.deleteOnExit();
+                            exporter.export(graph, temp.getAbsolutePath(), new NullProgressMonitor());
+                            p.setFile(temp);
+                        }
+                    } else if (parameter instanceof FileParameter) {
+                        IFile file = wizard.fileFor(parameter);
+                        FileParameter p = FileParameter.of(parameter);
+                        p.setFile(getFile(file));
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
             if (alligator.getServices() != null) {
@@ -242,13 +244,15 @@ public final class RunService
 
     @Override
     public
-        String getName() {
+        String
+        getName() {
         return service.name();
     }
 
     @Override
     public
-        String getDescription() {
+        String
+        getDescription() {
         return service.help();
     }
 
