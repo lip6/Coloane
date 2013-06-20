@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import org.cosyverif.alligator.service.Parameter;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -56,13 +57,15 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
 
     @Override
     public
-        int size() {
+        int
+        size() {
         return Wizard.PAGE_SIZE;
     }
 
     @Override
     public
-        void create(Composite parent) {
+        void
+        create(Composite parent) {
         // Label:
         label = new Label(parent, SWT.WRAP);
         label.setText(parameter.getName() + ":");
@@ -89,17 +92,22 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
         checkboxTreeViewer.setContentProvider(new ITreeContentProvider() {
             @Override
             public
-                void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+                void
+                inputChanged(Viewer viewer,
+                             Object oldInput,
+                             Object newInput) {
             }
 
             @Override
             public
-                void dispose() {
+                void
+                dispose() {
             }
 
             @Override
             public
-                boolean hasChildren(Object element) {
+                boolean
+                hasChildren(Object element) {
                 if (element instanceof IContainer) {
                     IContainer container = (IContainer) element;
                     try {
@@ -114,7 +122,8 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
 
             @Override
             public
-                Object getParent(Object element) {
+                Object
+                getParent(Object element) {
                 if (element instanceof IProject) {
                     return null;
                 }
@@ -123,7 +132,8 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
 
             @Override
             public
-                Object[] getElements(Object inputElement) {
+                Object[]
+                getElements(Object inputElement) {
                 if (inputElement instanceof List<?>) {
                     List<?> l = (List<?>) inputElement;
                     return l.toArray();
@@ -133,7 +143,8 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
 
             @Override
             public
-                Object[] getChildren(Object parentElement) {
+                Object[]
+                getChildren(Object parentElement) {
                 if (parentElement instanceof IContainer) {
                     IContainer container = (IContainer) parentElement;
                     try {
@@ -151,13 +162,15 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
 
             @Override
             public
-                String getText(Object element) {
+                String
+                getText(Object element) {
                 return ((IResource) element).getName();
             }
 
             @Override
             public
-                Image getImage(Object element) {
+                Image
+                getImage(Object element) {
                 Image image = imageProvider.getImage(element);
                 if (image == null) {
                     return workbenchProvider.getImage(element);
@@ -167,7 +180,8 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
 
             @Override
             public
-                void dispose() {
+                void
+                dispose() {
                 super.dispose();
                 imageProvider.dispose();
                 workbenchProvider.dispose();
@@ -178,7 +192,8 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
         checkboxTreeViewer.addCheckStateListener(new ICheckStateListener() {
             @Override
             public
-                void checkStateChanged(CheckStateChangedEvent event) {
+                void
+                checkStateChanged(CheckStateChangedEvent event) {
                 if (event.getElement() instanceof IContainer) {
                     checkboxTreeViewer.setSubtreeChecked(event.getElement(), event.getChecked());
                 }
@@ -198,7 +213,8 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
 
     @Override
     public
-        String errorMessage() {
+        String
+        errorMessage() {
         String result;
         if (checkboxTreeViewer.getCheckedElements().length == 1) {
             result = null;
@@ -212,19 +228,22 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
 
     @Override
     public
-        void update(Parameter<?> that) {
+        void
+        update(Parameter<?> that) {
         parameter.populateFrom(that);
         page.refresh();
     }
 
     abstract
-        boolean keepResource(IResource resource);
+        boolean
+        keepResource(IResource resource);
 
     private
-        List<IResource> filtered(IResource[] resources) {
+        List<IResource>
+        filtered(IResource[] resources) {
         List<IResource> result = new ArrayList<IResource>();
         for (IResource resource : resources) {
-            if (keepResource(resource)) {
+            if ((resource instanceof IFolder) || keepResource(resource)) {
                 result.add(resource);
             }
         }
@@ -232,20 +251,31 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
     }
 
     public final
-        IFile getSelectedFile() {
-        return (IFile) checkboxTreeViewer.getCheckedElements()[0];
+        IFile[]
+        getSelectedFiles() {
+        List<IFile> result = new ArrayList<IFile>();
+        for (Object o : checkboxTreeViewer.getCheckedElements()) {
+            System.out.println(o.toString());
+            if (o instanceof IFile) {
+                result.add((IFile) o);
+            }
+        }
+        return result.toArray(new IFile[result.size()]);
     }
 
     public final
-        void updateParameter() {
+        void
+        updateParameter() {
     }
 
     public final
-        void updateDialog() {
+        void
+        updateDialog() {
     }
 
     private final
-        IFile getIFile(File file) {
+        IFile
+        getIFile(File file) {
         IWorkspace workspace = ResourcesPlugin.getWorkspace();
         IPath location = Path.fromOSString(file.getAbsolutePath());
         return workspace.getRoot()
@@ -253,7 +283,8 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
     }
 
     public final
-        void select(File file) {
+        void
+        select(File file) {
         checkboxTreeViewer.setChecked(getIFile(file), true);
     }
 
