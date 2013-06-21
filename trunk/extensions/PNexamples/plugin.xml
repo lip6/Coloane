@@ -45,7 +45,7 @@
       </example-from-file>
       <example-from-file
             description="A simple voting process, where voters choose either yes or no."
-            file="src/main/resources/SNB/voting.model"
+            file="src/main/resources/SNB/Voting.model"
             name="Voting process">
       </example-from-file>
       <example-from-file
