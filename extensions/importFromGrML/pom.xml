@@ -23,12 +23,12 @@
 		<dependency>
 			<groupId>org.cosyverif</groupId>
 			<artifactId>formalisms</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.cosyverif.alligator</groupId>
 			<artifactId>interface</artifactId>
-			<version>0.3-SNAPSHOT</version>
+			<version>RELEASE</version>
 		</dependency>
 	</dependencies>
 
