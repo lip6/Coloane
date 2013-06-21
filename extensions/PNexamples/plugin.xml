@@ -51,12 +51,12 @@
       <example-from-file
             description="This model is a simple stochastic model sampling uniformly a point in the square formed by points (0,0) and (1,1). It works with an LHA example."
             file="src/main/resources/SPN/pi.model"
-            name="𝜋">
+            name="pi">
       </example-from-file>
       <example-from-file
-            description="This model is an automaton with two clocks accepting trajectories where the square of the two clock is smaller than 1. It works with cosmos example 𝜋."
+            description="This model is an automaton with two clocks accepting trajectories where the square of the two clock is smaller than 1. It works with pi."
             file="src/main/resources/LHA/pilha.model"
-            name="𝜋 (lha)">
+            name="pi (lha)">
       </example-from-file>
    </extension>
 
