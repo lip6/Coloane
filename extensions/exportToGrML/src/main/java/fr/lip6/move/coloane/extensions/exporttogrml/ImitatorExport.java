@@ -156,7 +156,6 @@ public class ImitatorExport implements IGrMLExport {
 			StringReader content = new StringReader("<?xml version='1.0' encoding='UTF-8'?>\n<model formalismUrl='" + fmlUrl + "' xmlns='http://cosyverif.org/ns/model'/>");
 			Model fakeModel = new Model(new GrmlCheckExecutables(), content);
 			fmlXml = fakeModel.getFormalism().getData();
-			System.out.println(fmlXml);
 			//fmlXmlSource = new InputSource(new StringReader(fmlXml));
 		} catch (SaxonApiException e) {
 			// TODO Auto-generated catch block
@@ -198,8 +197,6 @@ public class ImitatorExport implements IGrMLExport {
 			xpath.setNamespaceContext(ctx);
 			InputSource fmlXmlSource = new InputSource(new StringReader(fmlXml));
 			String hasDeclaration = xpath.evaluate(request, fmlXmlSource);
-			//System.out.println(hasDeclaration);
-
 			return !hasDeclaration.equals("");
 
 		} catch (XPathExpressionException e1) {
