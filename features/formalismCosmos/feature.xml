@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.features.formalisms.cosmos"
-      label="Coloane - Cosmos Formalism"
+      id="fr.lip6.move.coloane.features.formalisms.automaton"
+      label="Coloane - Automaton Formalism"
       version="1.0.0.qualifier"
-      provider-name="LIP6 / LSV"
+      provider-name="LIPN"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This Eclipse features brings the support of DD formalisms into Coloane
+      This Eclipse features brings the support of Automaton formalisms into Coloane
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -29,7 +29,7 @@
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.fragments.formalisms.cosmos"
+         id="fr.lip6.move.coloane.fragments.formalisms.automaton"
          download-size="0"
          install-size="0"
          version="0.0.0"

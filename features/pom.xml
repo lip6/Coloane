@@ -33,6 +33,7 @@
         <!-- FRAGMENTS -->
         <module>languagePack</module>
         <!-- FORMALISM -->
+        <module>formalismAutomaton</module>
         <module>formalismDD</module>
         <module>formalismGSPN</module>
         <module>formalismCosmos</module>
