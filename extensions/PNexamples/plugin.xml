@@ -63,6 +63,11 @@
             file="src/main/resources/PT/contractorA.model"
             name="Contractor">
       </example-from-file>
+      <example-from-file
+            description="with Contractor"
+            file="src/main/resources/PT/subcontractorA.model"
+            name="Subcontractor">
+      </example-from-file>
    </extension>
 
 </plugin>
