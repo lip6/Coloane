@@ -58,6 +58,11 @@
             file="src/main/resources/LHA/pilha.model"
             name="pi (lha)">
       </example-from-file>
+      <example-from-file
+            description="with Subcontractor"
+            file="src/main/resources/PT/contractorA.model"
+            name="Contractor">
+      </example-from-file>
    </extension>
 
 </plugin>
