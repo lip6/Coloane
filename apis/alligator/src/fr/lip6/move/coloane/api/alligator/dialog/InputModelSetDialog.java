@@ -65,7 +65,7 @@ public final class InputModelSetDialog
     public
         String errorMessage() {
         String result;
-        if (checkboxTreeViewer.getCheckedElements().length > 1) {
+        if (checkboxTreeViewer.getCheckedElements().length >= 1) {
             result = null;
             error.setText("");
         } else {
