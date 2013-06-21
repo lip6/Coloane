@@ -131,7 +131,6 @@ public final class Connection
             }
             ISubMenu menu = new SubMenu(data.getName() + " (old server)", true, Utility.getImage("alligator-logo.png"));
             IApiService refreshService = new RefreshService(this);
-            menu.addServiceMenu(new ServiceMenu("(Refresh)", true, "Refresh thes menu.", refreshService, true));
             List<ServiceDescription> descriptions = oldServices.getServices();
             Comparator<ServiceDescription> comparator = new Comparator<ServiceDescription>() {
                 @Override
@@ -171,6 +170,7 @@ public final class Connection
                     }
                 } while (tokenizer.hasMoreTokens());
             }
+            menu.addServiceMenu(new ServiceMenu("(Refresh)", true, "Refresh thes menu.", refreshService, true));
             setMenu(menu);
         } catch (Throwable e) {
             LOGGER.warning("Connection to " + data.getName() + " caught exception:" + e.toString());
@@ -181,11 +181,17 @@ public final class Connection
     private
         String
         nameOf(Description description) {
-        return description.name() + " (" + ("".equals(description.tool())
-                ? "?"
-                : description.tool()) + " v" + ("".equals(description.version())
-                ? "?"
-                : description.version()) + ")";
+        if ("".equals(description.tool()) && "".equals(description.version())) {
+            return description.name();
+        } else if (!"".equals(description.tool()) && !"".equals(description.version())) {
+            return description.name() + " (" + description.tool() + " v" + description.version() + ")";
+        } else if ("".equals(description.tool())) {
+            return description.name() + " (" + "v" + description.version() + ")";
+        } else if ("".equals(description.version())) {
+            return description.name() + " (" + description.tool() + ")";
+        } else {
+            return description.name();
+        }
     }
 
     /**
@@ -213,7 +219,6 @@ public final class Connection
             // Add "Refresh" submenu:
             ISubMenu menu = new SubMenu(data.getName(), true, Utility.getImage("alligator-logo.png"));
             IApiService refreshService = new RefreshService(this);
-            menu.addServiceMenu(new ServiceMenu("(Refresh)", true, "Refresh thes menu.", refreshService, true));
             // Sort services by name:
             Description[] descriptions = newServices.getAvailableServices();
             Comparator<Description> comparator = new Comparator<Description>() {
@@ -280,6 +285,7 @@ public final class Connection
                     Identifiers.remove(identifier);
                 }
             }
+            menu.addServiceMenu(new ServiceMenu("(Refresh)", true, "Refresh thes menu.", refreshService, true));
             setMenu(menu);
         } catch (Throwable e) {
             e.printStackTrace();
