@@ -38,9 +38,6 @@ public final class InputModelSetDialog
                 return true;
             }
             IFormalism formalism = ModelLoader.loadFormalismFromXML((IFile) resource);
-            System.out.println("Formalism: " + Arrays.toString(parameter.getFormalisms()));
-            System.out.println("Id: " + formalism.getId());
-            System.out.println("Name: " + formalism.getName());
             if (formalism == null) {
                 return false;
             }
@@ -48,8 +45,6 @@ public final class InputModelSetDialog
                                                                             .getConfigurationElementsFor(Activator.EXTENSION_POINT_ID))) {
                 String id = contribution.getAttribute(Activator.NAME_EXTENSION);
                 String fml = contribution.getAttribute(Activator.FMLURL_EXTENSION);
-                System.out.println("  id: " + id);
-                System.out.println("  url: " + fml);
                 for (URL f : parameter.getFormalisms()) {
                     if (fml.equals(f.toString()) && formalism.getId()
                                                              .equals(id)) {
