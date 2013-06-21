@@ -255,7 +255,6 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
         getSelectedFiles() {
         List<IFile> result = new ArrayList<IFile>();
         for (Object o : checkboxTreeViewer.getCheckedElements()) {
-            System.out.println(o.toString());
             if (o instanceof IFile) {
                 result.add((IFile) o);
             }

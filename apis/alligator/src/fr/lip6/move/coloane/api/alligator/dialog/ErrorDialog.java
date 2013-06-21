@@ -64,7 +64,6 @@ public final class ErrorDialog {
         void
         setErrors(String[] errors) {
         if (errors != null) {
-            System.err.println("Errors: " + Arrays.toString(errors));
             String text = null;
             for (String error : errors) {
                 if (text == null) {
