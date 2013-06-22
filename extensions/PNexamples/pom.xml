@@ -5,7 +5,7 @@
     <parent>
         <groupId>fr.lip6.move.coloane.extensions</groupId>
         <artifactId>extensions-parent</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>fr.lip6.move.coloane.extensions.PNexamples</artifactId>

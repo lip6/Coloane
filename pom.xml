@@ -5,7 +5,7 @@
 	<groupId>fr.lip6.move.coloane</groupId>
 	<artifactId>coloane-parent</artifactId>
 	<packaging>pom</packaging>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<name>Coloane</name>
 	<description>Multi-Platform Model Editor based on Eclipse</description>
 	<url>http://coloane.lip6.fr</url>
@@ -23,9 +23,9 @@
 	</modules>
 
 	<scm>
-		<connection>scm:svn:https://coloane.lip6.fr/svn/tags/coloane-parent-1.0.0</connection>
-		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/tags/coloane-parent-1.0.0</developerConnection>
-		<url>https://coloane.lip6.fr/trac/tags/coloane-parent-1.0.0</url>
+		<connection>scm:svn:https://coloane.lip6.fr/svn/trunk</connection>
+		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk</developerConnection>
+		<url>https://coloane.lip6.fr/trac</url>
 	</scm>
 
 	<organization>
