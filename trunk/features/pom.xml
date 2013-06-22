@@ -5,7 +5,7 @@
     <parent>
         <groupId>fr.lip6.move.coloane</groupId>
         <artifactId>coloane-parent</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <groupId>fr.lip6.move.coloane.features</groupId>
