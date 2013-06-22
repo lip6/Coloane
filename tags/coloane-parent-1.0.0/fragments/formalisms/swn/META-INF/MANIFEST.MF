@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Cosmos
+Bundle-SymbolicName: fr.lip6.move.coloane.fragments.formalisms.cosmos;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: fr.lip6.move.coloane.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: LIP6 / LSV

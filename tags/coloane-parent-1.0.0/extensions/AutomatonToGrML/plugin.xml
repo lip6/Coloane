@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="fr.lip6.move.coloane.extensions.exportToGrML.exportGrML">
+       	<exportedFormalism
+         	class = "fr.lip6.move.coloane.extensions.exporttogrml.automaton.AutomatonExport"
+         	fmlurl="http://lipn.univ-paris13.fr/~lembachar/automaton.fml"
+         	name="automaton">
+         </exportedFormalism>
+   </extension>
+</plugin>
+
+

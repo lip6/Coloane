@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>fr.lip6.move.coloane</groupId>
+        <artifactId>coloane-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <groupId>fr.lip6.move.coloane.extensions</groupId>
+    <artifactId>extensions-parent</artifactId>
+    <packaging>pom</packaging>
+    <name>Extensions</name>
+    <description>Group of Coloane's dedicated extensions</description>
+
+    <modules>
+        <module>AutomatonToGrML</module>
+        <module>exportToDOT</module>
+        <module>exportToPGF</module>
+        <module>exportToGrML</module>
+        <module>exportToSVG</module>
+        <module>importExportCAMI</module>
+        <!-- <module>importExportPNML</module> -->
+        <module>importExportLOLA</module>
+        <module>importFromGrML</module>        
+        <module>PNexamples</module>
+    </modules>
+
+</project>

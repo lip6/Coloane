@@ -1,0 +1,49 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>fr.lip6.move.coloane</groupId>
+        <artifactId>coloane-parent</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <groupId>fr.lip6.move.coloane.features</groupId>
+    <artifactId>features-parent</artifactId>
+    <packaging>pom</packaging>
+    <name>Features</name>
+    <description>All features related to Coloane project</description>
+
+    <modules>
+        <module>coloaneMain</module>
+        <module>coloaneProduct</module>
+        <module>alligatorApi</module>
+        <module>coloaneMainSources</module>
+        <!-- IMPORT / EXPORT -->
+        <module>exportToDOT</module>
+        <module>exportToPGF</module>
+        <module>exportToGrML</module>
+        <module>exportToSVG</module>
+        <module>importExportCAMI</module>
+        <!-- <module>importExportPNML</module> -->
+        <module>importExportLOLA</module>
+        <module>importFromGrML</module>        
+        <!-- EXAMPLES -->
+        <module>modelExamples</module>
+        <!-- FRAGMENTS -->
+        <module>languagePack</module>
+        <!-- FORMALISM -->
+        <module>formalismAutomaton</module>
+        <module>formalismDD</module>
+        <module>formalismGSPN</module>
+        <module>formalismCosmos</module>
+        <module>formalismCosmosLHA</module>
+        <module>formalismSNB</module>
+        <module>formalismPTA</module>
+        <!-- ACTIONS -->
+        <module>layoutAction</module>
+        <!-- THIRDPARTY DEPENDENCIES -->
+        <module>thirdparty</module>
+    </modules>
+
+</project>

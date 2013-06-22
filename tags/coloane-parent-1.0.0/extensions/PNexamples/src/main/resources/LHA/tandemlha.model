@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='CosmosLHA' xposition='0' yposition='0'>
+<attributes>
+<attribute name='HASL Formula' xposition='0' yposition='0'>AVG(last(x))</attribute>
+<attribute name='declarations' xposition='0' yposition='12'>var x;
+int N=5;</attribute>
+</attributes>
+<nodes>
+<node nodetype='state' id ='3' xposition='251' yposition='138' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='14' yposition='164'>[Queue1 + Queue2 &lt;N] &amp; [Queue1 + Queue2 &gt;0] </attribute>
+<attribute name='name' xposition='271' yposition='118'>s0</attribute>
+<attribute name='type' xposition='211' yposition='109'>Initial</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='4' xposition='407' yposition='77' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='427' yposition='78'>[Queue1 + Queue2 =N]</attribute>
+<attribute name='name' xposition='427' yposition='57'>sp</attribute>
+<attribute name='type' xposition='427' yposition='57'>Final</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='5' xposition='407' yposition='196' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='427' yposition='210'>[Queue1+Queue2=0]</attribute>
+<attribute name='name' xposition='426' yposition='197'>sm</attribute>
+<attribute name='type' xposition='427' yposition='176'>Final</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='transition' id='6' startid='3' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='update' xposition='312' yposition='109'>x=1</attribute>
+<attribute name='guard' xposition='190' yposition='130'>TRUE</attribute>
+<attribute name='label' xposition='329' yposition='107'>ALL</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='7' startid='3' endid='5' color='#000000' curved='true'>
+<attributes>
+<attribute name='update' xposition='312' yposition='169'>x=0</attribute>
+<attribute name='guard' xposition='190' yposition='190'>TRUE</attribute>
+<attribute name='label' xposition='329' yposition='167'>ALL</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='8' startid='3' endid='3' color='#000000' curved='true'>
+<pi xposition='215' yposition='168'/>
+<pi xposition='215' yposition='123'/>
+<attributes>
+<attribute name='guard' xposition='251' yposition='138'>TRUE</attribute>
+<attribute name='label' xposition='215' yposition='145'>ALL</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>

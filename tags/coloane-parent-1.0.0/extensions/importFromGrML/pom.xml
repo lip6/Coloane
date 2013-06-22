@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.lip6.move.coloane.extensions</groupId>
+		<artifactId>extensions-parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
+	<artifactId>fr.lip6.move.coloane.extensions.importFromGrML</artifactId>
+	<name>Extensions :: Import from GrML</name>
+	<description>Import GrML models into Coloane models.</description>
+	<packaging>eclipse-plugin</packaging>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.cosyverif</groupId>
+			<artifactId>formalisms</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.cosyverif.alligator</groupId>
+			<artifactId>interface</artifactId>
+			<version>RELEASE</version>
+		</dependency>
+	</dependencies>
+
+</project>
