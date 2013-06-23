@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ExportToPGF Plug-in
 Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exportToPGF;singleton:=true
-Bundle-Version: 1.0.0.qualifier
+Bundle-Version: 1.1.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.extensions.exportToPGF.Activator
 Bundle-Vendor: LIP6 / MoVe
 Require-Bundle: fr.lip6.move.coloane.core,

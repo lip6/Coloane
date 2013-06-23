@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.features.exportToDOT"
       label="Coloane - Export to DOT"
-      version="1.0.0.qualifier"
+      version="1.1.0.qualifier"
       provider-name="LIP6 / MoVe"
       plugin="fr.lip6.move.coloane.core">
 
