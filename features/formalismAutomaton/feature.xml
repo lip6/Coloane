@@ -2,7 +2,7 @@
 <feature
       id="fr.lip6.move.coloane.features.formalisms.automaton"
       label="Coloane - Automaton Formalism"
-      version="1.0.0.qualifier"
+      version="1.1.0.qualifier"
       provider-name="LIPN"
       plugin="fr.lip6.move.coloane.core">
 
