@@ -50,7 +50,12 @@
 			<artifactId>lombok</artifactId>
 			<version>0.11.8</version>
 			<scope>provided</scope>
-		</dependency>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>RELEASE</version>
+    </dependency>
 	</dependencies>
 
 </project>
