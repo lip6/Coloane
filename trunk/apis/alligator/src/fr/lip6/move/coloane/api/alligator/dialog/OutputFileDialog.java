@@ -20,13 +20,19 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.channels.FileChannel;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -106,29 +112,54 @@ public final class OutputFileDialog
             public
                 void
                 widgetSelected(SelectionEvent e) {
-                FileDialog dialog = new FileDialog(parent.getShell(), SWT.SAVE);
-                dialog.setFilterPath(ResourcesPlugin.getWorkspace()
-                                                    .getRoot()
-                                                    .getLocation()
-                                                    .toString());
-                String[] parts = parameter.getContentType()
-                                          .split("/");
-                if (parts[parts.length - 1].equalsIgnoreCase("cami")) {
-                    dialog.setFilterExtensions(new String[] {
-                        "*.model"
+                try {
+                    FileDialog dialog = new FileDialog(parent.getShell(), SWT.SAVE);
+                    dialog.setFilterPath(ResourcesPlugin.getWorkspace()
+                                                        .getRoot()
+                                                        .getLocation()
+                                                        .toString());
+                    String[] parts = parameter.getContentType()
+                                              .split("/");
+                    if (parts[parts.length - 1].equalsIgnoreCase("cami")) {
+                        dialog.setFilterExtensions(new String[] {
+                            "*.model"
+                        });
+                    } else {
+                        dialog.setFilterExtensions(new String[] {
+                            "*." + parts[parts.length - 1]
+                        });
+                    }
+                    final String filePath = dialog.open();
+                    new ProgressMonitorDialog(parent.getShell()).run(false, false, new IRunnableWithProgress() {
+
+                        @Override
+                        public
+                            void
+                            run(IProgressMonitor monitor)
+                                throws InvocationTargetException, InterruptedException {
+                            monitor.beginTask("Saving file as " + filePath + "...", 2);
+                            if (filePath != null) {
+                                file = new File(filePath);
+                                monitor.worked(1);
+                                copyFile();
+                                monitor.worked(1);
+                            }
+                            monitor.done();
+                        }
+
                     });
-                } else {
-                    dialog.setFilterExtensions(new String[] {
-                        "*." + parts[parts.length - 1]
-                    });
-                }
-                final String filePath = dialog.open();
-                if (filePath != null) {
-                    file = new File(filePath);
-                    copyFile();
+                    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+                    workspace.getRoot()
+                             .refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+                    input.setBackground(null);
+                    label.setBackground(null);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
                 }
             }
         });
+        saveButton.setEnabled(false);
+        parameter.unset();
     }
 
     @Override
@@ -162,6 +193,7 @@ public final class OutputFileDialog
                     ModelWriter.translateToXML(graph, writer);
                     writer.flush();
                     LOGGER.fine("Import successful.");
+                    input.setText(file.getAbsolutePath());
                     return;
                 } catch (Exception e) {
                     LOGGER.fine("Import failed.");
@@ -170,6 +202,7 @@ public final class OutputFileDialog
             }
             // If no import was successful, get the CAMI file.
             file = new File(file.getAbsolutePath() + ".cami");
+            input.setText(file.getAbsolutePath());
         }
         try {
             if (!file.exists()) {
@@ -194,6 +227,7 @@ public final class OutputFileDialog
                     destination.close();
                 }
             }
+            input.setText(file.getAbsolutePath());
         } catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -203,30 +237,18 @@ public final class OutputFileDialog
     public
         void
         update(Parameter<?> p) {
-        LOGGER.info("Update " + parameter);
-        LOGGER.info("With " + p);
         FileParameter that = (FileParameter) p;
-        LOGGER.fine("Before: " + that.getFile()
-                                     .toString());
-        if (parameter.isActualParameter() == that.isActualParameter()) {
-            input.setBackground(null);
-            label.setBackground(null);
-        } else {
+        parameter.setFile(that.getFile());
+        if (parameter.isActualParameter() && (parameter.getFile()
+                                                       .length() != 0)) {
+            saveButton.setEnabled(true);
+        }
+        if (parameter.isActualParameter() && (file == null)) {
             input.setBackground(updateColor);
             label.setBackground(updateColor);
-            parameter.populateFrom(that);
-        }
-        try {
-            if (parameter.isActualParameter() && (file == null)) {
-                String[] parts = parameter.getContentType()
-                                          .split("/");
-                file = File.createTempFile("coloane-", ".model");
-//                file.deleteOnExit();
-            }
-        } catch (Exception e) {
-        }
-        if (file != null) {
-            copyFile();
+        } else {
+            input.setBackground(null);
+            label.setBackground(null);
         }
         updateDialog();
     }
