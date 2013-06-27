@@ -65,18 +65,6 @@ public final class ResultService
                 if (description == null) {
                     throw new AssertionError();
                 }
-                /*if (description.isOldService()) { IResult result = new Result(description.name()); Item[] resultItems =
-                 * alligator.getServices() .getOldResult(identifier); if (resultItems == null) {
-                 * 
-                 * } LOGGER.fine("Getting " + resultItems.length + " result items."); // For all result items give the better
-                 * feedback to the user for (Item item : resultItems) { // Create a new model from CAMI if (item.getType() ==
-                 * ItemType.CAMI_MODEL) { try { File tmp = File.createTempFile("alligator", ".cami"); BufferedWriter writer =
-                 * new BufferedWriter(new FileWriter(tmp)); writer.append(item.getValue()); writer.close(); ImportFromImpl
-                 * camiImport = new ImportFromImpl(); IGraph newGraph = camiImport.importFrom(tmp.getAbsolutePath(),
-                 * FormalismManager.getInstance() .getFormalismById("PT-Net"), SubMonitor.convert(null));
-                 * result.setNewGraph(newGraph); } catch (IOException e) { LOGGER.warning(e.getMessage()); } // Add a textual
-                 * result in the result view } else { ISubResult sub = new SubResult(item.getName(), item.getValue());
-                 * result.addSubResult(sub); } } results.add(result); } else { */
                 IResult result = new Result(identifier.key());
                 results.add(result);
                 // Run wizard to get parameters:
@@ -88,7 +76,6 @@ public final class ResultService
                         kill = false;
                     }
                 }
-                // }
                 if (kill && alligator.getServices()
                                      .isFinished(identifier)) {
                     new KillService(identifier, alligator).run(model, monitor);
