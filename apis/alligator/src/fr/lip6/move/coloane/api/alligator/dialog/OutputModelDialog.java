@@ -16,12 +16,18 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.lang.reflect.InvocationTargetException;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -101,21 +107,46 @@ public final class OutputModelDialog
             public
                 void
                 widgetSelected(SelectionEvent e) {
-                FileDialog dialog = new FileDialog(parent.getShell(), SWT.SAVE);
-                dialog.setFilterPath(ResourcesPlugin.getWorkspace()
-                                                    .getRoot()
-                                                    .getLocation()
-                                                    .toString());
-                dialog.setFilterExtensions(new String[] {
-                    ".model"
-                });
-                final String filePath = dialog.open();
-                if (filePath != null) {
-                    file = new File(filePath);
-                    copyFile();
+                try {
+                    FileDialog dialog = new FileDialog(parent.getShell(), SWT.SAVE);
+                    dialog.setFilterPath(ResourcesPlugin.getWorkspace()
+                                                        .getRoot()
+                                                        .getLocation()
+                                                        .toString());
+                    dialog.setFilterExtensions(new String[] {
+                        ".model"
+                    });
+                    final String filePath = dialog.open();
+                    new ProgressMonitorDialog(parent.getShell()).run(false, false, new IRunnableWithProgress() {
+
+                        @Override
+                        public
+                            void
+                            run(IProgressMonitor monitor)
+                                throws InvocationTargetException, InterruptedException {
+                            monitor.beginTask("Saving model to file " + filePath + "...", 2);
+                            if (filePath != null) {
+                                file = new File(filePath);
+                                monitor.worked(1);
+                                copyFile();
+                                monitor.worked(1);
+                            }
+                            monitor.done();
+                        }
+
+                    });
+                    IWorkspace workspace = ResourcesPlugin.getWorkspace();
+                    workspace.getRoot()
+                             .refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+                    input.setBackground(null);
+                    label.setBackground(null);
+                } catch (Exception e1) {
+                    e1.printStackTrace();
                 }
+
             }
         });
+        saveButton.setEnabled(false);
     }
 
     @Override
@@ -129,39 +160,33 @@ public final class OutputModelDialog
     public
         void
         update(Parameter<?> p) {
-        try {
-            ModelParameter that = (ModelParameter) p;
-            if (parameter.isActualParameter() && (file == null)) {
-                file = File.createTempFile(parameter.getName() + "-", ".parameter");
-//                file.deleteOnExit();
-            }
-            if (parameter.equals(that)) {
-                input.setBackground(null);
-                label.setBackground(null);
-            } else {
-                input.setBackground(updateColor);
-                label.setBackground(updateColor);
-                parameter.populateFrom(that);
-                if (file != null) {
-                    copyFile();
-                }
-            }
-            updateDialog();
-        } catch (IOException e) {
-            throw new AssertionError();
+        ModelParameter that = (ModelParameter) p;
+        if (parameter.equals(that)) {
+            input.setBackground(null);
+            label.setBackground(null);
+        } else {
+            input.setBackground(updateColor);
+            label.setBackground(updateColor);
+            parameter.populateFrom(that);
         }
+        if (parameter.isActualParameter()) {
+            saveButton.setEnabled(true);
+        }
+        updateDialog();
     }
 
-    public
+    private
         void
         copyFile() {
         Importer importer = new Importer();
-        LOGGER.info("Importing file '" + file + "' from GrML... ");
+        LOGGER.info("Importing file '" + file + "' from GrML...");
         try {
-            IGraph graph = importer.importFrom(file.getAbsolutePath(), null, new NullProgressMonitor());
+            File grml = parameter.toXMLFile();
+            IGraph graph = importer.importFrom(grml.getAbsolutePath(), null, new NullProgressMonitor());
             Writer writer = new BufferedWriter(new FileWriter(file));
             ModelWriter.translateToXML(graph, writer);
             writer.flush();
+            input.setText(file.getAbsolutePath());
             LOGGER.fine("Import successful.");
             return;
         } catch (Exception e) {
