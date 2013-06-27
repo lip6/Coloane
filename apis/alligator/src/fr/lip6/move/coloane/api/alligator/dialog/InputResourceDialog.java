@@ -243,7 +243,10 @@ public abstract class InputResourceDialog<P extends Parameter<P>>
         filtered(IResource[] resources) {
         List<IResource> result = new ArrayList<IResource>();
         for (IResource resource : resources) {
-            if ((resource instanceof IFolder) || keepResource(resource)) {
+            if (resource instanceof IFolder && !((IFolder) resource).getName()
+                                                                    .startsWith(".")) {
+                result.add(resource);
+            } else if (keepResource(resource)) {
                 result.add(resource);
             }
         }
