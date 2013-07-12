@@ -14,7 +14,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 
 public class AutomatonExport implements IGrMLExport {
 
-	private static final String AUTOMATON_URL = "https://forge.cosyverif.org/svn/formalisms/trunk/automaton.fml";
+	private static final String AUTOMATON_URL = "http://formalisms.cosyverif.org/automaton.fml";
 	private static final String GRML_NAMESPACE = "http://cosyverif.org/ns/model";
 
 	// Modgraph: Used to construct a unique id for every node. Defines the
