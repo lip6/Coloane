@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -18,44 +19,19 @@
 		<dependency>
 			<groupId>org.cosyverif</groupId>
 			<artifactId>formalisms</artifactId>
-			<version>RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.cosyverif.alligator</groupId>
-			<artifactId>interface</artifactId>
-			<version>RELEASE</version>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 			<groupId>org.cosyverif.alligator</groupId>
 			<artifactId>client</artifactId>
-			<version>RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>fr.lip6.move.alligator</groupId>
-			<artifactId>interfaces</artifactId>
-			<version>RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-frontend-jaxws</artifactId>
-			<version>RELEASE</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-transports-http</artifactId>
-			<version>RELEASE</version>
+			<version>LATEST</version>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>0.11.8</version>
 			<scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>RELEASE</version>
-    </dependency>
+		</dependency>
 	</dependencies>
 
 </project>
