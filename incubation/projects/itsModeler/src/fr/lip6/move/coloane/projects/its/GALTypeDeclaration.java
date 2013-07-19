@@ -14,17 +14,16 @@ import fr.lip6.move.coloane.projects.its.variables.GalVariable;
 import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
 import fr.lip6.move.gal.ArrayPrefix;
 import fr.lip6.move.gal.Label;
+import fr.lip6.move.gal.Specification;
 import fr.lip6.move.gal.Variable;
 import fr.lip6.move.serialization.SerializationUtil;
 
 public class GALTypeDeclaration extends AbstractTypeDeclaration {
-	private fr.lip6.move.gal.System galSystem;
+	private fr.lip6.move.gal.GALTypeDeclaration galSystem;
 	
-	public GALTypeDeclaration(String name, URI file, TypeList types) {
-		super (name,file,types);
-		
-		// load and store handle to GAL System
-		this.galSystem = SerializationUtil.fileToGalSystem(file.getPath());
+	public GALTypeDeclaration(String name, URI file, TypeList types) throws IOException {
+		super (name,file,types);		
+		reload();
 		galSystem.setName(name);
 	}
 
@@ -78,10 +77,19 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 		// Il faut recharger l'instance de systeme en la lisant depuis le fichier + eventuellement flusher les caches
 		// i.e. invoquer clearLabels()
 		clearCaches();
+		galSystem=null;
+		// load and store handle to GAL System
+		Specification spec = SerializationUtil.fileToGalSystem(getTypeFile().getPath());
+		for (fr.lip6.move.gal.TypeDeclaration td : spec.getTypes()) {
+			if (td instanceof fr.lip6.move.gal.GALTypeDeclaration) {
+				fr.lip6.move.gal.GALTypeDeclaration gal = (fr.lip6.move.gal.GALTypeDeclaration) td;
+				this.galSystem = gal;
+			}
+		}
 		
-		galSystem = SerializationUtil.fileToGalSystem(getTypeFile().getPath());
-		
-		
+		if (galSystem == null) {
+			throw new IOException("Expected gal file to contain a GAL description only.");
+		}
 	}
 
 	
