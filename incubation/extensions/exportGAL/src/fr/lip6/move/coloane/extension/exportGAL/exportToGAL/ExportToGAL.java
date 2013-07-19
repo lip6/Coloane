@@ -45,6 +45,7 @@ import fr.lip6.move.gal.ConstParameter;
 import fr.lip6.move.gal.Constant;
 import fr.lip6.move.gal.False;
 import fr.lip6.move.gal.Fixpoint;
+import fr.lip6.move.gal.GALTypeDeclaration;
 import fr.lip6.move.gal.GalFactory;
 import fr.lip6.move.gal.IntExpression;
 import fr.lip6.move.gal.Ite;
@@ -52,7 +53,7 @@ import fr.lip6.move.gal.Label;
 import fr.lip6.move.gal.Not;
 import fr.lip6.move.gal.Or;
 import fr.lip6.move.gal.ParamRef;
-import fr.lip6.move.gal.System;
+import fr.lip6.move.gal.Specification;
 import fr.lip6.move.gal.Transient;
 import fr.lip6.move.gal.Transition;
 import fr.lip6.move.gal.True;
@@ -110,7 +111,7 @@ public class ExportToGAL implements IExportTo {
 
 		String name = "model";
 		final GalFactory gf = GalFactory.eINSTANCE;
-		System gal = gf.createSystem();
+		GALTypeDeclaration gal = gf.createGALTypeDeclaration();
 		gal.setName(name);
 		Transient tr = gf.createTransient();
 		False f = gf.createFalse();
@@ -455,8 +456,9 @@ public class ExportToGAL implements IExportTo {
 		
 		try {
 			gal = Simplifier.simplify(gal);
-			
-			SerializationUtil.systemToFile(gal, filePath);
+			Specification spec = gf.createSpecification();
+			spec.getTypes().add(gal);
+			SerializationUtil.systemToFile(spec, filePath);
 		} catch (FileNotFoundException fe) {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Echec lors de la création du fichier : Nom de fichier invalide");
 			throw new ExtensionException("Invalid filename !");
@@ -492,7 +494,7 @@ public class ExportToGAL implements IExportTo {
 		return tmp;
 	}
 
-	private BooleanExpression computeGuard(INode node, GalFactory gf, Map<INode, Variable> varMap, System gal, Map<IVariable, ConstParameter> evarMap) {
+	private BooleanExpression computeGuard(INode node, GalFactory gf, Map<INode, Variable> varMap, GALTypeDeclaration gal, Map<IVariable, ConstParameter> evarMap) {
 		True tru = gf.createTrue();
 		BooleanExpression guard = tru ;
 		for (IArc arc : node.getIncomingArcs()) {
@@ -606,16 +608,16 @@ public class ExportToGAL implements IExportTo {
 		return ((Constant) eft).getValue()!=0 ||  (((Constant) lft).getValue()!=0 && ((Constant) lft).getValue() != -1 );
 	}
 
-	private IntExpression eft(INode node, System gal, Map<IVariable, ConstParameter> varMap) {
+	private IntExpression eft(INode node, GALTypeDeclaration gal, Map<IVariable, ConstParameter> varMap) {
 		return toIntExpression(node.getAttribute("earliestFiringTime").getValue(), gal, varMap);
 	}
 
-	private IntExpression lft(INode node, System gal, Map<IVariable, ConstParameter> varMap) {
+	private IntExpression lft(INode node, GALTypeDeclaration gal, Map<IVariable, ConstParameter> varMap) {
 		return toIntExpression(node.getAttribute("latestFiringTime").getValue(), gal, varMap);
 	}
 
 	
-	private IntExpression toIntExpression (String value, System gal, Map<IVariable, ConstParameter> varMap) {
+	private IntExpression toIntExpression (String value, GALTypeDeclaration gal, Map<IVariable, ConstParameter> varMap) {
 		GalFactory gf = GalFactory.eINSTANCE;
 		
 		ExpressionParseResult epr = ExpressionFactory.parseExpression(value);
