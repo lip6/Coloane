@@ -15,6 +15,7 @@ import fr.lip6.move.coloane.api.alligator.dialog.OutputFileDialog;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -42,7 +43,6 @@ public final class OutputWizard
 
     /** Logger */
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
-    private static int DELAY = 5;
 
     private static Map<Identifier, Set<Parameter<?>>> SOURCES = new HashMap<Identifier, Set<Parameter<?>>>();
 
@@ -92,6 +92,7 @@ public final class OutputWizard
 
     private Job updater = new Job("Update results") {
 
+        private Date start = new Date();;
         private GraphicsRunner runner = new GraphicsRunner();
 
         @Override
@@ -106,7 +107,17 @@ public final class OutputWizard
             if (!connection.getServices()
                            .isFinished(identifier)) {
                 LOGGER.info("Scheduling updater...");
-                schedule(DELAY * 1000); // TODO
+                int delay;
+                if (new Date().getTime() - start.getTime() < 10000) { // < 10 seconds
+                    delay = 1;
+                } else if (new Date().getTime() - start.getTime() < 60000) { // < 1 minute
+                    delay = 2;
+                } else if (new Date().getTime() - start.getTime() < 300000) { // < 5 minutes
+                    delay = 5;
+                } else {
+                    delay = 30;
+                }
+                schedule(delay * 1000);
             } else {
                 // Update one last time:
                 Display.getDefault()
