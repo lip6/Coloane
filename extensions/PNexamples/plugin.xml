@@ -20,7 +20,7 @@
       </example-from-file>
       <example-from-file
             description="This is a model for a tandem queue with two queues. It is a classic example in queuing theory. Details about this model can be foundin [1] L. Kleinrock. Queueing Systems, volume II: Computer Applications. Wiley Interscience, 1976. WARNING: import also Tandem as a Linear Hybrid Automaton!"
-            file="src/main/resources/SPN/tandem.model"
+            file="src/main/resources/Cosmos/tandem.model"
             name="Tandem">
       </example-from-file>
       <example-from-file
@@ -50,7 +50,7 @@
       </example-from-file>
       <example-from-file
             description="This model is a simple stochastic model sampling uniformly a point in the square formed by points (0,0) and (1,1). It works with an LHA example."
-            file="src/main/resources/SPN/pi.model"
+            file="src/main/resources/Cosmos/pi.model"
             name="pi">
       </example-from-file>
       <example-from-file
@@ -67,6 +67,26 @@
             description="with Contractor"
             file="src/main/resources/PT/subcontractorA.model"
             name="Subcontractor">
+      </example-from-file>
+      <example-from-file
+            description="A model of Flexible Manufacturing Systems (FMS) where raw material arrive to an unbounded buffer and are then served to two machines using a conveyers belt. This model should be used together with FMS-rho* LHAs."
+            file="src/main/resources/Cosmos/FMS.model"
+            name="Flexible Manufacturing Systems">
+      </example-from-file>
+      <example-from-file
+            description="It mesures the ratio of blocking time for conveyor 1."
+            file="src/main/resources/LHA/FMS-rho1.model"
+            name="Flexible Manufacturing Systems: example 1">
+      </example-from-file>
+      <example-from-file
+            description="It mesures the average completion time for a product."
+            file="src/main/resources/LHA/FMS-rho2.model"
+            name="Flexible Manufacturing Systems: example 2">
+      </example-from-file>
+      <example-from-file
+            description="It measures the probability to produce a least K product in a time interval."
+            file="src/main/resources/LHA/FMS-rho3.model"
+            name="Flexible Manufacturing Systems: example 3">
       </example-from-file>
    </extension>
 

@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='CosmosLHA' xposition='0' yposition='0'>
+<attributes>
+<attribute name='HASL Formula' xposition='0' yposition='0'>AVG(Last(count2));</attribute>
+<attribute name='declarations' xposition='3' yposition='16'>var t;
+var t2;
+var count;
+var count2;
+var count3;
+real T= 100;
+real K=95;
+real D=50;</attribute>
+</attributes>
+<nodes>
+<node nodetype='state' id ='4' xposition='353' yposition='157' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='373' yposition='137'>TRUE</attribute>
+<attribute name='name' xposition='329' yposition='103'>count</attribute>
+<attribute name='flow' xposition='348' yposition='191'>t'=1; t2'=1</attribute>
+<attribute name='type' xposition='304' yposition='158'>Initial</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='15' xposition='915' yposition='157' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='935' yposition='137'>TRUE</attribute>
+<attribute name='type' xposition='935' yposition='137'>Final</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='transition' id='16' startid='4' endid='15' color='#000000' curved='true'>
+<attributes>
+<attribute name='guard' xposition='634' yposition='169'>[t2=T] &amp; [t=0]</attribute>
+<attribute name='label' xposition='634' yposition='157'>#</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='8' startid='4' endid='4' color='#000000' curved='true'>
+<pi xposition='319' yposition='157'/>
+<pi xposition='346' yposition='128'/>
+<attributes>
+<attribute name='guard' xposition='353' yposition='157'>TRUE</attribute>
+<attribute name='label' xposition='304' yposition='115'>ALL\{Serve1,Serve2}</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='9' startid='4' endid='4' color='#000000' curved='true'>
+<pi xposition='316' yposition='182'/>
+<pi xposition='357' yposition='196'/>
+<attributes>
+<attribute name='update' xposition='319' yposition='215'>count = count +1</attribute>
+<attribute name='guard' xposition='353' yposition='157'>TRUE</attribute>
+<attribute name='label' xposition='329' yposition='203'>Serve1,Serve2</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='13' startid='4' endid='4' color='#000000' curved='true'>
+<pi xposition='393' yposition='140'/>
+<pi xposition='526' yposition='139'/>
+<attributes>
+<attribute name='update' xposition='429' yposition='121'>count=0; count2=count2+1; count3=count3+1; t=0</attribute>
+<attribute name='guard' xposition='478' yposition='103'>[t=D] &amp; [count &gt;= 95]</attribute>
+<attribute name='label' xposition='519' yposition='191'>#</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='14' startid='4' endid='4' color='#000000' curved='true'>
+<pi xposition='438' yposition='187'/>
+<pi xposition='530' yposition='186'/>
+<attributes>
+<attribute name='update' xposition='438' yposition='203'>count=0; count2=count2+1; count3=count3+1; t=0</attribute>
+<attribute name='guard' xposition='539' yposition='191'>[t=D] &amp; [count &lt;= 94]</attribute>
+<attribute name='label' xposition='465' yposition='103'>#</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>
