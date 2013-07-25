@@ -26,9 +26,19 @@ options {
   //}
 }
 
-haslFormW:
-a=haslForm EOF -> balise(name={"HASL Formula"}, content={ $a.st });
-
+haslFormW
+  : -> { %{""} }
+  | (a+=haslForm)* EOF
+  {
+    List<StringTemplate> tmp = new ArrayList();
+    for (Object x : $a) {
+      StringTemplate tmp0 = templateLib.getInstanceOf("balise");
+      tmp0.setAttribute("name", "HASL Formula");
+      tmp0.setAttribute("content", (StringTemplate)x);
+      tmp.add(tmp0);
+    }
+  } -> delist(arg={tmp});
+   
 haslForm: AVG '(' e=algExpr ')' (';')? -> balise(name={"AVG"}, content={ $e.st })
   | PROB (';')? -> balise(name={"PROB"}, content={ $e.st })
   | CDF  '(' e=algExpr ',' d=FLOAT ',' min=FLOAT ',' max=FLOAT ')' (';')? {
