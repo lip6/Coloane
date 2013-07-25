@@ -27,8 +27,7 @@ options {
 }
 
 haslFormW
-  : -> { %{""} }
-  | (a+=haslForm)* EOF
+  : (a+=haslForm)* EOF
   {
     List<StringTemplate> tmp = new ArrayList();
     for (Object x : $a) {
