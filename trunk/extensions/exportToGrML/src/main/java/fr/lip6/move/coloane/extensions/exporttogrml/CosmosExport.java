@@ -481,15 +481,15 @@ public class CosmosExport implements IGrMLExport {
 			parser.setTemplateLib(templates);
 			currentST.setAttribute("content", parser.action());
 		} else if (attr.getName().equals("HASL Formula")) {
-			StringTemplate tmp = templates.getInstanceOf("balise");
-			tmp.setAttribute("name", "HASLFormula");
+			//StringTemplate tmp = templates.getInstanceOf("balise");
+			//tmp.setAttribute("name", "HASLFormula");
 
 			HASLformulaParserLexer lexer = new HASLformulaParserLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			HASLformulaParserParser parser = new HASLformulaParserParser(tokens);
 			parser.setTemplateLib(templates);
-			tmp.setAttribute("content", parser.haslForm());
-			currentST.setAttribute("content", tmp);
+			//tmp.setAttribute("content", parser.haslFormW());
+			currentST.setAttribute("content", parser.haslFormW());
 		} else if (attr.getName().equals("update")) {
 			ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);

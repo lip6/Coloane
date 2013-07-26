@@ -26,17 +26,18 @@ options {
   //}
 }
 
-haslFormW
-  : (a+=haslForm)* EOF
+haslFormW:
+ (a+=haslForm)* EOF
   {
-    List<StringTemplate> tmp = new ArrayList();
+    List<StringTemplate> tmp = new ArrayList<StringTemplate>();
     for (Object x : $a) {
       StringTemplate tmp0 = templateLib.getInstanceOf("balise");
-      tmp0.setAttribute("name", "HASL Formula");
+      tmp0.setAttribute("name", "HASLFormula");
       tmp0.setAttribute("content", (StringTemplate)x);
       tmp.add(tmp0);
     }
   } -> delist(arg={tmp});
+   //balise(name={"testHasl"}, content={ tmp });
    
 haslForm: AVG '(' e=algExpr ')' (';')? -> balise(name={"AVG"}, content={ $e.st })
   | PROB (';')? -> balise(name={"PROB"}, content={ $e.st })
