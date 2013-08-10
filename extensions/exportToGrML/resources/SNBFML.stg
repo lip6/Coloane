@@ -3,7 +3,7 @@ group SNBGRML;
 modelBalise(version, encoding, form, content) ::= <<
 \<?xml version="<version>" encoding="<encoding>"?\>
 
-\<model formalismUrl="<form>" xmlns="http://cosyverif.org/ns/model"\>
+\<model id="1" formalismUrl="<form>" xmlns="http://cosyverif.org/ns/model"\>
   <content; separator="\n">
 \</model\>
 >>

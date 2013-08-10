@@ -31,7 +31,7 @@ public class PTExport implements IGrMLExport {
 	public void export(IGraph graph, Writer writer, String formalismURL, IProgressMonitor monitor) throws ExtensionException {
 		try {
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n");
-			writer.write("<model formalismUrl=\"" + PTNET_URL + "\"");
+			writer.write("<model id=\"1\" formalismUrl=\"" + PTNET_URL + "\"");
 			writer.write(" xmlns=\"" + GRML_NAMESPACE + "\">\n");
 
 			for (IAttribute attribute : graph.getAttributes()) {
