@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='automaton' xposition='0' yposition='0'>
+<attributes>
+<attribute name='uniqueId' xposition='0' yposition='0'>4</attribute>
+</attributes>
+<nodes>
+<node nodetype='state' id ='3' xposition='105' yposition='87' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='125' yposition='67'>s1</attribute>
+<attribute name='initialState' xposition='0' yposition='0'>1</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='4' xposition='259' yposition='60' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='279' yposition='40'>s2</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='5' xposition='380' yposition='74' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='400' yposition='54'>s3</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='6' xposition='458' yposition='141' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='478' yposition='121'>s4</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='7' xposition='585' yposition='197' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='605' yposition='177'>s5</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='8' xposition='521' yposition='331' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='541' yposition='311'>s6</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='9' xposition='392' yposition='340' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='412' yposition='320'>s7</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='10' xposition='290' yposition='252' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='310' yposition='232'>s8</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='11' xposition='163' yposition='279' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='183' yposition='259'>s9</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='12' xposition='82' yposition='200' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='102' yposition='198'>s10</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='transition' id='17' startid='7' endid='8' color='#000000' curved='true'>
+<attributes>
+<attribute name='shared' xposition='0' yposition='0'>1</attribute>
+<attribute name='label' xposition='553' yposition='264'>t39</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='16' startid='6' endid='7' color='#000000' curved='true'>
+<attributes>
+<attribute name='label' xposition='521' yposition='169'>t38</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='19' startid='9' endid='10' color='#000000' curved='true'>
+<attributes>
+<attribute name='shared' xposition='0' yposition='0'>0</attribute>
+<attribute name='label' xposition='341' yposition='296'>t41</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='18' startid='8' endid='9' color='#000000' curved='true'>
+<attributes>
+<attribute name='shared' xposition='0' yposition='0'>0</attribute>
+<attribute name='label' xposition='456' yposition='335'>t40</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='21' startid='11' endid='12' color='#000000' curved='true'>
+<attributes>
+<attribute name='shared' xposition='0' yposition='0'>0</attribute>
+<attribute name='label' xposition='122' yposition='239'>t43</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='20' startid='10' endid='11' color='#000000' curved='true'>
+<attributes>
+<attribute name='shared' xposition='0' yposition='0'>0</attribute>
+<attribute name='label' xposition='226' yposition='265'>t42</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='23' startid='12' endid='3' color='#000000' curved='true'>
+<pi xposition='56' yposition='152'/>
+<attributes>
+<attribute name='shared' xposition='0' yposition='0'>1</attribute>
+<attribute name='label' xposition='47' yposition='142'>t34b</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='22' startid='12' endid='3' color='#000000' curved='true'>
+<pi xposition='140' yposition='153'/>
+<attributes>
+<attribute name='shared' xposition='0' yposition='0'>1</attribute>
+<attribute name='label' xposition='119' yposition='142'>t34a</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='13' startid='3' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='shared' xposition='0' yposition='0'>0</attribute>
+<attribute name='label' xposition='182' yposition='73'>t35</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='14' startid='4' endid='5' color='#000000' curved='true'>
+<attributes>
+<attribute name='shared' xposition='0' yposition='0'>0</attribute>
+<attribute name='label' xposition='319' yposition='67'>t36</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='15' startid='5' endid='6' color='#000000' curved='true'>
+<attributes>
+<attribute name='shared' xposition='0' yposition='0'>0</attribute>
+<attribute name='label' xposition='419' yposition='107'>t37</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>
