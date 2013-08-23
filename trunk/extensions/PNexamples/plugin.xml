@@ -69,6 +69,36 @@
             name="Subcontractor">
       </example-from-file>
       <example-from-file
+            description="This example represents the barrier on a railway."
+            file="src/main/resources/PTA/train.model"
+            name="Railway barrier">
+      </example-from-file>
+      <example-from-file
+            description="Use with others AGV*."
+            file="src/main/resources/Automaton/AGV1.model"
+            name="AGV1">
+      </example-from-file>
+      <example-from-file
+            description="Use with others AGV*."
+            file="src/main/resources/Automaton/AGV5.model"
+            name="AGV5">
+      </example-from-file>
+      <example-from-file
+            description="Use with others AGV*."
+            file="src/main/resources/Automaton/AGV3.model"
+            name="AGV3">
+      </example-from-file>
+      <example-from-file
+            description="Use with others AGV*."
+            file="src/main/resources/Automaton/AGV4.model"
+            name="AGV4">
+      </example-from-file>
+      <example-from-file
+            description="Use with others AGV*."
+            file="src/main/resources/Automaton/AGV2.model"
+            name="AGV2">
+      </example-from-file>
+      <example-from-file
             description="A model of Flexible Manufacturing Systems (FMS) where raw material arrive to an unbounded buffer and are then served to two machines using a conveyers belt. This model should be used together with FMS-rho* LHAs."
             file="src/main/resources/Cosmos/FMS.model"
             name="Flexible Manufacturing Systems">
