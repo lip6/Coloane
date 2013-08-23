@@ -126,9 +126,8 @@ public class AutomatonExport implements IGrMLExport {
 						.append("\"");
 				sb.append(" y=\"")
 						.append(attribute.getGraphicInfo().getLocation().y())
-						.append("\"");
-				sb.append(" value=\"").append(attribute.getValue())
 						.append("\">");
+				sb.append(attribute.getValue());
 				sb.append("</attribute>\n");
 
 			} else {
@@ -141,9 +140,8 @@ public class AutomatonExport implements IGrMLExport {
 									.x()).append("\"");
 					shared.append(" y=\"")
 							.append(attribute.getGraphicInfo().getLocation()
-									.y()).append("\"");
-					shared.append(" value=\"").append(attribute.getValue())
-							.append("\">");
+									.y()).append("\">");
+					shared.append(attribute.getValue());
 					shared.append("</attribute>\n");
 				}
 			}
