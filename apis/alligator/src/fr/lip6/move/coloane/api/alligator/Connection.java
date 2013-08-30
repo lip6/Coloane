@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.cosyverif.Client;
 import org.cosyverif.alligator.ExecutionWS;
@@ -122,7 +124,7 @@ public final class Connection
             Client client = Client.remote(data.getOldAddress());
             ServiceManager services = client.oldExecution();
             // Compute menu:
-            LOGGER.info("Computing menu...");
+            LOGGER.info("Computing (old) menu...");
             if (services == null || !services.ping(PING_VALUE)
                                              .equals(PING_VALUE)) {
                 throw new IllegalStateException();
@@ -145,7 +147,7 @@ public final class Connection
             Collections.sort(descriptions, comparator);
             for (final ServiceDescription service : descriptions) {
                 IApiService apiService = new RunService(service, this);
-                LOGGER.finer("Adding to '" + data.getName() + "' (oldstyle) service '" + service.getName() + "' (" +
+                LOGGER.warning("Adding to '" + data.getName() + "' (oldstyle) service '" + service.getName() + "' (" +
                              service.getId() + ")");
                 // Handle sub-menus using name separators:
                 String serviceName = service.getName();
@@ -154,6 +156,11 @@ public final class Connection
                 do {
                     String name = tokenizer.nextToken()
                                            .trim();
+                    // Remove leading number.
+                    Matcher m = Pattern.compile("(\\d+\\.)(.*)").matcher(name);
+                    if (m.matches()) {
+                        name = m.group(2).trim();
+                    }
                     if (tokenizer.hasMoreTokens()) {
                         // Token is a sub-menu that should be created (or not):
                         ISubMenu child = current.getSubMenu(name);
@@ -242,6 +249,11 @@ public final class Connection
                 do {
                     String name = tokenizer.nextToken()
                                            .trim();
+                    // Remove leading number.
+                    Matcher m = Pattern.compile("(\\d+\\.)(.*)").matcher(name);
+                    if (m.matches()) {
+                        name = m.group(2).trim();
+                    }
                     if (tokenizer.hasMoreTokens()) {
                         // Token is a sub-menu that should be created (or not):
                         ISubMenu child = current.getSubMenu(name);
