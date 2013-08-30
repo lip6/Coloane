@@ -39,8 +39,7 @@ public final class KillService
     public
         List<IResult>
         run(IGraph model,
-            IProgressMonitor monitor)
-            throws ServiceException {
+            IProgressMonitor monitor) {
         try {
             if (alligator.getServices() != null) {
                 LOGGER.info("Killing service '" + identifier.key() + "' on '" + identifier.server() + "'...");
@@ -50,6 +49,8 @@ public final class KillService
             } else {
                 throw new AssertionError();
             }
+        } catch (final Exception e) {
+            return Collections.emptyList();
         } finally {
             Identifiers.remove(identifier);
             alligator.runningDescriptions.remove(identifier);
