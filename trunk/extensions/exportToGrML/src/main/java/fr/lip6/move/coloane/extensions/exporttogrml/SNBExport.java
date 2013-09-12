@@ -158,13 +158,14 @@ public class SNBExport implements IGrMLExport {
 		// Export model attributes
 		monitor.setTaskName("Export model attributes");
 		IAttribute declarativePart = graph.getAttribute("declaration");
+		if(declarativePart == null)declarativePart = graph.getAttribute("declarations");//for SWN try to read declarations
 		if (declarativePart != null) {
 			if (!declarativePart.getValue().equals("")) {
 				symbolTable = exportDeclarativePart(declarativePart.getValue(), result, monitor);
 			}
 		}
 		for (IAttribute attr : graph.getAttributes()) {
-			if (!attr.getName().equals("declaration")) {
+			if (!attr.getName().equals("declaration") && !attr.getName().equals("declarations")) {
 				try {
 					exportAttribute(attr, result, monitor, symbolTable);
 				} catch (RecognitionException e) {
@@ -200,6 +201,49 @@ public class SNBExport implements IGrMLExport {
 	}
 
 	/**
+	 * Exports a real formula
+	 * 
+	 * @param attr the attribute containing the formula to parse
+	 * @param currentST the StringTemplate to update with the result of the export
+	 * @param symbols the table of symbols
+	 * @throws RecognitionException if the parsing fails
+	 */
+	private void exportRealFormula(IAttribute attr, StringTemplate currentST, Map<String, String> symbols) throws RecognitionException {
+		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
+		parser.setTemplateLib(templates);
+
+		StringTemplate tmp = templates.getInstanceOf("balise");
+		tmp.setAttribute("name", attr.getName());
+		tmp.setAttribute("content", parser.realExprW(symbols).st);
+		currentST.setAttribute("content", tmp);
+	}
+	
+
+	/**
+	 * Export a formula
+	 * @param attr the string containing the formula to parse
+	 * @param currentST the StringTemplate to update with the result of the export of the formula
+	 * @param symbols the table of symbols
+	 * @throws RecognitionException if the parsing fails
+	 * Added the 12/09/2013 by Benoit Barbot for SWN
+	 */
+	private void exportIntFormula(IAttribute attr, StringTemplate currentST, Map<String, String> symbols) throws RecognitionException {
+		ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
+		ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
+		parser.setTemplateLib(templates);
+
+		StringTemplate tmp = templates.getInstanceOf("balise");
+		tmp.setAttribute("name", attr.getName());
+		tmp.setAttribute("content", parser.realExprW(symbols).st);
+		currentST.setAttribute("content", tmp);
+	}
+
+	
+	
+	/**
 	 * Export an attribute object
 	 *
 	 * @param attr attribute to export
@@ -222,13 +266,27 @@ public class SNBExport implements IGrMLExport {
 		} else if ("valuation".equals(attr.getName())) {
 			exportValuation(attr.getValue(), currentST, monitor, symbols);
 			LOGGER.finer("export valuation");	
-		} else if (attr.getName().equals("distribution")) { // Add by Benoît Barbot to export SWN
+		} else if (attr.getName().equals("distribution")) { // all the following have added by Benoît Barbot to export SWN
 			ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
 			CommonTokenStream tokens = new CommonTokenStream(lexer);
 			ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
 			parser.setTemplateLib(templates);
 			currentST.setAttribute("content", parser.distribution(symbols));
-		} else {
+			LOGGER.finer("export distribution");
+		} else if (attr.getName().equals("priority")
+				| attr.getName().equals("weight")) {
+			exportRealFormula(attr, currentST, symbols);
+		} else if (attr.getName().equals("flow")) {
+			ExpressionParserCosmosLexer lexer = new ExpressionParserCosmosLexer(new ANTLRStringStream(attr.getValue()));
+			CommonTokenStream tokens = new CommonTokenStream(lexer);
+			ExpressionParserCosmosParser parser = new ExpressionParserCosmosParser(tokens);
+			parser.setTemplateLib(templates);
+			currentST.setAttribute("content", parser.flow(symbols));
+			LOGGER.finer("export flow");	
+		} else if (attr.getName().equals("service")) {
+			exportIntFormula(attr, currentST, symbols);
+			LOGGER.finer("export service");
+		}else {
 			STAttrMap stAttrMap = new STAttrMap();
 			if ("note".equals(attr.getName())) {
 				stAttrMap.put("name", "comments");
@@ -242,7 +300,7 @@ public class SNBExport implements IGrMLExport {
 			StringTemplate tmp = templates.getInstanceOf("locbalise", stAttrMap);
 			currentST.setAttribute("content", tmp);
 			LOGGER.finer("export generic attribute");
-		}
+		} 
 	}
 
 	/**
