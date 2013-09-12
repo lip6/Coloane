@@ -19,6 +19,7 @@ DOUBLEDOT : DOT DOT ;
 DOT : '.' ;
 LT : '<' ;
 GT : '>' ;
+EQUAL : '=';
 
 CLASS : 'CLASS' | 'Class' | 'class' ;
 CIRCULAR : 'CIRCULAR' | 'Circular' | 'circular' ;
@@ -29,6 +30,9 @@ BAG : 'BAG' | 'Bag' | 'bag' ;
 EQUIV : 'EQUIVALENCES' | 'Equivalences' | 'equivalences' ;
 VAR : 'VAR' | 'Var' | 'var' ;
 UNIQUE : 'UNIQUE' | 'Unique' | 'unique' ;
+INT : 'int';
+REAL : 'real';
+CONST : 'CONST' | 'Const' | 'const';
 
 // whitespaces and identifiers
 fragment DIGIT : '0'..'9' ;
@@ -38,3 +42,9 @@ fragment LETTER : 'a'..'z' | 'A'..'Z' | '_' ;
 IDENTIFIER : LETTER (LETTER | DIGIT)* ;
 
 WS : (' ' | '\n' | '\r' | '\t')+ { $channel = HIDDEN; } ;
+
+STRING : (LETTER | DIGIT) (LETTER | DIGIT | '.' | '_')* ;
+  
+  
+  
+  

@@ -25,6 +25,24 @@ options {
   private boolean is_domain(String id) { return "domain".equals(symbols.get(id)) || "domain_bag".equals(symbols.get(id)); }
   private boolean is_domain_bag(String id) { return "domain_bag".equals(symbols.get(id)); }
   private boolean is_variable(String id) { return "variable".equals(symbols.get(id)) || "variable_bag".equals(symbols.get(id)); }
+  
+  
+  Map<String, StringTemplate> initValues = new HashMap<String, StringTemplate>();
+  public Map<String, StringTemplate> getInitValues() {return initValues; };
+    
+  private StringTemplate getDef(String symbolsType, String grmlType){
+    List<StringTemplate> tmpConst = new ArrayList();
+    for (String x : symbols.keySet()){
+      if(symbolsType.equals(symbols.get(x))){
+          tmpConst.add(initValues.get(x));
+        }
+    }
+    StringTemplate tmpConsts = templateLib.getInstanceOf("balise");
+    tmpConsts.setAttribute("name", grmlType+"s");
+    tmpConsts.setAttribute("content", tmpConst);
+    return tmpConsts;
+  }
+  
 }
 
 @rulecatch {
@@ -38,7 +56,7 @@ declaration[String netFormalism]
 @init {
   formalism = netFormalism;
 }
-  : c+=classSection (c+=equivalenceSection)? (c+=domainSection)? c+=variableSection
+  : c+=classSection (c+=equivalenceSection)? (c+=domainSection)? (c+=constantSection)? c+=variableSection
   -> balise(name={"declaration"}, content={ $c })
   ;
 
@@ -236,3 +254,75 @@ listVarIdentifier returns [List<String> listId]
 @init { retval.listId = new ArrayList<String>(); }
   : id=IDENTIFIER { symbols.get($id.getText()) == null }? (COMA l=listVarIdentifier { retval.listId = $l.listId; })? { retval.listId.add($id.getText()); }
   ;
+
+constantSection
+  : CONST (a+=constantDeclaration (SEMICOLON)? )+ {
+    List<StringTemplate> tmp = new ArrayList<StringTemplate>();
+    
+    StringTemplate tmpConst = templateLib.getInstanceOf("balise");
+    tmpConst.setAttribute("name", "constants");
+    List<StringTemplate> tmpConsts = new ArrayList();
+    tmpConsts.add(getDef("intconst","intConst"));
+    tmpConsts.add(getDef("realconst","realConst"));
+    tmpConst.setAttribute("content", tmpConsts) ;
+    tmp.add(tmpConst);
+    
+  } -> delist(arg={tmp})
+  ;
+  
+  
+  constantDeclaration
+  : INT c=IDENTIFIER EQUAL s=STRING  {
+      symbols.put($c.getText(),"intconst");
+      StringTemplate tmp1 = templateLib.getInstanceOf("balise");
+      tmp1.setAttribute("name", "name");
+      tmp1.setAttribute("content", $c.getText());
+      StringTemplate tmp2 = templateLib.getInstanceOf("balise");
+      tmp2.setAttribute("name", "expr");
+      StringTemplate tmp3 = templateLib.getInstanceOf("balise");
+      tmp3.setAttribute("name", "numValue");
+      tmp3.setAttribute("content", $s.getText());
+      
+      tmp2.setAttribute("content", tmp3);
+      
+      List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
+      tmplist.add(tmp1);
+      tmplist.add(tmp2);
+      
+      StringTemplate tmp = templateLib.getInstanceOf("balise");
+      tmp.setAttribute("name", "intConst");
+      tmp.setAttribute("content", tmplist);
+      initValues.put($c.getText(),tmp);
+      
+      } -> delist(arg={tmp})
+      
+      //balise(name={"intConstDeclaration"}, content={ tmplist })
+      
+  | REAL c=IDENTIFIER EQUAL s=STRING  {
+      symbols.put($c.getText(),"realconst");
+      StringTemplate tmp1 = templateLib.getInstanceOf("balise");
+      tmp1.setAttribute("name", "name");
+      tmp1.setAttribute("content", $c.getText());
+      StringTemplate tmp2 = templateLib.getInstanceOf("balise");
+      tmp2.setAttribute("name", "expr");
+      
+      StringTemplate tmp3 = templateLib.getInstanceOf("balise");
+      tmp3.setAttribute("name", "numValue");
+      tmp3.setAttribute("content", $s.getText());
+      
+      tmp2.setAttribute("content", tmp3);
+      
+      List<StringTemplate> tmplist = new ArrayList<StringTemplate>();
+      tmplist.add(tmp1);
+      tmplist.add(tmp2);
+      
+      StringTemplate tmp = templateLib.getInstanceOf("balise");
+      tmp.setAttribute("name", "realConst");
+      tmp.setAttribute("content", tmplist);
+      initValues.put($c.getText(),tmp);
+      
+      } -> delist(arg={tmp})
+  ;
+  
+  
+  

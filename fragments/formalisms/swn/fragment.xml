@@ -39,10 +39,9 @@
                   </Attribute>
                   <Attribute
                         bold="true"
-                        default="0"
-                        displayed_default="false"
+                        displayed_default="true"
                         drawable="true"
-                        multiline="false"
+                        multiline="true"
                         name="marking">
                   </Attribute>
                   <Attribute
