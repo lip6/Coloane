@@ -38,6 +38,7 @@
         <module>formalismGSPN</module>
         <module>formalismCosmos</module>
         <module>formalismCosmosLHA</module>
+        <module>formalismSWN</module>
         <module>formalismSNB</module>
         <module>formalismPTA</module>
         <!-- ACTIONS -->

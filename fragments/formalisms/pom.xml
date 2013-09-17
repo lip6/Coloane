@@ -22,6 +22,7 @@
 		<module>gspn</module>
 		<module>pta</module>
 		<module>snb</module>
+    <module>swn</module>
 	</modules>
 
 </project>

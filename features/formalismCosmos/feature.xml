@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.features.formalisms.cosmos"
-      label="Coloane - Cosmos Formalism"
+      id="fr.lip6.move.coloane.features.formalisms.swn"
+      label="Coloane - Cosmos SWN Formalism"
       version="1.1.0.qualifier"
-      provider-name="LIPN"
+      provider-name="LSV"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-      This Eclipse features brings the support of Automaton formalisms into Coloane
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -29,7 +28,7 @@
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.fragments.formalisms.cosmos"
+         id="fr.lip6.move.coloane.fragments.formalisms.swn"
          download-size="0"
          install-size="0"
          version="0.0.0"
