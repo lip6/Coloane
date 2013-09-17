@@ -43,7 +43,7 @@ IDENTIFIER : LETTER (LETTER | DIGIT)* ;
 
 WS : (' ' | '\n' | '\r' | '\t')+ { $channel = HIDDEN; } ;
 
-STRING : (LETTER | DIGIT) (LETTER | DIGIT | '.' | '_')* ;
+STRING : (LETTER | DIGIT) (LETTER | DIGIT | '.' )* ;
   
   
   
