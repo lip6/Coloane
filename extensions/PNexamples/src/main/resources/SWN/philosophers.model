@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='swn' xposition='0' yposition='0'>
+<attributes>
+<attribute name='declarations' xposition='0' yposition='0'>Class
+	philo is circular [p1,p2,p3,p4,p5];
+Const
+	real fl = 1.0;
+	real fr = 1.0;
+	real bt = 0.5
+Var
+ 	x in philo;</attribute>
+</attributes>
+<nodes>
+<node nodetype='place' id ='3' xposition='222' yposition='287' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='175' yposition='271'>Think</attribute>
+<attribute name='domain' xposition='176' yposition='286'>philo</attribute>
+<attribute name='marking' xposition='162' yposition='306'>&lt;philo.ALL&gt;</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='4' xposition='353' yposition='287' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='344' yposition='306'>Wait</attribute>
+<attribute name='domain' xposition='343' yposition='322'>philo</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='5' xposition='487' yposition='287' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='507' yposition='267'>Eat</attribute>
+<attribute name='domain' xposition='507' yposition='286'>philo</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='6' xposition='353' yposition='234' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='373' yposition='218'>Fork</attribute>
+<attribute name='domain' xposition='343' yposition='248'>philo</attribute>
+<attribute name='marking' xposition='261' yposition='218'>&lt;philo.ALL&gt;</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='7' xposition='287' yposition='282' scale='100' interface='false' alt='1' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='weight' xposition='307' yposition='262'>1</attribute>
+<attribute name='priority' xposition='307' yposition='262'>1</attribute>
+<attribute name='name' xposition='261' yposition='306'>takeLeft</attribute>
+<attribute name='service' xposition='307' yposition='262'>1</attribute>
+<attribute name='distribution' xposition='231' yposition='341'>EXPONENTIAL(fl)</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='8' xposition='419' yposition='282' scale='100' interface='false' alt='1' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='weight' xposition='439' yposition='262'>1</attribute>
+<attribute name='priority' xposition='439' yposition='262'>1</attribute>
+<attribute name='name' xposition='389' yposition='306'>takeRight</attribute>
+<attribute name='service' xposition='439' yposition='262'>1</attribute>
+<attribute name='distribution' xposition='367' yposition='341'>EXPONENTIAL(fr)</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='9' xposition='357' yposition='145' scale='100' interface='false' alt='1' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='weight' xposition='377' yposition='125'>1</attribute>
+<attribute name='priority' xposition='377' yposition='125'>1</attribute>
+<attribute name='name' xposition='318' yposition='103'>backToThink</attribute>
+<attribute name='service' xposition='377' yposition='125'>1</attribute>
+<attribute name='distribution' xposition='299' yposition='119'>EXPONENTIAL(bt)</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='arc' id='17' startid='6' endid='8' color='#000000' curved='true'>
+<pi xposition='424' yposition='242'/>
+<attributes>
+<attribute name='valuation' xposition='425' yposition='233'>&lt;x++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='16' startid='6' endid='7' color='#000000' curved='true'>
+<pi xposition='290' yposition='240'/>
+<attributes>
+<attribute name='valuation' xposition='268' yposition='241'>&lt;x&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='18' startid='9' endid='6' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='320' yposition='182'>&lt;x&gt;+&lt;x++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='10' startid='3' endid='7' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='252' yposition='271'>&lt;x&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='11' startid='7' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='304' yposition='271'>&lt;x&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='12' startid='4' endid='8' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='377' yposition='271'>&lt;x&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='13' startid='8' endid='5' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='442' yposition='271'>&lt;x&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='14' startid='5' endid='9' color='#000000' curved='true'>
+<pi xposition='495' yposition='157'/>
+<attributes>
+<attribute name='valuation' xposition='394' yposition='138'>&lt;x&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='15' startid='9' endid='3' color='#000000' curved='true'>
+<pi xposition='228' yposition='160'/>
+<attributes>
+<attribute name='valuation' xposition='304' yposition='138'>&lt;x&gt;</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>
