@@ -33,14 +33,14 @@
         <!-- FRAGMENTS -->
         <module>languagePack</module>
         <!-- FORMALISM -->
-        <module>formalismAutomaton</module>
-        <module>formalismDD</module>
-        <module>formalismGSPN</module>
-        <module>formalismCosmos</module>
-        <module>formalismCosmosLHA</module>
-        <module>formalismSWN</module>
+        <!-- <module>formalismAutomaton</module> -->
+        <!-- <module>formalismDD</module> -->
+        <!-- <module>formalismGSPN</module> -->
+        <!-- <module>formalismCosmos</module> -->
+        <!-- <module>formalismCosmosLHA</module> -->
+        <!-- <module>formalismSWN</module> -->
         <module>formalismSNB</module>
-        <module>formalismPTA</module>
+        <!-- <module>formalismPTA</module> -->
         <!-- ACTIONS -->
         <module>layoutAction</module>
         <!-- THIRDPARTY DEPENDENCIES -->

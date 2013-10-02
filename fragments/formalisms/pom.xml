@@ -15,14 +15,14 @@
 	<description>Group of formalisms dedicated to Coloane</description>
 
 	<modules>
-		<module>automaton</module>
-		<module>cosmos</module>
-		<module>cosmosLHA</module>
-		<module>dd</module>
-		<module>gspn</module>
-		<module>pta</module>
+		<!-- <module>automaton</module> -->
+		<!-- <module>cosmos</module> -->
+		<!-- <module>cosmosLHA</module> -->
+		<!-- <module>dd</module> -->
+		<!-- <module>gspn</module> -->
+		<!-- <module>pta</module> -->
 		<module>snb</module>
-    <module>swn</module>
+    <!-- <module>swn</module> -->
 	</modules>
 
 </project>

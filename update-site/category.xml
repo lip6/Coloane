@@ -24,12 +24,9 @@
    <feature url="features/fr.lip6.move.coloane.features.importExportCAMI_0.0.0.jar" id="fr.lip6.move.coloane.features.importExportCAMI" version="0.0.0">
       <category name="ImportExportWizards"/>
    </feature>
-      <feature url="features/fr.lip6.move.coloane.features.imporFromGrML_0.0.0.jar" id="fr.lip6.move.coloane.features.importFromGrML" version="0.0.0">
+   <feature url="features/fr.lip6.move.coloane.features.imporFromGrML_0.0.0.jar" id="fr.lip6.move.coloane.features.importFromGrML" version="0.0.0">
       <category name="ImportExportWizards"/>
    </feature>
-   <!-- <feature url="features/fr.lip6.move.coloane.features.importExportPNML_0.0.0.jar" id="fr.lip6.move.coloane.features.importExportPNML" version="0.0.0"> -->
-   <!--    <category name="ImportExportWizards"/> -->
-   <!-- </feature> -->
    <feature url="features/fr.lip6.move.coloane.features.languagepack_0.0.0.jar" id="fr.lip6.move.coloane.features.languagepack" version="0.0.0">
       <category name="Others"/>
    </feature>
@@ -39,33 +36,18 @@
    <feature url="features/fr.lip6.move.coloane.features.thirdparty_0.0.0.jar" id="fr.lip6.move.coloane.features.thirdparty" version="0.0.0">
       <category name="Others"/>
    </feature>
-   <feature url="features/fr.lip6.move.coloane.features.formalisms.dd_0.0.0.jar" id="fr.lip6.move.coloane.features.formalisms.dd" version="0.0.0">
-      <category name="Formalisms"/>
-   </feature>
-   <feature url="features/fr.lip6.move.coloane.features.formalisms.gspn_0.0.0.jar" id="fr.lip6.move.coloane.features.formalisms.gspn" version="0.0.0">
-      <category name="Formalisms"/>
-   </feature>
-   <feature url="features/fr.lip6.move.coloane.features.formalisms.pta_0.0.0.jar" id="fr.lip6.move.coloane.features.formalisms.pta" version="0.0.0">
-      <category name="Formalisms"/>
-   </feature>
-   <feature url="features/fr.lip6.move.coloane.features.formalisms.cosmos_0.0.0.jar" id="fr.lip6.move.coloane.features.formalisms.cosmos" version="0.0.0">
-      <category name="Formalisms"/>
-   </feature>
-   <feature url="features/fr.lip6.move.coloane.features.formalisms.cosmosLHA_0.0.0.jar" id="fr.lip6.move.coloane.features.formalisms.cosmosLHA" version="0.0.0">
-      <category name="Formalisms"/>
-   </feature>
    <feature url="features/fr.lip6.move.coloane.features.formalisms.snb_0.0.0.jar" id="fr.lip6.move.coloane.features.formalisms.snb" version="0.0.0">
       <category name="Formalisms"/>
    </feature>
    <feature url="features/fr.lip6.move.coloane.features.tools.layout_0.0.0.jar" id="fr.lip6.move.coloane.features.tools.layout" version="0.0.0">
       <category name="Tools"/>
    </feature>
-    <feature url="" id="fr.lip6.move.coloane.features.importExportLOLA"  version="0.0.0">
-        <category name="ImportExportWizards"/>
-    </feature>
-    <feature url="" id="fr.lip6.move.coloane.features.exportToSVG"  version="0.0.0">
-        <category name="ImportExportWizards"/>
-    </feature>
+   <feature url="" id="fr.lip6.move.coloane.features.importExportLOLA" version="0.0.0">
+      <category name="ImportExportWizards"/>
+   </feature>
+   <feature url="" id="fr.lip6.move.coloane.features.exportToSVG" version="0.0.0">
+      <category name="ImportExportWizards"/>
+   </feature>
    <category-def name="ColoaneCore" label="[Coloane] Core (Required)">
       <description>
          This category groups all required plugins to run Coloane.

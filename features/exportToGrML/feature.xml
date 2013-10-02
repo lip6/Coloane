@@ -29,8 +29,8 @@
       <import plugin="org.eclipse.core.runtime"/>
       <import feature="fr.lip6.move.coloane.features.main"/>
       <import feature="fr.lip6.move.coloane.features.thirdparty"/>
-      <import feature="fr.lip6.move.coloane.features.formalisms.cosmos"/>
-      <import feature="fr.lip6.move.coloane.features.formalisms.cosmosLHA"/>
+     <!-- <import feature="fr.lip6.move.coloane.features.formalisms.cosmos"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.cosmosLHA"/> -->
       <import feature="fr.lip6.move.coloane.features.formalisms.snb"/>
    </requires>
 
@@ -41,11 +41,12 @@
          version="0.0.0"
          unpack="false"/>
 
-   <plugin
+   <!-- <plugin
          id="fr.lip6.move.coloane.extensions.AutomatonToGrML"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
+         unpack="false"/> -->
+
 
 </feature>
