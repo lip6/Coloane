@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Coloane Core Language Pack
+Bundle-SymbolicName: fr.lip6.move.coloane.fragments.languagepack
+Bundle-Version: 1.1.0.qualifier
+Bundle-Vendor: LIP6 / MoVe
+Fragment-Host: fr.lip6.move.coloane.core
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

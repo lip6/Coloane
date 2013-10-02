@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="exportGrML" name="exportGrML" schema="schema/exportGrML.exsd"/>
+   <extension
+         point="fr.lip6.move.coloane.core.exports">
+      <Export
+            class="fr.lip6.move.coloane.extensions.exporttogrml.ExportToGrML"
+            extension="grml"
+            id="fr.lip6.move.coloane.extensions.exporttogrml"
+            wizard_id="fr.lip6.move.coloane.wizard.export.grml">
+      </Export>
+   </extension>
+   <extension
+         point="org.eclipse.ui.exportWizards">
+      <wizard
+            category="fr.lip6.move.coloane.wizard.export.coloane"
+            class="fr.lip6.move.coloane.core.ui.wizards.exportmodel.ExportWizard"
+            icon="resources/crocodile-icon.png"
+            id="fr.lip6.move.coloane.wizard.export.grml"
+            name="GrML file">
+      </wizard>
+   </extension>
+   <extension
+         point="fr.lip6.move.coloane.extensions.exportToGrML.exportGrML">
+      <exportedFormalism
+            class="fr.lip6.move.coloane.extensions.exporttogrml.SNBExport"
+            fmlurl="http://formalisms.cosyverif.org/s-net.fml"
+            name="CPN">
+      </exportedFormalism>
+      <exportedFormalism
+            class="fr.lip6.move.coloane.extensions.exporttogrml.PTExport"
+            fmlurl="http://formalisms.cosyverif.org/pt-net.fml"
+            name="PT-Net">
+      </exportedFormalism>
+      <exportedFormalism
+            class="fr.lip6.move.coloane.extensions.exporttogrml.SNBExport"
+            fmlurl="http://formalisms.cosyverif.org/snb.fml"
+            name="SNB">
+      </exportedFormalism>
+      <exportedFormalism
+            class="fr.lip6.move.coloane.extensions.exporttogrml.CosmosExport"
+            fmlurl="http://formalisms.cosyverif.org/sptgd-net.fml"
+            name="fr.lip6.move.coloane.formalism.cosmos.gspn">
+      </exportedFormalism>
+      <exportedFormalism
+            class="fr.lip6.move.coloane.extensions.exporttogrml.CosmosExport"
+            fmlurl="http://formalisms.cosyverif.org/HASL-formula.fml"
+            name="fr.lip6.move.coloane.formalism.cosmosLHA">
+      </exportedFormalism>
+      <exportedFormalism
+            class="fr.lip6.move.coloane.extensions.exporttogrml.ImitatorExport"
+            description="Parametric timed automata"
+            fmlurl="http://formalisms.cosyverif.org/parametric-timed-automaton.fml"
+            name="fr.lip6.move.coloane.formalism.pta">
+      </exportedFormalism>
+      <exportedFormalism
+            class="fr.lip6.move.coloane.extensions.exporttogrml.SNBExport"
+            description="Stochastic Well Formed Net"
+            fmlurl="http://formalisms.cosyverif.org/swn.fml"
+            name="fr.lip6.move.coloane.formalism.swn">
+      </exportedFormalism>
+   </extension>
+
+</plugin>

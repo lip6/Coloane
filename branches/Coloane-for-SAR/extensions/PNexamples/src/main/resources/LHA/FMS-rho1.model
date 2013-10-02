@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='CosmosLHA' xposition='0' yposition='0'>
+<attributes>
+<attribute name='HASL Formula' xposition='0' yposition='0'>AVG(Last(Btime));</attribute>
+<attribute name='declarations' xposition='2' yposition='29'>real T=20;
+var Btime;
+var t;</attribute>
+</attributes>
+<nodes>
+<node nodetype='state' id ='3' xposition='269' yposition='194' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='289' yposition='174'>[Q1&lt;2]</attribute>
+<attribute name='name' xposition='302' yposition='156'>nonblock</attribute>
+<attribute name='flow' xposition='269' yposition='156'>t'=1</attribute>
+<attribute name='type' xposition='230' yposition='195'>Initial</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='4' xposition='384' yposition='194' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='404' yposition='174'>TRUE</attribute>
+<attribute name='name' xposition='404' yposition='174'>f</attribute>
+<attribute name='type' xposition='404' yposition='174'>Final</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='7' xposition='269' yposition='253' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='293' yposition='273'>[Q1&gt;=2]</attribute>
+<attribute name='name' xposition='230' yposition='254'>block</attribute>
+<attribute name='flow' xposition='293' yposition='254'>t'=1; Btime'=1/T</attribute>
+<attribute name='type' xposition='289' yposition='233'>Normal</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='transition' id='5' startid='3' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='guard' xposition='334' yposition='186'>[t=T]</attribute>
+<attribute name='label' xposition='326' yposition='186'>#</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='6' startid='3' endid='3' color='#000000' curved='true'>
+<pi xposition='256' yposition='174'/>
+<pi xposition='296' yposition='174'/>
+<attributes>
+<attribute name='guard' xposition='269' yposition='194'>TRUE</attribute>
+<attribute name='label' xposition='269' yposition='194'>ALL</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='8' startid='7' endid='7' color='#000000' curved='true'>
+<pi xposition='257' yposition='299'/>
+<pi xposition='295' yposition='298'/>
+<attributes>
+<attribute name='guard' xposition='269' yposition='253'>TRUE</attribute>
+<attribute name='label' xposition='269' yposition='253'>ALL</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='9' startid='7' endid='3' color='#000000' curved='true'>
+<pi xposition='261' yposition='230'/>
+<attributes>
+<attribute name='guard' xposition='269' yposition='223'>TRUE</attribute>
+<attribute name='label' xposition='269' yposition='223'>ALL</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='11' startid='3' endid='7' color='#000000' curved='true'>
+<pi xposition='297' yposition='231'/>
+<attributes>
+<attribute name='guard' xposition='269' yposition='223'>TRUE</attribute>
+<attribute name='label' xposition='269' yposition='223'>ALL</attribute>
+</attributes>
+</arc>
+<arc arctype='transition' id='12' startid='7' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='guard' xposition='334' yposition='235'>[t=T]</attribute>
+<attribute name='label' xposition='326' yposition='235'>#</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>

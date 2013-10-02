@@ -1,0 +1,431 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='Colored Petri Net' xposition='0' yposition='0'>
+<attributes>
+<attribute name='declaration' xposition='190' yposition='14'>CLASS
+  Player is circular 1..2;
+  Direction is circular [H, V];
+  Position is circular 0..1;
+  Count is circular 0..4;
+  Bool is [T, F];
+DOMAIN
+  PlayerCount is &lt;Player, Count&gt;;
+  Positions is &lt;Direction, Position, Position&gt;;
+  Played is &lt;Player, Direction, Position, Position&gt;;
+  PlayerBool is &lt;Player, Bool&gt;;
+VAR
+  p in Player;
+  d, d1 in Direction;
+  posH, posV, posH1, posV1 in Position;
+  b in Bool;
+  n in Count;</attribute>
+<attribute name='note' xposition='0' yposition='0'>Designed with Coloane</attribute>
+<attribute name='version' xposition='0' yposition='0'>0,0</attribute>
+</attributes>
+<nodes>
+<node nodetype='place' id ='3' xposition='96' yposition='376' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='75' yposition='365'>End</attribute>
+<attribute name='domain' xposition='60' yposition='375'>Player</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='4' xposition='505' yposition='327' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='495' yposition='335'>AWin</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='5' xposition='590' yposition='382' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='580' yposition='390'>NoWin</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='6' xposition='1350' yposition='532' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='guard' xposition='1374' yposition='543'>[posH &lt;= Position.0 and
+ posV &gt;= Position.1]</attribute>
+<attribute name='name' xposition='1375' yposition='530'>Win2V</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='7' xposition='95' yposition='447' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='guard' xposition='110' yposition='485'>[(d = Direction.H and posH &gt;= Position.1 and posV &lt;= Position.0 and 
+  ((d1 = Direction.H and posH1 = posH--1 and posV1 = posV) or 
+   (d1 = Direction.V and posH1 = posH--1 and posV1 = posV) or 
+   (d1 = Direction.V and posH1 = posH--1 and posV1 = posV++1))) or
+ (d = Direction.V and posH &lt;= Position.0 and posV &gt;= Position.1 and
+  ((d1 = Direction.V and posH1 = posH and posV1 = posV--1) or 
+   (d1 = Direction.H and posH1 = posH and posV1 = posV--1) or 
+   (d1 = Direction.H and posH1 = posH++1 and posV1 = posV--1)))]</attribute>
+<attribute name='name' xposition='70' yposition='435'>Lose2</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='8' xposition='1200' yposition='497' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='guard' xposition='1221' yposition='506'>[posH &gt;= Position.1 and
+ posV &lt;= Position.0]</attribute>
+<attribute name='name' xposition='1154' yposition='498'>Win2H</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='9' xposition='500' yposition='552' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='guard' xposition='516' yposition='574'>[posH &lt;= Position.0 and posV &lt;= Position.0 and
+ ((d1 &lt;&gt; d and posH1 = posH and posV1 = posV) or
+  (d1 = H and posH1 = posH++1 and posV1 = posV) or
+  (d1 = V and posH1 = posH and posV1 = posV++1))]</attribute>
+<attribute name='name' xposition='466' yposition='547'>Lose1</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='10' xposition='746' yposition='736' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='714' yposition='728'>Eval1</attribute>
+<attribute name='domain' xposition='709' yposition='748'>Played</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='11' xposition='995' yposition='657' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='guard' xposition='847' yposition='683'>[posH &lt;= Position.0 and posV &lt;= Position.0]</attribute>
+<attribute name='name' xposition='970' yposition='669'>Win1</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='12' xposition='896' yposition='651' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='838' yposition='656'>IsWinner</attribute>
+<attribute name='domain' xposition='793' yposition='671'>PlayerBool</attribute>
+<attribute name='marking' xposition='853' yposition='671'>&lt;Player.all, Bool.F&gt;</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='13' xposition='746' yposition='501' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='705' yposition='490'>Chosed</attribute>
+<attribute name='domain' xposition='705' yposition='505'>Played</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='14' xposition='745' yposition='447' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='725' yposition='455'>Play</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='15' xposition='996' yposition='441' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='936' yposition='411'>OccupiedPositions</attribute>
+<attribute name='domain' xposition='972' yposition='425'>Positions</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='17' xposition='1096' yposition='651' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='1096' yposition='634'>Score</attribute>
+<attribute name='domain' xposition='1071' yposition='670'>PlayerCount</attribute>
+<attribute name='marking' xposition='1072' yposition='683'>&lt;Player.all, Count.0&gt;</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='16' xposition='501' yposition='441' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='526' yposition='454'>FreePositions</attribute>
+<attribute name='domain' xposition='533' yposition='468'>Positions</attribute>
+<attribute name='marking' xposition='461' yposition='425'>&lt;Direction.all, Position.all, Position.all&gt;</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='18' xposition='746' yposition='376' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='745' yposition='336'>Idle</attribute>
+<attribute name='domain' xposition='739' yposition='348'>Player</attribute>
+<attribute name='marking' xposition='743' yposition='360'>&lt;Player.1&gt;</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='arc' id='19' startid='4' endid='12' color='#000000' curved='true'>
+<pi xposition='515' yposition='289'/>
+<pi xposition='849' yposition='289'/>
+<pi xposition='849' yposition='636'/>
+<attributes>
+<attribute name='valuation' xposition='540' yposition='295'>&lt;p, Bool.F&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='21' startid='5' endid='12' color='#000000' curved='true'>
+<pi xposition='600' yposition='289'/>
+<pi xposition='849' yposition='289'/>
+<pi xposition='849' yposition='636'/>
+<attributes>
+<attribute name='valuation' xposition='605' yposition='355'>&lt;p, Bool.F&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='20' startid='12' endid='4' color='#000000' curved='true'>
+<pi xposition='858' yposition='618'/>
+<pi xposition='858' yposition='282'/>
+<pi xposition='508' yposition='282'/>
+<attributes>
+<attribute name='valuation' xposition='540' yposition='270'>&lt;p,Bool. T&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='23' startid='4' endid='18' color='#000000' curved='true'>
+<pi xposition='706' yposition='327'/>
+<pi xposition='706' yposition='382'/>
+<attributes>
+<attribute name='valuation' xposition='645' yposition='315'>&lt;p&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='22' startid='12' endid='5' color='#000000' curved='true'>
+<pi xposition='858' yposition='618'/>
+<pi xposition='858' yposition='282'/>
+<pi xposition='593' yposition='282'/>
+<attributes>
+<attribute name='valuation' xposition='560' yposition='355'>&lt;p, Bool.F&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='25' startid='5' endid='18' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='640' yposition='370'>&lt;p++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='24' startid='3' endid='4' color='#000000' curved='true'>
+<pi xposition='102' yposition='327'/>
+<attributes>
+<attribute name='valuation' xposition='250' yposition='315'>&lt;p&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='27' startid='7' endid='3' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='105' yposition='410'>&lt;p&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='26' startid='3' endid='5' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='250' yposition='370'>&lt;p&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='29' startid='16' endid='7' color='#000000' curved='true'>
+<pi xposition='474' yposition='456'/>
+<pi xposition='135' yposition='456'/>
+<attributes>
+<attribute name='valuation' xposition='225' yposition='465'>&lt;d1, posH1, posV1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='28' startid='7' endid='16' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='225' yposition='435'>&lt;d1, posH1, posV1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='31' startid='6' endid='12' color='#000000' curved='true'>
+<pi xposition='1350' yposition='593'/>
+<pi xposition='902' yposition='593'/>
+<attributes>
+<attribute name='valuation' xposition='1245' yposition='585'>&lt;p, Bool.F&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='30' startid='12' endid='6' color='#000000' curved='true'>
+<pi xposition='914' yposition='639'/>
+<pi xposition='914' yposition='601'/>
+<pi xposition='1353' yposition='601'/>
+<attributes>
+<attribute name='valuation' xposition='1245' yposition='605'>&lt;p, b&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='34' startid='17' endid='6' color='#000000' curved='true'>
+<pi xposition='1125' yposition='649'/>
+<pi xposition='1357' yposition='649'/>
+<attributes>
+<attribute name='valuation' xposition='1262' yposition='639'>&lt;p, n&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='35' startid='6' endid='17' color='#000000' curved='true'>
+<pi xposition='1360' yposition='657'/>
+<attributes>
+<attribute name='valuation' xposition='1254' yposition='662'>&lt;p, n++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='32' startid='12' endid='8' color='#000000' curved='true'>
+<pi xposition='914' yposition='639'/>
+<pi xposition='914' yposition='601'/>
+<pi xposition='1203' yposition='601'/>
+<attributes>
+<attribute name='valuation' xposition='1095' yposition='605'>&lt;p, b&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='33' startid='8' endid='12' color='#000000' curved='true'>
+<pi xposition='1200' yposition='593'/>
+<pi xposition='902' yposition='593'/>
+<attributes>
+<attribute name='valuation' xposition='1095' yposition='585'>&lt;p, Bool.F&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='38' startid='6' endid='18' color='#000000' curved='true'>
+<pi xposition='1362' yposition='382'/>
+<attributes>
+<attribute name='valuation' xposition='1370' yposition='408'>&lt;p&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='39' startid='8' endid='18' color='#000000' curved='true'>
+<pi xposition='1212' yposition='382'/>
+<attributes>
+<attribute name='valuation' xposition='1190' yposition='405'>&lt;p&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='36' startid='17' endid='8' color='#000000' curved='true'>
+<pi xposition='1125' yposition='649'/>
+<pi xposition='1207' yposition='649'/>
+<attributes>
+<attribute name='valuation' xposition='1145' yposition='637'>&lt;p, n&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='37' startid='8' endid='17' color='#000000' curved='true'>
+<pi xposition='1210' yposition='657'/>
+<attributes>
+<attribute name='valuation' xposition='1134' yposition='662'>&lt;p, n++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='42' startid='15' endid='6' color='#000000' curved='true'>
+<pi xposition='1028' yposition='434'/>
+<pi xposition='1357' yposition='434'/>
+<attributes>
+<attribute name='valuation' xposition='1230' yposition='400'>&lt;V, posH, posV--1&gt; +
+&lt;H, posH, posV--1&gt; +
+&lt;H, posH++1, posV --1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='43' startid='8' endid='15' color='#000000' curved='true'>
+<pi xposition='1202' yposition='447'/>
+<attributes>
+<attribute name='valuation' xposition='1055' yposition='455'>&lt;H, posH--1, posV&gt; +
+&lt;V, posH--1, posV&gt; +
+&lt;V, posH--1, posV++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='40' startid='10' endid='6' color='#000000' curved='true'>
+<pi xposition='752' yposition='777'/>
+<pi xposition='1363' yposition='777'/>
+<attributes>
+<attribute name='valuation' xposition='1250' yposition='730'>&lt;p, d, posH, posV&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='41' startid='6' endid='15' color='#000000' curved='true'>
+<pi xposition='1352' yposition='447'/>
+<attributes>
+<attribute name='valuation' xposition='1230' yposition='455'>&lt;V, posH, posV--1&gt; +
+&lt;H, posH, posV--1&gt; +
+&lt;H, posH++1, posV --1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='46' startid='10' endid='8' color='#000000' curved='true'>
+<pi xposition='752' yposition='777'/>
+<pi xposition='1213' yposition='777'/>
+<attributes>
+<attribute name='valuation' xposition='1108' yposition='732'>&lt;p, d, posH, posV&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='47' startid='9' endid='16' color='#000000' curved='true'>
+<pi xposition='519' yposition='529'/>
+<pi xposition='519' yposition='476'/>
+<attributes>
+<attribute name='valuation' xposition='525' yposition='521'>&lt;d1, posH1, posV1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='44' startid='15' endid='8' color='#000000' curved='true'>
+<pi xposition='1028' yposition='434'/>
+<pi xposition='1207' yposition='434'/>
+<attributes>
+<attribute name='valuation' xposition='1055' yposition='400'>&lt;H, posH--1, posV&gt; +
+&lt;V, posH--1, posV&gt; +
+&lt;V, posH--1, posV++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='45' startid='10' endid='7' color='#000000' curved='true'>
+<pi xposition='752' yposition='777'/>
+<pi xposition='102' yposition='777'/>
+<attributes>
+<attribute name='valuation' xposition='109' yposition='727'>&lt;p, d, posH, posV&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='51' startid='11' endid='10' color='#000000' curved='true'>
+<pi xposition='1002' yposition='742'/>
+<attributes>
+<attribute name='valuation' xposition='843' yposition='731'>&lt;p, d, posH, posV&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='50' startid='13' endid='9' color='#000000' curved='true'>
+<pi xposition='752' yposition='552'/>
+<attributes>
+<attribute name='valuation' xposition='576' yposition='562'>&lt;p, d, posH, posV&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='49' startid='9' endid='10' color='#000000' curved='true'>
+<pi xposition='507' yposition='742'/>
+<attributes>
+<attribute name='valuation' xposition='545' yposition='730'>&lt;p, d, posH, posV&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='48' startid='16' endid='9' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='410' yposition='519'>&lt;d1, posH1, posV1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='55' startid='12' endid='11' color='#000000' curved='true'>
+<pi xposition='920' yposition='647'/>
+<pi xposition='984' yposition='647'/>
+<attributes>
+<attribute name='valuation' xposition='924' yposition='635'>&lt;p, b&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='54' startid='11' endid='12' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='924' yposition='665'>&lt;p, Bool.T&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='53' startid='11' endid='17' color='#000000' curved='true'>
+<pi xposition='1028' yposition='647'/>
+<pi xposition='1080' yposition='647'/>
+<attributes>
+<attribute name='valuation' xposition='1033' yposition='634'>&lt;p, n++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='52' startid='17' endid='11' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='1035' yposition='664'>&lt;p, n&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='59' startid='14' endid='13' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='661' yposition='472'>&lt;p, d, posH, posV&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='58' startid='13' endid='11' color='#000000' curved='true'>
+<pi xposition='752' yposition='552'/>
+<pi xposition='998' yposition='552'/>
+<attributes>
+<attribute name='valuation' xposition='898' yposition='561'>&lt;p, d, posH, posV&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='57' startid='15' endid='11' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='886' yposition='518'>&lt;d++1, posH, posV&gt; +
+&lt;H, posH++1, posV&gt; +
+&lt;V, posH, posV++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='56' startid='11' endid='15' color='#000000' curved='true'>
+<pi xposition='1014' yposition='634'/>
+<pi xposition='1014' yposition='471'/>
+<attributes>
+<attribute name='valuation' xposition='1022' yposition='519'>&lt;d++1, posH, posV&gt; +
+&lt;H, posH++1, posV&gt; +
+&lt;V, posH, posV++1&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='62' startid='18' endid='14' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='732' yposition='410'>&lt;p&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='61' startid='16' endid='14' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='578' yposition='435'>&lt;d, posH, posV&gt;</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='60' startid='14' endid='15' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='881' yposition='435'>&lt;d, posH, posV&gt;</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>

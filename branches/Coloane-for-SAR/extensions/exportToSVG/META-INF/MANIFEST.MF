@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ExportToSVG
+Bundle-SymbolicName: fr.lip6.move.coloane.extensions.exportToSVG;singleton:=true
+Bundle-Version: 1.1.0.qualifier
+Bundle-Activator: fr.lip6.move.coloane.extensions.exporttosvg.Activator
+Require-Bundle: org.eclipse.draw2d,
+ fr.lip6.move.coloane.core,
+ fr.lip6.move.coloane.interfaces,
+ fr.lip6.move.coloane.thirdparty
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ClassPath: .

@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GreatSPN Formalism
+Bundle-SymbolicName: fr.lip6.move.coloane.fragments.formalisms.gspn;singleton:=true
+Bundle-Version: 1.1.0.qualifier
+Bundle-Vendor: LIP6 / MoVe
+Fragment-Host: fr.lip6.move.coloane.core
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

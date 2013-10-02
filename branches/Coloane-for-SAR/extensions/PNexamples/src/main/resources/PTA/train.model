@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='Parametric timed automata' xposition='0' yposition='0'>
+<attributes>
+<attribute name='Parameters' xposition='26' yposition='29'>dApproach,dStartDown,dGetDown</attribute>
+<attribute name='initialConstraint' xposition='26' yposition='50'>[dApproach &gt;= 0] &amp; [dStartDown &gt;= 0] &amp; [dGetDown &gt;= 0]</attribute>
+<attribute name='Clocks' xposition='26' yposition='8'>x,y</attribute>
+</attributes>
+<nodes>
+<node nodetype='state' id ='3' xposition='361' yposition='208' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='158' yposition='208'>[x &lt;= dApproach] &amp; [x &lt;= dStartDown]</attribute>
+<attribute name='name' xposition='284' yposition='194'>approaching</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='4' xposition='525' yposition='22' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='545' yposition='2'>true</attribute>
+<attribute name='name' xposition='524' yposition='1'>far</attribute>
+<attribute name='type' xposition='545' yposition='22'>initialState</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='5' xposition='361' yposition='358' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='275' yposition='393'>[x &lt;= dApproach] &amp; [y &lt;= dGetDown]</attribute>
+<attribute name='name' xposition='344' yposition='379'>lowering</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='6' xposition='219' yposition='358' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='239' yposition='338'>true</attribute>
+<attribute name='name' xposition='164' yposition='358'>crash</attribute>
+</attributes>
+</node>
+<node nodetype='state' id ='7' xposition='525' yposition='358' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='invariant' xposition='538' yposition='372'>[x &lt;= dApproach]</attribute>
+<attribute name='name' xposition='540' yposition='358'>safe</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='Transition' id='8' startid='4' endid='3' color='#000000' curved='true'>
+<attributes>
+<attribute name='update' xposition='412' yposition='101'>x=0</attribute>
+<attribute name='guard' xposition='361' yposition='88'>true</attribute>
+<attribute name='label' xposition='412' yposition='78'>approach</attribute>
+</attributes>
+</arc>
+<arc arctype='Transition' id='9' startid='3' endid='5' color='#000000' curved='true'>
+<attributes>
+<attribute name='update' xposition='375' yposition='295'>y = 0</attribute>
+<attribute name='guard' xposition='375' yposition='267'>[x = dStartDown]</attribute>
+<attribute name='label' xposition='374' yposition='281'>startDown</attribute>
+</attributes>
+</arc>
+<arc arctype='Transition' id='10' startid='5' endid='7' color='#000000' curved='true'>
+<attributes>
+<attribute name='guard' xposition='415' yposition='330'>[y = dGetDown]</attribute>
+<attribute name='label' xposition='426' yposition='344'>endDown</attribute>
+</attributes>
+</arc>
+<arc arctype='Transition' id='11' startid='7' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='update' xposition='539' yposition='236'>x = 0; y = 0</attribute>
+<attribute name='guard' xposition='541' yposition='208'>[x = dApproach]</attribute>
+<attribute name='label' xposition='539' yposition='222'>pass</attribute>
+</attributes>
+</arc>
+<arc arctype='Transition' id='12' startid='5' endid='6' color='#000000' curved='true'>
+<attributes>
+<attribute name='guard' xposition='268' yposition='330'>[x = dApproach]</attribute>
+<attribute name='label' xposition='295' yposition='344'>pass</attribute>
+</attributes>
+</arc>
+<arc arctype='Transition' id='13' startid='3' endid='6' color='#000000' curved='true'>
+<attributes>
+<attribute name='guard' xposition='204' yposition='273'>[x = dApproach]</attribute>
+<attribute name='label' xposition='258' yposition='287'>pass</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>

@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<model xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:noNamespaceSchemaLocation='http://coloane.lip6.fr/resources/schemas/model.xsd' formalism='Cosmos' xposition='0' yposition='0'>
+<attributes>
+<attribute name='declarations' xposition='0' yposition='0'>real rho0 =0.1;
+real rho1 =0.45;</attribute>
+</attributes>
+<nodes>
+<node nodetype='place' id ='3' xposition='160' yposition='101' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='146' yposition='81'>Queue1</attribute>
+<attribute name='marking' xposition='163' yposition='120'>1</attribute>
+</attributes>
+</node>
+<node nodetype='place' id ='4' xposition='336' yposition='101' scale='100' interface='false' alt='0' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='name' xposition='322' yposition='81'>Queue2</attribute>
+<attribute name='marking' xposition='356' yposition='81'>0</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='5' xposition='88' yposition='96' scale='100' interface='false' alt='1' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='weight' xposition='108' yposition='76'>1</attribute>
+<attribute name='priority' xposition='108' yposition='76'>1</attribute>
+<attribute name='name' xposition='108' yposition='76'>rho0</attribute>
+<attribute name='service' xposition='108' yposition='76'>1</attribute>
+<attribute name='distribution' xposition='38' yposition='132'>EXPONENTIAL(rho0)</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='6' xposition='246' yposition='96' scale='100' interface='false' alt='1' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='weight' xposition='266' yposition='76'>1</attribute>
+<attribute name='priority' xposition='266' yposition='76'>1</attribute>
+<attribute name='name' xposition='266' yposition='76'>rho1</attribute>
+<attribute name='service' xposition='266' yposition='76'>1</attribute>
+<attribute name='distribution' xposition='209' yposition='132'>EXPONENTIAL(rho1)</attribute>
+</attributes>
+</node>
+<node nodetype='transition' id ='7' xposition='441' yposition='96' scale='100' interface='false' alt='1' foreground='#000000' background='#ffffff'>
+<attributes>
+<attribute name='weight' xposition='461' yposition='76'>1</attribute>
+<attribute name='priority' xposition='461' yposition='76'>1</attribute>
+<attribute name='name' xposition='461' yposition='76'>rho2</attribute>
+<attribute name='service' xposition='461' yposition='76'>1</attribute>
+<attribute name='distribution' xposition='404' yposition='132'>EXPONENTIAL(rho1)</attribute>
+</attributes>
+</node>
+</nodes>
+<arcs>
+<arc arctype='arc' id='8' startid='5' endid='3' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='171' yposition='209'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='9' startid='3' endid='6' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='250' yposition='209'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='10' startid='6' endid='4' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='338' yposition='209'>1</attribute>
+</attributes>
+</arc>
+<arc arctype='arc' id='11' startid='4' endid='7' color='#000000' curved='true'>
+<attributes>
+<attribute name='valuation' xposition='430' yposition='209'>1</attribute>
+</attributes>
+</arc>
+</arcs>
+<stickys>
+</stickys>
+</model>
