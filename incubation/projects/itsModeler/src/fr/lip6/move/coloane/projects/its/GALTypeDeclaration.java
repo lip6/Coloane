@@ -90,6 +90,7 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 		if (galSystem == null) {
 			throw new IOException("Expected gal file to contain a GAL description only.");
 		}
+		galSystem.setName(getTypeName());
 	}
 
 	
