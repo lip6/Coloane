@@ -1,7 +1,5 @@
 package fr.lip6.move.coloane.api.alligator;
 
-import fr.lip6.move.alligator.interfaces.ServiceDescription;
-import fr.lip6.move.alligator.interfaces.ServiceManager;
 import fr.lip6.move.coloane.api.alligator.preferences.AlligatorPreferencePage.Data;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
 import fr.lip6.move.coloane.interfaces.objects.menu.ISubMenu;
@@ -9,9 +7,7 @@ import fr.lip6.move.coloane.interfaces.objects.menu.ServiceMenu;
 import fr.lip6.move.coloane.interfaces.objects.menu.SubMenu;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,16 +32,11 @@ public final class Connection
 
     private static final Logger LOGGER = Logger.getLogger("fr.lip6.move.coloane.api.alligator"); //$NON-NLS-1$
 
-    private static final String PING_VALUE = "ping";
-
     public Map<Identifier, Description> runningDescriptions = new ConcurrentHashMap<Identifier, Description>();
 
     private ISubMenu menu;
 
     private Data data;
-
-    @Deprecated
-    private volatile ServiceManager oldServices = null;
 
     private volatile ExecutionWS newServices = null;
 
@@ -62,16 +53,6 @@ public final class Connection
         this.setPriority(Job.LONG);
         this.setUser(false);
         this.schedule();
-    }
-
-    /**
-     * @return The service manager
-     */
-    @Deprecated
-    public
-        ServiceManager
-        getOldServices() {
-        return oldServices;
     }
 
     /**
@@ -105,83 +86,6 @@ public final class Connection
         setMenu(ISubMenu menu) {
         synchronized (this.menu) {
             this.menu = menu;
-        }
-    }
-
-    /**
-     * Obtain the Alligator menu
-     * 
-     * @param monitor
-     *        A monitor
-     */
-    @Deprecated
-    private
-        void
-        computeOldMenu(IProgressMonitor monitor) {
-        try {
-            LOGGER.info("Connecting to " + data.getOldAddress() + "...");
-            // Establish connection:
-            Client client = Client.remote(data.getOldAddress());
-            ServiceManager services = client.oldExecution();
-            // Compute menu:
-            LOGGER.info("Computing (old) menu...");
-            if (services == null || !services.ping(PING_VALUE)
-                                             .equals(PING_VALUE)) {
-                throw new IllegalStateException();
-            } else {
-                oldServices = services;
-            }
-            ISubMenu menu = new SubMenu(data.getName() + " (old server)", true, Utility.getImage("alligator-logo.png"));
-            IApiService refreshService = new RefreshService(this);
-            List<ServiceDescription> descriptions = oldServices.getServices();
-            Comparator<ServiceDescription> comparator = new Comparator<ServiceDescription>() {
-                @Override
-                public
-                    int
-                    compare(ServiceDescription lhs,
-                            ServiceDescription rhs) {
-                    return lhs.getName()
-                              .compareToIgnoreCase(rhs.getName());
-                }
-            };
-            Collections.sort(descriptions, comparator);
-            for (final ServiceDescription service : descriptions) {
-                IApiService apiService = new RunService(service, this);
-                LOGGER.warning("Adding to '" + data.getName() + "' (oldstyle) service '" + service.getName() + "' (" +
-                             service.getId() + ")");
-                // Handle sub-menus using name separators:
-                String serviceName = service.getName();
-                StringTokenizer tokenizer = new StringTokenizer(serviceName, ":");
-                ISubMenu current = menu;
-                do {
-                    String name = tokenizer.nextToken()
-                                           .trim();
-                    // Remove leading number.
-                    Matcher m = Pattern.compile("(\\d+\\.)(.*)").matcher(name);
-                    if (m.matches()) {
-                        name = m.group(2).trim();
-                    }
-                    if (tokenizer.hasMoreTokens()) {
-                        // Token is a sub-menu that should be created (or not):
-                        ISubMenu child = current.getSubMenu(name);
-                        if (child == null) {
-                            ISubMenu created = new SubMenu(name, true);
-                            current.addSubMenu(created);
-                            current = created;
-                        } else {
-                            current = child;
-                        }
-                    } else {
-                        // Add service menu:
-                        current.addServiceMenu(new ServiceMenu(name, true, service.getShortDescription(), apiService, true));
-                    }
-                } while (tokenizer.hasMoreTokens());
-            }
-            menu.addServiceMenu(new ServiceMenu("(Refresh)", true, "Refresh thes menu.", refreshService, true));
-            setMenu(menu);
-        } catch (Throwable e) {
-            LOGGER.warning("Connection to " + data.getName() + " caught exception:" + e.toString());
-            throw new IllegalStateException();
         }
     }
 
@@ -250,9 +154,11 @@ public final class Connection
                     String name = tokenizer.nextToken()
                                            .trim();
                     // Remove leading number.
-                    Matcher m = Pattern.compile("(\\d+\\.)(.*)").matcher(name);
+                    Matcher m = Pattern.compile("(\\d+\\.)(.*)")
+                                       .matcher(name);
                     if (m.matches()) {
-                        name = m.group(2).trim();
+                        name = m.group(2)
+                                .trim();
                     }
                     if (tokenizer.hasMoreTokens()) {
                         // Token is a sub-menu that should be created (or not):
@@ -315,13 +221,8 @@ public final class Connection
             return Status.CANCEL_STATUS;
         }
         try {
-            try {
-                LOGGER.info("Trying to compute menu for new-style alligator.");
-                computeMenu(monitor);
-            } catch (Exception e) {
-                LOGGER.info("Trying to compute menu for old-style alligator.");
-                computeOldMenu(monitor);
-            }
+            LOGGER.info("Trying to compute menu for new-style alligator.");
+            computeMenu(monitor);
         } catch (Exception e) {
         }
         LOGGER.info("Waiting " + data.getRefresh() + " minutes before update of server: " + data.getName());
