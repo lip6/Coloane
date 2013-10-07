@@ -7,15 +7,10 @@
  */
 package fr.lip6.move.coloane.api.alligator;
 
-import fr.lip6.move.alligator.interfaces.Item;
-import fr.lip6.move.alligator.interfaces.ItemType;
-import fr.lip6.move.alligator.interfaces.ServiceDescription;
 import fr.lip6.move.coloane.api.alligator.wizard.InputWizard;
-import fr.lip6.move.coloane.core.model.factory.FormalismManager;
 import fr.lip6.move.coloane.core.ui.files.ModelLoader;
 import fr.lip6.move.coloane.extensions.exporttogrml.ExportToGrML;
 import fr.lip6.move.coloane.extensions.importExportCAMI.exportToCAMI.ExportToImpl;
-import fr.lip6.move.coloane.extensions.importExportCAMI.importFromCAMI.ImportFromImpl;
 import fr.lip6.move.coloane.extensions.importExportLola.ExportToLola;
 import fr.lip6.move.coloane.interfaces.api.services.IApiService;
 import fr.lip6.move.coloane.interfaces.exceptions.ServiceException;
@@ -25,16 +20,10 @@ import fr.lip6.move.coloane.interfaces.objects.result.ISubResult;
 import fr.lip6.move.coloane.interfaces.objects.result.Result;
 import fr.lip6.move.coloane.interfaces.objects.result.SubResult;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CancellationException;
-import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import org.cosyverif.alligator.service.Description;
@@ -43,15 +32,10 @@ import org.cosyverif.alligator.service.Parameter;
 import org.cosyverif.alligator.service.parameter.FileParameter;
 import org.cosyverif.alligator.service.parameter.ModelParameter;
 import org.cosyverif.alligator.service.parameter.ModelSetParameter;
-import org.cosyverif.alligator.util.ParameterConversion;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.SubMonitor;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * Implementation of IApiService to manage Alligator service.
@@ -100,19 +84,6 @@ public final class RunService
             }
         }
         this.alligator = alligator;
-    }
-
-    /**
-     * Constructor
-     * 
-     * @param service
-     *        Associated service
-     * @param alligatorConnection
-     *        Connection to an Alligator
-     */
-    public RunService(ServiceDescription service, Connection alligatorConnection) {
-        this.service = Descriptions.get(Description.fromServiceDescription(service));
-        this.alligator = alligatorConnection;
     }
 
     private final
@@ -204,51 +175,16 @@ public final class RunService
                     }
                 }
             }
-            if (alligator.getServices() != null) {
-                LOGGER.info("Launching service '" + service + "'...");
-                Identifier identifier = alligator.getServices()
-                                                 .asynchronousCall(service);
-                Identifiers.add(identifier);
-                alligator.runningDescriptions.put(identifier, service);
-                alligator.wakeUp();
-                IResult result = new Result(service.name());
-                ISubResult sub = new SubResult("Identifier of the service execution", identifier.toString());
-                result.addSubResult(sub);
-                return new ResultService(identifier, alligator).run(null, monitor);
-            } else {
-                IResult result = new Result(service.name());
-                LOGGER.info("Invoking service '" + service + "' (oldstyle)...");
-                Item[] params = ParameterConversion.valueFrom(service.parameters());
-                List<Item> resultItems = alligator.getOldServices()
-                                                  .invoke(service.identifier(), Arrays.asList(params));
-                LOGGER.fine("Getting " + resultItems.size() + " result items.");
-                // For all result items give the better feedback to the user
-                for (Item item : resultItems) {
-                    // Create a new model from CAMI
-                    if (item.getType() == ItemType.CAMI_MODEL) {
-                        try {
-                            File tmp = File.createTempFile("alligator", ".cami");
-                            BufferedWriter writer = new BufferedWriter(new FileWriter(tmp));
-                            writer.append(item.getValue());
-                            writer.close();
-                            ImportFromImpl camiImport = new ImportFromImpl();
-                            IGraph newGraph = camiImport.importFrom(tmp.getAbsolutePath(),
-                                                                    FormalismManager.getInstance()
-                                                                                    .getFormalismById("PT-Net"),
-                                                                    SubMonitor.convert(null));
-                            result.setNewGraph(newGraph);
-                        } catch (IOException e) {
-                            LOGGER.warning(e.getMessage());
-                        }
-
-                        // Add a textual result in the result view
-                    } else {
-                        ISubResult sub = new SubResult(item.getName(), item.getValue());
-                        result.addSubResult(sub);
-                    }
-                }
-                return Collections.singletonList(result);
-            }
+            LOGGER.info("Launching service '" + service + "'...");
+            Identifier identifier = alligator.getServices()
+                                             .asynchronousCall(service);
+            Identifiers.add(identifier);
+            alligator.runningDescriptions.put(identifier, service);
+            alligator.wakeUp();
+            IResult result = new Result(service.name());
+            ISubResult sub = new SubResult("Identifier of the service execution", identifier.toString());
+            result.addSubResult(sub);
+            return new ResultService(identifier, alligator).run(null, monitor);
         } catch (CancellationException e) {
             return Collections.emptyList();
         } catch (Exception e) {
