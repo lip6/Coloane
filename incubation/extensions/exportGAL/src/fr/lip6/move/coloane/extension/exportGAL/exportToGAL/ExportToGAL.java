@@ -549,7 +549,7 @@ public class ExportToGAL implements IExportTo {
 		
 
 		// to valuation of arc
-		cmp.setRight(value);
+		cmp.setRight(EcoreUtil.copy(value));
 		return cmp;
 	}
 	
