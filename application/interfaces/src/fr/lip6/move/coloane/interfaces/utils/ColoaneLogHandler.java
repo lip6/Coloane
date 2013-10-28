@@ -31,7 +31,8 @@ public final class ColoaneLogHandler extends FileHandler {
 	 * @throws SecurityException If the security manager doesn't allow this Handler
 	 */
 	private ColoaneLogHandler() throws IOException, SecurityException {
-		super("%t/coloane%u.log", true); //$NON-NLS-1$
+		super("%t/coloane-" + System.getProperty("user.name") + "-%u.log", true); //$NON-NLS-1$
+	    //super(File.createTempFile("coloane-", ".log").getAbsolutePath(), false);
 	}
 
 	/**
