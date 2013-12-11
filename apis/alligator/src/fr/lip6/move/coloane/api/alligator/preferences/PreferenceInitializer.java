@@ -28,6 +28,8 @@ public class PreferenceInitializer
         IPreferenceStore store = Activator.getDefault()
                                           .getPreferenceStore();
         store.setDefault(PreferenceConstants.P_ALLIGATOR_LIST,
+                         "Public Alligator" + "&" + "http://publigator.cosyverif.org/" + "&" + "15" + "#" +
+                         "Testing Alligator" + "&" + "http://testigator.cosyverif.org/" + "&" + "15" + "#" +
                          "Local Alligator" + "&" + "http://localhost:9000/" + "&" + "2"
                          );
     }
