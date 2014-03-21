@@ -19,7 +19,9 @@ package fr.lip6.move.coloane.extensions.importExportTINA.exportToTINA;
 import fr.lip6.move.coloane.extensions.importExportTINA.Activator;
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
+import fr.lip6.move.coloane.interfaces.formalism.INodeFormalism;
 import fr.lip6.move.coloane.interfaces.model.IArc;
+import fr.lip6.move.coloane.interfaces.model.IAttribute;
 import fr.lip6.move.coloane.interfaces.model.IGraph;
 import fr.lip6.move.coloane.interfaces.model.INode;
 
@@ -29,6 +31,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -59,6 +65,7 @@ public class ExportToTINA implements IExportTo {
 		int totalWork = model.getNodes().size() + model.getArcs().size();
 		monitor.beginTask("Export to TINA", totalWork);
 
+		checkAndSetUnique(model);
 		try {
 			// File creation
 			writer = new FileOutputStream(new File(filePath)); //$NON-NLS-1$
@@ -97,6 +104,9 @@ public class ExportToTINA implements IExportTo {
 	}
 
 	private void exportTransition(INode node, BufferedWriter sb) throws IOException {
+		if ("public".equals(node.getAttribute("visibility").getValue())) {
+			return;
+		}
 		sb.append("tr ");
 		sb.append(transId(node));
 		// label
@@ -145,11 +155,11 @@ public class ExportToTINA implements IExportTo {
 	}
 
 	private String placeId (INode node) {
-		return "{" + "P" + node.getId() + "_" + node.getAttribute("name").getValue()+"}" ;
+		return "{" + /* "P" + node.getId() + "_" + */ node.getAttribute("name").getValue()+"}" ;
 	}
 
 	private String transId (INode node) {
-		return "{" + "T" + node.getId() + "_" + node.getAttribute("label").getValue()+"}" ;
+		return "{" + /*"T" + node.getId() + "_" + */ node.getAttribute("label").getValue()+"}" ;
 	}
 
 	
@@ -161,6 +171,41 @@ public class ExportToTINA implements IExportTo {
 			sb.append(" ("+mark+") ");
 		}
 		sb.append("\n");
+	}
+
+	
+	private void checkAndSetUnique(IGraph graph) {
+		// for unnamed objects
+		int nextId = 0;
+		Map<INodeFormalism, Set<String>> idMap = new HashMap<INodeFormalism, Set<String>>();
+		for (INode node : graph.getNodes()) {
+			Set<String> formMap = idMap.get(node.getNodeFormalism());
+			if (formMap == null) {
+				formMap = new HashSet<String>();
+				idMap.put(node.getNodeFormalism(), formMap);
+			}
+			IAttribute name = node.getAttribute("name");
+			if (name==null) {
+				name = node.getAttribute("label");
+								
+				if (name==null || "public".equals(node.getAttribute("visibility").getValue()))
+					continue;
+			}
+			if (name.getValue()==null || name.getValue().isEmpty()) {
+				name.setValue(node.getNodeFormalism().getName().substring(0,4)+nextId++);
+			}
+			if (formMap.contains(name.getValue())) {
+				for (int i=0; i < graph.getNodes().size() ; i++) {
+					String test = name.getValue()+i;
+					if (! formMap.contains(test)) {
+						name.setValue(test);
+						break;
+					}
+				}
+			}
+			assert(!formMap.contains(name.getValue()));
+			formMap.add(name.getValue());
+		}
 	}
 
 
