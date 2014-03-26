@@ -93,6 +93,20 @@
             This project contains several classic Petri net examples taken from the litterature.
          </description>
       </wizard>
+            <wizard
+            canFinishEarly="true"
+            category="org.eclipse.ui.Examples/fr.lip6.move.coloane.examples.category"
+            class="fr.lip6.move.coloane.extensions.examples.wizard.XTAExampleWizard"
+            finalPerspective="fr.lip6.move.coloane.perspective"
+            hasPages="false"
+            icon="icons/clock.png"
+            id="fr.lip6.move.coloane.extensions.examples.xta"
+            name="Timed Automata examples"
+            project="true">
+         <description>
+            This project contains some Timed Automata taken from Uppaal distribution.
+         </description>
+      </wizard>
    </extension>
 
 </plugin>
