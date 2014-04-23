@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension
+         point="fr.lip6.move.coloane.core.formalisms">
+      <Formalism
+            extension="wa"
+            fkname="wa"
+            id="wa"
+            name="Weighted automata">
+         <XmlDescription>
+            <Graph
+                  name="Weighted automata">
+               <Node
+                     container="false"
+                     name="state">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.nodes.EllipseNode"
+                        description="State"
+                        drawable="true"
+                        height="15"
+                        icon16px="resources/state_16.png"
+                        icon24px="resources/state_24.png"
+                        palettable="true"
+                        paletteName="State"
+                        width="15">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="false"
+                        name="name">
+                  </Attribute>
+                  <Attribute
+                        default="-"
+                        displayed_default="false"
+                        drawable="true"
+                        multiline="false"
+                        name="weight">
+                  </Attribute>
+                  <Attribute
+                        name = "initial state"
+                        multiline="false"
+                        drawable = "false">
+                  </Attribute>
+                  <Attribute
+                        name = "final state"
+                        multiline="false"
+                        drawable = "false">
+                  </Attribute>
+               </Node>
+               <Arc
+                     name="Transition">
+                  <GraphicInfo
+                        associatedFigure="fr.lip6.move.coloane.core.ui.figures.arcs.DirectedArc"
+                        description="Transition"
+                        drawable="true"
+                        icon16px="resources/arc_16.png"
+                        icon24px="resources/arc_24.png"
+                        palettable="true"
+                        paletteName="Transition">
+                  </GraphicInfo>
+                  <Attribute
+                        drawable="true"
+                        multiline="false"
+                        name="weight">
+                  </Attribute>
+                  <Attribute
+                        drawable="true"
+                        multiline="false"
+                        name="label">
+                  </Attribute>
+               </Arc>
+            </Graph>
+         </XmlDescription>
+      </Formalism>
+   </extension>
+
+</fragment>

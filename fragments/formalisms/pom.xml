@@ -20,6 +20,7 @@
 		<module>cosmosLHA</module>
 		<module>dd</module>
 		<module>gspn</module>
+		<module>wa</module>
 		<module>pta</module>
 		<module>snb</module>
     <module>swn</module>

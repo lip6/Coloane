@@ -68,6 +68,7 @@ public class SNBExport
          *        the value associated to the key
          * @return the updated map
          */
+        @Override
         public final
             STAttrMap
             put(String attrName,
@@ -113,6 +114,7 @@ public class SNBExport
     /**
      * {@inheritDoc}
      */
+    @Override
     public final
         void
         export(IGraph graph,
@@ -192,8 +194,9 @@ public class SNBExport
         // Export model attributes
         monitor.setTaskName("Export model attributes");
         IAttribute declarativePart = graph.getAttribute("declaration");
-        if (declarativePart == null)
+        if (declarativePart == null) {
             declarativePart = graph.getAttribute("declarations");// for SWN try to read declarations
+        }
         if (declarativePart != null) {
             if (!declarativePart.getValue()
                                 .equals("")) {
@@ -639,6 +642,7 @@ public class SNBExport
                 exportAttribute(attr, currentST, monitor, symbols);
             }
         } catch (RecognitionException e) {
+            e.printStackTrace();
             String s;
             s = "Error on arc from " + source.getNodeFormalism()
                                              .getName() + " \"" + source.getAttribute("name")
