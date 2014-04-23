@@ -32,6 +32,8 @@
       <import feature="fr.lip6.move.coloane.features.formalisms.cosmos"/>
       <import feature="fr.lip6.move.coloane.features.formalisms.cosmosLHA"/>
       <import feature="fr.lip6.move.coloane.features.formalisms.snb"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.automaton"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.wa"/>
    </requires>
 
    <plugin

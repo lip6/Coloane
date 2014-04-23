@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="fr.lip6.move.coloane.features.formalisms.swn"
-      label="Coloane - Cosmos SWN Formalism"
+      id="fr.lip6.move.coloane.features.formalisms.wa"
+      label="Coloane - WA Formalism"
       version="1.1.0.qualifier"
-      provider-name="LSV"
+      provider-name="LIP6 / LSV"
       plugin="fr.lip6.move.coloane.core">
 
    <description url="http://coloane.lip6.fr">
-    Stochastic Well-Formed nets eature.
+      This Eclipse features brings the support of Weighted Automata formalisms into Coloane
    </description>
 
    <copyright url="http://coloane.lip6.fr">
@@ -29,7 +29,7 @@
    </requires>
 
    <plugin
-         id="fr.lip6.move.coloane.fragments.formalisms.swn"
+         id="fr.lip6.move.coloane.fragments.formalisms.wa"
          download-size="0"
          install-size="0"
          version="0.0.0"

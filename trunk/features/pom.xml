@@ -41,6 +41,7 @@
         <module>formalismSWN</module>
         <module>formalismSNB</module>
         <module>formalismPTA</module>
+        <module>formalismWA</module>
         <!-- ACTIONS -->
         <module>layoutAction</module>
         <!-- THIRDPARTY DEPENDENCIES -->

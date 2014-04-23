@@ -59,6 +59,7 @@ Contributors list : https://coloane.lip6.fr/developers
       <import feature="fr.lip6.move.coloane.features.formalisms.pta"/>
       <import feature="fr.lip6.move.coloane.features.formalisms.snb"/>
       <import feature="fr.lip6.move.coloane.features.formalisms.swn"/>
+      <import feature="fr.lip6.move.coloane.features.formalisms.wa"/>
    </requires>
 
    <plugin

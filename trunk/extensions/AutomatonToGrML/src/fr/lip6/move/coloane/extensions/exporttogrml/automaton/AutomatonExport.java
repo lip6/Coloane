@@ -15,6 +15,7 @@ import fr.lip6.move.coloane.interfaces.model.INode;
 public class AutomatonExport implements IGrMLExport {
 
 	private static final String AUTOMATON_URL = "http://formalisms.cosyverif.org/automaton.fml";
+	private static final String WEIGHTED_AUTOMATON_URL = "http://formalisms.cosyverif.org/wa.fml";
 	private static final String GRML_NAMESPACE = "http://cosyverif.org/ns/model";
 
 	// Modgraph: Used to construct a unique id for every node. Defines the
@@ -28,9 +29,15 @@ public class AutomatonExport implements IGrMLExport {
 
 			String modelId = new String("");
 			writer.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-			writer.write("<model formalismUrl=\"" + AUTOMATON_URL + "\"");
+      if (graph.getFormalism().getId() == "automaton") {
+  			writer.write("<model formalismUrl=\"" + AUTOMATON_URL + "\"");
+      } else if (graph.getFormalism().getId() == "WA") {
+  			writer.write("<model formalismUrl=\"" + WEIGHTED_AUTOMATON_URL + "\"");
+      }
 			writer.write(" xmlns=\"" + GRML_NAMESPACE + "\">\n");
-			writer.write("<attribute name=\"name\">" + graph.getAttribute("uniqueId").getValue() + "</attribute>\n");
+			if (graph.getFormalism().getId() == "automaton") {
+        writer.write("<attribute name=\"name\">" + graph.getAttribute("uniqueId").getValue() + "</attribute>\n");
+      }
 
 			for (IAttribute attribute : graph.getAttributes()) {
 				if (attribute.getName().equals("uniqueId"))
