@@ -175,4 +175,25 @@
          version="0.0.0"
          unpack="false"/>
 
+   <plugin
+         id="fr.lip6.move.promela.togal"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.lip6.move.promela.xtext"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="fr.lip6.move.promela.xtext.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
