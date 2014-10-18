@@ -22,13 +22,13 @@ Bundle-ClassPath: lib/antlr-runtime.jar,
  lib/stax2-api.jar,
  lib/stringtemplate.jar,
  lib/woodstox-core-asl.jar
-Export-Package: org.antlr.runtime,
+Export-Package: fr.lip6.move.neoppod.grml,
+ fr.lip6.move.neoppod.grml.utils,
+ net.sf.saxon.s9api,
  org.antlr.stringtemplate,
  org.antlr.stringtemplate.language,
- fr.lip6.move.neoppod.grml,
- fr.lip6.move.neoppod.grml.utils,
  org.apache.batik.dom,
- org.apache.batik.svggen,
  org.apache.batik.ext.awt.g2d,
- org.apache.commons.exec,
- net.sf.saxon.s9api
+ org.apache.batik.svggen,
+ org.apache.commons.exec
+Require-Bundle: org.antlr.runtime;bundle-version="3.2.0"
