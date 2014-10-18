@@ -17,11 +17,11 @@
 			<artifactId>grml-check</artifactId>
 			<version>1.4</version>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr-runtime</artifactId>
 			<version>3.5.1</version>
-		</dependency> -->
+		</dependency>
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>stringtemplate</artifactId>
