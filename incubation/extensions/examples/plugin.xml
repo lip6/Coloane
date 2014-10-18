@@ -107,6 +107,20 @@
             This project contains some Timed Automata taken from Uppaal distribution.
          </description>
       </wizard>
+      <wizard
+            canFinishEarly="true"
+            category="org.eclipse.ui.Examples/fr.lip6.move.coloane.examples.category"
+            class="fr.lip6.move.coloane.extensions.examples.wizard.PromelaExampleWizard"
+            finalPerspective="fr.lip6.move.coloane.perspective"
+            hasPages="false"
+            icon="icons/clock.png"
+            id="fr.lip6.move.coloane.extensions.examples.promela"
+            name="Promela examples from BEEM database"
+            project="true">
+         <description>
+            This project contains some Promela models taken from BEEM distribution.
+         </description>
+      </wizard>
    </extension>
 
 </plugin>
