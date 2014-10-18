@@ -16,4 +16,4 @@ Export-Package: fr.lip6.move.coloane.projects.expression;uses:="org.eclipse.ui.p
  fr.lip6.move.coloane.projects.its.expression.parser;uses:="fr.lip6.move.coloane.projects.its.expression,org.antlr.runtime,fr.lip6.move.coloane.projects.its.antlrutil"
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
- fr.lip6.move.coloane.thirdparty
+ org.antlr.runtime
