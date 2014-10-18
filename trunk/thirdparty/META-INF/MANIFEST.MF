@@ -31,4 +31,3 @@ Export-Package: fr.lip6.move.neoppod.grml,
  org.apache.batik.ext.awt.g2d,
  org.apache.batik.svggen,
  org.apache.commons.exec
-Require-Bundle: org.antlr.runtime;bundle-version="3.2.0"
