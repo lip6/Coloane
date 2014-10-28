@@ -121,6 +121,20 @@
             This project contains some Promela models taken from BEEM distribution.
          </description>
       </wizard>
+      <wizard
+            canFinishEarly="true"
+            category="org.eclipse.ui.Examples/fr.lip6.move.coloane.examples.category"
+            class="fr.lip6.move.coloane.extensions.examples.wizard.DivineExampleWizard"
+            finalPerspective="fr.lip6.move.coloane.perspective"
+            hasPages="false"
+            icon="icons/clock.png"
+            id="fr.lip6.move.coloane.extensions.examples.divine"
+            name="DVE examples from BEEM database"
+            project="true">
+         <description>
+            This project contains some DVE models taken from BEEM distribution.
+         </description>
+      </wizard>
    </extension>
 
 </plugin>
