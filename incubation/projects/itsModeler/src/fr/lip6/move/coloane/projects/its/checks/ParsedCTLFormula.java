@@ -65,6 +65,7 @@ public class ParsedCTLFormula extends SimpleObservable {
 				// addCheckFail(elt, att, e.getLocalizedMessage(), result);
 				// testok = false;
 			} catch (NullPointerException error) {
+				error.printStackTrace();
 				System.err.println("No formula to parse, model not set yet ?");				
 			}
 
