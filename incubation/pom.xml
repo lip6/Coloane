@@ -32,8 +32,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tycho.version>0.16.0</tycho.version>
-        <eclipse.version>juno</eclipse.version>
+        <tycho.version>0.21.0</tycho.version>
+        <eclipse.version>luna</eclipse.version>
         <sonar.exclusions>**/Messages.java</sonar.exclusions>
     </properties>
 
@@ -230,8 +230,8 @@
                 <artifactId>tycho-compiler-plugin</artifactId>
                 <version>${tycho.version}</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                 </configuration>
             </plugin>
 
