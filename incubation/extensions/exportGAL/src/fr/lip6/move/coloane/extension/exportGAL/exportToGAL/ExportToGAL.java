@@ -466,7 +466,8 @@ public class ExportToGAL implements IExportTo {
 			Logger.getLogger("fr.lip6.move.coloane.core").warning("Erreur lors de l'écriture dans le fichier");
 			throw new ExtensionException("Write error :" + ioe.getMessage());
 		} catch (Exception e) {
-			throw new ExtensionException("Unexpected exception when instantiating paramters :" + e.getMessage());
+			e.printStackTrace();
+			throw new ExtensionException("Unexpected exception when building GAL file :" + e.getMessage());
 		}
 		monitor.done();
 	}
