@@ -13,13 +13,13 @@
     <name>Projects :: Expressions</name>
     <description>Partial plugin offering an API to parse integer expressions.</description>
 
-	<dependencies>
+<!-- 	<dependencies>
 		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr-runtime</artifactId>
 			<version>3.5.2</version>
 		</dependency>
-	</dependencies>
+	</dependencies> -->
 
     <build>
         <plugins>
@@ -38,7 +38,7 @@
                     </execution>
                 </executions>
             </plugin>
-			<plugin>
+<!-- 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
@@ -51,12 +51,12 @@
 						<configuration>
 							<excludeScope>provided</excludeScope>
 							<excludeGroupIds>junit,p2.eclipse-plugin</excludeGroupIds>
-							<!-- <stripVersion>true</stripVersion> -->
+							<stripVersion>true</stripVersion>
 							<outputDirectory>${basedir}/lib</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 
