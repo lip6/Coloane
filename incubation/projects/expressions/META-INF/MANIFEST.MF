@@ -8,8 +8,7 @@ Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Bundle-ClassPath: .,
- lib/
+Bundle-ClassPath: .
 Export-Package: fr.lip6.move.coloane.projects.expression;uses:="org.eclipse.ui.plugin,org.osgi.framework",
  fr.lip6.move.coloane.projects.its.antlrutil,
  fr.lip6.move.coloane.projects.its.expression;uses:="fr.lip6.move.coloane.projects.its.obs",
