@@ -7,13 +7,13 @@ Bundle-Activator: fr.lip6.move.coloane.projects.expression.Activator
 Eclipse-LazyStart: true
 Bundle-Vendor: LIP6 / MoVe
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ClassPath: .,
+ lib/
 Export-Package: fr.lip6.move.coloane.projects.expression;uses:="org.eclipse.ui.plugin,org.osgi.framework",
  fr.lip6.move.coloane.projects.its.antlrutil,
  fr.lip6.move.coloane.projects.its.expression;uses:="fr.lip6.move.coloane.projects.its.obs",
  fr.lip6.move.coloane.projects.its.obs,
  fr.lip6.move.coloane.projects.its.expression.parser;uses:="fr.lip6.move.coloane.projects.its.expression,org.antlr.runtime,fr.lip6.move.coloane.projects.its.antlrutil"
 Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.ui,
- org.antlr.runtime;bundle-version="3.5.1"
+ org.eclipse.ui
