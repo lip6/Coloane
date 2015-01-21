@@ -21,8 +21,8 @@ import java.net.URI;
 import java.util.List;
 
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
-import fr.lip6.move.coloane.tools.its.BinaryToolsPlugin;
-import fr.lip6.move.coloane.tools.its.BinaryToolsPlugin.Tool;
+import fr.lip6.move.gal.itstools.BinaryToolsPlugin;
+import fr.lip6.move.gal.itstools.BinaryToolsPlugin.Tool;
 
 
 public class CheckService extends ITSCheckService {

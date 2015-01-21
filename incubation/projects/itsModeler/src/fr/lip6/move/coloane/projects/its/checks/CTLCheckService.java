@@ -19,8 +19,8 @@ package fr.lip6.move.coloane.projects.its.checks;
 import fr.lip6.move.coloane.projects.its.checks.ServiceResult.Status;
 import fr.lip6.move.coloane.projects.its.obs.ISimpleObserver;
 import fr.lip6.move.coloane.projects.its.ui.forms.ITSEditorPlugin;
-import fr.lip6.move.coloane.tools.its.BinaryToolsPlugin;
-import fr.lip6.move.coloane.tools.its.BinaryToolsPlugin.Tool;
+import fr.lip6.move.gal.itstools.BinaryToolsPlugin;
+import fr.lip6.move.gal.itstools.BinaryToolsPlugin.Tool;
 
 import java.io.BufferedWriter;
 import java.io.File;
