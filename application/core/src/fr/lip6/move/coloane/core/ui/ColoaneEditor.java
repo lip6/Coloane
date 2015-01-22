@@ -711,10 +711,15 @@ public class ColoaneEditor extends GraphicalEditorWithFlyoutPalette implements I
 	/** {@inheritDoc} */
 	@Override
 	public final void createPartControl(Composite parent) {
+		
+		// ytm, Jan 2015 : Performance Patch : DO NOT DARE TO DO THIS, who cares if icons of currently unopened editors is out of date ?
+		// It is forbidden to have an operation when opening an editor whose complexity is proportional to number of currently opened editors (usually > 100 in my eclipse instances...)
+		/**
 		// Walk through all existing editors to show their icons:
 		for (IEditorReference editor: Arrays.asList(this.getSite().getPage().getEditorReferences())) {
 			editor.getEditor(true);
 		}
+		*/
 		if (listener == null) {
 			LOGGER.config("Set the focus listener"); //$NON-NLS-1$
 			listener = new TabListener();
