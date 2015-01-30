@@ -455,6 +455,7 @@ public class ExportToGAL implements IExportTo {
 
 		
 		try {
+			
 			Simplifier.simplify(gal);
 			Specification spec = gf.createSpecification();
 			spec.getTypes().add(gal);
