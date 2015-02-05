@@ -33,19 +33,17 @@ import fr.lip6.move.coloane.projects.its.expression.Minus;
 import fr.lip6.move.coloane.projects.its.expression.Mult;
 import fr.lip6.move.coloane.projects.its.expression.NaryExpression;
 import fr.lip6.move.coloane.projects.its.expression.UnaryMinus;
-import fr.lip6.move.gal.Actions;
 import fr.lip6.move.gal.And;
 import fr.lip6.move.gal.Assignment;
 import fr.lip6.move.gal.BinaryIntExpression;
 import fr.lip6.move.gal.BooleanExpression;
-import fr.lip6.move.gal.Call;
-import fr.lip6.move.gal.Comparison;
 import fr.lip6.move.gal.ComparisonOperators;
 import fr.lip6.move.gal.ConstParameter;
 import fr.lip6.move.gal.Constant;
 import fr.lip6.move.gal.False;
 import fr.lip6.move.gal.Fixpoint;
 import fr.lip6.move.gal.GALTypeDeclaration;
+import fr.lip6.move.gal.GF2;
 import fr.lip6.move.gal.GalFactory;
 import fr.lip6.move.gal.IntExpression;
 import fr.lip6.move.gal.Ite;
@@ -53,12 +51,14 @@ import fr.lip6.move.gal.Label;
 import fr.lip6.move.gal.Not;
 import fr.lip6.move.gal.Or;
 import fr.lip6.move.gal.ParamRef;
+import fr.lip6.move.gal.SelfCall;
 import fr.lip6.move.gal.Specification;
+import fr.lip6.move.gal.Statement;
 import fr.lip6.move.gal.Transient;
 import fr.lip6.move.gal.Transition;
 import fr.lip6.move.gal.True;
 import fr.lip6.move.gal.Variable;
-import fr.lip6.move.gal.VariableRef;
+import fr.lip6.move.gal.VariableReference;
 import fr.lip6.move.gal.instantiate.Simplifier;
 import fr.lip6.move.serialization.SerializationUtil;
 
@@ -175,7 +175,7 @@ public class ExportToGAL implements IExportTo {
 		elapse.setGuard(tru);
 
 		BooleanExpression canElapse = gf.createTrue();
-		List<Actions> elapseAct = new ArrayList<Actions>();
+		List<Statement> elapseAct = new ArrayList<Statement>();
 		
 		for (INode node : model.getNodes()) {
 			if ("transition".equals(node.getNodeFormalism().getName())) {
@@ -282,7 +282,7 @@ public class ExportToGAL implements IExportTo {
 
 					// reset other disabled transition clocks
 					// call(reset)
-					Call call = gf.createCall();
+					SelfCall call = gf.createSelfCall();
 					call.setLabel(labReset);
 					t.getActions().add(call);
 
@@ -434,13 +434,13 @@ public class ExportToGAL implements IExportTo {
 				trel.setGuard(gf.createTrue());
 				trel.setGuard(gf.createTrue());				
 				Fixpoint fix = gf.createFixpoint();
-				Call callEl = gf.createCall();
+				SelfCall callEl = gf.createSelfCall();
 				callEl.setLabel(elEffLab);
 				fix.getActions().add(callEl);
 			
 				trel.getActions().add(fix);
 			
-				Call call = gf.createCall();
+				SelfCall call = gf.createSelfCall();
 				call.setLabel(lab);
 				trel.getActions().add(call);
 
@@ -542,25 +542,16 @@ public class ExportToGAL implements IExportTo {
 	}
 	
 	private BooleanExpression createComparison (INode node, ComparisonOperators op, IntExpression value, GalFactory gf, Map<INode, Variable> varMap) {
-		Comparison cmp = gf.createComparison();
-		VariableRef pl = gf.createVariableRef();
-		pl.setReferencedVar(varMap.get(node));
-		cmp.setLeft(pl);
+		VariableReference pl = GF2.createVariableRef(varMap.get(node));
 
-		cmp.setOperator(op);
-		
-
-		// to valuation of arc
-		cmp.setRight(EcoreUtil.copy(value));
-		return cmp;
+		return GF2.createComparison(pl, op, EcoreUtil.copy(value));
 	}
 	
 	private Assignment assignVarConst (INode node, int value, GalFactory gf, Map<INode, Variable> varMap) {
 		Assignment ass = gf.createAssignment();
 
 		// A ref to the place : p
-		VariableRef pl = gf.createVariableRef();
-		pl.setReferencedVar(varMap.get(node));
+		VariableReference pl = GF2.createVariableRef(varMap.get(node));
 		ass.setLeft(pl);
 
 		ass.setRight(constant(value));
@@ -575,8 +566,7 @@ public class ExportToGAL implements IExportTo {
 	private Assignment touchVar(INode node, IntExpression value, String op,
 			GalFactory gf, Map<INode, Variable> varMap) {
 		// A ref to the place : p
-		VariableRef pl = gf.createVariableRef();
-		pl.setReferencedVar(varMap.get(node));
+		VariableReference pl = GF2.createVariableRef(varMap.get(node));
 
 		// p= 0
 		Assignment ass = gf.createAssignment();
@@ -584,8 +574,7 @@ public class ExportToGAL implements IExportTo {
 
 
 		BinaryIntExpression add = gf.createBinaryIntExpression();
-		VariableRef pl2 = gf.createVariableRef();
-		pl2.setReferencedVar(varMap.get(node));
+		VariableReference pl2 = GF2.createVariableRef(varMap.get(node));
 
 		add.setLeft(pl2);
 
