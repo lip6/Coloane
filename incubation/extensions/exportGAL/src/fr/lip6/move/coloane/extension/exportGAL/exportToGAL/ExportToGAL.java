@@ -16,6 +16,9 @@
  */
 package fr.lip6.move.coloane.extension.exportGAL.exportToGAL;
 
+
+import static fr.lip6.move.gal.GF2.constant;
+
 import fr.lip6.move.coloane.interfaces.exceptions.ExtensionException;
 import fr.lip6.move.coloane.interfaces.extensions.IExportTo;
 import fr.lip6.move.coloane.interfaces.model.IArc;
@@ -34,13 +37,11 @@ import fr.lip6.move.coloane.projects.its.expression.Mult;
 import fr.lip6.move.coloane.projects.its.expression.NaryExpression;
 import fr.lip6.move.coloane.projects.its.expression.UnaryMinus;
 import fr.lip6.move.gal.And;
-import fr.lip6.move.gal.Assignment;
 import fr.lip6.move.gal.BinaryIntExpression;
 import fr.lip6.move.gal.BooleanExpression;
 import fr.lip6.move.gal.ComparisonOperators;
 import fr.lip6.move.gal.ConstParameter;
 import fr.lip6.move.gal.Constant;
-import fr.lip6.move.gal.False;
 import fr.lip6.move.gal.Fixpoint;
 import fr.lip6.move.gal.GALTypeDeclaration;
 import fr.lip6.move.gal.GF2;
@@ -54,7 +55,6 @@ import fr.lip6.move.gal.ParamRef;
 import fr.lip6.move.gal.SelfCall;
 import fr.lip6.move.gal.Specification;
 import fr.lip6.move.gal.Statement;
-import fr.lip6.move.gal.Transient;
 import fr.lip6.move.gal.Transition;
 import fr.lip6.move.gal.True;
 import fr.lip6.move.gal.Variable;
@@ -113,10 +113,12 @@ public class ExportToGAL implements IExportTo {
 		final GalFactory gf = GalFactory.eINSTANCE;
 		GALTypeDeclaration gal = gf.createGALTypeDeclaration();
 		gal.setName(name);
-		Transient tr = gf.createTransient();
-		False f = gf.createFalse();
-		tr.setValue(f);
-		gal.setTransient(tr);
+
+		// now optional to specify transient
+		//		Transient tr = gf.createTransient();
+		//		False f = gf.createFalse();
+		//		tr.setValue(f);
+		//      gal.setTransient(tr);
 
 		Map<IVariable,ConstParameter> evarMap = new HashMap<IVariable, ConstParameter>();
 
@@ -148,31 +150,29 @@ public class ExportToGAL implements IExportTo {
 					gal.getVariables().add(var);					
 					varMap.put(node,var);
 				}
+				if ( isZero(lft)) {
+					// urgent ! It does not produce a clock variable, but it still means overall we must constrain time elapse.
+					isTimed = true;
+				}
 			}
 		}
 
 		// prepare the creation of the reset disabled transition
-		Transition reset = gf.createTransition();
-		Label labReset = gf.createLabel();
-		labReset.setName("reset");
-		reset.setName("reset");
-		
-		reset.setLabel(labReset );
-		True tru = gf.createTrue();
+		Label labReset = GF2.createLabel("reset");
 
-		reset.setGuard(tru);
+		Transition reset = gf.createTransition();
+		reset.setName("reset");		
+		reset.setLabel(labReset );
+		reset.setGuard(gf.createTrue());
 
 
 		// prepare the creation of the elapse disabled transition
-		Transition elapse = gf.createTransition();
-		Label labElapse = gf.createLabel();
-		labElapse.setName("elapse");
-		elapse.setName("elapse");
-		
-		elapse.setLabel(labElapse);
-		tru = gf.createTrue();
+		Label labElapse = GF2.createLabel("elapse");
 
-		elapse.setGuard(tru);
+		Transition elapse = gf.createTransition();
+		elapse.setName("elapse");		
+		elapse.setLabel(labElapse);
+		elapse.setGuard(gf.createTrue());
 
 		BooleanExpression canElapse = gf.createTrue();
 		List<Statement> elapseAct = new ArrayList<Statement>();
@@ -193,15 +193,12 @@ public class ExportToGAL implements IExportTo {
 
 				BooleanExpression guard = computeGuard(node,gf,varMap,gal,evarMap);
 
-				if (! (eft instanceof Constant) || ((Constant) eft).getValue() != 0) {
-					// add clock >= eft to guard condition
-					And and = gf.createAnd();
-					
-					BooleanExpression comp = createComparison(node, ComparisonOperators.GE, eft, gf, varMap);
+				if (! (eft instanceof Constant) || ((Constant) eft).getValue() != 0) {					
+					BooleanExpression comp = GF2.createComparison(GF2.createVariableRef(varMap.get(node)), ComparisonOperators.GE, eft);
+					//createComparison(node, ComparisonOperators.GE, eft, gf, varMap);
 
-					and.setLeft(guard);
-					and.setRight(comp);
-					t.setGuard(and);
+					// and clock >= eft to guard condition					
+					t.setGuard(GF2.and(guard, comp));
 				} else {
 					t.setGuard(guard);
 				}
@@ -211,11 +208,8 @@ public class ExportToGAL implements IExportTo {
 					String arcType = arc.getArcFormalism().getName(); 
 
 					if ("reset".equals(arcType) ) {
-
-
 						// p= 0
-						Assignment ass = assignVarConst(arc.getSource(), 0, gf, varMap);
-						t.getActions().add(ass);
+						t.getActions().add(GF2.createAssignVarConst(varMap.get(arc.getSource()), 0)); 
 					}
 				}
 				// build actions :  then take tokens
@@ -232,7 +226,7 @@ public class ExportToGAL implements IExportTo {
 						} else {
 							val = constant(1);
 						}
-						Assignment ass = decrementVar(arc.getSource(), val, gf, varMap);
+						Statement ass = decrementVar(arc.getSource(), val, gf, varMap);
 						
 						t.getActions().add(ass);
 					}
@@ -251,7 +245,7 @@ public class ExportToGAL implements IExportTo {
 							value = constant(1); 
 						}
 						// p= 0
-						Assignment ass = incrementVar(arc.getTarget(), value, gf, varMap);
+						Statement ass = incrementVar(arc.getTarget(), value, gf, varMap);
 						
 						t.getActions().add(ass);
 					}
@@ -264,7 +258,7 @@ public class ExportToGAL implements IExportTo {
 
 						
 						// p= 0
-						Assignment ass = assignVarConst(node, 0, gf, varMap);
+						Statement ass = GF2.createAssignVarConst(varMap.get(node), 0);
 						
 						t.getActions().add(ass);
 
@@ -274,7 +268,7 @@ public class ExportToGAL implements IExportTo {
 						BooleanExpression g = computeGuard(node, gf, varMap, gal, evarMap);
 						notGuard.setValue(g);
 						ite.setCond(notGuard);
-						Assignment ass2 = assignVarConst(node, 0, gf, varMap);
+						Statement ass2 = GF2.createAssignVarConst(varMap.get(node), 0);
 						ite.getIfTrue().add(ass2);
 						
 						reset.getActions().add(ite);
@@ -329,7 +323,7 @@ public class ExportToGAL implements IExportTo {
 
 						// effect if true is :
 						// clock= clock+1
-						Assignment ass = incrementVar(node, constant(1), gf, varMap);
+						Statement ass = incrementVar(node, constant(1), gf, varMap);
 						
 						ite.getIfTrue().add(ass);
 						elapse.getActions().add(ite);
@@ -354,7 +348,7 @@ public class ExportToGAL implements IExportTo {
 						
 						// effect if true is :
 						// clock= clock+1
-						Assignment ass = incrementVar(node, constant(1), gf, varMap);
+						Statement ass = incrementVar(node, constant(1), gf, varMap);
 						
 						ite2.getIfTrue().add(ass);
 
@@ -481,20 +475,18 @@ public class ExportToGAL implements IExportTo {
 		return false;
 	}
 
-	private boolean isInf(IntExpression eft) {
-		if (eft instanceof Constant) {
-			Constant cte = (Constant) eft;
-			return cte.getValue() == -1;
-		}
+	private boolean isInf(IntExpression lft) {
+		if (lft instanceof fr.lip6.move.gal.UnaryMinus) {
+			fr.lip6.move.gal.UnaryMinus umin = (fr.lip6.move.gal.UnaryMinus) lft;
+			if (umin.getValue() instanceof Constant) {
+				return ((Constant) umin.getValue()).getValue() == 1;				
+			}
+		}		
 		return false;
 	}
 
 	
-	private IntExpression constant(int val) {
-		Constant tmp = GalFactory.eINSTANCE.createConstant();
-		tmp.setValue(val);
-		return tmp;
-	}
+
 
 	private BooleanExpression computeGuard(INode node, GalFactory gf, Map<INode, Variable> varMap, GALTypeDeclaration gal, Map<IVariable, ConstParameter> evarMap) {
 		True tru = gf.createTrue();
@@ -547,56 +539,29 @@ public class ExportToGAL implements IExportTo {
 		return GF2.createComparison(pl, op, EcoreUtil.copy(value));
 	}
 	
-	private Assignment assignVarConst (INode node, int value, GalFactory gf, Map<INode, Variable> varMap) {
-		Assignment ass = gf.createAssignment();
 
-		// A ref to the place : p
-		VariableReference pl = GF2.createVariableRef(varMap.get(node));
-		ass.setLeft(pl);
-
-		ass.setRight(constant(value));
-
-		return ass;
-	}
 	
-	private Assignment decrementVar (INode node, IntExpression value, GalFactory gf, Map<INode, Variable> varMap) {
+	private Statement decrementVar (INode node, IntExpression value, GalFactory gf, Map<INode, Variable> varMap) {
 		return touchVar(node, value, "-" , gf, varMap);
 	}
 	
-	private Assignment touchVar(INode node, IntExpression value, String op,
+	private Statement touchVar(INode node, IntExpression value, String op,
 			GalFactory gf, Map<INode, Variable> varMap) {
 		// A ref to the place : p
 		VariableReference pl = GF2.createVariableRef(varMap.get(node));
 
-		// p= 0
-		Assignment ass = gf.createAssignment();
-		ass.setLeft(pl);
-
-
-		BinaryIntExpression add = gf.createBinaryIntExpression();
-		VariableReference pl2 = GF2.createVariableRef(varMap.get(node));
-
-		add.setLeft(pl2);
-
-		add.setOp(op);
-
-		add.setRight(value);
-
-		ass.setRight(add);
-		return ass;
+		// p= p "op" val
+		return GF2.createAssignment(pl, GF2.createBinaryIntExpression(EcoreUtil.copy(pl), op, value)); 
 	}
 
-	private Assignment incrementVar (INode node, IntExpression value, GalFactory gf, Map<INode, Variable> varMap) {
+	private Statement incrementVar (INode node, IntExpression value, GalFactory gf, Map<INode, Variable> varMap) {
 		return touchVar(node, value, "+", gf, varMap);
 	}
 	
 		
 	private boolean hasClock(IntExpression eft, IntExpression lft) {
-		if (! ( eft instanceof Constant && lft instanceof Constant ) ) {
-			return true;
-		}
 		// [0,0] and [0,inf[ clocks are discarded
-		return ((Constant) eft).getValue()!=0 ||  (((Constant) lft).getValue()!=0 && ((Constant) lft).getValue() != -1 );
+		return  (! isZero(eft)) || ( ! isInf(lft) && ! isZero(lft));
 	}
 
 	private IntExpression eft(INode node, GALTypeDeclaration gal, Map<IVariable, ConstParameter> varMap) {
