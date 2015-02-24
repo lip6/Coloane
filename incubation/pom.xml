@@ -49,17 +49,17 @@
             <url>http://coloane.lip6.fr/night-updates</url>
         </repository>
 	<repository>
-	<id>spray-dependencies</id>
+<!-- 	<id>spray-dependencies</id>
 	<layout>p2</layout>
 	<url>https://spray.ci.cloudbees.com/job/spray-ci-targetplatform/lastSuccessfulBuild/artifact/releng/org.eclipselabs.spray.repository/target/repository/</url>    </repository>
-    <!--
+    
     <repository>
       <id>spray-dependencies-juno</id>
       <layout>p2</layout>
       <url>https://spray.ci.cloudbees.com/job/spray-ci-targetplatform-juno/lastSuccessfulBuild/artifact/releng/org.eclipselabs.spray.repository/target/repository/</url>
     </repository>
-    -->
-    </repositories>
+   
+    </repositories> -->
 
     <!-- L'équipe de développement (actifs)-->
     <developers>
