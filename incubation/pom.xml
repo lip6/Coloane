@@ -57,9 +57,9 @@
       <id>spray-dependencies-juno</id>
       <layout>p2</layout>
       <url>https://spray.ci.cloudbees.com/job/spray-ci-targetplatform-juno/lastSuccessfulBuild/artifact/releng/org.eclipselabs.spray.repository/target/repository/</url>
-    </repository>
+    </repository> -->
    
-    </repositories> -->
+    </repositories> 
 
     <!-- L'équipe de développement (actifs)-->
     <developers>
