@@ -20,7 +20,5 @@
         <module>importFromSGROMEO</module>
         <module>importExportITS</module>
         <module>importExportTINA</module>
-        <module>exportGAL</module>
-        <module>examples</module>
     </modules>
 </project>
