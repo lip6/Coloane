@@ -13,6 +13,7 @@ import fr.lip6.move.coloane.projects.its.variables.GalArrayVariable;
 import fr.lip6.move.coloane.projects.its.variables.GalVariable;
 import fr.lip6.move.coloane.projects.its.variables.IModelVariable;
 import fr.lip6.move.gal.ArrayPrefix;
+import fr.lip6.move.gal.Constant;
 import fr.lip6.move.gal.Label;
 import fr.lip6.move.gal.Specification;
 import fr.lip6.move.gal.Variable;
@@ -54,7 +55,7 @@ public class GALTypeDeclaration extends AbstractTypeDeclaration {
 		}
 		
 		for (ArrayPrefix array: galSystem.getArrays()) {
-			int max = array.getSize();
+			int max = ((Constant) array.getSize()).getValue();
 			for (int i=0 ; i < max ; i++) {
 				variables.add(new GalArrayVariable(array, i));
 			}
