@@ -19,7 +19,7 @@
 		<module>features</module>
 		<module>update-site</module>
 		<module>thirdparty</module>
-		<module>target-definition</module>
+		<!-- <module>target-definition</module> -->
 	</modules>
 
 	<scm>
