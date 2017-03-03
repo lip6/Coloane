@@ -251,7 +251,7 @@
 	<!-- Serveur d'integration continue -->
 	<ciManagement>
 		<system>TeamCity</system>
-		<url>https://teamcity-systeme.lip6.fr/</url>
+		<url>https://new-phoenix.rsr.lip6.fr:8111/</url>
 	</ciManagement>
 
 	<!-- Pour les tests unitaires -->
@@ -268,12 +268,12 @@
 		<repository>
 			<id>forge.releases</id>
 			<name>Internal Release Repository for Coloane</name>
-			<url>http://teamcity-systeme.lip6.fr/nexus/content/repositories/releases</url>
+			<url>http://new-phoenix.rsr.lip6.fr:8081/nexus/content/repositories/releases</url>
 		</repository>
 		<snapshotRepository>
 			<id>forge.snapshots</id>
 			<name>Internal Snapshot Repository for Coloane</name>
-			<url>http://teamcity-systeme.lip6.fr/nexus/content/repositories/snapshots</url>
+			<url>http://new-phoenix.rsr.lip6.fr:8081/nexus/content/repositories/snapshots</url>
 		</snapshotRepository>
 	</distributionManagement>
 
