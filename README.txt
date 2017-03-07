@@ -1,0 +1,2 @@
+This Branch is hosting the state of the source tree before moving to github and cutting unmaintained parts from the build.
+Essentially, the Alligator style communication with a verification platform has been cut out from master.
