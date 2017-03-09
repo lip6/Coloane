@@ -15,15 +15,12 @@
     <description>Group of Coloane's dedicated extensions</description>
 
     <modules>
-        <module>AutomatonToGrML</module>
         <module>exportToDOT</module>
         <module>exportToPGF</module>
-        <module>exportToGrML</module>
         <module>exportToSVG</module>
         <module>importExportCAMI</module>
         <!-- <module>importExportPNML</module> -->
         <module>importExportLOLA</module>
-        <module>importFromGrML</module>        
         <module>PNexamples</module>
     </modules>
 

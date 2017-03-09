@@ -13,11 +13,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>grml-check</groupId>
-			<artifactId>grml-check</artifactId>
-			<version>1.4</version>
-		</dependency>
-		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr-runtime</artifactId>
 			<version>3.5.2</version>

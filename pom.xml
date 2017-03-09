@@ -1,6 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
+
+	<!-- Tycho requires Maven 3 -->
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
 
 	<groupId>fr.lip6.move.coloane</groupId>
 	<artifactId>coloane-parent</artifactId>
@@ -11,7 +18,6 @@
 	<url>http://coloane.lip6.fr</url>
 
 	<modules>
-		<module>apis</module>
 		<module>application</module>
 		<module>extensions</module>
 		<module>tools</module>
@@ -19,13 +25,12 @@
 		<module>features</module>
 		<module>update-site</module>
 		<module>thirdparty</module>
-		<module>target-definition</module>
 	</modules>
 
 	<scm>
-		<connection>scm:svn:https://coloane.lip6.fr/svn/trunk</connection>
-		<developerConnection>scm:svn:https://coloane.lip6.fr/svn/trunk</developerConnection>
-		<url>https://coloane.lip6.fr/trac</url>
+		<connection>https://github.com/lip6/Coloane.git</connection>
+		<developerConnection>https://github.com/lip6/Coloane.git</developerConnection>
+		<url>https://github.com/lip6/Coloane</url>
 	</scm>
 
 	<organization>
@@ -34,33 +39,50 @@
 	</organization>
 
 	<properties>
+		<!-- A changer lors du passage à Maven 2.1 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<tycho.version>0.26.0</tycho.version>
+		<junit-version>4.8.1</junit-version>
+		<eclipse-site>http://download.eclipse.org/releases/${platform-version-name}</eclipse-site>
+		<!-- EDIT THIS ORBIT SITE FOR NEXT RELEASE : this is neon -->
+		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbit-site>
+		<platform-version-name>neon</platform-version-name>
+		<tycho-version>0.26.0</tycho-version>
 		<sonar.exclusions>**/Messages.java</sonar.exclusions>
-		<eclipse.version>neon</eclipse.version>
 	</properties>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>sonatype</id>
+			<url>http://repository.sonatype.org/content/groups/sonatype-public-grid/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<!-- Fornax Workflow Runner plugin -->
+		<!-- <pluginRepository> <id>fornax</id> <url>http://www.fornax-platform.org/m2/repository</url> 
+			<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
+			</snapshots> </pluginRepository> -->
+		<pluginRepository>
+			<id>The central nexus</id>
+			<url>http://repo1.maven.org/maven2</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<repositories>
-		<repository>
-			<id>${eclipse.version}</id>
+	
+	<repository>
+			<id>Eclipse current release</id>
 			<layout>p2</layout>
-			<url>http://download.eclipse.org/releases/${eclipse.version}</url>
+			<url>http://download.eclipse.org/releases/${platform-version-name}</url>
 		</repository>
-		<!-- <repository> -->
-		<!-- <id>gef</id> -->
-		<!-- <layout>p2</layout> -->
-		<!-- <url>http://download.eclipse.org/tools/gef/updates/releases/</url> -->
-		<!-- </repository> -->
-		<!-- <repository> -->
-		<!-- <id>coloane</id> -->
-		<!-- <layout>p2</layout> -->
-		<!-- <url>http://coloane.lip6.fr/night-updates</url> -->
-		<!-- </repository> -->
-		<!-- <repository> -->
-		<!-- <id>pnml</id> -->
-		<!-- <layout>p2</layout> -->
-		<!-- <url>http://pnml.lip6.fr/pnmlframework/updatesite</url> -->
-		<!-- </repository> -->
+			<repository>
+			<id>asm</id>
+			<layout>p2</layout>
+			<url>${orbit-site}</url>
+		</repository>
 	</repositories>
 
 	<!-- L'équipe de développement (actifs) -->
@@ -250,19 +272,10 @@
 
 	<!-- Serveur d'integration continue -->
 	<ciManagement>
-		<system>TeamCity</system>
-		<url>https://new-phoenix.rsr.lip6.fr:8111/</url>
+		<system>travis-ci</system>
+		<url>https://travis-ci.org/lip6/Coloane</url>
 	</ciManagement>
 
-	<!-- Pour les tests unitaires -->
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
 
 	<distributionManagement>
 		<repository>
@@ -278,112 +291,25 @@
 	</distributionManagement>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>
-
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>2.17</version>
-				</plugin>
-				<plugin>
-					<groupId>com.google.code.maven-license-plugin</groupId>
-					<artifactId>maven-license-plugin</artifactId>
-					<version>1.12</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-dependency-plugin</artifactId>
-					<version>2.10</version>
-				</plugin>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
-				<plugin>
-					<groupId>org.eclipse.m2e</groupId>
-					<artifactId>lifecycle-mapping</artifactId>
-					<version>1.0.0</version>
-					<configuration>
-						<lifecycleMappingMetadata>
-							<pluginExecutions>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											com.google.code.maven-license-plugin
-										</groupId>
-										<artifactId>
-											maven-license-plugin
-										</artifactId>
-										<versionRange>
-											[1.4.0,)
-										</versionRange>
-										<goals>
-											<goal>check</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-dependency-plugin</artifactId>
-										<versionRange>[2.0,)</versionRange>
-										<goals>
-											<goal>copy-dependencies</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<execute />
-									</action>
-								</pluginExecution>
-							</pluginExecutions>
-						</lifecycleMappingMetadata>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
-		<!-- Configuration des plugins de Maven -->
 		<plugins>
-
-			<!-- Build Coloane using tycho -->
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-maven-plugin</artifactId>
-				<version>${tycho.version}</version>
+				<version>${tycho-version}</version>
 				<extensions>true</extensions>
 			</plugin>
-
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho.version}</version>
+				<version>${tycho-version}</version>
 				<configuration>
 					<resolver>p2</resolver>
-					<target>
-						<artifact>
-							<groupId>fr.lip6.move.coloane</groupId>
-							<artifactId>target-definition</artifactId>
-							<version>1.1.0-SNAPSHOT</version>
-							<classifier>helios</classifier>
-						</artifact>
-					</target>
-					<ignoreTychoRepositories>true</ignoreTychoRepositories>
+					<pomDependencies>consider</pomDependencies>
+					<!-- <target> <artifact> <groupId>org.eclipselabs.spray</groupId> <artifactId>org.eclipselabs.spray.targetplatform</artifactId> 
+						<version>0.4.0-SNAPSHOT</version> <classifier>spray</classifier> </artifact> 
+						</target> -->
 					<environments>
 						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86</arch>
-						</environment>
-						<environment>
-							<os>linux</os>
-							<ws>gtk</ws>
-							<arch>x86_64</arch>
-						</environment>
-						<environment>
 							<os>win32</os>
 							<ws>win32</ws>
 							<arch>x86</arch>
@@ -396,117 +322,165 @@
 						<environment>
 							<os>macosx</os>
 							<ws>cocoa</ws>
-							<arch>x86</arch>
+							<arch>x86_64</arch>
 						</environment>
 						<environment>
 							<os>macosx</os>
 							<ws>cocoa</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
 							<arch>x86_64</arch>
 						</environment>
 					</environments>
 				</configuration>
 			</plugin>
-
-			<plugin>
-				<groupId>org.eclipse.tycho</groupId>
-				<artifactId>tycho-compiler-plugin</artifactId>
-				<version>${tycho.version}</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-source-plugin</artifactId>
-				<version>${tycho.version}</version>
+				<version>${tycho-version}</version>
 				<executions>
 					<execution>
-						<id>plugin-source</id>
+						<id>attach-source</id>
 						<goals>
 							<goal>plugin-source</goal>
 						</goals>
 					</execution>
 				</executions>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>copy-dependencies</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<excludeScope>provided</excludeScope>
-							<excludeGroupIds>junit,p2.eclipse-plugin</excludeGroupIds>
-							<stripVersion>true</stripVersion>
-							<outputDirectory>${basedir}/lib</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<!-- <plugin> <groupId>com.google.code.maven-license-plugin</groupId> 
-				<artifactId>maven-license-plugin</artifactId> <configuration> <basedir>${basedir}</basedir> 
-				<header>http://coloane.lip6.fr/resources/header.txt</header> <validHeaders> 
-				<validHeader>http://coloane.lip6.fr/resources/header-incubation.txt</validHeader> 
-				</validHeaders> <quiet>false</quiet> <failIfMissing>false</failIfMissing> 
-				<aggregate>false</aggregate> <includes> <include>src/**</include> <include>**/test/**</include> 
-				</includes> <excludes> <exclude>target/**</exclude> <exclude>.clover/**</exclude> 
-				<exclude>**/fr/lip6/move/coloane/interfaces/utils/ProcessController.java</exclude> 
-				<exclude>**/fr/lip6/move/coloane/core/ui/figures/RoundedPolylineConnection.java</exclude> 
-				<exclude>src/main/antlr3/**</exclude> </excludes> <useDefaultExcludes>true</useDefaultExcludes> 
-				<useDefaultMapping>true</useDefaultMapping> <properties> <year>2012</year> 
-				</properties> <encoding>UTF-8</encoding> </configuration> <executions> <execution> 
-				<id>GenerateHeaders</id> <goals> <goal>format</goal> </goals> </execution> 
-				<execution> <id>CheckForHeaders</id> <phase>validate</phase> <goals> <goal>check</goal> 
-				</goals> </execution> <execution> <id>CleanHeaders</id> <goals> <goal>remove</goal> 
-				</goals> </execution> </executions> </plugin> -->
-
-			<!-- Signature des jars -->
-			<!-- <plugin> -->
-			<!-- <groupId>org.apache.maven.plugins</groupId> -->
-			<!-- <artifactId>maven-jar-plugin</artifactId> -->
-			<!-- <version>2.3.1</version> -->
-			<!-- <executions> -->
-			<!-- <execution> -->
-			<!-- <goals> -->
-			<!-- <goal>sign</goal> -->
-			<!-- </goals> -->
-			<!-- </execution> -->
-			<!-- <execution> -->
-			<!-- <id>SignSource</id> -->
-			<!-- <phase>verify</phase> -->
-			<!-- <goals> -->
-			<!-- <goal>sign</goal> -->
-			<!-- </goals> -->
-			<!-- </execution> -->
-			<!-- </executions> -->
-			<!-- <configuration> -->
-			<!-- <keystore>${env.BUILDTOOLS}/coloane.keystore</keystore> -->
-			<!-- <alias>coloane</alias> -->
-			<!-- <storepass>odui2aiF</storepass> -->
-			<!-- <keypass>gu2Ieg2v</keypass> -->
-			<!-- <verify>true</verify> -->
-			<!-- </configuration> -->
-			<!-- </plugin> -->
 		</plugins>
-
+		<pluginManagement>
+			<plugins>
+				<!-- TYCHO -->
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-compiler-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+				<!-- enable source bundle generation -->
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-surefire-plugin</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+				<!-- <plugin> <groupId>org.eclipse.tycho</groupId> <artifactId>maven-osgi-test-plugin</artifactId> 
+					<version>${tycho-version}</version> </plugin> -->
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-p2-repository-plugin</artifactId>
+					<version>${tycho-version}</version>
+				</plugin>
+				<!-- APACHE MAVEN PLUGINS -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.7</version>
+					<configuration>
+						<encoding>ISO-8859-1</encoding>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<version>1.7</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>2.17</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-clean-plugin</artifactId>
+					<version>2.6</version>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.4.1</version>
+				</plugin>
+				<plugin>
+					<artifactId>maven-release-plugin</artifactId>
+					<version>2.5.1</version>
+					<configuration>
+						<preparationGoals>clean -DnewVersion=${releaseVersion}
+							-Dprudent=true
+							org.eclipse.tycho:tycho-versions-plugin:set-version
+							verify
+							scm:checkin</preparationGoals>
+						<arguments>-Prelease</arguments>
+					</configuration>
+				</plugin>
+				<!-- OTHER PLUGINS -->
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>findbugs-maven-plugin</artifactId>
+					<version>2.5.5</version>
+					<configuration>
+						<findbugsXmlOutput>true</findbugsXmlOutput>
+						<failOnError>false</failOnError>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>check</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>build-helper-maven-plugin</artifactId>
+					<version>1.9.1</version>
+					<executions>
+						<execution>
+							<id>add-source</id>
+							<phase>generate-sources</phase>
+							<goals>
+								<goal>add-source</goal>
+							</goals>
+							<configuration>
+								<sources>
+									<source>src-gen</source>
+								</sources>
+								<sources>
+									<source>${project.build.directory}/xtend-gen</source>
+								</sources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.dash.maven</groupId>
+					<artifactId>eclipse-signing-maven-plugin</artifactId>
+					<version>1.0.5</version>
+				</plugin>
+				<plugin>
+					<groupId>org.fornax.toolsupport</groupId>
+					<artifactId>fornax-oaw-m2-plugin</artifactId>
+					<version>3.6.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.eclipse.xtend</groupId>
+					<artifactId>xtend-maven-plugin</artifactId>
+					<version>2.8.0</version>
+					<configuration>
+						<!-- need to prefix by basedir to generate to currently built module -->
+						<outputDirectory>${basedir}/xtend-gen</outputDirectory>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 	<reporting>

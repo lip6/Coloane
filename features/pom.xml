@@ -16,18 +16,14 @@
 
     <modules>
         <module>coloaneMain</module>
-        <module>coloaneProduct</module>
-        <module>alligatorApi</module>
         <module>coloaneMainSources</module>
         <!-- IMPORT / EXPORT -->
         <module>exportToDOT</module>
         <module>exportToPGF</module>
-        <module>exportToGrML</module>
         <module>exportToSVG</module>
         <module>importExportCAMI</module>
         <!-- <module>importExportPNML</module> -->
         <module>importExportLOLA</module>
-        <module>importFromGrML</module>        
         <!-- EXAMPLES -->
         <module>modelExamples</module>
         <!-- FRAGMENTS -->
