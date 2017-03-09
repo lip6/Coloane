@@ -1,0 +1,20 @@
+install: true
+
+language: java
+
+script : mvn clean validate generate-sources && mvn install && cd - 
+
+jdk: oraclejdk8
+
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+
+  
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+  local_dir: update-site/target/repository
+  on:
+    branch: master
