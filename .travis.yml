@@ -2,7 +2,7 @@ install: true
 
 language: java
 
-script : mvn generate-sources install && mvn install 
+script : mvn generate-sources install 
 
 jdk: oraclejdk8
 
