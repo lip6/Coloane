@@ -43,10 +43,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<junit-version>4.8.1</junit-version>
 		<eclipse-site>http://download.eclipse.org/releases/${platform-version-name}</eclipse-site>
-		<!-- EDIT THIS ORBIT SITE FOR NEXT RELEASE : this is neon -->
-		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbit-site>
-		<platform-version-name>neon</platform-version-name>
-		<tycho-version>0.26.0</tycho-version>
+		<!-- EDIT THIS ORBIT SITE FOR NEXT RELEASE : this is photon -->
+		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20180606145124/repository/</orbit-site>
+		<platform-version-name>photon</platform-version-name>
+		<tycho-version>1.2.0</tycho-version>
 		<sonar.exclusions>**/Messages.java</sonar.exclusions>
 	</properties>
 
@@ -422,7 +422,7 @@
 					</configuration>
 				</plugin>
 				<!-- OTHER PLUGINS -->
-				<plugin>
+<!-- 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>findbugs-maven-plugin</artifactId>
 					<version>2.5.5</version>
@@ -460,7 +460,7 @@
 						</execution>
 					</executions>
 				</plugin>
-				<plugin>
+ -->				<plugin>
 					<groupId>org.eclipse.dash.maven</groupId>
 					<artifactId>eclipse-signing-maven-plugin</artifactId>
 					<version>1.0.5</version>
