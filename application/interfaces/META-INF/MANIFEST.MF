@@ -19,6 +19,7 @@ Export-Package: fr.lip6.move.coloane.interfaces.api,
  fr.lip6.move.coloane.interfaces.utils
 Require-Bundle: org.eclipse.jface,
  org.eclipse.core.runtime,
- org.eclipse.gef
+ org.eclipse.gef,
+ org.eclipse.swt
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
