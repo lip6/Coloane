@@ -6,50 +6,14 @@ Bundle-Version: 1.1.0.qualifier
 Bundle-Activator: fr.lip6.move.coloane.core.main.Coloane
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Export-Package: fr.lip6.move.coloane.core.main;
-  uses:="org.eclipse.jface.preference,
-   org.eclipse.ui.plugin,
-   org.osgi.framework,
-   org.eclipse.swt.widgets",
+Export-Package: fr.lip6.move.coloane.core.main,
+ fr.lip6.move.coloane.core.model,
  fr.lip6.move.coloane.core.model.factory,
- fr.lip6.move.coloane.core.model.interfaces,
- fr.lip6.move.coloane.core.ui.figures;
-  uses:="org.eclipse.draw2d.geometry,
-   org.eclipse.swt.graphics,
-   fr.lip6.move.coloane.core.model.interfaces,
-   fr.lip6.move.coloane.interfaces.model,
-   org.eclipse.draw2d",
- fr.lip6.move.coloane.core.ui.files;
-  uses:="org.eclipse.osgi.util,
-   org.eclipse.jface.resource,
-   fr.lip6.move.coloane.interfaces.formalism,
-   org.eclipse.core.resources,
-   fr.lip6.move.coloane.interfaces.model,
-   org.xml.sax.helpers,
-   org.xml.sax",
+ fr.lip6.move.coloane.core.ui.figures,
+ fr.lip6.move.coloane.core.ui.files,
  fr.lip6.move.coloane.core.ui.views,
- fr.lip6.move.coloane.core.ui.wizards.exportmodel;
-  uses:="org.eclipse.core.runtime,
-   org.eclipse.ui,
-   org.eclipse.ui.wizards.datatransfer,
-   org.eclipse.osgi.util,
-   org.eclipse.core.runtime.jobs,
-   org.eclipse.core.resources,
-   org.eclipse.jface.viewers,
-   org.eclipse.ui.dialogs,
-   fr.lip6.move.coloane.interfaces.extensions,
-   org.eclipse.swt.widgets",
- fr.lip6.move.coloane.core.ui.wizards.importmodel;
-  uses:="org.eclipse.jface.wizard,
-   org.eclipse.osgi.util,
-   org.eclipse.core.runtime,
-   org.eclipse.core.runtime.jobs,
-   org.eclipse.ui,
-   org.eclipse.core.resources,
-   org.eclipse.jface.viewers,
-   org.eclipse.ui.dialogs,
-   org.eclipse.swt.widgets,
-   fr.lip6.move.coloane.interfaces.extensions"
+ fr.lip6.move.coloane.core.ui.wizards.exportmodel,
+ fr.lip6.move.coloane.core.ui.wizards.importmodel
 Require-Bundle: fr.lip6.move.coloane.interfaces,
  org.eclipse.gef;visibility:=reexport,
  org.eclipse.jface,
