@@ -4,8 +4,6 @@ language: java
 
 script : mvn generate-sources install 
 
-jdk: oraclejdk9
-
 cache:
   directories:
     - '$HOME/.m2/repository'
