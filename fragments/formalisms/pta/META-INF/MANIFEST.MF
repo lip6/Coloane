@@ -4,4 +4,4 @@ Bundle-Name: Pta
 Bundle-SymbolicName: fr.lip6.move.coloane.fragments.formalisms.pta;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Fragment-Host: fr.lip6.move.coloane.core;bundle-version="1.1.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11

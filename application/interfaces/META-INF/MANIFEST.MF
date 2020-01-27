@@ -21,5 +21,5 @@ Require-Bundle: org.eclipse.jface,
  org.eclipse.core.runtime,
  org.eclipse.gef
 Bundle-ManifestVersion: 2
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: fr.lip6.move.coloane.interfaces
