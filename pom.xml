@@ -44,8 +44,8 @@
 		<junit-version>4.8.1</junit-version>
 		<eclipse-site>http://download.eclipse.org/releases/${platform-version-name}</eclipse-site>
 		<!-- EDIT THIS ORBIT SITE FOR NEXT RELEASE : this is 2018-12 -->
-		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20190827152740/repository/</orbit-site>
-		<platform-version-name>2019-09</platform-version-name>
+		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository/</orbit-site>
+		<platform-version-name>2020-03</platform-version-name>
 		<tycho-version>1.4.0</tycho-version>
 		<sonar.exclusions>**/Messages.java</sonar.exclusions>
 	</properties>
