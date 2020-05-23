@@ -6,7 +6,7 @@
 
 	<!-- Tycho requires Maven 3 -->
 	<prerequisites>
-		<maven>3.0.5</maven>
+		<maven>3.1.0</maven>
 	</prerequisites>
 
 	<groupId>fr.lip6.move.coloane</groupId>
@@ -46,12 +46,13 @@
 		<!-- EDIT THIS ORBIT SITE FOR NEXT RELEASE : this is 2018-12 -->
 		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository/</orbit-site>
 		<platform-version-name>2020-03</platform-version-name>
-		<tycho-version>1.4.0</tycho-version>
+		<tycho-version>1.7.0</tycho-version>
 		<sonar.exclusions>**/Messages.java</sonar.exclusions>
 	</properties>
 
 	<pluginRepositories>
-		<pluginRepository>
+	
+<!-- 		<pluginRepository>
 			<id>sonatype</id>
 			<url>http://repository.sonatype.org/content/groups/sonatype-public-grid/</url>
 			<releases>
@@ -61,7 +62,7 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</pluginRepository>
-		<!-- Fornax Workflow Runner plugin -->
+ -->		<!-- Fornax Workflow Runner plugin -->
 		<!-- <pluginRepository> <id>fornax</id> <url>http://www.fornax-platform.org/m2/repository</url> 
 			<releases> <enabled>true</enabled> </releases> <snapshots> <enabled>false</enabled> 
 			</snapshots> </pluginRepository> -->
@@ -377,12 +378,12 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-antrun-plugin</artifactId>
-					<version>1.8</version>
+					<version>3.0.0</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.0.0-M3</version>
+					<version>3.0.0-M4</version>
 				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -392,11 +393,11 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
-					<version>3.1.1</version>
+					<version>3.3.0</version>
 				</plugin>
 				<plugin>
 					<artifactId>maven-release-plugin</artifactId>
-					<version>2.5.3</version>
+					<version>3.0.0-M1</version>
 					<configuration>
 						<preparationGoals>clean -DnewVersion=${releaseVersion}
 							-Dprudent=true
@@ -420,7 +421,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.1.1</version>
 				<inherited>true</inherited>
 				<configuration>
 					<configLocation>https://coloane.lip6.fr/resources/coloane_checkstyle.xml</configLocation>
