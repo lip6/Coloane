@@ -21,6 +21,7 @@ import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
@@ -66,9 +67,10 @@ public class LabelText implements IAttributeLabel {
 		this.parent = parent;
 
 		this.label = factory.createCLabel(parent, label);
+		GC gc= new GC(this.label);
 		data = new FormData();
 		data.left = new FormAttachment(0, 5);
-		data.right = new FormAttachment(0, LABEL_WIDTH);
+		data.right = new FormAttachment(0, gc.stringExtent("EarliestFiringTime ").x); // a decently long label
 		data.top = top;
 		this.label.setLayoutData(data);
 
@@ -77,9 +79,9 @@ public class LabelText implements IAttributeLabel {
 		data.left = new FormAttachment(this.label, 5);
 		data.right = new FormAttachment(100, -5);
 		data.top = top;
-		data.height = 15;
+		data.height = gc.stringExtent("Hello").y; // high enough for capital letters
 		text.setLayoutData(data);
-
+		gc.dispose();
 		if ((style & SWT.MULTI) != 0) { //text.getVerticalBar() != null) {
 			text.addModifyListener(listener);
 			text.getVerticalBar().setVisible(false);

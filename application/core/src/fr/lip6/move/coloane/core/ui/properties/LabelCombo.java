@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.widgets.Composite;
@@ -94,9 +95,10 @@ public final class LabelCombo implements IAttributeLabel {
 
 		// Handle Label
 		this.label = factory.createCLabel(parent, label);
+		GC gc = new GC(this.label);
 		data = new FormData();
 		data.left = new FormAttachment(0, 5);
-		data.right = new FormAttachment(0, LABEL_WIDTH);
+		data.right = new FormAttachment(0, gc.stringExtent("EarliestFiringTime ").x);
 		data.top = top;
 		this.label.setLayoutData(data);
 
@@ -109,9 +111,9 @@ public final class LabelCombo implements IAttributeLabel {
 		data.left = new FormAttachment(this.label, 5);
 		data.right = new FormAttachment(100, -5);
 		data.top = top;
-		data.height = 15;
+		data.height = gc.stringExtent("Hello").y; // high enough for capital letters
 		combo.setLayoutData(data);
-
+		gc.dispose();
 		redraw();
 	}
 
