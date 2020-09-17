@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Thirdparty
 Bundle-SymbolicName: fr.lip6.move.coloane.thirdparty;singleton:=true
 Bundle-Version: 1.1.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: lib/antlr-runtime.jar,
  lib/antlr.jar,
