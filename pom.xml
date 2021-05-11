@@ -6,7 +6,7 @@
 
 	<!-- Tycho requires Maven 3 -->
 	<prerequisites>
-		<maven>3.1.0</maven>
+		<maven>3.6.3</maven>
 	</prerequisites>
 
 	<groupId>fr.lip6.move.coloane</groupId>
@@ -34,8 +34,8 @@
 	</scm>
 
 	<organization>
-		<name>LIP6 MoVe</name>
-		<url>http://move.lip6.fr</url>
+		<name>Sorbonne Université and CNRS, LIP6</name>
+		<url>http://lip6.fr</url>
 	</organization>
 
 	<properties>
@@ -44,9 +44,9 @@
 		<junit-version>4.8.1</junit-version>
 		<eclipse-site>http://download.eclipse.org/releases/${platform-version-name}</eclipse-site>
 		<!-- EDIT THIS ORBIT SITE FOR NEXT RELEASE : this is 2018-12 -->
-		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20200224183213/repository/</orbit-site>
-		<platform-version-name>2020-03</platform-version-name>
-		<tycho-version>1.7.0</tycho-version>
+		<orbit-site>http://download.eclipse.org/tools/orbit/downloads/drops/R20210223232630/repository/</orbit-site>
+		<platform-version-name>2021-03</platform-version-name>
+		<tycho-version>2.0.0</tycho-version>
 		<sonar.exclusions>**/Messages.java</sonar.exclusions>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -308,7 +308,7 @@
 				<configuration>
 					<resolver>p2</resolver>
 					<pomDependencies>consider</pomDependencies>
-					<executionEnvironment>JavaSE-1.8</executionEnvironment>
+					<executionEnvironment>JavaSE-11</executionEnvironment>
 					<!-- <target> <artifact> <groupId>org.eclipselabs.spray</groupId> <artifactId>org.eclipselabs.spray.targetplatform</artifactId> 
 						<version>0.4.0-SNAPSHOT</version> <classifier>spray</classifier> </artifact> 
 						</target> -->
