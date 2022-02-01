@@ -28,7 +28,7 @@ jobs:
     - name: Build with Maven
       run: mvn -e generate-sources install 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4.2.2
+      uses: JamesIves/github-pages-deploy-action@v4.2.3
       with:
           branch: gh-pages # The branch the action should deploy to.
           folder: update-site/target/repository # The folder the action should deploy.
