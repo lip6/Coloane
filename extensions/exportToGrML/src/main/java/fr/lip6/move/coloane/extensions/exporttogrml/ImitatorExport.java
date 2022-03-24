@@ -107,7 +107,7 @@ public class ImitatorExport implements IGrMLExport {
 
 	private StringTemplateGroup templates;
 
-	private String fmlXml;
+///	private String fmlXml;
 
 	/**
 	 * The constructor
