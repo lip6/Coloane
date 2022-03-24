@@ -1,0 +1,76 @@
+group SNBGRML;
+
+modelBalise(version, encoding, form, content) ::= <<
+\<?xml version="<version>" encoding="<encoding>"?\>
+
+\<model id="1" formalismUrl="<form>" xmlns="http://cosyverif.org/ns/model"\>
+  <content; separator="\n">
+\</model\>
+>>
+
+node(id, type, x, y, content) ::= <<
+\<node id="<id>" nodeType="<type>" x="<x>" y="<y>"\>
+  <content; separator="\n">
+\</node\>
+>>
+
+arc(id, type, source, target, content) ::= <<
+\<arc id="<id>" arcType="<type>" source="<source>" target="<target>"\>
+  <content; separator="\n">
+\</arc\>
+>>
+
+balise(name,content) ::= <<
+\<attribute name="<name>"\>
+  <content; separator="\n">
+\</attribute\>
+>>
+
+locbalise(name,x,y,content) ::= <<
+\<attribute name="<name>" x="<x>" y="<y>"\>
+  <content; separator="\n">
+\</attribute\>
+>>
+
+exprbalise(name,content) ::= <<
+\<attribute name="expr"\>\<attribute name="<name>"\>
+  <content; separator="\n">
+\</attribute\>\</attribute\>
+>>
+
+funbalise(name,content) ::= <<
+\<attribute name="expr"\>\<attribute name="function"\>\<attribute name="<name>"\>
+  <content; separator="\n">
+\</attribute\>\</attribute\>\</attribute\>
+>>
+
+boolbalise(name,content) ::= <<
+\<attribute name="boolExpr"\>\<attribute name="<name>"\>
+  <content; separator="\n">
+\</attribute\>\</attribute\>
+>>
+
+variable_decl(id, idd, form, unique) ::= <<
+\<attribute name="variableDeclaration"\>
+  \<attribute name="name"\><id>\</attribute\>
+  \<attribute name="type"\><idd>\</attribute\>
+  <if(form)>
+    \<attribute name="unique"\><unique>\</attribute\>
+  <else>
+  <endif>
+\</attribute\>
+>>
+
+delist(arg) ::= <<
+<arg; separator="\n">
+>>
+
+balise_type(id) ::= <<
+<balise(name={<"type">}, content={<id.text>})>
+>>
+
+cartesianProduct(arg) ::= <<
+<arg:balise_type(); separator="\n">
+>>
+
+;
