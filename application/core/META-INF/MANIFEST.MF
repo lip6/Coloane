@@ -31,5 +31,5 @@ Require-Bundle: fr.lip6.move.coloane.interfaces,
  org.eclipse.ui.navigator.resources
 Plugin-Class: fr.lip6.move.coloane.core.main.Coloane
 Eclipse-LazyStart: true
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-ActivationPolicy: lazy

@@ -4,4 +4,4 @@ Bundle-Name: Wa
 Bundle-SymbolicName: fr.lip6.move.coloane.fragments.formalisms.wa;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Fragment-Host: fr.lip6.move.coloane.core;bundle-version="1.1.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17

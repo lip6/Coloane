@@ -4,5 +4,5 @@ Bundle-Name: Cosmos
 Bundle-SymbolicName: fr.lip6.move.coloane.fragments.formalisms.cosmos;singleton:=true
 Bundle-Version: 1.1.0.qualifier
 Fragment-Host: fr.lip6.move.coloane.core
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Bundle-Vendor: LIP6 / LSV
