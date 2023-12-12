@@ -25,10 +25,7 @@ Bundle-ClassPath: lib/antlr-runtime.jar,
 Export-Package: org.antlr.runtime,
  org.antlr.stringtemplate,
  org.antlr.stringtemplate.language,
- fr.lip6.move.neoppod.grml,
- fr.lip6.move.neoppod.grml.utils,
  org.apache.batik.dom,
  org.apache.batik.svggen,
  org.apache.batik.ext.awt.g2d,
- org.apache.commons.exec,
- net.sf.saxon.s9api
+ org.apache.commons.exec

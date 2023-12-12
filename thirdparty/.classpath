@@ -11,10 +11,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/batik-svggen.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/batik-util.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/batik-xml.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-cli.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-exec.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/grml-check.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/saxon.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/stringtemplate.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
