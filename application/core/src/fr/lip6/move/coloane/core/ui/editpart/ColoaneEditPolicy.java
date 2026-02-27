@@ -37,6 +37,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.Handle;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.SnapToGuides;
 import org.eclipse.gef.commands.Command;
@@ -81,8 +82,8 @@ public class ColoaneEditPolicy extends XYLayoutEditPolicy {
 		// In all other cases, children cannot be resized.
 		return new NonResizableEditPolicy() {
 			@Override
-			protected List<Object> createSelectionHandles() {
-				return new ArrayList<Object>(); // Must return a empty array list (and not null)
+			protected List<Handle> createSelectionHandles() {
+				return new ArrayList<>(); // Must return a empty array list (and not null)
 			}
 		};
 	}
