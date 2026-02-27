@@ -18,7 +18,7 @@ package fr.lip6.move.coloane.core.ui.editpart;
 import fr.lip6.move.coloane.core.ui.figures.sticky.StickyNoteFigure;
 
 import org.eclipse.gef.GraphicalEditPart;
-import org.eclipse.gef.editparts.ZoomListener;
+import org.eclipse.draw2d.zoom.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
